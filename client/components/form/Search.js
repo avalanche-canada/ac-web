@@ -11,9 +11,11 @@ export default class Search extends PureComponent {
         onChange: PropTypes.func.isRequired,
         search: PropTypes.string,
         placeholder: PropTypes.string,
+        delay: PropTypes.number,
     }
     static defaultProps = {
         placeholder: 'Search...',
+        delay: 250,
     }
     state = {
         value: this.props.search || '',
@@ -21,7 +23,7 @@ export default class Search extends PureComponent {
     setRef = input => (this.input = input)
     sendChange = debounce(() => {
         this.props.onChange(this.state.value)
-    }, 350)
+    }, this.props.delay)
     handleReset = () => {
         const value = ''
 

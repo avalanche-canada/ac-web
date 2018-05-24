@@ -1,6 +1,8 @@
 import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Link } from 'react-router-dom'
+import Fuse from 'fuse.js'
+import { parse } from 'prismic'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
@@ -88,7 +90,7 @@ class Glossary extends Component {
                 parse
                 type={GLOSSARY}
                 uid="glossary"
-                options={GLOSSARY_OPTIONS}>
+                options={FETCH_DEFINITION_TITLE_OPTIONS}>
                 {this.renderContent}
             </Document>
         )
@@ -104,32 +106,7 @@ class Definition extends Component {
         return (
             <Fragment>
                 <Status {...status} />
-                {document && (
-                    <Fragment>
-                        <h2>
-                            <Switch>
-                                <Route exact path="/glossary">
-                                    <a href={`#${document.uid}`}>
-                                        {document.data.title}
-                                    </a>
-                                </Route>
-                                <Route render={() => document.data.title} />
-                            </Switch>
-                        </h2>
-                        {document.tags.length > 0 && (
-                            <TagSet>
-                                {document.tags.map((tag, index) => (
-                                    <Tag key={index}>{tag}</Tag>
-                                ))}
-                            </TagSet>
-                        )}
-                        <SliceZone
-                            components={SliceComponents}
-                            value={document.data.content}
-                        />
-                        <Related items={document.data.related} />
-                    </Fragment>
-                )}
+                {document && <DefinitionLayout {...document} />}
             </Fragment>
         )
     }
@@ -139,9 +116,35 @@ class Definition extends Component {
                 parse
                 type={DEFINITION}
                 uid={this.props.uid}
-                options={DEFINTION_OPTIONS}>
+                options={FETCH_DEFINITION_TITLE_OPTIONS}>
                 {this.renderContent}
             </Document>
+        )
+    }
+}
+
+class DefinitionLayout extends PureComponent {
+    render() {
+        const { uid, tags, data } = this.props
+
+        return (
+            <Fragment>
+                <h2>
+                    <Switch>
+                        <Route exact path="/glossary">
+                            <a href={`#${uid}`}>{data.title}</a>
+                        </Route>
+                        <Route render={() => data.title} />
+                    </Switch>
+                </h2>
+                {tags.length > 0 && (
+                    <TagSet>
+                        {tags.map((tag, index) => <Tag key={index}>{tag}</Tag>)}
+                    </TagSet>
+                )}
+                <SliceZone components={SliceComponents} value={data.content} />
+                <Related items={data.related} />
+            </Fragment>
         )
     }
 }
@@ -210,16 +213,7 @@ class GlossaryContent extends Component {
     handleSearchChange = (search = '') => {
         this.setState({ search })
     }
-    getDefintions(letter) {
-        return this.props[letter.toLowerCase()].filter(hasDefinition)
-    }
-    renderSection(letter) {
-        const definitions = this.getDefintions(letter)
-
-        if (definitions.length === 0) {
-            return null
-        }
-
+    renderSection({ letter, definitions }) {
         return (
             <section key={letter}>
                 <h1>
@@ -227,21 +221,50 @@ class GlossaryContent extends Component {
                         {letter}
                     </a>
                 </h1>
-                {definitions
-                    .map(definition => definition.definition.value.document.uid)
-                    .map(this.renderDefinition)}
+                {definitions.map(definition => (
+                    <DefinitionLayout key={definition.uid} {...definition} />
+                ))}
             </section>
         )
     }
-    renderLetterTag(letter) {
-        const { length } = this.getDefintions(letter)
+    renderContent = ({ documents, status }) => {
+        const sections = LETTERS.reduce((sections, letter) => {
+            const definitions = this.props[letter.toLowerCase()]
+                .filter(hasDefinition)
+                .map(({ definition }) =>
+                    documents.get(definition.value.document.uid)
+                )
+                .filter(Boolean)
 
-        return length === 0 ? null : <LetterTag key={letter} letter={letter} />
-    }
-    renderDefinition(uid) {
-        return <Definition key={uid} uid={uid} />
+            if (definitions.length > 0) {
+                sections.push({
+                    letter,
+                    definitions,
+                })
+            }
+
+            return sections
+        }, [])
+
+        return (
+            <Fragment>
+                <Status {...status} />
+                {status.isLoaded &&
+                    sections.length === 0 && (
+                        <Muted>No definition matches your criteria.</Muted>
+                    )}
+                <TagSet>
+                    {sections.map(({ letter }) => (
+                        <LetterTag key={letter} letter={letter} />
+                    ))}
+                </TagSet>
+                {sections.map(this.renderSection)}
+            </Fragment>
+        )
     }
     render() {
+        const { search } = this.state
+
         return (
             <Fragment>
                 <Headline>
@@ -249,11 +272,12 @@ class GlossaryContent extends Component {
                 </Headline>
                 <Search
                     onChange={this.handleSearchChange}
-                    value={this.state.search}
+                    value={search}
                     placeholder="Search for a definition"
                 />
-                <TagSet>{LETTERS.map(this.renderLetterTag, this)}</TagSet>
-                {LETTERS.map(this.renderSection, this)}
+                <DefinitionsContainer search={search}>
+                    {this.renderContent}
+                </DefinitionsContainer>
             </Fragment>
         )
     }
@@ -265,41 +289,50 @@ class DefinitionsContainer extends Component {
         children: PropTypes.func.isRequired,
     }
     get params() {
+        return {
+            predicates: [Predicates.type(DEFINITION)],
+            options: FETCH_DEFINITION_TITLE_OPTIONS,
+            pageSize: 100,
+        }
+    }
+    children = ({ documents, status }) => {
         const { search } = this.props
 
-        return search
-            ? {
-                  predicates: [
-                      Predicates.fulltext('document', search),
-                      Predicates.type(DEFINITION),
-                  ],
-                  options: DEFINTION_OPTIONS,
-              }
-            : null
-    }
-    children = ({ metadata, status }) =>
-        this.props.children({
-            ids: status.isLoaded ? new Set(metadata.ids.toArray()) : undefined,
-        })
-    render() {
-        const { params } = this
+        if (status.isLoaded) {
+            documents = documents.map(parse)
+            this.fuse = new Fuse(documents, {
+                keys: [
+                    'tags',
+                    'data.title',
+                    'data.content.nonRepeat.content.text',
+                    'data.content.nonRepeat.caption.text',
+                ],
+            })
+        }
 
-        return params ? (
-            <DocumentsContainer params={params}>
+        if (this.fuse && search) {
+            documents = this.fuse.search(search)
+        }
+
+        return this.props.children({
+            status,
+            documents: new Map(
+                documents.map(document => [document.uid, document])
+            ),
+        })
+    }
+    render() {
+        return (
+            <DocumentsContainer params={this.params}>
                 {this.children}
             </DocumentsContainer>
-        ) : (
-            this.props.children()
         )
     }
 }
 
 // Constants
 const LETTERS = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-const GLOSSARY_OPTIONS = {
-    fetchLinks: 'definition.title',
-}
-const DEFINTION_OPTIONS = {
+const FETCH_DEFINITION_TITLE_OPTIONS = {
     fetchLinks: 'definition.title',
 }
 
