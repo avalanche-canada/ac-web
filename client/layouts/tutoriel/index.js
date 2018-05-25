@@ -53,8 +53,8 @@ class Sidebar extends Component {
             <Window>
                 {({ width }) => {
                     return width > 860 ? (
-                        <Page.Aside>
-                            <Shim vertical>
+                        <Page.Aside style={ASIDE_STYLE}>
+                            <Shim vertical right>
                                 <Tree>{nodes}</Tree>
                             </Shim>
                         </Page.Aside>
@@ -91,7 +91,7 @@ class Sidebar extends Component {
 class Content extends Component {
     render() {
         return (
-            <Page.Main>
+            <Page.Main style={CONTENT_STYLE}>
                 <Switch>
                     <Route exact path="/tutoriel" component={Home} />
                     <Route path="/tutoriel/:uids+" component={Tutoriel} />
@@ -210,7 +210,7 @@ function renderTreeNode({ title, link, children }, splat) {
     splat = uids.join('/')
 
     return (
-        <Node key={uid} link={`/tutoriel/${splat}`} label={title}>
+        <Node key={uid} link={`/tutoriel/${splat}`} label={title} title={title}>
             {children.map(node => renderTreeNode(node, splat))}
         </Node>
     )
@@ -260,4 +260,11 @@ function toggleDrawer({ open }) {
 
 const NAVBAR_STYLE = {
     justifyContent: 'space-between',
+}
+const ASIDE_STYLE = {
+    width: 350,
+    flex: 'none',
+}
+const CONTENT_STYLE = {
+    flex: 1,
 }

@@ -6,6 +6,10 @@ Main.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default function Main({ children }) {
-    return <main className={styles.Main}>{children}</main>
+export default function Main({ children, ...props }) {
+    return (
+        <main className={styles.Main} {...props}>
+            {children}
+        </main>
+    )
 }

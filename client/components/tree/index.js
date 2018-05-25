@@ -21,6 +21,7 @@ export default class Tree extends Component {
 export class Node extends Component {
     static propTypes = {
         label: PropTypes.node.isRequired,
+        title: PropTypes.string,
         link: PropTypes.string,
         onClick: PropTypes.func,
         isExpanded: PropTypes.bool,
@@ -50,13 +51,14 @@ export class Node extends Component {
         })
     render() {
         const { isExpanded } = this.state
-        const { children, link, onClick } = this.props
+        const { children, link, title, onClick } = this.props
         const hasChildren = Children.count(children) > 0
 
         return (
             <Fragment>
                 <NavLink
                     to={link || '#'}
+                    title={title}
                     onClick={onClick}
                     style={this.style}
                     activeClassName={styles.Active}
