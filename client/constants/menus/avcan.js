@@ -170,6 +170,11 @@ export default {
                         },
                         {
                             id: String(id++),
+                            label: 'Glossary',
+                            to: '/glossary',
+                        },
+                        {
+                            id: String(id++),
                             label: 'Rescue at Cherry Bowl',
                             to: 'http://avalanche.ca/cherry-bowl',
                         },
