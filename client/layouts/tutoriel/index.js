@@ -69,7 +69,7 @@ class Sidebar extends Component {
                             </Shim>
                             <Drawer
                                 open={this.state.open}
-                                width={width - 100}
+                                width={0.75 * width}
                                 backdrop
                                 onCloseClick={this.closeDrawer}>
                                 <Navbar style={NAVBAR_STYLE}>
