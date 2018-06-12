@@ -296,7 +296,6 @@ class DefinitionsContainer extends Component {
         return {
             predicates: [Predicates.type(DEFINITION)],
             options: FETCH_DEFINITION_TITLE_OPTIONS,
-            pageSize: 100,
         }
     }
     children = ({ documents, status }) => {
@@ -338,6 +337,7 @@ class DefinitionsContainer extends Component {
 const LETTERS = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 const FETCH_DEFINITION_TITLE_OPTIONS = {
     fetchLinks: 'definition.title',
+    pageSize: 100,
 }
 
 // Utils
