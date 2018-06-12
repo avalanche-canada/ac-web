@@ -154,6 +154,10 @@ class Related extends Component {
         items: PropTypes.arrayOf(PropTypes.object).isRequired,
     }
     renderItem({ definition }) {
+        if (definition.value.isBroken) {
+            return null
+        }
+
         const { uid, data } = definition.value.document
         const title = data.definition.title.value
 
