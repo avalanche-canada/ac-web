@@ -20,6 +20,7 @@ import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
+import {IncidentsList, IncidentDetails} from './Incidents'
 import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import TripPlanner from './TripPlanner'
@@ -81,6 +82,8 @@ export default class AvalancheCanada extends Component {
                 <Route path="/news" component={Feed.NewsFeed} />
                 <Route path="/events/:uid" component={Feed.EventPost} />
                 <Route path="/events" component={Feed.EventFeed} />
+                <Route path="/incidents/:id" component={IncidentDetails} />
+                <Route path="/incidents" component={IncidentsList} />
                 <Route
                     path="/mountain-information-network"
                     component={MountainInformationNetwork}

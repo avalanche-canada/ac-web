@@ -2,5 +2,6 @@
     "baseURL": "/api",
     "staticBaseURL": "/static",
     "astBaseUrl": "//ast.avalanche.ca/api",
-    "weatherBaseUrl": "//wx.avalanche.ca"
+    "weatherBaseUrl": "//wx.avalanche.ca",
+    "incidentsBaseUrl": "//incidents.avalanche.ca/public/incidents"
 }
