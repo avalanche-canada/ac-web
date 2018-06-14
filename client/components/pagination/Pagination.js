@@ -4,7 +4,6 @@ import styles from './Pagination.css'
 import Segment, { Disabled } from './Segment'
 import range from 'lodash/range'
 import pagination from 'utils/pagination'
-import noop from 'lodash/noop'
 
 export default class Pagination extends PureComponent {
     static propTypes = {
@@ -15,16 +14,21 @@ export default class Pagination extends PureComponent {
     static defaultProps = {
         total: 0,
         active: 1,
-        onChange: noop,
+        onChange() {},
+    }
+
+    get total() {
+        return Math.ceil(this.props.total)
     }
     get segments() {
-        const { active, total } = this.props
+        const  { active } = this.props
 
-        if (total <= 10) {
-            return range(1, total + 1)
+
+        if (this.total <= 10) {
+            return range(1, this.total + 1)
         }
 
-        return pagination(active, total, 3, null)
+        return pagination(active, this.total, 3, null)
     }
     createSegment(page, index) {
         const { onChange, active } = this.props
@@ -41,7 +45,7 @@ export default class Pagination extends PureComponent {
         }
     }
     render() {
-        if (this.props.total < 2) {
+        if (this.total < 2) {
             return null
         }
 
