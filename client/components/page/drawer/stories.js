@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import Drawer, { LEFT, RIGHT, Header, Content } from './'
 import { LayerSet, Layer } from './layers'
 import { compose, withState } from 'recompose'

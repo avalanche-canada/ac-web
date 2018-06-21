@@ -1,11 +1,11 @@
 import React from 'react'
-import { storiesOf, action } from '@kadira/storybook'
+import { storiesOf, action } from '@storybook/react'
 import Quick from './Quick'
 import Avalanche from './Avalanche'
 import Snowpack from './Snowpack'
 import Weather from './Weather'
 import Incident from './Incident'
-import Submission from './Submission'
+import {Submission} from './'
 import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from 'constants/min'
 
 const data = [

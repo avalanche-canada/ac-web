@@ -1,3 +1,30 @@
+import React, { Component, Fragment } from 'react'
+import { Link, ColumnSet } from 'components/navbar'
+import { StaticPage } from 'prismic/containers'
+import { Status } from 'components/misc'
+
+class Ambassadors extends Component {
+    renderLink({ fullName }) {
+        const { to } = this.props
+        const hash = fullName.toLowerCase().replace(/\s/, '-', 'g')
+
+        return <Link to={`${to}#${hash}`}>{fullName}</Link>
+    }
+    renderContent = ({ status, document }) => (
+        <Fragment>
+            <Status {...status} />
+            {document && (
+                <ColumnSet>
+                    {document.data.content[0].value.map(this.renderLink, this)}
+                </ColumnSet>
+            )}
+        </Fragment>
+    )
+    render() {
+        return <StaticPage uid="ambassadors">{this.renderContent}</StaticPage>
+    }
+}
+
 let id = 0
 
 const Gear = {
@@ -355,41 +382,7 @@ export default {
                     label: 'Ambassadors',
                     header: true,
                     to: '/ambassadors',
-                    children: [
-                        {
-                            //     label: 'Connect',
-                            //     to: '/ambassadors#connect',
-                            // }, {
-                            id: String(id++),
-                            label: 'Nadine Overwater',
-                            to: '/ambassadors#nadine-overwater',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Chris Rubens',
-                            to: '/ambassadors#chris-rubens',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Wayne Flann',
-                            to: '/ambassadors#wayne-flann',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Andreas Massitti',
-                            to: '/ambassadors#andreas-massitti',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Anthony Rizzuto',
-                            to: '/ambassadors#anthony-rizzuto',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Aleks Klassen',
-                            to: '/ambassadors#aleks-klassen',
-                        },
-                    ],
+                    children: Ambassadors,
                 },
                 {
                     id: String(id++),
