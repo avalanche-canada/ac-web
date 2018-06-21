@@ -37,7 +37,11 @@ function createSection({ label, headline, children = [], ...props }, index) {
         <Section key={index}>
             {label && createLink({ headline, label, ...props })}
             {headline && <Headline>{headline}</Headline>}
-            <ColumnSet count={column}>{children.map(createLink)}</ColumnSet>
+            {Array.isArray(children) ? (
+                <ColumnSet count={column}>{children.map(createLink)}</ColumnSet>
+            ) : (
+                createElement(children, props)
+            )}
         </Section>
     )
 }
