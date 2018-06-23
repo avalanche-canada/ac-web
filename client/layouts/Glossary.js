@@ -1,7 +1,7 @@
 import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route, Link } from 'react-router-dom'
-import Fuse from 'fuse.js'
+import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import memoize from 'lodash/memoize'
 import { parse } from 'prismic'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
@@ -17,6 +17,8 @@ import { StructuredText, SliceZone } from 'prismic/components/base'
 import * as Predicates from 'vendor/prismic/predicates'
 import SliceComponents from 'prismic/components/slice/rework'
 import { GLOSSARY, DEFINITION } from 'constants/prismic'
+import * as utils from 'utils/search'
+import styles from './Glossary.css'
 
 export default class Layout extends Component {
     renderGlossary() {
@@ -128,7 +130,7 @@ class DefinitionLayout extends PureComponent {
         const { uid, tags, data } = this.props
 
         return (
-            <Fragment>
+            <article className={styles.Definition}>
                 <h2>
                     <Switch>
                         <Route exact path="/glossary">
@@ -142,9 +144,17 @@ class DefinitionLayout extends PureComponent {
                         {tags.map((tag, index) => <Tag key={index}>{tag}</Tag>)}
                     </TagSet>
                 )}
-                <SliceZone components={SliceComponents} value={data.content} />
+                <SliceZone
+                    components={SliceComponents}
+                    value={data.content.filter(isImage)}
+                    fullscreen
+                />
+                <SliceZone
+                    components={SliceComponents}
+                    value={data.content.filter(isNotImage)}
+                />
                 <Related items={data.related} />
-            </Fragment>
+            </article>
         )
     }
 }
@@ -171,11 +181,7 @@ class Related extends Component {
                             <Link to={`${match.path}/${uid}`}>{title}</Link>
                         )}
                     />
-                    <Route
-                        render={({ match }) => (
-                            <Link to={`${match.path}#${uid}`}>{title}</Link>
-                        )}
-                    />
+                    <Route render={() => <Link to={`#${uid}`}>{title}</Link>} />
                 </Switch>
             </li>
         )
@@ -187,7 +193,6 @@ class Related extends Component {
             <div>
                 <Muted>See also: </Muted>
                 <ul>{items.map(this.renderItem)}</ul>
-                <Route>{this.renderList}</Route>
             </div>
         )
     }
@@ -202,26 +207,57 @@ class LetterTag extends PureComponent {
 
         return (
             <Tag key={letter}>
-                <a href={`#${letter}`}>
-                    <b>{letter}</b>
+                <a href={`#${letter.toLowerCase()}`}>
+                    <b>{letter.toUpperCase()}</b>
                 </a>
             </Tag>
         )
     }
 }
 
+@withRouter
 class GlossaryContent extends Component {
-    state = {
-        search: '',
+    static propTypes = {
+        headline: PropTypes.arrayOf(PropTypes.object).isRequired,
+        history: PropTypes.object.isRequired,
+        location: PropTypes.object.isRequired,
     }
-    handleSearchChange = (search = '') => {
-        this.setState({ search })
+    state = {
+        filterText: utils.parse(this.props.location.search).q || '',
+    }
+    componentDidMount() {
+        this.unlisten = this.props.history.listen(this.handleHistoryChange)
+    }
+    componentWillUnmount() {
+        this.unlisten()
+    }
+    handleHistoryChange = ({ search }) => {
+        if (search === '') {
+            this.resetFilterText()
+        }
+    }
+    resetFilterText() {
+        if (this.state.filterText === '') {
+            return
+        }
+
+        this.handleFilterTextChange('')
+    }
+    handleFilterTextChange = filterText => {
+        this.setState({ filterText }, () => {
+            const q = filterText ? utils.stringify({ q: filterText }) : ''
+            const path = this.props.location.pathname + q
+
+            this.props.history.push(path, { q })
+        })
     }
     renderSection({ letter, definitions }) {
         return (
-            <section key={letter}>
+            <section key={letter} className={styles.Section}>
                 <h1>
-                    <a href={`#${letter}`} name={letter}>
+                    <a
+                        href={`#${letter.toLowerCase()}`}
+                        name={letter.toLowerCase()}>
                         {letter}
                     </a>
                 </h1>
@@ -231,7 +267,12 @@ class GlossaryContent extends Component {
             </section>
         )
     }
-    renderContent = ({ documents, status }) => {
+    filter = memoize((term, documents) => {
+        const definitions = filter(documents, term)
+
+        return new Map(definitions.map(document => [document.uid, document]))
+    })
+    createSections = memoize(documents => {
         const sections = LETTERS.reduce((sections, letter) => {
             const definitions = this.props[letter.toLowerCase()]
                 .filter(hasDefinition)
@@ -250,6 +291,16 @@ class GlossaryContent extends Component {
             return sections
         }, [])
 
+        return sections
+    })
+    renderContent = ({ documents, status }) => {
+        const filtered = this.filter(this.state.filterText, documents)
+
+        if (documents.length === 0) {
+            this.filter.cache.clear()
+        }
+        const sections = this.createSections(filtered)
+
         return (
             <Fragment>
                 <Status {...status} />
@@ -267,19 +318,17 @@ class GlossaryContent extends Component {
         )
     }
     render() {
-        const { search } = this.state
-
         return (
             <Fragment>
                 <Headline>
                     <StructuredText value={this.props.headline} />
                 </Headline>
                 <Search
-                    onChange={this.handleSearchChange}
-                    value={search}
+                    onChange={this.handleFilterTextChange}
+                    value={this.state.filterText}
                     placeholder="Search for a definition"
                 />
-                <DefinitionsContainer search={search}>
+                <DefinitionsContainer>
                     {this.renderContent}
                 </DefinitionsContainer>
             </Fragment>
@@ -289,7 +338,6 @@ class GlossaryContent extends Component {
 
 class DefinitionsContainer extends Component {
     static propTypes = {
-        search: PropTypes.string,
         children: PropTypes.func.isRequired,
     }
     get params() {
@@ -298,36 +346,16 @@ class DefinitionsContainer extends Component {
             options: FETCH_DEFINITION_TITLE_OPTIONS,
         }
     }
-    children = ({ documents, status }) => {
-        const { search } = this.props
-
-        if (status.isLoaded) {
-            documents = documents.map(parse)
-            this.fuse = new Fuse(documents, {
-                keys: [
-                    'tags',
-                    'data.title',
-                    'data.content.nonRepeat.content.text',
-                    'data.content.nonRepeat.caption.text',
-                ],
-            })
-        }
-
-        if (this.fuse && search) {
-            documents = this.fuse.search(search)
-        }
-
-        return this.props.children({
-            status,
-            documents: new Map(
-                documents.map(document => [document.uid, document])
-            ),
-        })
-    }
+    parse = memoize(documents => documents.map(parse))
     render() {
         return (
             <DocumentsContainer params={this.params}>
-                {this.children}
+                {props =>
+                    this.props.children({
+                        ...props,
+                        documents: this.parse(props.documents),
+                    })
+                }
             </DocumentsContainer>
         )
     }
@@ -337,10 +365,51 @@ class DefinitionsContainer extends Component {
 const LETTERS = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 const FETCH_DEFINITION_TITLE_OPTIONS = {
     fetchLinks: 'definition.title',
-    pageSize: 100,
+    pageSize: 1000,
 }
 
 // Utils
 function hasDefinition({ definition }) {
     return Boolean(definition)
+}
+function isText({ type }) {
+    return type === 'text'
+}
+function isImage({ type }) {
+    return type === 'image'
+}
+function isNotImage({ type }) {
+    return type !== 'image'
+}
+function filter(definitions, term) {
+    if (!term) {
+        return definitions
+    }
+
+    const regexp = new RegExp(term, 'gi')
+
+    return definitions.filter(
+        doc =>
+            regexp.test(doc.data.title) ||
+            doc.data.related
+                .filter(hasDefinition)
+                .some(doc =>
+                    regexp.test(
+                        doc.definition.value.document.data.definition.title
+                            .value
+                    )
+                ) ||
+            doc.data.content
+                .filter(isText)
+                .some(({ nonRepeat }) =>
+                    nonRepeat.content.some(({ text }) => regexp.test(text))
+                ) ||
+            doc.data.content
+                .filter(isImage)
+                .filter(({ nonRepeat }) => Boolean(nonRepeat.caption))
+                .some(({ nonRepeat }) =>
+                    nonRepeat.caption.some(({ text }) => regexp.test(text))
+                ) ||
+            doc.tags.some(regexp.test, regexp)
+    )
 }

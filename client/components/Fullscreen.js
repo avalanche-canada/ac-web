@@ -12,6 +12,8 @@ if ('onfullscreenchange' in document) {
     CHANGE_EVENT_NAME = 'MSFullscreenChange'
 }
 
+// TODO: Investigate to improve this component using refs
+
 export default class Fullscreen extends Component {
     static propTypes = {
         target: PropTypes.object.isRequired,

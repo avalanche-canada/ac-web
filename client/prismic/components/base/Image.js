@@ -23,7 +23,6 @@ export default class Image extends PureComponent {
     }
     state = {
         isLoading: true,
-        width: '100%',
     }
     constructor(props) {
         super(props)
@@ -36,17 +35,6 @@ export default class Image extends PureComponent {
         })
     }
     componentDidMount() {
-        const { dimensions = {} } = this.props
-        const ratio = dimensions.height / dimensions.width
-        const width = Math.min(dimensions.width, this.figure.clientWidth)
-
-        if (width) {
-            this.setState({
-                width,
-                height: width * ratio,
-            })
-        }
-
         this.image.addEventListener('load', this.handleLoad)
     }
     componentWillUnmount() {
@@ -71,7 +59,7 @@ export default class Image extends PureComponent {
     }
     render() {
         const { url, alt, copyright, credit, linkTo, label } = this.props
-        const { width, height, isLoading } = this.state
+        const { isLoading } = this.state
         const classNames = this.classNames(label, {
             Figure: !isLoading,
             'Figure--Loading': isLoading,
@@ -79,8 +67,6 @@ export default class Image extends PureComponent {
         const image = (
             <img
                 ref={this.imageRef}
-                width={width}
-                height={height}
                 src={url}
                 alt={alt}
                 className={styles.Image}

@@ -9,16 +9,21 @@ import { GRAY_LIGHT } from 'constants/colors'
 export default class Search extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,
-        search: PropTypes.string,
+        value: PropTypes.string,
         placeholder: PropTypes.string,
         delay: PropTypes.number,
     }
     static defaultProps = {
         placeholder: 'Search...',
-        delay: 250,
+        delay: 150,
     }
     state = {
-        value: this.props.search || '',
+        value: this.props.value || '',
+    }
+    componentWillReceiveProps({ value }) {
+        if (value !== this.state.value) {
+            this.setState({ value })
+        }
     }
     setRef = input => (this.input = input)
     sendChange = debounce(() => {
