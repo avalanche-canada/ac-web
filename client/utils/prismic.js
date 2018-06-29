@@ -6,6 +6,7 @@ import {
     GENERIC,
     STATIC_PAGE,
     TUTORIAL_PAGE,
+    DEFINITION,
 } from 'constants/prismic'
 
 export function title(document = {}) {
@@ -21,9 +22,7 @@ export function title(document = {}) {
             return get(document, ['data', type, 'title', 'value'])
         default:
             throw new Error(
-                `Can not compute a title from Prismic document of type "${
-                    type
-                }".`
+                `Can not compute a title from Prismic document of type "${type}".`
             )
     }
 }
@@ -41,11 +40,12 @@ export function pathname({ type, uid, slug }) {
             return `/pages/${type}/${uid}`
         case TUTORIAL_PAGE:
             return `/tutorial?slug=${slug}`
+        case DEFINITION:
+            return `/glossary#${uid}`
         default:
             throw new Error(
-                `Can not compute a pathname from Prismic document or props "${
-                    type
-                }" & "${uid || slug}".`
+                `Can not compute a pathname from Prismic document or props "${type}" & "${uid ||
+                    slug}".`
             )
     }
 }
