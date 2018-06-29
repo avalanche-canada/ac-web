@@ -46,9 +46,10 @@ function addSpanSet(component) {
 
         if (spans.length > 0) {
             children = spans.reduce((children, span, index) => {
-                const { type, start, end, data = {} } = span
+                const { type, start, end } = span
+                const { type: subtype, ...data } = span.data || {}
                 const element = createElement(
-                    SpanComponents.get(type).get(data.type),
+                    SpanComponents.get(type).get(subtype),
                     { ...data, key: index },
                     text.substring(start, end)
                 )
