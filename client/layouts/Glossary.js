@@ -159,6 +159,36 @@ class DefinitionLayout extends PureComponent {
     }
 }
 
+class DefinitionLink extends Component {
+    static propTypes = {
+        uid: PropTypes.string.isRequired,
+        children: PropTypes.node.isRequired,
+    }
+    render() {
+        const { uid, children, ...props } = this.props
+
+        return (
+            <Switch>
+                <Route
+                    path="/glossary/terms"
+                    render={({ match }) => (
+                        <Link to={`${match.path}/${uid}`} {...props}>
+                            {children}
+                        </Link>
+                    )}
+                />
+                <Route
+                    render={() => (
+                        <Link to={`/glossary/#${uid}`} {...props}>
+                            {children}
+                        </Link>
+                    )}
+                />
+            </Switch>
+        )
+    }
+}
+
 class Related extends Component {
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -173,16 +203,9 @@ class Related extends Component {
 
         return (
             <li key={uid}>
-                <Switch>
-                    {/* To handle URL schema */}
-                    <Route
-                        path="/glossary/terms"
-                        render={({ match }) => (
-                            <Link to={`${match.path}/${uid}`}>{title}</Link>
-                        )}
-                    />
-                    <Route render={() => <Link to={`#${uid}`}>{title}</Link>} />
-                </Switch>
+                <DefinitionLink uid={uid} title={title}>
+                    {title}
+                </DefinitionLink>
             </li>
         )
     }
