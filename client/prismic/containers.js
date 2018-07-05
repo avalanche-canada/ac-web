@@ -35,8 +35,8 @@ import {
     SPAW as SPAW_TYPE,
     WEATHER_FORECAST,
     HIGHLIGHT,
-    FRENCH_TUTORIAL,
     TUTORIAL,
+    TUTORIAL_ARTICLE,
 } from 'constants/prismic'
 import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
@@ -201,32 +201,6 @@ export class StaticPage extends Component {
             <Document type={STATIC_PAGE} uid={this.props.uid}>
                 {parseDocumentAndRenderChildren.bind(this)}
             </Document>
-        )
-    }
-}
-
-export class Tutorial extends Component {
-    static propTypes = {
-        slug: PropTypes.string.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    get params() {
-        const { slug } = this.props
-
-        return {
-            predicates: [Predicates.field('tutorial-page', 'slug', slug)],
-        }
-    }
-    children = props =>
-        this.props.children({
-            ...props,
-            document: props.document ? parse(props.document) : undefined,
-        })
-    render() {
-        return (
-            <DocumentContainer params={this.params}>
-                {this.children}
-            </DocumentContainer>
         )
     }
 }
@@ -872,27 +846,27 @@ export class Highlight extends Component {
     }
 }
 
-export class FrenchTutorial extends Component {
+export class Tutorial extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
     }
     render() {
         return (
-            <Document parse type={FRENCH_TUTORIAL} uid="french-tutorial">
+            <Document parse type={TUTORIAL} uid="tutorial">
                 {this.props.children}
             </Document>
         )
     }
 }
 
-export class TutorialPage extends Component {
+export class TutorialArticle extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
     render() {
         return (
-            <Document parse type={TUTORIAL} uid={this.props.uid}>
+            <Document parse type={TUTORIAL_ARTICLE} uid={this.props.uid}>
                 {this.props.children}
             </Document>
         )

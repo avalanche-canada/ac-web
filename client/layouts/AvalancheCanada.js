@@ -15,7 +15,6 @@ import Highlight from './Highlight'
 import Footer from 'components/footer'
 import Main from './Map'
 import Tutorial from './tutorial'
-import Tutoriel from './tutoriel'
 import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
@@ -71,7 +70,7 @@ export default class AvalancheCanada extends Component {
                 <Route path="/map/:type?/:name?" component={Main} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />
-                <Route path="/tutoriel" component={Tutoriel} />
+                <Route path="/tutoriel" component={Tutorial} />
                 <Route path="/hot-zone-reports" component={HotZoneReport} />
                 <Route path="/hot-zones" component={HotZoneList} />
                 <Route path="/forecasts" component={Forecast} />
