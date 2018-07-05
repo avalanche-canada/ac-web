@@ -14,6 +14,7 @@ import Shim from 'components/Shim'
 import Drawer, { Close, Body, Navbar } from 'components/page/drawer'
 import { Menu } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
+import { FR, EN } from 'constants/locale'
 
 const { Translate } = LocaleContext
 
@@ -24,9 +25,9 @@ export default class Layout extends Component {
     state = {
         locale: getLocaleFromMatch(this.props.match),
         dictionnaries: new Map([
-            [LocaleContext.EN, new Map()],
+            [EN, new Map()],
             [
-                LocaleContext.FR,
+                FR,
                 new Map([
                     ['Start with', 'Débuter avec'],
                     ['Next', 'Suivant'],
@@ -316,7 +317,7 @@ function toggleDrawer({ open }) {
     }
 }
 function getLocaleFromMatch({ path }) {
-    return path === '/tutoriel' ? LocaleContext.FR : LocaleContext.EN
+    return path === '/tutoriel' ? FR : EN
 }
 
 // Styles

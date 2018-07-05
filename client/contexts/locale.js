@@ -1,10 +1,6 @@
 import React, { Component, createContext } from 'react'
 import PropTypes from 'prop-types'
-
-export const EN = 'en'
-export const FR = 'fr'
-
-export const LOCALES = new Set([EN, FR])
+import { FR, EN } from 'constants/locale'
 
 const LocaleContext = createContext({
     locale: EN,

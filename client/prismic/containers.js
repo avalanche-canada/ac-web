@@ -42,6 +42,7 @@ import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
 import { DATE } from 'utils/date'
 import * as utils from 'utils/search'
+import LOCALES, { FR, EN } from 'constants/locale'
 
 function mapDispatchToPropsFromUid(dispatch) {
     return {
@@ -848,11 +849,14 @@ export class Highlight extends Component {
 
 export class Tutorial extends Component {
     static propTypes = {
+        locale: PropTypes.oneOf(Array.from(LOCALES)),
         children: PropTypes.func.isRequired,
     }
     render() {
+        const uid = this.props.locale === FR ? 'tutoriel' : 'tutorial'
+
         return (
-            <Document parse type={TUTORIAL} uid="tutorial">
+            <Document parse type={TUTORIAL} uid={uid}>
                 {this.props.children}
             </Document>
         )
