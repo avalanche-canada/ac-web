@@ -258,6 +258,7 @@ function toggleDrawer({ open }) {
     }
 }
 
+// Styles
 const NAVBAR_STYLE = {
     justifyContent: 'space-between',
 }
