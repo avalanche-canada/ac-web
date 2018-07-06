@@ -271,12 +271,12 @@ export default {
                         {
                             id: String(id++),
                             label: 'News',
-                            to: '/news?tags=snowmobiler&tags=snowmobile+',
+                            to: '/news?tags=Snowmobiler&tags=snowmobile',
                         },
                         {
                             id: String(id++),
                             label: 'Events',
-                            to: '/events?tags=snowmobiler&timeline=upcoming',
+                            to: '/events?tags=Snowmobiler&timeline=upcoming',
                         },
                         {
                             id: String(id++),
