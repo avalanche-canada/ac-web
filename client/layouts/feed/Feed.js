@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import flatten from 'lodash/flatten'
 import * as Containers from 'prismic/containers'
 import { Page, Content, Header, Main } from 'components/page'
 import { parse, stringify } from 'utils/search'
@@ -221,32 +220,7 @@ export class EventFeed extends Component {
     }
 }
 
-// Utils
-function renderEntry(post) {
-    return <Entry key={post.uid} {...post} />
-}
-function optionReducer(map, value) {
-    value = value.trim()
-
-    return map.set(value.toLowerCase(), value)
-}
-function flattenReducer(values, value) {
-    return flatten([values, value])
-}
-function computeOptions(property, feed = [], initial) {
-    function pluck(post) {
-        return post[property]
-    }
-    const values = feed
-        .map(pluck)
-        .filter(Boolean)
-        .reduce(flattenReducer, [])
-
-    return Array.from(new Set(values))
-        .sort()
-        .reduce(optionReducer, initial)
-}
-
+// Constants
 const CURRENT_YEAR = new Date().getFullYear()
 
 const YearOptions = new Map([
@@ -256,7 +230,6 @@ const YearOptions = new Map([
         .map((value, index) => value - index)
         .map(year => [year, String(year)]),
 ])
-
 const MonthsOptions = new Map([
     [undefined, 'All Months'],
     ['january', 'January'],
@@ -275,6 +248,7 @@ const MonthsOptions = new Map([
 
 const PAST = 'past'
 const UPCOMING = 'upcoming'
+
 const TimelineOptions = new Map([
     [UPCOMING, 'Upcoming events'],
     [PAST, 'Past events'],
@@ -286,6 +260,11 @@ const CategoryOptions = new Map([
     ['yukon', 'Yukon'],
     [undefined, 'All categories'],
 ])
+
+// Utils
+function renderEntry(post) {
+    return <Entry key={post.uid} {...post} />
+}
 function serialize() {
     const { page } = this.state
 
