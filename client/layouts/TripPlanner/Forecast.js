@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import ForecastContainer from 'containers/Forecast'
 import { Status } from 'components/misc'
 import Shim from 'components/Shim'
@@ -26,9 +25,9 @@ export default class Content extends Component {
             return (
                 <p className={styles.PanelContent}>
                     Avalanche forecast are available at:{' '}
-                    <Link to={externalUrl} target={id}>
+                    <a href={externalUrl} target={id}>
                         {externalUrl}
-                    </Link>
+                    </a>
                 </p>
             )
         }
