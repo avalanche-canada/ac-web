@@ -1,9 +1,8 @@
-import React, { createElement } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
-import AuthService from 'services/auth'
+import { Route, Redirect } from 'react-router-dom'
 import { NotFound } from 'components/page'
-import LoginComplete from 'containers/LoginComplete'
+import * as Auth from 'contexts/auth'
 import ga from 'services/analytics'
 import { StaticPage, Generic } from 'prismic/containers'
 import { WorkInProgress } from 'components/page'
@@ -11,39 +10,27 @@ import { STATIC_PAGE } from 'constants/prismic'
 import Sponsor from 'containers/Sponsor'
 import * as Pages from 'prismic/components/page'
 
-function privateRenderFactory(render, component, children) {
-    return function privateRender(props) {
-        const auth = AuthService.create()
-
-        if (auth.isAuthenticated()) {
-            if (component) {
-                return createElement(component, props)
-            } else {
-                return (render || children)(props)
-            }
-        } else {
-            auth.login().catch(() => props.history.push('/'))
-
-            return null
-        }
+export class ProtectedRoute extends Component {
+    static PATHS = new Set()
+    componentDidMount() {
+        ProtectedRoute.PATHS.add(this.props.path)
     }
-}
-
-export function PrivateRoute({ render, component, children, ...rest }) {
-    return (
-        <Route
-            {...rest}
-            render={privateRenderFactory(render, component, children)}
-        />
-    )
-}
-
-LoginCompleteRoute.propTypes = {
-    path: PropTypes.string.isRequired,
-}
-
-export function LoginCompleteRoute(props) {
-    return <Route {...props} component={LoginComplete} />
+    renderRoute = ({ isAuthenticated }) =>
+        isAuthenticated ? (
+            <Route {...this.props} />
+        ) : (
+            <Redirect
+                to={{
+                    pathname: '/login',
+                    state: {
+                        from: this.props.location,
+                    },
+                }}
+            />
+        )
+    render() {
+        return <Auth.Consumer>{this.renderRoute}</Auth.Consumer>
+    }
 }
 
 function notFound({ location: { pathname } }) {

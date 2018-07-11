@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { createStructuredSelector } from 'reselect'
-import { connect } from 'react-redux'
-import { withRouter } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import { ProtectedRoute } from 'router/common'
+import * as Auth from 'contexts/auth'
 import Navbar, {
     Item,
     Menu,
@@ -12,52 +12,56 @@ import Navbar, {
 } from 'components/navbar'
 import Avatar from 'components/avatar'
 import menu from 'constants/menus/avcan'
-import { getIsAuthenticated, getProfile } from 'getters/auth'
-import { login, logout } from 'actions/auth'
 import logo from 'styles/AvalancheCanada.svg'
 
-// Order matters!
-// See: https://reacttraining.com/react-router/web/api/withRouter
-@withRouter
-@connect(
-    createStructuredSelector({
-        isAuthenticated: getIsAuthenticated,
-        profile: getProfile,
-    }),
-    {
-        login,
-        logout,
-    }
-)
 export default class AvalancheCanadaNavbar extends Component {
-    get logout() {
-        const { name, picture } = this.props.profile || {}
-
+    renderLogout = logout => {
         return (
-            <Item title={<Avatar name={name} url={picture} size={30} />}>
-                <Menu>
-                    <Section>
-                        <UserProfile name={name} avatar={picture} />
-                        <Header>
-                            <Link onClick={this.props.logout}>Logout</Link>
-                        </Header>
-                    </Section>
-                </Menu>
-            </Item>
+            <Route>
+                {({ history, location }) => {
+                    function handleClick() {
+                        logout().then(() => {
+                            if (ProtectedRoute.PATHS.has(location.pathname)) {
+                                history.push('/')
+                            }
+                        })
+                    }
+
+                    return <Link onClick={handleClick}>Logout</Link>
+                }}
+            </Route>
         )
     }
-    get login() {
-        return <Item title="Login" onClick={this.props.login} />
-    }
-    render() {
+    renderNavbar = ({ isAuthenticated, login, logout, profile = {} }) => {
         return (
-            <Navbar
-                logo={logo}
-                donate="/foundation"
-                menu={menu}
-                location={this.props.location}>
-                {this.props.isAuthenticated ? this.logout : this.login}
+            <Navbar logo={logo} donate="/foundation" menu={menu}>
+                {isAuthenticated ? (
+                    <Item
+                        onClick={logout}
+                        title={
+                            <Avatar
+                                name={profile.name}
+                                url={profile.picture}
+                                size={30}
+                            />
+                        }>
+                        <Menu>
+                            <Section>
+                                <UserProfile
+                                    name={profile.name}
+                                    avatar={profile.picture}
+                                />
+                                <Header>{this.renderLogout(logout)}</Header>
+                            </Section>
+                        </Menu>
+                    </Item>
+                ) : (
+                    <Item title="Login" onClick={login} />
+                )}
             </Navbar>
         )
+    }
+    render() {
+        return <Auth.Consumer>{this.renderNavbar}</Auth.Consumer>
     }
 }
