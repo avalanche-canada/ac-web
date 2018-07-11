@@ -53,6 +53,7 @@ export class Provider extends Component {
         return new Promise(fullfil => {
             fullfil()
 
+            // FIXME: So ugly that setTimeout, but required to redirect (leaving protected route) before updating the state.
             setTimeout(() => {
                 this.setState({
                     isAuthenticated: false,
