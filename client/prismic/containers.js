@@ -42,19 +42,19 @@ import SponsorsMetadata from 'containers/SponsorsMetadata'
 import Connector from 'containers/Connector'
 import { DATE } from 'utils/date'
 import * as utils from 'utils/search'
-import LOCALES, { FR, EN } from 'constants/locale'
+import LOCALES, { FR } from 'constants/locale'
 
 function mapDispatchToPropsFromUid(dispatch) {
     return {
         didMount({ props }) {
-            const { type, uid } = props
+            const { type, uid, lang } = props
 
-            dispatch(loadForUid(type, uid))
+            dispatch(loadForUid(type, uid, lang))
         },
         willReceiveProps({ nextProps }) {
-            const { type, uid } = nextProps
+            const { type, uid, lang } = nextProps
 
-            dispatch(loadForUid(type, uid))
+            dispatch(loadForUid(type, uid, lang))
         },
     }
 }
@@ -847,17 +847,21 @@ export class Highlight extends Component {
     }
 }
 
+const LANGS = new Map([[FR, 'fr-ca']])
+
 export class Tutorial extends Component {
     static propTypes = {
         locale: PropTypes.oneOf(Array.from(LOCALES)),
         children: PropTypes.func.isRequired,
     }
     render() {
-        const uid = this.props.locale === FR ? 'tutoriel' : 'tutorial'
+        const { locale, children } = this.props
+        const uid = locale === FR ? 'tutoriel' : 'tutorial'
+        const lang = LANGS.get(locale)
 
         return (
-            <Document parse type={TUTORIAL} uid={uid}>
-                {this.props.children}
+            <Document parse type={TUTORIAL} uid={uid} lang={lang}>
+                {children}
             </Document>
         )
     }
@@ -866,12 +870,16 @@ export class Tutorial extends Component {
 export class TutorialArticle extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
+        locale: PropTypes.oneOf(Array.from(LOCALES)),
         children: PropTypes.func.isRequired,
     }
     render() {
+        const { uid, children } = this.props
+        const lang = LANGS.get(this.props.locale)
+
         return (
-            <Document parse type={TUTORIAL_ARTICLE} uid={this.props.uid}>
-                {this.props.children}
+            <Document parse type={TUTORIAL_ARTICLE} uid={uid} lang={lang}>
+                {children}
             </Document>
         )
     }

@@ -1,15 +1,14 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
 import {
-    Navbar,
-    Header,
-    Container,
-    Body,
-    Close,
-    Content,
-} from 'components/page/drawer'
-import { Forecast, Metadata, Headline, TabSet, Footer } from 'layouts/products/forecast'
+    Forecast,
+    Metadata,
+    Headline,
+    TabSet,
+    Footer,
+} from 'layouts/products/forecast'
 import { Status, SPAW as SPAWComponent } from 'components/misc'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'

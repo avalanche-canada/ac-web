@@ -1,4 +1,8 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
+
+.Container {
+    margin: 1em 0;
+}
 
 .Input {
     flex: 1;
@@ -17,7 +21,7 @@
 .Result {
     text-align: center;
     padding: 1em;
-    margin: 1em 0;
+    margin-top: 1em;
     color: white;
 }
 

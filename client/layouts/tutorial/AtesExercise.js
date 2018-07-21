@@ -1,49 +1,78 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { InnerHTML } from 'components/misc'
-import style from './ates.css'
 import { Media, Caption } from 'components/media'
-import { Image } from 'prismic/components/base'
-import exercises from './exercises.json'
+import { Image, StructuredText } from 'prismic/components/base'
+import * as LocaleContext from 'contexts/locale'
+import styles from './ATESExercise.css'
 
-Section.propTypes = {
-    title: PropTypes.string.isRequired,
-    desc: PropTypes.string.isRequired,
-    images: PropTypes.arrayOf(
-        PropTypes.shape({
-            slug: PropTypes.string.isRequired,
-            url: PropTypes.string.isRequired,
-            caption: PropTypes.string.isRequired,
-            photo_credit: PropTypes.string.isRequired,
-            answer: PropTypes.string.isRequired,
+const VALUES = ['Simple', 'Challenging', 'Complex']
+
+export default class ATESExercise extends Component {
+    static propTypes = {
+        nonRepeat: PropTypes.shape({
+            answer: PropTypes.oneOf(VALUES).isRequired,
+            credit: PropTypes.string,
+            caption: PropTypes.array.isRequired,
+            image: PropTypes.shape({
+                main: PropTypes.shape({
+                    url: PropTypes.string.isRequired,
+                }).isRequired,
+            }).isRequired,
+        }).isRequired,
+    }
+    state = {
+        picked: null,
+    }
+    pickAnswer = event => {
+        this.setState({
+            picked: event.target.value,
         })
-    ),
-}
+    }
+    render() {
+        const { image, credit, answer, caption } = this.props.nonRepeat
+        const { picked } = this.state
 
-function Section({ title, desc, images }) {
-    return (
-        <section>
-            <h1>{title}</h1>
-            <InnerHTML component="p">{desc}</InnerHTML>
-            {images.map((image, index) => <Exercise key={index} {...image} />)}
-        </section>
-    )
+        return (
+            <div className={styles.Container}>
+                <Media>
+                    <Image url={image.main.url} copyright={credit} />
+                    <Caption>
+                        <StructuredText value={caption} />
+                        <div className={styles.Choices}>
+                            {VALUES.map(value => (
+                                <Input
+                                    key={value}
+                                    value={value}
+                                    onChange={this.pickAnswer}
+                                    picked={picked}>
+                                    <LocaleContext.Translate>
+                                        {value}
+                                    </LocaleContext.Translate>
+                                </Input>
+                            ))}
+                        </div>
+                        {picked && (picked === answer ? <Yep /> : <Nope />)}
+                    </Caption>
+                </Media>
+            </div>
+        )
+    }
 }
 
 Input.propTypes = {
     value: PropTypes.string,
     picked: PropTypes.bool,
-    onClick: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
     children: PropTypes.node.isRequired,
 }
 
-function Input({ value, onClick, children, picked }) {
+function Input({ value, onChange, children, picked }) {
     return (
-        <label className={style.Input}>
+        <label className={styles.Input}>
             <input
                 type="radio"
-                onClick={onClick}
                 value={value}
+                onChange={onChange}
                 checked={picked === value}
             />
             {children}
@@ -52,69 +81,13 @@ function Input({ value, onClick, children, picked }) {
 }
 
 function Yep() {
-    return <div className={style.Yep}>Well done — You’re right!</div>
+    return <div className={styles.Yep}>Well done — You’re right!</div>
 }
 
 function Nope() {
     return (
-        <div className={style.Nope}>
+        <div className={styles.Nope}>
             Sorry, that isn’t the right answer. Try again!
         </div>
     )
-}
-
-class Exercise extends Component {
-    static propTypes = ExerciseShape
-    state = {
-        picked: null,
-    }
-    pickAnswer = event => {
-        this.setState({ picked: event.target.value })
-    }
-    render() {
-        const { url, caption, photo_credit, answer } = this.props
-        const { picked } = this.state
-
-        return (
-            <Media>
-                <Image url={url} copyright={photo_credit} />
-                <Caption>
-                    {caption}
-                    {picked && (picked === answer ? <Yep /> : <Nope />)}
-                    <div className={style.Choices}>
-                        <Input
-                            value="SIMPLE"
-                            onClick={this.pickAnswer}
-                            picked={picked}>
-                            Simple
-                        </Input>
-                        <Input
-                            value="CHALLENGING"
-                            onClick={this.pickAnswer}
-                            picked={picked}>
-                            Challenging
-                        </Input>
-                        <Input
-                            value="COMPLEX"
-                            onClick={this.pickAnswer}
-                            picked={picked}>
-                            Complex
-                        </Input>
-                    </div>
-                </Caption>
-            </Media>
-        )
-    }
-}
-
-export default class AtesExercise extends Component {
-    render() {
-        return (
-            <Fragment>
-                {exercises.map(exercise => (
-                    <Section key={exercise.slug} {...exercise} />
-                ))}
-            </Fragment>
-        )
-    }
 }

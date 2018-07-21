@@ -15,10 +15,12 @@ export class Translate extends Component {
         id: PropTypes.string,
         children: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     }
-    renderContent = ({ dictionnary }) => {
+    renderContent = dictionnary => {
         const { id, children } = this.props
         const value =
-            (id ? dictionnary.get(id) : dictionnary.get(children)) || id
+            (id ? dictionnary.get(id) : dictionnary.get(children)) ||
+            id ||
+            children
 
         return typeof children === 'function' ? children(value) : value
     }

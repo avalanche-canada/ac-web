@@ -7,13 +7,14 @@ Header.propTypes = {
     subject: PropTypes.string,
     children: PropTypes.node,
     showBorder: PropTypes.bool,
+    style: PropTypes.object,
 }
 
-export default function Header({ subject, children, showBorder }) {
-    const className = showBorder ? styles.BordererHeader : styles.Header
+export default function Header({ subject, children, showBorder, style }) {
+    const className = showBorder ? styles.HeaderWithBorder : styles.Header
 
     return (
-        <header className={className}>
+        <header className={className} style={style}>
             {subject && <Subject>{subject}</Subject>}
             {children}
         </header>

@@ -16,7 +16,7 @@ export default class Image extends PureComponent {
         return (
             <Media>
                 <Base {...image.main} />
-                {caption && (
+                {caption.length > 0 && (
                     <Caption>
                         <StructuredText value={caption} />
                     </Caption>

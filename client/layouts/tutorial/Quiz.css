@@ -1,0 +1,40 @@
+@import '../../styles/colors.css';
+
+.Content {
+    display: flex;
+    flex-direction: row;
+}
+
+.Choices {
+    display: flex;
+    flex-direction: column;
+    padding: 1em;
+    background-color: var(--gray-lightest);
+
+    & label {
+        white-space: nowrap;
+    }
+}
+
+.Feedback {
+    display: flex;
+    align-items: center;
+    padding: 1em;
+    margin-left: 0.25em;
+    background-color: var(--gray-lightest);
+    flex: 1;
+
+    & p {
+        margin: 0;
+    }
+}
+
+.FeedbackSuccess {
+    color: white;
+    background-color: var(--success);
+}
+
+.FeedbackError {
+    color: white;
+    background-color: var(--danger);
+}

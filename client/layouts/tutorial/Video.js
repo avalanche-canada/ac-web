@@ -1,24 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Media } from 'components/media'
+import { Embed, StructuredText } from 'prismic/components/base'
+import { Media, Caption } from 'components/media'
 
 Video.propTypes = {
-    src: PropTypes.string.isRequired,
+    nonRepeat: PropTypes.shape({
+        video: PropTypes.object,
+        caption: PropTypes.array,
+    }).isRequired,
 }
 
-export default function Video({ src }) {
-    let url = src
-
-    if (/vimeo.com/.test(src)) {
-        const [id] = src.split('/').reverse()
-        url = `https://player.vimeo.com/video/${id}`
-    }
+export default function Video(props) {
+    const { video, caption } = props.nonRepeat
 
     return (
         <Media>
-            <div data-oembed={url}>
-                <iframe src={url} />
-            </div>
+            <Embed oembed={video.oembed} />
+            {caption.length > 0 && (
+                <Caption>
+                    <StructuredText value={caption} />
+                </Caption>
+            )}
         </Media>
     )
 }

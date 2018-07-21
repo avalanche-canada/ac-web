@@ -2,7 +2,7 @@
 
 .Figure {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
     margin: 0;
     background-color: transparent;
 }

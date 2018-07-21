@@ -120,62 +120,7 @@ fieldset[disabled] input {
     cursor: not-allowed;
 }
 
-/* FORM */
-input {
-    width: 100%;
-    height: 40px;
-    border-radius: 0;
-    padding-left: 10px;
-    border: 1px solid var(--gray-lighter);
-    background-color: white;
-    box-sizing: border-box;
-    line-height: 1;
-    outline-offset: inherit;
-}
-input[type='file'] {
-    cursor: pointer;
-}
-/* RESET due to rule applied above */
-input[type='checkbox'],
-input[type='radio'] {
-    height: inherit;
-    width: inherit;
-}
-textarea {
-    display: block;
-    min-width: 100%;
-    max-width: 100%;
-    width: 100%;
-    min-height: 75px;
-    border-radius: 0;
-    box-sizing: border-box;
-    border: 1px solid var(--gray-lighter);
-}
-label {
-    display: inline-block;
-    margin: 0.5em 0;
-    max-width: 100%;
-    font-weight: 700;
-}
-input[type='checkbox'] + label,
-input[type='radio'] + label {
-    display: inline;
-    font-weight: normal;
-}
-
-/* FIXME: Put in body to have a stronger selector. Have fix  */
-body fieldset {
-    border: 1px solid var(--gray-lighter);
-    margin: 0;
-    padding: 0.75em;
-
-    & > legend {
-        margin: 0.5em 0;
-        font-size: 1.5em;
-        font-weight: 700;
-    }
-}
-
+/* OEMBED */
 div[data-oembed] {
     position: relative;
     padding-bottom: 56.25%; /* 16:9 */

@@ -42,9 +42,9 @@ export default class Drawer extends PureComponent {
     }
     render() {
         return (
-            <div style={this.style} className={this.className}>
+            <section style={this.style} className={this.className}>
                 {this.props.children}
-            </div>
+            </section>
         )
     }
 }

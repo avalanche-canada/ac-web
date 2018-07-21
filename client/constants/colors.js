@@ -12,4 +12,9 @@ export const GRAY_LIGHT = ''
 export const GRAY_LIGHTER = ''
 export const GRAY_LIGHTEST = ''
 
+export const SUCCESS = '#4CAF50'
+export const INFO = '#03A9F4'
+export const WARNING = '#FFC107'
+export const DANGER = '#E6252F'
+
 export default PRIMARY

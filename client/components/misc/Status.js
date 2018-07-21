@@ -15,6 +15,7 @@ const MESSAGES = new Map([
 
 export default class Status extends PureComponent {
     static propTypes = {
+        children: PropTypes.node,
         isLoading: PropTypes.bool,
         isLoaded: PropTypes.bool,
         isError: PropTypes.bool,
@@ -24,6 +25,9 @@ export default class Status extends PureComponent {
             isLoaded: PropTypes.string,
         }),
         style: PropTypes.object,
+    }
+    static defaultProps = {
+        children: null,
     }
     render() {
         const {
@@ -36,13 +40,13 @@ export default class Status extends PureComponent {
         const [key] = trulyKeys({ isLoading, isError, isLoaded })
 
         if (!key || !COMPONENTS.has(key)) {
-            return null
+            return this.props.children
         }
 
         const message = key in messages ? messages[key] : MESSAGES.get(key)
 
         return message
             ? createElement(COMPONENTS.get(key), { style }, message)
-            : null
+            : this.props.children
     }
 }
