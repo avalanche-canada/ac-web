@@ -51,10 +51,16 @@ function mapDispatchToPropsFromUid(dispatch) {
 
             dispatch(loadForUid(type, uid, lang))
         },
-        willReceiveProps({ nextProps }) {
+        willReceiveProps({ props, nextProps }) {
             const { type, uid, lang } = nextProps
 
-            dispatch(loadForUid(type, uid, lang))
+            if (
+                type !== props.type ||
+                uid !== props.uid ||
+                lang !== props.lang
+            ) {
+                dispatch(loadForUid(type, uid, lang))
+            }
         },
     }
 }
@@ -109,7 +115,7 @@ const DocumentContainer = connect(
 const DocumentForUid = connect(
     createStructuredSelector({
         data(state, props) {
-            const { type, uid, messages = {} } = props
+            const { type, uid, lang, messages = {} } = props
 
             if (hasDocumentForUid(state, type, uid)) {
                 const status = new Status({ messages })
@@ -123,12 +129,15 @@ const DocumentForUid = connect(
                     },
                 }
             } else {
-                return getSingleDocumentFromParams(state, {
-                    messages,
-                    params: {
-                        predicates: [Predicates.uid(type, uid)],
-                    },
-                })
+                const params = {
+                    predicates: [Predicates.uid(type, uid)],
+                }
+
+                if (lang) {
+                    params.options = { lang }
+                }
+
+                return getSingleDocumentFromParams(state, { messages, params })
             }
         },
     }),

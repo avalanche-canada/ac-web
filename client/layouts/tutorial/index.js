@@ -25,6 +25,7 @@ import Quiz from './Quiz'
 import Question from './Question'
 import Video from './Video'
 import Button, { SUBTILE } from 'components/button'
+import dictionnaries from './locales'
 import { FR, EN } from 'constants/locale'
 
 export default class Layout extends Component {
@@ -34,26 +35,7 @@ export default class Layout extends Component {
     }
     state = {
         locale: getLocaleFromMatch(this.props.match),
-        dictionnaries: new Map([
-            [EN, new Map()],
-            [
-                FR,
-                new Map([
-                    ['Start with', 'Débuter avec'],
-                    ['Visit the', 'Consulter le'],
-                    ['Next', 'Suivant'],
-                    ['Previous', 'Précédent'],
-                    ['Back to', 'De retour au'],
-                    ['Loading...', 'Chargement du tutoriel...'],
-                    ['Simple', 'Simple'],
-                    ['Challenging', 'Exigeant'],
-                    ['Complex', 'Complexe'],
-                    ['See answers', 'Voir les réponses'],
-                    ['Give another answer', 'Fournir une autre réponse'],
-                    ['Start again', 'Recommencer'],
-                ]),
-            ],
-        ]),
+        dictionnaries,
     }
     componentWillReceiveProps({ match }) {
         if (match.path !== this.props.match.path) {
@@ -73,7 +55,9 @@ export default class Layout extends Component {
                                 items={document.data.items}
                                 title={document.data.title[0].text}
                             />
-                            <Content match={this.props.match} />
+                            <Content match={this.props.match}>
+                                <StructuredText value={document.data.title} />
+                            </Content>
                         </Fragment>
                     )}
                 </Status>
@@ -169,9 +153,10 @@ class Sidebar extends Component {
     }
 }
 
-function Content({ match }) {
+function Content({ children, match }) {
     return (
         <Page.Main style={CONTENT_STYLE}>
+            {children}
             <Switch>
                 <Route exact path={match.path} component={Home} />
                 <Route path={`${match.path}/:uids+`} component={Tutorial} />
@@ -194,7 +179,6 @@ class Home extends Component {
 
         return (
             <Fragment>
-                <StructuredText value={document.data.title} />
                 <SliceZone
                     components={TutorialSliceComponents}
                     value={document.data.content}

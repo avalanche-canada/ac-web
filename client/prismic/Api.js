@@ -9,6 +9,9 @@ const SEARCH = `/${version}/documents/search`
 
 const axios = Axios.create({
     baseURL: root,
+    validateStatus(status) {
+        return (status >= 200 && status < 300) || status === 404
+    },
     paramsSerializer(params) {
         return Object.keys(params)
             .filter(key => Boolean(params[key]))

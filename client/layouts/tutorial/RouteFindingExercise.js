@@ -167,7 +167,7 @@ export default class RouteFindingExercise extends Component {
                             <path
                                 ref={this.createRoute}
                                 fill="none"
-                                stroke="blue"
+                                stroke={COLORS.PRIMARY}
                                 strokeWidth={3}
                                 pointerEvents="none"
                                 strokeLinejoin="none"

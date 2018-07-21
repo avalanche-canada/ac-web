@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Media, Caption } from 'components/media'
 import { Image, StructuredText } from 'prismic/components/base'
-import * as LocaleContext from 'contexts/locale'
+import { Translate } from 'contexts/locale'
 import styles from './ATESExercise.css'
 
+// Constants
 const VALUES = ['Simple', 'Challenging', 'Complex']
 
 export default class ATESExercise extends Component {
@@ -45,9 +46,7 @@ export default class ATESExercise extends Component {
                                     value={value}
                                     onChange={this.pickAnswer}
                                     picked={picked}>
-                                    <LocaleContext.Translate>
-                                        {value}
-                                    </LocaleContext.Translate>
+                                    <Translate>{value}</Translate>
                                 </Input>
                             ))}
                         </div>
@@ -59,6 +58,7 @@ export default class ATESExercise extends Component {
     }
 }
 
+// Utils
 Input.propTypes = {
     value: PropTypes.string,
     picked: PropTypes.bool,
@@ -81,13 +81,19 @@ function Input({ value, onChange, children, picked }) {
 }
 
 function Yep() {
-    return <div className={styles.Yep}>Well done — You’re right!</div>
+    return (
+        <div className={styles.Yep}>
+            <Translate>Well done — You’re right!</Translate>
+        </div>
+    )
 }
 
 function Nope() {
     return (
         <div className={styles.Nope}>
-            Sorry, that isn’t the right answer. Try again!
+            <Translate>
+                Sorry, that isn’t the right answer. Try again!
+            </Translate>
         </div>
     )
 }

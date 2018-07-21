@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Submit, Reset } from 'components/button'
 import { StructuredText } from 'prismic/components/base'
-import * as LocaleContext from 'contexts/locale'
+import { Translate } from 'contexts/locale'
 import styles from './Question.css'
 
 export default class Question extends Component {
@@ -103,6 +103,3 @@ export default class Question extends Component {
         )
     }
 }
-
-// Constants
-const { Translate } = LocaleContext

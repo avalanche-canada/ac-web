@@ -56,6 +56,7 @@ export function loadForUid(type, uid, lang) {
 
             if (lang) {
                 params.options = {
+                    ...(params.options || {}),
                     lang,
                 }
             }
