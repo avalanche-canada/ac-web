@@ -19,6 +19,7 @@ import Drawer, {
     Container,
 } from 'components/page/drawer'
 import { Menu } from 'components/icons'
+import { Warning } from 'components/text'
 import ATESExercise from './ATESExercise'
 import RouteFindingExercise from './RouteFindingExercise'
 import Quiz from './Quiz'
@@ -299,45 +300,64 @@ class NoDocument extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
     }
-    getTitle({ document }) {
+    getTitle(document) {
         return document ? document.data.title[0].text : null
     }
-    render() {
+    getItemTitle(document) {
         const { uid } = this.props
 
+        if (!document) {
+            return uid
+        }
+
+        const item = document.data.items.find(
+            item => item.link.value.document.uid === uid
+        )
+
+        return item ? item.title : uid
+    }
+    renderContent({ document }, locale) {
         return (
             <Fragment>
-                <p>There is no document for {uid}.</p>
+                <Warning>
+                    <Translate>There is no document for</Translate>{' '}
+                    {this.getItemTitle(document)}.
+                </Warning>
                 <Pager>
-                    <LocaleContext.Locale>
-                        {locale => (
-                            <Next
-                                to={locale === FR ? '/tutoriel' : '/tutorial'}
-                                subtitle={<Translate>Visit the</Translate>}>
-                                <Containers.Tutorial locale={locale}>
-                                    {this.getTitle}
-                                </Containers.Tutorial>
-                            </Next>
-                        )}
-                    </LocaleContext.Locale>
+                    <Next
+                        to={locale === FR ? '/tutoriel' : '/tutorial'}
+                        subtitle={<Translate>Visit the</Translate>}>
+                        {this.getTitle(document)}
+                    </Next>
                 </Pager>
             </Fragment>
+        )
+    }
+    render() {
+        return (
+            <LocaleContext.Locale>
+                {locale => (
+                    <Containers.Tutorial locale={locale}>
+                        {props => this.renderContent(props, locale)}
+                    </Containers.Tutorial>
+                )}
+            </LocaleContext.Locale>
         )
     }
 }
 
 // Utils
 function getUIDFromMenuItem({ link }) {
-    return link.value.document.id
+    return link.value.document.uid
 }
 function renderTreeNode({ title, link, children }, splat) {
-    const { id } = link.value.document
-    const ids = [splat, id].filter(Boolean)
+    const { uid } = link.value.document
+    const uids = [splat, uid].filter(Boolean)
 
-    splat = ids.join('/')
+    splat = uids.join('/')
 
     return (
-        <Node key={id} link={splat} label={title} title={title}>
+        <Node key={uid} link={splat} label={title} title={title}>
             {children.map(node => renderTreeNode(node, splat))}
         </Node>
     )

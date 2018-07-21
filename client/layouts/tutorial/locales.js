@@ -17,6 +17,7 @@ export default new Map([
             ['See answers', 'Voir les réponses'],
             ['Give another answer', 'Fournir une autre réponse'],
             ['Start again', 'Recommencer'],
+            ['There is no document for', 'Aucun document trouvé pour'],
             [
                 'Well done — You’re right!',
                 "Bien jouer, c'est la bonne réponse !",
