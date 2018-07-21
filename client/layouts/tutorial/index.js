@@ -286,7 +286,6 @@ class Tutorial extends Component {
         )
     }
     renderContent = ({ status, document }) => {
-        console.warn(status)
         return (
             <Fragment>
                 <Status {...status}>
