@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Link } from 'react-router-dom'
 import * as Containers from 'prismic/containers'
 import * as Page from 'components/page'
 import Tree, { Node } from 'components/tree'
@@ -45,6 +45,8 @@ export default class Layout extends Component {
         }
     }
     renderContent = ({ status, document }) => {
+        const { match } = this.props
+
         return (
             <Fragment>
                 <Status {...status}>
@@ -55,8 +57,16 @@ export default class Layout extends Component {
                                 items={document.data.items}
                                 title={document.data.title[0].text}
                             />
-                            <Content match={this.props.match}>
-                                <StructuredText value={document.data.title} />
+                            <Content match={match}>
+                                <h1>
+                                    {match.isExact ? (
+                                        document.data.title[0].text
+                                    ) : (
+                                        <Link to={match.path}>
+                                            {document.data.title[0].text}
+                                        </Link>
+                                    )}
+                                </h1>
                             </Content>
                         </Fragment>
                     )}
@@ -121,13 +131,12 @@ class Sidebar extends Component {
                         </Page.Aside>
                     ) : (
                         <Fragment>
-                            <Shim top>
-                                <Button
-                                    kind={SUBTILE}
-                                    onClick={this.toggleDrawer}>
-                                    <Menu />
-                                </Button>
-                            </Shim>
+                            <Button
+                                kind={SUBTILE}
+                                onClick={this.toggleDrawer}
+                                style={BUTTON_STYLE}>
+                                <Menu />
+                            </Button>
                             <Drawer
                                 open={this.state.open}
                                 width={0.75 * width}
@@ -250,7 +259,7 @@ class Tutorial extends Component {
     renderTutorial({ data }) {
         return (
             <Fragment>
-                <StructuredText value={data.title} />
+                <h2>{data.title[0].text}</h2>
                 <SliceZone
                     components={TutorialSliceComponents}
                     value={data.content}
@@ -412,6 +421,12 @@ const ASIDE_STYLE = {
 }
 const CONTENT_STYLE = {
     flex: 1,
+}
+const BUTTON_STYLE = {
+    float: 'left',
+    padding: '1em',
+    position: 'relative',
+    top: '-0.75em',
 }
 
 // Components
