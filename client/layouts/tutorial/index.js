@@ -24,7 +24,6 @@ import ATESExercise from './ATESExercise'
 import RouteFindingExercise from './RouteFindingExercise'
 import Quiz from './Quiz'
 import Question from './Question'
-import Video from './Video'
 import Button, { SUBTILE } from 'components/button'
 import dictionnaries from './locales'
 import { FR, EN } from 'constants/locale'
@@ -79,7 +78,6 @@ export default class Layout extends Component {
         )
     }
 }
-
 class Sidebar extends Component {
     static propTypes = {
         title: PropTypes.string.isRequired,
@@ -153,7 +151,6 @@ class Sidebar extends Component {
         )
     }
 }
-
 function Content({ children, match }) {
     return (
         <Page.Main style={CONTENT_STYLE}>
@@ -165,7 +162,6 @@ function Content({ children, match }) {
         </Page.Main>
     )
 }
-
 class Home extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
@@ -206,7 +202,6 @@ class Home extends Component {
         )
     }
 }
-
 class Tutorial extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
@@ -295,7 +290,6 @@ class Tutorial extends Component {
         )
     }
 }
-
 class NoDocument extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
@@ -427,6 +421,5 @@ const TutorialSliceComponents = new Map([
     ['atesExercise', ATESExercise],
     ['routeFindingExercise', RouteFindingExercise],
     ['quiz', Quiz],
-    ['video', Video],
     ['question', Question],
 ])
