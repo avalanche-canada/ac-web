@@ -121,6 +121,8 @@ function Container({ style = null, drawers, onClick }) {
     )
 }
 
+// TODO: Remove the need for that function
+
 @withRouter
 export default class Layout extends Component {
     static propTypes = {
