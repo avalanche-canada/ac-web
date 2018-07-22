@@ -45,23 +45,17 @@ export function load(params = {}) {
     }
 }
 
-export function loadForUid(type, uid, lang) {
+export function loadForUid(type, uid, options = {}) {
     return (dispatch, getState) => {
         const state = getState()
 
         if (!hasDocumentForUid(state, type, uid)) {
-            const params = {
-                predicates: [Predicates.uid(type, uid)],
-            }
-
-            if (lang) {
-                params.options = {
-                    ...(params.options || {}),
-                    lang,
-                }
-            }
-
-            dispatch(load(params))
+            dispatch(
+                load({
+                    options,
+                    predicates: [Predicates.uid(type, uid)],
+                })
+            )
         }
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { PrivateRoute, NotFoundRoute, StaticPageRoute } from 'router/common'
+import { ProtectedRoute, NotFoundRoute, StaticPageRoute } from 'router/common'
 import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
 import Submission from 'layouts/Submission'
 import SubmissionList from 'layouts/SubmissionList'
@@ -61,7 +61,7 @@ function submissions({ location, history }) {
 export default function MountainInformationNetwork({ match: { path } }) {
     return (
         <Switch>
-            <PrivateRoute path={`${path}/submit`} component={Submit} />
+            <ProtectedRoute path={`${path}/submit`} component={Submit} />
             <Route path={`${path}/submissions/:id`} render={submission} />
             <Route path={`${path}/submissions`} render={submissions} />
             <StaticPageRoute

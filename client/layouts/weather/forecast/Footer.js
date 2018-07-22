@@ -1,26 +1,17 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import styles from './Forecast.css'
 import { Mailto } from 'components/anchors'
-import Authenticated from 'containers/Authenticated'
-
-Footer.propTypes = {
-    children: PropTypes.node,
-}
+import * as Auth from 'contexts/auth'
 
 export default class Footer extends Component {
     mailto({ isAuthenticated }) {
-        if (isAuthenticated) {
-            return (
-                <Mailto
-                    email="ec.cpip-mwf-pspc.ec@canada.ca"
-                    subject="Mountain Weather Forecast Feedback">
-                    Send feedback to MSC
-                </Mailto>
-            )
-        } else {
-            return null
-        }
+        return isAuthenticated ? (
+            <Mailto
+                email="ec.cpip-mwf-pspc.ec@canada.ca"
+                subject="Mountain Weather Forecast Feedback">
+                Send feedback to MSC
+            </Mailto>
+        ) : null
     }
     render() {
         return (
@@ -29,7 +20,7 @@ export default class Footer extends Component {
                     Forecasts and graphics produced by the Meteorological
                     Service of Canada (MSC)
                 </p>
-                <Authenticated>{this.mailto}</Authenticated>
+                <Auth.Consumer>{this.mailto}</Auth.Consumer>
             </footer>
         )
     }

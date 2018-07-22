@@ -9,7 +9,6 @@ import * as links from 'components/links'
 import OPTIONS from './options'
 import { postMountainInformationNetworkSubmission as post } from 'actions/entities'
 import Submission from './types'
-import AuthService from 'services/auth'
 import { Submit } from 'components/button'
 import styles from './Form.css'
 import { TYPES } from 'constants/min'
@@ -38,8 +37,6 @@ export default class SubmissionForm extends Component {
     }
     constructor(props) {
         super(props)
-
-        this.auth = AuthService.create()
 
         Object.assign(this.state.options.fields.observations.config, {
             onReportRemove: this.handleReportRemove,
@@ -160,11 +157,6 @@ export default class SubmissionForm extends Component {
                 }
             )
         })
-    }
-    componentDidUpdate() {
-        if (!this.auth.isAuthenticated()) {
-            this.auth.login().catch(() => this.props.history.push('/'))
-        }
     }
     render() {
         const { options, type, value, isSubmitting } = this.state

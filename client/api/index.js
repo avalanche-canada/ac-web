@@ -5,6 +5,7 @@ import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
 import { baseURL, astBaseUrl, weatherBaseUrl } from 'api/config.json'
+import AuthAccessor from 'services/auth/accessor'
 import {
     transformProviderResponse,
     transformCourseResponse,
@@ -172,13 +173,19 @@ function extractData(response) {
 }
 
 export function post(schema, data) {
+    const { idToken } = AuthAccessor.create()
+    const config = {
+        headers: {
+            Authorization: `Bearer ${idToken}`,
+        },
+    }
     let endpoint = ENDPOINTS.get(schema)
 
     if (typeof endpoint === 'function') {
         endpoint = endpoint()
     }
 
-    return api.post(endpoint, data).then(extractData)
+    return api.post(endpoint, data, config).then(extractData)
 }
 
 export function fetchFeaturesMetadata() {

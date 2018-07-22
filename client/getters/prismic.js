@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import Immutable from 'immutable'
 import RESULT from 'reducers/result'
 import { paramsToKey } from 'actions/prismic'
@@ -46,12 +47,11 @@ export function getDocumentFromParams(state, params) {
     return documents(state).get(id)
 }
 
-export function getDocumentsFromParams(state, params) {
-    const { ids } = getResult(state, params)
-    const docs = documents(state)
-
-    return Array.from(ids).map(id => docs.get(id))
-}
+export const getDocumentsFromParams = createSelector(
+    getResult,
+    documents,
+    ({ ids }, documents) => Array.from(ids).map(id => documents.get(id))
+)
 
 // Utils
 function results(state) {

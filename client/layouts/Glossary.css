@@ -1,0 +1,22 @@
+@custom-media --side-by-side (width > 580px);
+
+.Section {
+    clear: both;
+}
+
+.Definition {
+    & > h2 {
+        clear: both;
+    }
+    & > figure {
+        & + figure {
+            margin-top: 1em;
+        }
+
+        @media (--side-by-side) {
+            float: right;
+            width: 50%;
+            margin-left: 1em;
+        }
+    }
+}

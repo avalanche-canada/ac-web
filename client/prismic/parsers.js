@@ -32,7 +32,7 @@ function parseSlice({ slice_type, slice_label, value, repeat, ...rest }) {
         type: slice_type,
         label: slice_label,
         value: value && parseValue(value),
-        repeat: repeat && repeat.map(parseData),
+        repeat: repeat && repeat.map(item => parseData(item)),
         nonRepeat: nonRepeat && parseData(nonRepeat),
     }
 }

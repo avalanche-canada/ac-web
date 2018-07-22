@@ -9,8 +9,6 @@ export default class Text extends PureComponent {
         }).isRequired,
     }
     render() {
-        const { content } = this.props.nonRepeat
-
-        return <StructuredText value={content} />
+        return <StructuredText value={this.props.nonRepeat.content} />
     }
 }

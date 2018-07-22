@@ -1,0 +1,4 @@
+.ImageToolbar {
+    display: flex;
+    justify-content: space-between;
+}

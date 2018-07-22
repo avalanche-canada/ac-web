@@ -11,12 +11,12 @@ export default class SliceZone extends PureComponent {
         components: SliceComponents,
     }
     renderSlice({ type, ...props }, index) {
-        const { components } = this.props
+        const { components, value, ...rest } = this.props
 
         return components.has(type)
             ? createElement(
                   components.get(type),
-                  Object.assign(props, { key: index })
+                  Object.assign(props, rest, { key: index })
               )
             : null
     }

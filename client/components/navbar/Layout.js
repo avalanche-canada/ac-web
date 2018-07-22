@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
@@ -16,7 +17,6 @@ export default class Layout extends Component {
         logo: PropTypes.string.isRequired,
         donate: PropTypes.string.isRequired,
         children: PropTypes.node.isRequired,
-        location: PropTypes.object.isRequired,
     }
     state = {
         isCabinetOpened: false,
@@ -34,10 +34,14 @@ export default class Layout extends Component {
     }
     get items() {
         return (
-            <ItemSet location={this.props.location}>
-                {this.props.menu.children.map(createItem)}
-                {this.props.children}
-            </ItemSet>
+            <Route>
+                {({ location }) => (
+                    <ItemSet location={location}>
+                        {this.props.menu.children.map(createItem)}
+                        {this.props.children}
+                    </ItemSet>
+                )}
+            </Route>
         )
     }
     get cabinet() {

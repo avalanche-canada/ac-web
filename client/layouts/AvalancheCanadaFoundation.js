@@ -12,22 +12,16 @@ import menu from 'constants/menus/foundation'
 
 AvalancheCanadaFoundation.propTypes = {
     match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
 }
 
 // TODO: Could have an AvCan Foundation not found page, not just a regular one
 
-export default function AvalancheCanadaFoundation({ match, location }) {
+export default function AvalancheCanadaFoundation({ match }) {
     const { url } = match
 
     return (
         <Application>
-            <Navbar
-                logo={logo}
-                menu={menu}
-                donate="/foundation/donate"
-                location={location}
-            />
+            <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
             <SPAW />
             <Switch>
                 <StaticPageRoute exact path={url} uid="foundation-home" />

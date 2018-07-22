@@ -11,3 +11,13 @@ export function href(url) {
 
     return url
 }
+
+export function isExternal(path) {
+    if (typeof path !== 'string') {
+        return false
+    }
+
+    return isExternalRegExp.test(path)
+}
+
+const isExternalRegExp = new RegExp('^(https|http)://')

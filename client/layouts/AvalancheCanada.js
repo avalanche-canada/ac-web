@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import Application from 'components/application'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import {
-    LoginCompleteRoute,
     NotFoundRoute,
     StaticPageRoute,
     GenricPageRoute,
     WIPPageRoute,
     FallbackPageRoute,
 } from 'router/common'
+import LoginComplete from './LoginComplete'
+import Login from './Login'
 import Navbar from './Navbar'
 import SPAW from './SPAW'
 import Highlight from './Highlight'
@@ -66,7 +67,8 @@ export default class AvalancheCanada extends Component {
         return (
             <Switch>
                 <Redirect exact from="/" to="/map" />
-                <LoginCompleteRoute path="/login-complete" />
+                <Route path="/login-complete" component={LoginComplete} />
+                <Route path="/login" component={Login} />
                 <Route path="/map/:type?/:name?" component={Main} />
                 <Route path="/glossary" component={Glossary} />
                 <Route path="/tutorial" component={Tutorial} />

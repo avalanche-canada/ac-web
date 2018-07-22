@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import { ButtonSet } from 'components/button'
 import { InnerHTML } from 'components/misc'
 import { Credit } from 'components/markup'
@@ -53,12 +52,12 @@ export default class WorkInProgress extends PureComponent {
                                 <InnerHTML>{this.subtitle}</InnerHTML>
                             </h2>
                             <ButtonSet>
-                                <Link
-                                    to={oldUrl}
+                                <a
+                                    href={oldUrl}
                                     target="_blank"
                                     className={styles.Link}>
                                     {name}
-                                </Link>
+                                </a>
                             </ButtonSet>
                         </div>
                         <Credit>RavenEye Photography</Credit>

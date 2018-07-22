@@ -9,6 +9,7 @@ import { configure, serializeFactory, deserialize } from 'store'
 import configureRaven from 'services/raven'
 import throttle from 'lodash/throttle'
 import Router from 'router'
+import * as Auth from 'contexts/auth'
 
 import 'styles'
 
@@ -22,7 +23,9 @@ const element = document.getElementById('app')
 
 const application = (
     <Provider store={store}>
-        <Router />
+        <Auth.Provider>
+            <Router />
+        </Auth.Provider>
     </Provider>
 )
 

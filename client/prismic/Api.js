@@ -71,8 +71,39 @@ function query(api, options = {}, predicates) {
     return axios.get(SEARCH, options).then(getData)
 }
 
-export function Query(predicates, options) {
-    return getApi().then(api => query(api, options, predicates))
+export async function Query(predicates, options) {
+    const api = await getApi()
+
+    if (options && options.pageSize > MAX_PAGE_SIZE) {
+        return all(predicates, options)
+    }
+
+    return query(api, options, predicates)
+}
+
+async function all(predicates, options) {
+    let response = {}
+    let documents = []
+    let current = 1
+    let nextPage = null
+
+    do {
+        const response = await Query(predicates, {
+            ...options,
+            page: current,
+            pageSize: MAX_PAGE_SIZE,
+        })
+
+        current = response.page + 1
+        nextPage = response.next_page
+
+        documents = [...documents, ...response.results]
+    } while (nextPage)
+
+    return {
+        ...response,
+        results: documents,
+    }
 }
 
 export async function tags(type) {
@@ -98,4 +129,4 @@ export async function tags(type) {
 }
 
 // Constants
-export const MAX_PAGE_SIZE = 100
+const MAX_PAGE_SIZE = 100

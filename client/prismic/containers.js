@@ -10,6 +10,7 @@ import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import isToday from 'date-fns/is_today'
 import startOfDay from 'date-fns/start_of_day'
+import isEqual from 'lodash/isEqual'
 import { load, loadForUid } from 'actions/prismic'
 import * as Api from 'prismic/Api'
 import {
@@ -47,19 +48,19 @@ import LOCALES, { FR } from 'constants/locale'
 function mapDispatchToPropsFromUid(dispatch) {
     return {
         didMount({ props }) {
-            const { type, uid, lang } = props
+            const { type, uid, options } = props
 
-            dispatch(loadForUid(type, uid, lang))
+            dispatch(loadForUid(type, uid, options))
         },
-        willReceiveProps({ props, nextProps }) {
-            const { type, uid, lang } = nextProps
+        willReceiveProps({ nextProps, props }) {
+            const { type, uid, options } = nextProps
 
             if (
                 type !== props.type ||
                 uid !== props.uid ||
-                lang !== props.lang
+                !isEqual(options, props.options)
             ) {
-                dispatch(loadForUid(type, uid, lang))
+                dispatch(loadForUid(type, uid, options))
             }
         },
     }
@@ -115,7 +116,7 @@ const DocumentContainer = connect(
 const DocumentForUid = connect(
     createStructuredSelector({
         data(state, props) {
-            const { type, uid, lang, messages = {} } = props
+            const { type, uid, messages = {}, options = {} } = props
 
             if (hasDocumentForUid(state, type, uid)) {
                 const status = new Status({ messages })
@@ -129,15 +130,13 @@ const DocumentForUid = connect(
                     },
                 }
             } else {
-                const params = {
-                    predicates: [Predicates.uid(type, uid)],
-                }
-
-                if (lang) {
-                    params.options = { lang }
-                }
-
-                return getSingleDocumentFromParams(state, { messages, params })
+                return getSingleDocumentFromParams(state, {
+                    messages,
+                    params: {
+                        options,
+                        predicates: [Predicates.uid(type, uid)],
+                    },
+                })
             }
         },
     }),
@@ -149,6 +148,7 @@ export class Document extends Component {
         children: PropTypes.func.isRequired,
         uid: PropTypes.string.isRequired,
         type: PropTypes.string.isRequired,
+        params: PropTypes.object,
         parse: PropTypes.bool,
     }
     children(data) {
@@ -869,7 +869,7 @@ export class Tutorial extends Component {
         const lang = LANGS.get(locale)
 
         return (
-            <Document parse type={TUTORIAL} uid={uid} lang={lang}>
+            <Document parse type={TUTORIAL} uid={uid} options={{ lang }}>
                 {children}
             </Document>
         )
@@ -887,7 +887,11 @@ export class TutorialArticle extends Component {
         const lang = LANGS.get(this.props.locale)
 
         return (
-            <Document parse type={TUTORIAL_ARTICLE} uid={uid} lang={lang}>
+            <Document
+                parse
+                type={TUTORIAL_ARTICLE}
+                uid={uid}
+                options={{ lang }}>
                 {children}
             </Document>
         )
