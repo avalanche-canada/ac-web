@@ -1,14 +1,20 @@
 export function findNode(root, id) {
     let node = null
-    ;(function recurse(current) {
-        for (let child of current.children || []) {
-            if (child.id === id) {
-                node = child
-            } else if (node === null) {
-                recurse(child)
+    function recurse(current) {
+        if (Array.isArray(current.children)) {
+            for (var index = 0; index < current.children.length; index++) {
+                const child = current.children[index]
+
+                if (child.id === id) {
+                    node = child
+                } else if (node === null) {
+                    recurse(child)
+                }
             }
         }
-    })(root)
+    }
+
+    recurse(root)
 
     return node
 }
@@ -34,15 +40,21 @@ export function getPath(root, node) {
 
 export function getParent(root, id) {
     let parent = root
-    ;(function recurse(current) {
-        for (let child of current.children || []) {
-            if (child.id === id) {
-                parent = current
-            } else if (parent === root) {
-                recurse(child)
+    function recurse(current) {
+        if (Array.isArray(current.children)) {
+            for (let index = 0; index < current.children.length; index++) {
+                const child = current.children[index]
+
+                if (child.id === id) {
+                    parent = current
+                } else if (parent === root) {
+                    recurse(child)
+                }
             }
         }
-    })(root)
+    }
+
+    recurse(root)
 
     return parent
 }
