@@ -867,9 +867,10 @@ export class Tutorial extends Component {
         const { locale, children } = this.props
         const uid = locale === FR ? 'tutoriel' : 'tutorial'
         const lang = LANGS.get(locale)
+        const options = lang ? { lang } : null
 
         return (
-            <Document parse type={TUTORIAL} uid={uid} options={{ lang }}>
+            <Document parse type={TUTORIAL} uid={uid} options={options}>
                 {children}
             </Document>
         )
@@ -885,13 +886,10 @@ export class TutorialArticle extends Component {
     render() {
         const { uid, children } = this.props
         const lang = LANGS.get(this.props.locale)
+        const options = lang ? { lang } : null
 
         return (
-            <Document
-                parse
-                type={TUTORIAL_ARTICLE}
-                uid={uid}
-                options={{ lang }}>
+            <Document parse type={TUTORIAL_ARTICLE} uid={uid} options={options}>
                 {children}
             </Document>
         )
