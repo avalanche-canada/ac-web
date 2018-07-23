@@ -13,6 +13,8 @@ import Button from 'components/button'
 import * as COLORS from 'constants/colors'
 import styles from './RouteFindingExercise.css'
 
+// TODO: Using a state machine would simplify implementation
+
 export default class RouteFindingExercise extends Component {
     static propTypes = {
         nonRepeat: PropTypes.shape({
@@ -181,8 +183,14 @@ export default class RouteFindingExercise extends Component {
                         </svg>
                         <Credit compact>{credit}</Credit>
                     </div>
-                    {touched.size > 0 && (
+                    {touched.size > 0 ? (
                         <Caption>
+                            <div className={styles.NotSoGoodJob}>
+                                <Translate>
+                                    Watch out, you are crossing some danger
+                                    zones.
+                                </Translate>
+                            </div>
                             <ol>
                                 {Array.from(touched).map(index => {
                                     const { description } = zones[index]
@@ -200,7 +208,15 @@ export default class RouteFindingExercise extends Component {
                                 <Translate>Start again</Translate>
                             </Button>
                         </Caption>
-                    )}
+                    ) : this.route && this.route.attr('d') ? (
+                        <Caption>
+                            <div className={styles.GoodJob}>
+                                <Translate>
+                                    Good job! You can try to find other routes.
+                                </Translate>
+                            </div>
+                        </Caption>
+                    ) : null}
                 </Media>
             </section>
         )

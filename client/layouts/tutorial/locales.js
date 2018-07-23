@@ -27,6 +27,14 @@ export default new Map([
                 "Désolé, ce n'est pas la bonne réponse. Essayer de nouveau !",
             ],
             ['Your answer is required.', 'Votre réponse est requise.'],
+            [
+                'Good job! You can try to find other routes.',
+                "Bien jouer ! Essayer de trouver d'autres routes.",
+            ],
+            [
+                'Watch out, you are crossing some danger zones.',
+                'Vous traversez quelques zones dangereuses. Faites attention !',
+            ],
         ]),
     ],
 ])
