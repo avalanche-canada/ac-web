@@ -2,7 +2,6 @@
 
 .Figure {
     position: relative;
-    /* display: inline-block; */
     margin: 0;
     background-color: transparent;
 }
@@ -11,6 +10,7 @@
     margin: 0;
     opacity: 1;
     transition: opacity 1s;
+    max-width: 100%;
 }
 
 .Figure--Loading {
