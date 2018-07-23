@@ -241,7 +241,7 @@ class Tutorial extends Component {
                     to={
                         previous
                             ? buildNodeLink(previous, items, `/${root}`)
-                            : match.url
+                            : `/${root}`
                     }
                     subtitle={<Translate>{previousSubtitle}</Translate>}>
                     {previous ? previous.title : title[0].text}
@@ -378,25 +378,29 @@ function pushNode(node, deep, nodes) {
             nodes.push(node)
             break
         case 1:
-            nodes[nodes.length - 1].children.push(node)
+            if (nodes[nodes.length - 1]) {
+                nodes[nodes.length - 1].children.push(node)
+            }
             break
         default:
-            pushNode(node, deep - 1, nodes[nodes.length - 1].children)
+            if (nodes[nodes.length - 1]) {
+                pushNode(node, deep - 1, nodes[nodes.length - 1].children)
+            }
     }
     return nodes
 }
-function buildNodeLink(node, items, root) {
+function buildNodeLink(node, nodes, root) {
     let level = Number(node.level) - 1
-    const index = items.indexOf(node)
+    const index = nodes.indexOf(node)
     const uids = [getUIDFromMenuItem(node)]
-    const previousItems = items.slice(0, index).reverse()
+    const previousItems = nodes.slice(0, index).reverse()
 
-    while (level > 0) {
-        for (node of previousItems) {
-            if (node.level == level) {
-                level = level - 1
-                uids.unshift(getUIDFromMenuItem(node))
-            }
+    for (node of previousItems.slice(
+        Math.max(0, previousItems.length - level - 1)
+    )) {
+        if (node.level == level) {
+            level = level - 1
+            uids.unshift(getUIDFromMenuItem(node))
         }
     }
 
