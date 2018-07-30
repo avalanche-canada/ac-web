@@ -5,6 +5,7 @@
 .Container {
     & img {
         display: block;
+        background-color: var(--gray-lightest);
     }
 
     &:fullscreen {
