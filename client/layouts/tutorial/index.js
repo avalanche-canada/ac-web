@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import * as Containers from 'prismic/containers'
 import * as Page from 'components/page'
 import Tree, { Node } from 'components/tree'
@@ -27,6 +27,8 @@ import Question from './Question'
 import Button, { SUBTILE } from 'components/button'
 import dictionnaries from './locales'
 import { FR, EN } from 'constants/locale'
+
+// TODO: Use Context to propagate the tutorial document
 
 export default class Layout extends Component {
     static propTypes = {
@@ -160,17 +162,76 @@ class Sidebar extends Component {
         )
     }
 }
-function Content({ children, match }) {
-    return (
-        <Page.Main style={CONTENT_STYLE}>
-            {children}
-            <Switch>
-                <Route exact path={match.path} component={Home} />
-                <Route path={`${match.path}/:uids+`} component={Tutorial} />
-            </Switch>
-        </Page.Main>
-    )
+
+class Content extends Component {
+    redirect = ({ location, match }) => {
+        const params = new URLSearchParams(location.search)
+
+        return params.has('uid') ? (
+            <LocaleContext.Locale>
+                {locale => (
+                    <Containers.Tutorial locale={locale}>
+                        {({ document }) => {
+                            if (!document) {
+                                return null
+                            }
+
+                            const uid = params.get('uid')
+                            const { items } = document.data
+                            function findByUID(item) {
+                                return item.link.value.document.uid == uid
+                            }
+
+                            if (!items.some(findByUID)) {
+                                return null
+                            }
+
+                            const index = items.findIndex(findByUID)
+                            const paths = []
+                            let level = Number(items[index].level)
+                            function finder(item) {
+                                return item.level == level
+                            }
+                            const usefullItems = items
+                                .slice(0, index + 1)
+                                .reverse()
+
+                            do {
+                                const item = usefullItems.find(finder)
+                                const { uid } = item.link.value.document
+
+                                paths.push(uid)
+
+                                level = level - 1
+                            } while (level > 0)
+
+                            paths.push(match.path)
+
+                            return <Redirect to={paths.reverse().join('/')} />
+                        }}
+                    </Containers.Tutorial>
+                )}
+            </LocaleContext.Locale>
+        ) : null
+    }
+    render() {
+        const { children, match } = this.props
+
+        return (
+            <Page.Main style={CONTENT_STYLE}>
+                {children}
+                <Switch>
+                    <Route exact path={match.path} component={Home} />
+                    <Route path={`${match.path}/:uids+`} component={Tutorial} />
+                </Switch>
+                <Route exact path={match.path}>
+                    {this.redirect}
+                </Route>
+            </Page.Main>
+        )
+    }
 }
+
 class Home extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
