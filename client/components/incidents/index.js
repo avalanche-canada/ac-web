@@ -10,7 +10,7 @@ import {DropdownFromOptions} from 'components/controls'
 import getYear from 'date-fns/get_year'
 import getMonth from 'date-fns/get_month'
 import format from 'date-fns/format'
-
+import { incidentsBaseUrl } from 'api/config'
 
 //TODO(wnh): is property destructuring only an arrow function thing???
 // function IncidentList({status, data}) was not working at all at a
@@ -363,7 +363,7 @@ const IncDocuments = ({docs}) => {
         <t.Cell><Time format="YYYY-MM-DD" value={d.date} /></t.Cell>
         <t.Cell>{d.title}</t.Cell>
         <t.Cell>{d.source}</t.Cell>
-        <t.Cell><a href={'http://localhost:8000' + d.url}>view</a></t.Cell>
+        <t.Cell><a href={incidentsBaseUrl + d.url}>view</a></t.Cell>
     </t.Row>)
     return <div>
         <h3>Documents</h3>

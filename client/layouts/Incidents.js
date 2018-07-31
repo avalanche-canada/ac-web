@@ -10,6 +10,8 @@ const PENDING   = 'PENDING';
 const FULFILLED = 'FULFILLED';
 const ERROR     = 'ERROR';
 
+const BASE_URL = incidentsBaseUrl + '/public/incidents'
+
 class IncidentDetailsContainer extends PureComponent {
     state = {
         status: {},
@@ -20,7 +22,7 @@ class IncidentDetailsContainer extends PureComponent {
             status:  PENDING,
         });
 
-        const url =  incidentsBaseUrl + '/' + this.props.id + '/';
+        const url =  BASE_URL + '/' + this.props.id + '/';
         console.log(url)
         fetch(url)
 			.then((d) => d.json())
@@ -62,7 +64,7 @@ class IncidentListContainer extends PureComponent {
 
         const opts = Object.assign({page: this.state.page}, this.state.filters)
         const qs = toQS(opts)
-        const url = incidentsBaseUrl + '/' + '?' + qs
+        const url = BASE_URL + '/' + '?' + qs
 
         fetch(url)
 			.then((d) => d.json())
