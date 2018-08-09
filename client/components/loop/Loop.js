@@ -8,6 +8,7 @@ import ButtonSet from './ButtonSet'
 import Button from 'components/button'
 import { WHITE } from 'constants/colors'
 import styles from './Loop.css'
+import { Ratio } from 'components/misc'
 
 export default class Loop extends Component {
     static propTypes = {
@@ -169,7 +170,6 @@ export default class Loop extends Component {
         return (
             <div ref={this.setTarget} className={styles.Container}>
                 {this.title && <div className={styles.Title}>{this.title}</div>}
-                <Image {...image} />
                 <div className={styles.Toolbar}>
                     <ButtonSet {...toolbar} />
                     <div className={styles.Info}>
@@ -184,6 +184,9 @@ export default class Loop extends Component {
                         <Icon color={WHITE} />
                     </Button>
                 </div>
+                <Ratio y={956} x={1124}>
+                    {(w,h) => <Image width={w} height={h} {...image} style={{backroundColor: '#eee'}} />}
+                </Ratio>
             </div>
         )
     }

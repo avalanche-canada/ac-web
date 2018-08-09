@@ -1,0 +1,24 @@
+
+.SummaryTable th {
+  text-align: left;
+  padding-right: 2em;
+  line-height: 2em;
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+.DateCell {
+  white-space: nowrap;
+}
+
+
+.Filters {
+  display:flex;
+}
+.Filters > * {
+  flex:1;
+}
+
+.Filters label {
+  padding-left: 10px;
+}
