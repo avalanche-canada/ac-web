@@ -2,10 +2,8 @@
     display: flex;
     flex-wrap: wrap;
 
-    margin: 0 -0.5em;
-    clear: both;
-
     & > * {
-        padding: 0 0.5em;
+        margin: 0 0.5em;
+        flex: 1 1 250px;
     }
 }
