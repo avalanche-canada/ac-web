@@ -1,4 +1,4 @@
-import 'babel-polyfill'
+import '@babel/polyfill'
 import 'raf/polyfill'
 import 'services/mapbox/map'
 
