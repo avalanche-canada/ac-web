@@ -68,7 +68,7 @@ exports[`metadata component 1`] = `
       >
         <a
           className="Item"
-          href="https://www.facebook.com/sharer.php?u=about:blank"
+          href="https://www.facebook.com/sharer.php?u=http://localhost/"
           style={
             Object {
               "padding": "0 0.5em",
@@ -96,7 +96,7 @@ exports[`metadata component 1`] = `
         </a>
         <a
           className="Item"
-          href="https://twitter.com/intent/tweet?url=about:blank"
+          href="https://twitter.com/intent/tweet?url=http://localhost/"
           style={
             Object {
               "padding": "0 0.5em",
@@ -119,7 +119,7 @@ exports[`metadata component 1`] = `
         </a>
         <a
           className="Item"
-          href="https://plus.google.com/share?url=about:blank"
+          href="https://plus.google.com/share?url=http://localhost/"
           style={
             Object {
               "padding": "0 0.5em",
