@@ -190,6 +190,7 @@
     },
     "scripts": {
         "build": "babel client -d dist --copy-files",
+        "prepublishOnly": "npm run build",
         "start": "node server/app.js",
         "start-dev": "node server/app-dev.js",
         "storybook": "NODE_PATH=client start-storybook -p 9001 -c .storybook",
