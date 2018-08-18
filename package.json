@@ -1,5 +1,5 @@
 {
-    "version": "1.0.3",
+    "version": "1.0.4",
     "name": "ac-web",
     "main": "server/app.js",
     "homepage": "https://www.avalanche.ca/",
@@ -196,20 +196,20 @@
         "storybook": "NODE_PATH=client start-storybook -p 9001 -c .storybook",
         "dev": "webpack-dev-server",
         "mocha": "mocha",
-        "prettier-client":
-            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
-        "prettier-server":
-            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
+        "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
+        "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
         "lint": "eslint \"client/**/*.js\"",
         "test": "jest"
     },
     "jest": {
         "testURL": "http://localhost/",
         "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-                "<rootDir>/__mocks__/fileMock.js",
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
             "\\.(css)$": "identity-obj-proxy"
         },
-        "moduleDirectories": ["node_modules", "client"]
+        "moduleDirectories": [
+            "node_modules",
+            "client"
+        ]
     }
 }
