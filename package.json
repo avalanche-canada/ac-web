@@ -189,7 +189,7 @@
         "node": ">=0.10.0"
     },
     "scripts": {
-        "install": "babel client -d dist --copy-files",
+        "build": "babel client -d dist --copy-files",
         "start": "node server/app.js",
         "start-dev": "node server/app-dev.js",
         "storybook": "NODE_PATH=client start-storybook -p 9001 -c .storybook",
