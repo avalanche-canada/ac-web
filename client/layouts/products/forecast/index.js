@@ -6,6 +6,7 @@ import Footer from './Footer'
 import ArchiveWarning from './ArchiveWarning'
 import Metadata from './Metadata'
 
+export { Provider, Consumer } from './Context'
 export Metadata from './Metadata'
 export Headline from './Headline'
 export ArchiveWarning from './ArchiveWarning'

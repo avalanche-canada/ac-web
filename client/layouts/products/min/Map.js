@@ -1,5 +1,5 @@
 import React from 'react'
-import mapbox from 'mapbox-gl/dist/mapbox-gl'
+import mapbox from 'mapbox-gl/mapbox-gl'
 import { ContextMap } from 'components/page'
 import { Marker } from 'components/map'
 import min from 'components/icons/min/min-pin.png'

@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Container {
     display: flex;
@@ -7,16 +7,16 @@
 }
 
 .Segment {
-    composes: import Primary from "components/button/Button.css";
+    composes: import Primary from '../../components/button/Button.css';
     margin: 0.15em;
 }
 
 .Segment--Active {
     composes: Segment;
-    composes: import Primary--Active from "components/button/Button.css";
+    composes: import Primary--Active from '../../components/button/Button.css';
 }
 
 .Disabled {
     composes: Segment;
-    composes: import Primary--Disabled from "components/button/Button.css";
+    composes: import Primary--Disabled from '../../components/button/Button.css';
 }
