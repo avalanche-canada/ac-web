@@ -175,7 +175,7 @@
         "swagger-cli": "^1.0.1",
         "tcomb-form": "0.9.17",
         "type-to-reducer": "^1.0.2",
-        "uglifyjs-webpack-plugin": "1.1.1",
+        "uglifyjs-webpack-plugin": "1.1.8",
         "url-loader": "^0.5.7",
         "victory": "0.24.2",
         "webpack": "^3.8.1",
