@@ -5,9 +5,6 @@ var Webpack = require('webpack')
 
 module.exports = merge(common, {
     devtool: 'source-map',
-    module: {
-        noParse: /(mapbox-gl)\.js$/,  // https://github.com/mapbox/mapbox-gl-js/issues/4359
-    },
     plugins: [
         new Webpack.DefinePlugin({
             'process.env': {
