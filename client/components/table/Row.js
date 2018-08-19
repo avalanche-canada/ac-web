@@ -41,7 +41,7 @@ export class Expandable extends PureComponent {
     state = {
         expanded: false,
     }
-    handleExpandedToggle = () => this.setState(expands)
+    handleExpandedToggle = () => this.setState(toggleExpanded)
     get children() {
         const children = this.props.children[0]
         const lastIndex = Children.count(children.props.children) - 1
@@ -75,7 +75,7 @@ export class Expandable extends PureComponent {
 }
 
 // Utils
-function expands({ expanded }) {
+function toggleExpanded({ expanded }) {
     return {
         expanded: !expanded,
     }

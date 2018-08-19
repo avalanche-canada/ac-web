@@ -1,5 +1,5 @@
 import React from 'react'
-import mapbox from 'mapbox-gl/dist/mapbox-gl'
+import mapbox from 'mapbox-gl/mapbox-gl'
 import Control from './Control'
 
 export Map from './Map'

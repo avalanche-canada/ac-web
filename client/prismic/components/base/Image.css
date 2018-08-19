@@ -16,8 +16,8 @@
 .Figure--Loading {
     composes: Figure;
 
-    background: var(--gray-lightest) url('styles/AvalanchePath.svg') center
-        center no-repeat;
+    background: var(--gray-lightest) url('../../../styles/AvalanchePath.svg')
+        center center no-repeat;
 
     & .Image {
         opacity: 0;

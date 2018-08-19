@@ -21,7 +21,7 @@
     }
 }
 
-:local(.Content) {
+.Content {
     padding: 0 1em;
     font-weight: 700;
     white-space: nowrap;
