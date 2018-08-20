@@ -21,3 +21,7 @@ export function isExternal(path) {
 }
 
 const isExternalRegExp = new RegExp('^(https|http)://')
+
+export function forceHttps(url) {
+    return typeof url === 'string' ? url.replace(/^http:/, 'https:') : url
+}
