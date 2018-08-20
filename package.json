@@ -136,6 +136,8 @@
         "nodemon": "^1.11.0",
         "normalizr": "^3.1.0",
         "open": "~0.0.4",
+        "postcss-cli": "^6.0.0",
+        "postcss-color-function": "^4.0.1",
         "postcss-cssnext": "^3.0.2",
         "postcss-custom-properties": "^6.2.0",
         "postcss-import": "^11.0.0",
@@ -189,27 +191,29 @@
         "node": ">=0.10.0"
     },
     "scripts": {
-        "build": "babel client -d dist --copy-files",
+        "build": "npm run build:js && npm run build:css",
+        "build:js": "babel client -d dist --copy-files",
+        "build:css": "postcss dist/**/*.css --replace",
         "prepublishOnly": "npm run build",
         "start": "node server/app.js",
         "start-dev": "node server/app-dev.js",
         "storybook": "NODE_PATH=client start-storybook -p 9001 -c .storybook",
         "dev": "webpack-dev-server",
         "mocha": "mocha",
-        "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
-        "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
+        "prettier-client":
+            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
+        "prettier-server":
+            "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
         "lint": "eslint \"client/**/*.js\"",
         "test": "jest"
     },
     "jest": {
         "testURL": "http://localhost/",
         "moduleNameMapper": {
-            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+                "<rootDir>/__mocks__/fileMock.js",
             "\\.(css)$": "identity-obj-proxy"
         },
-        "moduleDirectories": [
-            "node_modules",
-            "client"
-        ]
+        "moduleDirectories": ["node_modules", "client"]
     }
 }
