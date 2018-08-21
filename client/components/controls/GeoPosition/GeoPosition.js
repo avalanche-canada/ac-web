@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
-import mapbox from 'mapbox-gl/mapbox-gl'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import isSupported from '@mapbox/mapbox-gl-supported'
 import {
     Map,

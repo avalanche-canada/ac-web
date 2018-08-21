@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
-import mapbox from 'mapbox-gl/mapbox-gl'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
 
 const { LngLat } = mapbox
 

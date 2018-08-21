@@ -47,10 +47,7 @@
                 [
                     "module-resolver",
                     {
-                        "root": ["./client"],
-                        "alias": {
-                            "mapbox-gl": "./node_modules/mapbox-gl/dist"
-                        }
+                        "root": ["./client"]
                     }
                 ]
             ]

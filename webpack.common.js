@@ -15,9 +15,6 @@ module.exports = {
     },
     resolve: {
         modules: ['node_modules', path.resolve(__dirname, 'client')],
-        alias:{
-            'mapbox-gl': path.resolve(__dirname, 'node_modules/mapbox-gl/dist'),
-        }
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
