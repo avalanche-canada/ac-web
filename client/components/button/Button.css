@@ -146,7 +146,7 @@
 }
 
 .Shadow {
-    box-shadow: 3px 3px 3px color(black alpha(25%));
+    box-shadow: 3px 3px 3px color-mod(black alpha(25%));
 }
 
 .Transparent {

@@ -2,22 +2,22 @@
 
 :root {
     --component-bg: var(--gray);
-    --component-bg-hover: color(var(--gray) lightness(75%));
-    --component-bg-active: color(var(--gray) lightness(60%));
+    --component-bg-hover: color-mod(var(--gray) lightness(75%));
+    --component-bg-active: color-mod(var(--gray) lightness(60%));
 
     --component-active-bg: var(--primary);
-    --component-active-bg-hover: color(var(--primary) lightness(75%));
-    --component-active-bg-active: color(var(--primary) lightness(60%));
+    --component-active-bg-hover: color-mod(var(--primary) lightness(75%));
+    --component-active-bg-active: color-mod(var(--primary) lightness(60%));
 
     --component-primary-bg: var(--primary);
-    --component-primary-bg-hover: color(var(--primary) lightness(75%));
-    --component-primary-bg-active: color(var(--primary) lightness(60%));
+    --component-primary-bg-hover: color-mod(var(--primary) lightness(75%));
+    --component-primary-bg-active: color-mod(var(--primary) lightness(60%));
 
     --component-secondary-bg: var(--secondary);
-    --component-secondary-bg-hover: color(var(--secondary) lightness(75%));
-    --component-secondary-bg-active: color(var(--secondary) lightness(60%));
+    --component-secondary-bg-hover: color-mod(var(--secondary) lightness(75%));
+    --component-secondary-bg-active: color-mod(var(--secondary) lightness(60%));
 
     --component-tertiary-bg: var(--brand-secondary);
-    --component-tertiary-bg-hover: color(var(--brand-secondary) lightness(75%));
-    --component-tertiary-bg-active: color(var(--brand-secondary) lightness(60%));
+    --component-tertiary-bg-hover: color-mod(var(--brand-secondary) lightness(75%));
+    --component-tertiary-bg-active: color-mod(var(--brand-secondary) lightness(60%));
 }

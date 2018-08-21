@@ -25,8 +25,8 @@
     display: inline-block;
     width: 3em;
     height: 3em;
-    box-shadow: 0 0 2px color(black alpha(25%)),
-        0 2px 4px color(black alpha(25%));
+    box-shadow: 0 0 2px color-mod(black alpha(25%)),
+        0 2px 4px color-mod(black alpha(25%));
 
     &:hover {
         opacity: 1;

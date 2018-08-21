@@ -1,8 +1,12 @@
 module.exports = {
     plugins: [
         require('postcss-import'),
-        require('postcss-custom-properties'),
-        require('postcss-color-function'),
-        require('postcss-cssnext'),
+        require('postcss-preset-env')({
+            stage: 2,
+            features: {
+                'nesting-rules': true,
+                'custom-media-queries': true,
+            },
+        }),
     ],
 }

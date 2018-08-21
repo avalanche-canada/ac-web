@@ -12,7 +12,7 @@
 
     background-color: white;
     box-sizing: border-box;
-    box-shadow: 0 6px 4px 0 color(black alpha(25%));
+    box-shadow: 0 6px 4px 0 color-mod(black alpha(25%));
 
     @media (--full-nav-height) {
         height: 75px;
@@ -196,7 +196,7 @@
     justify-content: center;
 
     &:hover {
-        background-color: color(var(--brand-secondary) blackness(15%));
+        background-color: color-mod(var(--brand-secondary) blackness(15%));
         color: white;
     }
 }

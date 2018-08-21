@@ -1,12 +1,12 @@
 @import "../../styles/colors.css";
 
 :root {
-    --primary-dark: color(var(--primary) blackness(50%));
-    --primary-light: color(var(--primary) lightness(50%));
+    --primary-dark: color-mod(var(--primary) blackness(50%));
+    --primary-light: color-mod(var(--primary) lightness(50%));
 }
 
 .Container {
-    background-color: color(var(--primary-light) alpha(85%));
+    background-color: color-mod(var(--primary-light) alpha(85%));
     border-top: 5px solid var(--primary-dark);
 }
 
@@ -43,7 +43,7 @@
         right: 0;
         bottom: 10px;
         width: 1px;
-        background-color: color(var(--gray-light) alpha(25%));
+        background-color: color-mod(var(--gray-light) alpha(25%));
     }
 }
 
