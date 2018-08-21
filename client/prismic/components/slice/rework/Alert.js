@@ -1,22 +1,30 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Section as Base } from 'components/page'
+import Base from 'components/alert'
 import { StructuredText } from 'prismic/components/base'
 
-export default class Section extends PureComponent {
+export default class Alert extends PureComponent {
     static propTypes = {
         nonRepeat: PropTypes.shape({
-            header: PropTypes.object,
+            type: PropTypes.oneOf(['Warning', 'Information', 'Danger'])
+                .isRequired,
             content: PropTypes.arrayOf(PropTypes.object).isRequired,
         }).isRequired,
     }
     render() {
-        const { content, header } = this.props.nonRepeat
+        const { type, content } = this.props.nonRepeat
 
         return (
-            <Base title={<StructuredText value={header} />}>
+            <Base type={TYPES.get(type)}>
                 <StructuredText value={content} />
             </Base>
         )
     }
 }
+
+// Constants
+const TYPES = new Map([
+    ['Warning', 'WARNING'],
+    ['Information', 'INFO'],
+    ['Danger', 'DANGER'],
+])
