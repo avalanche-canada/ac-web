@@ -24,3 +24,17 @@ export class Distance extends PureComponent {
         return 'N/A'
     }
 }
+
+export class Tags extends PureComponent {
+    static propTypes = {
+        value: PropTypes.array,
+    }
+    static defaultProps = {
+        value: [],
+    }
+    render() {
+        const { value } = this.props
+
+        return value.sort().join(', ')
+    }
+}

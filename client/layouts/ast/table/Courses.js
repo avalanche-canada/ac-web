@@ -24,7 +24,7 @@ import { Status } from 'components/misc'
 import { Helper } from 'components/text'
 import { Markup } from 'components/markup'
 import { Paginated, Sorted } from 'components/collection'
-import { Distance } from './utils'
+import { Distance, Tags } from './cells'
 import { LEVELS, MINIMUM_DISTANCE } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
@@ -244,18 +244,16 @@ const COLUMNS = [
     {
         name: 'distance',
         title({ place }) {
-            if (place) {
-                return (
-                    <Helper
-                        title={`Straight line between ${
-                            place.text
-                        } and the course.`}>
-                        Distance
-                    </Helper>
-                )
-            }
-
-            return 'Distance'
+            return place ? (
+                <Helper
+                    title={`Straight line between ${
+                        place.text
+                    } and the course.`}>
+                    Distance
+                </Helper>
+            ) : (
+                'Distance'
+            )
         },
         property(course) {
             return <Distance value={course.get('distance')} />
@@ -273,19 +271,16 @@ const COLUMNS = [
         name: 'tags',
         title: 'Tags',
         property(course) {
-            return course
-                .get('tags')
-                .sort()
-                .join(', ')
+            return <Tags value={course.get('tags')} />
         },
     },
     {
         name: 'cost',
         title: 'Cost',
         property(course) {
-            const { cost, currency } = course.get('cost').toObject()
+            const cost = course.get('cost')
 
-            return `${cost} ${currency}`
+            return `${cost.get('cost')} ${cost.get('currency')}`
         },
     },
 ]

@@ -14,7 +14,7 @@ import { Status } from 'components/misc'
 import { Helper } from 'components/text'
 import { Paginated, Sorted } from 'components/collection'
 import Container from 'containers/ast/Providers'
-import { Distance } from './utils'
+import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
 import { MINIMUM_DISTANCE } from '../constants'
 
@@ -207,18 +207,16 @@ const COLUMNS = [
     {
         name: 'distance',
         title({ place }) {
-            if (place) {
-                return (
-                    <Helper
-                        title={`Straight line between ${
-                            place.text
-                        } and the provider.`}>
-                        Distance
-                    </Helper>
-                )
-            }
-
-            return 'Distance'
+            return place ? (
+                <Helper
+                    title={`Straight line between ${
+                        place.text
+                    } and the provider.`}>
+                    Distance
+                </Helper>
+            ) : (
+                'Distance'
+            )
         },
         property(provider) {
             return <Distance value={provider.get('distance')} />
@@ -236,10 +234,7 @@ const COLUMNS = [
         name: 'tags',
         title: 'Tags',
         property(provider) {
-            return provider
-                .get('tags')
-                .sort()
-                .join(', ')
+            return <Tags value={provider.get('tags')} />
         },
     },
 ]
