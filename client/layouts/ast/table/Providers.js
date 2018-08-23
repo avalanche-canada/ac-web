@@ -66,7 +66,7 @@ export default class Providers extends PureComponent {
     }
     renderRow = row => {
         return (
-            <Row key={row.id}>
+            <Row key={row.get('id')}>
                 {COLUMNS.map(({ property, name }) => (
                     <Cell key={name}>{property(row)}</Cell>
                 ))}

@@ -24,14 +24,7 @@ export default class Geocoder extends PureComponent {
         isFetching: false,
         isActive: false,
         error: null,
-        value: '',
-    }
-    constructor(props) {
-        super(props)
-
-        /* eslint-disable react/no-direct-mutation-state */
-        this.state.value = props.value
-        /* eslint-disable react/no-direct-mutation-state */
+        value: this.props.value || '',
     }
     get isActive() {
         return this.state.isActive
@@ -143,7 +136,7 @@ export default class Geocoder extends PureComponent {
                     <Dropdown>
                         <OptionSet onChange={this.handleOptionClick}>
                             {places.map(place => (
-                                <Option value={place}>
+                                <Option key={place.id} value={place}>
                                     {place.place_name}
                                 </Option>
                             ))}
