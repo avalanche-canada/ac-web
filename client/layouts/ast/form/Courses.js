@@ -5,7 +5,7 @@ import Layout from './Layout'
 import { Control } from 'components/form'
 import { DropdownFromOptions, Geocoder, DateRange } from 'components/controls'
 import { LEVELS, TAGS } from '../constants'
-import { DESC } from 'constants/sortings'
+import { ASC } from 'constants/sortings'
 
 export default class Courses extends PureComponent {
     static propTypes = {
@@ -36,9 +36,13 @@ export default class Courses extends PureComponent {
         this.setState({ tags }, this.handleParamsChange)
     }
     handlePlaceChange = place => {
-        const sorting = ['distance', DESC]
-
-        this.setState({ place, sorting }, this.handleParamsChange)
+        this.setState(
+            {
+                place,
+                sorting: place ? ['distance', ASC] : null,
+            },
+            this.handleParamsChange
+        )
     }
     render() {
         return (
