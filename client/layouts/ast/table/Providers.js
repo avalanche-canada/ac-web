@@ -14,6 +14,7 @@ import { Status } from 'components/misc'
 import { Helper } from 'components/text'
 import { Paginated, Sorted } from 'components/collection'
 import Container from 'containers/ast/Providers'
+import { Distance } from './utils'
 import { NONE, DESC } from 'constants/sortings'
 import { MINIMUM_DISTANCE } from '../constants'
 
@@ -220,15 +221,7 @@ const COLUMNS = [
             return 'Distance'
         },
         property(provider) {
-            const distance = provider.get('distance')
-
-            if (typeof distance === 'number') {
-                return distance <= MINIMUM_DISTANCE
-                    ? `< ${MINIMUM_DISTANCE} km`
-                    : `${Math.ceil(distance)} km`
-            }
-
-            return 'N/A'
+            return <Distance value={provider.get('distance')} />
         },
         sorting: NONE,
     },

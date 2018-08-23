@@ -24,6 +24,7 @@ import { Status } from 'components/misc'
 import { Helper } from 'components/text'
 import { Markup } from 'components/markup'
 import { Paginated, Sorted } from 'components/collection'
+import { Distance } from './utils'
 import { LEVELS, MINIMUM_DISTANCE } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
@@ -257,15 +258,7 @@ const COLUMNS = [
             return 'Distance'
         },
         property(course) {
-            const distance = course.get('distance')
-
-            if (typeof distance === 'number') {
-                return distance <= MINIMUM_DISTANCE
-                    ? `< ${MINIMUM_DISTANCE} km`
-                    : `${Math.ceil(distance)} km`
-            }
-
-            return 'N/A'
+            return <Distance value={course.get('distance')} />
         },
         sorting: NONE,
     },
