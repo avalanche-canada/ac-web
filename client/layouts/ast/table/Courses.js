@@ -306,6 +306,6 @@ const SORTERS = new Map([
                     sensitivity: 'base',
                 }),
     ],
-    ['distance', (a, b) => a.get('distance') < b.get('distance')],
-    ['dates', (a, b) => a.get('dateStart') < b.get('dateStart')],
+    ['distance', (a, b) => a.get('distance') - b.get('distance')],
+    ['dates', (a, b) => a.get('dateStart') - b.get('dateStart')],
 ])

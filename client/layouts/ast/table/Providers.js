@@ -285,5 +285,5 @@ const SORTERS = new Map([
                 .get('name')
                 .localeCompare(b.get('name'), 'en', { sensitivity: 'base' }),
     ],
-    ['distance', (a, b) => a.get('distance') < b.get('distance')],
+    ['distance', (a, b) => a.get('distance') - b.get('distance')],
 ])
