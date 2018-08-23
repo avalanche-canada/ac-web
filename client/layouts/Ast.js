@@ -70,9 +70,8 @@ class CourseRoute extends Component {
             from: typeof from === 'string' ? utils.parseDate(from) : from,
             to: typeof to === 'string' ? utils.parseDate(to) : to,
             tags: utils.toSet(tags),
-            sorting: place
-                ? utils.parseSorting('-distance')
-                : typeof sorting === 'string'
+            sorting:
+                typeof sorting === 'string'
                     ? utils.parseSorting(sorting)
                     : sorting,
             place,
@@ -130,9 +129,8 @@ class ProviderRoute extends Component {
 
         return {
             tags: utils.toSet(tags),
-            sorting: place
-                ? CLOSEST_DISTANCE_FIRST_SORTING
-                : typeof sorting === 'string'
+            sorting:
+                typeof sorting === 'string'
                     ? utils.parseSorting(sorting)
                     : sorting,
             place,
@@ -169,6 +167,3 @@ class ProviderRoute extends Component {
         )
     }
 }
-
-// Constants
-const CLOSEST_DISTANCE_FIRST_SORTING = utils.parseSorting('-distance')

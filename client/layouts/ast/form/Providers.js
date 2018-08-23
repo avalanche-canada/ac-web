@@ -5,6 +5,7 @@ import Layout from './Layout'
 import { Control } from 'components/form'
 import { DropdownFromOptions, Geocoder } from 'components/controls'
 import { TAGS } from '../constants'
+import { DESC } from 'constants/sortings'
 
 export default class Courses extends PureComponent {
     static propTypes = {
@@ -16,10 +17,17 @@ export default class Courses extends PureComponent {
         place: this.props.place,
         tags: this.props.tags,
     }
-    handleParamChange = () => this.props.onParamsChange(this.state)
-    handleTagsChange = tags => this.setState({ tags }, this.handleParamChange)
-    handlePlaceChange = place =>
-        this.setState({ place }, this.handleParamChange)
+    handleParamChange = () => {
+        this.props.onParamsChange(this.state)
+    }
+    handleTagsChange = tags => {
+        this.setState({ tags }, this.handleParamChange)
+    }
+    handlePlaceChange = place => {
+        const sorting = ['distance', DESC]
+
+        this.setState({ place, sorting }, this.handleParamChange)
+    }
     render() {
         return (
             <Layout legend="Find a provider">
