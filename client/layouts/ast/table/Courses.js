@@ -260,11 +260,9 @@ const COLUMNS = [
             const distance = course.get('distance')
 
             if (typeof distance === 'number') {
-                if (distance <= MINIMUM_DISTANCE) {
-                    return `< ${MINIMUM_DISTANCE} km`
-                } else {
-                    return `${Math.ceil(distance)} km`
-                }
+                return distance <= MINIMUM_DISTANCE
+                    ? `< ${MINIMUM_DISTANCE} km`
+                    : `${Math.ceil(distance)} km`
             }
 
             return 'N/A'

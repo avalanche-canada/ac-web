@@ -32,7 +32,9 @@ export default class Providers extends PureComponent {
             sorting: order === NONE ? null : [name, order],
         })
     }
-    handlePageChange = page => this.setState({ page })
+    handlePageChange = page => {
+        this.setState({ page })
+    }
     componentWillReceiveProps({ tags, place, sorting }) {
         if (
             this.props.tags !== tags ||
@@ -217,15 +219,13 @@ const COLUMNS = [
 
             return 'Distance'
         },
-        property(course) {
-            const distance = course.get('distance')
+        property(provider) {
+            const distance = provider.get('distance')
 
             if (typeof distance === 'number') {
-                if (distance <= MINIMUM_DISTANCE) {
-                    return `< ${MINIMUM_DISTANCE} km`
-                } else {
-                    return `${Math.ceil(distance)} km`
-                }
+                return distance <= MINIMUM_DISTANCE
+                    ? `< ${MINIMUM_DISTANCE} km`
+                    : `${Math.ceil(distance)} km`
             }
 
             return 'N/A'
