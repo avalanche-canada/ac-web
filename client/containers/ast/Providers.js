@@ -19,7 +19,8 @@ export default connect(
                 )
             }
 
-            return providers.sortBy(sorter)
+            // FIXME(KG): Bring back natural ordering, normalizr messes the sorting.
+            return providers.sort(sorter)
         },
         status(state) {
             return getResultsSet(state, Provider, OPTIONS)
@@ -42,6 +43,8 @@ const MESSAGES = {
     isLoading: 'Loading providers...',
     isError: 'An error happened while loading providers.',
 }
-function sorter(provider) {
-    return provider.get('name')
+function sorter(a, b) {
+    return a
+        .get('name')
+        .localeCompare(b.get('name'), 'en', { sensitivity: 'base' })
 }

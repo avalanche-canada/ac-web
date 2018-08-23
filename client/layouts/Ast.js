@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, Switch } from 'react-router-dom'
 import { Container, PillSet, Pill } from 'components/pill'
 import { Route } from 'react-router-dom'
 import { Page, Content, Banner, Main } from 'components/page'
@@ -11,18 +11,21 @@ import ProvidersForm from './ast/form/Providers'
 import * as utils from 'utils/search'
 import get from 'lodash/get'
 
-const ROUTES = ['courses', 'providers']
-
-Ast.propTypes = {
-    match: PropTypes.object.isRequired,
+export default function Ast() {
+    return (
+        <Switch>
+            <Route path="/training/courses" component={CourseRoute} />
+            <Route path="/training/providers" component={ProviderRoute} />
+        </Switch>
+    )
 }
 
-export default function Ast({ match }) {
+function Layout({ form, table, type }) {
     return (
         <Page>
             <Banner url="//res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_2500/c_scale,e_make_transparent:10,g_south_east,l_watermark:Dunford_RyenReverse,w_200/v1440539610/Youth/DSC_0339.jpg">
                 <Container>
-                    <PillSet activeIndex={ROUTES.indexOf(match.params.type)}>
+                    <PillSet activeIndex={type === 'courses' ? 0 : 1}>
                         <Pill>
                             <Link to="/training/courses">Courses</Link>
                         </Pill>
@@ -31,83 +34,141 @@ export default function Ast({ match }) {
                         </Pill>
                     </PillSet>
                 </Container>
-                <Route
-                    path="/training/courses"
-                    render={courseRendererFactory(CoursesForm)}
-                />
-                <Route
-                    path="/training/providers"
-                    render={providerRendererFactory(ProvidersForm)}
-                />
+                {form}
             </Banner>
             <Main>
-                <Content>
-                    <Route
-                        path="/training/courses"
-                        render={courseRendererFactory(CoursesTable)}
-                    />
-                    <Route
-                        path="/training/providers"
-                        render={providerRendererFactory(ProvidersTable)}
-                    />
-                </Content>
+                <Content>{table}</Content>
             </Main>
         </Page>
     )
 }
 
-function courseRendererFactory(Component) {
-    return function CourseRoute({ location, history }) {
-        const { level, tags, from, to, sorting } = utils.parse(location.search)
-        const props = {
+class CourseRoute extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
+    }
+    state = {}
+    constructor(props) {
+        super(props)
+
+        const { search } = props.location
+        const params = utils.parse(search)
+        const place = get(props.location, 'state.place')
+
+        this.state = this.prepareParams({ ...params, place })
+    }
+    prepareParams = params => {
+        const { level, from, to, tags, place, sorting } = Object.assign(
+            {},
+            this.state,
+            params
+        )
+
+        return {
             level,
-            from: utils.parseDate(from),
-            to: utils.parseDate(to),
+            from: typeof from === 'string' ? utils.parseDate(from) : from,
+            to: typeof to === 'string' ? utils.parseDate(to) : to,
             tags: utils.toSet(tags),
-            sorting: utils.parseSorting(sorting),
-            place: get(location, 'state.place'),
+            sorting: place
+                ? utils.parseSorting('-distance')
+                : typeof sorting === 'string'
+                    ? utils.parseSorting(sorting)
+                    : sorting,
+            place,
         }
-        function onParamChange(params) {
-            const { sorting, place, ...rest } = Object.assign(props, params)
-
-            history.push({
-                ...location,
-                search: utils.stringify({
-                    ...rest,
-                    sorting: utils.formatSorting(sorting),
-                }),
-                state: {
-                    place,
-                },
-            })
-        }
-
-        return <Component {...props} onParamChange={onParamChange} />
     }
-}
-function providerRendererFactory(Component) {
-    return function ProviderRoute({ location, history }) {
-        const { tags, sorting } = utils.parse(location.search)
+    pushToHistory = () => {
+        const { sorting, place, ...rest } = this.state
+
+        this.props.history.push({
+            search: utils.stringify({
+                ...rest,
+                sorting: utils.formatSorting(sorting),
+            }),
+            state: {
+                place,
+            },
+        })
+    }
+    handleParamsChange = params => {
+        this.setState(this.prepareParams(params), this.pushToHistory)
+    }
+    render() {
         const props = {
-            tags: utils.toSet(tags),
-            sorting: utils.parseSorting(sorting),
-            place: get(location, 'state.place'),
-        }
-        function onParamChange(params) {
-            const { sorting, place, ...rest } = Object.assign(props, params)
-
-            history.push({
-                ...location,
-                search: utils.stringify({
-                    ...rest,
-                    sorting: utils.formatSorting(sorting),
-                }),
-                state: {
-                    place,
-                },
-            })
+            ...this.state,
+            onParamsChange: this.handleParamsChange,
         }
 
-        return <Component {...props} onParamChange={onParamChange} />
+        return (
+            <Layout
+                type="courses"
+                form={<CoursesForm {...props} />}
+                table={<CoursesTable {...props} />}
+            />
+        )
     }
 }
+
+class ProviderRoute extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
+    }
+    state = {}
+    constructor(props) {
+        super(props)
+
+        const { location } = props
+        const params = utils.parse(location.search)
+        const place = get(location, 'state.place')
+
+        this.state = this.prepareParams({ ...params, place })
+    }
+    prepareParams(params) {
+        const { tags, place, sorting } = Object.assign({}, this.state, params)
+
+        return {
+            tags: utils.toSet(tags),
+            sorting: place
+                ? CLOSEST_DISTANCE_FIRST_SORTING
+                : typeof sorting === 'string'
+                    ? utils.parseSorting(sorting)
+                    : sorting,
+            place,
+        }
+    }
+    pushToHistory = () => {
+        const { sorting, place, ...rest } = this.state
+
+        this.props.history.push({
+            search: utils.stringify({
+                ...rest,
+                sorting: utils.formatSorting(sorting),
+            }),
+            state: {
+                place,
+            },
+        })
+    }
+    handleParamsChange = params => {
+        this.setState(this.prepareParams(params), this.pushToHistory)
+    }
+    render() {
+        const props = {
+            ...this.state,
+            onParamsChange: this.handleParamsChange,
+        }
+
+        return (
+            <Layout
+                type="providers"
+                form={<ProvidersForm {...props} />}
+                table={<ProvidersTable {...props} />}
+            />
+        )
+    }
+}
+
+// Constants
+const CLOSEST_DISTANCE_FIRST_SORTING = utils.parseSorting('-distance')

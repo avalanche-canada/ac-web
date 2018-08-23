@@ -20,29 +20,24 @@ import { MINIMUM_DISTANCE } from '../constants'
 export default class Providers extends PureComponent {
     static propTypes = {
         tags: PropTypes.instanceOf(Set),
-        sorting: PropTypes.array,
+        sorting: PropTypes.arrayOf(PropTypes.string),
         place: PropTypes.object,
-        onParamChange: PropTypes.func.isRequired,
+        onParamsChange: PropTypes.func.isRequired,
     }
     state = {
         page: 1,
-        sorting: this.props.sorting,
     }
     handleSortingChange = (name, order) => {
-        const sorting = order === NONE ? null : [name, order]
-
-        this.setState({ sorting }, () => {
-            this.props.onParamChange({
-                sorting: this.state.sorting,
-            })
+        this.props.onParamsChange({
+            sorting: order === NONE ? null : [name, order],
         })
     }
     handlePageChange = page => this.setState({ page })
-    componentWillReceiveProps({ tags, place }, { sorting }) {
+    componentWillReceiveProps({ tags, place, sorting }) {
         if (
             this.props.tags !== tags ||
             this.props.place !== place ||
-            this.state.sorting !== sorting
+            this.props.sorting !== sorting
         ) {
             this.setState({ page: 1 })
         }
@@ -62,8 +57,7 @@ export default class Providers extends PureComponent {
                     <div>
                         No providers match your criteria, consider finding a
                         course on the{' '}
-                        <Link to="/training/courses">courses page</Link>
-                        .
+                        <Link to="/training/courses">courses page</Link>.
                     </div>
                 ) : (
                     status.messages.isLoaded
@@ -92,7 +86,7 @@ export default class Providers extends PureComponent {
     renderBody(providers) {
         const rows = providers.filterNot(isFeatured)
         const { page } = this.state
-        const [name, order] = this.state.sorting || []
+        const [name, order] = this.props.sorting || []
 
         return (
             <TBody>
@@ -144,7 +138,7 @@ export default class Providers extends PureComponent {
                         <Header
                             columns={COLUMNS}
                             onSortingChange={this.handleSortingChange}
-                            sorting={this.state.sorting}
+                            sorting={this.props.sorting}
                             place={this.props.place}
                         />
                         {this.renderBodies(props)}
@@ -284,6 +278,12 @@ function isFeatured(row) {
     return row.get('isFeatured')
 }
 const SORTERS = new Map([
-    ['provider', (a, b) => a.get('name').localeCompare(b.get('name'))],
+    [
+        'provider',
+        (a, b) =>
+            a
+                .get('name')
+                .localeCompare(b.get('name'), 'en', { sensitivity: 'base' }),
+    ],
     ['distance', (a, b) => a.get('distance') < b.get('distance')],
 ])

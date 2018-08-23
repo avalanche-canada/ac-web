@@ -10,13 +10,13 @@ export default class Courses extends PureComponent {
     static propTypes = {
         tags: PropTypes.instanceOf(Set),
         place: PropTypes.object,
-        onParamChange: PropTypes.func.isRequired,
+        onParamsChange: PropTypes.func.isRequired,
     }
     state = {
         place: this.props.place,
         tags: this.props.tags,
     }
-    handleParamChange = () => this.props.onParamChange(this.state)
+    handleParamChange = () => this.props.onParamsChange(this.state)
     handleTagsChange = tags => this.setState({ tags }, this.handleParamChange)
     handlePlaceChange = place =>
         this.setState({ place }, this.handleParamChange)

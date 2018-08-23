@@ -13,7 +13,7 @@ export default class Courses extends PureComponent {
         to: PropTypes.instanceOf(Date),
         tags: PropTypes.instanceOf(Set),
         place: PropTypes.object,
-        onParamChange: PropTypes.func.isRequired,
+        onParamsChange: PropTypes.func.isRequired,
     }
     state = {
         place: this.props.place,
@@ -22,14 +22,14 @@ export default class Courses extends PureComponent {
         to: this.props.to,
         tags: this.props.tags,
     }
-    handleParamChange = () => this.props.onParamChange(this.state)
+    handleParamsChange = () => this.props.onParamsChange(this.state)
     handleLevelChange = level =>
-        this.setState({ level }, this.handleParamChange)
+        this.setState({ level }, this.handleParamsChange)
     handleDateRangeChange = range =>
-        this.setState(range, this.handleParamChange)
-    handleTagsChange = tags => this.setState({ tags }, this.handleParamChange)
+        this.setState(range, this.handleParamsChange)
+    handleTagsChange = tags => this.setState({ tags }, this.handleParamsChange)
     handlePlaceChange = place =>
-        this.setState({ place }, this.handleParamChange)
+        this.setState({ place }, this.handleParamsChange)
     render() {
         return (
             <Layout legend="Find a course">

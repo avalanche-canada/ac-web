@@ -35,23 +35,17 @@ export default class Courses extends Component {
         from: PropTypes.instanceOf(Date),
         to: PropTypes.instanceOf(Date),
         tags: PropTypes.instanceOf(Set),
-        sorting: PropTypes.array,
+        sorting: PropTypes.arrayOf(PropTypes.string),
         place: PropTypes.object,
-        onParamChange: PropTypes.func.isRequired,
+        onParamsChange: PropTypes.func.isRequired,
     }
     state = {
         page: 1,
-        sorting: this.props.sorting,
-    }
-    handleParamChange = () => {
-        this.props.onParamChange({
-            sorting: this.state.sorting,
-        })
     }
     handleSortingChange = (name, order) => {
-        const sorting = order === NONE ? null : [name, order]
-
-        this.setState({ sorting }, this.handleParamChange)
+        this.props.onParamsChange({
+            sorting: order === NONE ? null : [name, order],
+        })
     }
     handlePageChange = page => {
         this.setState({ page })
@@ -63,13 +57,13 @@ export default class Courses extends Component {
             return 'All courses'
         }
     }
-    componentWillReceiveProps({ level, from, to, tags }, { sorting }) {
+    componentWillReceiveProps({ level, from, to, tags, sorting }) {
         if (
             this.props.level !== level ||
             this.props.from !== from ||
             this.props.to !== to ||
             this.props.tags !== tags ||
-            this.state.sorting !== sorting
+            this.props.sorting !== sorting
         ) {
             this.setState({ page: 1 })
         }
@@ -145,8 +139,8 @@ export default class Courses extends Component {
             return null
         }
 
-        const { place } = this.props
-        const { sorting, page } = this.state
+        const { sorting, place } = this.props
+        const { page } = this.state
         const [name, order] = sorting || []
 
         if (place) {
@@ -182,7 +176,7 @@ export default class Courses extends Component {
                     <Table>
                         <Header
                             columns={COLUMNS}
-                            sorting={this.state.sorting}
+                            sorting={this.props.sorting}
                             onSortingChange={this.handleSortingChange}
                             place={this.props.place}
                         />
@@ -310,7 +304,9 @@ const SORTERS = new Map([
         (a, b) =>
             a
                 .getIn(['provider', 'name'])
-                .localeCompare(b.getIn(['provider', 'name'])),
+                .localeCompare(b.getIn(['provider', 'name']), 'en', {
+                    sensitivity: 'base',
+                }),
     ],
     ['distance', (a, b) => a.get('distance') < b.get('distance')],
     ['dates', (a, b) => a.get('dateStart') < b.get('dateStart')],
