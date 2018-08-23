@@ -42,12 +42,12 @@ export function assign(previous, next) {
 
 export function toSet(values) {
     if (values === undefined) {
-        return
+        return new Set()
     }
 
     values = typeof values === 'string' ? [values] : values
 
-    return new Set(values.map(trim).filter(Boolean))
+    return new Set(Array.from(values, trim).filter(Boolean))
 }
 
 function trim(string) {

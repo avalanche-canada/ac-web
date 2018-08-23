@@ -11,7 +11,7 @@ export default connect(
         providers(state, { tags }) {
             let providers = getEntitiesForSchema(state, Provider)
 
-            if (tags) {
+            if (tags && tags.size > 0) {
                 providers = providers.filter(
                     provider =>
                         provider.get('isFeatured') ||

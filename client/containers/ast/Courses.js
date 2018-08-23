@@ -54,7 +54,10 @@ const FILTERS = new Map([
     ['level', ({ level }) => course => course.get('level') === level],
     [
         'tags',
-        ({ tags }) => course => course.get('tags').some(tag => tags.has(tag)),
+        ({ tags }) => course =>
+            tags.size === 0
+                ? true
+                : course.get('tags').some(tag => tags.has(tag)),
     ],
     [
         'to',
