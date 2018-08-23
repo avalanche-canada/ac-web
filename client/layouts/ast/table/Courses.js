@@ -87,7 +87,7 @@ export default class Courses extends Component {
     }
     renderRow = row => {
         return (
-            <ExpandableRow key={row.id}>
+            <ExpandableRow key={row.get('id')}>
                 <Row>
                     {COLUMNS.map(({ property, name }) => (
                         <Cell key={name}>{property(row)}</Cell>
