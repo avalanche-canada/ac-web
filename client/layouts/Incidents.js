@@ -1,15 +1,12 @@
-import React, { PureComponent, Fragment } from 'react'
-import axios from 'axios'
-import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
+import React, { PureComponent } from 'react'
+import { Page, Main, Content, Header } from 'components/page'
 import * as c from 'components/incidents'
 import format from 'date-fns/format'
-import { incidentsBaseUrl } from 'api/config'
+import { getById, get } from 'services/fetch/incidents'
 
 const PENDING = 'PENDING'
 const FULFILLED = 'FULFILLED'
 const ERROR = 'ERROR'
-
-const BASE_URL = incidentsBaseUrl + '/public/incidents'
 
 class IncidentDetailsContainer extends PureComponent {
     state = {
@@ -21,9 +18,8 @@ class IncidentDetailsContainer extends PureComponent {
             status: PENDING,
         })
 
-        axios
-            .get(`${BASE_URL}/${this.props.id}/`)
-            .then(({ data }) => {
+        getById(this.props.id)
+            .then(data => {
                 this.setState({
                     status: FULFILLED,
                     data,
@@ -57,14 +53,18 @@ class IncidentListContainer extends PureComponent {
             status: PENDING,
         })
 
-        const opts = Object.assign(
-            { page: this.state.page },
-            this.state.filters
-        )
+        const { filters, page } = this.state
+        const params = Object.assign({ page }, filters)
 
-        axios
-            .get(`${BASE_URL}/?${toQS(opts)}`)
-            .then(({ data }) => {
+        if (params.from) {
+            params.from = seasonToFrom(params.from)
+        }
+        if (params.to) {
+            params.to = seasonToTo(params.to)
+        }
+
+        get(params)
+            .then(data => {
                 this.setState({
                     status: FULFILLED,
                     data,
@@ -113,20 +113,6 @@ const seasonToFrom = s => {
     }
 }
 const seasonToTo = s => format(new Date(s + 1, 4, 30), 'YYYY-MM-DD')
-
-function toQS(opts) {
-    var pairs = []
-    if (opts.page) {
-        pairs.push('page=' + opts.page)
-    }
-    if (opts.from) {
-        pairs.push('from=' + seasonToFrom(opts.from))
-    }
-    if (opts.to) {
-        pairs.push('to=' + seasonToTo(opts.to))
-    }
-    return pairs.join('&')
-}
 
 export class IncidentsList extends PureComponent {
     render() {
