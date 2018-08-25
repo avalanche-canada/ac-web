@@ -17,8 +17,9 @@ export function mapToSizeFactory(
 
 export function getByTag(tag, options = {}) {
     const params = new URLSearchParams(clean({ ...OPTIONS, ...options }))
+    const url = `${TAGS_PATH}/${tag.trim()}?${params.toString()}`
 
-    return fetch(`${TAGS_PATH}/${tag.trim()}?${params.toString()}`).then(status)
+    return fetch(url).then(status)
 }
 
 // Constants
