@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { CancelToken } from 'axios'
 import { Input } from 'components/controls'
 import { Place, Close, Spinner } from 'components/icons'
 import { findPlaces } from 'services/mapbox/api'
@@ -48,22 +47,12 @@ export default class Geocoder extends PureComponent {
             {
                 isFetching: true,
             },
-            this.findPlaces.bind(this, value)
+            () => {
+                findPlaces(value).then(this.handleLoad, this.handleError)
+            }
         )
     }
-    findPlaces(value) {
-        if (this.source) {
-            this.source.cancel()
-        }
-
-        const source = (this.source = CancelToken.source())
-        const options = {
-            cancelToken: source.token,
-        }
-
-        findPlaces(value, options).then(this.handleLoad, this.handleError)
-    }
-    handleLoad = ({ data: { features } }) => {
+    handleLoad = ({ features }) => {
         this.setState({
             places: features,
             isFetching: false,

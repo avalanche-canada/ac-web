@@ -1,38 +1,35 @@
 import {
     accessToken,
     username,
-    api,
     protocol,
     hostname,
     styleIds,
 } from './config.json'
-import Axios from 'axios'
 import Url from 'url'
+import * as requests from './requests'
+import { status } from 'services/fetch/utils'
 import { Revelstoke } from 'constants/map/locations'
 
-const style = Axios.create({
-    baseURL: `${api}/styles/v1/${username}`,
-    params: {
-        access_token: accessToken,
-    },
-})
+let signal = null
+let controller = null
 
-const places = Axios.create({
-    baseURL: `${api}/geocoding/v5/mapbox.places`,
-    params: {
-        country: 'ca,us,au,jp',
-        types: 'country,region,locality,place',
-        autocomplete: true,
-        access_token: accessToken,
-    },
-})
+export async function findPlaces(term) {
+    if (signal && !signal.aborted) {
+        controller.abort()
+    }
 
-export function findPlaces(term = '', options = {}) {
-    return places.get(`${encodeURIComponent(term.trim())}.json`, options)
+    controller = new AbortController()
+    signal = controller.signal
+
+    const response = await fetch(requests.place(term, { signal }))
+
+    return await status(response)
 }
 
-export function fetchMapStyle(styleId) {
-    return style.get(styleId).then(response => response.data)
+export async function fetchMapStyle(id) {
+    const response = await fetch(requests.style(id))
+
+    return await status(response)
 }
 
 export function createStyleUrl({

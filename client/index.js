@@ -1,5 +1,6 @@
 import '@babel/polyfill'
 import 'raf/polyfill'
+import 'url-search-params-polyfill'
 import 'services/mapbox/map'
 
 import React from 'react'
