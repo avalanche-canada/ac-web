@@ -7,3 +7,15 @@ export function status(response) {
 
     return Promise.reject(throw new Error(response.statusText))
 }
+
+export function clean(params) {
+    return params
+        ? Object.entries(params).reduce((params, [key, value]) => {
+              if (value !== undefined && value !== null) {
+                  params[key] = value
+              }
+
+              return params
+          }, {})
+        : undefined
+}

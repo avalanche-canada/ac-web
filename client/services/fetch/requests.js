@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import { clean } from './utils'
 
 export function get(input, { params, ...init } = {}) {
     params = clean(params)
@@ -25,16 +26,3 @@ export function post(input, init = {}) {
 const headers = new Headers({
     Accept: 'application/json',
 })
-
-// Utils
-function clean(params) {
-    return params
-        ? Object.entries(params).reduce((params, [key, value]) => {
-              if (value !== undefined) {
-                  params[key] = value
-              }
-
-              return params
-          }, {})
-        : undefined
-}
