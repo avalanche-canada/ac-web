@@ -1,19 +1,10 @@
-import { accessToken, username, api } from './config.json'
-import Axios from 'axios'
+import { status } from 'services/fetch/utils'
+import * as requests from './requests'
 
-const Datasets = Axios.create({
-    baseURL: `${api}/datasets/v1/${username}`,
-    params: {
-        access_token: accessToken,
-    },
-})
+export async function getFeatures(dataset) {
+    const response = await fetch(requests.features(dataset))
 
-export function getList() {
-    return Datasets.get()
-}
-
-export function getFeatures(dataset) {
-    return Datasets.get(`${dataset}/features`)
+    return await status(response)
 }
 
 export const FORECAST_REGIONS = 'citdb89uw000i2op95hq2ruxf'

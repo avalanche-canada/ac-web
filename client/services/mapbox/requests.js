@@ -14,6 +14,12 @@ export function style(id) {
     return new Request(url)
 }
 
+export function features(dataset) {
+    const url = `${api}/datasets/v1/${username}/${dataset}/features?access_token=${accessToken}`
+
+    return new Request(url)
+}
+
 const params = new URLSearchParams({
     country: 'ca,us,au,jp',
     types: 'country,region,locality,place',

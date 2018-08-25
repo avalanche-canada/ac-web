@@ -9,7 +9,7 @@ export default combineReducers({
         {
             [GET_FEATURES]: {
                 FULFILLED(state, { payload, meta }) {
-                    return state.set(meta.id, payload.data)
+                    return state.set(meta.id, payload)
                 },
             },
         },
