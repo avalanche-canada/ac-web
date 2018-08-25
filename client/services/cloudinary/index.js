@@ -15,13 +15,10 @@ export function mapToSizeFactory(
     }
 }
 
-export async function getByTag(tag, options = {}) {
+export function getByTag(tag, options = {}) {
     const params = new URLSearchParams(clean({ ...OPTIONS, ...options }))
-    const response = await fetch(
-        `${TAGS_PATH}/${tag.trim()}?${params.toString()}`
-    )
 
-    return await status(response)
+    return fetch(`${TAGS_PATH}/${tag.trim()}?${params.toString()}`).then(status)
 }
 
 // Constants

@@ -13,7 +13,7 @@ import { Revelstoke } from 'constants/map/locations'
 let signal = null
 let controller = null
 
-export async function findPlaces(term) {
+export function findPlaces(term) {
     if (signal && !signal.aborted) {
         controller.abort()
     }
@@ -21,15 +21,11 @@ export async function findPlaces(term) {
     controller = new AbortController()
     signal = controller.signal
 
-    const response = await fetch(requests.place(term, { signal }))
-
-    return await status(response)
+    return fetch(requests.place(term, { signal })).then(status)
 }
 
-export async function fetchMapStyle(id) {
-    const response = await fetch(requests.style(id))
-
-    return await status(response)
+export function fetchMapStyle(id) {
+    return fetch(requests.style(id)).then(status)
 }
 
 export function createStyleUrl({

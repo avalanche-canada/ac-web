@@ -23,7 +23,7 @@ function getApi() {
     })
 }
 
-async function query(api, { orderings = [], ...options } = {}, predicates) {
+function query(api, { orderings = [], ...options } = {}, predicates) {
     const { ref } = api.refs.find(ref => ref.isMasterRef)
     const params = serializeParams({
         page: 1,
@@ -32,9 +32,8 @@ async function query(api, { orderings = [], ...options } = {}, predicates) {
         ref,
     })
     const url = `${root}/${version}/documents/search?${params}`
-    const response = await fetch(url)
 
-    return await status(response)
+    return fetch(url).then(status)
 }
 
 export async function Query(predicates, options) {
