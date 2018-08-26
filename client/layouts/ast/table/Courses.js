@@ -27,7 +27,7 @@ import Fetch from 'components/fetch'
 import { Paginated, Sorted } from 'components/collection'
 import { Error, Muted } from 'components/text'
 import { Distance, Tags } from './cells'
-import { LEVELS, MINIMUM_DISTANCE } from '../constants'
+import { LEVELS } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import styles from './Courses.css'
@@ -69,21 +69,14 @@ export default class Courses extends Component {
             this.setState({ page: 1 })
         }
     }
-    createMessages({ courses, status }) {
-        return {
-            ...status.messages,
-            isLoaded:
-                status.isLoaded && courses.isEmpty() ? (
-                    <div>
-                        No courses match your criteria, consider finding a
-                        provider on the{' '}
-                        <Link to="/training/providers">providers page</Link> to
-                        contact directly.
-                    </div>
-                ) : (
-                    status.messages.isLoaded
-                ),
-        }
+    renderEmptyMessage(courses) {
+        return courses.length ? null : (
+            <div>
+                No courses match your criteria, consider finding a provider on
+                the <Link to="/training/providers">providers page</Link> to
+                contact directly.
+            </div>
+        )
     }
     renderRow = row => {
         return (
@@ -132,8 +125,8 @@ export default class Courses extends Component {
     renderRows = courses => {
         return courses.map(this.renderRow)
     }
-    renderBody = ({ results }) => {
-        if (results.length === 0) {
+    renderBody = courses => {
+        if (courses.length === 0) {
             return null
         }
 
@@ -142,16 +135,16 @@ export default class Courses extends Component {
         const [name, order] = sorting || []
 
         if (place) {
-            results = results.map(course => ({
+            courses = courses.map(course => ({
                 ...course,
-                distance: Math.max(distance(turf.point(course.loc)), place),
+                distance: distance(turf.point(course.loc), place),
             }))
         }
 
         return (
             <TBody>
                 <Sorted
-                    values={results}
+                    values={courses}
                     sorter={SORTERS.get(name)}
                     reverse={order === DESC}>
                     <Paginated page={page}>{this.renderRows}</Paginated>
@@ -160,45 +153,49 @@ export default class Courses extends Component {
         )
     }
     renderError() {
-        return <Error>An error happened while loading results.</Error>
+        return <Error>An error happened while loading courses.</Error>
     }
-    renderPagination = ({ results }) => {
+    renderPagination = courses => {
         return (
             <Pagination
-                count={results.length}
+                count={courses.length}
                 page={this.state.page}
                 onChange={this.handlePageChange}
             />
         )
     }
+    renderContent = ({ courses }) => {
+        return (
+            <Layout title={this.getTitle(courses)}>
+                <Responsive>
+                    <Table>
+                        <Header
+                            columns={COLUMNS}
+                            sorting={this.props.sorting}
+                            onSortingChange={this.handleSortingChange}
+                            place={this.props.place}
+                        />
+                        {Array.isArray(courses) && this.renderBody(courses)}
+                        <Caption>
+                            <Fetch.Loading>
+                                <Muted>Loading courses...</Muted>
+                            </Fetch.Loading>
+                            {Array.isArray(courses) &&
+                                this.renderEmptyMessage(courses)}
+                        </Caption>
+                    </Table>
+                </Responsive>
+                {Array.isArray(courses) && this.renderPagination(courses)}
+            </Layout>
+        )
+    }
     render() {
         const { level, from, to, tags } = this.props
-        const title = <Fetch.Data>{this.getTitle}</Fetch.Data>
 
         return (
             <ErrorBoundary fallback={this.renderError}>
                 <Container level={level} from={from} to={to} tags={tags}>
-                    <Layout title={title}>
-                        <Responsive>
-                            <Table>
-                                <Header
-                                    columns={COLUMNS}
-                                    sorting={this.props.sorting}
-                                    onSortingChange={this.handleSortingChange}
-                                    place={this.props.place}
-                                />
-                                <Fetch.Data strict>
-                                    {this.renderBody}
-                                </Fetch.Data>
-                                <Fetch.Loading>
-                                    <Caption>
-                                        <Muted>Loading courses...</Muted>
-                                    </Caption>
-                                </Fetch.Loading>
-                            </Table>
-                        </Responsive>
-                        <Fetch.Data strict>{this.renderPagination}</Fetch.Data>
-                    </Layout>
+                    {this.renderContent}
                 </Container>
             </ErrorBoundary>
         )

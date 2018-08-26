@@ -11,68 +11,56 @@ export default class CoursesContainer extends Component {
         level: PropTypes.string,
         from: PropTypes.instanceOf(Date),
         to: PropTypes.instanceOf(Date),
-        tags: PropTypes.arrayOf(PropTypes.string),
+        tags: PropTypes.instanceOf(Set),
+    }
+    children = ({ data, loading }) => {
+        const props = { loading }
+        const results = data?.results
+
+        if (Array.isArray(results)) {
+            props.courses = getFilters(this.props)
+                .reduce(filterReducer, results)
+                .sort(sorter)
+        }
+
+        return this.props.children(props)
     }
     render() {
-        return (
-            <Fetch request={ast.courses(PARAMS)}>{this.props.children}</Fetch>
-        )
+        return <Fetch request={ast.courses(PARAMS)}>{this.children}</Fetch>
     }
 }
-
-// connect(
-//     createStructuredSelector({
-//         courses(state, props) {
-//             const courses = getEntitiesForSchema(state, Course)
-//             const filters = Object.keys(props).reduce((filters, key) => {
-//                 if (FILTERS.has(key) && props[key]) {
-//                     const filter = FILTERS.get(key).call(null, props)
-//
-//                     filters.push(filter)
-//                 }
-//
-//                 return filters
-//             }, [])
-//
-//             return filters
-//                 .reduce((courses, filter) => courses.filter(filter), courses)
-//                 .sortBy(sorter)
-//         },
-//         status(state) {
-//             return getResultsSet(state, Course, OPTIONS)
-//                 .asStatus(MESSAGES)
-//                 .toObject()
-//         },
-//     }),
-//     dispatch => ({
-//         didMount() {
-//             dispatch(loadCourses(OPTIONS))
-//         },
-//     })
-// )(Universal)
 
 // Utils
 const PARAMS = {
     page_size: 1000,
 }
-function sorter(course) {
-    return course.date_start
+function sorter({ date_start, date_end }) {
+    return date_start - date_end
 }
 const FILTERS = new Map([
     ['level', ({ level }) => course => course.level === level],
     [
         'tags',
-        ({ tags }) => course =>
+        ({ tags = new Set() }) => course =>
             tags.size === 0 ? true : course.tags.some(tag => tags.has(tag)),
     ],
     [
         'to',
-        ({ from, to }) => course =>
-            areRangesOverlapping(
-                from,
-                addDays(to, 1),
-                course.date_start,
-                course.date_end
-            ),
+        ({ from, to }) => ({ date_start, date_end }) =>
+            areRangesOverlapping(from, addDays(to, 1), date_start, date_end),
     ],
 ])
+function getFilters(props) {
+    return Object.entries(props).reduce((filters, [key, value]) => {
+        if (value && FILTERS.has(key)) {
+            const filter = FILTERS.get(key).call(null, props)
+
+            filters.push(filter)
+        }
+
+        return filters
+    }, [])
+}
+function filterReducer(courses, filter) {
+    return courses.filter(filter)
+}

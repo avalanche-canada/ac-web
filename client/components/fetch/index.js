@@ -8,7 +8,7 @@ import { status } from 'services/fetch/utils'
 const { Provider, Consumer } = createContext()
 const STATE = {
     loading: false,
-    data: null,
+    data: undefined,
 }
 
 export default class Fetch extends Component {
