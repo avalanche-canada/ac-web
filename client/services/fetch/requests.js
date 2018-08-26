@@ -1,19 +1,15 @@
 import 'whatwg-fetch'
 import { clean } from './utils'
 
-export function get(input, { params, ...init } = {}) {
-    params = clean(params)
-
-    const search = params ? new URLSearchParams(params) : null
-    const url = search ? `${input}?${search.toString()}` : input
-
-    return new Request(url, { headers, ...init })
+export function get(input, params, init) {
+    return new Request(url(input, params), Object.assign({ headers }, init))
 }
 
-export function post(input, init = {}) {
+export function post(input, params, init = {}) {
     const { body, ...rest } = init
 
-    return new Request(input, {
+    return new Request(url(input, params), {
+        headers,
         method: 'POST',
         mode: 'cors',
         credentials: 'same-origin',
@@ -22,7 +18,14 @@ export function post(input, init = {}) {
     })
 }
 
-// Constants
+// Constants and utils
 const headers = new Headers({
     Accept: 'application/json',
 })
+function url(input, params) {
+    params = clean(params)
+
+    const search = params ? new URLSearchParams(params) : null
+
+    return search ? `${input}?${search.toString()}` : input
+}

@@ -50,14 +50,18 @@ class ArchiveWarningComponent extends PureComponent {
     }
 }
 
-export default function ArchiveWarning() {
+ArchiveWarning.propTypes = {
+    date: PropTypes.instanceOf(Date).isRequired,
+}
+
+export default function ArchiveWarning({ date }) {
     return (
         <Consumer>
             {forecast =>
                 forecast && forecast.isArchived ? (
                     <ArchiveWarningComponent
                         region={forecast.region}
-                        date={forecast.date}
+                        date={date}
                     />
                 ) : null
             }

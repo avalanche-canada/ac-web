@@ -73,7 +73,7 @@ export default class ArchiveForecast extends PureComponent {
         <Components.Forecast value={forecast && forecast.toJSON()}>
             <Status {...status} />
             <Components.Metadata />
-            <Components.ArchiveWarning />
+            <Components.ArchiveWarning date={this.props.date} />
             <Components.Headline />
             <Components.TabSet />
             <Components.Footer>

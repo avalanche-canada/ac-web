@@ -11,7 +11,7 @@ export function getById(id) {
 }
 
 export function get(params) {
-    const request = requests.get(`${BASE_URL}/`, { params })
+    const request = requests.get(`${BASE_URL}/`, params)
 
     return fetch(request).then(status)
 }

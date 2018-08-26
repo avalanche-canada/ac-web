@@ -6,11 +6,11 @@ import Container from 'containers/Forecast'
 import { Page, Header, Content, Main, Aside } from 'components/page'
 import { Status } from 'components/misc'
 import { StructuredText } from 'prismic/components/base'
-import { Sidebar, KananaskisSidebar } from 'layouts/products/forecast'
 import {
+    Sidebar,
+    KananaskisSidebar,
     Forecast,
     Metadata,
-    ArchiveWarning,
     Headline,
     TabSet,
     Footer,
@@ -67,7 +67,6 @@ export default class ForecastLayout extends PureComponent {
                         <Metadata />
                         <Status {...status} />
                         <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
-                        <ArchiveWarning />
                         <Headline />
                         <TabSet />
                         <Footer />
