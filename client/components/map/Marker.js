@@ -1,5 +1,7 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
+import { Consumer } from './Context'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 
 const { LngLat } = mapbox
@@ -11,16 +13,13 @@ export default class Marker extends StaticComponent {
         onClick: PropTypes.func,
         options: PropTypes.object,
     }
-    static contextTypes = {
-        map: PropTypes.object.isRequired,
-    }
     _marker = null
     set marker(marker) {
         this.remove()
 
         this._marker = marker
 
-        marker.addTo(this.context.map)
+        marker.addTo(this.map)
     }
     get marker() {
         return this._marker
@@ -39,7 +38,12 @@ export default class Marker extends StaticComponent {
 
         return new mapbox.Marker(element, options).setLngLat(lngLat)
     }
-    componentDidMount() {
+    addMarker = map => {
+        if (!map) {
+            return
+        }
+
+        this.map = map
         this.marker = this.createMarker(this.props)
     }
     componentWillReceiveProps(nextProps) {
@@ -58,6 +62,6 @@ export default class Marker extends StaticComponent {
         this.remove()
     }
     render() {
-        return null
+        return <Consumer>{this.addMarker}</Consumer>
     }
 }

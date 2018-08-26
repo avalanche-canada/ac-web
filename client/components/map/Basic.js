@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
+import { Provider } from './Context'
 import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
 import './Map.css'
@@ -43,9 +44,6 @@ export default class MapComponent extends Component {
     static defaultProps = {
         maxBounds: Canadian,
     }
-    static childContextTypes = {
-        map: PropTypes.object,
-    }
     state = {
         map: null,
     }
@@ -53,11 +51,6 @@ export default class MapComponent extends Component {
         return this.state.map
     }
     setContainer = container => (this.container = container)
-    getChildContext() {
-        return {
-            map: this.map,
-        }
-    }
     componentDidMount() {
         mapbox.accessToken = accessToken
 
@@ -83,9 +76,11 @@ export default class MapComponent extends Component {
     }
     render() {
         return (
-            <div ref={this.setContainer} className={this.props.className}>
-                {this.map ? this.props.children : null}
-            </div>
+            <Provider value={this.map}>
+                <div ref={this.setContainer} className={this.props.className}>
+                    {this.map ? this.props.children : null}
+                </div>
+            </Provider>
         )
     }
 }

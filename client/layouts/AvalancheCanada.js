@@ -4,7 +4,7 @@ import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import {
     NotFoundRoute,
     StaticPageRoute,
-    GenricPageRoute,
+    GenericPageRoute,
     WIPPageRoute,
     FallbackPageRoute,
 } from 'router/common'
@@ -20,7 +20,7 @@ import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
-import {IncidentsList, IncidentDetails} from './Incidents'
+import { IncidentsList, IncidentDetails } from './Incidents'
 import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import TripPlanner from './TripPlanner'
@@ -156,24 +156,19 @@ export default class AvalancheCanada extends Component {
                     uid="membership-overview"
                     title="Membership Overview"
                 />
-                <GenricPageRoute
+                <GenericPageRoute
                     path="/privacy-policy"
                     uid="privacy-policy"
                     title="Privacy Policy"
                 />
-                <GenricPageRoute
+                <GenericPageRoute
                     path="/terms-of-use"
                     uid="terms-of-use"
                     title="Terms of use"
                 />
                 <WIPPageRoute
-                    path="/incidents"
-                    name="Historic Incidents"
-                    oldUrl="http://old.avalanche.ca/cac/library/incident-report-database/view"
-                />
-                <WIPPageRoute
                     path="/tutoriel"
-                    name="Tutorial / Tutoriel"
+                    name="French Tutorial / Tutoriel"
                     oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
                     title={defaultTitle =>
                         `${defaultTitle}<br />Nous travaillons présentement sur cette page...`
