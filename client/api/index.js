@@ -2,7 +2,6 @@ import * as Schemas from 'api/schemas'
 import * as forecast from './requests/forecast'
 import * as min from './requests/min'
 import * as weather from './requests/weather'
-import * as ast from './requests/ast'
 import * as mcr from './requests/mcr'
 import { resource } from './requests/static'
 import * as transformers from './transformers'
@@ -13,7 +12,6 @@ const TRANSFORMERS = new Map([
         Schemas.MountainInformationNetworkSubmission,
         transformers.sanitizeMountainInformationNetworkSubmissions,
     ],
-    [Schemas.Provider, transformers.transformProviderResponse],
     [Schemas.Forecast, transformers.transformForecast],
     [
         Schemas.MountainConditionsReport,
@@ -33,12 +31,6 @@ const REQUESTS = new Map([
         Schemas.MountainInformationNetworkSubmission,
         ({ id, days }) => {
             return id ? min.report(id) : min.reports(days)
-        },
-    ],
-    [
-        Schemas.Provider,
-        params => {
-            return ast.providers(params)
         },
     ],
     [

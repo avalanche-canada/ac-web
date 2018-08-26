@@ -15,7 +15,6 @@ export const MountainInformationNetworkSubmission = new Entity(
         idAttribute: 'subid',
     }
 )
-export const Provider = new Entity('providers')
 export const WeatherStation = new Entity('weather-stations', undefined, {
     idAttribute: 'stationId',
 })

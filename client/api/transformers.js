@@ -4,35 +4,6 @@ import isBefore from 'date-fns/is_before'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
-function normalize(string) {
-    return string.trim().toUpperCase()
-}
-
-function normalizeArray(tags) {
-    return tags.map(normalize)
-}
-
-function transformProvider({
-    loc_description,
-    is_sponsor,
-    prim_contact,
-    ...provider
-}) {
-    return Object.assign(provider, {
-        tags: normalizeArray(provider.tags),
-        locDescription: loc_description,
-        isSponsor: is_sponsor,
-        isFeatured: is_sponsor,
-        primContact: prim_contact,
-    })
-}
-
-export function transformProviderResponse(data) {
-    return Object.assign(data, {
-        results: data.results.map(transformProvider),
-    })
-}
-
 function sanitizeMountainInformationNetworkSubmission(submission) {
     return {
         ...submission,
