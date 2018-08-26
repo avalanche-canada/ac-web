@@ -27,25 +27,9 @@ function transformProvider({
     })
 }
 
-function transformCourse({ date_start, date_end, loc_description, ...course }) {
-    return Object.assign(course, {
-        tags: normalizeArray(course.tags),
-        dateStart: parseDate(date_start),
-        dateEnd: parseDate(date_end),
-        locDescription: loc_description,
-        provider: transformProvider(course.provider),
-    })
-}
-
 export function transformProviderResponse(data) {
     return Object.assign(data, {
         results: data.results.map(transformProvider),
-    })
-}
-
-export function transformCourseResponse(data) {
-    return Object.assign(data, {
-        results: data.results.map(transformCourse),
     })
 }
 

@@ -1,63 +1,69 @@
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { loadCourses } from 'actions/entities'
-import Universal from 'components/Universal'
-import { getEntitiesForSchema } from 'getters/entities'
-import { getResultsSet } from 'getters/api'
-import { Course } from 'api/schemas'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import addDays from 'date-fns/add_days'
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
+import Fetch from 'components/fetch'
+import * as ast from 'api/requests/ast'
 
-export default connect(
-    createStructuredSelector({
-        courses(state, props) {
-            const courses = getEntitiesForSchema(state, Course)
-            const filters = Object.keys(props).reduce((filters, key) => {
-                if (FILTERS.has(key) && props[key]) {
-                    const filter = FILTERS.get(key).call(null, props)
+export default class CoursesContainer extends Component {
+    static propTypes = {
+        children: PropTypes.element.isRequired,
+        level: PropTypes.string,
+        from: PropTypes.instanceOf(Date),
+        to: PropTypes.instanceOf(Date),
+        tags: PropTypes.arrayOf(PropTypes.string),
+    }
+    render() {
+        return (
+            <Fetch request={ast.courses(PARAMS)}>{this.props.children}</Fetch>
+        )
+    }
+}
 
-                    filters.push(filter)
-                }
-
-                return filters
-            }, [])
-
-            return filters
-                .reduce((courses, filter) => courses.filter(filter), courses)
-                .sortBy(sorter)
-        },
-        status(state) {
-            return getResultsSet(state, Course, OPTIONS)
-                .asStatus(MESSAGES)
-                .toObject()
-        },
-    }),
-    dispatch => ({
-        didMount() {
-            dispatch(loadCourses(OPTIONS))
-        },
-    })
-)(Universal)
+// connect(
+//     createStructuredSelector({
+//         courses(state, props) {
+//             const courses = getEntitiesForSchema(state, Course)
+//             const filters = Object.keys(props).reduce((filters, key) => {
+//                 if (FILTERS.has(key) && props[key]) {
+//                     const filter = FILTERS.get(key).call(null, props)
+//
+//                     filters.push(filter)
+//                 }
+//
+//                 return filters
+//             }, [])
+//
+//             return filters
+//                 .reduce((courses, filter) => courses.filter(filter), courses)
+//                 .sortBy(sorter)
+//         },
+//         status(state) {
+//             return getResultsSet(state, Course, OPTIONS)
+//                 .asStatus(MESSAGES)
+//                 .toObject()
+//         },
+//     }),
+//     dispatch => ({
+//         didMount() {
+//             dispatch(loadCourses(OPTIONS))
+//         },
+//     })
+// )(Universal)
 
 // Utils
-const OPTIONS = {
+const PARAMS = {
     page_size: 1000,
 }
-const MESSAGES = {
-    isLoading: 'Loading courses...',
-    isError: 'An error happened while loading courses.',
-}
 function sorter(course) {
-    return course.get('dateStart')
+    return course.date_start
 }
 const FILTERS = new Map([
-    ['level', ({ level }) => course => course.get('level') === level],
+    ['level', ({ level }) => course => course.level === level],
     [
         'tags',
         ({ tags }) => course =>
-            tags.size === 0
-                ? true
-                : course.get('tags').some(tag => tags.has(tag)),
+            tags.size === 0 ? true : course.tags.some(tag => tags.has(tag)),
     ],
     [
         'to',
@@ -65,8 +71,8 @@ const FILTERS = new Map([
             areRangesOverlapping(
                 from,
                 addDays(to, 1),
-                course.get('dateStart'),
-                course.get('dateEnd')
+                course.date_start,
+                course.date_end
             ),
     ],
 ])

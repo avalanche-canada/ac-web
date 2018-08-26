@@ -1,4 +1,4 @@
-import React, { PureComponent, createContext, isValidElement } from 'react'
+import React, { Component, createContext } from 'react'
 import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
 // import Cache from './Cache'
@@ -11,7 +11,7 @@ const STATE = {
     data: null,
 }
 
-export default class Fetch extends PureComponent {
+export default class Fetch extends Component {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
             .isRequired,
@@ -19,11 +19,37 @@ export default class Fetch extends PureComponent {
         // cache: PropTypes.bool,
     }
     static Consumer = Consumer
-    static Loading({ children }) {
-        return <Consumer>{state => children(state.loading)}</Consumer>
+    static Loading = class Loading extends Component {
+        static propTypes = {
+            children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
+                .isRequired,
+        }
+        children = ({ loading }) => {
+            const { children } = this.props
+
+            return typeof children === 'function'
+                ? children(loading)
+                : loading
+                    ? children
+                    : null
+        }
+        render() {
+            return <Consumer>{this.children}</Consumer>
+        }
     }
-    static Data({ children }) {
-        return <Consumer>{state => children(state.data)}</Consumer>
+    static Data = class Data extends Component {
+        static propTypes = {
+            children: PropTypes.func.isRequired,
+            strict: PropTypes.bool,
+        }
+        children = ({ data }) => {
+            const { children, strict } = this.props
+
+            return strict ? (data ? children(data) : null) : children(data)
+        }
+        render() {
+            return <Consumer>{this.children}</Consumer>
+        }
     }
     state = STATE
     reset = () => {
@@ -48,7 +74,7 @@ export default class Fetch extends PureComponent {
         this.setState({ loading: true }, this.fetch)
     }
     render() {
-        const children = value
+        const { children } = this.props
         const value = {
             ...this.state,
             reset: this.reset,
@@ -56,7 +82,7 @@ export default class Fetch extends PureComponent {
 
         return (
             <Provider value={value}>
-                {isValidElement(children) ? children : children(value)}
+                {typeof children === 'function' ? children(value) : children}
             </Provider>
         )
     }

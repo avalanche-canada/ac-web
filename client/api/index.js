@@ -14,7 +14,6 @@ const TRANSFORMERS = new Map([
         transformers.sanitizeMountainInformationNetworkSubmissions,
     ],
     [Schemas.Provider, transformers.transformProviderResponse],
-    [Schemas.Course, transformers.transformCourseResponse],
     [Schemas.Forecast, transformers.transformForecast],
     [
         Schemas.MountainConditionsReport,
@@ -40,12 +39,6 @@ const REQUESTS = new Map([
         Schemas.Provider,
         params => {
             return ast.providers(params)
-        },
-    ],
-    [
-        Schemas.Course,
-        params => {
-            return ast.courses(params)
         },
     ],
     [

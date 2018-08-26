@@ -13,7 +13,6 @@ export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS =
 export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION =
     'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
 export const GET_PROVIDERS = 'GET_PROVIDERS'
-export const GET_COURSES = 'GET_COURSES'
 export const GET_WEATHER_STATIONS = 'GET_WEATHER_STATIONS'
 export const GET_MOUNTAIN_CONDITIONS_REPORTS = 'GET_MOUNTAIN_CONDITIONS_REPORTS'
 
@@ -43,11 +42,6 @@ export function loadMountainInformationNetworkSubmission(id) {
 export const loadProviders = createFetchActionForSchema(
     GET_PROVIDERS,
     Schemas.Provider
-)
-
-export const loadCourses = createFetchActionForSchema(
-    GET_COURSES,
-    Schemas.Course
 )
 
 export const loadWeatherStations = createFetchActionForSchema(
