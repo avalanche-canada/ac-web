@@ -38,14 +38,14 @@ const REQUESTS = new Map([
     ],
     [
         Schemas.Provider,
-        () => {
-            return ast.providers()
+        params => {
+            return ast.providers(params)
         },
     ],
     [
         Schemas.Course,
-        () => {
-            return ast.courses()
+        params => {
+            return ast.courses(params)
         },
     ],
     [

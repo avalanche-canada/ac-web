@@ -1,9 +1,10 @@
 import { astBaseUrl } from 'api/config.json'
+import { get } from 'services/fetch/requests'
 
-export function providers() {
-    return new Request(`${astBaseUrl}/providers`)
+export function providers(params) {
+    return get(`${astBaseUrl}/providers`, params)
 }
 
-export function courses() {
-    return new Request(`${astBaseUrl}/courses`)
+export function courses(params) {
+    return get(`${astBaseUrl}/courses`, params)
 }
