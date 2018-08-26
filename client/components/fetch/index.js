@@ -1,6 +1,7 @@
 import React, { PureComponent, createContext, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
+// import Cache from './Cache'
 
 // TODO: Implement a caching mechanism
 
