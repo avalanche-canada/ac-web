@@ -5,6 +5,9 @@ export default class Cache {
     reset() {
         this.store = new Map()
     }
+    has(url) {
+        this.store.has(url)
+    }
     get(url) {
         return this.store.get(url)
     }
