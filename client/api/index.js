@@ -88,7 +88,10 @@ export function fetch(schema, params = {}) {
 
 export function post(schema, data) {
     if (schema === Schemas.MountainInformationNetworkSubmission) {
-        return window.fetch(min.post(data))
+        return window
+            .fetch(min.post(data))
+            .then(status)
+            .then(transformers.sanitizeMountainInformationNetworkSubmissions)
     } else {
         throw new Error(`Can not post data for schema ${schema}`)
     }
