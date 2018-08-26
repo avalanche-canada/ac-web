@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import { Page, Main, Content, Header } from 'components/page'
 import * as c from 'components/incidents'
 import format from 'date-fns/format'
-import { getById, get } from 'services/fetch/incidents'
+import * as requests from 'api/requests/incidents'
+import * as utils from 'services/fetch/utils'
 
 const PENDING = 'PENDING'
 const FULFILLED = 'FULFILLED'
@@ -18,7 +19,8 @@ class IncidentDetailsContainer extends PureComponent {
             status: PENDING,
         })
 
-        getById(this.props.id)
+        fetch(requests.incident(this.props.id))
+            .then(utils.status)
             .then(data => {
                 this.setState({
                     status: FULFILLED,
@@ -63,7 +65,8 @@ class IncidentListContainer extends PureComponent {
             params.to = seasonToTo(params.to)
         }
 
-        get(params)
+        fetch(requests.incidents(params))
+            .then(utils.status)
             .then(data => {
                 this.setState({
                     status: FULFILLED,

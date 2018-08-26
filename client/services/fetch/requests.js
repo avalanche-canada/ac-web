@@ -1,14 +1,16 @@
-import 'whatwg-fetch'
 import { clean } from './utils'
 
 export function get(input, params, init) {
-    return new Request(url(input, params), Object.assign({ headers }, init))
+    return new Request(
+        buildURL(input, params),
+        Object.assign({ headers }, init)
+    )
 }
 
 export function post(input, params, init = {}) {
     const { body, ...rest } = init
 
-    return new Request(url(input, params), {
+    return new Request(buildURL(input, params), {
         headers,
         method: 'POST',
         mode: 'cors',
@@ -22,7 +24,7 @@ export function post(input, params, init = {}) {
 const headers = new Headers({
     Accept: 'application/json',
 })
-function url(input, params) {
+function buildURL(input, params) {
     params = clean(params)
 
     const search = params ? new URLSearchParams(params) : null
