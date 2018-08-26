@@ -20,7 +20,7 @@ import Ast from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
-import {IncidentsList, IncidentDetails} from './Incidents'
+import { IncidentsList, IncidentDetails } from './Incidents'
 import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import TripPlanner from './TripPlanner'
@@ -165,11 +165,6 @@ export default class AvalancheCanada extends Component {
                     path="/terms-of-use"
                     uid="terms-of-use"
                     title="Terms of use"
-                />
-                <WIPPageRoute
-                    path="/incidents"
-                    name="Historic Incidents"
-                    oldUrl="http://old.avalanche.ca/cac/library/incident-report-database/view"
                 />
                 <WIPPageRoute
                     path="/tutoriel"
