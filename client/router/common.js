@@ -72,8 +72,7 @@ export function StaticPageRoute({ path, uid, title }) {
     return <Route path={path} render={staticPageFactory(uid, title)} />
 }
 
-// FIXME: Typo in GenricPageRoute
-GenricPageRoute.propTypes = {
+GenericPageRoute.propTypes = {
     path: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
     title: PropTypes.string,
@@ -89,7 +88,7 @@ function genericFactory(uid, title) {
     }
 }
 
-export function GenricPageRoute({ path, uid, title }) {
+export function GenericPageRoute({ path, uid, title }) {
     return <Route path={path} render={genericFactory(uid, title)} />
 }
 

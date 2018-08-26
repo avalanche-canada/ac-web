@@ -4,7 +4,7 @@ import { Link, Route, Redirect, Switch } from 'react-router-dom'
 import {
     NotFoundRoute,
     StaticPageRoute,
-    GenricPageRoute,
+    GenericPageRoute,
     WIPPageRoute,
     FallbackPageRoute,
 } from 'router/common'
@@ -156,12 +156,12 @@ export default class AvalancheCanada extends Component {
                     uid="membership-overview"
                     title="Membership Overview"
                 />
-                <GenricPageRoute
+                <GenericPageRoute
                     path="/privacy-policy"
                     uid="privacy-policy"
                     title="Privacy Policy"
                 />
-                <GenricPageRoute
+                <GenericPageRoute
                     path="/terms-of-use"
                     uid="terms-of-use"
                     title="Terms of use"
