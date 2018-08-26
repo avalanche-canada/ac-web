@@ -168,7 +168,7 @@ export default class AvalancheCanada extends Component {
                 />
                 <WIPPageRoute
                     path="/tutoriel"
-                    name="Tutorial / Tutoriel"
+                    name="French Tutorial / Tutoriel"
                     oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
                     title={defaultTitle =>
                         `${defaultTitle}<br />Nous travaillons présentement sur cette page...`
