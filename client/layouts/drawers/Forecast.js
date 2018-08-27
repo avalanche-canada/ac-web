@@ -15,7 +15,7 @@ import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Muted } from 'components/text'
-import * as containers from 'containers/forecasting'
+import * as containers from 'containers/forecast'
 import * as utils from 'utils/region'
 
 export default class Layout extends PureComponent {

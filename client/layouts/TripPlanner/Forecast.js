@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import * as containers from 'containers/forecasting'
+import * as containers from 'containers/forecast'
 import Fetch from 'components/fetch'
 import { Muted } from 'components/text'
 import Shim from 'components/Shim'

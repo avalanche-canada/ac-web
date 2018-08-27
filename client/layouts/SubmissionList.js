@@ -15,7 +15,7 @@ import {
     Caption,
 } from 'components/table'
 import Container from 'containers/MountainInformationNetworkSubmissionList'
-import * as containers from 'containers/forecasting'
+import * as containers from 'containers/forecast'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
