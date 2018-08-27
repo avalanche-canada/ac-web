@@ -15,7 +15,7 @@ import {
     Caption,
 } from 'components/table'
 import Container from 'containers/MountainInformationNetworkSubmissionList'
-import ForecastRegions from 'containers/ForecastRegions'
+import * as containers from 'containers/forecasting'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
@@ -68,7 +68,7 @@ export default class SubmissionList extends PureComponent {
     get from() {
         return subDays(new Date(), this.state.days)
     }
-    renderMetadata(regions) {
+    renderMetadata({ data = [] }) {
         const { from } = this
 
         return (
@@ -93,7 +93,7 @@ export default class SubmissionList extends PureComponent {
                     <Dropdown
                         value={this.state.regions}
                         onChange={this.handleRegionsChange}
-                        options={new Map(regions.map(createRegionOption))}
+                        options={new Map(data.map(createRegionOption))}
                         placeholder="Show all"
                     />
                 </Entry>
@@ -178,9 +178,9 @@ export default class SubmissionList extends PureComponent {
                 <Header title="Mountain Information Network — List View" />
                 <Content>
                     <Main>
-                        <ForecastRegions>
-                            {regions => this.renderMetadata(regions)}
-                        </ForecastRegions>
+                        <containers.Regions>
+                            {props => this.renderMetadata(props)}
+                        </containers.Regions>
                         <Br />
                         <Responsive>
                             <Table>
@@ -287,7 +287,7 @@ const COLUMNS = [
     {
         name: 'region',
         title: 'Forecast Region',
-        property(submission, supported) {
+        property(submission) {
             if (submission.has('region')) {
                 const { name, id } = submission.get('region')
 
@@ -304,7 +304,9 @@ const COLUMNS = [
 
             return (
                 <ul>
-                    {types.map(type => <li key={type}>{NAMES.get(type)}</li>)}
+                    {types.map(type => (
+                        <li key={type}>{NAMES.get(type)}</li>
+                    ))}
                 </ul>
             )
         },
@@ -315,8 +317,8 @@ const COLUMNS = [
 function pluckObtype(observation) {
     return observation.get('obtype')
 }
-function createRegionOption(region) {
-    return [region.get('id'), region.get('name')]
+function createRegionOption({ id, name }) {
+    return [id, name]
 }
 function hasIncident(observation) {
     return observation.get('obtype') === INCIDENT

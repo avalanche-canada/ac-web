@@ -9,12 +9,13 @@ import {
     TabSet,
     Footer,
 } from 'layouts/products/forecast'
-import { Status, SPAW as SPAWComponent } from 'components/misc'
+import { SPAW as SPAWComponent } from 'components/misc'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import ForecastContainer from 'containers/Forecast'
+import { Muted } from 'components/text'
+import * as containers from 'containers/forecasting'
 import * as utils from 'utils/region'
 
 export default class Layout extends PureComponent {
@@ -36,60 +37,59 @@ export default class Layout extends PureComponent {
 
         return <SPAWComponent link={link} style={style} />
     }
-    renderHeader(region, forecast, status) {
+    renderHeader = ({ data, loading }) => {
         const { onLocateClick } = this.props
-        let title = status.messages.isLoading
-
-        if (forecast) {
-            title = forecast.get('bulletinTitle')
-        } else if (region) {
-            title = region.get('name')
-        }
-
+        const title = loading || !data ? 'Loading...' : data.name
         function handleLocateClick() {
-            onLocateClick(utils.geometry(region))
+            onLocateClick(utils.geometry(data))
         }
 
         return (
             <Header subject="Avalanche Forecast">
                 <h1>
-                    <Link to={this.link}>{title}</Link>
-                    {region && <DisplayOnMap onClick={handleLocateClick} />}
+                    {data ? <Link to={this.link}>{title}</Link> : title}
+                    {data && <DisplayOnMap onClick={handleLocateClick} />}
                 </h1>
             </Header>
         )
     }
-    children = ({ region, forecast, status }) => (
-        <Container>
-            <Navbar>
-                <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
-                <Sponsor label={null} />
-                <Close onClick={this.props.onCloseClick} />
-            </Navbar>
-            {this.renderHeader(region, forecast, status)}
-            <Body>
-                <Status style={STATUS_STYLE} {...status} />
-                <Forecast value={forecast && forecast.toJSON()}>
-                    <Shim horizontal>
-                        <Metadata />
-                        <Headline />
-                    </Shim>
-                    <TabSet />
-                    <Footer />
-                </Forecast>
-            </Body>
-        </Container>
-    )
-    render() {
+    children = ({ loading, data }) => {
+        const { name, onCloseClick } = this.props
+
         return (
-            <ForecastContainer name={this.props.name}>
-                {this.children}
-            </ForecastContainer>
+            <Container>
+                <Navbar>
+                    <SPAW name={name}>{this.renderSPAW}</SPAW>
+                    <Sponsor label={null} />
+                    <Close onClick={onCloseClick} />
+                </Navbar>
+                <containers.Region name={name}>
+                    {this.renderHeader}
+                </containers.Region>
+                <Body>
+                    {data ? (
+                        <Forecast value={data}>
+                            <Shim horizontal>
+                                <Metadata />
+                                <Headline />
+                            </Shim>
+                            <TabSet />
+                            <Footer />
+                        </Forecast>
+                    ) : (
+                        <Shim all>
+                            <Muted>Loading avalanche forecast...</Muted>
+                        </Shim>
+                    )}
+                </Body>
+            </Container>
         )
     }
-}
-
-// Constants
-const STATUS_STYLE = {
-    margin: '1em',
+    render() {
+        return (
+            <containers.Forecast name={this.props.name}>
+                {this.children}
+            </containers.Forecast>
+        )
+    }
 }

@@ -2,9 +2,10 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import isToday from 'date-fns/is_today'
-import Container from 'containers/Forecast'
+import { Forecast as Container, Region } from 'containers/forecasting'
 import { Page, Header, Content, Main, Aside } from 'components/page'
-import { Status } from 'components/misc'
+import { Muted } from 'components/text'
+import Fetch from 'components/fetch'
 import { StructuredText } from 'prismic/components/base'
 import {
     Sidebar,
@@ -38,16 +39,8 @@ export default class ForecastLayout extends PureComponent {
             </SPAWComponent>
         )
     }
-    renderHeader(region, forecast, status) {
-        let title = status.messages.isLoading
-
-        if (forecast) {
-            title = forecast.get('bulletinTitle')
-        } else if (region) {
-            title = region.get('name')
-        }
-
-        return <Header title={title} />
+    renderHeader({ loading, data }) {
+        return <Header title={loading || !data ? 'Loading...' : data.name} />
     }
     sidebar = ({ match }) => {
         const { name, date } = match.params
@@ -58,26 +51,32 @@ export default class ForecastLayout extends PureComponent {
             <Sidebar isPrintable={!date || isToday(date)} />
         )
     }
-    children = ({ forecast, region, status }) => (
-        <Fragment>
-            {this.renderHeader(region, forecast, status)}
-            <Content>
-                <Main>
-                    <Forecast value={forecast && forecast.toJSON()}>
-                        <Metadata />
-                        <Status {...status} />
-                        <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
-                        <Headline />
-                        <TabSet />
-                        <Footer />
-                    </Forecast>
-                </Main>
-                <Aside>
-                    <Route>{this.sidebar}</Route>
-                </Aside>
-            </Content>
-        </Fragment>
-    )
+    children = props => {
+        const { name } = this.props
+
+        return (
+            <Fragment>
+                <Region name={name}>{this.renderHeader}</Region>
+                <Content>
+                    <Main>
+                        <Forecast value={props.data}>
+                            <Metadata />
+                            <Fetch.Loading>
+                                <Muted>Loading forecast data...</Muted>
+                            </Fetch.Loading>
+                            <SPAW name={name}>{this.renderSPAW}</SPAW>
+                            <Headline />
+                            <TabSet />
+                            <Footer />
+                        </Forecast>
+                    </Main>
+                    <Aside>
+                        <Route>{this.sidebar}</Route>
+                    </Aside>
+                </Content>
+            </Fragment>
+        )
+    }
     render() {
         const { name, date } = this.props
 

@@ -3,7 +3,6 @@ import { schema } from 'normalizr'
 const { Entity } = schema
 
 export const ForecastRegion = new Entity('forecast-regions')
-export const Forecast = new Entity('forecasts')
 export const HotZone = new Entity('hot-zones')
 export const HotZoneReport = new Entity('hot-zone-reports', undefined, {
     idAttribute: 'hotzoneid',

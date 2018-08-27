@@ -32,7 +32,7 @@ function setVisibility(marker, visible) {
 
 function createMarker(region) {
     return {
-        id: `${Schemas.Forecast.key}:${region.get('id')}`,
+        id: `forecasts:${region.get('id')}`,
         layer: Layers.FORECASTS,
         location: {
             pathname: `/map/forecasts/${region.get('id')}`,

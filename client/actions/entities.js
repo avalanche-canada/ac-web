@@ -6,7 +6,6 @@ import {
     createFetchMetadataAction,
 } from 'api/utils'
 
-export const GET_FORECAST = 'GET_FORECAST'
 export const GET_FEATURES_METADATA = 'GET_FEATURES_METADATA'
 export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS =
     'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS'
@@ -19,11 +18,6 @@ export const POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION =
     'POST_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
 
 export const loadFeaturesMetadata = createFetchMetadataAction()
-
-export const loadForecast = createFetchActionForSchema(
-    GET_FORECAST,
-    Schemas.Forecast
-)
 
 const loadMountainInformationNetworkSubmissions = createFetchActionForSchema(
     GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS,

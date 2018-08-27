@@ -1,5 +1,4 @@
 import * as Schemas from 'api/schemas'
-import * as forecast from './requests/forecast'
 import * as min from './requests/min'
 import * as weather from './requests/weather'
 import * as mcr from './requests/mcr'
@@ -12,7 +11,6 @@ const TRANSFORMERS = new Map([
         Schemas.MountainInformationNetworkSubmission,
         transformers.sanitizeMountainInformationNetworkSubmissions,
     ],
-    [Schemas.Forecast, transformers.transformForecast],
     [
         Schemas.MountainConditionsReport,
         transformers.transformMountainConditionsReports,
@@ -21,12 +19,6 @@ const TRANSFORMERS = new Map([
 
 // FIXME: Find we better way to handle by schema
 const REQUESTS = new Map([
-    [
-        Schemas.Forecast,
-        ({ name, date }) => {
-            return forecast.forecast(name, date)
-        },
-    ],
     [
         Schemas.MountainInformationNetworkSubmission,
         ({ id, days }) => {

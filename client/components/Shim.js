@@ -14,6 +14,7 @@ export default class Shim extends PureComponent {
         left: PropTypes.bool,
         vertical: PropTypes.bool,
         horizontal: PropTypes.bool,
+        all: PropTypes.bool,
     }
     render() {
         const { children, ...values } = this.props

@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import ForecastContainer from 'containers/Forecast'
-import { Status } from 'components/misc'
+import * as containers from 'containers/forecasting'
+import Fetch from 'components/fetch'
+import { Muted } from 'components/text'
 import Shim from 'components/Shim'
 import { Forecast, Metadata, Headline, TabSet } from 'layouts/products/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
@@ -12,53 +13,46 @@ export default class Content extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
     }
-    renderOtherForecast(forecast) {
-        const id = forecast.get('id')
-
+    renderOtherForecast({ id, externalUrl }) {
         if (id === 'north-rockies') {
             return <NorthRockiesBlogFeed />
         }
 
-        if (forecast.has('externalUrl')) {
-            const externalUrl = forecast.get('externalUrl')
-
-            return (
-                <p className={styles.PanelContent}>
-                    Avalanche forecast are available at:{' '}
-                    <a href={externalUrl} target={id}>
-                        {externalUrl}
-                    </a>
-                </p>
-            )
-        }
-
-        return null
+        return externalUrl ? (
+            <p className={styles.PanelContent}>
+                Avalanche forecast are available at:{' '}
+                <a href={externalUrl} target={id}>
+                    {externalUrl}
+                </a>
+            </p>
+        ) : null
     }
-    children = ({ status, forecast }) => (
-        <Fragment>
-            <Status {...status} />
-            {forecast && !forecast.has('externalUrl') ? (
-                <Forecast value={forecast.toJSON()}>
-                    <Shim horizontal>
-                        <Metadata />
-                        <Headline />
-                    </Shim>
-                    <TabSet />
-                </Forecast>
-            ) : (
-                forecast && (
-                    <Shim horizontal>{this.renderOtherForecast(forecast)}</Shim>
-                )
-            )}
-            <Disclaimer />
-            <DangerRatings />
-        </Fragment>
-    )
+    children({ loading, data }) {
+        return (
+            <Fragment>
+                {loading ? (
+                    <Muted>Loading avalanche forecast...</Muted>
+                ) : data && data.externalUrl ? (
+                    <Shim horizontal>{this.renderOtherForecast(data)}</Shim>
+                ) : (
+                    <Forecast value={data}>
+                        <Shim horizontal>
+                            <Metadata />
+                            <Headline />
+                        </Shim>
+                        <TabSet />
+                    </Forecast>
+                )}
+                <Disclaimer />
+                <DangerRatings />
+            </Fragment>
+        )
+    }
     render() {
         return (
-            <ForecastContainer name={this.props.id}>
-                {this.children}
-            </ForecastContainer>
+            <containers.Forecast name={this.props.id}>
+                {props => this.children(props)}
+            </containers.Forecast>
         )
     }
 }

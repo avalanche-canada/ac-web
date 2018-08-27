@@ -16,11 +16,14 @@ import * as Schemas from 'api/schemas'
 import * as Layers from 'constants/drawers'
 
 @withRouter
-@connect(mapStateToProps, {
-    loadData,
-    loadMapStyle,
-    activeFeaturesChanged,
-})
+@connect(
+    mapStateToProps,
+    {
+        loadData,
+        loadMapStyle,
+        activeFeaturesChanged,
+    }
+)
 export default class Container extends Component {
     propTypes = {
         onLoad: PropTypes.func,
@@ -257,7 +260,7 @@ export default class Container extends Component {
 
 // Constants
 const RouteSchemaMapping = new Map([
-    [Schemas.Forecast.key, Schemas.ForecastRegion.key],
+    ['forecasts', Schemas.ForecastRegion.key],
     [Schemas.HotZoneReport.key, Schemas.HotZone.key],
 ])
 
@@ -302,9 +305,16 @@ const LOCATION_CREATORS = new Map([
     ],
     [
         Layers.HOT_ZONE_REPORTS,
-        createPrimaryPanelLocationFactory(Schemas.HotZoneReport),
+        id => ({
+            pathname: `/map/${Schemas.HotZoneReport.key}/${id}`,
+        }),
     ],
-    [Layers.FORECASTS, createPrimaryPanelLocationFactory(Schemas.Forecast)],
+    [
+        Layers.FORECASTS,
+        id => ({
+            pathname: `/map/forecasts/${id}`,
+        }),
+    ],
 ])
 const CLUSTER_BOUNDS_OPTIONS = {
     padding: 75,
@@ -312,11 +322,6 @@ const CLUSTER_BOUNDS_OPTIONS = {
 }
 
 // Utils
-function createPrimaryPanelLocationFactory({ key }) {
-    return id => ({
-        pathname: `/map/${key}/${id}`,
-    })
-}
 function createSecondayPanelLocationFactory(key) {
     if (typeof key === 'string') {
         return id => ({

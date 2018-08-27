@@ -34,7 +34,7 @@ export default class Fetch extends Component {
                     : null
         }
         render() {
-            return <Consumer>{this.children}</Consumer>
+            return <Consumer>{props => this.children(props)}</Consumer>
         }
     }
     static Data = class Data extends Component {
@@ -48,7 +48,7 @@ export default class Fetch extends Component {
             return strict ? (data ? children(data) : null) : children(data)
         }
         render() {
-            return <Consumer>{this.children}</Consumer>
+            return <Consumer>{props => this.children(props)}</Consumer>
         }
     }
     state = STATE
@@ -63,15 +63,20 @@ export default class Fetch extends Component {
 
         throw error
     }
-    fetch = () => {
-        const { request } = this.props
-
-        fetch(request)
-            .then(status)
-            .then(this.fulfill, this.reject)
+    fetch() {
+        this.setState({ loading: true }, () => {
+            fetch(this.props.request)
+                .then(status)
+                .then(this.fulfill, this.reject)
+        })
+    }
+    componentDidUpdate({ request }) {
+        if (request.url !== this.props.request.url) {
+            this.fetch()
+        }
     }
     componentDidMount() {
-        this.setState({ loading: true }, this.fetch)
+        this.fetch()
     }
     render() {
         const { children } = this.props

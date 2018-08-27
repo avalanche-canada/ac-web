@@ -23,3 +23,8 @@
     composes: right;
     composes: left;
 }
+
+.all {
+    composes: vertical;
+    composes: horizontal;
+}
