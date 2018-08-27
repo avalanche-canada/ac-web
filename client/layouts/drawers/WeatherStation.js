@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Header,
@@ -9,9 +9,11 @@ import {
     Close,
 } from 'components/page/drawer'
 import { Metadata, Station, Footer } from 'components/weather/station'
-import { Status } from 'components/misc'
+import { Error, Muted } from 'components/text'
+import ErrorBoundary from 'components/ErrorBoundary'
+import Fetch from 'components/fetch'
 import { Link } from 'react-router-dom'
-import WeatherStationContainer from 'containers/WeatherStation'
+import * as containers from 'containers/weather'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/station'
@@ -22,46 +24,67 @@ export default class WeatherStation extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader(entity, status) {
+    renderHeader(props) {
+        const { data } = props
         const { onLocateClick } = this.props
-        const title = utils.title(entity, status)
+        const title = utils.title(props)
         function handleLocateClick() {
-            onLocateClick(utils.geometry(entity))
+            onLocateClick(utils.geometry(data))
         }
 
         return (
             <h1>
-                {entity ? <Link to={utils.link(entity)}>{title}</Link> : title}
-                {status.isLoaded && (
-                    <DisplayOnMap onClick={handleLocateClick} />
-                )}
+                {data ? <Link to={utils.link(data)}>{title}</Link> : title}
+                {data && <DisplayOnMap onClick={handleLocateClick} />}
             </h1>
         )
     }
-    children = ({ entity, status }) => (
+    renderMeasurements({ utcOffset }, { data, loading }) {
+        return loading || !data ? (
+            <Muted>Loading westher station measurements...</Muted>
+        ) : (
+            <Station utcOffset={utcOffset} measurements={data} />
+        )
+    }
+    renderData = station => {
+        return (
+            <Fragment>
+                <Metadata {...station} />
+                <containers.Measurements id={this.props.id}>
+                    {this.renderMeasurements.bind(this, station)}
+                </containers.Measurements>
+                <Footer />
+            </Fragment>
+        )
+    }
+    children = props => (
         <Container>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={this.props.onCloseClick} />
             </Navbar>
             <Header subject="Weather station">
-                {this.renderHeader(entity, status)}
+                {this.renderHeader(props)}
             </Header>
             <Body>
                 <Content>
-                    <Status {...status} />
-                    {Metadata.render(entity)}
-                    {Station.render(entity)}
-                    <Footer />
+                    <Fetch.Data strict>{this.renderData}</Fetch.Data>
                 </Content>
             </Body>
         </Container>
     )
+    renderError() {
+        return (
+            <Error>An error happened while loading weather station data.</Error>
+        )
+    }
     render() {
         return (
-            <WeatherStationContainer id={this.props.id}>
-                {this.children}
-            </WeatherStationContainer>
+            <ErrorBoundary fallback={this.renderError}>
+                <containers.Station id={this.props.id}>
+                    {this.children}
+                </containers.Station>
+            </ErrorBoundary>
         )
     }
 }

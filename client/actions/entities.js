@@ -43,10 +43,6 @@ export const loadWeatherStations = createFetchActionForSchema(
     Schemas.WeatherStation
 )
 
-export function loadWeatherStation(id) {
-    return loadWeatherStations({ id })
-}
-
 export const loadMountainConditionsReports = createFetchActionForSchema(
     GET_MOUNTAIN_CONDITIONS_REPORTS,
     Schemas.MountainConditionsReport

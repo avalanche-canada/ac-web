@@ -5,7 +5,6 @@ import loadChartSet from 'bundle-loader?lazy!./ChartSet'
 import Bundle from 'components/Bundle'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Loading, Muted } from 'components/text'
-import styles from './Station.css'
 import * as Columns from './columns'
 import * as Headers from './headers'
 
@@ -18,30 +17,35 @@ function ChartSet(props) {
 }
 
 export default class Station extends Component {
-    static render(station) {
-        if (!station) {
-            return null
-        }
-
-        return <Station measurements={computeMeasurements(station)} />
-    }
     static propTypes = {
         measurements: PropTypes.arrayOf(PropTypes.object),
+        utcOffset: PropTypes.number.isRequired,
     }
-    shouldComponentUpdate({ measurements }) {
-        return measurements !== this.props.measurements
+    get computedMeasurements() {
+        const { measurements, utcOffset } = this.props
+
+        return measurements
+            .map(m => ({
+                ...m,
+                measurementDateTime: new Date(m.measurementDateTime),
+                utcOffset,
+            }))
+            .sort((a, b) => a.measurementDateTime - b.measurementDateTime)
+            .map((m, i, all) => {
+                const newSnow = m.snowHeight - all[i - 1]?.snowHeight || NaN
+
+                m.newSnow = newSnow < 0.5 ? 0 : Math.round(newSnow)
+
+                return m
+            })
+            .reverse()
     }
     render() {
-        const { measurements } = this.props
-
-        //TODO(karl): Ensure we always get an empty measurements object
-        if (measurements && measurements.size === 0) {
-            return (
-                <div className={styles.UnavaliableMessage}>
-                    <Muted>This station currently has no data avaliable</Muted>
-                </div>
-            )
+        if (this.props.measurements.length === 0) {
+            return <Muted>This station currently has no data avaliable</Muted>
         }
+
+        const measurements = this.computedMeasurements
 
         return (
             <Tabs theme="LOOSE">
@@ -51,22 +55,14 @@ export default class Station extends Component {
                 </HeaderSet>
                 <PanelSet>
                     <Panel title="Table">
-                        {measurements ? (
-                            <Table
-                                measurements={measurements}
-                                columns={COLUMNS}
-                                headers={HEADERS}
-                            />
-                        ) : (
-                            <Loading />
-                        )}
+                        <Table
+                            measurements={measurements}
+                            columns={COLUMNS}
+                            headers={HEADERS}
+                        />
                     </Panel>
                     <Panel title="Charts">
-                        {measurements ? (
-                            <ChartSet measurements={measurements} />
-                        ) : (
-                            <Loading />
-                        )}
+                        <ChartSet measurements={measurements} />
                     </Panel>
                 </PanelSet>
             </Tabs>
@@ -101,30 +97,3 @@ const COLUMNS = [
     Columns.WindSpeedGust,
     Columns.RelativeHumidity,
 ]
-
-// utils
-function computeMeasurements(station) {
-    if (!station.has('measurements')) {
-        return
-    }
-
-    const utcOffset = station.get('utcOffset')
-
-    return station
-        .get('measurements')
-        .map(m =>
-            m.merge({
-                measurementDateTime: new Date(m.get('measurementDateTime')),
-                utcOffset,
-            })
-        )
-        .sortBy(m => m.get('measurementDateTime'))
-        .map((m, i, all) => {
-            const newSnow =
-                m.get('snowHeight') - all.getIn([i - 1, 'snowHeight'], NaN)
-
-            return m.set('newSnow', newSnow < 0.5 ? 0 : Math.round(newSnow))
-        })
-        .map(m => m.toObject())
-        .reverse()
-}

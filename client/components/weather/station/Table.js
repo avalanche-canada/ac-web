@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { List } from 'immutable'
 import format from 'date-fns/format'
 import { DATE, setUTCOffset } from 'utils/date'
 import {
@@ -17,7 +16,7 @@ import styles from './Table.css'
 StationTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
     headers: PropTypes.arrayOf(PropTypes.object).isRequired,
-    measurements: PropTypes.instanceOf(List),
+    measurements: PropTypes.arrayOf(PropTypes.object),
     caption: PropTypes.string,
 }
 
@@ -45,9 +44,18 @@ export default function StationTable({
     headers,
     caption,
 }) {
-    const bodies = measurements.groupBy(({ measurementDateTime, utcOffset }) =>
-        format(setUTCOffset(measurementDateTime, utcOffset), DATE)
-    )
+    const bodies = measurements.reduce((groups, measurements) => {
+        const { measurementDateTime, utcOffset } = measurements
+        const title = format(setUTCOffset(measurementDateTime, utcOffset), DATE)
+
+        if (!(title in groups)) {
+            groups[title] = []
+        }
+
+        groups[title].push(measurements)
+
+        return groups
+    }, {})
 
     return (
         <div className={styles.Container}>
@@ -69,7 +77,7 @@ export default function StationTable({
                             </Row>
                         ))}
                     </Header>
-                    {bodies.entrySeq().map(([title, measurements]) => (
+                    {Object.entries(bodies).map(([title, measurements]) => (
                         <TBody key={title} title={title} featured>
                             {measurements.map((measurement, index) => (
                                 <Row key={index}>

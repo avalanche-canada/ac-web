@@ -2,10 +2,6 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Metadata, Entry, LocationEntry } from 'components/metadata'
 
-const NO_TEXT_TRANSFORM = {
-    textTransform: 'none',
-}
-
 export default class WeatherStationMetadata extends PureComponent {
     static render(station) {
         if (!station) {
@@ -41,7 +37,11 @@ export default class WeatherStationMetadata extends PureComponent {
                 <Entry term="Elevation">
                     <span style={NO_TEXT_TRANSFORM}>{elevation} m</span>
                 </Entry>
-                <Entry term="Time zone">UTC-0{Math.abs(utcOffset)}:00</Entry>
+                <Entry term="Time zone">
+                    UTC-0
+                    {Math.abs(utcOffset)}
+                    :00
+                </Entry>
                 {description && (
                     <Entry title="Description">{description}</Entry>
                 )}
@@ -52,4 +52,9 @@ export default class WeatherStationMetadata extends PureComponent {
             </Metadata>
         )
     }
+}
+
+// Constants
+const NO_TEXT_TRANSFORM = {
+    textTransform: 'none',
 }

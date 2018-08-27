@@ -51,20 +51,6 @@ export function fetch(schema, params = {}) {
     const request = REQUESTS.get(schema).call(null, params)
     const transformer = TRANSFORMERS.get(schema) || identity
 
-    // FIXME: Remove that condition!!!
-    // It is a single Schemas.WeatherStation request
-    if (schema === Schemas.WeatherStation && params.id) {
-        const { id } = params
-
-        return Promise.all([
-            window.fetch(weather.station(id)).then(status),
-            window.fetch(weather.measurements(id)).then(status),
-        ]).then(([station, measurements]) => ({
-            ...station,
-            measurements,
-        }))
-    }
-
     return window
         .fetch(request)
         .then(status)
