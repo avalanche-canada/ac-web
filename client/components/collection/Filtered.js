@@ -2,10 +2,6 @@ import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { renderChildren } from './utils'
 
-function reducer(collection, predicate) {
-    return collection.filter(predicate)
-}
-
 export default class FilteredCollection extends PureComponent {
     static propTypes = {
         values: PropTypes.array,
@@ -18,4 +14,9 @@ export default class FilteredCollection extends PureComponent {
 
         return renderChildren(children, predicates.reduce(reducer, values))
     }
+}
+
+// Utils
+function reducer(collection, predicate) {
+    return collection.filter(predicate)
 }

@@ -2,7 +2,10 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
+import inside from '@turf/inside'
+import * as turf from '@turf/helpers'
 import { Page, Header, Main, Content } from 'components/page'
+import { Muted } from 'components/text'
 import { Br } from 'components/markup'
 import {
     Table,
@@ -14,13 +17,13 @@ import {
     Responsive,
     Caption,
 } from 'components/table'
-import Container from 'containers/MountainInformationNetworkSubmissionList'
-import * as containers from 'containers/forecast'
+import * as containers from 'containers/min'
+import { Regions } from 'containers/forecast'
+import { FeatureCollection } from 'containers/mapbox'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
-import { Status } from 'components/misc'
-import { Sorted } from 'components/collection'
+import { Sorted, Filtered } from 'components/collection'
 import * as links from 'components/links'
 import { INCIDENT, NAMES } from 'constants/min'
 import { NONE, DESC } from 'constants/sortings'
@@ -100,9 +103,9 @@ export default class SubmissionList extends PureComponent {
             </Metadata>
         )
     }
-    renderSubmission = submission => {
+    renderSubmission(submission) {
         return (
-            <Row key={submission.get('subid')}>
+            <Row key={submission.subid}>
                 {COLUMNS.map(({ name, style, property }) => (
                     <Cell key={name} style={style}>
                         {property(submission)}
@@ -111,6 +114,7 @@ export default class SubmissionList extends PureComponent {
             </Row>
         )
     }
+    renderSubmissions = submissions => submissions.map(this.renderSubmission)
     getSorting(name, order) {
         if (Array.isArray(this.state.sorting)) {
             const { sorting } = this.state
@@ -133,14 +137,6 @@ export default class SubmissionList extends PureComponent {
             </HeaderCell>
         )
     }
-    createMessages({ submissions, status }) {
-        return {
-            ...status.messages,
-            isLoaded: submissions.isEmpty()
-                ? 'No submissions found.'
-                : `Total of ${submissions.size} submissions found.`,
-        }
-    }
     get sortProps() {
         const [name, order] = this.state.sorting || []
 
@@ -153,46 +149,70 @@ export default class SubmissionList extends PureComponent {
             reverse: order === DESC,
         }
     }
-    renderChildren({ props }) {
+    get predicates() {
+        const { types, regions } = this.state
+        const predicates = []
+
+        if (types.size > 0) {
+            predicates.push(report => {
+                const reportTypes = report.obs.map(pluckObtype)
+
+                return reportTypes.some(type => types.has(type))
+            })
+        }
+
+        if (regions.size > 0) {
+            predicates.push(
+                report =>
+                    'region' in report ? regions.has(report.region.id) : false
+            )
+        }
+
+        return predicates
+    }
+    renderTableContent({ loading, data }) {
         return (
-            <Fragment>
-                <TBody>
-                    <Sorted values={props.submissions} {...this.sortProps}>
-                        {submissions => submissions.map(this.renderSubmission)}
-                    </Sorted>
-                </TBody>
-                <Caption>
-                    <Status
-                        {...props.status}
-                        messages={this.createMessages(props)}
-                    />
-                </Caption>
-            </Fragment>
+            <Filtered values={data || []} predicates={this.predicates}>
+                <Sorted {...this.sortProps}>
+                    {submissions => (
+                        <Fragment>
+                            <TBody>{this.renderSubmissions(submissions)}</TBody>
+                            <Caption>
+                                {loading ? (
+                                    <Muted>
+                                        Loading Mountain Information Network
+                                        reports...
+                                    </Muted>
+                                ) : submissions.length === 0 ? (
+                                    'No submissions found.'
+                                ) : (
+                                    `Total of ${
+                                        submissions.length
+                                    } submissions found.`
+                                )}
+                            </Caption>
+                        </Fragment>
+                    )}
+                </Sorted>
+            </Filtered>
         )
     }
     render() {
-        const { days, types, regions } = this.state
-
         return (
             <Page>
                 <Header title="Mountain Information Network — List View" />
                 <Content>
                     <Main>
-                        <containers.Regions>
-                            {props => this.renderMetadata(props)}
-                        </containers.Regions>
+                        <Regions>{props => this.renderMetadata(props)}</Regions>
                         <Br />
                         <Responsive>
                             <Table>
                                 <THead>
                                     <Row>{COLUMNS.map(this.renderHeader)}</Row>
                                 </THead>
-                                <Container
-                                    days={days}
-                                    types={types}
-                                    regions={regions}>
-                                    {props => this.renderChildren(props)}
-                                </Container>
+                                <Reports days={this.state.days}>
+                                    {props => this.renderTableContent(props)}
+                                </Reports>
                             </Table>
                         </Responsive>
                     </Main>
@@ -202,46 +222,65 @@ export default class SubmissionList extends PureComponent {
     }
 }
 
+class Reports extends PureComponent {
+    static propTypes = {
+        days: PropTypes.number.isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        const { days, children } = this.props
+
+        return (
+            <FeatureCollection id="regions">
+                {features => (
+                    <containers.Reports days={days}>
+                        {reports =>
+                            features.data && reports.data
+                                ? children({
+                                      loading: false,
+                                      data: runSubmissionsSpatialAnalysis(
+                                          reports.data,
+                                          features.data
+                                      ),
+                                  })
+                                : children({ loading: true })
+                        }
+                    </containers.Reports>
+                )}
+            </FeatureCollection>
+        )
+    }
+}
+
 // Constants
 const SORTERS = new Map([
-    [
-        'date',
-        (a, b) => {
-            const A = new Date(a.get('datetime'))
-            const B = new Date(b.get('datetime'))
-
-            if (A > B) return 1
-            if (A < B) return -1
-            return 0
-        },
-    ],
-    ['reporter', (a, b) => a.get('user').localeCompare(b.get('user'))],
+    ['date', (a, b) => new Date(a.datetime) - new Date(b.datetime)],
+    ['reporter', (a, b) => a.user.localeCompare(b.user)],
     [
         'region',
         (a, b) => {
-            if (a.has('region') && b.has('region')) {
-                return a.get('region').name.localeCompare(b.get('region').name)
+            if (a.region && b.region) {
+                return a.region.name.localeCompare(b.region.name)
             }
 
-            if (!a.has('region') && !b.has('region')) {
+            if (!a.region && !b.region) {
                 return 0
             }
 
-            return a.has('region') ? -1 : 1
+            return a.region ? -1 : 1
         },
     ],
 ])
 const COLUMNS = [
     {
         name: 'pin',
-        property(submission) {
-            const title = submission.get('title')
-            const withIncident = submission.get('obs').some(hasIncident)
+        property({ subid, title, obs }) {
+            const withIncident = obs.some(hasIncident)
             const icon = withIncident ? pinWithIncident : pin
 
             return (
                 <links.MountainInformationNetwork
-                    id={submission.get('subid')}
+                    id={subid}
                     title={`Look at ${title} report on the map`}>
                     <img src={icon} height={30} width={20} />
                 </links.MountainInformationNetwork>
@@ -254,22 +293,20 @@ const COLUMNS = [
     {
         name: 'title',
         title: 'Title',
-        property(submission) {
-            return submission.get('title')
+        property({ title }) {
+            return title
         },
     },
     {
         name: 'date',
         title: 'Date',
-        property(submission) {
-            const date = new Date(submission.get('datetime'))
-
+        property({ datetime }) {
             return (
                 <span>
-                    <DateTime value={date} />
+                    <DateTime value={datetime} />
                     <br />
                     <small className={styles.Muted}>
-                        <Relative value={date} />
+                        <Relative value={datetime} />
                     </small>
                 </span>
             )
@@ -279,32 +316,28 @@ const COLUMNS = [
     {
         name: 'reporter',
         title: 'Reporter',
-        property(submission) {
-            return submission.get('user')
+        property({ user }) {
+            return user
         },
         sorting: NONE,
     },
     {
         name: 'region',
         title: 'Forecast Region',
-        property(submission) {
-            if (submission.has('region')) {
-                const { name, id } = submission.get('region')
-
-                return <links.Forecast id={id}>{name}</links.Forecast>
-            }
+        property({ region }) {
+            return region ? (
+                <links.Forecast id={region.id}>{region.name}</links.Forecast>
+            ) : null
         },
         sorting: NONE,
     },
     {
         name: 'types',
         title: 'Available reports',
-        property(submission) {
-            const types = submission.get('obs').map(pluckObtype)
-
+        property({ obs }) {
             return (
                 <ul>
-                    {types.map(type => (
+                    {obs.map(pluckObtype).map(type => (
                         <li key={type}>{NAMES.get(type)}</li>
                     ))}
                 </ul>
@@ -314,12 +347,28 @@ const COLUMNS = [
 ]
 
 // Utils
-function pluckObtype(observation) {
-    return observation.get('obtype')
+function pluckObtype({ obtype }) {
+    return obtype
 }
 function createRegionOption({ id, name }) {
     return [id, name]
 }
-function hasIncident(observation) {
-    return observation.get('obtype') === INCIDENT
+function hasIncident({ obtype }) {
+    return obtype === INCIDENT
+}
+function runSubmissionsSpatialAnalysis(reports, { features }) {
+    return reports.map(report => {
+        const point = turf.point(report.lnglat)
+
+        for (const region of features) {
+            if (inside(point, region)) {
+                return {
+                    ...report,
+                    region: region.properties,
+                }
+            }
+        }
+
+        return report
+    })
 }

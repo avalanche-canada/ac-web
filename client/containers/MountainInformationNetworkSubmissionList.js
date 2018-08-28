@@ -8,8 +8,8 @@ import { getEntitiesForSchema } from 'getters/entities'
 import Immutable from 'immutable'
 import inside from '@turf/inside'
 import * as turf from '@turf/helpers'
-import { getFeatureCollection } from 'getters/mapbox'
 import { FORECAST_REGIONS } from 'services/mapbox/datasets'
+import { getFeatureCollection } from 'getters/mapbox'
 import { loadFeatures } from 'actions/mapbox'
 
 function getFilters(state, { types, regions }) {
@@ -52,18 +52,17 @@ const runSubmissionsSpatialAnalysis = createSelector(
         const { features } = regions
 
         function setRegion(submission) {
-            const point = turf.point(
-                submission
-                    .get('latlng')
-                    .reverse()
-                    .toArray()
-            )
+            const point = turf.point([...submission.latlng].reverse())
 
             for (var i = 0; i < features.length; i++) {
                 const region = features[i]
 
                 if (inside(point, region)) {
-                    return submission.set('region', region.properties)
+                    return {
+                        ...submission,
+
+                        region: region.properties,
+                    }
                 }
             }
 

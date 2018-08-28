@@ -4,11 +4,16 @@ import isBefore from 'date-fns/is_before'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
-function sanitizeMountainInformationNetworkSubmission(submission) {
-    return {
-        ...submission,
-        latlng: submission.latlng.map(Number),
-    }
+export function sanitizeMountainInformationNetworkSubmission({
+    latlng,
+    datetime,
+    ...submission
+}) {
+    return Object.assign(submission, {
+        latlng: latlng.map(Number),
+        lnglat: latlng.map(Number).reverse(),
+        datetime: new Date(datetime),
+    })
 }
 
 export function sanitizeMountainInformationNetworkSubmissions(data) {
