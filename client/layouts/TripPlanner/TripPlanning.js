@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
-import * as containers from 'containers/forecast'
+import { Forecast } from 'containers/forecast'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
 import { Chart } from 'components/graphics/avaluator'
@@ -79,9 +79,9 @@ export default class TripPlanning extends Component {
         return (
             <Fragment>
                 {region ? (
-                    <containers.Forecast name={region.id}>
+                    <Forecast name={region.id}>
                         {props => this.renderChildren(props)}
-                    </containers.Forecast>
+                    </Forecast>
                 ) : (
                     <Muted>{this.isLoadedMessage}</Muted>
                 )}

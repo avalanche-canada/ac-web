@@ -4,9 +4,10 @@ import { Link } from 'react-router-dom'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import Url from 'url'
-import * as containers from 'containers/forecast'
+import { Forecast } from 'containers/forecast'
+import { Region, Regions } from 'containers/features'
 import { Page, Content, Header, Main } from 'components/page'
-import * as Components from 'layouts/products/forecast'
+import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
 import Fetch from 'components/fetch'
 import { Muted } from 'components/text'
@@ -71,22 +72,20 @@ export default class ArchiveForecast extends PureComponent {
         const { name } = this.state
 
         return (
-            <Components.Forecast value={data}>
+            <components.Forecast value={data}>
                 <Fetch.Loading>
                     <Muted>Loading forecast...</Muted>
                 </Fetch.Loading>
-                <Components.Metadata />
-                <Components.ArchiveWarning date={this.props.date} />
-                <Components.Headline />
-                <Components.TabSet />
-                <Components.Footer>
+                <components.Metadata />
+                <components.ArchiveWarning date={this.props.date} />
+                <components.Headline />
+                <components.TabSet />
+                <components.Footer>
                     <Footer.DangerRatings />
                     <Footer.Disclaimer />
-                </Components.Footer>
-                <containers.Region name={name}>
-                    {this.renderWarning}
-                </containers.Region>
-            </Components.Forecast>
+                </components.Footer>
+                <Region name={name}>{this.renderWarning}</Region>
+            </components.Forecast>
         )
     }
     get container() {
@@ -101,9 +100,9 @@ export default class ArchiveForecast extends PureComponent {
         }
 
         return (
-            <containers.Forecast name={name} date={date}>
+            <Forecast name={name} date={date}>
                 {props => this.forecast(props)}
-            </containers.Forecast>
+            </Forecast>
         )
     }
     get metadata() {
@@ -112,9 +111,7 @@ export default class ArchiveForecast extends PureComponent {
         return (
             <Metadata>
                 <Entry>
-                    <containers.Regions>
-                        {this.regionsDropdown}
-                    </containers.Regions>
+                    <Regions>{this.regionsDropdown}</Regions>
                 </Entry>
                 {name && (
                     <Entry>

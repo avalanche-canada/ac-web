@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import * as containers from 'containers/forecast'
-import Fetch from 'components/fetch'
+import { Forecast } from 'containers/forecast'
 import { Muted } from 'components/text'
 import Shim from 'components/Shim'
-import { Forecast, Metadata, Headline, TabSet } from 'layouts/products/forecast'
+import * as components from 'layouts/products/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { Disclaimer, DangerRatings } from 'layouts/products/forecast/Footer'
 import styles from './TripPlanner.css'
@@ -35,13 +34,13 @@ export default class Content extends Component {
                 ) : data && data.externalUrl ? (
                     <Shim horizontal>{this.renderOtherForecast(data)}</Shim>
                 ) : (
-                    <Forecast value={data}>
+                    <components.Forecast value={data}>
                         <Shim horizontal>
-                            <Metadata />
-                            <Headline />
+                            <components.Metadata />
+                            <components.Headline />
                         </Shim>
-                        <TabSet />
-                    </Forecast>
+                        <components.TabSet />
+                    </components.Forecast>
                 )}
                 <Disclaimer />
                 <DangerRatings />
@@ -50,9 +49,9 @@ export default class Content extends Component {
     }
     render() {
         return (
-            <containers.Forecast name={this.props.id}>
+            <Forecast name={this.props.id}>
                 {props => this.children(props)}
-            </containers.Forecast>
+            </Forecast>
         )
     }
 }

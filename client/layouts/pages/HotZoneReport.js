@@ -6,7 +6,7 @@ import { Status } from 'components/misc'
 import { Item } from 'components/sidebar'
 import * as Hzr from 'layouts/products/hzr'
 import { HotZoneReport as Container } from 'prismic/containers'
-import HotZone from 'containers/HotZone'
+import { HotZone } from 'containers/features'
 import * as utils from 'utils/hzr'
 
 export default class HotZoneReportLayout extends PureComponent {
@@ -15,11 +15,17 @@ export default class HotZoneReportLayout extends PureComponent {
         uid: PropTypes.string,
     }
     renderHeader = props => {
-        return <Header title={utils.title(props)} />
+        return (
+            <HotZone name={this.props.region}>
+                {({ data }) => (
+                    <Header title={utils.title({ ...props, hotZone: data })} />
+                )}
+            </HotZone>
+        )
     }
-    renderChildrenFactory = ({ report, status }) => ({ hotZone }) => (
+    renderReport = ({ report, status }) => (
         <Fragment>
-            {this.renderHeader({ report, status, hotZone })}
+            {this.renderHeader({ report, status })}
             <Content>
                 <Main>
                     <Status {...status} />
@@ -53,15 +59,10 @@ export default class HotZoneReportLayout extends PureComponent {
             </Content>
         </Fragment>
     )
-    children = props => (
-        <HotZone id={this.props.region}>
-            {this.renderChildrenFactory(props)}
-        </HotZone>
-    )
     render() {
         return (
             <Page>
-                <Container {...this.props}>{this.children}</Container>
+                <Container {...this.props}>{this.renderReport}</Container>
             </Page>
         )
     }

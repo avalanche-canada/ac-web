@@ -2,20 +2,13 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import isToday from 'date-fns/is_today'
-import { Forecast as Container, Region } from 'containers/forecast'
+import { Forecast } from 'containers/forecast'
+import { Region } from 'containers/features'
 import { Page, Header, Content, Main, Aside } from 'components/page'
 import { Muted } from 'components/text'
 import Fetch from 'components/fetch'
 import { StructuredText } from 'prismic/components/base'
-import {
-    Sidebar,
-    KananaskisSidebar,
-    Forecast,
-    Metadata,
-    Headline,
-    TabSet,
-    Footer,
-} from 'layouts/products/forecast'
+import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 
@@ -46,9 +39,9 @@ export default class ForecastLayout extends PureComponent {
         const { name, date } = match.params
 
         return name === 'kananaskis' ? (
-            <KananaskisSidebar />
+            <components.KananaskisSidebar />
         ) : (
-            <Sidebar isPrintable={!date || isToday(date)} />
+            <components.Sidebar isPrintable={!date || isToday(date)} />
         )
     }
     children = props => {
@@ -59,16 +52,16 @@ export default class ForecastLayout extends PureComponent {
                 <Region name={name}>{this.renderHeader}</Region>
                 <Content>
                     <Main>
-                        <Forecast value={props.data}>
-                            <Metadata />
+                        <components.Forecast value={props.data}>
+                            <components.Metadata />
                             <Fetch.Loading>
                                 <Muted>Loading forecast data...</Muted>
                             </Fetch.Loading>
                             <SPAW name={name}>{this.renderSPAW}</SPAW>
-                            <Headline />
-                            <TabSet />
-                            <Footer />
-                        </Forecast>
+                            <components.Headline />
+                            <components.TabSet />
+                            <components.Footer />
+                        </components.Forecast>
                     </Main>
                     <Aside>
                         <Route>{this.sidebar}</Route>
@@ -82,9 +75,9 @@ export default class ForecastLayout extends PureComponent {
 
         return (
             <Page>
-                <Container name={name} date={date}>
+                <Forecast name={name} date={date}>
                     {this.children}
-                </Container>
+                </Forecast>
             </Page>
         )
     }

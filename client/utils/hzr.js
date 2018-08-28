@@ -6,7 +6,7 @@ import endOfDay from 'date-fns/end_of_day'
 import { HotZoneReport as Schema } from 'api/schemas'
 
 export function title({ report, status, hotZone }) {
-    const name = hotZone ? hotZone.get('name') : null
+    const name = hotZone ? hotZone.name : null
 
     return status.isLoaded
         ? report

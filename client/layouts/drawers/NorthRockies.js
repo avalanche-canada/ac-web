@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import * as containers from 'containers/forecast'
+import { Region } from 'containers/features'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
@@ -52,9 +52,9 @@ export default class NorthRockies extends PureComponent {
                 <Header subject="Avalanche Forecast">
                     <h1>
                         <Link to="/forecasts/north-rockies">North Rockies</Link>
-                        <containers.Region name="north-rockies">
+                        <Region name="north-rockies">
                             {props => this.locate(props)}
-                        </containers.Region>
+                        </Region>
                     </h1>
                 </Header>
                 <Body>

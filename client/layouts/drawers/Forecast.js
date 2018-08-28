@@ -2,20 +2,15 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
-import {
-    Forecast,
-    Metadata,
-    Headline,
-    TabSet,
-    Footer,
-} from 'layouts/products/forecast'
+import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Muted } from 'components/text'
-import * as containers from 'containers/forecast'
+import { Forecast } from 'containers/forecast'
+import { Region } from 'containers/features'
 import * as utils from 'utils/region'
 
 export default class Layout extends PureComponent {
@@ -63,19 +58,17 @@ export default class Layout extends PureComponent {
                     <Sponsor label={null} />
                     <Close onClick={onCloseClick} />
                 </Navbar>
-                <containers.Region name={name}>
-                    {this.renderHeader}
-                </containers.Region>
+                <Region name={name}>{this.renderHeader}</Region>
                 <Body>
                     {data ? (
-                        <Forecast value={data}>
+                        <components.Forecast value={data}>
                             <Shim horizontal>
-                                <Metadata />
-                                <Headline />
+                                <components.Metadata />
+                                <components.Headline />
                             </Shim>
-                            <TabSet />
-                            <Footer />
-                        </Forecast>
+                            <components.TabSet />
+                            <components.Footer />
+                        </components.Forecast>
                     ) : (
                         <Shim all>
                             <Muted>Loading avalanche forecast...</Muted>
@@ -86,10 +79,6 @@ export default class Layout extends PureComponent {
         )
     }
     render() {
-        return (
-            <containers.Forecast name={this.props.name}>
-                {this.children}
-            </containers.Forecast>
-        )
+        return <Forecast name={this.props.name}>{this.children}</Forecast>
     }
 }

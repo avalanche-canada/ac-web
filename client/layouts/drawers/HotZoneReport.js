@@ -8,7 +8,7 @@ import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { HotZoneReport as HotZoneReportContainer } from 'prismic/containers'
-import HotZone from 'containers/HotZone'
+import { HotZone } from 'containers/features'
 import * as utils from 'utils/hzr'
 
 export default class HotZoneReportDrawer extends PureComponent {
@@ -19,32 +19,42 @@ export default class HotZoneReportDrawer extends PureComponent {
     }
     renderHeader(props) {
         const { name, onLocateClick } = this.props
-        const title = utils.title(props)
-        const { report, hotZone } = props
-        function handleLocateClick() {
-            onLocateClick(utils.geometry(hotZone))
-        }
+        const { report } = props
 
         return (
             <Header subject="Hot Zone Report">
-                <h1>
-                    {report ? (
-                        <Link to={`/hot-zone-reports/${name}`}>{title}</Link>
-                    ) : (
-                        <span>{title}</span>
-                    )}
-                    {hotZone && <DisplayOnMap onClick={handleLocateClick} />}
-                </h1>
+                <HotZone name={this.props.name}>
+                    {({ data }) => {
+                        const title = utils.title({ ...props, hotZone: data })
+
+                        return (
+                            <h1>
+                                {report ? (
+                                    <Link to={`/hot-zone-reports/${name}`}>
+                                        {title}
+                                    </Link>
+                                ) : (
+                                    <span>{title}</span>
+                                )}
+                                <DisplayOnMap
+                                    onClick={() => {
+                                        onLocateClick(utils.geometry(data))
+                                    }}
+                                />
+                            </h1>
+                        )
+                    }}
+                </HotZone>
             </Header>
         )
     }
-    renderChildren = ({ report, status }) => ({ hotZone }) => (
+    renderReport = ({ report, status }) => (
         <Container>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={this.props.onCloseClick} />
             </Navbar>
-            {this.renderHeader({ report, status, hotZone })}
+            {this.renderHeader({ report, status })}
             <Body>
                 <Shim horizontal>
                     <Status {...status} />
@@ -65,13 +75,10 @@ export default class HotZoneReportDrawer extends PureComponent {
             </Body>
         </Container>
     )
-    children = props => (
-        <HotZone id={this.props.name}>{this.renderChildren(props)}</HotZone>
-    )
     render() {
         return (
             <HotZoneReportContainer region={this.props.name}>
-                {this.children}
+                {this.renderReport}
             </HotZoneReportContainer>
         )
     }

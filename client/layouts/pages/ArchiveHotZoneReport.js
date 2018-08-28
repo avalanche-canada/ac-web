@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
-import HotZones from 'containers/HotZones'
+import { HotZones } from 'containers/features'
 import { Report } from 'layouts/products/hzr'
 import { Page, Content, Header, Main } from 'components/page'
 import { DateElement } from 'components/time'
@@ -49,15 +49,16 @@ export default class ArchiveHotZoneReport extends PureComponent {
         this.setState({ date }, this.pushToHistory)
     }
     handleMonthChange = month => this.setState({ month })
-    zonesDropdown = zones => (
-        <Dropdown
-            options={new Map(zones.map(createZoneOption))}
-            value={this.state.name}
-            onChange={this.handleNameChange}
-            disabled
-            placeholder="Select a hot zone"
-        />
-    )
+    zonesDropdown = ({ data }) =>
+        data ? (
+            <Dropdown
+                options={new Map(data.map(createZoneOption))}
+                value={this.state.name}
+                onChange={this.handleNameChange}
+                disabled
+                placeholder="Select a hot zone"
+            />
+        ) : null
     dayPicker = ({ documents }) => {
         const { date } = this.state
         const days = documents.reduce((days, { data }) => {
@@ -87,7 +88,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
         return (
             <Metadata>
                 <Entry>
-                    <HotZones>{this.zonesDropdown}</HotZones>
+                    <HotZones all>{this.zonesDropdown}</HotZones>
                 </Entry>
                 {name && (
                     <Entry>
@@ -154,6 +155,6 @@ export default class ArchiveHotZoneReport extends PureComponent {
 }
 
 // Utils
-function createZoneOption(zone) {
-    return [zone.get('id'), zone.get('name')]
+function createZoneOption({ id, name }) {
+    return [id, name]
 }

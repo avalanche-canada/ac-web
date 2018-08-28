@@ -18,7 +18,7 @@ import {
     Caption,
 } from 'components/table'
 import * as containers from 'containers/min'
-import { Regions } from 'containers/forecast'
+import { Regions } from 'containers/features'
 import { FeatureCollection } from 'containers/mapbox'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
