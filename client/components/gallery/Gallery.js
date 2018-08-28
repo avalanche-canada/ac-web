@@ -10,6 +10,11 @@ import {
 import { WHITE } from 'constants/colors'
 import 'react-image-gallery/styles/css/image-gallery-no-icon.css'
 
+export default function Gallery(props) {
+    return <Base {...props} {...buttons} />
+}
+
+// Utils
 function Button(props) {
     return <button type="button" {...props} />
 }
@@ -51,8 +56,4 @@ const buttons = {
             </Button>
         )
     },
-}
-
-export default function Gallery(props) {
-    return <Base {...props} {...buttons} />
 }
