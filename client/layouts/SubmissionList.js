@@ -29,6 +29,7 @@ import { INCIDENT, NAMES } from 'constants/min'
 import { NONE, DESC } from 'constants/sortings'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
 import pin from 'components/icons/min/min-pin.svg'
+import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 
 export default class SubmissionList extends PureComponent {
@@ -293,8 +294,20 @@ const COLUMNS = [
     {
         name: 'title',
         title: 'Title',
-        property({ title }) {
-            return title
+        property({ title, uploads }) {
+            const { length } = uploads
+
+            return (
+                <Fragment>
+                    {title}
+                    <br />
+                    {length ? (
+                        <small className={styles.Muted}>
+                            {pluralize('photo', length, true)} attached
+                        </small>
+                    ) : null}
+                </Fragment>
+            )
         },
     },
     {
