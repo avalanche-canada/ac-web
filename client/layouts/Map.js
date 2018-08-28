@@ -12,6 +12,7 @@ import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu, ToggleMenu } from 'containers/drawers'
+import { Provider } from 'contexts/menu'
 import { parse } from 'utils/search'
 import externals, { open } from 'router/externals'
 import styles from './Map.css'
@@ -148,20 +149,22 @@ export default class Layout extends PureComponent {
     render() {
         if (supported()) {
             return (
-                <div className={styles.Layout}>
-                    <Container
-                        onError={this.handleError}
-                        onLoad={this.handleLoad}
-                    />
-                    {/* Orders matter here for the route components */}
-                    <Route path="/map*">{this.secondary}</Route>
-                    <Route path="/map/:type/:name">{this.primary}</Route>
-                    <Menu />
-                    <ToggleMenu />
-                    <LinkControlSet>
-                        {this.state.hasError && <ErrorIndicator />}
-                    </LinkControlSet>
-                </div>
+                <Provider>
+                    <div className={styles.Layout}>
+                        <Container
+                            onError={this.handleError}
+                            onLoad={this.handleLoad}
+                        />
+                        {/* Orders matter here for the route components */}
+                        <Route path="/map*">{this.secondary}</Route>
+                        <Route path="/map/:type/:name">{this.primary}</Route>
+                        <Menu />
+                        <ToggleMenu />
+                        <LinkControlSet>
+                            {this.state.hasError && <ErrorIndicator />}
+                        </LinkControlSet>
+                    </div>
+                </Provider>
             )
         }
 

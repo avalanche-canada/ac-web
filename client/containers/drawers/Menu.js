@@ -34,12 +34,15 @@ const mapStateToProps = createSelector(
     })
 )
 
-@connect(mapStateToProps, {
-    turnOnLayer,
-    turnOffLayer,
-    changeFilter,
-    load,
-})
+@connect(
+    mapStateToProps,
+    {
+        turnOnLayer,
+        turnOffLayer,
+        changeFilter,
+        load,
+    }
+)
 export default class Menu extends Component {
     static propTypes = {
         sets: PropTypes.array,
