@@ -7,11 +7,3 @@ export function createOptimisticAction(tester, action = noop) {
         }
     }
 }
-
-export function createBinaryAction(tester, pass = noop, fail = noop) {
-    return payload => (dispatch, getState) => {
-        const action = tester(getState(), payload) ? pass : fail
-
-        return dispatch(action(payload))
-    }
-}

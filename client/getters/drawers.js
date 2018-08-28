@@ -1,9 +1,5 @@
 import { createSelector } from 'reselect'
 
-export function isMenuOpen(state) {
-    return state.drawers.menu.get('open')
-}
-
 export function getLayers(state) {
     return state.drawers.menu.get('layers')
 }

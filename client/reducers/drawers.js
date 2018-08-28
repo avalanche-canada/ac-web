@@ -36,7 +36,6 @@ const Filter = Record(
 )
 
 const MENU = new Map({
-    open: false,
     // Defines the default active layers
     layers: new Map({
         [Layers.FORECASTS]: new Layer({
@@ -159,8 +158,6 @@ function handleActiveFeaturesChanged(menu, { payload }) {
 export default combineReducers({
     menu: handleActions(
         {
-            [DrawersActions.MENU_OPENED]: menu => menu.set('open', true),
-            [DrawersActions.MENU_CLOSED]: menu => menu.set('open', false),
             [DrawersActions.LAYER_TURNED_ON]: setLayerVisibilityFactory(true),
             [DrawersActions.LAYER_TURNED_OFF]: setLayerVisibilityFactory(false),
             [DrawersActions.FILTER_CHANGED]: (menu, { payload }) => {
