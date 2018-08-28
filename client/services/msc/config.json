@@ -2,10 +2,8 @@
     "domain": "//s3-us-west-2.amazonaws.com/mountain-weather-forecast",
     "meteogram": "//msc.avalanche.ca",
     "naefs": {
-        "produit":
-            "//collaboration.cmc.ec.gc.ca/cmc/ensemble/produits/data/produits",
-        "carte": "//collaboration.cmc.ec.gc.ca/cmc/ensemble/cartes/data/cartes",
-        "epsgram":
-            "//collaboration.cmc.ec.gc.ca/cmc/ensemble/data2/combine/images"
+        "produit": "http://collaboration.cmc.ec.gc.ca/cmc/ensemble/produits/data/produits",
+        "carte": "http://collaboration.cmc.ec.gc.ca/cmc/ensemble/cartes/data/cartes",
+        "epsgram": "http://collaboration.cmc.ec.gc.ca/cmc/ensemble/data2/combine/images"
     }
 }
