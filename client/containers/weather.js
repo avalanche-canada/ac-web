@@ -19,7 +19,6 @@ export class Station extends Component {
 
 export class Stations extends Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
     render() {
