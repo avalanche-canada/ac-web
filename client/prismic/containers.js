@@ -268,32 +268,19 @@ export class WeatherForecast extends Component {
         }
     }
     get params() {
-        const { date } = this.props
+        const { date = new Date() } = this.props
 
-        if (date && !isToday(date)) {
-            return {
-                predicates: [
-                    Predicates.field(
-                        WEATHER_FORECAST,
-                        'date',
-                        utils.formatDate(date)
-                    ),
-                ],
-            }
-        } else {
-            return {
-                predicates: [
-                    Predicates.type(WEATHER_FORECAST),
-                    Predicates.dateBefore(
-                        `my.${WEATHER_FORECAST}.date`,
-                        startOfTomorrow()
-                    ),
-                ],
-                options: {
-                    pageSize: 1,
-                    orderings: [`my.${WEATHER_FORECAST}.date desc`],
-                },
-            }
+        return {
+            predicates: [
+                Predicates.field(
+                    WEATHER_FORECAST,
+                    'date',
+                    utils.formatDate(date)
+                ),
+            ],
+            options: {
+                pageSize: 1,
+            },
         }
     }
     children = ({ status, document }) =>
@@ -774,7 +761,9 @@ export class HotZoneReport extends Component {
             status,
             report: document
                 ? parse(document)
-                : status.isLoaded ? null : undefined,
+                : status.isLoaded
+                    ? null
+                    : undefined,
         })
     render() {
         return (
