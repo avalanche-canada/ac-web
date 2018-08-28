@@ -133,7 +133,7 @@ function setLayerVisibilityFactory(visible) {
 const RouteToLayerMapping = new Map([
     [Schemas.ForecastRegion.key, Layers.FORECASTS],
     ['forecasts', Layers.FORECASTS],
-    [Schemas.HotZoneReport.key, Layers.HOT_ZONE_REPORTS],
+    ['hot-zone-reports', Layers.HOT_ZONE_REPORTS],
     [Schemas.HotZone.key, Layers.HOT_ZONE_REPORTS],
     [Schemas.WeatherStation.key, Layers.WEATHER_STATION],
     [

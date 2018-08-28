@@ -9,8 +9,6 @@ import {
 export const GET_FEATURES_METADATA = 'GET_FEATURES_METADATA'
 export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS =
     'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSIONS'
-export const GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION =
-    'GET_MOUNTAIN_INFORMATION_NETWORK_SUBMISSION'
 export const GET_WEATHER_STATIONS = 'GET_WEATHER_STATIONS'
 export const GET_MOUNTAIN_CONDITIONS_REPORTS = 'GET_MOUNTAIN_CONDITIONS_REPORTS'
 
@@ -26,10 +24,6 @@ const loadMountainInformationNetworkSubmissions = createFetchActionForSchema(
 
 export function loadMountainInformationNetworkSubmissionsForDays(days = 7) {
     return loadMountainInformationNetworkSubmissions({ days })
-}
-
-export function loadMountainInformationNetworkSubmission(id) {
-    return loadMountainInformationNetworkSubmissions({ id })
 }
 
 export const loadWeatherStations = createFetchActionForSchema(

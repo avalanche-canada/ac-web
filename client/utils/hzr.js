@@ -3,7 +3,6 @@ import bboxPolygon from '@turf/bbox-polygon'
 import isWithinRange from 'date-fns/is_within_range'
 import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
-import { HotZoneReport as Schema } from 'api/schemas'
 
 export function title({ report, status, hotZone }) {
     const name = hotZone ? hotZone.name : null
@@ -24,7 +23,7 @@ export function geometry(hotZone) {
 }
 
 export function shareUrl({ uid, data }) {
-    return `${document.location.origin}/${Schema.key}/${data.region}/${uid}`
+    return `${document.location.origin}/hot-zone-reports/${data.region}/${uid}`
 }
 
 export function isValid({ dateOfIssue, validUntil }) {

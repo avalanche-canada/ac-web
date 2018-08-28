@@ -261,7 +261,7 @@ export default class Container extends Component {
 // Constants
 const RouteSchemaMapping = new Map([
     ['forecasts', Schemas.ForecastRegion.key],
-    [Schemas.HotZoneReport.key, Schemas.HotZone.key],
+    ['hot-zone-reports', Schemas.HotZone.key],
 ])
 
 const CLUSTER_DIST = 0.005
@@ -306,7 +306,7 @@ const LOCATION_CREATORS = new Map([
     [
         Layers.HOT_ZONE_REPORTS,
         id => ({
-            pathname: `/map/${Schemas.HotZoneReport.key}/${id}`,
+            pathname: `/map/hot-zone-reports/${id}`,
         }),
     ],
     [

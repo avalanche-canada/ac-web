@@ -4,9 +4,6 @@ const { Entity } = schema
 
 export const ForecastRegion = new Entity('forecast-regions')
 export const HotZone = new Entity('hot-zones')
-export const HotZoneReport = new Entity('hot-zone-reports', undefined, {
-    idAttribute: 'hotzoneid',
-})
 export const MountainInformationNetworkSubmission = new Entity(
     'mountain-information-network-submissions',
     undefined,
