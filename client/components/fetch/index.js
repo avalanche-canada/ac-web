@@ -1,9 +1,7 @@
 import React, { Component, createContext } from 'react'
 import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
-// import Cache from './Cache'
-
-// TODO: Implement a caching mechanism
+import Cache, { Null } from './Cache'
 
 const { Provider, Consumer } = createContext()
 const STATE = {
@@ -16,7 +14,10 @@ export default class Fetch extends Component {
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
             .isRequired,
         request: PropTypes.instanceOf(Request).isRequired,
-        // cache: PropTypes.bool,
+        cache: PropTypes.instanceOf(Cache),
+    }
+    static defaultProps = {
+        cache: new Null(),
     }
     static Consumer = Consumer
     static Loading = class Loading extends Component {
@@ -52,11 +53,25 @@ export default class Fetch extends Component {
         }
     }
     state = STATE
+    get value() {
+        return {
+            ...this.state,
+            reset: this.reset,
+        }
+    }
+    get cache() {
+        return this.props.cache
+    }
+    get url() {
+        return this.props.request.url
+    }
     reset = () => {
-        this.setState(STATE)
+        this.setState(STATE, this.cache.reset)
     }
     fulfill = data => {
-        this.setState({ loading: false, data })
+        this.setState({ loading: false, data }, () => {
+            this.cache.set(this.url, data)
+        })
     }
     reject = error => {
         this.setState({ loading: false })
@@ -64,6 +79,10 @@ export default class Fetch extends Component {
         throw error
     }
     fetch() {
+        if (this.cache.has(this.url)) {
+            return
+        }
+
         this.setState({ loading: true }, () => {
             fetch(this.props.request)
                 .then(status)
@@ -71,7 +90,7 @@ export default class Fetch extends Component {
         })
     }
     componentDidUpdate({ request }) {
-        if (request.url !== this.props.request.url) {
+        if (request.url !== this.url) {
             this.fetch()
         }
     }
@@ -80,10 +99,7 @@ export default class Fetch extends Component {
     }
     render() {
         const { children } = this.props
-        const value = {
-            ...this.state,
-            reset: this.reset,
-        }
+        const { value } = this
 
         return (
             <Provider value={value}>
