@@ -50,11 +50,4 @@ export class Provider extends Component {
     }
 }
 
-export default class SponsorsMetadata extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    render() {
-        return <Context.Consumer>{this.props.children}</Context.Consumer>
-    }
-}
+export default Context.Consumer
