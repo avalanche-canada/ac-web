@@ -10,6 +10,12 @@ export function uid({ type, uid }) {
     }
 }
 
+export function all(type) {
+    return {
+        predicates: [predicates.type(type)],
+    }
+}
+
 export function ids(ids) {
     return {
         predicates: [predicates.in('document.id', ids)],
@@ -17,7 +23,7 @@ export function ids(ids) {
     }
 }
 
-export function weatherForecast(date) {
+export function mwf(date) {
     if (date && !isToday(date)) {
         return {
             predicates: [
@@ -41,6 +47,49 @@ export function weatherForecast(date) {
             orderings: [`my.${types.WEATHER_FORECAST}.date desc`],
         }
     }
+}
+
+export function sponsor(id) {
+    return uid({
+        type: types.SPONSOR,
+        uid: id,
+    })
+}
+
+export const fatal = {
+    accident(id) {
+        return uid({
+            type: types.FATAL_ACCIDENT,
+            uid: id,
+        })
+    },
+    accidents() {
+        return all(types.FATAL_ACCIDENT)
+    },
+}
+
+export const toyota = {
+    truck(id) {
+        return uid({
+            type: types.TOYOTA_TRUCK_REPORT,
+            uid: id,
+        })
+    },
+    trucks() {
+        return all(types.TOYOTA_TRUCK_REPORT)
+    },
+}
+
+export const special = {
+    report(id) {
+        return uid({
+            type: types.SPECIAL_INFORMATION,
+            uid: id,
+        })
+    },
+    reports() {
+        return all(types.SPECIAL_INFORMATION)
+    },
 }
 
 // Contants

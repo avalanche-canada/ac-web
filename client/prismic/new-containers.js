@@ -44,7 +44,7 @@ export class Document extends Component {
     }
 }
 
-// TODO: Not sure if this class is needed!!!
+// TODO: Not sure if this class is needed! We could use .
 export class DocumentByUID extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,

@@ -5,7 +5,6 @@ import { NotFound } from 'components/page'
 import * as Auth from 'contexts/auth'
 import ga from 'services/analytics'
 import { WorkInProgress } from 'components/page'
-import Sponsor from 'containers/Sponsor'
 import * as layouts from 'prismic/layouts'
 
 export class ProtectedRoute extends Component {
@@ -90,16 +89,6 @@ WIPPageRoute.propTypes = {
 
 export function WIPPageRoute({ path, ...props }) {
     return <Route path={path} render={() => <WorkInProgress {...props} />} />
-}
-
-SponsorRoute.propTypes = {
-    path: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    label: PropTypes.string,
-}
-
-export function SponsorRoute({ path, ...props }) {
-    return <Route path={path} render={() => <Sponsor {...props} />} />
 }
 
 function fallbackPage({ match }) {

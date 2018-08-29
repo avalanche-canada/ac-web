@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Header,
@@ -9,12 +9,14 @@ import {
     Banner,
     Content,
 } from 'components/page/drawer'
-import { Ratio, Status } from 'components/misc'
+import { Ratio } from 'components/misc'
+import { Loading, Muted } from 'components/text'
 import cloudinary from 'services/cloudinary/cl'
 import format from 'date-fns/format'
 import { DATE } from 'utils/date'
 import { StructuredText } from 'prismic/components/base'
-import { ToyotaTruckReport as ToyotaTruckReportContainer } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
+import { toyota } from 'prismic/params'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -70,27 +72,32 @@ export default class ToyotaTruckReport extends PureComponent {
     renderContent({ content }) {
         return <StructuredText value={content} />
     }
-    createMessages(status, document) {
+    createMessages(loading, document) {
         return {
             isError:
                 'An error happened while loading our latest Toyota truck report.',
-            isLoading: 'Loading latest our Toyota truck report...',
+            isLoading: 'Loading latest Toyota truck report...',
             isLoaded: document
                 ? null
                 : 'Toyota truck report not available anymore.',
         }.data
     }
-    children = ({ document, status }) => [
-        this.renderBanner(document),
-        this.renderHeader(document),
-        <Content>
-            <Status
-                {...status}
-                messages={this.createMessages(status, document)}
-            />
-            {document && this.renderContent(document.data)}
-        </Content>,
-    ]
+    renderChildren = ({ document, loading }) => (
+        <Fragment>
+            {this.renderBanner(document)}
+            {this.renderHeader(document)}
+            <Content>
+                {loading ? (
+                    <Loading>Loading latest Toyota truck report...</Loading>
+                ) : document ? (
+                    this.renderContent(document.data)
+                ) : (
+                    <Muted>Toyota truck report not available anymore.</Muted>
+                )}
+            </Content>
+            ,
+        </Fragment>
+    )
     render() {
         return (
             <Container>
@@ -98,9 +105,9 @@ export default class ToyotaTruckReport extends PureComponent {
                     <Navbar style={NAVBAR_STYLE}>
                         <Close shadow onClick={this.props.onCloseClick} />
                     </Navbar>
-                    <ToyotaTruckReportContainer id={this.props.id}>
-                        {this.children}
-                    </ToyotaTruckReportContainer>
+                    <Document {...toyota.truck(this.props.id)}>
+                        {this.renderChildren}
+                    </Document>
                 </Body>
             </Container>
         )

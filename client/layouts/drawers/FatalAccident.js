@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Header,
@@ -8,10 +8,11 @@ import {
     Navbar,
     Close,
 } from 'components/page/drawer'
-import { Status } from 'components/misc'
+import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import { FatalAccident as FatalAccidentContainer } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
+import * as params from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
@@ -61,7 +62,7 @@ export default class FatalAccident extends PureComponent {
                   }" is not available anymore.`,
         }
     }
-    children = ({ document, status }) => (
+    renderChildren = ({ document, loading }) => (
         <Container>
             <Navbar>
                 <Close onClick={this.props.onCloseClick} />
@@ -71,21 +72,31 @@ export default class FatalAccident extends PureComponent {
             </Header>
             <Body>
                 <Content>
-                    <Status
-                        {...status}
-                        messages={this.createMessages(document)}
-                    />
-                    {document && this.renderMetadata(document.data)}
-                    {document && this.renderContent(document.data)}
+                    {loading ? (
+                        <Loading>
+                            Loading fatal recreational accident...
+                        </Loading>
+                    ) : document ? (
+                        <Fragment>
+                            {this.renderMetadata(document.data)}
+                            {this.renderContent(document.data)}
+                        </Fragment>
+                    ) : (
+                        <Muted>
+                            {`Fatal recreational accident "${
+                                this.props.id
+                            }" is not available anymore.`}
+                        </Muted>
+                    )}
                 </Content>
             </Body>
         </Container>
     )
     render() {
         return (
-            <FatalAccidentContainer id={this.props.id}>
-                {this.children}
-            </FatalAccidentContainer>
+            <Document {...params.fatal.accident(this.props.id)}>
+                {this.renderChildren}
+            </Document>
         )
     }
 }

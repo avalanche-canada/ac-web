@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Container,
@@ -8,10 +8,11 @@ import {
     Content,
     Close,
 } from 'components/page/drawer'
-import { Status } from 'components/misc'
+import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import { SpecialInformation as SpecialInformationContainer } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
+import * as params from 'prismic/params'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 import { StructuredText } from 'prismic/components/base'
@@ -88,7 +89,7 @@ export default class SpecialInformation extends PureComponent {
                 : `Special information "${id}" is not available anymore.`,
         }
     }
-    children = ({ document, status }) => (
+    renderChildren = ({ document, loading }) => (
         <Container>
             <Navbar>
                 <Close onClick={this.props.onCloseClick} />
@@ -98,22 +99,30 @@ export default class SpecialInformation extends PureComponent {
             </Header>
             <Body>
                 <Content>
-                    <Status
-                        {...status}
-                        messages={this.createMessages(document)}
-                    />
-                    {document && this.renderMetadata(document)}
-                    {document && this.renderLocation(document)}
-                    {document && this.renderContent(document)}
+                    {loading ? (
+                        <Loading>Loading latest special information...</Loading>
+                    ) : document ? (
+                        <Fragment>
+                            {this.renderMetadata(document.data)}
+                            {this.renderLocation(document.data)}
+                            {this.renderContent(document.data)}
+                        </Fragment>
+                    ) : (
+                        <Muted>
+                            {`Special information "${
+                                this.props.id
+                            }" is not available anymore.`}
+                        </Muted>
+                    )}
                 </Content>
             </Body>
         </Container>
     )
     render() {
         return (
-            <SpecialInformationContainer id={this.props.id}>
-                {this.children}
-            </SpecialInformationContainer>
+            <Document {...params.special.report(this.props.id)}>
+                {this.renderChildren}
+            </Document>
         )
     }
 }
