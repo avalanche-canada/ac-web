@@ -37,7 +37,7 @@ export default class Image extends PureComponent {
             <Media>
                 <Base ref={this.setTarget} {...image.main} credit={credit} />
                 <div className={styles.ImageToolbar}>
-                    {caption.length > 0 && (
+                    {caption?.length > 0 && (
                         <Caption>
                             <StructuredText value={caption} />
                         </Caption>
