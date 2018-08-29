@@ -35,7 +35,7 @@ import {
     WEATHER_FORECAST,
     HIGHLIGHT,
 } from 'constants/prismic'
-import SponsorsMetadata from 'containers/SponsorsMetadata'
+import SponsorsMetadata from 'contexts/sponsors'
 import Connector from 'containers/Connector'
 import { DATE } from 'utils/date'
 import * as utils from 'utils/search'
@@ -660,17 +660,9 @@ export class Sponsor extends Component {
         name: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
-    sponsors = ({ props: { data } }) => {
-        if (Object.keys(data).keys().length === 0) {
-            return this.props.children({
-                status: {
-                    isLoading: true,
-                },
-            })
-        }
-
+    sponsors = sponsors => {
         const { name } = this.props
-        const uid = data[name] || name
+        const uid = sponsors[name] || name
 
         return (
             <Document parse type="sponsor" uid={uid}>

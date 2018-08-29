@@ -2,7 +2,6 @@ import * as Schemas from 'api/schemas'
 import * as min from './requests/min'
 import * as weather from './requests/weather'
 import * as mcr from './requests/mcr'
-import { resource } from './requests/static'
 import * as transformers from './transformers'
 import { status } from 'services/fetch/utils'
 
@@ -62,10 +61,6 @@ export function post(schema, data) {
 
 export function fetchFeaturesMetadata() {
     return window.fetch('/api/features/metadata').then(status)
-}
-
-export function fetchStaticResource(name) {
-    return window.fetch(resource(name)).then(status)
 }
 
 function identity(data) {
