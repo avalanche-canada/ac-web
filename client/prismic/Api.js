@@ -23,7 +23,7 @@ function getApi() {
     })
 }
 
-function query(api, { orderings = [], ...options } = {}, predicates) {
+function query(api, options, predicates) {
     const { ref } = api.refs.find(ref => ref.isMasterRef)
     const params = serializeParams({
         page: 1,
@@ -39,7 +39,7 @@ function query(api, { orderings = [], ...options } = {}, predicates) {
 export async function Query(predicates, options) {
     const api = await getApi()
 
-    if (options && options.pageSize > MAX_PAGE_SIZE) {
+    if (options?.pageSize > MAX_PAGE_SIZE) {
         return all(predicates, options)
     }
 
