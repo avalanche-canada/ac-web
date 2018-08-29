@@ -9,6 +9,7 @@ import addDays from 'date-fns/add_days'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import startOfDay from 'date-fns/start_of_day'
+import isToday from 'date-fns/is_today'
 import { load, loadForUid } from 'actions/prismic'
 import * as Api from 'prismic/Api'
 import {
@@ -765,7 +766,9 @@ export class HotZoneReport extends Component {
             status,
             report: document
                 ? parse(document)
-                : status.isLoaded ? null : undefined,
+                : status.isLoaded
+                    ? null
+                    : undefined,
         })
     render() {
         return (
