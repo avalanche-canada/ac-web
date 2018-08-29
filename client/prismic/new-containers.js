@@ -4,20 +4,6 @@ import Fetch from 'components/fetch'
 import * as requests from './requests'
 import * as params from 'prismic/params'
 import parse from './parsers'
-import {
-    GENERIC,
-    STATIC_PAGE,
-    NEWS,
-    EVENT,
-    BLOG,
-    SPECIAL_INFORMATION,
-    FATAL_ACCIDENT,
-    TOYOTA_TRUCK_REPORT,
-    HOTZONE_REPORT,
-    SPAW as SPAW_TYPE,
-    WEATHER_FORECAST,
-    HIGHLIGHT,
-} from 'constants/prismic'
 
 class MasterRef extends Component {
     children = ({ data }) =>
@@ -58,6 +44,7 @@ export class Document extends Component {
     }
 }
 
+// TODO: Not sure if this class is needed!!!
 export class DocumentByUID extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
