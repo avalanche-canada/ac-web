@@ -4,11 +4,9 @@ import { Route, Redirect } from 'react-router-dom'
 import { NotFound } from 'components/page'
 import * as Auth from 'contexts/auth'
 import ga from 'services/analytics'
-import { StaticPage, Generic } from 'prismic/containers'
 import { WorkInProgress } from 'components/page'
-import { STATIC_PAGE } from 'constants/prismic'
 import Sponsor from 'containers/Sponsor'
-import * as Pages from 'prismic/components/page'
+import * as layouts from 'prismic/layouts'
 
 export class ProtectedRoute extends Component {
     static PATHS = new Set()
@@ -58,18 +56,13 @@ StaticPageRoute.propTypes = {
     title: PropTypes.string,
 }
 
-function staticPageFactory(uid, title) {
-    return function renderStaticPage() {
-        function render(props) {
-            return <Pages.StaticPage uid={uid} title={title} {...props} />
-        }
-
-        return <StaticPage uid={uid}>{render}</StaticPage>
-    }
-}
-
 export function StaticPageRoute({ path, uid, title }) {
-    return <Route path={path} render={staticPageFactory(uid, title)} />
+    return (
+        <Route
+            path={path}
+            render={() => <layouts.StaticPage uid={uid} title={title} />}
+        />
+    )
 }
 
 GenericPageRoute.propTypes = {
@@ -78,18 +71,13 @@ GenericPageRoute.propTypes = {
     title: PropTypes.string,
 }
 
-function genericFactory(uid, title) {
-    return function renderGenericPage() {
-        function render(props) {
-            return <Pages.Generic title={title} {...props} />
-        }
-
-        return <Generic uid={uid}>{render}</Generic>
-    }
-}
-
 export function GenericPageRoute({ path, uid, title }) {
-    return <Route path={path} render={genericFactory(uid, title)} />
+    return (
+        <Route
+            path={path}
+            render={() => <layouts.Generic uid={uid} title={title} />}
+        />
+    )
 }
 
 WIPPageRoute.propTypes = {
@@ -115,11 +103,7 @@ export function SponsorRoute({ path, ...props }) {
 }
 
 function fallbackPage({ match }) {
-    const { type, uid } = match.params
-    const Container = type === STATIC_PAGE ? StaticPage : Generic
-    const Component = type === STATIC_PAGE ? Pages.StaticPage : Pages.Generic
-
-    return <Container uid={uid}>{props => <Component {...props} />}</Container>
+    return <layouts.Fallback {...match.params} />
 }
 
 FallbackPageRoute.propTypes = {

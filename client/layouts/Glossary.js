@@ -14,7 +14,7 @@ import { Muted } from 'components/text'
 import { Search } from 'components/form'
 import { Document, DocumentsContainer } from 'prismic/containers'
 import { StructuredText, SliceZone } from 'prismic/components/base'
-import * as Predicates from 'vendor/prismic/predicates'
+import * as Predicates from 'prismic/predicates'
 import SliceComponents from 'prismic/components/slice/rework'
 import { GLOSSARY, DEFINITION } from 'constants/prismic'
 import * as utils from 'utils/search'
@@ -141,7 +141,9 @@ class DefinitionLayout extends PureComponent {
                 </h2>
                 {tags.length > 0 && (
                     <TagSet>
-                        {tags.map((tag, index) => <Tag key={index}>{tag}</Tag>)}
+                        {tags.map((tag, index) => (
+                            <Tag key={index}>{tag}</Tag>
+                        ))}
                     </TagSet>
                 )}
                 <SliceZone

@@ -20,7 +20,7 @@ import {
 } from 'getters/prismic'
 import { parse } from 'prismic'
 import Status from 'utils/status'
-import * as Predicates from 'vendor/prismic/predicates'
+import * as Predicates from './predicates'
 import {
     GENERIC,
     STATIC_PAGE,

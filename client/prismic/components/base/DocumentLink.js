@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { pathname } from 'utils/prismic'
-import { Document } from 'prismic/containers'
+import { Loading } from 'components/text'
+import { DocumentByUID } from 'prismic/new-containers'
 
 const DocumentType = PropTypes.shape({
     id: PropTypes.string.isRequired,
@@ -17,27 +18,22 @@ export default class DocumentLink extends PureComponent {
             isBroken: PropTypes.bool.isRequired,
         }).isRequired,
         document: DocumentType,
-        status: PropTypes.object,
         children: PropTypes.node,
     }
-    renderer({ status, document }) {
-        if (status.isLoading || !document) {
-            return 'Loading...'
-        }
-
-        return document.data[document.type].title.value
+    renderer({ loading, document }) {
+        return loading || !document ? <Loading /> : document.data.title.value
     }
     get children() {
         const { type, uid } = this.props.value.document
 
         return (
-            <Document type={type} uid={uid}>
+            <DocumentByUID type={type} uid={uid}>
                 {this.renderer}
-            </Document>
+            </DocumentByUID>
         )
     }
     render() {
-        const { children, value, document, status, ...props } = this.props
+        const { children, value, document, ...props } = this.props
 
         return (
             <Link to={pathname(value.document)} {...props}>

@@ -11,15 +11,14 @@ import {
     Caption,
 } from 'components/table'
 import Pagination from 'components/pagination'
-import { Status } from 'components/misc'
+import { Loading, Muted } from 'components/text'
 import { Br } from 'components/markup'
-import { parse } from 'prismic'
 import get from 'lodash/get'
 import snakeCase from 'lodash/snakeCase'
 import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
-import { DocumentsContainer } from 'prismic/containers'
-import * as Predicates from 'vendor/prismic/predicates'
+import { Documents } from 'prismic/new-containers'
+import * as Predicates from 'prismic/predicates'
 
 const YES = 'Yes'
 
@@ -36,12 +35,6 @@ export default class PrismicTable extends PureComponent {
         super(props)
 
         this.columns = props.value.map(createColumn)
-    }
-    createMessages({ totalResultsSize }) {
-        return {
-            isLoading: 'Loading documents...',
-            isLoaded: `Total of ${totalResultsSize} documents found.`,
-        }
     }
     handleSortingChange(name, order) {
         this.setState({
@@ -87,11 +80,9 @@ export default class PrismicTable extends PureComponent {
 
         return {
             predicates: [Predicates.type(this.type)],
-            options: {
-                orderings,
-                pageSize,
-                page,
-            },
+            orderings,
+            pageSize,
+            page,
         }
     }
     renderRow = row => {
@@ -103,9 +94,13 @@ export default class PrismicTable extends PureComponent {
             </Row>
         )
     }
-    renderContent({ documents, status, metadata }) {
-        this.totalPages = metadata.totalPages || this.totalPages
-        documents = documents.map(document => parse(document))
+    renderContent({
+        documents = [],
+        loading,
+        total_pages,
+        total_results_size,
+    }) {
+        this.totalPages = total_pages || this.totalPages
 
         return (
             <Fragment>
@@ -129,10 +124,14 @@ export default class PrismicTable extends PureComponent {
                         </Header>
                         <TBody>{documents.map(this.renderRow)}</TBody>
                         <Caption>
-                            <Status
-                                {...status}
-                                messages={this.createMessages(metadata)}
-                            />
+                            {loading ? (
+                                <Loading>Loading documents...</Loading>
+                            ) : (
+                                <Muted>
+                                    {`Total of ${total_results_size} documents
+                                    found.`}
+                                </Muted>
+                            )}
                         </Caption>
                     </Table>
                 </Responsive>
@@ -151,13 +150,14 @@ export default class PrismicTable extends PureComponent {
     }
     render() {
         return (
-            <DocumentsContainer params={this.params}>
+            <Documents {...this.params}>
                 {props => this.renderContent(props)}
-            </DocumentsContainer>
+            </Documents>
         )
     }
 }
 
+// Utils
 function createProperty(type, property, option1) {
     switch (type) {
         case 'Link':

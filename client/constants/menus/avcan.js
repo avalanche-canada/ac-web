@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { Link, ColumnSet } from 'components/navbar'
-import { StaticPage } from 'prismic/containers'
-import { Status } from 'components/misc'
+import { DocumentByUID } from 'prismic/new-containers'
+import { Loading } from 'components/text'
+import { STATIC_PAGE } from 'constants/prismic'
 
 class Ambassadors extends Component {
     renderLink({ fullName }) {
@@ -10,9 +11,9 @@ class Ambassadors extends Component {
 
         return <Link to={`${to}#${hash}`}>{fullName}</Link>
     }
-    renderContent = ({ status, document }) => (
+    renderContent = ({ loading, document }) => (
         <Fragment>
-            <Status {...status} />
+            <Loading show={loading} />
             {document && (
                 <ColumnSet>
                     {document.data.content[0].value.map(this.renderLink, this)}
@@ -21,7 +22,11 @@ class Ambassadors extends Component {
         </Fragment>
     )
     render() {
-        return <StaticPage uid="ambassadors">{this.renderContent}</StaticPage>
+        return (
+            <DocumentByUID type={STATIC_PAGE} uid="ambassadors">
+                {this.renderContent}
+            </DocumentByUID>
+        )
     }
 }
 
