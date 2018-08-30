@@ -6,6 +6,8 @@ import mapbox from 'mapbox-gl/dist/mapbox-gl'
 
 const { LngLat } = mapbox
 
+// TODO: Simplify implementation
+
 export default class Marker extends StaticComponent {
     static propTypes = {
         lngLat: PropTypes.instanceOf(LngLat).isRequired,
