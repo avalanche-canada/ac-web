@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Documents, Tags } from 'prismic/containers'
 import { feed } from 'prismic/params'
 import { Page, Content, Header, Main } from 'components/page'
@@ -12,7 +12,7 @@ import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
 
-export class NorthRockiesBlogFeed extends Component {
+export class NorthRockiesBlogFeed extends PureComponent {
     state = {
         page: 1,
     }
@@ -30,17 +30,21 @@ export class NorthRockiesBlogFeed extends Component {
     }
 }
 
-export class BlogPostFeed extends Component {
-    constructor(props) {
-        super(props)
+export class BlogPostFeed extends PureComponent {
+    state = this.parseParams(this.props.location.search)
+    parseParams(search) {
+        const params = new URLSearchParams(search)
 
-        const { year, month, category, page } = parse(props.location.search)
-
-        this.state = {
-            page: page && Number(page),
-            year: year && Number(year),
-            month,
-            category,
+        return {
+            page: params.has('page') ? Number(params.get('page')) : 1,
+            year: params.has('year') ? Number(params.get('year')) : undefined,
+            month: params.get('month'),
+            category: params.get('category'),
+        }
+    }
+    componentDidUpdate({ location }) {
+        if (location.search !== this.props.location.search) {
+            this.setState(this.parseParams(this.props.location.search))
         }
     }
     handleYearChange = handleYearChange.bind(this)
@@ -87,17 +91,23 @@ export class BlogPostFeed extends Component {
     }
 }
 
-export class NewsFeed extends Component {
-    constructor(props) {
-        super(props)
+export class NewsFeed extends PureComponent {
+    state = this.parseParams(this.props.location.search)
+    parseParams(search) {
+        const params = new URLSearchParams(search)
 
-        const { month, year, tags, page } = parse(props.location.search)
-
-        this.state = {
-            page: page ? Number(page) : 1,
-            year: year && Number(year),
-            month,
-            tags: new Set(sanitizeTags(tags)),
+        return {
+            page: params.has('page') ? Number(params.get('page')) : 1,
+            year: params.has('year') ? Number(params.get('year')) : undefined,
+            month: params.get('month'),
+            tags: params.has('tags')
+                ? new Set(sanitizeTags(params.getAll('tags')))
+                : new Set(),
+        }
+    }
+    componentDidUpdate({ location }) {
+        if (location.search !== this.props.location.search) {
+            this.setState(this.parseParams(this.props.location.search))
         }
     }
     handleYearChange = handleYearChange.bind(this)
@@ -148,15 +158,25 @@ export class NewsFeed extends Component {
     }
 }
 
-export class EventFeed extends Component {
-    constructor(props) {
-        super(props)
+export class EventFeed extends PureComponent {
+    state = this.parseParams(this.props.location.search)
+    parseParams(search) {
+        const params = new URLSearchParams(search)
 
-        const { timeline, tags } = parse(location.search)
-
-        this.state = {
-            timeline: timeline === PAST ? PAST : UPCOMING,
-            tags: new Set(sanitizeTags(tags)),
+        return {
+            timeline: params.has('timeline')
+                ? params.get('timeline') === PAST
+                    ? PAST
+                    : UPCOMING
+                : UPCOMING,
+            tags: params.has('tags')
+                ? new Set(sanitizeTags(params.getAll('tags')))
+                : new Set(),
+        }
+    }
+    componentDidUpdate({ location }) {
+        if (location.search !== this.props.location.search) {
+            this.setState(this.parseParams(this.props.location.search))
         }
     }
     handleTimelineChange = handleTimelineChange.bind(this)
@@ -310,7 +330,7 @@ function serialize() {
     })
 }
 function sanitizeTags(tags) {
-    return typeof tags === 'string' && tags.length > 0 ? [tags] : tags
+    return typeof tags === 'string' ? [tags] : tags
 }
 function handleYearChange(year) {
     this.setState({ year, page: 1 }, serialize)
@@ -342,11 +362,7 @@ function renderContent(type, { loading, documents, total_pages }) {
     )
 }
 function convertTagsToOptions(tags) {
-    return new Map(
-        Array.from(tags)
-            .sort()
-            .map(tag => [tag, tag])
-    )
+    return new Map(Array.from(tags).map(tag => [tag, tag]))
 }
 function isFeaturedPost({ featured }) {
     return featured

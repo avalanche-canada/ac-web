@@ -144,7 +144,10 @@ export class Tags extends Component {
                     }
                 } while (nextPage)
 
-                this.setState({ loading: false, tags })
+                this.setState({
+                    loading: false,
+                    tags: new Set(Array.from(tags).sort(sorter)),
+                })
             } catch (error) {
                 this.setState({ loading: false })
 
@@ -168,4 +171,7 @@ export class Tags extends Component {
 // Utils
 function isMasterRef({ isMasterRef }) {
     return isMasterRef
+}
+function sorter(a, b) {
+    return a.localeCompare(b, 'en', { sensitivity: 'base' })
 }
