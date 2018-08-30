@@ -1,11 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
+import ErrorBoundary from 'components/ErrorBoundary'
+import { Error } from 'components/text'
 import * as requests from './requests'
-import { status } from 'services/fetch/utils'
 import * as params from 'prismic/params'
-import { FEED } from 'constants/prismic'
+import { status } from 'services/fetch/utils'
 import parse from './parsers'
+import { FEED } from 'constants/prismic'
 
 class MasterRef extends Component {
     children = ({ data }) =>
@@ -26,8 +28,15 @@ class Search extends Component {
 
         return <Fetch request={request}>{children}</Fetch>
     }
+    renderError() {
+        return <Error>An error happened while retrieving data.</Error>
+    }
     render() {
-        return <MasterRef>{this.withMasterRef}</MasterRef>
+        return (
+            <ErrorBoundary fallback={this.renderError}>
+                <MasterRef>{this.withMasterRef}</MasterRef>
+            </ErrorBoundary>
+        )
     }
 }
 
