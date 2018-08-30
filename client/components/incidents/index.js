@@ -98,7 +98,7 @@ class IncidentTable extends PureComponent {
     }
 }
 
-/* 
+/*
  * TODO(wnh): clean this up
  * TODO(wnh): do some more (any?) testing
  */
@@ -299,7 +299,7 @@ const IncSummary = ({ incident }) => {
                         name="Province"
                         val={incident.location_province}
                     />
-                    {/* 
+                    {/*
                 TODO(wnh): Figure out where this comes from. Needs work in the API
                 <SummaryVal name="Mountain Range"       val="TODO" />
             */}
@@ -456,7 +456,6 @@ const IncSnow = ({ snowpack, snowpackComment }) => {
 }
 
 const IncDocuments = ({ docs }) => {
-    console.log(docs)
     const rows = docs.map((d, i) => (
         <t.Row key={i}>
             <t.Cell>
