@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Biography from 'components/biography'
 import { StructuredText } from 'prismic/components/base'
-import { Documents } from 'prismic/new-containers'
+import { Documents } from 'prismic/containers'
 import { Loading } from 'components/text'
 import * as params from 'prismic/params'
 

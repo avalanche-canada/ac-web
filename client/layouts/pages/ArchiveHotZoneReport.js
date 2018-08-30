@@ -13,7 +13,7 @@ import formatDate from 'date-fns/format'
 import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
 import eachDay from 'date-fns/each_day'
-import { Document, Documents } from 'prismic/new-containers'
+import { Document, Documents } from 'prismic/containers'
 import { hzr } from 'prismic/params'
 import { DATE } from 'utils/date'
 

@@ -2,7 +2,7 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Loading } from 'components/text'
 import { StructuredText } from 'prismic/components/base'
-import { Document } from 'prismic/new-containers'
+import { Document } from 'prismic/containers'
 import { mw } from 'prismic/params'
 
 export default class Tutorial extends PureComponent {

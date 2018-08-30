@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Documents, Tags } from 'prismic/new-containers'
+import { Documents, Tags } from 'prismic/containers'
 import { feed } from 'prismic/params'
 import { Page, Content, Header, Main } from 'components/page'
 import { parse, stringify } from 'utils/search'

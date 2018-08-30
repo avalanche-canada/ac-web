@@ -15,7 +15,7 @@ import cloudinary from 'services/cloudinary/cl'
 import format from 'date-fns/format'
 import { DATE } from 'utils/date'
 import { StructuredText } from 'prismic/components/base'
-import { Document } from 'prismic/new-containers'
+import { Document } from 'prismic/containers'
 import { toyota } from 'prismic/params'
 
 const NAVBAR_STYLE = {
