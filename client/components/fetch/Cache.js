@@ -22,7 +22,7 @@ export class Memory {
         return this.has(url) ? this.store.get(url).data : undefined
     }
     set(url, data) {
-        return this.store.set(url, {
+        this.store.set(url, {
             expiry: Date.now() + this.lifespan,
             data,
         })
