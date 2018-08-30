@@ -1,4 +1,4 @@
-export class Null {
+export class None {
     reset() {}
     has() {
         return false
@@ -27,30 +27,4 @@ export class Memory {
             data,
         })
     }
-}
-
-class StorageProxy {
-    constructor(storage) {
-        this.storage = storage
-    }
-    reset() {}
-    has() {
-        return false
-    }
-    get() {}
-    set() {}
-}
-
-export class Session extends StorageProxy {
-    constructor() {}
-}
-
-export class Local {
-    constructor() {}
-    reset() {}
-    has() {
-        return false
-    }
-    get() {}
-    set() {}
 }

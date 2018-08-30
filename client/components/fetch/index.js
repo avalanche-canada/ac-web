@@ -1,7 +1,7 @@
 import React, { Component, createContext } from 'react'
 import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
-import Cache, { Null } from './Cache'
+import Cache, { None } from './Cache'
 
 const { Provider, Consumer } = createContext()
 
@@ -13,7 +13,7 @@ export default class Fetch extends Component {
         cache: PropTypes.instanceOf(Cache),
     }
     static defaultProps = {
-        cache: new Null(),
+        cache: new None(),
     }
     static Consumer = Consumer
     static Loading = class Loading extends Component {
