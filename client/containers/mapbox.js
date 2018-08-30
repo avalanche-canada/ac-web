@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
+import { Memory } from 'components/fetch/Cache'
 import * as mapbox from 'services/mapbox/requests'
-import { datasets } from 'services/mapbox/config.json'
+import { datasets, styleIds } from 'services/mapbox/config.json'
 
 export class FeatureCollection extends Component {
     static propTypes = {
@@ -14,6 +15,26 @@ export class FeatureCollection extends Component {
 
         return (
             <Fetch request={mapbox.features(id)}>{this.props.children}</Fetch>
+        )
+    }
+}
+
+export class Style extends Component {
+    static propTypes = {
+        id: PropTypes.oneOf(Object.keys(styleIds)),
+        children: PropTypes.func.isRequired,
+    }
+    static defaultProps = {
+        id: 'default',
+    }
+    static CACHE = new Memory()
+    render() {
+        const request = mapbox.style(this.props.id)
+
+        return (
+            <Fetch cache={Style.CACHE} request={request}>
+                {this.props.children}
+            </Fetch>
         )
     }
 }
