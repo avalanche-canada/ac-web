@@ -4,10 +4,10 @@ import isWithinRange from 'date-fns/is_within_range'
 import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
 
-export function title({ report, status, hotZone }) {
+export function title({ report, loading, hotZone }) {
     const name = hotZone ? hotZone.name : null
 
-    return status.isLoaded
+    return !loading
         ? report
             ? name
             : `No ${name} report is currently available`

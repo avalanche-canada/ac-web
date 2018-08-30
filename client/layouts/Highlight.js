@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react'
 import Component from 'components/highlight'
 import { Banner } from 'components/application'
 import { Link, StructuredText } from 'prismic/components/base'
-import { Highlight as Container } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import { highlight } from 'prismic/params'
 import { SessionStorage } from 'services/storage'
 
 // Constants
@@ -11,7 +12,7 @@ const STORAGE_KEY = 'highlight-hidden'
 export default class Highlight extends PureComponent {
     storage = SessionStorage.create()
     state = {
-        hidden: this.storage.get(STORAGE_KEY),
+        hidden: this.storage.get(STORAGE_KEY, false),
     }
     handleDismiss = () => {
         this.setState({ hidden: true }, () => {
@@ -23,13 +24,13 @@ export default class Highlight extends PureComponent {
             return null
         }
 
-        const { link } = document
-        const content = <StructuredText value={document.description} />
+        const { link, description, style } = document.data
+        const content = <StructuredText value={description} />
 
         return (
             <Banner>
                 <Component
-                    style={document.style}
+                    style={style}
                     onDismiss={this.handleDismiss}
                     dismissable>
                     {link ? <Link {...link}>{content}</Link> : content}
@@ -38,6 +39,6 @@ export default class Highlight extends PureComponent {
         )
     }
     render() {
-        return <Container>{this.children}</Container>
+        return <Document {...highlight()}>{this.children}</Document>
     }
 }

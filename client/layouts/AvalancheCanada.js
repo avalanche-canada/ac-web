@@ -39,7 +39,7 @@ export default class AvalancheCanada extends Component {
         // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
         captureException(error, { extra })
     }
-    fallback({ error }) {
+    renderError({ error }) {
         return (
             <Page.Error>
                 <Page.Main>
@@ -78,7 +78,7 @@ export default class AvalancheCanada extends Component {
                     <Highlight />
                     <ErrorBoundary
                         onError={this.capture}
-                        fallback={this.fallback}>
+                        fallback={this.renderError}>
                         <Switch>
                             <Redirect exact from="/" to="/map" />
                             <Route

@@ -1,20 +1,25 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import { StructuredText } from 'prismic/components/base'
-import { WeatherTutorial as Container } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import { mw } from 'prismic/params'
 
 export default class Tutorial extends PureComponent {
     static propTypes = {
         uid: PropTypes.string.isRequired,
     }
-    children = ({ status, document }) => (
+    renderChildren = ({ loading, document }) => (
         <Fragment>
-            <Status {...status} />
+            <Loading show={loading}>Loading tutorial...</Loading>
             {document && <StructuredText value={document.data.tutorial} />}
         </Fragment>
     )
     render() {
-        return <Container uid={this.props.uid}>{this.children}</Container>
+        return (
+            <Document {...mw.tutorial(this.props.uid)}>
+                {this.renderChildren}
+            </Document>
+        )
     }
 }

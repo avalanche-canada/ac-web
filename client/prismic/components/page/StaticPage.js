@@ -10,7 +10,7 @@ import {
     Aside,
 } from 'components/page'
 import Sidebar from 'components/sidebar'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import { SliceZone } from 'prismic/components/base'
 import { STATIC_PAGE } from 'constants/prismic'
 
@@ -18,7 +18,7 @@ export default class StaticPage extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
         title: PropTypes.string,
-        status: PropTypes.object.isRequired,
+        loading: PropTypes.bool,
         document: PropTypes.object,
     }
     get sidebar() {
@@ -44,8 +44,8 @@ export default class StaticPage extends Component {
                 follow: following,
                 contact: contacting
                     ? typeof contact === 'string'
-                      ? contact.replace(/^mailto:/, '')
-                      : true
+                        ? contact.replace(/^mailto:/, '')
+                        : true
                     : false,
                 content: sidebar,
             }
@@ -54,7 +54,7 @@ export default class StaticPage extends Component {
         }
     }
     render() {
-        const { uid, title, status, document = {} } = this.props
+        const { uid, title, loading, document = {} } = this.props
         const { data = {} } = document
         const { headline, content, banner } = data
         const className = `${STATIC_PAGE}-${uid}`
@@ -67,7 +67,9 @@ export default class StaticPage extends Component {
                 {banner && <Banner {...banner.main} />}
                 <Header title={data.title || title} />
                 <Content>
-                    <Status {...status} />
+                    <Loading show={loading}>
+                        {`Loading ${title} page...`}
+                    </Loading>
                     <Main>
                         {headline && <Headline>{headline}</Headline>}
                         {Array.isArray(content) && (

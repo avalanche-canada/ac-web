@@ -17,12 +17,12 @@ export function Muted({ children, ...props }) {
     )
 }
 
-export function Loading({ children = 'Loading...', ...props }) {
-    return (
+export function Loading({ children = 'Loading...', show, ...props }) {
+    return show === true || show === undefined ? (
         <p className={styles.Loading} {...props}>
             {children}
         </p>
-    )
+    ) : null
 }
 
 export function Error({ children = 'An error happened.', ...props }) {

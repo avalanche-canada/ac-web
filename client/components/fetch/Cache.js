@@ -1,4 +1,4 @@
-export class Null {
+export class None {
     reset() {}
     has() {
         return false
@@ -8,56 +8,23 @@ export class Null {
 }
 
 export class Memory {
-    constructor() {
+    constructor(lifespan = Infinity) {
         this.store = new Map()
+        this.lifespan = lifespan
     }
     reset() {
         this.store = new Map()
     }
     has(url) {
-        return this.store.has(url)
+        return this.store.has(url) && this.store.get(url).expiry > Date.now()
     }
     get(url) {
-        return this.store.get(url)
+        return this.has(url) ? this.store.get(url).data : undefined
     }
     set(url, data) {
-        return this.state.set(url, data)
-    }
-}
-
-class StorageProxy {
-    constructor(storage) {
-        this.storage = storage
-    }
-    reset() {}
-    has() {
-        return false
-    }
-    get() {}
-    set() {}
-}
-
-export class Session extends StorageProxy {
-    constructor() {}
-}
-
-export class Local {
-    constructor() {}
-    reset() {}
-    has() {
-        return false
-    }
-    get() {}
-    set() {}
-}
-
-export class Prismic extends Memory {
-    constructor(ref) {
-        this.ref = ref
-        this.store = new Map()
-    }
-    setRef(ref) {
-        this.ref = ref
-        this.reset()
+        this.store.set(url, {
+            expiry: Date.now() + this.lifespan,
+            data,
+        })
     }
 }

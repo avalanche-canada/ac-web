@@ -3,8 +3,8 @@ import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import { getGeom } from '@turf/invariant'
 import { Link } from 'react-router-dom'
-import TripPlanner from 'containers/TripPlanner'
-import TripPlannerMap from './Map'
+import { Regions } from 'containers/features'
+import Map from './Map'
 import TripPlanning from './TripPlanning'
 import Forecast from './Forecast'
 import { Home } from 'components/links'
@@ -105,13 +105,13 @@ export default class TripPlannerLayout extends PureComponent {
         this.fitBounds(geometryCollection(geometries))
     }
     handleRegionLocateClick = () => {
-        const region = this.regions.get(this.state.region.id)
+        const { id } = this.state.region
+        const region = this.regions.find(region => region.id === id)
 
         this.fitBounds(utils.geometry(region))
     }
-    setData = ({ props }) => {
-        this.regions = props.regions
-        this.areas = props.areas
+    setData = ({ data }) => {
+        this.regions = data
 
         return null
     }
@@ -230,13 +230,13 @@ export default class TripPlannerLayout extends PureComponent {
     render() {
         return (
             <div className={styles.Layout}>
-                <TripPlannerMap
+                <Map
                     {...this.state}
                     onLoad={this.handleMapLoad}
                     onFeaturesSelect={this.handleFeaturesSelect}
                 />
                 <Window>{props => this.renderDrawers(props)}</Window>
-                <TripPlanner>{this.setData}</TripPlanner>
+                <Regions>{this.setData}</Regions>
             </div>
         )
     }

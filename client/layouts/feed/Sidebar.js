@@ -1,9 +1,10 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { FeedSidebar as Container } from 'prismic/containers'
+import { Documents } from 'prismic/containers'
+import { feed } from 'prismic/params'
 import Sidebar, { Header, Item } from 'components/sidebar'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import { EVENT, NEWS, BLOG } from 'constants/prismic'
 import { pathname, title } from 'utils/prismic'
 
@@ -25,23 +26,25 @@ export default class FeedSidebar extends PureComponent {
             </Item>
         )
     }
-    children = ({ status, documents }) => {
-        if (status.isLoaded && documents.length === 0) {
+    children = ({ loading, documents }) => {
+        if (!loading && documents?.length === 0) {
             return null
         }
 
         return (
             <Fragment>
                 <Header>{Headers.get(this.props.type)}</Header>
-                <Status {...status} />
-                {documents.map(this.renderItem)}
+                <Loading show={loading} />
+                {documents && documents.map(this.renderItem)}
             </Fragment>
         )
     }
     render() {
         return (
             <Sidebar share follow>
-                <Container {...this.props}>{this.children}</Container>
+                <Documents {...feed.sidebar(this.props)}>
+                    {this.children}
+                </Documents>
             </Sidebar>
         )
     }

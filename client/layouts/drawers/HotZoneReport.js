@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import * as Hzr from 'layouts/products/hzr'
 import { Container, Navbar, Header, Body, Close } from 'components/page/drawer'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { HotZoneReport as HotZoneReportContainer } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import { hzr } from 'prismic/params'
 import { HotZone } from 'containers/features'
 import * as utils from 'utils/hzr'
 
@@ -17,19 +18,22 @@ export default class HotZoneReportDrawer extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader(props) {
+    renderHeader({ document, loading }) {
         const { name, onLocateClick } = this.props
-        const { report } = props
 
         return (
             <Header subject="Hot Zone Report">
-                <HotZone name={this.props.name}>
+                <HotZone name={name}>
                     {({ data }) => {
-                        const title = utils.title({ ...props, hotZone: data })
+                        const title = utils.title({
+                            loading,
+                            report: document,
+                            hotZone: data,
+                        })
 
                         return (
                             <h1>
-                                {report ? (
+                                {document ? (
                                     <Link to={`/hot-zone-reports/${name}`}>
                                         {title}
                                     </Link>
@@ -48,19 +52,20 @@ export default class HotZoneReportDrawer extends PureComponent {
             </Header>
         )
     }
-    renderReport = ({ report, status }) => (
+    renderReport = ({ document, loading }) => (
         <Container>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={this.props.onCloseClick} />
             </Navbar>
-            {this.renderHeader({ report, status })}
+            {this.renderHeader({ document, loading })}
             <Body>
-                <Shim horizontal>
-                    <Status {...status} />
-                </Shim>
-                {status.isLoaded && (
-                    <Hzr.Report value={report}>
+                {loading ? (
+                    <Shim horizontal>
+                        <Loading />
+                    </Shim>
+                ) : (
+                    <Hzr.Report value={document}>
                         <Shim horizontal>
                             <Hzr.Metadata shareable />
                             <Hzr.Header />
@@ -77,9 +82,9 @@ export default class HotZoneReportDrawer extends PureComponent {
     )
     render() {
         return (
-            <HotZoneReportContainer region={this.props.name}>
+            <Document {...hzr.region(this.props.name)}>
                 {this.renderReport}
-            </HotZoneReportContainer>
+            </Document>
         )
     }
 }

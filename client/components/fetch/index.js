@@ -1,13 +1,9 @@
 import React, { Component, createContext } from 'react'
 import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
-import Cache, { Null } from './Cache'
+import Cache, { None } from './Cache'
 
 const { Provider, Consumer } = createContext()
-const STATE = {
-    loading: false,
-    data: undefined,
-}
 
 export default class Fetch extends Component {
     static propTypes = {
@@ -17,7 +13,7 @@ export default class Fetch extends Component {
         cache: PropTypes.instanceOf(Cache),
     }
     static defaultProps = {
-        cache: new Null(),
+        cache: new None(),
     }
     static Consumer = Consumer
     static Loading = class Loading extends Component {
@@ -52,21 +48,15 @@ export default class Fetch extends Component {
             return <Consumer>{props => this.children(props)}</Consumer>
         }
     }
-    state = STATE
-    get value() {
-        return {
-            ...this.state,
-            reset: this.reset,
-        }
+    state = {
+        loading: false,
+        data: this.cache.get(this.url),
     }
     get cache() {
         return this.props.cache
     }
     get url() {
         return this.props.request.url
-    }
-    reset = () => {
-        this.setState(STATE, this.cache.reset)
     }
     fulfill = data => {
         this.setState({ loading: false, data }, () => {
@@ -80,17 +70,20 @@ export default class Fetch extends Component {
     }
     fetch() {
         if (this.cache.has(this.url)) {
-            return
+            this.setState({
+                loading: false,
+                data: this.cache.get(this.url),
+            })
+        } else {
+            this.setState({ loading: true }, () => {
+                fetch(this.props.request)
+                    .then(status)
+                    .then(this.fulfill, this.reject)
+            })
         }
-
-        this.setState({ loading: true }, () => {
-            fetch(this.props.request)
-                .then(status)
-                .then(this.fulfill, this.reject)
-        })
     }
     componentDidUpdate({ request }) {
-        if (request.url !== this.url) {
+        if (this.url !== request.url) {
             this.fetch()
         }
     }
@@ -99,11 +92,12 @@ export default class Fetch extends Component {
     }
     render() {
         const { children } = this.props
-        const { value } = this
 
         return (
-            <Provider value={value}>
-                {typeof children === 'function' ? children(value) : children}
+            <Provider value={this.state}>
+                {typeof children === 'function'
+                    ? children(this.state)
+                    : children}
             </Provider>
         )
     }

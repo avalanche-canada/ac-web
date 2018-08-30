@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { WeatherForecast as Container } from 'prismic/containers'
+import { Document } from 'prismic/containers'
 import { Article } from 'components/page'
-import { Status } from 'components/misc'
-import { Muted } from 'components/text'
+import { Muted, Loading } from 'components/text'
 import { DateElement } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import Forecast from 'components/weather'
 import { DayPicker } from 'components/controls'
 import * as utils from 'utils/search'
+import * as params from 'prismic/params'
 
 // TODO: Reorganize using Context and create Components
 
@@ -56,32 +56,30 @@ export default class WeatherForecast extends Component {
             </Metadata>
         )
     }
-    renderContent(status, forecast) {
-        if (!status.isLoaded) {
-            return null
-        }
-
-        if (!forecast) {
-            return (
+    renderChildren = ({ loading, document }) => (
+        <Fragment>
+            {this.renderMetadata(document)}
+            {loading ? (
+                <Loading>
+                    Loading mountain weather forecast for{' '}
+                    <DateElement value={this.date} />
+                    ...
+                </Loading>
+            ) : document ? null : (
                 <Muted>
                     No weather forecast available for{' '}
-                    <DateElement value={this.date} />
-                    .
+                    <DateElement value={this.date} />.
                 </Muted>
-            )
-        }
-
-        return <Forecast forecast={forecast} />
-    }
-    children = ({ status, forecast }) => [
-        this.renderMetadata(forecast),
-        <Status {...status} />,
-        this.renderContent(status, forecast),
-    ]
+            )}
+            {document && <Forecast forecast={document.data} />}
+        </Fragment>
+    )
     render() {
         return (
             <Article>
-                <Container date={this.state.date}>{this.children}</Container>
+                <Document {...params.mw.forecast(this.state.date)}>
+                    {this.renderChildren}
+                </Document>
             </Article>
         )
     }
