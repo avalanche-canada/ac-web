@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
+import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
 import { metadata } from 'api/requests/metadata'
 import { Error } from 'components/text'
@@ -116,8 +117,13 @@ export class HotZones extends Component {
 }
 
 // Utils
+const CACHE = new Memory()
 function Metadata({ children }) {
-    return <Fetch request={metadata()}>{children}</Fetch>
+    return (
+        <Fetch cache={CACHE} request={metadata()}>
+            {children}
+        </Fetch>
+    )
 }
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
