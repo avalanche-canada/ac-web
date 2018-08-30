@@ -288,16 +288,18 @@ const LOCATION_CREATORS = new Map([
     [
         Layers.MOUNTAIN_INFORMATION_NETWORK,
         createSecondayPanelLocationFactory(
-            Schemas.MountainInformationNetworkSubmission
+            Schemas.MountainInformationNetworkSubmission.key
         ),
     ],
     [
         Layers.WEATHER_STATION,
-        createSecondayPanelLocationFactory(Schemas.WeatherStation),
+        createSecondayPanelLocationFactory(Schemas.WeatherStation.key),
     ],
     [
         Layers.MOUNTAIN_CONDITIONS_REPORTS,
-        createSecondayPanelLocationFactory(Schemas.MountainConditionsReport),
+        createSecondayPanelLocationFactory(
+            Schemas.MountainConditionsReport.key
+        ),
     ],
     [
         Layers.TOYOTA_TRUCK_REPORTS,
@@ -323,11 +325,7 @@ const CLUSTER_BOUNDS_OPTIONS = {
 
 // Utils
 function createSecondayPanelLocationFactory(key) {
-    if (typeof key === 'string') {
-        return id => ({
-            search: `?panel=${key}/${id}`,
-        })
-    }
-
-    return createSecondayPanelLocationFactory(key.key)
+    return id => ({
+        search: `?panel=${key}/${id}`,
+    })
 }
