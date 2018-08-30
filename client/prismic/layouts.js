@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { DocumentByUID } from 'prismic/new-containers'
+import { DocumentByUID } from 'prismic/containers'
 import { STATIC_PAGE, GENERIC } from 'constants/prismic'
 import * as Pages from 'prismic/components/page'
 

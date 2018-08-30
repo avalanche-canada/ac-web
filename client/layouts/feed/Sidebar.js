@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import { Documents } from 'prismic/new-containers'
+import { Documents } from 'prismic/containers'
 import { feed } from 'prismic/params'
 import Sidebar, { Header, Item } from 'components/sidebar'
 import { Loading } from 'components/text'

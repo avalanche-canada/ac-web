@@ -11,7 +11,7 @@ import {
 import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import { Document } from 'prismic/new-containers'
+import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
