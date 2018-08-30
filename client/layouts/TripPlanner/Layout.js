@@ -106,12 +106,11 @@ export default class TripPlannerLayout extends PureComponent {
     }
     handleRegionLocateClick = () => {
         const { id } = this.state.region
-        const region = this.regions[id]
+        const region = this.regions.find(region => region.id === id)
 
         this.fitBounds(utils.geometry(region))
     }
     setData = ({ data }) => {
-        console.warn(data)
         this.regions = data
 
         return null
