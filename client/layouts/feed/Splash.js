@@ -1,10 +1,10 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Muted } from 'components/text'
-import { Status } from 'components/misc'
+import { Muted, Loading } from 'components/text'
 import { Splash } from 'components/page/sections'
 import { Entry, EntrySet } from 'components/feed'
-import { FeedSplash as Container } from 'prismic/containers'
+import { Documents } from 'prismic/new-containers'
+import { feed } from 'prismic/params'
 
 function createEntry(document) {
     return <Entry condensed key={document.uid} {...document} />
@@ -16,20 +16,17 @@ export default class FeedSplash extends PureComponent {
         tags: PropTypes.arrayOf(PropTypes.string),
         children: PropTypes.node,
     }
-    get messages() {
-        return {
-            isLoading: `Loading latest ${this.props.type}...`,
-        }
-    }
-    children = ({ status, documents }) => {
-        const isEmpty = status.isLoaded && documents.length === 0
+    children = ({ loading, documents = [] }) => {
+        const isEmpty = !loading && documents.length === 0
         const featured = documents.find(p => p.featured) || documents[0]
 
         documents = documents.filter(p => p !== featured)
 
         return (
             <Fragment>
-                <Status {...status} messages={this.messages} />
+                <Loading show={loading}>
+                    {`Loading latest ${this.props.type}...`}
+                </Loading>
                 {isEmpty && <Muted>Nothing found.</Muted>}
                 {featured && <EntrySet>{createEntry(featured)}</EntrySet>}
                 {documents.length > 0 && (
@@ -44,7 +41,7 @@ export default class FeedSplash extends PureComponent {
         return (
             <Splash>
                 {children}
-                <Container {...props}>{this.children}</Container>
+                <Documents {...feed.splash(props)}>{this.children}</Documents>
             </Splash>
         )
     }

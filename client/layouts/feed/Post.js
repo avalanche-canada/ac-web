@@ -1,8 +1,9 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
-import { Status } from 'components/misc'
-import { Post as Container } from 'prismic/containers'
+import { Loading } from 'components/text'
+import { Document } from 'prismic/new-containers'
+import * as params from 'prismic/params'
 import { Page, Content, Header, Main, Headline, Aside } from 'components/page'
 import { Metadata, Entry } from 'components/metadata'
 import { DateElement } from 'components/time'
@@ -15,10 +16,8 @@ class Post extends PureComponent {
         type: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
     }
-    renderHeader(status, post) {
-        const title = status.isLoaded && post ? post.title : 'Loading...'
-
-        return <Header title={title} />
+    renderHeader(post) {
+        return <Header title={post?.title || 'Loading...'} />
     }
     renderMetadata({ date, source, location, hostedBy, startDate, endDate }) {
         const hasDateRange = startDate && endDate
@@ -57,38 +56,32 @@ class Post extends PureComponent {
             </Fragment>
         )
     }
-    children = ({ status, document }) => {
-        if (status.isLoaded && !document) {
-            // Post not found, redirecting to feed
-            return <Redirect to={this.props.type} />
-        }
-
-        const { uid, type } = this.props
+    children = ({ loading, document }) => {
+        // if (loading.isLoaded && !document) {
+        //     // Post not found, redirecting to feed
+        //     return <Redirect to={this.props.type} />
+        // }
 
         return (
             <Fragment>
-                {this.renderHeader(status, document)}
+                {this.renderHeader(document)}
                 <Content>
                     <Main>
                         {document && this.renderMetadata(document)}
                         {document && this.renderContent(document)}
-                        <Status {...status} />
+                        <Loading show={loading} />
                     </Main>
                     <Aside>
-                        <Sidebar type={type} uid={uid} />
+                        <Sidebar {...this.props} />
                     </Aside>
                 </Content>
             </Fragment>
         )
     }
     render() {
-        const { uid, type } = this.props
-
         return (
             <Page>
-                <Container uid={uid} type={type}>
-                    {this.children}
-                </Container>
+                <Document {...params.uid(this.props)}>{this.children}</Document>
             </Page>
         )
     }

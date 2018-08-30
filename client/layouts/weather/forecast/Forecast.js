@@ -77,7 +77,7 @@ export default class WeatherForecast extends Component {
     render() {
         return (
             <Article>
-                <Document {...params.mwf(this.state.date)}>
+                <Document {...params.mw.forecast(this.state.date)}>
                     {this.renderChildren}
                 </Document>
             </Article>

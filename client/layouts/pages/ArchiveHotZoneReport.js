@@ -6,17 +6,15 @@ import { Report } from 'layouts/products/hzr'
 import { Page, Content, Header, Main } from 'components/page'
 import { DateElement } from 'components/time'
 import { Muted } from 'components/text'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import formatDate from 'date-fns/format'
 import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
 import eachDay from 'date-fns/each_day'
-import {
-    HotZoneReport as HotZoneReportContainer,
-    MonthlyHotZoneReportSet,
-} from 'prismic/containers'
+import { Document, Documents } from 'prismic/new-containers'
+import { hzr } from 'prismic/params'
 import { DATE } from 'utils/date'
 
 @withRouter
@@ -59,7 +57,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
                 placeholder="Select a hot zone"
             />
         ) : null
-    dayPicker = ({ documents }) => {
+    dayPicker = ({ documents = [] }) => {
         const { date } = this.state
         const days = documents.reduce((days, { data }) => {
             const start = startOfDay(data.dateOfIssue)
@@ -92,31 +90,30 @@ export default class ArchiveHotZoneReport extends PureComponent {
                 </Entry>
                 {name && (
                     <Entry>
-                        <MonthlyHotZoneReportSet date={month} region={name}>
+                        <Documents {...hzr.reports.monthly(name, month)}>
                             {this.dayPicker}
-                        </MonthlyHotZoneReportSet>
+                        </Documents>
                     </Entry>
                 )}
             </Metadata>
         )
     }
-    children = ({ report, status }) => {
+    children = ({ document, loading }) => {
         const { name, date } = this.state
-        const messages = {
-            ...status.messages,
-            isLoaded:
-                report === null
-                    ? `No report available in ${name} for ${formatDate(
-                          date,
-                          DATE
-                      )}.`
-                    : null,
-        }
 
         return (
             <Fragment>
-                <Status {...status} messages={messages} />
-                <Report value={report} />
+                {loading ? (
+                    <Loading />
+                ) : document ? null : (
+                    <Muted>
+                        {`No report available in ${name} for ${formatDate(
+                            date,
+                            DATE
+                        )}.`}
+                    </Muted>
+                )}
+                <Report value={document} />
             </Fragment>
         )
     }
@@ -125,9 +122,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
 
         if (name && date) {
             return (
-                <HotZoneReportContainer region={name} date={date}>
-                    {this.children}
-                </HotZoneReportContainer>
+                <Document {...hzr.region(name, date)}>{this.children}</Document>
             )
         }
 

@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import Highlight, { DANGER } from 'components/highlight'
 import { Link, StructuredText } from 'prismic/components/base'
-import { SPAW as Container } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
+import { spaw } from 'prismic/params'
 import { Banner } from 'components/application'
 import { SessionStorage } from 'services/storage'
 
@@ -22,8 +23,8 @@ export default class SPAW extends PureComponent {
             return null
         }
 
-        const { link } = document
-        const content = <StructuredText value={document.description} />
+        const { link, description } = document.data
+        const content = <StructuredText value={description} />
 
         return (
             <Banner>
@@ -37,7 +38,7 @@ export default class SPAW extends PureComponent {
         )
     }
     render() {
-        return <Container>{this.children}</Container>
+        return <Document {...spaw()}>{this.children}</Document>
     }
 }
 
@@ -47,10 +48,10 @@ export class Region extends PureComponent {
         children: PropTypes.func.isRequired,
     }
     children = ({ document }) =>
-        document && document[camelCase(this.props.name)] === 'Yes'
+        document && document.data[camelCase(this.props.name)] === 'Yes'
             ? this.props.children({ document })
             : null
     render() {
-        return <Container>{this.children}</Container>
+        return <Document {...spaw()}>{this.children}</Document>
     }
 }

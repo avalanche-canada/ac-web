@@ -5,9 +5,10 @@ import Tree from './Tree'
 import AtesExercise from './AtesExercise'
 import TutorialContent from './Content'
 import { parse } from 'utils/search'
-import { Tutorial as Container } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
+import { tutorial } from 'prismic/params'
 import { Generic } from 'prismic/components'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import menu from './menu.json'
 import styles from './Tutorial.css'
 
@@ -69,13 +70,13 @@ export default class Layout extends PureComponent {
 function Tutorial({ location }) {
     const slug = location.pathname.replace(TUTORIAL_REGEX, '')
 
-    return <Container slug={slug}>{renderTutorial}</Container>
+    return <Document {...tutorial(slug)}>{renderTutorial}</Document>
 }
 
-function renderTutorial({ status, document }) {
+function renderTutorial({ loading, document }) {
     return (
         <Fragment>
-            <Status {...status} />
+            <Loading show={loading} />
             {document ? <TutorialContent {...document.data} /> : null}
         </Fragment>
     )

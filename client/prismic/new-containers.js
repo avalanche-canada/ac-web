@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import * as requests from './requests'
+import { status } from 'services/fetch/utils'
 import * as params from 'prismic/params'
+import { FEED } from 'constants/prismic'
 import parse from './parsers'
 
 class MasterRef extends Component {
@@ -36,7 +38,10 @@ export class Document extends Component {
     children = ({ data, ...props }) =>
         this.props.children(
             Object.assign(props, {
-                document: data ? parse(data.results[0]) : undefined,
+                document:
+                    data?.results?.length > 0
+                        ? parse(data.results[0])
+                        : undefined,
             })
         )
     render() {
@@ -77,6 +82,64 @@ export class Documents extends Component {
     }
     render() {
         return <Search {...this.props}>{this.children}</Search>
+    }
+}
+
+export class Tags extends Component {
+    static propTypes = {
+        type: PropTypes.oneOf(FEED).isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    state = {
+        loading: false,
+        tags: new Set(),
+    }
+    async fetch() {
+        this.setState({ loading: true }, async () => {
+            try {
+                const api = await fetch(requests.api()).then(status)
+                const { ref } = api.refs.find(isMasterRef)
+                const { type } = this.props
+                const tags = new Set()
+                let page = 1
+                let nextPage = null
+
+                do {
+                    const { predicates, ...options } = params.tags({
+                        type,
+                        page,
+                    })
+                    const request = requests.search(ref, predicates, options)
+                    const data = await fetch(request).then(status)
+
+                    page = data.page + 1
+                    nextPage = data.next_page
+
+                    for (const result of data.results) {
+                        for (const tag of result.tags) {
+                            tags.add(tag)
+                        }
+                    }
+                } while (nextPage)
+
+                this.setState({ loading: false, tags })
+            } catch (error) {
+                this.setState({ loading: false })
+
+                throw error
+            }
+        })
+    }
+    componentDidUpdate({ type }) {
+        if (type !== this.props.type) {
+            this.fetch()
+        }
+    }
+    componentDidMount() {
+        this.fetch()
+    }
+    render() {
+        return this.props.children(this.state)
     }
 }
 
