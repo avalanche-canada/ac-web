@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { pathname } from 'utils/prismic'
 import { Loading } from 'components/text'
-import { DocumentByUID } from 'prismic/containers'
+import { DocumentByUID } from 'prismic/new-containers'
 
 const DocumentType = PropTypes.shape({
     id: PropTypes.string.isRequired,

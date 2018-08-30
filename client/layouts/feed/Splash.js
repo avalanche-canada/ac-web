@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Muted, Loading } from 'components/text'
 import { Splash } from 'components/page/sections'
 import { Entry, EntrySet } from 'components/feed'
-import { Documents } from 'prismic/containers'
+import { Documents } from 'prismic/new-containers'
 import { feed } from 'prismic/params'
 
 function createEntry(document) {

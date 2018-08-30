@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Loading } from 'components/text'
-import { Document } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
 import { generic } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 

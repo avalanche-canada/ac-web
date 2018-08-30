@@ -17,7 +17,7 @@ import get from 'lodash/get'
 import snakeCase from 'lodash/snakeCase'
 import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
-import { Documents } from 'prismic/containers'
+import { Documents } from 'prismic/new-containers'
 import * as Predicates from 'prismic/predicates'
 
 const YES = 'Yes'

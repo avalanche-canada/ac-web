@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { ItemSet, Item } from 'components/sponsor'
-import { Documents } from 'prismic/containers'
+import { Documents } from 'prismic/new-containers'
 import { Loading } from 'components/text'
 import * as params from 'prismic/params'
 

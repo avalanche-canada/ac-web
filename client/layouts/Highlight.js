@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import Component from 'components/highlight'
 import { Banner } from 'components/application'
 import { Link, StructuredText } from 'prismic/components/base'
-import { Document } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
 import { highlight } from 'prismic/params'
 import { SessionStorage } from 'services/storage'
 

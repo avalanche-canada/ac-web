@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Document } from 'prismic/containers'
+import { Document } from 'prismic/new-containers'
 import { Article } from 'components/page'
 import { Muted, Loading } from 'components/text'
 import { DateElement } from 'components/time'

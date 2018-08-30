@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Link, ColumnSet } from 'components/navbar'
-import { DocumentByUID } from 'prismic/containers'
+import { DocumentByUID } from 'prismic/new-containers'
 import { Loading } from 'components/text'
 import { STATIC_PAGE } from 'constants/prismic'
 
