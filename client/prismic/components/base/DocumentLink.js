@@ -20,8 +20,8 @@ export default class DocumentLink extends PureComponent {
         document: DocumentType,
         children: PropTypes.node,
     }
-    renderer({ loading, document }) {
-        return loading || !document ? <Loading /> : document.data.title.value
+    renderer({ document }) {
+        return document?.data?.title || <Loading />
     }
     get children() {
         const { type, uid } = this.props.value.document
