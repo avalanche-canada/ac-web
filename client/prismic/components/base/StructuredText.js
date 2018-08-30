@@ -128,7 +128,7 @@ StructuredText.propTypes = {
         PropTypes.shape({
             type: PropTypes.oneOf(Array.from(Components.keys())).isRequired,
         })
-    ).isRequired,
+    ),
     className: PropTypes.string,
 }
 

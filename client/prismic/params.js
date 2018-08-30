@@ -3,6 +3,7 @@ import formatDate from 'date-fns/format'
 import isToday from 'date-fns/is_today'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
+import startOfDay from 'date-fns/start_of_day'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import * as Predicates from 'prismic/predicates'
@@ -302,8 +303,8 @@ export const feed = {
             ? `${FEED_ORDERINGS.get(type)} desc`
             : FEED_ORDERINGS.get(type)
         const predicate = past ? Predicates.dateBefore : Predicates.dateAfter
-        const predicates = []
         const timestamp = startOfDay(new Date()).getTime()
+        const predicates = []
 
         predicates.push(predicate(`my.${type}.end_date`, timestamp))
 

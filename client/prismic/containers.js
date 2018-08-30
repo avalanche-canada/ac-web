@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
+import { Memory as Cache } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
 import { Error } from 'components/text'
 import * as requests from './requests'
@@ -10,14 +11,20 @@ import parse from './parsers'
 import { FEED } from 'constants/prismic'
 
 class MasterRef extends Component {
+    static CACHE = new Cache(60 * 1000)
     children = ({ data }) =>
         data ? this.props.children(data.refs.find(isMasterRef).ref) : null
     render() {
-        return <Fetch request={requests.api()}>{this.children}</Fetch>
+        return (
+            <Fetch cache={MasterRef.CACHE} request={requests.api()}>
+                {this.children}
+            </Fetch>
+        )
     }
 }
 
 class Search extends Component {
+    static CACHE = new Cache()
     static propTypes = {
         children: PropTypes.func.isRequired,
         predicates: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -26,10 +33,16 @@ class Search extends Component {
         const { children, predicates, ...options } = this.props
         const request = requests.search(ref, predicates, options)
 
-        return <Fetch request={request}>{children}</Fetch>
+        return (
+            <Fetch cache={Search.CACHE} request={request}>
+                {children}
+            </Fetch>
+        )
     }
     renderError() {
-        return <Error>An error happened while retrieving data.</Error>
+        return (
+            <Error>An error happened while retrieving data from prismic.</Error>
+        )
     }
     render() {
         return (

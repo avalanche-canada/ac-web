@@ -9,7 +9,11 @@ class Ambassadors extends Component {
         const { to } = this.props
         const hash = fullName.toLowerCase().replace(/\s/, '-', 'g')
 
-        return <Link to={`${to}#${hash}`}>{fullName}</Link>
+        return (
+            <Link key={hash} to={`${to}#${hash}`}>
+                {fullName}
+            </Link>
+        )
     }
     renderContent = ({ loading, document }) => (
         <Fragment>
