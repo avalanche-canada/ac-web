@@ -14,7 +14,7 @@ import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
 import eachDay from 'date-fns/each_day'
 import { Document, Documents } from 'prismic/containers'
-import { hzr } from 'prismic/params'
+import { hotZone } from 'prismic/params'
 import { DATE } from 'utils/date'
 
 @withRouter
@@ -90,7 +90,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
                 </Entry>
                 {name && (
                     <Entry>
-                        <Documents {...hzr.reports.monthly(name, month)}>
+                        <Documents {...hotZone.reports.monthly(name, month)}>
                             {this.dayPicker}
                         </Documents>
                     </Entry>
@@ -122,7 +122,9 @@ export default class ArchiveHotZoneReport extends PureComponent {
 
         if (name && date) {
             return (
-                <Document {...hzr.region(name, date)}>{this.children}</Document>
+                <Document {...hotZone.report(name, date)}>
+                    {this.children}
+                </Document>
             )
         }
 

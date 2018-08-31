@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import StaticComponent from 'components/StaticComponent'
-import UnsupportedMap from 'layouts/UnsupportedMap'
+import UnsupportedMap from 'layouts/map/UnsupportedMap'
 
 export default class Unsupported extends StaticComponent {
     render() {

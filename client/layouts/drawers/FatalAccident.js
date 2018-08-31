@@ -12,7 +12,7 @@ import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import { Document } from 'prismic/containers'
-import * as params from 'prismic/params'
+import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
@@ -94,7 +94,7 @@ export default class FatalAccident extends PureComponent {
     )
     render() {
         return (
-            <Document {...params.fatal.accident(this.props.id)}>
+            <Document {...fatal.accident(this.props.id)}>
                 {this.renderChildren}
             </Document>
         )

@@ -6,7 +6,7 @@ import { Loading } from 'components/text'
 import { Item } from 'components/sidebar'
 import * as Hzr from 'layouts/products/hzr'
 import { Document } from 'prismic/containers'
-import { hzr } from 'prismic/params'
+import { hotZone } from 'prismic/params'
 import { HotZone } from 'containers/features'
 import * as utils from 'utils/hzr'
 
@@ -65,7 +65,7 @@ export default class HotZoneReportLayout extends PureComponent {
     )
     render() {
         const { uid, region } = this.props
-        const params = uid ? hzr.uid(uid) : hzr.region(region)
+        const params = uid ? hotZone.uid(uid) : hotZone.report(region)
 
         return (
             <Page>

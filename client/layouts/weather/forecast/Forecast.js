@@ -8,7 +8,7 @@ import { Metadata, Entry } from 'components/metadata'
 import Forecast from 'components/weather'
 import { DayPicker } from 'components/controls'
 import * as utils from 'utils/search'
-import * as params from 'prismic/params'
+import { mw } from 'prismic/params'
 
 // TODO: Reorganize using Context and create Components
 
@@ -77,7 +77,7 @@ export default class WeatherForecast extends Component {
     render() {
         return (
             <Article>
-                <Document {...params.mw.forecast(this.state.date)}>
+                <Document {...mw.forecast(this.state.date)}>
                     {this.renderChildren}
                 </Document>
             </Article>

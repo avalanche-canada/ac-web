@@ -118,8 +118,8 @@ export const special = {
     },
 }
 
-export const hzr = {
-    region(name, date) {
+export const hotZone = {
+    report(name, date) {
         const { HOTZONE_REPORT } = types
 
         return {
@@ -143,28 +143,36 @@ export const hzr = {
             uid: id,
         })
     },
-    reports: {
-        monthly(region, date) {
-            const { HOTZONE_REPORT } = types
-            const start = formatDate(startOfMonth(date), DATE)
-            const end = formatDate(endOfMonth(date), DATE)
+    reports() {
+        const { HOTZONE_REPORT } = types
 
-            return {
-                predicates: [
-                    Predicates.field(HOTZONE_REPORT, 'region', region),
-                    Predicates.dateBefore(
-                        `my.${HOTZONE_REPORT}.dateOfIssue`,
-                        end
-                    ),
-                    Predicates.dateAfter(
-                        `my.${HOTZONE_REPORT}.validUntil`,
-                        start
-                    ),
-                ],
-            }
-        },
+        return {
+            predicates: [
+                ...rangePredicates(
+                    `my.${HOTZONE_REPORT}.dateOfIssue`,
+                    `my.${HOTZONE_REPORT}.validUntil`,
+                    date
+                ),
+            ],
+        }
     },
 }
+
+Object.assign(hotZone.reports, {
+    monthly(region, date) {
+        const { HOTZONE_REPORT } = types
+        const start = formatDate(startOfMonth(date), DATE)
+        const end = formatDate(endOfMonth(date), DATE)
+
+        return {
+            predicates: [
+                Predicates.field(HOTZONE_REPORT, 'region', region),
+                Predicates.dateBefore(`my.${HOTZONE_REPORT}.dateOfIssue`, end),
+                Predicates.dateAfter(`my.${HOTZONE_REPORT}.validUntil`, start),
+            ],
+        }
+    },
+})
 
 export function highlight() {
     return range(types.HIGHLIGHT)

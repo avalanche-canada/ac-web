@@ -35,7 +35,8 @@ export default class UnsupportedMap extends PureComponent {
                     <h1>Uh oh! You never thought that would happen...</h1>
                     <Headline>
                         {headline}
-                        <br />We suggest you{' '}
+                        <br />
+                        We suggest you{' '}
                         <a href="//outdatedbrowser.com" target="_blank">
                             update your browser
                         </a>{' '}
@@ -63,7 +64,8 @@ export default class UnsupportedMap extends PureComponent {
                                 navigator.userAgent
                             }`}>
                             email
-                        </Mailto>.
+                        </Mailto>
+                        .
                     </Headline>
                 </Main>
             </Error>

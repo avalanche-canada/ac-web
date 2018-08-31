@@ -12,7 +12,7 @@ import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import { Document } from 'prismic/containers'
-import * as params from 'prismic/params'
+import { special } from 'prismic/params'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { geometry } from '@turf/helpers'
 import { StructuredText } from 'prismic/components/base'
@@ -120,7 +120,7 @@ export default class SpecialInformation extends PureComponent {
     )
     render() {
         return (
-            <Document {...params.special.report(this.props.id)}>
+            <Document {...special.report(this.props.id)}>
                 {this.renderChildren}
             </Document>
         )

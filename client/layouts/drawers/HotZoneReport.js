@@ -8,8 +8,8 @@ import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Document } from 'prismic/containers'
-import { hzr } from 'prismic/params'
 import { HotZone } from 'containers/features'
+import { hotZone } from 'prismic/params'
 import * as utils from 'utils/hzr'
 
 export default class HotZoneReportDrawer extends PureComponent {
@@ -82,7 +82,7 @@ export default class HotZoneReportDrawer extends PureComponent {
     )
     render() {
         return (
-            <Document {...hzr.region(this.props.name)}>
+            <Document {...hotZone.report(this.props.name)}>
                 {this.renderReport}
             </Document>
         )

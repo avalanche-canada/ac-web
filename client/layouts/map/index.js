@@ -3,7 +3,7 @@ import { Link, Route } from 'react-router-dom'
 import bbox from '@turf/bbox'
 import supported from '@mapbox/mapbox-gl-supported'
 import StaticComponent from 'components/StaticComponent'
-import Container from 'containers/Map'
+import Map from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
 import Device from 'components/Device'
@@ -12,9 +12,10 @@ import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu, ToggleMenu } from 'containers/drawers'
-import { Provider } from 'contexts/menu'
 import { parse } from 'utils/search'
 import externals, { open } from 'router/externals'
+import * as menu from 'contexts/menu'
+import * as layers from 'contexts/layers'
 import styles from './Map.css'
 
 const MAX_DRAWER_WIDTH = 500
@@ -149,22 +150,26 @@ export default class Layout extends PureComponent {
     render() {
         if (supported()) {
             return (
-                <Provider>
-                    <div className={styles.Layout}>
-                        <Container
-                            onError={this.handleError}
-                            onLoad={this.handleLoad}
-                        />
-                        {/* Orders matter here for the route components */}
-                        <Route path="/map*">{this.secondary}</Route>
-                        <Route path="/map/:type/:name">{this.primary}</Route>
-                        <Menu />
-                        <ToggleMenu />
-                        <LinkControlSet>
-                            {this.state.hasError && <ErrorIndicator />}
-                        </LinkControlSet>
-                    </div>
-                </Provider>
+                <layers.Provider>
+                    <menu.Provider>
+                        <div className={styles.Layout}>
+                            <Map
+                                onError={this.handleError}
+                                onLoad={this.handleLoad}
+                            />
+                            {/* Orders matter here for the route components */}
+                            <Route path="/map*">{this.secondary}</Route>
+                            <Route path="/map/:type/:name">
+                                {this.primary}
+                            </Route>
+                            <Menu />
+                            <ToggleMenu />
+                            <LinkControlSet>
+                                {this.state.hasError && <ErrorIndicator />}
+                            </LinkControlSet>
+                        </div>
+                    </menu.Provider>
+                </layers.Provider>
             )
         }
 

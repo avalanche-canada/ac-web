@@ -12,11 +12,7 @@ export default class MapComponent extends Component {
     static propTypes = {
         className: PropTypes.string,
         children: PropTypes.node,
-        style: PropTypes.oneOfType([
-            PropTypes.oneOf(Object.keys(styles)),
-            PropTypes.object,
-        ]).isRequired,
-        containerStyle: PropTypes.object,
+        style: PropTypes.oneOf(Object.keys(styles)),
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
         bearing: PropTypes.number,
@@ -43,6 +39,7 @@ export default class MapComponent extends Component {
     }
     static defaultProps = {
         maxBounds: Canadian,
+        style: 'default',
     }
     state = {
         map: null,
@@ -50,7 +47,9 @@ export default class MapComponent extends Component {
     get map() {
         return this.state.map
     }
-    setContainer = container => (this.container = container)
+    setContainer = container => {
+        this.container = container
+    }
     componentDidMount() {
         mapbox.accessToken = accessToken
 
