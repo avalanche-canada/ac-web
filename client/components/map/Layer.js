@@ -42,18 +42,23 @@ export default class Layer extends PureComponent {
     }
     static defaultProps = {
         paint: {},
+        layout: {},
     }
     setVisibility() {
-        this.map.setPaintProperty(
+        this.map.setLayoutProperty(
             this.props.id,
             'visibility',
             this.props.visible ? 'visible' : 'none'
         )
     }
     componentDidMount() {
-        const { before, visible, ...layer } = this.props
+        const { before, visible, sourceLayer, ...layer } = this.props
 
-        Object.assign(layer.paint, {
+        if (sourceLayer) {
+            layer['source-layer'] = sourceLayer
+        }
+
+        Object.assign(layer.layout, {
             visibility: visible ? 'visible' : 'none',
         })
 

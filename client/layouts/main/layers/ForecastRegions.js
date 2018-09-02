@@ -10,18 +10,20 @@ export default class ForecastRegions extends Component {
     }
     render() {
         const { visible, activeId } = this.props
-        const activeFilter = activeId ? ['==', 'id', activeId] : []
+        const activeFilter = activeId ? ['==', 'id', activeId] : ['!has', 'id']
         const activeVisible = visible && Boolean(activeId)
 
         return (
             <Fragment>
                 <Layer.Fill
                     id={key}
+                    source="composite"
                     sourceLayer="Forecast_Regions"
                     {...styles.base}
                 />
                 <Layer.Fill
                     id={`${key}-active`}
+                    source="composite"
                     sourceLayer="Forecast_Regions"
                     {...styles.active}
                 />
@@ -29,6 +31,7 @@ export default class ForecastRegions extends Component {
                     id={`${key}-contour`}
                     visible={activeVisible}
                     filter={activeFilter}
+                    source="composite"
                     sourceLayer="Forecast_Regions"
                     {...styles.contour}
                 />
@@ -36,12 +39,14 @@ export default class ForecastRegions extends Component {
                     id={`${key}-active-contour`}
                     visible={activeVisible}
                     filter={activeFilter}
+                    source="composite"
                     sourceLayer="Forecast_Regions"
                     {...styles.activeContour}
                 />
                 <Layer.Symbol
                     id={`${key}-labels`}
                     visible={activeVisible}
+                    source="composite"
                     sourceLayer="Forecast_Regions"
                     {...styles.labels}
                 />

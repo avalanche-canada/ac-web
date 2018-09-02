@@ -61,6 +61,7 @@ export class Provider extends Component {
         return {
             layers: this.state,
             toggle: this.toggle,
+            setFilterValue: this.setFilterValue,
         }
     }
     toggle = id => {
@@ -68,6 +69,17 @@ export class Provider extends Component {
             [id]: {
                 ...state[id],
                 visible: !state[id].visible,
+            },
+        }))
+    }
+    setFilterValue = (id, name, value) => {
+        this.setState(state => ({
+            [id]: {
+                ...state[id],
+                filters: {
+                    ...state[id].filters,
+                    [name]: value,
+                },
             },
         }))
     }
@@ -85,7 +97,7 @@ export class Layer extends Component {
         id: PropTypes.oneOf(LAYERS.default).isRequired,
         children: PropTypes.func.isRequired,
     }
-    children = ({ toggle, layers }) => {
+    children = ({ toggle, setFilterValue, layers }) => {
         const { children, id } = this.props
 
         return children({
@@ -93,9 +105,11 @@ export class Layer extends Component {
             toggle() {
                 toggle(id)
             },
+            setFilterValue(name, value) {
+                setFilterValue(id, name, value)
+            },
         })
     }
-
     render() {
         return <Consumer>{this.children}</Consumer>
     }

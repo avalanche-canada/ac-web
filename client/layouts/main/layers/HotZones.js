@@ -17,9 +17,9 @@ export default class HotZones extends Component {
         const zones = turf.featureCollection(data.map(createFeature))
         const regions = new Set(documents.map(pluckRegion))
 
-        for (const zone of zones) {
+        for (const zone of zones.features) {
             Object.assign(zone.properties, {
-                color: regions.has(zone.id) ? '#004285' : 'hsl(0, 0%, 55%)',
+                active: regions.has(zone.id),
             })
         }
 
@@ -49,9 +49,9 @@ export default class HotZones extends Component {
 }
 
 // Utils
-function createFeature({ id, name, longitude, latitude }) {
+function createFeature({ id, name, centroid }) {
     return turf.point(
-        [longitude, latitude],
+        centroid,
         {
             title: name,
         },
@@ -67,7 +67,12 @@ const style = {
     paint: {
         'circle-blur': 0.75,
         'circle-opacity': 0.9,
-        'circle-color': '{color}',
+        'circle-color': [
+            'case',
+            ['get', 'active'],
+            '#004285',
+            'hsl(0, 0%, 55%)',
+        ],
         'circle-radius': {
             base: 1,
             stops: [[0, 0], [5, 35], [10, 250], [20, 2000]],

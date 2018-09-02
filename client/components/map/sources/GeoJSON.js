@@ -32,7 +32,7 @@ export default class GeoJSONSource extends PureComponent {
         }
     }
     componentWillUnmount() {
-        this.map.removeSource(this.props.id)
+        // this.map.removeSource(this.props.id)
     }
     setMap = map => {
         this.map = map

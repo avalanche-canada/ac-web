@@ -143,7 +143,7 @@ export const hotZone = {
             uid: id,
         })
     },
-    reports() {
+    reports(date) {
         const { HOTZONE_REPORT } = types
 
         return {

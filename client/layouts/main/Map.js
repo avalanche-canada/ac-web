@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, createElement } from 'react'
 import PropTypes from 'prop-types'
 import * as context from 'contexts/layers'
-import { Basic as Map, Marker, NavigationControl } from 'components/map'
+import { Basic, Marker, NavigationControl } from 'components/map'
 import LAYERS from './layers'
 
 export default class Layout extends Component {
@@ -11,19 +11,17 @@ export default class Layout extends Component {
         match: PropTypes.object.isRequired,
     }
     renderLayer([key, layer]) {
-        return createElement(LAYERS.get(key), layer)
+        return createElement(LAYERS.get(key), { ...layer, key })
     }
-    renderLayers({ layers }) {
-        return (
-            <Fragment>{Object.entries(layers).map(this.renderLayer)}</Fragment>
-        )
+    renderLayers = layers => {
+        return Object.entries(layers).map(this.renderLayer)
     }
     render() {
         return (
-            <Map style="2016">
+            <Basic style="2016">
                 <context.Layers>{this.renderLayers}</context.Layers>
                 <NavigationControl />
-            </Map>
+            </Basic>
         )
     }
 }
