@@ -8,18 +8,14 @@ import ToyotaTruckReport from 'layouts/drawers/ToyotaTruckReport'
 import SpecialInformation from 'layouts/drawers/SpecialInformation'
 import FatalAccident from 'layouts/drawers/FatalAccident'
 import MountainConditionsReport from 'layouts/drawers/MountainConditionsReport'
-import * as Schemas from 'api/schemas'
 
 const Components = new Map([
-    [
-        Schemas.MountainInformationNetworkSubmission.key,
-        MountainInformationNetwork,
-    ],
+    ['mountain-information-network-submissions', MountainInformationNetwork],
     ['weather-stations', WeatherStation],
     ['toyota-truck-reports', ToyotaTruckReport],
     ['special-information', SpecialInformation],
     ['fatal-accident', FatalAccident],
-    [Schemas.MountainConditionsReport.key, MountainConditionsReport],
+    ['mountain-conditions-reports', MountainConditionsReport],
 ])
 
 export default class Secondary extends PureComponent {

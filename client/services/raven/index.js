@@ -1,9 +1,6 @@
 import Raven from 'raven-js'
-import Immutable from 'immutable'
 import supported from '@mapbox/mapbox-gl-supported'
 import { key, project } from './config.json'
-
-const exceptions = new Set()
 
 export default function setup() {
     if (Raven.isSetup()) {
@@ -12,19 +9,6 @@ export default function setup() {
 
     if (process.env.NODE_ENV === 'production') {
         Raven.config(`https://${key}@sentry.io/${project}`, {
-            shouldSendCallback({ exception = {} }) {
-                const key = Immutable.fromJS(exception).hashCode()
-                const shouldSend = !exceptions.has(key)
-
-                exceptions.add(key)
-
-                // 1 minute
-                setTimeout(() => {
-                    exceptions.delete(key)
-                }, 60 * 1000)
-
-                return shouldSend
-            },
             tags: {
                 'mapboxgl.supported': supported(),
             },

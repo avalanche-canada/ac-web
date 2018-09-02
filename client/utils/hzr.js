@@ -1,4 +1,3 @@
-import Immutable from 'immutable'
 import bboxPolygon from '@turf/bbox-polygon'
 import isWithinRange from 'date-fns/is_within_range'
 import startOfDay from 'date-fns/start_of_day'
@@ -15,10 +14,6 @@ export function title({ report, loading, hotZone }) {
 }
 
 export function geometry(hotZone) {
-    if (Immutable.is(hotZone)) {
-        hotZone = hotZone.toJSON()
-    }
-
     return bboxPolygon(hotZone.bbox)
 }
 

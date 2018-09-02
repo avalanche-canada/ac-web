@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import classnames from 'classnames'
 import isSupported from '@mapbox/mapbox-gl-supported'
-import { MountainInformationNetworkSubmission } from 'api/schemas'
 import styles from 'styles/typography.css'
 
 const supported = isSupported()
@@ -41,7 +40,7 @@ export class MountainInformationNetwork extends PureComponent {
 
 export function mountainInformationNetwork(id) {
     return supported
-        ? `/map?panel=${MountainInformationNetworkSubmission.key}/${id}`
+        ? `/map?panel=mountain-information-network-submissions/${id}`
         : `/mountain-information-network/submissions/${id}`
 }
 
