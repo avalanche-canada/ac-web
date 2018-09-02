@@ -1,7 +1,7 @@
-import React, { Component, Fragment, createElement } from 'react'
+import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import * as context from 'contexts/layers'
-import { Basic, Marker, NavigationControl } from 'components/map'
+import { Map, Marker, NavigationControl } from 'components/map'
 import LAYERS from './layers'
 
 export default class Layout extends Component {
@@ -18,10 +18,10 @@ export default class Layout extends Component {
     }
     render() {
         return (
-            <Basic style="2016">
+            <Map style="2016">
                 <context.Layers>{this.renderLayers}</context.Layers>
                 <NavigationControl />
-            </Basic>
+            </Map>
         )
     }
 }

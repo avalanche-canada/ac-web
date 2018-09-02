@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Basic as Map, NavigationControl } from 'components/map'
+import { Map, NavigationControl } from 'components/map'
 import bbox from '@turf/bbox'
 import styles from './TripPlanner.css'
 
