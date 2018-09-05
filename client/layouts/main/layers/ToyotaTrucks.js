@@ -11,13 +11,14 @@ import { TOYOTA_TRUCK_REPORTS as key } from 'constants/drawers'
 export default class ToyotaTrucks extends Component {
     static propTypes = {
         visible: PropTypes.bool,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
     }
     createFeatureCollection = memoize(documents =>
         turf.featureCollection(documents.map(createFeature))
     )
     add = ({ documents = [] }) => {
-        const { visible } = this.props
-
         return (
             <Fragment>
                 <Source
@@ -29,7 +30,7 @@ export default class ToyotaTrucks extends Component {
                     id={key}
                     source={key}
                     layout={style}
-                    visible={visible}
+                    {...this.props}
                 />
             </Fragment>
         )
@@ -43,13 +44,10 @@ export default class ToyotaTrucks extends Component {
 function createFeature({ uid, data }) {
     const { position, headline } = data
 
-    return turf.point(
-        [position.longitude, position.latitude],
-        {
-            title: headline,
-        },
-        { id: uid }
-    )
+    return turf.point([position.longitude, position.latitude], {
+        title: headline,
+        id: uid,
+    })
 }
 
 // Styles

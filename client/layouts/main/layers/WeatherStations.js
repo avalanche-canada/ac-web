@@ -10,13 +10,14 @@ import { WEATHER_STATION as key } from 'constants/drawers'
 export default class WeatherStations extends Component {
     static propTypes = {
         visible: PropTypes.bool,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
     }
     createFeatureCollection = memoize(data =>
         turf.featureCollection(data.map(createFeature))
     )
     add = ({ data = [] }) => {
-        const { visible } = this.props
-
         return (
             <Fragment>
                 <Source
@@ -27,13 +28,13 @@ export default class WeatherStations extends Component {
                 <Layer.Symbol
                     id={key}
                     source={key}
-                    visible={visible}
+                    {...this.props}
                     {...styles.base}
                 />
                 <Layer.Symbol
                     id={`${key}-cluster`}
                     source={key}
-                    visible={visible}
+                    {...this.props}
                     {...styles.cluster}
                 />
             </Fragment>
@@ -46,7 +47,10 @@ export default class WeatherStations extends Component {
 
 // Utils
 function createFeature({ stationId, name, longitude, latitude }) {
-    return turf.point([longitude, latitude], { title: name }, { id: stationId })
+    return turf.point([longitude, latitude], {
+        id: stationId,
+        title: name,
+    })
 }
 
 // Styles

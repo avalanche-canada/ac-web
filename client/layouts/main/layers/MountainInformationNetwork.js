@@ -11,6 +11,9 @@ import memoize from 'lodash/memoize'
 export default class WeatherStations extends Component {
     static propTypes = {
         visible: PropTypes.bool,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
         filters: PropTypes.shape({
             days: PropTypes.number,
             types: PropTypes.instanceOf(Set),
@@ -25,13 +28,12 @@ export default class WeatherStations extends Component {
         }
     })
     add = ({ data = [] }) => {
-        const { visible } = this.props
-        const { types } = this.props.filters
+        const { filters, ...props } = this.props
         let { reports, incidents } = this.createFeatureCollections(data)
 
-        if (types.size > 0) {
+        if (filters.types.size > 0) {
             const filter = ({ properties }) =>
-                properties.types.some(type => types.has(type))
+                properties.types.some(type => filters.types.has(type))
 
             reports = reports.filter(filter)
             incidents = incidents.filter(filter)
@@ -52,19 +54,19 @@ export default class WeatherStations extends Component {
                 <Layer.Symbol
                     id={key}
                     source={key}
-                    visible={visible}
+                    {...props}
                     {...styles.report}
                 />
                 <Layer.Symbol
                     id={`${key}-cluster`}
                     source={key}
-                    visible={visible}
+                    {...props}
                     {...styles.cluster}
                 />
                 <Layer.Symbol
                     id={`${key}-incidents`}
                     source={`${key}-incidents`}
-                    visible={visible}
+                    {...props}
                     {...styles.incidents}
                 />
             </Fragment>
@@ -81,19 +83,12 @@ export default class WeatherStations extends Component {
 function createFeature({ subid, title, lnglat, obs }) {
     const types = obs.map(pluckType)
 
-    return turf.point(
-        lnglat,
-        {
-            icon: types.includes(INCIDENT)
-                ? 'min-pin-with-incident'
-                : 'min-pin',
-            title,
-            types,
-        },
-        {
-            id: subid,
-        }
-    )
+    return turf.point(lnglat, {
+        id: subid,
+        icon: types.includes(INCIDENT) ? 'min-pin-with-incident' : 'min-pin',
+        title,
+        types,
+    })
 }
 function pluckType({ obtype }) {
     return obtype

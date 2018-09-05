@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Consumer } from './Context'
 
 export default class Layer extends PureComponent {
@@ -39,6 +40,9 @@ export default class Layer extends PureComponent {
         paint: PropTypes.object,
         before: PropTypes.string,
         visible: PropTypes.bool,
+        onClick: PropTypes.func,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
     }
     static defaultProps = {
         paint: {},
@@ -52,7 +56,16 @@ export default class Layer extends PureComponent {
         )
     }
     componentDidMount() {
-        const { before, visible, sourceLayer, ...layer } = this.props
+        const {
+            before,
+            visible,
+            sourceLayer,
+            onMouseEnter,
+            onMouseLeave,
+            onClick,
+            ...layer
+        } = this.props
+        const { id } = layer
 
         if (sourceLayer) {
             layer['source-layer'] = sourceLayer
@@ -63,6 +76,18 @@ export default class Layer extends PureComponent {
         })
 
         this.map.addLayer(layer, before)
+
+        if (typeof onMouseEnter === 'function') {
+            this.map.on('mouseenter', id, onMouseEnter)
+        }
+
+        if (typeof onMouseLeave === 'function') {
+            this.map.on('mouseleave', id, onMouseLeave)
+        }
+
+        if (typeof onClick === 'function') {
+            this.map.on('click', id, onClick)
+        }
     }
     componentDidUpdate({ visible }) {
         if (visible !== this.props.visible) {

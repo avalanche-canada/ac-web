@@ -1,56 +1,72 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Route } from 'react-router-dom'
+import * as turf from '@turf/helpers'
+import { FeatureCollection } from 'containers/mapbox'
+import Source from 'components/map/sources/GeoJSON'
 import Layer from 'components/map/Layer'
 import { FORECASTS as key } from 'constants/drawers'
 
 export default class ForecastRegions extends Component {
     static propTypes = {
         visible: PropTypes.bool,
-        activeId: PropTypes.string,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
     }
-    render() {
-        const { visible, activeId } = this.props
-        const activeFilter = activeId ? ['==', 'id', activeId] : ['!has', 'id']
-        const activeVisible = visible && Boolean(activeId)
+    renderLayers({ data = EMPTY }, { match }) {
+        const id = match?.params?.id
+        const activeFilter = match ? ['==', 'id', id] : ['!has', 'id']
+        const filter = match ? ['!=', 'id', id] : ['has', 'id']
 
         return (
             <Fragment>
+                <Source id={key} data={data} />
                 <Layer.Fill
                     id={key}
-                    source="composite"
-                    sourceLayer="Forecast_Regions"
+                    source={key}
+                    filter={filter}
+                    {...this.props}
                     {...styles.base}
                 />
                 <Layer.Fill
                     id={`${key}-active`}
-                    source="composite"
-                    sourceLayer="Forecast_Regions"
+                    source={key}
+                    filter={activeFilter}
+                    {...this.props}
                     {...styles.active}
                 />
                 <Layer.Line
                     id={`${key}-contour`}
-                    visible={activeVisible}
-                    filter={activeFilter}
-                    source="composite"
-                    sourceLayer="Forecast_Regions"
+                    source={key}
+                    filter={filter}
+                    {...this.props}
                     {...styles.contour}
                 />
                 <Layer.Line
                     id={`${key}-active-contour`}
-                    visible={activeVisible}
+                    source={key}
                     filter={activeFilter}
-                    source="composite"
-                    sourceLayer="Forecast_Regions"
+                    {...this.props}
                     {...styles.activeContour}
                 />
                 <Layer.Symbol
                     id={`${key}-labels`}
-                    visible={activeVisible}
-                    source="composite"
-                    sourceLayer="Forecast_Regions"
+                    source={key}
+                    {...this.props}
                     {...styles.labels}
                 />
             </Fragment>
+        )
+    }
+    render() {
+        return (
+            <FeatureCollection id="regions">
+                {props => (
+                    <Route path="map/forecasts/:id">
+                        {routeProps => this.renderLayers(props, routeProps)}
+                    </Route>
+                )}
+            </FeatureCollection>
         )
     }
 }
@@ -93,3 +109,5 @@ const styles = {
         },
     },
 }
+
+const EMPTY = turf.featureCollection([])

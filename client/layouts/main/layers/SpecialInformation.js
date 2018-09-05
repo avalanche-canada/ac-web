@@ -11,13 +11,14 @@ import { SPECIAL_INFORMATION as key } from 'constants/drawers'
 export default class SpecialInformation extends Component {
     static propTypes = {
         visible: PropTypes.bool,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
     }
     createFeatureCollection = memoize(documents =>
         turf.featureCollection(documents.map(createFeature))
     )
     add = ({ documents = [] }) => {
-        const { visible } = this.props
-
         return (
             <Fragment>
                 <Source
@@ -27,7 +28,7 @@ export default class SpecialInformation extends Component {
                 <Layer.Symbol
                     id={key}
                     source={key}
-                    visible={visible}
+                    {...this.props}
                     layout={layout}
                 />
             </Fragment>
@@ -45,10 +46,8 @@ function createFeature({ uid, data }) {
     return turf.multiPoint(
         locations.map(({ longitude, latitude }) => [longitude, latitude]),
         {
-            title: headline,
-        },
-        {
             id: uid,
+            title: headline,
         }
     )
 }

@@ -1,9 +1,10 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Link, Route } from 'react-router-dom'
-import bbox from '@turf/bbox'
+import { Link, Route, Redirect } from 'react-router-dom'
 import supported from '@mapbox/mapbox-gl-supported'
+import bbox from '@turf/bbox'
+import * as turf from '@turf/helpers'
 import StaticComponent from 'components/StaticComponent'
-import Map from './Map'
+import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
 import Device from 'components/Device'
@@ -12,10 +13,10 @@ import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu, ToggleMenu } from './drawers'
-import { parse } from 'utils/search'
 import externals, { open } from 'router/externals'
 import * as menu from 'contexts/menu'
 import * as layers from 'contexts/layers'
+import * as TYPES from 'constants/drawers'
 import styles from './Map.css'
 
 const MAX_DRAWER_WIDTH = 500
@@ -23,12 +24,11 @@ const MAX_DRAWER_WIDTH = 500
 export default class Layout extends PureComponent {
     state = {
         hasError: false,
-        secondary: isSecondaryOpen(this.props.location),
-        primary: isPrimaryOpen(this.props.match),
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
     flyTo() {}
     fitBounds() {}
+    getSource() {}
     get offset() {
         const { primary, secondary, width } = this.state
         let x = 0
@@ -48,28 +48,71 @@ export default class Layout extends PureComponent {
         })
     }
     handleLoad = ({ target }) => {
-        this.flyTo = center => {
-            target.flyTo({
-                center,
-                zoom: 13,
-                offset: this.offset,
-            })
-        }
-        this.fitBounds = geometry => {
-            target.fitBounds(bbox(geometry), {
-                offset: this.offset,
-                padding: 75,
-                speed: 1.75,
-            })
-        }
+        Object.assign(this, {
+            flyTo(center) {
+                target.flyTo({
+                    center,
+                    zoom: 13,
+                    offset: this.offset,
+                })
+            },
+            fitBounds(geometry) {
+                target.fitBounds(bbox(geometry), {
+                    offset: this.offset,
+                    padding: 75,
+                    speed: 1.75,
+                })
+            },
+            getSource(...args) {
+                return target.getSource(...args)
+            },
+        })
 
         target.on('resize', this.handleResize)
     }
+    handleFeatureClick = feature => {
+        const { source, id, properties } = feature
+
+        if (properties.cluster) {
+            const source = this.getSource(feature.source)
+
+            source.getClusterLeaves(
+                feature.properties.cluster_id,
+                null,
+                null,
+                (error, features) => {
+                    if (error) {
+                        return
+                    }
+
+                    this.fitBounds(turf.featureCollection(features))
+                }
+            )
+        } else {
+            let { search, pathname } = this.props.location
+
+            if (PATHS.has(source)) {
+                pathname = `/map/${PATHS.get(source)}/${id || properties.id}`
+            }
+
+            if (SEARCHS.has(source)) {
+                search = `?panel=${SEARCHS.get(source)}/${id || properties.id}`
+            }
+
+            this.props.history.push({ search, pathname })
+        }
+    }
+    handleMarkerClick = id => {
+        this.props.history.push({
+            ...this.props.location,
+            pathname: `/map/${PATHS.get(TYPES.FORECASTS)}/${id}`,
+        })
+    }
     handleResize = event => {
-        const container = event.target.getContainer()
+        const { clientWidth } = event.target.getContainer()
 
         this.setState({
-            width: Math.min(MAX_DRAWER_WIDTH, container.clientWidth),
+            width: Math.min(MAX_DRAWER_WIDTH, clientWidth),
         })
     }
     handleLocateClick = geometry => {
@@ -79,73 +122,66 @@ export default class Layout extends PureComponent {
             this.fitBounds(geometry)
         }
     }
-    handlePrimaryCloseClick = () => {
-        this.setState({ primary: false }, () => {
-            this.props.history.push({
-                ...this.props.location,
-                pathname: '/map',
-            })
-        })
-    }
-    handleSecondaryCloseClick = () => {
-        this.setState({ secondary: false }, () => {
-            this.props.history.push({
-                ...this.props.location,
-                search: null,
-            })
-        })
-    }
-    componentDidMount() {
-        this.tryOpenExternal()
-    }
-    componentDidUpdate({ location }) {
-        if (location.pathname !== this.props.location.pathname) {
-            this.tryOpenExternal()
-        }
-    }
-    componentWillReceiveProps({ location, match }) {
-        if (location !== this.props.location) {
-            this.setState({
-                secondary: isSecondaryOpen(location),
-                primary: isPrimaryOpen(match),
-            })
-        }
-    }
-    tryOpenExternal() {
-        const { type, name } = this.props.match.params
+    openExternalForecast({ match }) {
+        const { name } = match.params
 
-        if (type === 'forecasts') {
+        if (externals.has(name)) {
             open(name)
-        }
-    }
-    primary = ({ location }) => {
-        const { width, primary } = this.state
 
+            return <Redirect to="/map" />
+        }
+
+        return null
+    }
+    primary = props => {
         return (
             <Primary
-                width={width}
-                open={primary}
-                location={location}
-                onCloseClick={this.handlePrimaryCloseClick}
+                {...props}
+                width={this.state.width}
                 onLocateClick={this.handleLocateClick}
             />
         )
     }
-    secondary = ({ location }) => {
-        const { width, secondary } = this.state
-        const { panel = '' } = parse(location.search)
-        const [type, id] = panel.split('/')
-
+    secondary = props => {
         return (
             <Secondary
-                type={type}
-                id={id}
-                width={width}
-                open={secondary}
-                onCloseClick={this.handleSecondaryCloseClick}
+                {...props}
+                width={this.state.width}
                 onLocateClick={this.handleLocateClick}
             />
         )
+    }
+    showClusterPopup(layer, features, lngLat) {
+        const html = document.createElement('div')
+        const p = document.createElement('p')
+        const ul = document.createElement('ul')
+
+        p.textContent = `${
+            features.length
+        } reports are available at this location:`
+
+        features.forEach(({ properties: { id, name, title } }) => {
+            const li = document.createElement('li')
+            const a = document.createElement('a')
+
+            a.href = '#'
+            a.textContent = title || name
+            a.onclick = () => {
+                this.transitionToFeature(layer, id)
+            }
+
+            li.appendChild(a)
+
+            ul.appendChild(li)
+        })
+
+        html.appendChild(p)
+        html.appendChild(ul)
+
+        this.popup
+            .setLngLat(lngLat)
+            .setDOMContent(html)
+            .addTo(this.map)
     }
     render() {
         if (supported()) {
@@ -153,15 +189,20 @@ export default class Layout extends PureComponent {
                 <layers.Provider>
                     <menu.Provider>
                         <div className={styles.Layout}>
-                            <Map
+                            <Base
                                 onError={this.handleError}
                                 onLoad={this.handleLoad}
+                                onFeatureClick={this.handleFeatureClick}
+                                onMarkerClick={this.handleMarkerClick}
                             />
-                            {/* Orders matter here for the route components */}
-                            <Route path="/map*">{this.secondary}</Route>
+                            <Route
+                                path="/map/forecasts/:name"
+                                render={this.openExternalForecast}
+                            />
                             <Route path="/map/:type/:name">
                                 {this.primary}
                             </Route>
+                            <Route path="/map*">{this.secondary}</Route>
                             <Menu />
                             <ToggleMenu />
                             <LinkControlSet>
@@ -175,21 +216,6 @@ export default class Layout extends PureComponent {
 
         return <UnsupportedMap />
     }
-}
-
-function isSecondaryOpen(location) {
-    const { panel = '' } = parse(location.search)
-    const [type, id] = panel.split('/')
-
-    return typeof type === 'string' && typeof id === 'string'
-}
-
-function isPrimaryOpen({ params: { type, name } }) {
-    return (
-        typeof type === 'string' &&
-        typeof name === 'string' &&
-        !externals.has(name)
-    )
 }
 
 class LinkControlSet extends PureComponent {
@@ -285,3 +311,20 @@ class ErrorIndicator extends StaticComponent {
         )
     }
 }
+
+// Constants
+const PATHS = new Map([
+    [TYPES.HOT_ZONE_REPORTS, 'hot-zone-reports'],
+    [TYPES.FORECASTS, 'forecasts'],
+])
+const SEARCHS = new Map([
+    [TYPES.WEATHER_STATION, 'weather-stations'],
+    [
+        TYPES.MOUNTAIN_INFORMATION_NETWORK,
+        'mountain-information-network-submissions',
+    ],
+    [TYPES.FATAL_ACCIDENT, 'fatal-accidents'],
+    [TYPES.SPECIAL_INFORMATION, 'special-information'],
+    [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'mountain-conditions-reports'],
+    [TYPES.TOYOTA_TRUCK_REPORTS, 'toyota-truck-reports'],
+])

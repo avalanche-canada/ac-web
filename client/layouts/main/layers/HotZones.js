@@ -11,9 +11,11 @@ import { HOT_ZONE_REPORTS as key } from 'constants/drawers'
 export default class HotZones extends Component {
     static propTypes = {
         visible: PropTypes.bool,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
     }
     add({ data = [] }, { documents = [] }) {
-        const { visible } = this.props
         const zones = turf.featureCollection(data.map(createFeature))
         const regions = new Set(documents.map(pluckRegion))
 
@@ -29,7 +31,7 @@ export default class HotZones extends Component {
                 <Layer.Circle
                     id={key}
                     source={key}
-                    visible={visible}
+                    {...this.props}
                     {...style}
                 />
             </Fragment>
@@ -50,13 +52,11 @@ export default class HotZones extends Component {
 
 // Utils
 function createFeature({ id, name, centroid }) {
-    return turf.point(
-        centroid,
-        {
-            title: name,
-        },
-        { id }
-    )
+    return turf.point(centroid, {
+        id,
+        type: key,
+        title: name,
+    })
 }
 function pluckRegion({ data }) {
     return data.region

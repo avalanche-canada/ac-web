@@ -11,13 +11,14 @@ import { FATAL_ACCIDENT as key } from 'constants/drawers'
 export default class FatalAccidents extends Component {
     static propTypes = {
         visible: PropTypes.bool,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
     }
     createFeatureCollection = memoize(documents =>
         turf.featureCollection(documents.map(createFeature))
     )
     add = ({ documents = [] }) => {
-        const { visible } = this.props
-
         return (
             <Fragment>
                 <Source
@@ -28,13 +29,13 @@ export default class FatalAccidents extends Component {
                 <Layer.Symbol
                     id={key}
                     source={key}
-                    visible={visible}
-                    {...styles.single}
+                    {...this.props}
+                    {...styles.base}
                 />
                 <Layer.Symbol
                     id={`${key}-cluster`}
                     source={key}
-                    visible={visible}
+                    {...this.props}
                     {...styles.cluster}
                 />
             </Fragment>
@@ -49,32 +50,28 @@ export default class FatalAccidents extends Component {
 function createFeature({ uid, data }) {
     const { location, title } = data
 
-    return turf.point(
-        [location.longitude, location.latitude],
-        {
-            title,
-        },
-        {
-            id: uid,
-        }
-    )
+    return turf.point([location.longitude, location.latitude], {
+        id: uid,
+        type: key,
+        title,
+    })
 }
 
 // Styles
+const layout = {
+    'icon-image': 'fatal-accident',
+    'icon-allow-overlap': true,
+    'icon-size': 0.75,
+}
 const styles = {
-    single: {
-        // filter: ['!has', 'point_count'],
-        layout: {
-            'icon-image': 'fatal-accident',
-            'icon-allow-overlap': true,
-            'icon-size': 0.75,
-        },
+    base: {
+        filter: ['!has', 'point_count'],
+        layout,
     },
     cluster: {
         filter: ['has', 'point_count'],
         layout: {
-            'icon-image': 'fatal-accident',
-            'icon-allow-overlap': true,
+            ...layout,
             'icon-size': 0.9,
             'text-font': ['Open Sans Extrabold'],
             'text-field': '{point_count}',

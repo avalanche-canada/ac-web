@@ -10,13 +10,14 @@ import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
 export default class MountainConditionReports extends Component {
     static propTypes = {
         visible: PropTypes.bool,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+        onClick: PropTypes.func,
     }
     createFeatureCollection = memoize(data =>
         turf.featureCollection(data.map(createFeature))
     )
     add = ({ data = [] }) => {
-        const { visible } = this.props
-
         return (
             <Fragment>
                 <Source
@@ -27,13 +28,13 @@ export default class MountainConditionReports extends Component {
                 <Layer.Symbol
                     id={key}
                     source={key}
-                    visible={visible}
+                    {...this.props}
                     {...styles.report}
                 />
                 <Layer.Symbol
                     id={`${key}-cluster`}
                     source={key}
-                    visible={visible}
+                    {...this.props}
                     {...styles.cluster}
                 />
             </Fragment>
@@ -46,7 +47,7 @@ export default class MountainConditionReports extends Component {
 
 // Utils
 function createFeature({ location, title, id }) {
-    return turf.point(location, { title }, { id })
+    return turf.point(location, { title, id, type: key })
 }
 
 // Styles

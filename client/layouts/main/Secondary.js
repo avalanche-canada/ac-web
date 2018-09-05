@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { Error } from 'components/text'
 import Drawer, { LEFT } from 'components/page/drawer'
@@ -9,23 +9,18 @@ import SpecialInformation from 'layouts/drawers/SpecialInformation'
 import FatalAccident from 'layouts/drawers/FatalAccident'
 import MountainConditionsReport from 'layouts/drawers/MountainConditionsReport'
 
-const Components = new Map([
-    ['mountain-information-network-submissions', MountainInformationNetwork],
-    ['weather-stations', WeatherStation],
-    ['toyota-truck-reports', ToyotaTruckReport],
-    ['special-information', SpecialInformation],
-    ['fatal-accident', FatalAccident],
-    ['mountain-conditions-reports', MountainConditionsReport],
-])
-
 export default class Secondary extends PureComponent {
     static propTypes = {
-        type: PropTypes.oneOf(Array.from(Components.keys())),
-        id: PropTypes.string,
-        open: PropTypes.bool.isRequired,
+        location: PropTypes.object.isRequired,
+        history: PropTypes.object.isRequired,
         width: PropTypes.number.isRequired,
-        onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
+    }
+    handleClose = () => {
+        this.props.history.push({
+            ...this.props.location,
+            search: null,
+        })
     }
     get error() {
         return (
@@ -36,26 +31,52 @@ export default class Secondary extends PureComponent {
         )
     }
     get component() {
-        const { type, id, onCloseClick, onLocateClick } = this.props
-        const Component = Components.get(type)
-        const props = {
-            id,
-            onCloseClick,
-            onLocateClick,
-        }
+        const { type, id } = this.params
+        const { onLocateClick } = this.props
 
-        return <Component {...props} />
+        return createElement(Components.get(type), {
+            id,
+            onCloseClick: this.handleClose,
+            onLocateClick,
+        })
     }
     get content() {
-        return Components.has(this.props.type) ? this.component : this.error
+        return Components.has(this.params.type) ? this.component : this.error
+    }
+    get params() {
+        const { search } = this.props.location
+        const params = new URLSearchParams(search)
+
+        if (params.has('panel')) {
+            const [type, id] = params.get('panel').split('/')
+
+            return { type, id }
+        }
+
+        return {}
+    }
+    get opened() {
+        const { type, id } = this.params
+
+        return typeof type === 'string' && typeof id === 'string'
     }
     render() {
-        const { open, width } = this.props
+        const { width } = this.props
 
         return (
-            <Drawer open={open} width={width} side={LEFT}>
-                {open && this.content}
+            <Drawer open={this.opened} width={width} side={LEFT}>
+                {this.opened ? this.content : null}
             </Drawer>
         )
     }
 }
+
+// Components
+const Components = new Map([
+    ['mountain-information-network-submissions', MountainInformationNetwork],
+    ['weather-stations', WeatherStation],
+    ['toyota-truck-reports', ToyotaTruckReport],
+    ['special-information', SpecialInformation],
+    ['fatal-accidents', FatalAccident],
+    ['mountain-conditions-reports', MountainConditionsReport],
+])
