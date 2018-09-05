@@ -122,13 +122,18 @@ export default class Layout extends PureComponent {
             this.fitBounds(geometry)
         }
     }
-    openExternalForecast({ match }) {
+    openExternalForecast = ({ match }) => {
         const { name } = match.params
 
         if (externals.has(name)) {
+            const location = {
+                ...this.props.location,
+                pathname: '/map',
+            }
+
             open(name)
 
-            return <Redirect to="/map" />
+            return <Redirect to={location} />
         }
 
         return null
