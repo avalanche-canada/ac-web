@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import memoize from 'lodash/memoize'
 import { Regions } from 'containers/features'
+import { Layer } from 'contexts/layers'
 import { Marker } from 'components/map'
+import { FORECASTS } from 'constants/drawers'
 
 export default class ForecastMarkers extends Component {
     static propTypes = {
@@ -17,8 +19,10 @@ export default class ForecastMarkers extends Component {
 
         return markers.map(this.createMarker)
     }
+    withContext = ({ visible }) =>
+        visible ? <Regions>{this.withData}</Regions> : null
     render() {
-        return <Regions>{this.withData}</Regions>
+        return <Layer id={FORECASTS}>{this.withContext}</Layer>
     }
 }
 
