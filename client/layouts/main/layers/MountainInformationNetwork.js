@@ -13,7 +13,6 @@ export default class WeatherStations extends Component {
         visible: PropTypes.bool,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
-        onClick: PropTypes.func,
         filters: PropTypes.shape({
             days: PropTypes.number,
             types: PropTypes.instanceOf(Set),

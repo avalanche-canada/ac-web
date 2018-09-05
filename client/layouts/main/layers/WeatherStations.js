@@ -12,7 +12,6 @@ export default class WeatherStations extends Component {
         visible: PropTypes.bool,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
-        onClick: PropTypes.func,
     }
     createFeatureCollection = memoize(data =>
         turf.featureCollection(data.map(createFeature))

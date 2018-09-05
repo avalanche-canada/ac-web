@@ -13,7 +13,6 @@ export default class SpecialInformation extends Component {
         visible: PropTypes.bool,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
-        onClick: PropTypes.func,
     }
     createFeatureCollection = memoize(documents =>
         turf.featureCollection(documents.map(createFeature))

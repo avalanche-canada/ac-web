@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Consumer } from './Context'
+import isEqual from 'lodash/isEqual'
 
 export default class Layer extends PureComponent {
     static Symbol(props) {
@@ -89,9 +90,14 @@ export default class Layer extends PureComponent {
             this.map.on('click', id, onClick)
         }
     }
-    componentDidUpdate({ visible }) {
+    componentDidUpdate({ visible, filter }) {
         if (visible !== this.props.visible) {
             this.setVisibility()
+        }
+        if (!isEqual(filter, this.props.filter)) {
+            const { id, filter } = this.props
+
+            this.map.setFilter(id, filter)
         }
     }
     componentWillUnmount() {

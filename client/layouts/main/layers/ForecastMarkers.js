@@ -31,14 +31,15 @@ function createMarkerProps({ id, name, dangerIconUrl, centroid }) {
     const { onMarkerClick } = this.props
     const element = document.createElement('img')
 
-    element.classList.add('map-marker')
-
     Object.assign(element, {
         src: dangerIconUrl,
         width: 50,
         height: 50,
         alt: name,
         title: name,
+        style: {
+            cursor: 'pointer',
+        },
     })
 
     return {

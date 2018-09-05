@@ -13,7 +13,6 @@ export default class HotZones extends Component {
         visible: PropTypes.bool,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
-        onClick: PropTypes.func,
     }
     add({ data = [] }, { documents = [] }) {
         const zones = turf.featureCollection(data.map(createFeature))

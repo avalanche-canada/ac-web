@@ -15,8 +15,8 @@ export default class ForecastRegions extends Component {
     }
     renderLayers({ data = EMPTY }, { match }) {
         const id = match?.params?.id
-        const activeFilter = match ? ['==', 'id', id] : ['!has', 'id']
-        const filter = match ? ['!=', 'id', id] : ['has', 'id']
+        const activeFilter = id ? ['==', 'id', id] : ['!has', 'id']
+        const filter = id ? ['!=', 'id', id] : ['has', 'id']
 
         return (
             <Fragment>
@@ -62,7 +62,7 @@ export default class ForecastRegions extends Component {
         return (
             <FeatureCollection id="regions">
                 {props => (
-                    <Route path="map/forecasts/:id">
+                    <Route path="/map/forecasts/:id">
                         {routeProps => this.renderLayers(props, routeProps)}
                     </Route>
                 )}
