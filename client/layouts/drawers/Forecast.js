@@ -40,12 +40,10 @@ export default class Layout extends PureComponent {
         }
 
         return (
-            <Header subject="Avalanche Forecast">
-                <h1>
-                    {data ? <Link to={this.link}>{title}</Link> : title}
-                    {data && <DisplayOnMap onClick={handleLocateClick} />}
-                </h1>
-            </Header>
+            <h1>
+                {data ? <Link to={this.link}>{title}</Link> : title}
+                {data && <DisplayOnMap onClick={handleLocateClick} />}
+            </h1>
         )
     }
     children = ({ loading, data }) => {
@@ -58,9 +56,16 @@ export default class Layout extends PureComponent {
                     <Sponsor label={null} />
                     <Close onClick={onCloseClick} />
                 </Navbar>
-                <Region name={name}>{this.renderHeader}</Region>
+                <Header subject="Avalanche Forecast">
+                    <Region name={name}>{this.renderHeader}</Region>
+                </Header>
                 <Body>
-                    {data ? (
+                    {loading && (
+                        <Shim all>
+                            <Muted>Loading avalanche forecast...</Muted>
+                        </Shim>
+                    )}
+                    {data && (
                         <components.Forecast value={data}>
                             <Shim horizontal>
                                 <components.Metadata />
@@ -69,10 +74,6 @@ export default class Layout extends PureComponent {
                             <components.TabSet />
                             <components.Footer />
                         </components.Forecast>
-                    ) : (
-                        <Shim all>
-                            <Muted>Loading avalanche forecast...</Muted>
-                        </Shim>
                     )}
                 </Body>
             </Container>
