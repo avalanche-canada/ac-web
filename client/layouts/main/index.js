@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent, Fragment, createRef } from 'react'
 import { Link, Route, Redirect } from 'react-router-dom'
 import supported from '@mapbox/mapbox-gl-supported'
 import bbox from '@turf/bbox'
@@ -26,17 +26,20 @@ export default class Layout extends PureComponent {
         hasError: false,
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
+    primary = createRef()
+    secondary = createRef()
     flyTo() {}
     fitBounds() {}
     getSource() {}
     get offset() {
-        const { primary, secondary, width } = this.state
+        const { width } = this.state
         let x = 0
 
-        if (primary) {
+        if (this.primary.current.opened) {
             x -= width / 2
         }
-        if (secondary) {
+
+        if (this.secondary.current.opened) {
             x += width / 2
         }
 
@@ -138,24 +141,24 @@ export default class Layout extends PureComponent {
 
         return null
     }
-    primary = props => {
-        return (
-            <Primary
-                {...props}
-                width={this.state.width}
-                onLocateClick={this.handleLocateClick}
-            />
-        )
-    }
-    secondary = props => {
-        return (
-            <Secondary
-                {...props}
-                width={this.state.width}
-                onLocateClick={this.handleLocateClick}
-            />
-        )
-    }
+    renderPrimary = props => (
+        <Primary
+            key={props.location.pathname}
+            ref={this.primary}
+            {...props}
+            width={this.state.width}
+            onLocateClick={this.handleLocateClick}
+        />
+    )
+    renderSecondary = props => (
+        <Secondary
+            key={props.location.search}
+            ref={this.secondary}
+            {...props}
+            width={this.state.width}
+            onLocateClick={this.handleLocateClick}
+        />
+    )
     showClusterPopup(layer, features, lngLat) {
         const html = document.createElement('div')
         const p = document.createElement('p')
@@ -205,9 +208,9 @@ export default class Layout extends PureComponent {
                                 render={this.openExternalForecast}
                             />
                             <Route path="/map/:type/:name">
-                                {this.primary}
+                                {this.renderPrimary}
                             </Route>
-                            <Route path="/map*">{this.secondary}</Route>
+                            <Route path="/map*">{this.renderSecondary}</Route>
                             <Menu />
                             <ToggleMenu />
                             <LinkControlSet>
