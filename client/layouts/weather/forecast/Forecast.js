@@ -44,15 +44,14 @@ export default class WeatherForecast extends Component {
                 </Entry>
                 {forecast && (
                     <Entry term="Issued at" sideBySide>
-                        {forecast.issued || '04:00'} PST/PDT
+                        {forecast.data.issued || '04:00'} PST/PDT
                     </Entry>
                 )}
-                {forecast &&
-                    forecast.handle && (
-                        <Entry term="Created by" sideBySide>
-                            {forecast.handle}
-                        </Entry>
-                    )}
+                {forecast && (
+                    <Entry term="Created by" sideBySide>
+                        {forecast.data.handle}
+                    </Entry>
+                )}
             </Metadata>
         )
     }
