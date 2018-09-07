@@ -10,11 +10,16 @@ export class FeatureCollection extends Component {
         id: PropTypes.oneOf(Object.keys(datasets)).isRequired,
         children: PropTypes.func.isRequired,
     }
+    static CACHE = new Memory()
     render() {
         const id = datasets[this.props.id]
 
         return (
-            <Fetch request={mapbox.features(id)}>{this.props.children}</Fetch>
+            <Fetch
+                cache={FeatureCollection.CACHE}
+                request={mapbox.features(id)}>
+                {this.props.children}
+            </Fetch>
         )
     }
 }

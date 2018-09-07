@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
+import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
 import * as min from 'api/requests/min'
 import * as transformers from 'api/transformers'
@@ -35,7 +36,9 @@ export class Report extends Component {
 
         return (
             <ErrorBoundary fallback={this.renderError}>
-                <Fetch request={request}>{props => this.children(props)}</Fetch>
+                <Fetch cache={CACHE} request={request}>
+                    {props => this.children(props)}
+                </Fetch>
             </ErrorBoundary>
         )
     }
@@ -73,8 +76,12 @@ export class Reports extends Component {
 
         return (
             <ErrorBoundary fallback={this.renderError}>
-                <Fetch request={request}>{props => this.children(props)}</Fetch>
+                <Fetch cache={CACHE} request={request}>
+                    {props => this.children(props)}
+                </Fetch>
             </ErrorBoundary>
         )
     }
 }
+
+const CACHE = new Memory()

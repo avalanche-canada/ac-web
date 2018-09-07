@@ -1,4 +1,4 @@
-import { accessToken, username, api } from './config.json'
+import { accessToken, username, api, styleIds } from './config.json'
 
 export function place(term, options) {
     term = encodeURIComponent(term.trim())
@@ -9,7 +9,8 @@ export function place(term, options) {
 }
 
 export function style(id) {
-    const url = `${api}/styles/v1/${username}/${id}?access_token=${accessToken}`
+    const style = styleIds[id]
+    const url = `${api}/styles/v1/${username}/${style}?access_token=${accessToken}`
 
     return new Request(url)
 }

@@ -4,7 +4,7 @@ Frontend
 -   Remove querystring module dependency
 -   Clean up the utils functions and modules
 -   Map
-    -   Mouse hover on features, TESTING
+    -   Mouse hover on features, MORE TESTING
     -   Active id for forecast layers, DONE
     -   Test opening external forecasts, DONE
     -   Left and right drawers opening, DONE
@@ -12,7 +12,8 @@ Frontend
     -   Add Forecast markers, DONE
     -   Zoom to forecast region, DONE
     -   Look at the layers order to make sure it remains the same after all these changes
-    -   Make sure layers state is saved, visible and filters
-    -   Better caching for some containers, weather station, MIN, features on mapbox API
+    -   Make sure layers state is saved, visible and filters, DONE
+    -   Better caching for some containers, weather station, MIN, features on mapbox API, DONE
+    -   Test posting a MIN report
 -   Static page should display other content when loading a page
 -   Doing more caching
