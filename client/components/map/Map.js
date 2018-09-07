@@ -13,7 +13,10 @@ export default class MapComponent extends Component {
     static propTypes = {
         className: PropTypes.string,
         children: PropTypes.node,
-        style: PropTypes.oneOf(Object.keys(styles)),
+        style: PropTypes.oneOfType([
+            PropTypes.oneOf(Object.keys(styles)),
+            PropTypes.object,
+        ]),
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
         bearing: PropTypes.number,
@@ -50,7 +53,7 @@ export default class MapComponent extends Component {
         const { style, onLoad } = this.props
         const map = new mapbox.Map({
             ...this.props,
-            style: styles[style],
+            style: typeof style === 'string' ? styles[style] : style,
             container: this.container.current,
         })
 
