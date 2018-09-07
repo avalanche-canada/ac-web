@@ -37,8 +37,7 @@ export default class WeatherForecast extends Component {
                 <Entry term="Date" sideBySide>
                     <DayPicker
                         date={this.date}
-                        onChange={this.handleDateChange}
-                        container={this}>
+                        onChange={this.handleDateChange}>
                         <DateElement value={this.date} />
                     </DayPicker>
                 </Entry>
