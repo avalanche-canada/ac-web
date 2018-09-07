@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import * as LAYERS from 'constants/drawers'
 import { LocalStorage } from 'services/storage'
 
-const LAYERS_VISIBILITY = LocalStorage.create({
+const VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility',
 })
-const LAYERS_FILTERS = LocalStorage.create({
+const FILTERS = LocalStorage.create({
     keyPrefix: 'layers-filters',
 })
 
@@ -28,7 +28,7 @@ export class Provider extends Component {
             visible: true,
             filters: {
                 days: Number(
-                    LAYERS_FILTERS.get(
+                    FILTERS.get(
                         `${LAYERS.MOUNTAIN_INFORMATION_NETWORK}-days`,
                         7
                     )
@@ -37,23 +37,17 @@ export class Provider extends Component {
             },
         },
         [LAYERS.WEATHER_STATION]: {
-            visible: Boolean(
-                LAYERS_VISIBILITY.get(LAYERS.WEATHER_STATION, true)
-            ),
+            visible: Boolean(VISIBILITY.get(LAYERS.WEATHER_STATION, true)),
         },
         [LAYERS.FATAL_ACCIDENT]: {
-            visible: Boolean(
-                LAYERS_VISIBILITY.get(LAYERS.FATAL_ACCIDENT, false)
-            ),
+            visible: Boolean(VISIBILITY.get(LAYERS.FATAL_ACCIDENT, false)),
         },
         [LAYERS.TOYOTA_TRUCK_REPORTS]: {
-            visible: Boolean(
-                LAYERS_VISIBILITY.get(LAYERS.TOYOTA_TRUCK_REPORTS, true)
-            ),
+            visible: Boolean(VISIBILITY.get(LAYERS.TOYOTA_TRUCK_REPORTS, true)),
         },
         [LAYERS.MOUNTAIN_CONDITIONS_REPORTS]: {
             visible: Boolean(
-                LAYERS_VISIBILITY.get(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true)
+                VISIBILITY.get(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true)
             ),
         },
     }
