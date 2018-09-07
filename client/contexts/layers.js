@@ -37,18 +37,16 @@ export class Provider extends Component {
             },
         },
         [LAYERS.WEATHER_STATION]: {
-            visible: Boolean(VISIBILITY.get(LAYERS.WEATHER_STATION, true)),
+            visible: getVisibility(LAYERS.WEATHER_STATION, true),
         },
         [LAYERS.FATAL_ACCIDENT]: {
-            visible: Boolean(VISIBILITY.get(LAYERS.FATAL_ACCIDENT, false)),
+            visible: getVisibility(LAYERS.FATAL_ACCIDENT, false),
         },
         [LAYERS.TOYOTA_TRUCK_REPORTS]: {
-            visible: Boolean(VISIBILITY.get(LAYERS.TOYOTA_TRUCK_REPORTS, true)),
+            visible: getVisibility(LAYERS.TOYOTA_TRUCK_REPORTS, true),
         },
         [LAYERS.MOUNTAIN_CONDITIONS_REPORTS]: {
-            visible: Boolean(
-                VISIBILITY.get(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true)
-            ),
+            visible: getVisibility(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true),
         },
     }
     get value() {
@@ -59,23 +57,33 @@ export class Provider extends Component {
         }
     }
     toggle = id => {
-        this.setState(state => ({
-            [id]: {
-                ...state[id],
-                visible: !state[id].visible,
-            },
-        }))
+        this.setState(
+            state => ({
+                [id]: {
+                    ...state[id],
+                    visible: !state[id].visible,
+                },
+            }),
+            () => {
+                VISIBILITY.set(id, this.state[id].visible)
+            }
+        )
     }
     setFilterValue = (id, name, value) => {
-        this.setState(state => ({
-            [id]: {
-                ...state[id],
-                filters: {
-                    ...state[id].filters,
-                    [name]: value,
+        this.setState(
+            state => ({
+                [id]: {
+                    ...state[id],
+                    filters: {
+                        ...state[id].filters,
+                        [name]: value,
+                    },
                 },
-            },
-        }))
+            }),
+            () => {
+                FILTERS.set(`${id}-${name}`, value)
+            }
+        )
     }
     render() {
         return (
@@ -121,3 +129,8 @@ export class Layers extends Component {
 
 const Context = createContext(LAYERS)
 const { Consumer } = Context
+
+// Utils
+function getVisibility(key, defaultValue = false) {
+    return Boolean(VISIBILITY.get(key, defaultValue))
+}
