@@ -1,4 +1,5 @@
-import React, { PureComponent, Children, cloneElement } from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Consumer } from '../Context'
 
 export default class GeoJSONSource extends PureComponent {
@@ -31,11 +32,10 @@ export default class GeoJSONSource extends PureComponent {
             this.map.getSource(this.props.id).setData(this.props.data)
         }
     }
-    componentWillUnmount() {
-        // this.map.removeSource(this.props.id)
-    }
     setMap = map => {
         this.map = map
+
+        return null
     }
     render() {
         return <Consumer>{this.setMap}</Consumer>

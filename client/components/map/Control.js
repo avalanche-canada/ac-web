@@ -21,22 +21,18 @@ export default class Control extends StaticComponent {
     static defaultProps = {
         position: BOTTOM_RIGHT,
     }
-    addControl = map => {
-        if (this.control) {
-            return
-        }
-
+    componentDidMount() {
         const { position, factory } = this.props
+        const control = factory()
 
-        this.map = map
-        this.control = factory()
-
-        map.addControl(this.control, position)
+        this.map.addControl(control, position)
     }
-    componentWillUnmount() {
-        this.map.removeControl(this.control)
+    setMap = map => {
+        this.map = map
+
+        return null
     }
     render() {
-        return <Consumer>{this.addControl}</Consumer>
+        return <Consumer>{this.setMap}</Consumer>
     }
 }

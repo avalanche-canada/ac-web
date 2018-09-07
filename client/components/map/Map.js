@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { Provider } from './Context'
@@ -7,6 +7,7 @@ import { Canadian } from 'constants/map/bounds'
 import './Map.css'
 
 const { LngLatBounds } = mapbox
+mapbox.accessToken = accessToken
 
 export default class MapComponent extends Component {
     static propTypes = {
@@ -44,40 +45,35 @@ export default class MapComponent extends Component {
     state = {
         map: null,
     }
-    get map() {
-        return this.state.map
-    }
-    setContainer = container => {
-        this.container = container
-    }
+    container = createRef()
     componentDidMount() {
-        mapbox.accessToken = accessToken
-
         const { style, onLoad } = this.props
         const map = new mapbox.Map({
             ...this.props,
             style: styles[style],
-            container: this.container,
+            container: this.container.current,
         })
 
         map.once('load', () => {
             this.setState({ map })
         })
 
-        if (typeof onLoad === 'function') {
-            map.on('load', onLoad)
-        }
+        map.on('load', onLoad)
     }
     componentWillUnmount() {
-        if (this.map) {
-            this.map.off()
+        const { map } = this.state
+
+        if (map) {
+            map.remove()
         }
     }
     render() {
+        const { map } = this.state
+
         return (
-            <Provider value={this.map}>
-                <div ref={this.setContainer} className={this.props.className}>
-                    {this.map ? this.props.children : null}
+            <Provider value={map}>
+                <div ref={this.container} className={this.props.className}>
+                    {map ? this.props.children : null}
                 </div>
             </Provider>
         )

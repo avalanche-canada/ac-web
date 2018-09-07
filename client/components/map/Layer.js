@@ -41,7 +41,6 @@ export default class Layer extends PureComponent {
         paint: PropTypes.object,
         before: PropTypes.string,
         visible: PropTypes.bool,
-        onClick: PropTypes.func,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
@@ -63,7 +62,6 @@ export default class Layer extends PureComponent {
             sourceLayer,
             onMouseEnter,
             onMouseLeave,
-            onClick,
             ...layer
         } = this.props
         const { id } = layer
@@ -78,17 +76,8 @@ export default class Layer extends PureComponent {
 
         this.map.addLayer(layer, before)
 
-        if (typeof onMouseEnter === 'function') {
-            this.map.on('mouseenter', id, onMouseEnter)
-        }
-
-        if (typeof onMouseLeave === 'function') {
-            this.map.on('mouseleave', id, onMouseLeave)
-        }
-
-        if (typeof onClick === 'function') {
-            this.map.on('click', id, onClick)
-        }
+        this.map.on('mouseenter', id, onMouseEnter)
+        this.map.on('mouseleave', id, onMouseLeave)
     }
     componentDidUpdate({ visible, filter }) {
         if (visible !== this.props.visible) {
@@ -99,9 +88,6 @@ export default class Layer extends PureComponent {
 
             this.map.setFilter(id, filter)
         }
-    }
-    componentWillUnmount() {
-        this.map.removeLayer(this.props.id)
     }
     setMap = map => {
         this.map = map
