@@ -11,9 +11,10 @@ Frontend
     -   Test on remove map layer and source layer, now does not remove source, but call remove on map, DONE
     -   Add Forecast markers, DONE
     -   Zoom to forecast region, DONE
-    -   Look at the layers order to make sure it remains the same after all these changes
     -   Make sure layers state is saved, visible and filters, DONE
     -   Better caching for some containers, weather station, MIN, features on mapbox API, DONE
-    -   Test posting a MIN report
+    -   Look at the layers order to make sure it remains the same after all these changes
+    -   Test posting a MIN report, DONE
+    -   Add to map MIN report directly accessed,
 -   Static page should display other content when loading a page
--   Doing more caching
+-   Do more caching

@@ -14,23 +14,6 @@ import place from 'components/icons/place.svg'
 
 const { LngLat } = mapbox
 
-function isValidNumber(number) {
-    return typeof number === 'number' && !isNaN(number)
-}
-
-function areValidCoordinates(longitude, latitude) {
-    return (
-        isValidNumber(latitude) &&
-        latitude <= 90 &&
-        latitude >= -90 &&
-        isValidNumber(longitude)
-    )
-}
-
-function round(number) {
-    return Math.round(number * 100000) / 100000
-}
-
 export default class GeoPosition extends Component {
     static propTypes = {
         onChange: PropTypes.func,
@@ -55,11 +38,19 @@ export default class GeoPosition extends Component {
             this.state.lngLat = new LngLat(longitude, latitude)
             /* eslint-disable react/no-direct-mutation-state */
         }
+
+        this.element = document.createElement('img')
+
+        Object.assign(this.element, {
+            src: place,
+        })
     }
     handleLoad = event => {
-        this.setState({
-            map: event.target,
-        })
+        const map = event.target
+
+        map.on('click', this.handleClick)
+
+        this.setState({ map })
     }
     setLngLat(lngLat, callback) {
         this.setState({ lngLat }, callback)
@@ -81,14 +72,6 @@ export default class GeoPosition extends Component {
             longitude: round(lng),
             latitude: round(lat),
         })
-    }
-    componentWillMount() {
-        const img = document.createElement('img')
-
-        img.src = place
-        img.style.pointerEvents = 'none'
-
-        this.element = img
     }
     componentWillReceiveProps({ longitude, latitude }) {
         if (!areValidCoordinates(longitude, latitude)) {
@@ -118,29 +101,41 @@ export default class GeoPosition extends Component {
         return (
             <div className={styles.Container}>
                 <Map
-                    ref="map"
                     style="default"
-                    touchZoomRotate={false}
-                    dragRotate={false}
                     zoom={2.9}
                     center={[-125.15, 54.8]}
                     maxBounds={null} // We allow everybody to use it if they want. Interesting to see post from Japan!
-                    onClick={this.handleClick}
                     onLoad={this.handleLoad}>
                     {lngLat && (
                         <Marker lngLat={lngLat} element={this.element} />
                     )}
                     {allowFullscreen && <FullscreenControl />}
                     <NavigationControl />
-                    {window.location.protocol === 'https:' && (
-                        <GeolocateControl
-                            fitBoundsOptions={{
-                                maxZoom: 10,
-                            }}
-                        />
-                    )}
+                    <GeolocateControl
+                        fitBoundsOptions={{
+                            maxZoom: 10,
+                        }}
+                    />
                 </Map>
             </div>
         )
     }
+}
+
+// Utils
+function isValidNumber(number) {
+    return typeof number === 'number' && !isNaN(number)
+}
+
+function areValidCoordinates(longitude, latitude) {
+    return (
+        isValidNumber(latitude) &&
+        latitude <= 90 &&
+        latitude >= -90 &&
+        isValidNumber(longitude)
+    )
+}
+
+function round(number) {
+    return Math.round(number * 100000) / 100000
 }

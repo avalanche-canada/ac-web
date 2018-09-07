@@ -14,7 +14,7 @@ import { scrollIntoView } from 'utils/dom'
 import transform from './transform'
 import { status } from 'services/fetch/utils'
 import * as min from 'api/requests/min'
-import { sanitizeMountainInformationNetworkSubmissions } from 'api/transformers'
+import { CACHE } from './index'
 
 const { Form } = t.form
 
@@ -140,14 +140,17 @@ export default class SubmissionForm extends Component {
         this.setState({ isSubmitting: true }, () => {
             fetch(min.post(transform(value)))
                 .then(status)
-                .then(sanitizeMountainInformationNetworkSubmissions)
                 .then(
                     data => {
-                        const id = data.value.subid
+                        this.setState({ isSubmitting: false }, () => {
+                            // FIXME: Huge side effect hack, but it working for now
+                            CACHE.reset()
+                            const { subid } = data
 
-                        this.props.history.push(
-                            links.mountainInformationNetwork(id)
-                        )
+                            this.props.history.push(
+                                links.mountainInformationNetwork(subid)
+                            )
+                        })
                     },
                     err => {
                         this.setState({

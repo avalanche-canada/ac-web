@@ -84,4 +84,4 @@ export class Reports extends Component {
     }
 }
 
-const CACHE = new Memory()
+export const CACHE = new Memory()
