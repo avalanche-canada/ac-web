@@ -37,22 +37,16 @@ export default class WeatherForecast extends Component {
                 <Entry term="Date" sideBySide>
                     <DayPicker
                         date={this.date}
-                        onChange={this.handleDateChange}
-                        container={this}>
+                        onChange={this.handleDateChange}>
                         <DateElement value={this.date} />
                     </DayPicker>
                 </Entry>
-                {forecast && (
-                    <Entry term="Issued at" sideBySide>
-                        {forecast.issued || '04:00'} PST/PDT
-                    </Entry>
-                )}
-                {forecast &&
-                    forecast.handle && (
-                        <Entry term="Created by" sideBySide>
-                            {forecast.handle}
-                        </Entry>
-                    )}
+                <Entry term="Issued at" sideBySide>
+                    {forecast?.data?.issued || '04:00'} PST/PDT
+                </Entry>
+                <Entry term="Created by" sideBySide>
+                    {forecast?.data?.handle}
+                </Entry>
             </Metadata>
         )
     }
