@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
 import Cache, { None } from './Cache'
 
-const { Provider, Consumer } = createContext()
-
 export default class Fetch extends Component {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
@@ -15,7 +13,6 @@ export default class Fetch extends Component {
     static defaultProps = {
         cache: new None(),
     }
-    static Consumer = Consumer
     static Loading = class Loading extends Component {
         static propTypes = {
             children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
@@ -76,9 +73,20 @@ export default class Fetch extends Component {
             })
         } else {
             this.setState({ loading: true }, () => {
-                fetch(this.props.request)
-                    .then(status)
-                    .then(this.fulfill, this.reject)
+                const { url } = this
+                let fetching
+
+                if (FETCHING.has(url)) {
+                    fetching = FETCHING.get(url)
+                } else {
+                    fetching = fetch(this.props.request).then(status)
+
+                    FETCHING.set(url, fetching)
+                }
+
+                fetching.then(this.fulfill, this.reject).finally(() => {
+                    FETCHING.delete(url)
+                })
             })
         }
     }
@@ -102,3 +110,6 @@ export default class Fetch extends Component {
         )
     }
 }
+
+const { Provider, Consumer } = createContext()
+const FETCHING = new Map()
