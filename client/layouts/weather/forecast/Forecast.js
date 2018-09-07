@@ -41,16 +41,12 @@ export default class WeatherForecast extends Component {
                         <DateElement value={this.date} />
                     </DayPicker>
                 </Entry>
-                {forecast && (
-                    <Entry term="Issued at" sideBySide>
-                        {forecast.data.issued || '04:00'} PST/PDT
-                    </Entry>
-                )}
-                {forecast && (
-                    <Entry term="Created by" sideBySide>
-                        {forecast.data.handle}
-                    </Entry>
-                )}
+                <Entry term="Issued at" sideBySide>
+                    {forecast?.data?.issued || '04:00'} PST/PDT
+                </Entry>
+                <Entry term="Created by" sideBySide>
+                    {forecast?.data?.handle}
+                </Entry>
             </Metadata>
         )
     }
