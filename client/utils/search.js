@@ -50,10 +50,6 @@ export function toSet(values) {
     return new Set(Array.from(values, trim).filter(Boolean))
 }
 
-function trim(string) {
-    return string.trim()
-}
-
 export function toNumber(value) {
     if (value === undefined) {
         return
@@ -98,4 +94,9 @@ export function parseDate(string) {
 
 export function formatDate(date) {
     return date && baseFormatDate(date, DATE)
+}
+
+// Utils
+function trim(string) {
+    return string.trim()
 }
