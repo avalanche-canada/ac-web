@@ -143,7 +143,7 @@ export default class Layout extends PureComponent {
     }
     renderPrimary = props => (
         <Primary
-            key={props.location.pathname}
+            // key={props.location.pathname}
             ref={this.primary}
             {...props}
             width={this.state.width}
@@ -152,7 +152,7 @@ export default class Layout extends PureComponent {
     )
     renderSecondary = props => (
         <Secondary
-            key={props.location.search}
+            // key={props.location.search}
             ref={this.secondary}
             {...props}
             width={this.state.width}
@@ -234,10 +234,10 @@ class LinkControlSet extends PureComponent {
         }
 
         return [
-            <div key="min" style={style}>
+            <div style={style}>
                 Create a Mountain Information Network (MIN) report
             </div>,
-            <div key="mwf" style={{ ...style, maxWidth: 125 }}>
+            <div style={{ ...style, maxWidth: 125 }}>
                 Visit the Mountain Weather Forecast
             </div>,
         ]
@@ -245,12 +245,10 @@ class LinkControlSet extends PureComponent {
     get links() {
         return [
             <Link
-                key="min"
                 className={styles['LinkControlSet--MIN']}
                 to="/mountain-information-network/submit"
             />,
             <Link
-                key="mwf"
                 className={styles['LinkControlSet--Weather']}
                 to="/weather"
             />,
