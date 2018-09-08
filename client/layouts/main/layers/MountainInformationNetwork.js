@@ -1,22 +1,23 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import memoize from 'lodash/memoize'
+import { Route } from 'react-router-dom'
 import Source from 'components/map/sources/GeoJSON'
 import Layer from 'components/map/Layer'
-import { Reports } from 'containers/min'
+import { Report, Reports } from 'containers/min'
 import * as turf from '@turf/helpers'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
-import memoize from 'lodash/memoize'
 
-export default class WeatherStations extends Component {
+export default class MountainInformationNetwork extends Component {
     static propTypes = {
         visible: PropTypes.bool,
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
         filters: PropTypes.shape({
             days: PropTypes.number,
             types: PropTypes.instanceOf(Set),
         }),
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
     }
     createFeatureCollections = memoize(data => {
         const features = data.map(createFeature)
@@ -26,7 +27,31 @@ export default class WeatherStations extends Component {
             incidents: features.filter(isIncident),
         }
     })
-    add = ({ data = [] }) => {
+    addActiveReport = ({ data }) => {
+        if (!data) {
+            return null
+        }
+
+        const { onMouseEnter, onMouseLeave } = this.props
+        const source = `${key}-report`
+
+        return (
+            <Fragment>
+                <Source
+                    id={source}
+                    data={turf.featureCollection([createFeature(data)])}
+                />
+                <Layer.Symbol
+                    id={source}
+                    source={source}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                    {...styles.report}
+                />
+            </Fragment>
+        )
+    }
+    addReports = ({ data = [] }) => {
         const { filters, ...props } = this.props
         let { reports, incidents } = this.createFeatureCollections(data)
 
@@ -71,10 +96,30 @@ export default class WeatherStations extends Component {
             </Fragment>
         )
     }
+    renderReport = ({ location }) => {
+        const params = new URLSearchParams(location.search)
+
+        if (!params.has('panel')) {
+            return null
+        }
+
+        const [type, id] = params.get('panel').split('/')
+
+        if (type !== 'mountain-information-network-submissions') {
+            return null
+        }
+
+        return <Report id={id}>{this.addActiveReport}</Report>
+    }
     render() {
         const { days } = this.props.filters
 
-        return <Reports days={days + 180}>{this.add}</Reports>
+        return (
+            <Fragment>
+                <Reports days={days}>{this.addReports}</Reports>
+                <Route>{this.renderReport}</Route>
+            </Fragment>
+        )
     }
 }
 
