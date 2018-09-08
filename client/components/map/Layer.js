@@ -52,7 +52,7 @@ export default class Layer extends PureComponent {
         this.map.setLayoutProperty(
             this.props.id,
             'visibility',
-            this.props.visible ? 'visible' : 'none'
+            this.props.visible === false ? 'none' : 'visible'
         )
     }
     componentDidMount() {
@@ -71,7 +71,7 @@ export default class Layer extends PureComponent {
         }
 
         Object.assign(layer.layout, {
-            visibility: visible ? 'visible' : 'none',
+            visibility: visible === false ? 'none' : 'visible',
         })
 
         this.map.addLayer(layer, before)
