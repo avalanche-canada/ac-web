@@ -16,5 +16,12 @@ Frontend
     -   Look at the layers order to make sure it remains the same after all these changes
     -   Test posting a MIN report, DONE
     -   Add to map MIN report directly accessed,
--   Static page should display other content when loading a page
+-   Static page should not display other content when loading a page
 -   Do more caching
+
+# Map style
+
+1.  Load style
+2.  Add layers and sources manually
+3.  Layer & Source components as accessor, or components do not remove when unmounting
+4.  DataSet components fetch data and set it to the source

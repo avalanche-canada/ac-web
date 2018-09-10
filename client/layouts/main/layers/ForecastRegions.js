@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import * as turf from '@turf/helpers'
@@ -19,43 +19,42 @@ export default class ForecastRegions extends Component {
         const filter = id ? ['!=', 'id', id] : ['has', 'id']
 
         return (
-            <Fragment>
-                <Source id={key} data={data} />
-                <Layer.Fill
+            <Source id={key} data={data}>
+                <Layer
                     id={key}
-                    source={key}
+                    type="fill"
                     filter={filter}
                     {...this.props}
                     {...styles.base}
                 />
-                <Layer.Fill
+                <Layer
                     id={`${key}-active`}
-                    source={key}
+                    type="fill"
                     filter={activeFilter}
                     {...this.props}
                     {...styles.active}
                 />
-                <Layer.Line
+                <Layer
                     id={`${key}-contour`}
-                    source={key}
+                    type="line"
                     filter={filter}
                     {...this.props}
                     {...styles.contour}
                 />
-                <Layer.Line
+                <Layer
                     id={`${key}-active-contour`}
-                    source={key}
+                    type="line"
                     filter={activeFilter}
                     {...this.props}
                     {...styles.activeContour}
                 />
-                <Layer.Symbol
+                <Layer
                     id={`${key}-labels`}
-                    source={key}
+                    type="symbol"
                     {...this.props}
                     {...styles.labels}
                 />
-            </Fragment>
+            </Source>
         )
     }
     render() {

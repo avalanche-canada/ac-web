@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -19,18 +19,9 @@ export default class SpecialInformation extends Component {
     )
     add = ({ documents = [] }) => {
         return (
-            <Fragment>
-                <Source
-                    id={key}
-                    data={this.createFeatureCollection(documents)}
-                />
-                <Layer.Symbol
-                    id={key}
-                    source={key}
-                    {...this.props}
-                    layout={layout}
-                />
-            </Fragment>
+            <Source id={key} data={this.createFeatureCollection(documents)}>
+                <Layer id={key} type="symbol" {...this.props} layout={layout} />
+            </Source>
         )
     }
     render() {

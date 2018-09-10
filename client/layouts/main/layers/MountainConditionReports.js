@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -18,25 +18,20 @@ export default class MountainConditionReports extends Component {
     )
     add = ({ data = [] }) => {
         return (
-            <Fragment>
-                <Source
+            <Source id={key} cluster data={this.createFeatureCollection(data)}>
+                <Layer
                     id={key}
-                    cluster
-                    data={this.createFeatureCollection(data)}
-                />
-                <Layer.Symbol
-                    id={key}
-                    source={key}
+                    type="symbol"
                     {...this.props}
                     {...styles.report}
                 />
-                <Layer.Symbol
+                <Layer
                     id={`${key}-cluster`}
-                    source={key}
+                    type="symbol"
                     {...this.props}
                     {...styles.cluster}
                 />
-            </Fragment>
+            </Source>
         )
     }
     render() {

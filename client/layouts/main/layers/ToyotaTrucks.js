@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -18,20 +18,12 @@ export default class ToyotaTrucks extends Component {
         turf.featureCollection(documents.map(createFeature))
     )
     add = ({ documents = [] }) => {
+        const data = this.createFeatureCollection(documents)
+
         return (
-            <Fragment>
-                <Source
-                    id={key}
-                    cluster
-                    data={this.createFeatureCollection(documents)}
-                />
-                <Layer.Symbol
-                    id={key}
-                    source={key}
-                    layout={style}
-                    {...this.props}
-                />
-            </Fragment>
+            <Source id={key} cluster data={data}>
+                <Layer id={key} type="symbol" {...style} {...this.props} />
+            </Source>
         )
     }
     render() {
@@ -51,7 +43,9 @@ function createFeature({ uid, data }) {
 
 // Styles
 const style = {
-    'icon-image': 'toyota-truck',
-    'icon-size': 0.2,
-    'icon-allow-overlap': true,
+    layout: {
+        'icon-image': 'toyota-truck',
+        'icon-size': 0.2,
+        'icon-allow-overlap': true,
+    },
 }

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -19,25 +19,23 @@ export default class FatalAccidents extends Component {
     )
     add = ({ documents = [] }) => {
         return (
-            <Fragment>
-                <Source
+            <Source
+                id={key}
+                cluster
+                data={this.createFeatureCollection(documents)}>
+                <Layer
                     id={key}
-                    cluster
-                    data={this.createFeatureCollection(documents)}
-                />
-                <Layer.Symbol
-                    id={key}
-                    source={key}
+                    type="symbol"
                     {...this.props}
                     {...styles.base}
                 />
-                <Layer.Symbol
+                <Layer
                     id={`${key}-cluster`}
-                    source={key}
+                    type="symbol"
                     {...this.props}
                     {...styles.cluster}
                 />
-            </Fragment>
+            </Source>
         )
     }
     render() {

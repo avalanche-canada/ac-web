@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
+import { Consumer } from 'components/map/Context'
 import { Route } from 'react-router-dom'
 import Source from 'components/map/sources/GeoJSON'
 import Layer from 'components/map/Layer'
 import { Report, Reports } from 'containers/min'
-import * as turf from '@turf/helpers'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
 
@@ -27,29 +28,26 @@ export default class MountainInformationNetwork extends Component {
             incidents: features.filter(isIncident),
         }
     })
+    get report() {
+        return this.map.getSource(`${key}-report`)
+    }
     addActiveReport = ({ data }) => {
-        if (!data) {
-            return null
+        if (data && this.report) {
+            const features = turf.featureCollection([createFeature(data)])
+
+            this.report.setData(features)
         }
 
-        const { onMouseEnter, onMouseLeave } = this.props
-        const source = `${key}-report`
+        return null
+    }
+    removeActiveReport = () => {
+        const { report } = this
 
-        return (
-            <Fragment>
-                <Source
-                    id={source}
-                    data={turf.featureCollection([createFeature(data)])}
-                />
-                <Layer.Symbol
-                    id={source}
-                    source={source}
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                    {...styles.report}
-                />
-            </Fragment>
-        )
+        if (report) {
+            report.setData(EMPTY)
+        }
+
+        return null
     }
     addReports = ({ data = [] }) => {
         const { filters, ...props } = this.props
@@ -69,61 +67,82 @@ export default class MountainInformationNetwork extends Component {
                     id={key}
                     cluster
                     clusterMaxZoom={14}
-                    data={turf.featureCollection(reports)}
-                />
+                    data={turf.featureCollection(reports)}>
+                    <Layer
+                        id={key}
+                        type="symbol"
+                        {...props}
+                        {...styles.report}
+                    />
+                    <Layer
+                        id={`${key}-cluster`}
+                        type="symbol"
+                        {...props}
+                        {...styles.cluster}
+                    />
+                </Source>
                 <Source
                     id={`${key}-incidents`}
-                    data={turf.featureCollection(incidents)}
-                />
-                <Layer.Symbol
-                    id={key}
-                    source={key}
-                    {...props}
-                    {...styles.report}
-                />
-                <Layer.Symbol
-                    id={`${key}-cluster`}
-                    source={key}
-                    {...props}
-                    {...styles.cluster}
-                />
-                <Layer.Symbol
-                    id={`${key}-incidents`}
-                    source={`${key}-incidents`}
-                    {...props}
-                    {...styles.incidents}
-                />
+                    data={turf.featureCollection(incidents)}>
+                    <Layer
+                        id={`${key}-incidents`}
+                        type="symbol"
+                        {...props}
+                        {...styles.incidents}
+                    />
+                </Source>
             </Fragment>
         )
     }
-    renderReport = ({ location }) => {
+    renderActiveReport = ({ location }) => {
         const params = new URLSearchParams(location.search)
 
         if (!params.has('panel')) {
-            return null
+            return this.removeActiveReport()
         }
 
         const [type, id] = params.get('panel').split('/')
 
         if (type !== 'mountain-information-network-submissions') {
-            return null
+            return this.removeActiveReport()
         }
 
         return <Report id={id}>{this.addActiveReport}</Report>
     }
-    render() {
-        const { days } = this.props.filters
+    withMap = map => {
+        this.map = map
 
+        const { days } = this.props.filters
         return (
             <Fragment>
                 <Reports days={days}>{this.addReports}</Reports>
-                <Route>{this.renderReport}</Route>
+                <Route>{this.renderActiveReport}</Route>
+            </Fragment>
+        )
+    }
+    render() {
+        const { onMouseEnter, onMouseLeave } = this.props
+        const source = `${key}-report`
+
+        return (
+            <Fragment>
+                <Source id={source} data={EMPTY}>
+                    <Layer
+                        id={source}
+                        type="symbol"
+                        onMouseEnter={onMouseEnter}
+                        onMouseLeave={onMouseLeave}
+                        {...styles.report}
+                    />
+                </Source>
+                <Consumer>{this.withMap}</Consumer>
             </Fragment>
         )
     }
 }
 
 // Utils
+const EMPTY = turf.featureCollection([])
 function createFeature({ subid, title, lnglat, obs }) {
     const types = obs.map(pluckType)
 

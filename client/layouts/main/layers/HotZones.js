@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import * as features from 'containers/features'
@@ -25,15 +25,9 @@ export default class HotZones extends Component {
         }
 
         return (
-            <Fragment>
-                <Source id={key} cluster data={zones} />
-                <Layer.Circle
-                    id={key}
-                    source={key}
-                    {...this.props}
-                    {...style}
-                />
-            </Fragment>
+            <Source id={key} cluster data={zones}>
+                <Layer id={key} type="circle" {...this.props} {...style} />
+            </Source>
         )
     }
     render() {

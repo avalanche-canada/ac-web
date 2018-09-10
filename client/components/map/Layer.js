@@ -4,21 +4,6 @@ import { Consumer } from './Context'
 import isEqual from 'lodash/isEqual'
 
 export default class Layer extends PureComponent {
-    static Symbol(props) {
-        return <Layer type="symbol" {...props} />
-    }
-    static Fill(props) {
-        return <Layer type="fill" {...props} />
-    }
-    static Line(props) {
-        return <Layer type="line" {...props} />
-    }
-    static Circle(props) {
-        return <Layer type="circle" {...props} />
-    }
-    static Composite(props) {
-        return <Layer type="composite" {...props} />
-    }
     static propTypes = {
         id: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
@@ -54,30 +39,6 @@ export default class Layer extends PureComponent {
             'visibility',
             this.props.visible === false ? 'none' : 'visible'
         )
-    }
-    componentDidMount() {
-        const {
-            before,
-            visible,
-            sourceLayer,
-            onMouseEnter,
-            onMouseLeave,
-            ...layer
-        } = this.props
-        const { id } = layer
-
-        if (sourceLayer) {
-            layer['source-layer'] = sourceLayer
-        }
-
-        Object.assign(layer.layout, {
-            visibility: visible === false ? 'none' : 'visible',
-        })
-
-        this.map.addLayer(layer, before)
-
-        this.map.on('mouseenter', id, onMouseEnter)
-        this.map.on('mouseleave', id, onMouseLeave)
     }
     componentDidUpdate({ visible, filter }) {
         if (visible !== this.props.visible) {
