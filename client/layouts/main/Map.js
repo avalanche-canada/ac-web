@@ -1,7 +1,6 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import * as context from 'contexts/layers'
-import { Style } from 'containers/mapbox'
 import ForecastMarkers from './layers/ForecastMarkers'
 import { Map as Base, NavigationControl } from 'components/map'
 import * as TYPES from 'constants/drawers'
@@ -62,17 +61,14 @@ export default class Layout extends Component {
     renderLayers = layers => {
         return Object.entries(layers).map(this.renderLayer, this)
     }
-    renderMap = ({ data }) => {
-        return data ? (
-            <Base {...this.props} onLoad={this.handleLoad} style={data}>
+    render() {
+        return (
+            <Base {...this.props} onLoad={this.handleLoad} style="2019">
                 <ForecastMarkers onMarkerClick={this.props.onMarkerClick} />
                 <context.Layers>{this.renderLayers}</context.Layers>
                 <NavigationControl />
             </Base>
-        ) : null
-    }
-    render() {
-        return <Style id="2019">{this.renderMap}</Style>
+        )
     }
 }
 
