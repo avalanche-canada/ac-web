@@ -57,9 +57,7 @@ export default class MapComponent extends Component {
             container: this.container.current,
         })
 
-        map.once('load', () => {
-            this.setState({ map })
-        })
+        this.setState({ map })
 
         map.on('load', onLoad)
     }
