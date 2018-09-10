@@ -4,13 +4,11 @@ import StaticComponent from 'components/StaticComponent'
 import { Consumer } from './Context'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 
-const { LngLat } = mapbox
-
 // TODO: Simplify implementation
 
 export default class Marker extends StaticComponent {
     static propTypes = {
-        lngLat: PropTypes.instanceOf(LngLat).isRequired,
+        lngLat: PropTypes.arrayOf(PropTypes.number).isRequired,
         element: PropTypes.object.isRequired,
         onClick: PropTypes.func,
         options: PropTypes.object,
