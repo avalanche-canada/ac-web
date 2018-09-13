@@ -15,7 +15,8 @@ Frontend
     -   Better caching for some containers, weather station, MIN, features on mapbox API, DONE
     -   Look at the layers order to make sure it remains the same after all these changes
     -   Test posting a MIN report, DONE
-    -   Add to map MIN report directly accessed,
+    -   Add to map MIN report directly accessed, DONE
+    -   Zoom to MIN A & B does not work
 -   Static page should not display other content when loading a page
 -   Do more caching
 

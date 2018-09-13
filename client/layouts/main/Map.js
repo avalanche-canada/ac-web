@@ -42,19 +42,13 @@ export default class Layout extends Component {
         this.props.onLoad(event)
     }
     handleClick = ({ target, point }) => {
-        const [feature] = target
-            .queryRenderedFeatures(point)
-            .filter(feature => SOURCES.has(feature.source))
+        const [feature] = target.queryRenderedFeatures(point)
 
         if (feature) {
             this.props.onFeatureClick(feature)
         }
     }
     renderLayer([key, layer]) {
-        if (!LAYERS.has(key)) {
-            return null
-        }
-
         return createElement(LAYERS.get(key), {
             ...layer,
             key,
@@ -68,7 +62,7 @@ export default class Layout extends Component {
     render() {
         return (
             <Base {...this.props} onLoad={this.handleLoad} style="2019">
-                {/* <ForecastMarkers onMarkerClick={this.props.onMarkerClick} /> */}
+                <ForecastMarkers onMarkerClick={this.props.onMarkerClick} />
                 <context.Layers>{this.renderLayers}</context.Layers>
                 <NavigationControl />
             </Base>
@@ -90,4 +84,3 @@ const TITLES = new Map([
     [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'Mountain Condition reports'],
     [TYPES.FORECASTS, 'forecast'],
 ])
-const SOURCES = new Set(TITLES.keys())

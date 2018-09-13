@@ -34,6 +34,7 @@ function createFeature({ uid, data }) {
         locations.map(({ longitude, latitude }) => [longitude, latitude]),
         {
             id: uid,
+            type: key,
             title: headline,
         }
     )

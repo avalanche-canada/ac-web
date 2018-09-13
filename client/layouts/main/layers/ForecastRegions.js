@@ -19,6 +19,7 @@ export default class ForecastRegions extends Component {
         // https://github.com/mapbox/mapbox-gl-js/issues/2716
         data.features.forEach((feature, index) => {
             feature.id = index
+            feature.properties.type = key
         })
 
         return (

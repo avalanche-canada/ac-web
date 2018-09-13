@@ -15,7 +15,11 @@ export default class WeatherStations extends Component {
     }
     withData = ({ data }) => {
         return (
-            <Source id={key} cluster data={createFeatureCollection(data)}>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createFeatureCollection(data)}>
                 <Layer.Symbol id={key} {...this.props} {...styles} />
             </Source>
         )
@@ -29,6 +33,7 @@ export default class WeatherStations extends Component {
 function createFeature({ stationId, name, longitude, latitude }) {
     return turf.point([longitude, latitude], {
         id: stationId,
+        type: key,
         title: name,
     })
 }

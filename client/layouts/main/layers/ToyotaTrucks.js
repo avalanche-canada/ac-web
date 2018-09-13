@@ -16,7 +16,11 @@ export default class ToyotaTrucks extends Component {
     }
     withDocuments = ({ documents }) => {
         return (
-            <Source id={key} cluster data={createFeatureCollection(documents)}>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createFeatureCollection(documents)}>
                 <Layer.Symbol id={key} {...styles} {...this.props} />
             </Source>
         )
@@ -32,6 +36,7 @@ function createFeature({ uid, data }) {
 
     return turf.point([position.longitude, position.latitude], {
         title: headline,
+        type: key,
         id: uid,
     })
 }

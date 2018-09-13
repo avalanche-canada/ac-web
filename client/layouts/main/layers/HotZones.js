@@ -18,7 +18,11 @@ export default class HotZones extends Component {
     }
     withZones = ({ data }) => {
         return (
-            <Source id={key} cluster data={createFeatureCollection(data)}>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createFeatureCollection(data)}>
                 <Layer.Circle id={key} {...this.props} {...styles} />
             </Source>
         )
@@ -65,6 +69,7 @@ function createFeature({ id, name, centroid }, index) {
         centroid,
         {
             id,
+            type: key,
             title: name,
         },
         { id: index }

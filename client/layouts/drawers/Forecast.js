@@ -32,19 +32,17 @@ export default class Layout extends PureComponent {
 
         return <SPAWComponent link={link} style={style} />
     }
+    handleLocateClick = () => {
+        this.props.onLocateClick(utils.geometry(this.region))
+    }
     renderHeader({ data, loading }) {
-        const { onLocateClick, name } = this.props
+        this.region = data
         const title = loading || !data ? 'Loading...' : data.name
-        function handleLocateClick() {
-            onLocateClick(utils.geometry(data))
-        }
 
         return (
             <h1>
                 {data ? <Link to={this.link}>{title}</Link> : title}
-                {data && (
-                    <DisplayOnMap key={name} onClick={handleLocateClick} />
-                )}
+                {data && <DisplayOnMap onClick={this.handleLocateClick} />}
             </h1>
         )
     }

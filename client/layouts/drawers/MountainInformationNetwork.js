@@ -8,7 +8,7 @@ import { Loading } from 'components/text'
 import { Report } from 'containers/min'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { geometry } from '@turf/helpers'
+import { point } from '@turf/helpers'
 
 export default class Layout extends PureComponent {
     static propTypes = {
@@ -19,47 +19,52 @@ export default class Layout extends PureComponent {
     get link() {
         return `/mountain-information-network/submissions/${this.props.id}`
     }
-    renderHeader = report => {
-        const { onLocateClick, id } = this.props
-        function handleLocateClick() {
-            onLocateClick(geometry('Point', report.lnglat))
-        }
+    handleLocateClick = () => {
+        this.props.onLocateClick(point(this.report.lnglat))
+    }
+    renderHeader(report) {
+        this.report = report
 
         return (
             <h1>
                 <Link to={this.link}>{report.title}</Link>
-                <DisplayOnMap key={id} onClick={handleLocateClick} />
+                <DisplayOnMap onClick={this.handleLocateClick} />
             </h1>
         )
     }
-    children = ({ loading, data }) => (
-        <Container>
-            <Navbar>
-                <Sponsor label={null} />
-                <Close onClick={this.props.onCloseClick} />
-            </Navbar>
-            <Header subject="Mountain Information Network">
-                {data && this.renderHeader(data)}
-            </Header>
-            <Body>
-                <Submission value={data}>
-                    <Shim horizontal>
-                        {loading && (
-                            <Loading>
-                                Loading Mountain Information Network reports...
-                            </Loading>
-                        )}
-                        <Metadata />
-                    </Shim>
-                    <Shim vertical>
-                        <TabSet />
-                    </Shim>
-                    <Gallery />
-                </Submission>
-            </Body>
-        </Container>
-    )
+    children({ loading, data }) {
+        return (
+            <Container>
+                <Navbar>
+                    <Sponsor label={null} />
+                    <Close onClick={this.props.onCloseClick} />
+                </Navbar>
+                <Header subject="Mountain Information Network">
+                    {data && this.renderHeader(data)}
+                </Header>
+                <Body>
+                    <Submission value={data}>
+                        <Shim horizontal>
+                            {loading && (
+                                <Loading>
+                                    Loading Mountain Information Network
+                                    reports...
+                                </Loading>
+                            )}
+                            <Metadata />
+                        </Shim>
+                        <Shim vertical>
+                            <TabSet />
+                        </Shim>
+                        <Gallery />
+                    </Submission>
+                </Body>
+            </Container>
+        )
+    }
     render() {
-        return <Report id={this.props.id}>{this.children}</Report>
+        return (
+            <Report id={this.props.id}>{props => this.children(props)}</Report>
+        )
     }
 }

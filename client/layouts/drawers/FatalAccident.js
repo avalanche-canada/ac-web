@@ -15,7 +15,7 @@ import { Document } from 'prismic/containers'
 import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { geometry } from '@turf/helpers'
+import { point } from '@turf/helpers'
 
 export default class FatalAccident extends PureComponent {
     static propTypes = {
@@ -23,18 +23,18 @@ export default class FatalAccident extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader({ title, location }) {
-        const { onLocateClick, id } = this.props
-        function handleLocateClick() {
-            const { longitude, latitude } = location
+    handleLocateClick = () => {
+        const { longitude, latitude } = this.report.location
 
-            onLocateClick(geometry('Point', [longitude, latitude]))
-        }
+        this.props.onLocateClick(point([longitude, latitude]))
+    }
+    renderHeader(report) {
+        this.report = report
 
         return (
             <h1>
-                <span>{title}</span>
-                <DisplayOnMap key={id} onClick={handleLocateClick} />
+                <span>{report.title}</span>
+                <DisplayOnMap onClick={this.handleLocateClick} />
             </h1>
         )
     }

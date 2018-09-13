@@ -27,23 +27,24 @@ export default class SpecialInformation extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader = ({ headline, locations }) => {
-        const { onLocateClick, id } = this.props
-        function handleLocateClick() {
-            const { length } = locations
-            const type = length === 1 ? 'Point' : 'MultiPoint'
-            const coordinates =
-                length === 1
-                    ? parseLocation(locations[0])
-                    : locations.map(parseLocation)
+    handleLocateClick = () => {
+        const { locations } = this.document
+        const { length } = locations
+        const type = length === 1 ? 'Point' : 'MultiPoint'
+        const coordinates =
+            length === 1
+                ? parseLocation(locations[0])
+                : locations.map(parseLocation)
 
-            onLocateClick(geometry(type, coordinates))
-        }
+        this.props.onLocateClick(geometry(type, coordinates))
+    }
+    renderHeader = document => {
+        this.document = document
 
         return (
             <h1>
-                <span>{headline}</span>
-                <DisplayOnMap key={id} onClick={handleLocateClick} />
+                <span>{document.headline}</span>
+                <DisplayOnMap onClick={this.handleLocateClick} />
             </h1>
         )
     }
@@ -95,7 +96,7 @@ export default class SpecialInformation extends PureComponent {
                 <Close onClick={this.props.onCloseClick} />
             </Navbar>
             <Header subject="Special Information">
-                {document && this.renderHeader(document)}
+                {document && this.renderHeader(document.data)}
             </Header>
             <Body>
                 <Content>

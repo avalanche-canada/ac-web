@@ -15,7 +15,11 @@ export default class MountainConditionReports extends Component {
     }
     withData = ({ data }) => {
         return (
-            <Source id={key} cluster data={createFeatureCollection(data)}>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createFeatureCollection(data)}>
                 <Layer.Symbol id={key} {...this.props} {...styles} />
             </Source>
         )

@@ -16,7 +16,11 @@ export default class FatalAccidents extends Component {
     }
     withData = ({ documents }) => {
         return (
-            <Source id={key} cluster data={createFeatureCollection(documents)}>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createFeatureCollection(documents)}>
                 <Layer.Symbol id={key} {...this.props} {...styles} />
             </Source>
         )

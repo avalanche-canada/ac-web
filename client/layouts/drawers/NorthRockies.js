@@ -22,17 +22,18 @@ export default class NorthRockies extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
+    handleLocateClick = () => {
+        const { onLocateClick } = this.props
+
+        onLocateClick(utils.geometry(this.region))
+    }
     locate({ data }) {
         if (!data) {
             return null
         }
 
-        const { onLocateClick } = this.props
-        function handleLocateClick() {
-            onLocateClick(utils.geometry(data))
-        }
-
-        return <DisplayOnMap onClick={handleLocateClick} />
+        this.region = data
+        return <DisplayOnMap onClick={this.handleLocateClick} />
     }
     renderSPAW = ({ link }) => {
         const style = {

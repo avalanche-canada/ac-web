@@ -24,18 +24,19 @@ export default class WeatherStation extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader(props) {
-        const { data } = props
-        const { onLocateClick, id } = this.props
-        const title = utils.title(props)
-        function handleLocateClick() {
-            onLocateClick(utils.geometry(data))
-        }
+    handleLocateClick = () => {
+        this.props.onLocateClick(utils.geometry(this.station.data))
+    }
+    renderHeader(station) {
+        this.station = station
+
+        const { data } = station
+        const title = utils.title(station)
 
         return (
             <h1>
                 {data ? <Link to={utils.link(data)}>{title}</Link> : title}
-                {data && <DisplayOnMap key={id} onClick={handleLocateClick} />}
+                {data && <DisplayOnMap onClick={this.handleLocateClick} />}
             </h1>
         )
     }

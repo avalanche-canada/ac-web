@@ -18,13 +18,19 @@ export default class HotZoneReportDrawer extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
+    handleLocateClick = () => {
+        const { onLocateClick } = this.props
+
+        onLocateClick(utils.geometry(this.zone))
+    }
     renderHeader({ document, loading }) {
-        const { name, onLocateClick } = this.props
+        const { name } = this.props
 
         return (
             <Header subject="Hot Zone Report">
                 <HotZone name={name}>
                     {({ data }) => {
+                        this.zone = data
                         const title = utils.title({
                             loading,
                             report: document,
@@ -41,10 +47,7 @@ export default class HotZoneReportDrawer extends PureComponent {
                                     <span>{title}</span>
                                 )}
                                 <DisplayOnMap
-                                    key={name}
-                                    onClick={() => {
-                                        onLocateClick(utils.geometry(data))
-                                    }}
+                                    onClick={this.handleLocateClick}
                                 />
                             </h1>
                         )

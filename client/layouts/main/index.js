@@ -63,18 +63,18 @@ export default class Layout extends PureComponent {
                 target.fitBounds(bbox(geometry), {
                     offset: this.offset,
                     padding: 75,
-                    speed: 1.75,
+                    speed: 2.5,
                 })
             },
-            getSource(...args) {
-                return target.getSource(...args)
+            getSource(id) {
+                return target.getSource(id)
             },
         })
 
         target.on('resize', this.handleResize)
     }
     handleFeatureClick = feature => {
-        const { source, id, properties } = feature
+        const { properties } = feature
 
         if (properties.cluster) {
             const source = this.getSource(feature.source)
@@ -92,14 +92,15 @@ export default class Layout extends PureComponent {
                 }
             )
         } else {
+            const { type, id } = properties
             let { search, pathname } = this.props.location
 
-            if (PATHS.has(source)) {
-                pathname = `/map/${PATHS.get(source)}/${properties.id}`
+            if (PATHS.has(type)) {
+                pathname = `/map/${PATHS.get(type)}/${id}`
             }
 
-            if (SEARCHS.has(source)) {
-                search = `?panel=${SEARCHS.get(source)}/${properties.id}`
+            if (SEARCHS.has(type)) {
+                search = `?panel=${SEARCHS.get(type)}/${id}`
             }
 
             this.props.history.push({ search, pathname })
@@ -157,38 +158,38 @@ export default class Layout extends PureComponent {
             onLocateClick={this.handleLocateClick}
         />
     )
-    showClusterPopup(layer, features, lngLat) {
-        const html = document.createElement('div')
-        const p = document.createElement('p')
-        const ul = document.createElement('ul')
-
-        p.textContent = `${
-            features.length
-        } reports are available at this location:`
-
-        features.forEach(({ properties: { id, name, title } }) => {
-            const li = document.createElement('li')
-            const a = document.createElement('a')
-
-            a.href = '#'
-            a.textContent = title || name
-            a.onclick = () => {
-                this.transitionToFeature(layer, id)
-            }
-
-            li.appendChild(a)
-
-            ul.appendChild(li)
-        })
-
-        html.appendChild(p)
-        html.appendChild(ul)
-
-        this.popup
-            .setLngLat(lngLat)
-            .setDOMContent(html)
-            .addTo(this.map)
-    }
+    // showClusterPopup(layer, features, lngLat) {
+    //     const html = document.createElement('div')
+    //     const p = document.createElement('p')
+    //     const ul = document.createElement('ul')
+    //
+    //     p.textContent = `${
+    //         features.length
+    //     } reports are available at this location:`
+    //
+    //     features.forEach(({ properties: { id, name, title } }) => {
+    //         const li = document.createElement('li')
+    //         const a = document.createElement('a')
+    //
+    //         a.href = '#'
+    //         a.textContent = title || name
+    //         a.onclick = () => {
+    //             this.transitionToFeature(layer, id)
+    //         }
+    //
+    //         li.appendChild(a)
+    //
+    //         ul.appendChild(li)
+    //     })
+    //
+    //     html.appendChild(p)
+    //     html.appendChild(ul)
+    //
+    //     this.popup
+    //         .setLngLat(lngLat)
+    //         .setDOMContent(html)
+    //         .addTo(this.map)
+    // }
     render() {
         if (supported()) {
             return (

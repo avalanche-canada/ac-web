@@ -20,29 +20,39 @@ export default class MountainInformationNetwork extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
+    get filter() {
+        const { types } = this.props.filters
+
+        return types.size === 0
+            ? ['boolean', true]
+            : [
+                  'any',
+                  ...Array.from(types).map(type => [
+                      'boolean',
+                      ['get', type],
+                      false,
+                  ]),
+              ]
+    }
     addReports = ({ data = [] }) => {
+        const { filter } = this
         const { filters, ...props } = this.props
-        let { reports, incidents } = createFeatureCollections(data)
-
-        if (filters.types.size > 0) {
-            const filter = ({ properties }) =>
-                properties.types.some(type => filters.types.has(type))
-
-            reports = reports.filter(filter)
-            incidents = incidents.filter(filter)
-        }
-
-        reports = turf.featureCollection(reports)
-        incidents = turf.featureCollection(incidents)
+        const { reports, incidents } = createFeatureCollections(data)
 
         return (
             <Fragment>
                 <Source id={key} cluster clusterMaxZoom={14} data={reports}>
-                    <Layer.Symbol id={key} {...props} {...styles.reports} />
+                    <Layer.Symbol
+                        id={key}
+                        filter={filter}
+                        {...props}
+                        {...styles.reports}
+                    />
                 </Source>
                 <Source id={`${key}-incidents`} data={incidents}>
                     <Layer.Symbol
                         id={`${key}-incidents`}
+                        filter={filter}
                         {...props}
                         {...styles.incidents}
                     />
@@ -76,7 +86,7 @@ export default class MountainInformationNetwork extends Component {
 
         return (
             <Fragment>
-                <Reports days={days}>{this.addReports}</Reports>
+                <Reports days={days + 360}>{this.addReports}</Reports>
                 <Route>{this.renderActiveReport}</Route>
             </Fragment>
         )
@@ -162,32 +172,30 @@ class ActiveReport extends Component {
     }
 }
 
-const EMPTY = turf.featureCollection([])
-function createFeature({ subid, title, lnglat, obs }) {
-    const types = obs.map(pluckType)
-
-    return turf.point(lnglat, {
-        id: subid,
-        icon: types.includes(INCIDENT) ? 'min-pin-with-incident' : 'min-pin',
-        title,
-        types,
-    })
-}
-function pluckType({ obtype }) {
-    return obtype
-}
 function isIncident({ properties }) {
-    return properties.types.includes(INCIDENT)
+    return INCIDENT in properties
 }
 function isNotIncident(feature) {
     return !isIncident(feature)
+}
+function createFeature({ subid, title, lnglat, obs }) {
+    return turf.point(lnglat, {
+        id: subid,
+        type: key,
+        title,
+        ...obs.reduce((types, { obtype }) => {
+            types[obtype] = true
+
+            return types
+        }, {}),
+    })
 }
 const createFeatureCollections = memoize(data => {
     const features = data.map(createFeature)
 
     return {
-        reports: features.filter(isNotIncident),
-        incidents: features.filter(isIncident),
+        reports: turf.featureCollection(features.filter(isNotIncident)),
+        incidents: turf.featureCollection(features.filter(isIncident)),
     }
 })
 
@@ -195,8 +203,18 @@ const createFeatureCollections = memoize(data => {
 const styles = {
     reports: {
         layout: {
-            'icon-image': 'min-pin',
-            'icon-size': 0.75,
+            'icon-image': [
+                'case',
+                ['boolean', ['get', 'incident'], false],
+                'min-pin-with-incident',
+                'min-pin',
+            ],
+            'icon-size': [
+                'case',
+                ['boolean', ['get', 'cluster'], false],
+                0.8,
+                0.7,
+            ],
             'icon-allow-overlap': true,
             'text-field': '{point_count}',
             'text-offset': [0, -0.25],
