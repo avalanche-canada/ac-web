@@ -86,7 +86,7 @@ export default class MountainInformationNetwork extends Component {
 
         return (
             <Fragment>
-                <Reports days={days + 360}>{this.addReports}</Reports>
+                <Reports days={days}>{this.addReports}</Reports>
                 <Route>{this.renderActiveReport}</Route>
             </Fragment>
         )
@@ -130,8 +130,10 @@ class ActiveReport extends Component {
     clean(id) {
         const { map } = this
 
-        if (map.isStyleLoaded()) {
+        if (map.getLayer(id)) {
             map.removeLayer(id)
+        }
+        if (map.getSource(id)) {
             map.removeSource(id)
         }
     }
@@ -141,23 +143,20 @@ class ActiveReport extends Component {
         }
     }
     componentWillUnmount() {
-        this.clean(this.props.id)
-    }
-    validate = ({ sourceId, isSourceLoaded }) => {
-        if (
-            !isSourceLoaded ||
-            (sourceId !== key || sourceId !== `${key}-incidents`)
-        ) {
-            return
+        if (this.map.isStyleLoaded()) {
+            this.clean(this.props.id)
         }
+    }
+    validate = ({ sourceId }) => {
+        if (sourceId.startsWith(key)) {
+            const { id } = this.props
+            const { length } = this.map.querySourceFeatures(sourceId, {
+                filter: ['==', 'id', id],
+            })
 
-        const { id } = this.props
-        const { length } = this.map.querySourceFeatures(sourceId, {
-            filter: ['==', 'id', id],
-        })
-
-        if (length > 0) {
-            this.clean(id)
+            if (length > 0) {
+                this.clean(id)
+            }
         }
     }
     withMap = map => {
