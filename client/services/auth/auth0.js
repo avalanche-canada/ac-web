@@ -2,7 +2,6 @@ import { PRIMARY } from 'constants/colors'
 import logo from 'styles/AvalancheCanada.svg'
 import { clientId, domain } from './config.json'
 import Accessor from './accessor'
-import { parse } from 'utils/hash'
 
 export default class Auth0Service {
     static create() {
@@ -14,18 +13,19 @@ export default class Auth0Service {
             return Promise.resolve(this._lock)
         } else {
             return import('auth0-lock').then(({ default: Auth0Lock }) => {
+                const { hash, origin } = document.location
+                const params = new URLSearchParams(hash.replace(/^\#/, ''))
+
                 this._lock = new Auth0Lock(clientId, domain, {
                     closable: true,
                     autoclose: true,
                     avatar: true,
                     auth: {
                         redirect: true,
-                        redirectUrl: `${
-                            document.location.origin
-                        }/login-complete`,
+                        redirectUrl: `${origin}/login-complete`,
                         responseType: 'id_token token',
                         scope: 'openid email',
-                        state: parse(document.location.hash).state,
+                        state: params.get('state'),
                     },
                     theme: {
                         primaryColor: PRIMARY,
