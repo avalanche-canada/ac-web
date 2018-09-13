@@ -14,7 +14,7 @@ import { Metadata, Entry } from 'components/metadata'
 import { Document } from 'prismic/containers'
 import { special } from 'prismic/params'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { geometry } from '@turf/helpers'
+import * as turf from '@turf/helpers'
 import { StructuredText } from 'prismic/components/base'
 
 function parseLocation({ location: { longitude, latitude } }) {
@@ -30,13 +30,13 @@ export default class SpecialInformation extends PureComponent {
     handleLocateClick = () => {
         const { locations } = this.document
         const { length } = locations
-        const type = length === 1 ? 'Point' : 'MultiPoint'
+        const feature = length === 1 ? turf.point : turf.multiPoint
         const coordinates =
             length === 1
                 ? parseLocation(locations[0])
                 : locations.map(parseLocation)
 
-        this.props.onLocateClick(geometry(type, coordinates))
+        this.props.onLocateClick(feature(coordinates))
     }
     renderHeader = document => {
         this.document = document

@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { geometry } from '@turf/helpers'
+import { point } from '@turf/helpers'
 import { Loading } from 'components/text'
 import { InnerHTML } from 'components/misc'
 import {
@@ -51,7 +51,7 @@ export default class MountainConditionsReport extends PureComponent {
         } = data
 
         if (Array.isArray(location)) {
-            this.geometry = geometry('Point', location)
+            this.geometry = point(location)
         }
 
         return (

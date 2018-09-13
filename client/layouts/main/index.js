@@ -119,9 +119,9 @@ export default class Layout extends PureComponent {
             width: Math.min(MAX_DRAWER_WIDTH, clientWidth),
         })
     }
-    handleLocateClick = geometry => {
+    handleLocateClick = ({ geometry }) => {
         if (geometry.type === 'Point') {
-            this.flyTo(geometry.coordinates)
+            this.flyTo(geometry)
         } else {
             this.fitBounds(geometry)
         }
