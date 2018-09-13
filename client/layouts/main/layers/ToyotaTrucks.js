@@ -14,20 +14,15 @@ export default class ToyotaTrucks extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    createFeatureCollection = memoize(documents =>
-        turf.featureCollection(documents.map(createFeature))
-    )
-    add = ({ documents = [] }) => {
-        const data = this.createFeatureCollection(documents)
-
+    withDocuments = ({ documents }) => {
         return (
-            <Source id={key} cluster data={data}>
-                <Layer id={key} type="symbol" {...style} {...this.props} />
+            <Source id={key} cluster data={createFeatureCollection(documents)}>
+                <Layer.Symbol id={key} {...styles} {...this.props} />
             </Source>
         )
     }
     render() {
-        return <Documents {...toyota.trucks()}>{this.add}</Documents>
+        return <Documents {...toyota.trucks()}>{this.withDocuments}</Documents>
     }
 }
 
@@ -40,12 +35,24 @@ function createFeature({ uid, data }) {
         id: uid,
     })
 }
+const createFeatureCollection = memoize((documents = []) =>
+    turf.featureCollection(documents.map(createFeature))
+)
 
 // Styles
-const style = {
+const styles = {
     layout: {
         'icon-image': 'toyota-truck',
-        'icon-size': 0.2,
         'icon-allow-overlap': true,
+        'icon-size': 0.2,
+        'text-font': ['Open Sans Extrabold'],
+        'text-field': '{point_count}',
+        'text-size': 10,
+        'text-offset': [-0.8, -0.6],
+    },
+    paint: {
+        'text-color': '#B9421A',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 2,
     },
 }

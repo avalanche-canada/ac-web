@@ -14,32 +14,15 @@ export default class FatalAccidents extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    createFeatureCollection = memoize(documents =>
-        turf.featureCollection(documents.map(createFeature))
-    )
-    add = ({ documents = [] }) => {
+    withData = ({ documents }) => {
         return (
-            <Source
-                id={key}
-                cluster
-                data={this.createFeatureCollection(documents)}>
-                <Layer
-                    id={key}
-                    type="symbol"
-                    {...this.props}
-                    {...styles.base}
-                />
-                <Layer
-                    id={`${key}-cluster`}
-                    type="symbol"
-                    {...this.props}
-                    {...styles.cluster}
-                />
+            <Source id={key} cluster data={createFeatureCollection(documents)}>
+                <Layer.Symbol id={key} {...this.props} {...styles} />
             </Source>
         )
     }
     render() {
-        return <Documents {...fatal.accidents()}>{this.add}</Documents>
+        return <Documents {...fatal.accidents()}>{this.withData}</Documents>
     }
 }
 
@@ -53,32 +36,24 @@ function createFeature({ uid, data }) {
         title,
     })
 }
+const createFeatureCollection = memoize((documents = []) =>
+    turf.featureCollection(documents.map(createFeature))
+)
 
 // Styles
-const layout = {
-    'icon-image': 'fatal-accident',
-    'icon-allow-overlap': true,
-    'icon-size': 0.75,
-}
 const styles = {
-    base: {
-        filter: ['!has', 'point_count'],
-        layout,
+    layout: {
+        'icon-image': 'fatal-accident',
+        'icon-allow-overlap': true,
+        'icon-size': 0.75,
+        'text-font': ['Open Sans Extrabold'],
+        'text-field': '{point_count}',
+        'text-size': 10,
+        'text-offset': [-0.75, -0.8],
     },
-    cluster: {
-        filter: ['has', 'point_count'],
-        layout: {
-            ...layout,
-            'icon-size': 0.9,
-            'text-font': ['Open Sans Extrabold'],
-            'text-field': '{point_count}',
-            'text-size': 12,
-            'text-offset': [-0.7, -0.8],
-        },
-        paint: {
-            'text-color': '#000000',
-            'text-halo-color': '#FFFFFF',
-            'text-halo-width': 2,
-        },
+    paint: {
+        'text-color': '#000000',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 2,
     },
 }

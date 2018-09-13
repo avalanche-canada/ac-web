@@ -51,6 +51,10 @@ export default class Layout extends Component {
         }
     }
     renderLayer([key, layer]) {
+        if (!LAYERS.has(key)) {
+            return null
+        }
+
         return createElement(LAYERS.get(key), {
             ...layer,
             key,
@@ -64,7 +68,7 @@ export default class Layout extends Component {
     render() {
         return (
             <Base {...this.props} onLoad={this.handleLoad} style="2019">
-                <ForecastMarkers onMarkerClick={this.props.onMarkerClick} />
+                {/* <ForecastMarkers onMarkerClick={this.props.onMarkerClick} /> */}
                 <context.Layers>{this.renderLayers}</context.Layers>
                 <NavigationControl />
             </Base>

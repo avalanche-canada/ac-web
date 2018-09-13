@@ -13,29 +13,15 @@ export default class WeatherStations extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    createFeatureCollection = memoize(data =>
-        turf.featureCollection(data.map(createFeature))
-    )
-    add = ({ data = [] }) => {
+    withData = ({ data }) => {
         return (
-            <Source id={key} cluster data={this.createFeatureCollection(data)}>
-                <Layer
-                    id={key}
-                    type="symbol"
-                    {...this.props}
-                    {...styles.base}
-                />
-                <Layer
-                    id={`${key}-cluster`}
-                    type="symbol"
-                    {...this.props}
-                    {...styles.cluster}
-                />
+            <Source id={key} cluster data={createFeatureCollection(data)}>
+                <Layer.Symbol id={key} {...this.props} {...styles} />
             </Source>
         )
     }
     render() {
-        return <Stations>{this.add}</Stations>
+        return <Stations>{this.withData}</Stations>
     }
 }
 
@@ -46,29 +32,24 @@ function createFeature({ stationId, name, longitude, latitude }) {
         title: name,
     })
 }
+const createFeatureCollection = memoize((data = []) =>
+    turf.featureCollection(data.map(createFeature))
+)
 
 // Styles
-const layout = {
-    'icon-image': 'weather-station',
-    'icon-allow-overlap': true,
-    'icon-size': 0.65,
-}
 const styles = {
-    base: {
-        layout,
+    layout: {
+        'icon-image': 'weather-station',
+        'icon-allow-overlap': true,
+        'icon-size': 0.65,
+        'text-font': ['Open Sans Extrabold'],
+        'text-field': '{point_count}',
+        'text-size': 10,
+        'text-offset': [-0.75, 0],
     },
-    cluster: {
-        layout: {
-            ...layout,
-            'text-font': ['Open Sans Extrabold'],
-            'text-field': '{point_count}',
-            'text-size': 12,
-            'text-offset': [-0.75, 0],
-        },
-        paint: {
-            'text-color': '#000000',
-            'text-halo-color': '#FFFFFF',
-            'text-halo-width': 2,
-        },
+    paint: {
+        'text-color': '#000000',
+        'text-halo-color': '#FFFFFF',
+        'text-halo-width': 2,
     },
 }

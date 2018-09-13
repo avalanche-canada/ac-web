@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import { Consumer } from 'components/map/Context'
 import { Route } from 'react-router-dom'
 import Source from 'components/map/sources/GeoJSON'
 import Layer from 'components/map/Layer'
+import { Consumer } from 'components/map/Context'
 import { Report, Reports } from 'containers/min'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
@@ -20,38 +20,9 @@ export default class MountainInformationNetwork extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    createFeatureCollections = memoize(data => {
-        const features = data.map(createFeature)
-
-        return {
-            reports: features.filter(isNotIncident),
-            incidents: features.filter(isIncident),
-        }
-    })
-    get report() {
-        return this.map.getSource(`${key}-report`)
-    }
-    addActiveReport = ({ data }) => {
-        if (data && this.report) {
-            const features = turf.featureCollection([createFeature(data)])
-
-            this.report.setData(features)
-        }
-
-        return null
-    }
-    removeActiveReport = () => {
-        const { report } = this
-
-        if (report) {
-            report.setData(EMPTY)
-        }
-
-        return null
-    }
     addReports = ({ data = [] }) => {
         const { filters, ...props } = this.props
-        let { reports, incidents } = this.createFeatureCollections(data)
+        let { reports, incidents } = createFeatureCollections(data)
 
         if (filters.types.size > 0) {
             const filter = ({ properties }) =>
@@ -61,32 +32,17 @@ export default class MountainInformationNetwork extends Component {
             incidents = incidents.filter(filter)
         }
 
+        reports = turf.featureCollection(reports)
+        incidents = turf.featureCollection(incidents)
+
         return (
             <Fragment>
-                <Source
-                    id={key}
-                    cluster
-                    clusterMaxZoom={14}
-                    data={turf.featureCollection(reports)}>
-                    <Layer
-                        id={key}
-                        type="symbol"
-                        {...props}
-                        {...styles.report}
-                    />
-                    <Layer
-                        id={`${key}-cluster`}
-                        type="symbol"
-                        {...props}
-                        {...styles.cluster}
-                    />
+                <Source id={key} cluster clusterMaxZoom={14} data={reports}>
+                    <Layer.Symbol id={key} {...props} {...styles.reports} />
                 </Source>
-                <Source
-                    id={`${key}-incidents`}
-                    data={turf.featureCollection(incidents)}>
-                    <Layer
+                <Source id={`${key}-incidents`} data={incidents}>
+                    <Layer.Symbol
                         id={`${key}-incidents`}
-                        type="symbol"
                         {...props}
                         {...styles.incidents}
                     />
@@ -97,22 +53,27 @@ export default class MountainInformationNetwork extends Component {
     renderActiveReport = ({ location }) => {
         const params = new URLSearchParams(location.search)
 
-        if (!params.has('panel')) {
-            return this.removeActiveReport()
+        if (params.has('panel')) {
+            const [type, id] = params.get('panel').split('/')
+
+            if (type === 'mountain-information-network-submissions') {
+                const { onMouseEnter, onMouseLeave } = this.props
+
+                return (
+                    <ActiveReport
+                        id={id}
+                        onMouseEnter={onMouseEnter}
+                        onMouseLeave={onMouseLeave}
+                    />
+                )
+            }
         }
 
-        const [type, id] = params.get('panel').split('/')
-
-        if (type !== 'mountain-information-network-submissions') {
-            return this.removeActiveReport()
-        }
-
-        return <Report id={id}>{this.addActiveReport}</Report>
+        return null
     }
-    withMap = map => {
-        this.map = map
-
+    render() {
         const { days } = this.props.filters
+
         return (
             <Fragment>
                 <Reports days={days}>{this.addReports}</Reports>
@@ -120,28 +81,87 @@ export default class MountainInformationNetwork extends Component {
             </Fragment>
         )
     }
-    render() {
-        const { onMouseEnter, onMouseLeave } = this.props
-        const source = `${key}-report`
-
-        return (
-            <Fragment>
-                <Source id={source} data={EMPTY}>
-                    <Layer
-                        id={source}
-                        type="symbol"
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
-                        {...styles.report}
-                    />
-                </Source>
-                <Consumer>{this.withMap}</Consumer>
-            </Fragment>
-        )
-    }
 }
 
 // Utils
+class ActiveReport extends Component {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        onMouseEnter: PropTypes.func,
+        onMouseLeave: PropTypes.func,
+    }
+    set = ({ data }) => {
+        if (!data) {
+            return
+        }
+        const { map } = this
+        const { id } = this.props
+
+        if (!map.getSource(id)) {
+            map.addSource(id, {
+                type: 'geojson',
+                data: turf.featureCollection([createFeature(data)]),
+            })
+        }
+
+        if (!map.getLayer(id)) {
+            const { onMouseEnter, onMouseLeave } = this.props
+
+            map.addLayer({
+                id,
+                type: 'symbol',
+                source: id,
+                ...styles.reports,
+            })
+            map.on('mouseenter', id, onMouseEnter)
+            map.on('mouseleave', id, onMouseLeave)
+        }
+    }
+    clean(id) {
+        const { map } = this
+
+        if (map.isStyleLoaded()) {
+            map.removeLayer(id)
+            map.removeSource(id)
+        }
+    }
+    componentDidUpdate({ id }) {
+        if (this.props.id !== id) {
+            this.clean(id)
+        }
+    }
+    componentWillUnmount() {
+        this.clean(this.props.id)
+    }
+    validate = ({ sourceId, isSourceLoaded }) => {
+        if (
+            !isSourceLoaded ||
+            (sourceId !== key || sourceId !== `${key}-incidents`)
+        ) {
+            return
+        }
+
+        const { id } = this.props
+        const { length } = this.map.querySourceFeatures(sourceId, {
+            filter: ['==', 'id', id],
+        })
+
+        if (length > 0) {
+            this.clean(id)
+        }
+    }
+    withMap = map => {
+        this.map = map
+
+        map.on('sourcedata', this.validate)
+
+        return <Report id={this.props.id}>{this.set}</Report>
+    }
+    render() {
+        return <Consumer>{this.withMap}</Consumer>
+    }
+}
+
 const EMPTY = turf.featureCollection([])
 function createFeature({ subid, title, lnglat, obs }) {
     const types = obs.map(pluckType)
@@ -162,25 +182,25 @@ function isIncident({ properties }) {
 function isNotIncident(feature) {
     return !isIncident(feature)
 }
+const createFeatureCollections = memoize(data => {
+    const features = data.map(createFeature)
+
+    return {
+        reports: features.filter(isNotIncident),
+        incidents: features.filter(isIncident),
+    }
+})
 
 // Styles
 const styles = {
-    report: {
-        filter: ['!has', 'point_count'],
-        layout: {
-            'icon-image': '{icon}',
-            'icon-allow-overlap': true,
-            'icon-size': 0.75,
-        },
-    },
-    cluster: {
-        filter: ['has', 'point_count'],
+    reports: {
         layout: {
             'icon-image': 'min-pin',
+            'icon-size': 0.75,
             'icon-allow-overlap': true,
             'text-field': '{point_count}',
             'text-offset': [0, -0.25],
-            'text-size': 12,
+            'text-size': 10,
         },
         paint: {
             'text-color': '#FFFFFF',

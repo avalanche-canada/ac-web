@@ -32,8 +32,8 @@ export default class Layout extends PureComponent {
 
         return <SPAWComponent link={link} style={style} />
     }
-    renderHeader = ({ data, loading }) => {
-        const { onLocateClick } = this.props
+    renderHeader({ data, loading }) {
+        const { onLocateClick, name } = this.props
         const title = loading || !data ? 'Loading...' : data.name
         function handleLocateClick() {
             onLocateClick(utils.geometry(data))
@@ -42,11 +42,13 @@ export default class Layout extends PureComponent {
         return (
             <h1>
                 {data ? <Link to={this.link}>{title}</Link> : title}
-                {data && <DisplayOnMap onClick={handleLocateClick} />}
+                {data && (
+                    <DisplayOnMap key={name} onClick={handleLocateClick} />
+                )}
             </h1>
         )
     }
-    children = ({ loading, data }) => {
+    children({ loading, data }) {
         const { name, onCloseClick } = this.props
 
         return (
@@ -57,7 +59,9 @@ export default class Layout extends PureComponent {
                     <Close onClick={onCloseClick} />
                 </Navbar>
                 <Header subject="Avalanche Forecast">
-                    <Region name={name}>{this.renderHeader}</Region>
+                    <Region name={name}>
+                        {props => this.renderHeader(props)}
+                    </Region>
                 </Header>
                 <Body>
                     {loading && (
@@ -80,6 +84,10 @@ export default class Layout extends PureComponent {
         )
     }
     render() {
-        return <Forecast name={this.props.name}>{this.children}</Forecast>
+        return (
+            <Forecast name={this.props.name}>
+                {props => this.children(props)}
+            </Forecast>
+        )
     }
 }

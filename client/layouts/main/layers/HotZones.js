@@ -1,7 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import memoize from 'lodash/memoize'
 import * as turf from '@turf/helpers'
 import * as features from 'containers/features'
+import { Consumer } from 'components/map/Context'
 import Source from 'components/map/sources/GeoJSON'
 import Layer from 'components/map/Layer'
 import { Documents } from 'prismic/containers'
@@ -14,55 +16,75 @@ export default class HotZones extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    add({ data = [] }, { documents = [] }) {
-        const zones = turf.featureCollection(data.map(createFeature))
-        const regions = new Set(documents.map(pluckRegion))
-
-        for (const zone of zones.features) {
-            Object.assign(zone.properties, {
-                active: regions.has(zone.id),
-            })
-        }
-
+    withZones = ({ data }) => {
         return (
-            <Source id={key} cluster data={zones}>
-                <Layer id={key} type="circle" {...this.props} {...style} />
+            <Source id={key} cluster data={createFeatureCollection(data)}>
+                <Layer.Circle id={key} {...this.props} {...styles} />
             </Source>
         )
     }
+    activate = region => {
+        const [feature] = this.map.querySourceFeatures(key, {
+            filter: ['==', 'id', region],
+        })
+
+        if (feature) {
+            this.map.setFeatureState(
+                { source: key, feature: feature.id },
+                { active: true }
+            )
+        } else {
+            this.map.on('sourcedata', event => {
+                if (event.sourceId === key && event.isSourceLoaded) {
+                    this.activate(region)
+                }
+            })
+        }
+    }
+    withReports = ({ documents = [] }) => {
+        documents.map(pluckRegion).forEach(this.activate)
+    }
+    withMap = map => {
+        this.map = map
+
+        return <Documents {...hotZone.reports()}>{this.withReports}</Documents>
+    }
     render() {
         return (
-            <features.HotZones>
-                {zones => (
-                    <Documents {...hotZone.reports()}>
-                        {reports => this.add(zones, reports)}
-                    </Documents>
-                )}
-            </features.HotZones>
+            <Fragment>
+                <features.HotZones>{this.withZones}</features.HotZones>
+                <Consumer>{this.withMap}</Consumer>
+            </Fragment>
         )
     }
 }
 
 // Utils
-function createFeature({ id, name, centroid }) {
-    return turf.point(centroid, {
-        id,
-        type: key,
-        title: name,
-    })
+function createFeature({ id, name, centroid }, index) {
+    return turf.point(
+        centroid,
+        {
+            id,
+            title: name,
+        },
+        { id: index }
+    )
 }
+const createFeatureCollection = memoize((data = []) =>
+    turf.featureCollection(data.map(createFeature))
+)
 function pluckRegion({ data }) {
     return data.region
 }
 
 // Styles
-const style = {
+const styles = {
     paint: {
         'circle-blur': 0.75,
         'circle-opacity': 0.9,
         'circle-color': [
             'case',
-            ['get', 'active'],
+            ['boolean', ['feature-state', 'active'], false],
             '#004285',
             'hsl(0, 0%, 55%)',
         ],

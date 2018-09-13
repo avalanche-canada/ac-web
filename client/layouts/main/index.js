@@ -95,11 +95,11 @@ export default class Layout extends PureComponent {
             let { search, pathname } = this.props.location
 
             if (PATHS.has(source)) {
-                pathname = `/map/${PATHS.get(source)}/${id || properties.id}`
+                pathname = `/map/${PATHS.get(source)}/${properties.id}`
             }
 
             if (SEARCHS.has(source)) {
-                search = `?panel=${SEARCHS.get(source)}/${id || properties.id}`
+                search = `?panel=${SEARCHS.get(source)}/${properties.id}`
             }
 
             this.props.history.push({ search, pathname })
@@ -143,7 +143,6 @@ export default class Layout extends PureComponent {
     }
     renderPrimary = props => (
         <Primary
-            // key={props.location.pathname}
             ref={this.primary}
             {...props}
             width={this.state.width}
@@ -152,7 +151,6 @@ export default class Layout extends PureComponent {
     )
     renderSecondary = props => (
         <Secondary
-            // key={props.location.search}
             ref={this.secondary}
             {...props}
             width={this.state.width}

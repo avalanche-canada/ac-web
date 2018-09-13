@@ -24,7 +24,7 @@ export default class FatalAccident extends PureComponent {
         onLocateClick: PropTypes.func.isRequired,
     }
     renderHeader({ title, location }) {
-        const { onLocateClick } = this.props
+        const { onLocateClick, id } = this.props
         function handleLocateClick() {
             const { longitude, latitude } = location
 
@@ -34,7 +34,7 @@ export default class FatalAccident extends PureComponent {
         return (
             <h1>
                 <span>{title}</span>
-                <DisplayOnMap onClick={handleLocateClick} />
+                <DisplayOnMap key={id} onClick={handleLocateClick} />
             </h1>
         )
     }

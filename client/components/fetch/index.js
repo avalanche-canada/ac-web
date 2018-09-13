@@ -61,7 +61,7 @@ export default class Fetch extends Component {
         })
     }
     reject = error => {
-        this.setState({ loading: false })
+        this.setState({ loading: false, data: undefined })
 
         throw error
     }

@@ -4,6 +4,18 @@ import { Consumer } from './Context'
 import isEqual from 'lodash/isEqual'
 
 export default class Layer extends PureComponent {
+    static Symbol(props) {
+        return <Layer type="symbol" {...props} />
+    }
+    static Fill(props) {
+        return <Layer type="fill" {...props} />
+    }
+    static Line(props) {
+        return <Layer type="line" {...props} />
+    }
+    static Circle(props) {
+        return <Layer type="circle" {...props} />
+    }
     static propTypes = {
         id: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
@@ -33,16 +45,36 @@ export default class Layer extends PureComponent {
         paint: {},
         layout: {},
     }
-    setVisibility() {
-        this.map.setLayoutProperty(
-            this.props.id,
-            'visibility',
-            this.props.visible === false ? 'none' : 'visible'
-        )
+    addLayer = () => {
+        const { map } = this
+        const {
+            before,
+            visible,
+            sourceLayer,
+            onMouseEnter,
+            onMouseLeave,
+            ...rest
+        } = this.props
+
+        if (sourceLayer) {
+            rest['source-layer'] = sourceLayer
+        }
+
+        Object.assign(rest.layout, {
+            visibility: visible === false ? 'none' : 'visible',
+        })
+
+        map.addLayer(rest, before)
+        map.on('mouseenter', rest.id, onMouseEnter)
+        map.on('mouseleave', rest.id, onMouseLeave)
     }
     componentDidUpdate({ visible, filter }) {
         if (visible !== this.props.visible) {
-            this.setVisibility()
+            this.map.setLayoutProperty(
+                this.props.id,
+                'visibility',
+                this.props.visible === false ? 'none' : 'visible'
+            )
         }
         if (!isEqual(filter, this.props.filter)) {
             const { id, filter } = this.props
@@ -50,12 +82,14 @@ export default class Layer extends PureComponent {
             this.map.setFilter(id, filter)
         }
     }
-    setMap = map => {
+    withMap = map => {
         this.map = map
+
+        map.once('load', this.addLayer)
 
         return null
     }
     render() {
-        return <Consumer>{this.setMap}</Consumer>
+        return <Consumer>{this.withMap}</Consumer>
     }
 }

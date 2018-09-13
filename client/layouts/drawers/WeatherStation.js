@@ -26,7 +26,7 @@ export default class WeatherStation extends PureComponent {
     }
     renderHeader(props) {
         const { data } = props
-        const { onLocateClick } = this.props
+        const { onLocateClick, id } = this.props
         const title = utils.title(props)
         function handleLocateClick() {
             onLocateClick(utils.geometry(data))
@@ -35,7 +35,7 @@ export default class WeatherStation extends PureComponent {
         return (
             <h1>
                 {data ? <Link to={utils.link(data)}>{title}</Link> : title}
-                {data && <DisplayOnMap onClick={handleLocateClick} />}
+                {data && <DisplayOnMap key={id} onClick={handleLocateClick} />}
             </h1>
         )
     }

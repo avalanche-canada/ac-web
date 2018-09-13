@@ -14,13 +14,10 @@ export default class SpecialInformation extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    createFeatureCollection = memoize(documents =>
-        turf.featureCollection(documents.map(createFeature))
-    )
-    add = ({ documents = [] }) => {
+    add = ({ documents }) => {
         return (
-            <Source id={key} data={this.createFeatureCollection(documents)}>
-                <Layer id={key} type="symbol" {...this.props} layout={layout} />
+            <Source id={key} data={createFeatureCollection(documents)}>
+                <Layer.Symbol id={key} {...this.props} layout={layout} />
             </Source>
         )
     }
@@ -41,6 +38,9 @@ function createFeature({ uid, data }) {
         }
     )
 }
+const createFeatureCollection = memoize((documents = []) =>
+    turf.featureCollection(documents.map(createFeature))
+)
 
 // Styles
 const layout = {

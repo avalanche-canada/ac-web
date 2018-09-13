@@ -28,7 +28,7 @@ export default class SpecialInformation extends PureComponent {
         onLocateClick: PropTypes.func.isRequired,
     }
     renderHeader = ({ headline, locations }) => {
-        const { onLocateClick } = this.props
+        const { onLocateClick, id } = this.props
         function handleLocateClick() {
             const { length } = locations
             const type = length === 1 ? 'Point' : 'MultiPoint'
@@ -43,7 +43,7 @@ export default class SpecialInformation extends PureComponent {
         return (
             <h1>
                 <span>{headline}</span>
-                <DisplayOnMap onClick={handleLocateClick} />
+                <DisplayOnMap key={id} onClick={handleLocateClick} />
             </h1>
         )
     }

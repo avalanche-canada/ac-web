@@ -20,7 +20,7 @@ export default class Layout extends PureComponent {
         return `/mountain-information-network/submissions/${this.props.id}`
     }
     renderHeader = report => {
-        const { onLocateClick } = this.props
+        const { onLocateClick, id } = this.props
         function handleLocateClick() {
             onLocateClick(geometry('Point', report.lnglat))
         }
@@ -28,7 +28,7 @@ export default class Layout extends PureComponent {
         return (
             <h1>
                 <Link to={this.link}>{report.title}</Link>
-                <DisplayOnMap onClick={handleLocateClick} />
+                <DisplayOnMap key={id} onClick={handleLocateClick} />
             </h1>
         )
     }

@@ -23,46 +23,34 @@ export default class GeoJSONSource extends PureComponent {
     static defaultProps = {
         data: {},
     }
-    componentDidMount() {
-        const { map } = this
+    get source() {
+        return this.map.getSource(this.props.id)
+    }
+    addSource = ({ target }) => {
         const { id, children, ...source } = this.props
 
         Object.assign(source, {
             type: 'geojson',
         })
 
-        map.addSource(id, source)
-
-        Children.map(children, layer => {
-            const {
-                before,
-                visible,
-                sourceLayer,
-                onMouseEnter,
-                onMouseLeave,
-                ...rest
-            } = Object.assign({ source: id }, Layer.defaultProps, layer.props)
-
-            if (sourceLayer) {
-                rest['source-layer'] = sourceLayer
-            }
-
-            Object.assign(rest.layout, {
-                visibility: visible === false ? 'none' : 'visible',
-            })
-
-            map.addLayer(rest, before)
-            map.on('mouseenter', rest.id, onMouseEnter)
-            map.on('mouseleave', rest.id, onMouseLeave)
-        })
+        target.addSource(id, source)
+    }
+    setData = () => {
+        this.source.setData(this.props.data)
     }
     componentDidUpdate({ data }) {
         if (data !== this.props.data) {
-            this.map.getSource(this.props.id).setData(this.props.data)
+            if (this.map.isStyleLoaded()) {
+                this.setData()
+            } else {
+                this.map.once('load', this.setData)
+            }
         }
     }
-    setMap = map => {
+    withMap = map => {
         this.map = map
+
+        map.once('load', this.addSource)
 
         const { id } = this.props
 
@@ -71,6 +59,6 @@ export default class GeoJSONSource extends PureComponent {
         )
     }
     render() {
-        return <Consumer>{this.setMap}</Consumer>
+        return <Consumer>{this.withMap}</Consumer>
     }
 }

@@ -41,6 +41,7 @@ export default class HotZoneReportDrawer extends PureComponent {
                                     <span>{title}</span>
                                 )}
                                 <DisplayOnMap
+                                    key={name}
                                     onClick={() => {
                                         onLocateClick(utils.geometry(data))
                                     }}
