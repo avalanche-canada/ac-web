@@ -12,7 +12,7 @@ import {
 import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
 
-const { LngLat } = mapbox
+// TODO: Simplify implementation. Make it stateless. And smarter when it gets new coordinates.
 
 export default class GeoPosition extends Component {
     static propTypes = {
@@ -35,7 +35,7 @@ export default class GeoPosition extends Component {
 
         if (areValidCoordinates(longitude, latitude)) {
             /* eslint-disable react/no-direct-mutation-state */
-            this.state.lngLat = new LngLat(longitude, latitude)
+            this.state.lngLat = new mapbox.LngLat(longitude, latitude)
             /* eslint-disable react/no-direct-mutation-state */
         }
 
@@ -55,22 +55,18 @@ export default class GeoPosition extends Component {
     setLngLat(lngLat, callback) {
         this.setState({ lngLat }, callback)
     }
-    handleClick = ({ lngLat }) => {
-        this.setLngLat(lngLat, this.handleChange)
-    }
-    handleChange = () => {
-        const { lngLat, map } = this.state
-        const { lng, lat } = lngLat.wrap()
+    handleClick = ({ lngLat, target }) => {
+        this.setLngLat(lngLat, () => {
+            const { lng, lat } = lngLat.wrap()
 
-        if (map) {
-            map.easeTo({
+            target.easeTo({
                 center: lngLat,
             })
-        }
 
-        this.props.onChange({
-            longitude: round(lng),
-            latitude: round(lat),
+            this.props.onChange({
+                longitude: round(lng),
+                latitude: round(lat),
+            })
         })
     }
     componentWillReceiveProps({ longitude, latitude }) {
@@ -78,7 +74,7 @@ export default class GeoPosition extends Component {
             return
         }
 
-        const center = new LngLat(longitude, latitude)
+        const center = new mapbox.LngLat(longitude, latitude)
 
         this.setLngLat(center, () => {
             const { map } = this.state
@@ -107,7 +103,9 @@ export default class GeoPosition extends Component {
                     maxBounds={null} // We allow everybody to use it if they want. Interesting to see post from Japan!
                     onLoad={this.handleLoad}>
                     {lngLat && (
-                        <Marker lngLat={lngLat} element={this.element} />
+                        <Map.With>
+                            <Marker lngLat={lngLat} element={this.element} />
+                        </Map.With>
                     )}
                     {allowFullscreen && <FullscreenControl />}
                     <NavigationControl />
