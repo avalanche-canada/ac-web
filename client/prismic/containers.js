@@ -71,7 +71,7 @@ export class Document extends Component {
     }
 }
 
-// TODO: Not sure if this class is needed! We could use .
+// TODO: Not sure if this class is needed! We could use Document.
 export class DocumentByUID extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
