@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Documents, Tags } from 'prismic/containers'
 import { feed } from 'prismic/params'
 import { Page, Content, Header, Main } from 'components/page'
-import { parse, stringify } from 'utils/search'
+import { stringify } from 'utils/search'
 import { Loading, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import Pagination from 'components/pagination'
@@ -164,6 +164,7 @@ export class EventFeed extends PureComponent {
         const params = new URLSearchParams(search)
 
         return {
+            page: params.has('page') ? Number(params.get('page')) : 1,
             timeline: params.has('timeline')
                 ? params.get('timeline') === PAST
                     ? PAST
@@ -184,7 +185,7 @@ export class EventFeed extends PureComponent {
     handlePageChange = handlePageChange.bind(this)
     renderContent = renderContent.bind(this, EVENT)
     render() {
-        const { timeline, tags } = this.state
+        const { timeline, tags, page } = this.state
 
         return (
             <FeedLayout title="Events">
@@ -210,7 +211,8 @@ export class EventFeed extends PureComponent {
                         </Tags>
                     </FilterEntry>
                 </FilterSet>
-                <Documents {...feed.events({ tags, past: timeline === PAST })}>
+                <Documents
+                    {...feed.events({ tags, past: timeline === PAST, page })}>
                     {this.renderContent}
                 </Documents>
             </FeedLayout>
@@ -240,12 +242,7 @@ function FeedContent({
     onPageChange,
     type,
 }) {
-    if (
-        page === 1 &&
-        totalPages > 1 &&
-        documents &&
-        documents.some(isFeaturedPost)
-    ) {
+    if (page === 1 && documents && documents.some(isFeaturedPost)) {
         const featured = documents.find(isFeaturedPost)
 
         documents = documents.filter(post => featured !== post)
@@ -350,12 +347,13 @@ function handleTagChange(tags) {
 function handleTimelineChange(timeline) {
     this.setState({ timeline, page: 1 }, serialize)
 }
-function renderContent(type, { loading, documents, total_pages }) {
+function renderContent(type, { loading, documents, page, total_pages }) {
     return (
         <FeedContent
             type={type}
             loading={loading}
             documents={documents}
+            page={page}
             totalPages={total_pages}
             onPageChange={this.handlePageChange}
         />
