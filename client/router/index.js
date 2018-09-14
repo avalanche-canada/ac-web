@@ -5,10 +5,8 @@ import ScrollTo from './ScrollTo'
 import Analytics from './Analytics'
 
 function redirect({ location: { pathname } }) {
-    // Leave the application and goes to nginx to do appropriate redirect
-    window.open(`http://avalanche.ca/${pathname}`, pathname)
-
-    return null
+    // Leave the application and goes to nginx for appropriate redirect
+    document.location = `http://avalanche.ca/${pathname}`
 }
 
 export default function Router() {
