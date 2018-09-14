@@ -1,13 +1,12 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
-import { Consumer } from './Context'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 
 // TODO: Simplify implementation
 
 export default class Marker extends StaticComponent {
     static propTypes = {
+        map: PropTypes.object.isRequired,
         lngLat: PropTypes.arrayOf(PropTypes.number).isRequired,
         element: PropTypes.object.isRequired,
         onClick: PropTypes.func,
@@ -19,7 +18,7 @@ export default class Marker extends StaticComponent {
 
         this._marker = marker
 
-        marker.addTo(this.map)
+        marker.addTo(this.props.map)
     }
     get marker() {
         return this._marker
@@ -29,7 +28,9 @@ export default class Marker extends StaticComponent {
             this.marker.remove()
         }
     }
-    createMarker({ element, lngLat, options, onClick }) {
+    createMarker() {
+        const { element, lngLat, options, onClick } = this.props
+
         if (typeof onClick === 'function') {
             Object.assign(element, {
                 onclick: event => onClick(this.props, event),
@@ -38,30 +39,23 @@ export default class Marker extends StaticComponent {
 
         return new mapbox.Marker(element, options).setLngLat(lngLat)
     }
-    addMarker = map => {
-        if (!map) {
-            return
-        }
-
-        this.map = map
-        this.marker = this.createMarker(this.props)
+    componentDidMount() {
+        this.marker = this.createMarker()
     }
-    componentWillReceiveProps(nextProps) {
-        const { element, lngLat } = nextProps
-
+    componentDidUpdate({ element, lngLat }) {
         if (this.props.element !== element) {
-            this.marker = this.createMarker(nextProps)
+            this.marker = this.createMarker()
             return
         }
 
         if (this.props.lngLat !== lngLat) {
-            this.marker.setLngLat(lngLat)
+            this.marker.setLngLat(this.props.lngLat)
         }
     }
     componentWillUnmount() {
         this.remove()
     }
     render() {
-        return <Consumer>{this.addMarker}</Consumer>
+        return null
     }
 }

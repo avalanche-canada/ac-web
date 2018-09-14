@@ -1,12 +1,17 @@
-import React, { Component, createRef } from 'react'
+import React, {
+    Component,
+    createRef,
+    createContext,
+    Children,
+    cloneElement,
+} from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
-import { Provider } from './Context'
 import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
 import './Map.css'
 
-const { LngLatBounds } = mapbox
+const { Provider, Consumer } = createContext()
 mapbox.accessToken = accessToken
 
 export default class MapComponent extends Component {
@@ -29,7 +34,7 @@ export default class MapComponent extends Component {
         attributionControl: PropTypes.bool,
         failIfMajorPerformanceCaveat: PropTypes.bool,
         preserveDrawingBuffer: PropTypes.bool,
-        maxBounds: PropTypes.instanceOf(LngLatBounds),
+        maxBounds: PropTypes.instanceOf(mapbox.LngLatBounds),
         scrollZoom: PropTypes.bool,
         boxZoom: PropTypes.bool,
         dragRotate: PropTypes.bool,
@@ -44,13 +49,67 @@ export default class MapComponent extends Component {
     static defaultProps = {
         maxBounds: Canadian,
         style: 'default',
+        onLoad() {},
+    }
+    static When = class When extends Component {
+        withContext = props => {
+            const { loaded, children } = this.props
+            const { map } = props
+
+            if (loaded) {
+                return map && props.loaded ? children : null
+            } else {
+                return map ? children : null
+            }
+        }
+        render() {
+            return <Consumer>{this.withContext}</Consumer>
+        }
+    }
+    static With = class With extends Component {
+        cloneChildren(map) {
+            return Children.map(this.props.children, child =>
+                cloneElement(child, { map })
+            )
+        }
+        withContext = props => {
+            const { loaded, children } = this.props
+            const { map } = props
+
+            if (loaded) {
+                if (map && props.loaded) {
+                    return typeof children === 'function'
+                        ? children(map)
+                        : this.cloneChildren(map)
+                } else {
+                    return null
+                }
+            } else {
+                if (map) {
+                    return typeof children === 'function'
+                        ? children(map)
+                        : this.cloneChildren(map)
+                } else {
+                    return null
+                }
+            }
+        }
+        render() {
+            return <Consumer>{this.withContext}</Consumer>
+        }
     }
     state = {
-        map: null,
+        map: undefined,
+        loaded: false,
     }
     container = createRef()
+    handleLoad = event => {
+        this.setState({ loaded: true }, () => {
+            this.props.onLoad(event)
+        })
+    }
     componentDidMount() {
-        const { style, onLoad } = this.props
+        const { style } = this.props
         const map = new mapbox.Map({
             ...this.props,
             style: typeof style === 'string' ? styles[style] : style,
@@ -59,7 +118,7 @@ export default class MapComponent extends Component {
 
         this.setState({ map })
 
-        map.on('load', onLoad)
+        map.on('load', this.handleLoad)
     }
     componentWillUnmount() {
         const { map } = this.state
@@ -69,12 +128,10 @@ export default class MapComponent extends Component {
         }
     }
     render() {
-        const { map } = this.state
-
         return (
-            <Provider value={map}>
+            <Provider value={this.state}>
                 <div ref={this.container} className={this.props.className}>
-                    {map ? this.props.children : null}
+                    {this.props.children}
                 </div>
             </Provider>
         )

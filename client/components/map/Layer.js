@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Consumer } from './Context'
 import isEqual from 'lodash/isEqual'
 
 export default class Layer extends PureComponent {
@@ -17,6 +16,7 @@ export default class Layer extends PureComponent {
         return <Layer type="circle" {...props} />
     }
     static propTypes = {
+        map: PropTypes.object.isRequired,
         id: PropTypes.string.isRequired,
         type: PropTypes.oneOf([
             'fill',
@@ -29,7 +29,7 @@ export default class Layer extends PureComponent {
             'hillshade',
             'composite',
         ]).isRequired,
-        source: PropTypes.string.isRequired,
+        source: PropTypes.string,
         sourceLayer: PropTypes.string,
         minzoom: PropTypes.number,
         maxzoom: PropTypes.number,
@@ -45,9 +45,9 @@ export default class Layer extends PureComponent {
         paint: {},
         layout: {},
     }
-    addLayer = () => {
-        const { map } = this
+    componentDidMount() {
         const {
+            map,
             before,
             visible,
             sourceLayer,
@@ -70,7 +70,7 @@ export default class Layer extends PureComponent {
     }
     componentDidUpdate({ visible, filter }) {
         if (visible !== this.props.visible) {
-            this.map.setLayoutProperty(
+            this.props.map.setLayoutProperty(
                 this.props.id,
                 'visibility',
                 this.props.visible === false ? 'none' : 'visible'
@@ -79,17 +79,10 @@ export default class Layer extends PureComponent {
         if (!isEqual(filter, this.props.filter)) {
             const { id, filter } = this.props
 
-            this.map.setFilter(id, filter)
+            this.props.map.setFilter(id, filter)
         }
     }
-    withMap = map => {
-        this.map = map
-
-        map.once('load', this.addLayer)
-
-        return null
-    }
     render() {
-        return <Consumer>{this.withMap}</Consumer>
+        return null
     }
 }

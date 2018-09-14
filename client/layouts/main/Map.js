@@ -62,7 +62,9 @@ export default class Layout extends Component {
     render() {
         return (
             <Base {...this.props} onLoad={this.handleLoad} style="2019">
-                <ForecastMarkers onMarkerClick={this.props.onMarkerClick} />
+                <Base.With>
+                    <ForecastMarkers onMarkerClick={this.props.onMarkerClick} />
+                </Base.With>
                 <context.Layers>{this.renderLayers}</context.Layers>
                 <NavigationControl />
             </Base>

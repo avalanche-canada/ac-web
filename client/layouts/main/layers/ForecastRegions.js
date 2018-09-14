@@ -2,10 +2,8 @@ import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Route } from 'react-router-dom'
 import * as turf from '@turf/helpers'
-import { Consumer } from 'components/map/Context'
 import { FeatureCollection } from 'containers/mapbox'
-import Source from 'components/map/sources/GeoJSON'
-import Layer from 'components/map/Layer'
+import { Source, Layer, Map } from 'components/map'
 import { FORECASTS as key } from 'constants/drawers'
 
 export default class ForecastRegions extends Component {
@@ -18,20 +16,33 @@ export default class ForecastRegions extends Component {
         const { props } = this
         // https://github.com/mapbox/mapbox-gl-js/issues/2716
         data.features.forEach((feature, index) => {
-            feature.id = index
+            feature.id = index + 1
             feature.properties.type = key
         })
 
         return (
-            <Source id={key} data={data}>
-                <Layer.Fill id={key} {...props} {...styles.fill} />
-                <Layer.Line id={`${key}-line`} {...props} {...styles.line} />
-                <Layer.Symbol
-                    id={`${key}-labels`}
-                    {...props}
-                    {...styles.labels}
-                />
-            </Source>
+            <Map.With loaded>
+                <Source id={key} data={data}>
+                    <Layer.Fill id={key} {...props} {...styles.fill} />
+                    <Layer.Line
+                        id={`${key}-line`}
+                        {...props}
+                        {...styles.line}
+                    />
+                    <Layer.Symbol
+                        id={`${key}-labels`}
+                        {...props}
+                        {...styles.labels}
+                    />
+                </Source>
+            </Map.With>
+        )
+    }
+    renderForecastRegionActivator({ match }) {
+        return (
+            <Map.With loaded>
+                <ForecastRegionActivator match={match} />
+            </Map.With>
         )
     }
     render() {
@@ -43,7 +54,7 @@ export default class ForecastRegions extends Component {
                 <Route
                     exact
                     path="/map/forecasts/:id"
-                    component={ForecastRegionActivator}
+                    render={this.renderForecastRegionActivator}
                 />
             </Fragment>
         )
@@ -52,10 +63,11 @@ export default class ForecastRegions extends Component {
 
 class ForecastRegionActivator extends PureComponent {
     static propTypes = {
+        map: PropTypes.object.isRequired,
         match: PropTypes.object.isRequired,
     }
     setActive(id, active) {
-        const { map } = this
+        const { map } = this.props
         const [feature] = map.querySourceFeatures(key, {
             filter: ['==', 'id', id],
         })
@@ -74,30 +86,19 @@ class ForecastRegionActivator extends PureComponent {
         return this.props.match.params.id
     }
     componentDidMount() {
-        const { map } = this
-
-        if (map.isStyleLoaded()) {
-            this.setActive(this.id, true)
-        } else {
-            map.on('load', this.setActive.bind(this, this.id, true))
-        }
+        this.setActive(this.id, true)
     }
     componentDidUpdate({ match }) {
         this.setActive(match.params.id, false)
         this.setActive(this.id, true)
     }
     componentWillUnmount() {
-        if (this.map.isStyleLoaded()) {
+        if (this.props.map.isStyleLoaded()) {
             this.setActive(this.id, false)
         }
     }
-    withMap = map => {
-        this.map = map
-
-        return null
-    }
     render() {
-        return <Consumer>{this.withMap}</Consumer>
+        return null
     }
 }
 

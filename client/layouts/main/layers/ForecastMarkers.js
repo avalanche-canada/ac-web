@@ -8,16 +8,17 @@ import { FORECASTS } from 'constants/drawers'
 
 export default class ForecastMarkers extends Component {
     static propTypes = {
+        map: PropTypes.object, // actually isRequired
         onMarkerClick: PropTypes.func.isRequired,
     }
     createMarker(props) {
-        return <Marker {...props} />
+        return <Marker {...props} map={this.props.map} />
     }
     createMarkersProps = memoize(data => data.map(createMarkerProps, this))
     withData = ({ data = [] }) => {
         const markers = this.createMarkersProps(data)
 
-        return markers.map(this.createMarker)
+        return markers.map(this.createMarker, this)
     }
     withContext = ({ visible }) =>
         visible ? <Regions>{this.withData}</Regions> : null

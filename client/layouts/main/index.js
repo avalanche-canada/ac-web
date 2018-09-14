@@ -121,7 +121,7 @@ export default class Layout extends PureComponent {
     }
     handleLocateClick = ({ geometry }) => {
         if (geometry.type === 'Point') {
-            this.flyTo(geometry)
+            this.flyTo(geometry.coordinates)
         } else {
             this.fitBounds(geometry)
         }

@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { Route } from 'react-router-dom'
-import Source from 'components/map/sources/GeoJSON'
-import Layer from 'components/map/Layer'
-import { Consumer } from 'components/map/Context'
+import { Source, Layer, Map } from 'components/map'
 import { Report, Reports } from 'containers/min'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
@@ -37,59 +35,70 @@ export default class MountainInformationNetwork extends Component {
     addReports = ({ data = [] }) => {
         const { filter } = this
         const { filters, ...props } = this.props
-        const { reports, incidents } = createFeatureCollections(data)
+        const collections = createFeatureCollections(data)
 
         return (
             <Fragment>
-                <Source id={key} cluster clusterMaxZoom={14} data={reports}>
-                    <Layer.Symbol
+                <Map.With loaded>
+                    <Source
                         id={key}
-                        filter={filter}
-                        {...props}
-                        {...styles.reports}
-                    />
-                </Source>
-                <Source id={`${key}-incidents`} data={incidents}>
-                    <Layer.Symbol
+                        cluster
+                        clusterMaxZoom={14}
+                        data={collections.reports}>
+                        <Layer.Symbol
+                            id={key}
+                            filter={filter}
+                            {...props}
+                            {...styles.reports}
+                        />
+                    </Source>
+                    <Source
                         id={`${key}-incidents`}
-                        filter={filter}
-                        {...props}
-                        {...styles.incidents}
-                    />
-                </Source>
+                        data={collections.incidents}>
+                        <Layer.Symbol
+                            id={`${key}-incidents`}
+                            filter={filter}
+                            {...props}
+                            {...styles.incidents}
+                        />
+                    </Source>
+                </Map.With>
+                <Map.With loaded>{this.createWithMap(collections)}</Map.With>
             </Fragment>
         )
     }
-    renderActiveReport = ({ location }) => {
-        const params = new URLSearchParams(location.search)
+    createWithMap = ({ all }) => map => {
+        return (
+            <Route>
+                {({ location }) => {
+                    const params = new URLSearchParams(location.search)
 
-        if (params.has('panel')) {
-            const [type, id] = params.get('panel').split('/')
+                    if (params.has('panel')) {
+                        const [type, id] = params.get('panel').split('/')
+                        const hasReport = report => report.properties.id !== id
+                        const { onMouseEnter, onMouseLeave } = this.props
 
-            if (type === 'mountain-information-network-submissions') {
-                const { onMouseEnter, onMouseLeave } = this.props
+                        if (type === TYPE && all.every(hasReport)) {
+                            return (
+                                <ActiveReport
+                                    id={id}
+                                    map={map}
+                                    onMouseEnter={onMouseEnter}
+                                    onMouseLeave={onMouseLeave}
+                                />
+                            )
+                        }
+                    }
 
-                return (
-                    <ActiveReport
-                        id={id}
-                        onMouseEnter={onMouseEnter}
-                        onMouseLeave={onMouseLeave}
-                    />
-                )
-            }
-        }
-
-        return null
+                    return null
+                }}
+            </Route>
+        )
     }
     render() {
         const { days } = this.props.filters
 
-        return (
-            <Fragment>
-                <Reports days={days}>{this.addReports}</Reports>
-                <Route>{this.renderActiveReport}</Route>
-            </Fragment>
-        )
+        return <Reports days={days}>{this.addReports}</Reports>
     }
 }
 
@@ -97,38 +106,32 @@ export default class MountainInformationNetwork extends Component {
 class ActiveReport extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        map: PropTypes.object, // actually isRequired
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    set = ({ data }) => {
-        if (!data) {
-            return
-        }
-        const { map } = this
-        const { id } = this.props
+    withReport = ({ data }) => {
+        const { id, map } = this.props
+        const report = turf.featureCollection(data ? [createFeature(data)] : [])
+        const { onMouseEnter, onMouseLeave } = this.props
 
-        if (!map.getSource(id)) {
-            map.addSource(id, {
-                type: 'geojson',
-                data: turf.featureCollection([createFeature(data)]),
-            })
-        }
-
-        if (!map.getLayer(id)) {
-            const { onMouseEnter, onMouseLeave } = this.props
-
-            map.addLayer({
-                id,
-                type: 'symbol',
-                source: id,
-                ...styles.reports,
-            })
-            map.on('mouseenter', id, onMouseEnter)
-            map.on('mouseleave', id, onMouseLeave)
-        }
+        return (
+            <Source id={id} map={map} data={report}>
+                <Layer.Symbol
+                    id={id}
+                    onMouseEnter={onMouseEnter}
+                    onMouseLeave={onMouseLeave}
+                    {...styles.reports}
+                />
+            </Source>
+        )
     }
     clean(id) {
-        const { map } = this
+        const { map } = this.props
+
+        if (!map.getStyle()) {
+            return
+        }
 
         if (map.getLayer(id)) {
             map.removeLayer(id)
@@ -143,34 +146,13 @@ class ActiveReport extends Component {
         }
     }
     componentWillUnmount() {
-        if (this.map.isStyleLoaded()) {
-            this.clean(this.props.id)
-        }
-    }
-    validate = ({ sourceId }) => {
-        if (sourceId.startsWith(key)) {
-            const { id } = this.props
-            const { length } = this.map.querySourceFeatures(sourceId, {
-                filter: ['==', 'id', id],
-            })
-
-            if (length > 0) {
-                this.clean(id)
-            }
-        }
-    }
-    withMap = map => {
-        this.map = map
-
-        map.on('sourcedata', this.validate)
-
-        return <Report id={this.props.id}>{this.set}</Report>
+        this.clean(this.props.id)
     }
     render() {
-        return <Consumer>{this.withMap}</Consumer>
+        return <Report id={this.props.id}>{this.withReport}</Report>
     }
 }
-
+const TYPE = 'mountain-information-network-submissions'
 function isIncident({ properties }) {
     return INCIDENT in properties
 }
@@ -195,6 +177,7 @@ const createFeatureCollections = memoize(data => {
     return {
         reports: turf.featureCollection(features.filter(isNotIncident)),
         incidents: turf.featureCollection(features.filter(isIncident)),
+        all: features,
     }
 })
 

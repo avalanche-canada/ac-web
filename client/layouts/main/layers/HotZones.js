@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import memoize from 'lodash/memoize'
 import * as turf from '@turf/helpers'
 import * as features from 'containers/features'
-import { Consumer } from 'components/map/Context'
-import Source from 'components/map/sources/GeoJSON'
-import Layer from 'components/map/Layer'
+import { Source, Layer, Map } from 'components/map'
 import { Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
 import { HOT_ZONE_REPORTS as key } from 'constants/drawers'
@@ -18,28 +16,43 @@ export default class HotZones extends Component {
     }
     withZones = ({ data }) => {
         return (
-            <Source
-                id={key}
-                cluster
-                clusterMaxZoom={14}
-                data={createFeatureCollection(data)}>
-                <Layer.Circle id={key} {...this.props} {...styles} />
-            </Source>
+            <Map.With loaded>
+                <Source id={key} data={createFeatureCollection(data)}>
+                    <Layer.Circle id={key} {...this.props} {...styles} />
+                </Source>
+            </Map.With>
         )
     }
+    render() {
+        return (
+            <Fragment>
+                <features.HotZones>{this.withZones}</features.HotZones>
+                <Map.With loaded>
+                    <HotZoneActivator />
+                </Map.With>
+            </Fragment>
+        )
+    }
+}
+
+class HotZoneActivator extends Component {
+    static propTypes = {
+        map: PropTypes.object.isRequired,
+    }
     activate = region => {
-        const [feature] = this.map.querySourceFeatures(key, {
+        const { map } = this.props
+        const [feature] = map.querySourceFeatures(key, {
             filter: ['==', 'id', region],
         })
 
         if (feature) {
-            this.map.setFeatureState(
-                { source: key, feature: feature.id },
+            map.setFeatureState(
+                { source: key, id: feature.id },
                 { active: true }
             )
         } else {
-            this.map.on('sourcedata', event => {
-                if (event.sourceId === key && event.isSourceLoaded) {
+            map.on('sourcedata', event => {
+                if (event.sourceId === key) {
                     this.activate(region)
                 }
             })
@@ -48,18 +61,8 @@ export default class HotZones extends Component {
     withReports = ({ documents = [] }) => {
         documents.map(pluckRegion).forEach(this.activate)
     }
-    withMap = map => {
-        this.map = map
-
-        return <Documents {...hotZone.reports()}>{this.withReports}</Documents>
-    }
     render() {
-        return (
-            <Fragment>
-                <features.HotZones>{this.withZones}</features.HotZones>
-                <Consumer>{this.withMap}</Consumer>
-            </Fragment>
-        )
+        return <Documents {...hotZone.reports()}>{this.withReports}</Documents>
     }
 }
 
@@ -72,7 +75,7 @@ function createFeature({ id, name, centroid }, index) {
             type: key,
             title: name,
         },
-        { id: index }
+        { id: index + 1 }
     )
 }
 const createFeatureCollection = memoize((data = []) =>

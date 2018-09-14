@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import Source from 'components/map/sources/GeoJSON'
-import Layer from 'components/map/Layer'
+import { Source, Layer, Map } from 'components/map'
 import { Documents } from 'prismic/containers'
 import { fatal } from 'prismic/params'
 import { FATAL_ACCIDENT as key } from 'constants/drawers'
@@ -16,13 +15,15 @@ export default class FatalAccidents extends Component {
     }
     withData = ({ documents }) => {
         return (
-            <Source
-                id={key}
-                cluster
-                clusterMaxZoom={14}
-                data={createFeatureCollection(documents)}>
-                <Layer.Symbol id={key} {...this.props} {...styles} />
-            </Source>
+            <Map.With loaded>
+                <Source
+                    id={key}
+                    cluster
+                    clusterMaxZoom={14}
+                    data={createFeatureCollection(documents)}>
+                    <Layer.Symbol id={key} {...this.props} {...styles} />
+                </Source>
+            </Map.With>
         )
     }
     render() {
