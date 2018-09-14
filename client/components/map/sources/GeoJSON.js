@@ -23,9 +23,6 @@ export default class GeoJSONSource extends PureComponent {
     static defaultProps = {
         data: {},
     }
-    get source() {
-        return this.map.getSource(this.props.id)
-    }
     addSource = ({ target }) => {
         const { id, children, ...source } = this.props
 
@@ -36,7 +33,11 @@ export default class GeoJSONSource extends PureComponent {
         target.addSource(id, source)
     }
     setData = () => {
-        this.source.setData(this.props.data)
+        const source = this.map.getSource(this.props.id)
+
+        if (source) {
+            source.setData(this.props.data)
+        }
     }
     componentDidUpdate({ data }) {
         if (data !== this.props.data) {
