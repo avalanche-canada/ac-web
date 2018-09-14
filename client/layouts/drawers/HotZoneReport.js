@@ -3,12 +3,13 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import * as Hzr from 'layouts/products/hzr'
 import { Container, Navbar, Header, Body, Close } from 'components/page/drawer'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { HotZoneReport as HotZoneReportContainer } from 'prismic/containers'
-import HotZone from 'containers/HotZone'
+import { Document } from 'prismic/containers'
+import { HotZone } from 'containers/features'
+import { hotZone } from 'prismic/params'
 import * as utils from 'utils/hzr'
 
 export default class HotZoneReportDrawer extends PureComponent {
@@ -17,40 +18,58 @@ export default class HotZoneReportDrawer extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader(props) {
-        const { name, onLocateClick } = this.props
-        const title = utils.title(props)
-        const { report, hotZone } = props
-        function handleLocateClick() {
-            onLocateClick(utils.geometry(hotZone))
-        }
+    handleLocateClick = () => {
+        const { onLocateClick } = this.props
+
+        onLocateClick(utils.geometry(this.zone))
+    }
+    renderHeader({ document, loading }) {
+        const { name } = this.props
 
         return (
             <Header subject="Hot Zone Report">
-                <h1>
-                    {report ? (
-                        <Link to={`/hot-zone-reports/${name}`}>{title}</Link>
-                    ) : (
-                        <span>{title}</span>
-                    )}
-                    {hotZone && <DisplayOnMap onClick={handleLocateClick} />}
-                </h1>
+                <HotZone name={name}>
+                    {({ data }) => {
+                        this.zone = data
+                        const title = utils.title({
+                            loading,
+                            report: document,
+                            hotZone: data,
+                        })
+
+                        return (
+                            <h1>
+                                {document ? (
+                                    <Link to={`/hot-zone-reports/${name}`}>
+                                        {title}
+                                    </Link>
+                                ) : (
+                                    <span>{title}</span>
+                                )}
+                                <DisplayOnMap
+                                    onClick={this.handleLocateClick}
+                                />
+                            </h1>
+                        )
+                    }}
+                </HotZone>
             </Header>
         )
     }
-    renderChildren = ({ report, status }) => ({ hotZone }) => (
+    renderReport = ({ document, loading }) => (
         <Container>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={this.props.onCloseClick} />
             </Navbar>
-            {this.renderHeader({ report, status, hotZone })}
+            {this.renderHeader({ document, loading })}
             <Body>
-                <Shim horizontal>
-                    <Status {...status} />
-                </Shim>
-                {status.isLoaded && (
-                    <Hzr.Report value={report}>
+                {loading ? (
+                    <Shim horizontal>
+                        <Loading />
+                    </Shim>
+                ) : (
+                    <Hzr.Report value={document}>
                         <Shim horizontal>
                             <Hzr.Metadata shareable />
                             <Hzr.Header />
@@ -65,14 +84,11 @@ export default class HotZoneReportDrawer extends PureComponent {
             </Body>
         </Container>
     )
-    children = props => (
-        <HotZone id={this.props.name}>{this.renderChildren(props)}</HotZone>
-    )
     render() {
         return (
-            <HotZoneReportContainer region={this.props.name}>
-                {this.children}
-            </HotZoneReportContainer>
+            <Document {...hotZone.report(this.props.name)}>
+                {this.renderReport}
+            </Document>
         )
     }
 }

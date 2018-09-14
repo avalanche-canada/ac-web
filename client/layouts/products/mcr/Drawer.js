@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Immutable from 'immutable'
 import {
     Header,
     Container,
@@ -32,7 +31,7 @@ Drawer.propTypes = {
 }
 
 export default function Drawer({
-    report = new Immutable.Map(),
+    report,
     status,
     onCloseClick,
     onLocateClick,
@@ -48,7 +47,7 @@ export default function Drawer({
         user,
         dates,
         groups,
-    } = report.toJSON()
+    } = report
 
     return (
         <Container>

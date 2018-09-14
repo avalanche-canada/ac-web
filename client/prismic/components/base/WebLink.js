@@ -2,10 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { avalancheCanadaPathRegex, href } from 'utils/url'
-import Url from 'url'
-
-const BLANK = '_blank'
-const TARGETS = new Map([['http:', BLANK], ['https:', BLANK]])
 
 // TODO: Rework links props. Should be simplified.
 // Links are used in StructuredText and as standalone types.
@@ -20,17 +16,25 @@ WebLink.propTypes = {
 
 export default function WebLink({ children, value: { url }, ...props }) {
     if (avalancheCanadaPathRegex.test(url)) {
-        return (
-            <Link to={href(url)} {...props}>
-                {children}
-            </Link>
-        )
+        if (/fxresources/.test(url)) {
+            return (
+                <a href={url} target="_blank" {...props}>
+                    {children}
+                </a>
+            )
+        } else {
+            return (
+                <Link to={href(url)} {...props}>
+                    {children}
+                </Link>
+            )
+        }
     }
 
-    const { protocol } = Url.parse(url)
+    const target = url.startsWith('http') ? '_blank' : undefined
 
     return (
-        <a href={url} target={TARGETS.get(protocol)} {...props}>
+        <a href={url} target={target} {...props}>
             {children}
         </a>
     )

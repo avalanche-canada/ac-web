@@ -1,21 +1,31 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { captureException } from 'services/raven'
 
 export default class ErrorBoundary extends Component {
     static propTypes = {
-        children: PropTypes.func.isRequired,
+        children: PropTypes.element.isRequired,
+        fallback: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+            .isRequired,
+        onError: PropTypes.func,
     }
-    state = {
-        hasError: false,
+    static defaultProps = {
+        onError() {},
     }
+    state = {}
     componentDidCatch(error, extra) {
-        this.setState({ hasError: true, error, extra }, () => {
-            // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
-            captureException(error, { extra })
+        const { onError } = this.props
+
+        this.setState({ error, extra }, () => {
+            onError(error, extra)
         })
     }
     render() {
-        return this.props.children(this.state)
+        const { children, fallback } = this.props
+
+        return this.state.error
+            ? typeof fallback === 'function'
+                ? fallback(this.state)
+                : fallback
+            : children
     }
 }

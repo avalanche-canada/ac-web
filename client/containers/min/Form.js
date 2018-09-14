@@ -1,13 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import t from 'vendor/tcomb-form'
-import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
-import { MountainInformationNetworkSubmission } from 'api/schemas'
 import { Page, Header, Main, Content } from 'components/page'
 import * as links from 'components/links'
 import OPTIONS from './options'
-import { postMountainInformationNetworkSubmission as post } from 'actions/entities'
 import Submission from './types'
 import { Submit } from 'components/button'
 import styles from './Form.css'
@@ -15,6 +12,9 @@ import { TYPES } from 'constants/min'
 import ObservationSetError from './ObservationSetError'
 import { scrollIntoView } from 'utils/dom'
 import transform from './transform'
+import { status } from 'services/fetch/utils'
+import * as min from 'api/requests/min'
+import { CACHE } from './index'
 
 const { Form } = t.form
 
@@ -23,11 +23,9 @@ function isObservationError(error) {
 }
 
 @withRouter
-@connect(null, { post })
 export default class SubmissionForm extends Component {
     static propTypes = {
         history: PropTypes.object.isRequired,
-        post: PropTypes.func.isRequired,
     }
     state = {
         value: null,
@@ -130,7 +128,9 @@ export default class SubmissionForm extends Component {
             return
         }
 
-        const { path: [root] } = result.firstError()
+        const {
+            path: [root],
+        } = result.firstError()
 
         this.setObservationErrors(result.errors.filter(isObservationError))
 
@@ -138,24 +138,28 @@ export default class SubmissionForm extends Component {
     }
     submit(value) {
         this.setState({ isSubmitting: true }, () => {
-            this.props.post(transform(value)).then(
-                data => {
-                    const id = MountainInformationNetworkSubmission.getId(
-                        data.value
-                    )
+            fetch(min.post(transform(value)))
+                .then(status)
+                .then(
+                    data => {
+                        this.setState({ isSubmitting: false }, () => {
+                            // FIXME: Huge side effect hack, but it working for now
+                            CACHE.reset()
+                            const { subid } = data
 
-                    this.props.history.push(
-                        links.mountainInformationNetwork(id)
-                    )
-                },
-                err => {
-                    this.setState({
-                        isSubmitting: false,
-                    })
+                            this.props.history.push(
+                                links.mountainInformationNetwork(subid)
+                            )
+                        })
+                    },
+                    err => {
+                        this.setState({
+                            isSubmitting: false,
+                        })
 
-                    throw err
-                }
-            )
+                        throw err
+                    }
+                )
         })
     }
     render() {

@@ -20,7 +20,7 @@
     right: auto;
 
     &.Open {
-        box-shadow: 4px 0 8px color(black alpha(25%));
+        box-shadow: 4px 0 8px color-mod(black alpha(25%));
     }
 }
 
@@ -32,7 +32,7 @@
     z-index: 11;
 
     &.Open {
-        box-shadow: -4px 0 8px color(black alpha(25%));
+        box-shadow: -4px 0 8px color-mod(black alpha(25%));
     }
 }
 
@@ -144,7 +144,7 @@
     bottom: 0;
     left: 0;
     z-index: 11;
-    background-color: color(black alpha(25%));
+    background-color: color-mod(black alpha(25%));
 
     & + .Drawer {
         z-index: 12;

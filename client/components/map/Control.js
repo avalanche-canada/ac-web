@@ -8,6 +8,7 @@ export const BOTTOM_RIGHT = 'bottom-right'
 
 export default class Control extends StaticComponent {
     static propTypes = {
+        map: PropTypes.object, // actually isRequired
         factory: PropTypes.func.isRequired,
         position: PropTypes.oneOf([
             TOP_LEFT,
@@ -16,23 +17,14 @@ export default class Control extends StaticComponent {
             BOTTOM_RIGHT,
         ]),
     }
-    static contextTypes = {
-        map: PropTypes.object.isRequired,
-    }
     static defaultProps = {
         position: BOTTOM_RIGHT,
     }
-    get map() {
-        return this.context.map
-    }
     componentDidMount() {
-        const { position, factory } = this.props
-        const control = (this.control = factory())
+        const { position, factory, map } = this.props
+        const control = factory()
 
-        this.map.addControl(control, position)
-    }
-    componentWillUnmount() {
-        this.map.removeControl(this.control)
+        map.addControl(control, position)
     }
     render() {
         return null

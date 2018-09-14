@@ -1,76 +1,64 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import Url from 'url'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
+import ErrorBoundary from 'components/ErrorBoundary'
+import Fetch from 'components/fetch'
 import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
 import { Table, Responsive, TBody, Row, Cell, Caption } from 'components/table'
 import Header from './Header'
 import Pagination from './Pagination'
 import Layout from './Layout'
-import { Status } from 'components/misc'
 import { Helper } from 'components/text'
 import { Paginated, Sorted } from 'components/collection'
 import Container from 'containers/ast/Providers'
+import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
-import { MINIMUM_DISTANCE } from '../constants'
+import { Error, Muted } from 'components/text'
 
 export default class Providers extends PureComponent {
     static propTypes = {
         tags: PropTypes.instanceOf(Set),
-        sorting: PropTypes.array,
+        sorting: PropTypes.arrayOf(PropTypes.string),
         place: PropTypes.object,
-        onParamChange: PropTypes.func.isRequired,
+        onParamsChange: PropTypes.func.isRequired,
     }
     state = {
         page: 1,
-        sorting: this.props.sorting,
     }
     handleSortingChange = (name, order) => {
-        const sorting = order === NONE ? null : [name, order]
-
-        this.setState({ sorting }, () => {
-            this.props.onParamChange({
-                sorting: this.state.sorting,
-            })
+        this.props.onParamsChange({
+            sorting: order === NONE ? null : [name, order],
         })
     }
-    handlePageChange = page => this.setState({ page })
-    componentWillReceiveProps({ tags, place }, { sorting }) {
+    handlePageChange = page => {
+        this.setState({ page })
+    }
+    componentWillReceiveProps({ tags, place, sorting }) {
         if (
             this.props.tags !== tags ||
             this.props.place !== place ||
-            this.state.sorting !== sorting
+            this.props.sorting !== sorting
         ) {
             this.setState({ page: 1 })
         }
     }
-    getTitle({ status, providers }) {
-        if (status.isLoaded) {
-            return `All providers (${providers.size})`
-        } else {
-            return 'All providers'
-        }
+    getTitle(providers) {
+        return Array.isArray(providers)
+            ? `All providers (${providers.length})`
+            : 'All providers'
     }
-    createMessages({ providers, status }) {
-        return {
-            ...status.messages,
-            isLoaded:
-                status.isLoaded && providers.isEmpty() ? (
-                    <div>
-                        No providers match your criteria, consider finding a
-                        course on the{' '}
-                        <Link to="/training/courses">courses page</Link>
-                        .
-                    </div>
-                ) : (
-                    status.messages.isLoaded
-                ),
-        }
+    renderEmptyMessage({ length }) {
+        return length === 0 ? (
+            <div>
+                No providers match your criteria, consider finding a course on
+                the <Link to="/training/courses">courses page</Link>.
+            </div>
+        ) : null
     }
-    renderRow = row => {
+    renderRow(row) {
         return (
             <Row key={row.id}>
                 {COLUMNS.map(({ property, name }) => (
@@ -79,20 +67,18 @@ export default class Providers extends PureComponent {
             </Row>
         )
     }
-    renderRows(providers) {
-        return providers.toList().map(this.renderRow)
-    }
+    renderRows = providers => providers.map(this.renderRow)
     renderFeatured(providers) {
         return (
             <TBody featured title="Our sponsors">
-                {this.renderRows(providers.filter(isFeatured))}
+                {this.renderRows(providers.filter(isSponsor))}
             </TBody>
         )
     }
     renderBody(providers) {
-        const rows = providers.filterNot(isFeatured)
+        const rows = providers.filter(isNotSponsor)
         const { page } = this.state
-        const [name, order] = this.state.sorting || []
+        const [name, order] = this.props.sorting || []
 
         return (
             <TBody>
@@ -100,33 +86,23 @@ export default class Providers extends PureComponent {
                     values={rows}
                     sorter={SORTERS.get(name)}
                     reverse={order === DESC}>
-                    <Paginated page={page}>
-                        {rows => this.renderRows(rows)}
-                    </Paginated>
+                    <Paginated page={page}>{this.renderRows}</Paginated>
                 </Sorted>
             </TBody>
         )
     }
-    renderBodies({ providers }) {
-        if (providers.isEmpty()) {
+    renderBodies(providers) {
+        if (providers.length === 0) {
             return null
         }
 
         const { place } = this.props
 
         if (place) {
-            providers = providers.map(provider =>
-                provider.set(
-                    'distance',
-                    Math.max(
-                        distance(
-                            turf.point(provider.get('loc').toArray()),
-                            place
-                        ),
-                        MINIMUM_DISTANCE
-                    )
-                )
-            )
+            providers = providers.map(provider => ({
+                ...provider,
+                distance: distance(turf.point(provider.loc), place),
+            }))
         }
 
         return (
@@ -136,39 +112,48 @@ export default class Providers extends PureComponent {
             </Fragment>
         )
     }
-    renderChildren({ props }) {
+    renderContent = ({ providers }) => {
         return (
-            <Layout title={this.getTitle(props)}>
+            <Layout title={this.getTitle(providers)}>
                 <Responsive>
                     <Table>
                         <Header
                             columns={COLUMNS}
                             onSortingChange={this.handleSortingChange}
-                            sorting={this.state.sorting}
+                            sorting={this.props.sorting}
                             place={this.props.place}
                         />
-                        {this.renderBodies(props)}
+                        {Array.isArray(providers) &&
+                            this.renderBodies(providers)}
                         <Caption>
-                            <Status
-                                {...props.status}
-                                messages={this.createMessages(props)}
-                            />
+                            <Fetch.Loading>
+                                <Muted>Loading providers...</Muted>
+                            </Fetch.Loading>
+                            {Array.isArray(providers) &&
+                                this.renderEmptyMessage(providers)}
                         </Caption>
                     </Table>
                 </Responsive>
-                <Pagination
-                    count={props.providers.size}
-                    page={this.state.page}
-                    onChange={this.handlePageChange}
-                />
+                {Array.isArray(providers) && (
+                    <Pagination
+                        count={providers.length}
+                        page={this.state.page}
+                        onChange={this.handlePageChange}
+                    />
+                )}
             </Layout>
         )
     }
+    renderError() {
+        return <Error>An error happened while loading providers.</Error>
+    }
     render() {
         return (
-            <Container tags={this.props.tags}>
-                {data => this.renderChildren(data)}
-            </Container>
+            <ErrorBoundary fallback={this.renderError}>
+                <Container tags={this.props.tags}>
+                    {this.renderContent}
+                </Container>
+            </ErrorBoundary>
         )
     }
 }
@@ -177,30 +162,30 @@ const COLUMNS = [
     {
         name: 'provider',
         title: 'Provider name',
-        property(provider) {
-            return provider.get('name')
+        property({ name }) {
+            return name
         },
         sorting: NONE,
     },
     {
         name: 'contacts',
         title: 'Contacts',
-        property(provider) {
+        property({ email, phone, website }) {
             return (
                 <List>
-                    {provider.has('email') && (
+                    {email && (
                         <Entry term="Email">
-                            <Mailto email={provider.get('email')} />
+                            <Mailto email={email} />
                         </Entry>
                     )}
-                    {provider.has('phone') && (
+                    {phone && (
                         <Entry term="Phone">
-                            <Phone phone={provider.get('phone')} />
+                            <Phone phone={phone} />
                         </Entry>
                     )}
-                    {provider.has('website') && (
+                    {website && (
                         <Entry term="Website">
-                            <Anchor href={provider.get('website')} />
+                            <Anchor href={website} />
                         </Entry>
                     )}
                 </List>
@@ -210,80 +195,75 @@ const COLUMNS = [
     {
         name: 'distance',
         title({ place }) {
-            if (place) {
-                return (
-                    <Helper
-                        title={`Straight line between ${
-                            place.text
-                        } and the provider.`}>
-                        Distance
-                    </Helper>
-                )
-            }
-
-            return 'Distance'
+            return place ? (
+                <Helper
+                    title={`Straight line between ${
+                        place.text
+                    } and the provider.`}>
+                    Distance
+                </Helper>
+            ) : (
+                'Distance'
+            )
         },
-        property(course) {
-            const distance = course.get('distance')
-
-            if (typeof distance === 'number') {
-                if (distance <= MINIMUM_DISTANCE) {
-                    return `< ${MINIMUM_DISTANCE} km`
-                } else {
-                    return `${Math.ceil(distance)} km`
-                }
-            }
-
-            return 'N/A'
+        property({ distance }) {
+            return <Distance value={distance} />
         },
         sorting: NONE,
     },
     {
         name: 'location',
         title: 'Location',
-        property(provider) {
-            return provider.get('locDescription')
+        property({ loc_description }) {
+            return loc_description
         },
     },
     {
         name: 'tags',
         title: 'Tags',
-        property(provider) {
-            return provider
-                .get('tags')
-                .sort()
-                .join(', ')
+        property({ tags }) {
+            return <Tags value={tags} />
         },
     },
 ]
 
 // Utils
 const TERM_STYLE = {
-    flex: '0 1 35%',
+    // minWidth: 75,
+    flex: '0 1 25%',
+}
+const DEFINITION_STYLE = {
+    maxWidth: 325,
+    flex: '75%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
 }
 function Entry({ term, children }) {
     return (
         <Fragment>
             <Term style={TERM_STYLE}>{term}</Term>
-            <Definition>{children}</Definition>
+            <Definition style={DEFINITION_STYLE}>{children}</Definition>
         </Fragment>
     )
 }
 function Anchor({ href }) {
-    let { hostname, path } = Url.parse(href)
-
-    path = (typeof path === 'string' && path.replace(/\//, '')) || null
-
     return (
         <a href={href} title={href} target="_blank">
-            {path ? `${hostname}/…` : hostname}
+            {href.replace(/^(https|http):\/\//, '')}
         </a>
     )
 }
-function isFeatured(row) {
-    return row.get('isFeatured')
+function isSponsor({ is_sponsor }) {
+    return is_sponsor
+}
+function isNotSponsor({ is_sponsor }) {
+    return !is_sponsor
 }
 const SORTERS = new Map([
-    ['provider', (a, b) => a.get('name').localeCompare(b.get('name'))],
-    ['distance', (a, b) => a.get('distance') < b.get('distance')],
+    [
+        'provider',
+        (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }),
+    ],
+    ['distance', (a, b) => a.distance - b.distance],
 ])

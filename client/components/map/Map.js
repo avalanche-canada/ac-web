@@ -1,69 +1,27 @@
-import React, { Component } from 'react'
+import React, {
+    Component,
+    createRef,
+    createContext,
+    Children,
+    cloneElement,
+} from 'react'
 import PropTypes from 'prop-types'
-import mapbox from 'mapbox-gl/mapbox-gl'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
 import './Map.css'
 
-function toJSON(style) {
-    if (!style) {
-        return null
-    }
-
-    if (typeof style.toJSON === 'function') {
-        return style.toJSON()
-    }
-
-    return style
-}
-
-const { LngLatBounds } = mapbox
-const EVENTS = new Map([
-    ['onWebglcontextlost', 'webglcontextlost'],
-    ['onWebglcontextrestored', 'webglcontextrestored'],
-    ['onMoveend', 'moveend'],
-    ['onMove', 'move'],
-    ['onMovestart', 'movestart'],
-    ['onDblclick', 'dblclick'],
-    ['onRender', 'render'],
-    ['onMouseout', 'mouseout'],
-    ['onMousedown', 'mousedown'],
-    ['onMouseup', 'mouseup'],
-    ['onMousemove', 'mousemove'],
-    ['onTouchstart', 'touchstart'],
-    ['onTouchend', 'touchend'],
-    ['onTouchmove', 'touchmove'],
-    ['onTouchcancel', 'touchcancel'],
-    ['onClick', 'click'],
-    ['onLoad', 'load'],
-    ['onError', 'error'],
-    ['onContextmenu', 'contextmenu'],
-    ['onZoom', 'zoom'],
-    ['onZoomend', 'zoomend'],
-    ['onZoomstart', 'zoomstart'],
-    ['onBoxzoomstart', 'boxzoomstart'],
-    ['onBoxzoomend', 'boxzoomend'],
-    ['onBoxzoomcancel', 'boxzoomcancel'],
-    ['onRotateend', 'rotateend'],
-    ['onRotate', 'rotate'],
-    ['onRotatestart', 'rotatestart'],
-    ['onDragstart', 'dragstart'],
-    ['onDrag', 'drag'],
-    ['onDragend', 'dragend'],
-    ['onPitch', 'pitch'],
-    ['onResize', 'resize'],
-    ['onSourcedata', 'sourcedata'],
-    ['onSourcedataloading', 'sourcedataloading'],
-])
+const { Provider, Consumer } = createContext()
+mapbox.accessToken = accessToken
 
 export default class MapComponent extends Component {
     static propTypes = {
+        className: PropTypes.string,
         children: PropTypes.node,
         style: PropTypes.oneOfType([
             PropTypes.oneOf(Object.keys(styles)),
             PropTypes.object,
-        ]).isRequired,
-        containerStyle: PropTypes.object,
+        ]),
         center: PropTypes.arrayOf(PropTypes.number),
         zoom: PropTypes.number,
         bearing: PropTypes.number,
@@ -76,7 +34,7 @@ export default class MapComponent extends Component {
         attributionControl: PropTypes.bool,
         failIfMajorPerformanceCaveat: PropTypes.bool,
         preserveDrawingBuffer: PropTypes.bool,
-        maxBounds: PropTypes.instanceOf(LngLatBounds),
+        maxBounds: PropTypes.instanceOf(mapbox.LngLatBounds),
         scrollZoom: PropTypes.bool,
         boxZoom: PropTypes.bool,
         dragRotate: PropTypes.bool,
@@ -86,134 +44,96 @@ export default class MapComponent extends Component {
         touchZoomRotate: PropTypes.bool,
         trackResize: PropTypes.bool,
         workerCount: PropTypes.number,
-        onWebglcontextlost: PropTypes.func,
-        onWebglcontextrestored: PropTypes.func,
-        onMoveend: PropTypes.func,
-        onMove: PropTypes.func,
-        onMovestart: PropTypes.func,
-        onDblclick: PropTypes.func,
-        onRender: PropTypes.func,
-        onMouseout: PropTypes.func,
-        onMousedown: PropTypes.func,
-        onMouseup: PropTypes.func,
-        onMousemove: PropTypes.func,
-        onTouchstart: PropTypes.func,
-        onTouchend: PropTypes.func,
-        onTouchmove: PropTypes.func,
-        onTouchcancel: PropTypes.func,
-        onClick: PropTypes.func,
         onLoad: PropTypes.func,
-        onError: PropTypes.func,
-        onContextmenu: PropTypes.func,
-        onZoom: PropTypes.func,
-        onZoomend: PropTypes.func,
-        onZoomstart: PropTypes.func,
-        onBoxzoomstart: PropTypes.func,
-        onBoxzoomend: PropTypes.func,
-        onBoxzoomcancel: PropTypes.func,
-        onRotateend: PropTypes.func,
-        onRotate: PropTypes.func,
-        onRotatestart: PropTypes.func,
-        onDragstart: PropTypes.func,
-        onDrag: PropTypes.func,
-        onDragend: PropTypes.func,
-        onPitch: PropTypes.func,
-        onSourcedata: PropTypes.func,
-        onSourcedataloading: PropTypes.func,
     }
     static defaultProps = {
-        style: null,
         maxBounds: Canadian,
+        style: 'default',
+        onLoad() {},
     }
-    static childContextTypes = {
-        map: PropTypes.object,
+    static When = class When extends Component {
+        withContext = props => {
+            const { loaded, children } = this.props
+            const { map } = props
+
+            if (loaded) {
+                return map && props.loaded ? children : null
+            } else {
+                return map ? children : null
+            }
+        }
+        render() {
+            return <Consumer>{this.withContext}</Consumer>
+        }
+    }
+    static With = class With extends Component {
+        cloneChildren(map) {
+            return Children.map(this.props.children, child =>
+                cloneElement(child, { map })
+            )
+        }
+        withContext = props => {
+            const { loaded, children } = this.props
+            const { map } = props
+
+            if (loaded) {
+                if (map && props.loaded) {
+                    return typeof children === 'function'
+                        ? children(map)
+                        : this.cloneChildren(map)
+                } else {
+                    return null
+                }
+            } else {
+                if (map) {
+                    return typeof children === 'function'
+                        ? children(map)
+                        : this.cloneChildren(map)
+                } else {
+                    return null
+                }
+            }
+        }
+        render() {
+            return <Consumer>{this.withContext}</Consumer>
+        }
     }
     state = {
-        map: null,
-        ready: false,
+        map: undefined,
+        loaded: false,
     }
-    get map() {
-        return this.state.map
-    }
-    setContainer = container => (this.container = container)
-    getChildContext() {
-        return {
-            map: this.map,
-        }
+    container = createRef()
+    handleLoad = event => {
+        this.setState({ loaded: true }, () => {
+            this.props.onLoad(event)
+        })
     }
     componentDidMount() {
-        const { container } = this
-
-        if (!container) {
-            return
-        }
-
-        const { style, ...props } = this.props
-        mapbox.accessToken = accessToken
+        const { style } = this.props
         const map = new mapbox.Map({
-            ...props,
-            container,
-            style: typeof style === 'string' ? styles[style] : toJSON(style),
-        })
-
-        EVENTS.forEach((name, method) => {
-            if (typeof props[method] === 'function') {
-                map.on(name, props[method])
-            }
-        })
-
-        map.once('styledata', () => {
-            this.setState({
-                ready: true,
-            })
+            ...this.props,
+            style: typeof style === 'string' ? styles[style] : style,
+            container: this.container.current,
         })
 
         this.setState({ map })
+
+        map.on('load', this.handleLoad)
     }
     componentWillUnmount() {
-        if (this.map) {
-            this.map.off()
-        }
-    }
-    componentWillReceiveProps({ style }) {
-        if (!this.map || style === this.props.style) {
-            return
-        }
+        const { map } = this.state
 
-        if (this.props.style === null) {
-            this.style = style
-        } else {
-            this.updateStyle(style)
+        if (map) {
+            map.remove()
         }
-    }
-    updateStyle = style => {
-        if (this.timeoutId) {
-            clearTimeout(this.timeoutId)
-        }
-
-        if (this.map.loaded()) {
-            this.style = style
-        } else {
-            this.map.once('load', this.updateStyle.bind(this, style))
-            // Should be removed
-            // More details at https://github.com/mapbox/mapbox-gl-draw/issues/572
-            this.timeoutId = setTimeout(this.updateStyle, 50, style)
-        }
-    }
-    set style(style) {
-        this.map.setStyle(toJSON(style))
-    }
-    shouldComponentUpdate({ children }, { ready }) {
-        return children !== this.props.children || ready !== this.state.ready
-    }
-    get safe() {
-        return this.state.ready && this.state.map
     }
     render() {
         return (
-            <div ref={this.setContainer} style={this.props.containerStyle}>
-                {this.safe && this.props.children}
-            </div>
+            <Provider value={this.state}>
+                <div ref={this.container} className={this.props.className}>
+                    {this.props.children}
+                </div>
+            </Provider>
         )
     }
 }

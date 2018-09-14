@@ -14,8 +14,8 @@
         position: absolute;
         left: 0;
         top: 2.5em;
-        border-color: color(var(--brand-secondary) blackness(50%))
-            color(var(--brand-secondary) blackness(50%)) transparent transparent;
+        border-color: color-mod(var(--brand-secondary) blackness(50%))
+            color-mod(var(--brand-secondary) blackness(50%)) transparent transparent;
         border-style: solid;
         border-width: 8px;
     }

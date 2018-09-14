@@ -58,5 +58,5 @@
 .Inner {
     background-color: white;
     border-radius: 5px;
-    box-shadow: 0 5px 5px 5px color(black alpha(25%));
+    box-shadow: 0 5px 5px 5px color-mod(black alpha(25%));
 }

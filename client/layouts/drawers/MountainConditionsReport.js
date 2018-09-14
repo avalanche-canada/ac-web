@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Immutable from 'immutable'
-import { geometry } from '@turf/helpers'
-import { InnerHTML, Status } from 'components/misc'
+import { point } from '@turf/helpers'
+import { Loading } from 'components/text'
+import { InnerHTML } from 'components/misc'
 import {
     Header,
     Container,
@@ -19,7 +19,7 @@ import {
     Location,
     Media,
 } from 'layouts/products/mcr'
-import MountainConditionsReportContainer from 'containers/MountainConditionsReport'
+import * as containers from 'containers/mcr'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
@@ -37,8 +37,7 @@ export default class MountainConditionsReport extends PureComponent {
     handleLocateClick = () => {
         this.props.onLocateClick(this.geometry)
     }
-    children = ({ report = new Immutable.Map(), status }) => {
-        const { isLoaded } = status
+    children = ({ data = {}, loading }) => {
         const {
             locationDescription,
             permalink,
@@ -49,10 +48,10 @@ export default class MountainConditionsReport extends PureComponent {
             dates,
             groups,
             location,
-        } = report.toJSON()
+        } = data
 
         if (Array.isArray(location)) {
-            this.geometry = geometry('Point', location)
+            this.geometry = point(location)
         }
 
         return (
@@ -78,9 +77,11 @@ export default class MountainConditionsReport extends PureComponent {
                     {user && <Submitter {...user} groups={groups} />}
                 </Header>
                 <Content>
-                    <Status {...status} />
+                    <Loading show={loading}>
+                        Loading Mountain Conditions Report...
+                    </Loading>
                     {body && <InnerHTML>{body}</InnerHTML>}
-                    {isLoaded && <Footer />}
+                    <Footer />
                 </Content>
             </Fragment>
         )
@@ -92,9 +93,7 @@ export default class MountainConditionsReport extends PureComponent {
                     <Navbar style={NAVBAR_STYLE}>
                         <Close shadow onClick={this.props.onCloseClick} />
                     </Navbar>
-                    <MountainConditionsReportContainer id={this.props.id}>
-                        {this.children}
-                    </MountainConditionsReportContainer>
+                    <Report id={this.props.id}>{this.children}</Report>
                 </Body>
             </Container>
         )

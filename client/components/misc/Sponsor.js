@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Sponsor.css'
 import { handleOutboundSponsorClick } from 'services/analytics'
+import { forceHttps } from 'utils/url'
 
 export default class Sponsor extends PureComponent {
     static propTypes = {
@@ -27,7 +28,11 @@ export default class Sponsor extends PureComponent {
                     {label && <dt className={styles.Label}>{label}</dt>}
                     {logo && (
                         <dd className={styles.Logo}>
-                            <img src={logo} alt={name} title={name} />
+                            <img
+                                src={forceHttps(logo)}
+                                alt={name}
+                                title={name}
+                            />
                         </dd>
                     )}
                     {children}

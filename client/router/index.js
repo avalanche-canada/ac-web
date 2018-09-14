@@ -563,3 +563,11 @@ export default function Router() {
         </BrowserRouter>
     )
 }
+
+// Utils
+function redirect({ location: { pathname } }) {
+    // Leave the application and goes to nginx to do appropriate redirect
+    window.open(`https://avalanche.ca/${pathname}`, pathname)
+
+    return null
+}

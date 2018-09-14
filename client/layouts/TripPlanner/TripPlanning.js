@@ -1,8 +1,7 @@
-import React, { Component, PureComponent, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
-import ForecastContainer from 'containers/Forecast'
-import { Status } from 'components/misc'
+import { Forecast } from 'containers/forecast'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
 import { Chart } from 'components/graphics/avaluator'
@@ -43,21 +42,19 @@ export default class TripPlanning extends Component {
 
         return <Content {...props} forecast={forecast} />
     }
-    renderChildren({ status, forecast }) {
-        const hasDangerRatings = forecast && forecast.has('dangerRatings')
-
-        const messages = {
-            ...status.messages,
-            isLoaded: hasDangerRatings ? undefined : this.isLoadedMessage,
-        }
+    renderChildren({ loading, data }) {
+        const hasDangerRatings = data && data.dangerRatings
 
         return (
             <Fragment>
                 <div style={CONTENT_STYLE}>
-                    <Status {...status} messages={messages} />
-                    {hasDangerRatings && this.renderContent(forecast)}
+                    {loading ? (
+                        <Muted>Loading avalanche forecast...</Muted>
+                    ) : hasDangerRatings ? (
+                        this.renderContent(data)
+                    ) : null}
                 </div>
-                {hasDangerRatings && <ChartLegend />}
+                {hasDangerRatings ? <ChartLegend /> : null}
                 <MapLegend />
             </Fragment>
         )
@@ -82,9 +79,9 @@ export default class TripPlanning extends Component {
         return (
             <Fragment>
                 {region ? (
-                    <ForecastContainer name={region.id}>
+                    <Forecast name={region.id}>
                         {props => this.renderChildren(props)}
-                    </ForecastContainer>
+                    </Forecast>
                 ) : (
                     <Muted>{this.isLoadedMessage}</Muted>
                 )}
@@ -94,7 +91,7 @@ export default class TripPlanning extends Component {
     }
 }
 
-class Content extends PureComponent {
+class Content extends Component {
     static propTypes = {
         elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
         onElevationChange: PropTypes.func.isRequired,
@@ -108,24 +105,18 @@ class Content extends PureComponent {
         }),
     }
     get date() {
-        return (
-            this.props.date ||
-            this.props.forecast.getIn(['dangerRatings', 0, 'date'])
-        )
-    }
-    get activeDangerRatings() {
-        const { date } = this
-
-        return this.props.forecast
-            .get('dangerRatings')
-            .find(dangerRating => isSameDay(date, dangerRating.get('date')))
-            .get('dangerRating')
-            .toObject()
+        return this.props.date || this.props.forecast.dangerRatings[0].date
     }
     get dates() {
-        return this.props.forecast
-            .get('dangerRatings')
-            .map(dangerRating => dangerRating.get('date'))
+        return this.props.forecast.dangerRatings.map(({ date }) => date)
+    }
+    get activeDangerRatings() {
+        const { dangerRatings } = this.props.forecast
+        const { dangerRating } = dangerRatings.find(({ date }) =>
+            isSameDay(this.date, date)
+        )
+
+        return dangerRating
     }
     get danger() {
         const { rating } = this.props.area
@@ -186,25 +177,22 @@ class Form extends Component {
         onDateChange: PropTypes.func.isRequired,
         dates: PropTypes.arrayOf(PropTypes.instanceOf(Date)).isRequired,
     }
+    handleDateChange = time => {
+        this.props.onDateChange(new Date(time))
+    }
     render() {
-        const {
-            elevation,
-            onElevationChange,
-            onDateChange,
-            date,
-            dates,
-        } = this.props
+        const { elevation, onElevationChange, date, dates } = this.props
 
         return (
             <ControlSet>
                 <Control horizontal>
                     <label style={LABEL_STYLE}>Day</label>
                     <Dropdown
-                        onChange={onDateChange}
-                        value={date}
+                        onChange={this.handleDateChange}
+                        value={date.getTime()}
                         style={INPUT_STYLE}>
                         {dates.map((date, index) => (
-                            <Option key={index} value={date}>
+                            <Option key={index} value={date.getTime()}>
                                 <Day value={date} />
                             </Option>
                         ))}
@@ -234,9 +222,6 @@ const CONTENT_STYLE = {
 }
 const CHART_STYLE = {
     margin: '1em 0',
-}
-const CHART_TITLE_STYLE = {
-    marginBotton: 0,
 }
 const INPUT_STYLE = {
     flex: 0.75,

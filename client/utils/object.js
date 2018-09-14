@@ -7,11 +7,11 @@ export function projectKeys(object = {}, truly = {}) {
 }
 
 export function clean(object = {}) {
-    return Object.keys(object).reduce((previous, key) => {
-        if (object[key]) {
-            previous[key] = object[key]
+    return Object.entries(object).reduce((object, [key, value]) => {
+        if (value != null) {
+            object[key] = value
         }
 
-        return previous
+        return object
     }, {})
 }

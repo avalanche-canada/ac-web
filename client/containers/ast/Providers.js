@@ -1,47 +1,35 @@
-import { connect } from 'react-redux'
-import { createStructuredSelector } from 'reselect'
-import { loadProviders } from 'actions/entities'
-import Universal from 'components/Universal'
-import { getEntitiesForSchema } from 'getters/entities'
-import { getResultsSet } from 'getters/api'
-import { Provider } from 'api/schemas'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import Fetch from 'components/fetch'
+import * as ast from 'api/requests/ast'
 
-export default connect(
-    createStructuredSelector({
-        providers(state, { tags }) {
-            let providers = getEntitiesForSchema(state, Provider)
+export default class ProviderContainer extends Component {
+    static propTypes = {
+        children: PropTypes.func.isRequired,
+        tags: PropTypes.instanceOf(Set),
+    }
+    children = props => {
+        const { tags } = this.props
+        let results = props.data?.results
 
-            if (tags) {
-                providers = providers.filter(
-                    provider =>
-                        provider.get('isFeatured') ||
-                        provider.get('tags').some(tag => tags.has(tag))
-                )
-            }
+        if (Array.isArray(results) && tags && tags.size > 0) {
+            results = results.filter(
+                course =>
+                    course.is_sponsor || course.tags.some(tag => tags.has(tag))
+            )
+        }
 
-            return providers.sortBy(sorter)
-        },
-        status(state) {
-            return getResultsSet(state, Provider, OPTIONS)
-                .asStatus(MESSAGES)
-                .toObject()
-        },
-    }),
-    dispatch => ({
-        didMount() {
-            dispatch(loadProviders(OPTIONS))
-        },
-    })
-)(Universal)
+        return this.props.children({
+            loading: props.loading,
+            providers: results,
+        })
+    }
+    render() {
+        return <Fetch request={ast.providers(PARAMS)}>{this.children}</Fetch>
+    }
+}
 
-// Utils
-const OPTIONS = {
+// Constatns and utils
+const PARAMS = {
     page_size: 1000,
-}
-const MESSAGES = {
-    isLoading: 'Loading providers...',
-    isError: 'An error happened while loading providers.',
-}
-function sorter(provider) {
-    return provider.get('name')
 }

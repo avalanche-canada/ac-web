@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import ForecastRegion from 'containers/ForecastRegion'
+import { Region } from 'containers/features'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
@@ -22,17 +22,18 @@ export default class NorthRockies extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    locate = ({ entity }) => {
-        if (!entity) {
+    handleLocateClick = () => {
+        const { onLocateClick } = this.props
+
+        onLocateClick(utils.geometry(this.region))
+    }
+    locate({ data }) {
+        if (!data) {
             return null
         }
 
-        const { onLocateClick } = this.props
-        function handleLocateClick() {
-            onLocateClick(utils.geometry(entity))
-        }
-
-        return <DisplayOnMap onClick={handleLocateClick} />
+        this.region = data
+        return <DisplayOnMap onClick={this.handleLocateClick} />
     }
     renderSPAW = ({ link }) => {
         const style = {
@@ -52,9 +53,9 @@ export default class NorthRockies extends PureComponent {
                 <Header subject="Avalanche Forecast">
                     <h1>
                         <Link to="/forecasts/north-rockies">North Rockies</Link>
-                        <ForecastRegion id="north-rockies">
-                            {this.locate}
-                        </ForecastRegion>
+                        <Region name="north-rockies">
+                            {props => this.locate(props)}
+                        </Region>
                     </h1>
                 </Header>
                 <Body>

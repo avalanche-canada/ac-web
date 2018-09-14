@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Url from 'url'
 
 Phone.propTypes = {
     phone: PropTypes.string.isRequired,
@@ -13,10 +12,7 @@ function computePhoneString(phone, ext) {
 }
 
 export default function Phone({ phone, ext, children, ...rest }) {
-    const href = Url.format({
-        protocol: 'tel',
-        pathname: phone,
-    })
+    const href = `tel://${phone}`
 
     return (
         <a href={href} {...rest}>

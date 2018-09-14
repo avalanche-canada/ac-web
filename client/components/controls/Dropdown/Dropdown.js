@@ -52,7 +52,7 @@ export default class DropdownControl extends PureComponent {
             option =>
                 value instanceof Set
                     ? value.has(option.props.value)
-                    : value === option.props.value
+                    : value == option.props.value
         )
 
         return options.length

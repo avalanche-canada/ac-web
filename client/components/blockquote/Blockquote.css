@@ -2,7 +2,7 @@
 
 .Blockquote {
     position: relative;
-    color: color(var(--brand-primary) l(50%));
+    color: color-mod(var(--brand-primary) l(50%));
     font-size: 1.25em;
     border-bottom: var(--gray-light) solid 3px;
     margin: 25px;
@@ -13,7 +13,7 @@
         position: absolute;
         left: 0;
         top: -30px;
-        color: color(var(--brand-primary) l(35%));
+        color: color-mod(var(--brand-primary) l(35%));
         font-size: 6em;
         font-weight: bold;
     }

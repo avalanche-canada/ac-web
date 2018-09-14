@@ -1,8 +1,13 @@
-import React from 'react'
-import { Switch } from 'react-router-dom'
-import { SponsorRoute } from 'router/common'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import { Route, Switch } from 'react-router-dom'
+import { Sponsor as Component } from 'components/misc'
+import { Document } from 'prismic/containers'
+import { Loading } from 'components/text'
+import SponsorsMetadata from 'contexts/sponsors'
+import * as params from 'prismic/params'
 
-export default function Sponsor() {
+export default function SponsorRoutes() {
     return (
         <Switch>
             <SponsorRoute
@@ -31,4 +36,46 @@ export default function Sponsor() {
             <SponsorRoute path="/about" name="About" />
         </Switch>
     )
+}
+
+// Utils
+SponsorRoute.propTypes = {
+    path: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+}
+
+function SponsorRoute({ path, ...props }) {
+    return <Route path={path} render={() => <Sponsor {...props} />} />
+}
+
+class Sponsor extends PureComponent {
+    static propTypes = {
+        name: PropTypes.string.isRequired,
+        label: PropTypes.string,
+    }
+    renderChildren = ({ loading, document = {} }) => {
+        const { name, image229, url } = document.data || {}
+
+        return (
+            <Component
+                label={this.props.label}
+                name={name}
+                logo={image229}
+                url={url}>
+                <Loading show={loading} />
+            </Component>
+        )
+    }
+    withMetadata = metadata => {
+        const { name } = this.props
+        const uid = metadata[name] || name
+
+        return (
+            <Document {...params.sponsor(uid)}>{this.renderChildren}</Document>
+        )
+    }
+    render() {
+        return <SponsorsMetadata>{this.withMetadata}</SponsorsMetadata>
+    }
 }

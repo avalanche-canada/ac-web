@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Header,
@@ -8,13 +8,14 @@ import {
     Navbar,
     Close,
 } from 'components/page/drawer'
-import { Status } from 'components/misc'
+import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import { FatalAccident as FatalAccidentContainer } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { geometry } from '@turf/helpers'
+import { point } from '@turf/helpers'
 
 export default class FatalAccident extends PureComponent {
     static propTypes = {
@@ -22,18 +23,18 @@ export default class FatalAccident extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader({ title, location }) {
-        const { onLocateClick } = this.props
-        function handleLocateClick() {
-            const { longitude, latitude } = location
+    handleLocateClick = () => {
+        const { longitude, latitude } = this.report.location
 
-            onLocateClick(geometry('Point', [longitude, latitude]))
-        }
+        this.props.onLocateClick(point([longitude, latitude]))
+    }
+    renderHeader(report) {
+        this.report = report
 
         return (
             <h1>
-                <span>{title}</span>
-                <DisplayOnMap onClick={handleLocateClick} />
+                <span>{report.title}</span>
+                <DisplayOnMap onClick={this.handleLocateClick} />
             </h1>
         )
     }
@@ -61,7 +62,7 @@ export default class FatalAccident extends PureComponent {
                   }" is not available anymore.`,
         }
     }
-    children = ({ document, status }) => (
+    renderChildren = ({ document, loading }) => (
         <Container>
             <Navbar>
                 <Close onClick={this.props.onCloseClick} />
@@ -71,21 +72,31 @@ export default class FatalAccident extends PureComponent {
             </Header>
             <Body>
                 <Content>
-                    <Status
-                        {...status}
-                        messages={this.createMessages(document)}
-                    />
-                    {document && this.renderMetadata(document.data)}
-                    {document && this.renderContent(document.data)}
+                    {loading ? (
+                        <Loading>
+                            Loading fatal recreational accident...
+                        </Loading>
+                    ) : document ? (
+                        <Fragment>
+                            {this.renderMetadata(document.data)}
+                            {this.renderContent(document.data)}
+                        </Fragment>
+                    ) : (
+                        <Muted>
+                            {`Fatal recreational accident "${
+                                this.props.id
+                            }" is not available anymore.`}
+                        </Muted>
+                    )}
                 </Content>
             </Body>
         </Container>
     )
     render() {
         return (
-            <FatalAccidentContainer id={this.props.id}>
-                {this.children}
-            </FatalAccidentContainer>
+            <Document {...fatal.accident(this.props.id)}>
+                {this.renderChildren}
+            </Document>
         )
     }
 }

@@ -20,11 +20,14 @@ import {
     Cell,
     Caption,
 } from 'components/table'
-import { Status } from 'components/misc'
 import { Helper } from 'components/text'
 import { Markup } from 'components/markup'
+import ErrorBoundary from 'components/ErrorBoundary'
+import Fetch from 'components/fetch'
 import { Paginated, Sorted } from 'components/collection'
-import { LEVELS, MINIMUM_DISTANCE } from '../constants'
+import { Error, Muted } from 'components/text'
+import { Distance, Tags } from './cells'
+import { LEVELS } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import styles from './Courses.css'
@@ -35,60 +38,45 @@ export default class Courses extends Component {
         from: PropTypes.instanceOf(Date),
         to: PropTypes.instanceOf(Date),
         tags: PropTypes.instanceOf(Set),
-        sorting: PropTypes.array,
+        sorting: PropTypes.arrayOf(PropTypes.string),
         place: PropTypes.object,
-        onParamChange: PropTypes.func.isRequired,
+        onParamsChange: PropTypes.func.isRequired,
     }
     state = {
         page: 1,
-        sorting: this.props.sorting,
-    }
-    handleParamChange = () => {
-        this.props.onParamChange({
-            sorting: this.state.sorting,
-        })
     }
     handleSortingChange = (name, order) => {
-        const sorting = order === NONE ? null : [name, order]
-
-        this.setState({ sorting }, this.handleParamChange)
+        this.props.onParamsChange({
+            sorting: order === NONE ? null : [name, order],
+        })
     }
     handlePageChange = page => {
         this.setState({ page })
     }
-    getTitle({ status, courses }) {
-        if (status.isLoaded) {
-            return `All courses (${courses.size})`
-        } else {
-            return 'All courses'
-        }
+    getTitle(courses) {
+        return Array.isArray(courses)
+            ? `All courses (${courses.length})`
+            : 'All courses'
     }
-    componentWillReceiveProps({ level, from, to, tags }, { sorting }) {
+    componentWillReceiveProps({ level, from, to, tags, sorting }) {
         if (
             this.props.level !== level ||
             this.props.from !== from ||
             this.props.to !== to ||
             this.props.tags !== tags ||
-            this.state.sorting !== sorting
+            this.props.sorting !== sorting
         ) {
             this.setState({ page: 1 })
         }
     }
-    createMessages({ courses, status }) {
-        return {
-            ...status.messages,
-            isLoaded:
-                status.isLoaded && courses.isEmpty() ? (
-                    <div>
-                        No courses match your criteria, consider finding a
-                        provider on the{' '}
-                        <Link to="/training/providers">providers page</Link> to
-                        contact directly.
-                    </div>
-                ) : (
-                    status.messages.isLoaded
-                ),
-        }
+    renderEmptyMessage(courses) {
+        return courses.length ? null : (
+            <div>
+                No courses match your criteria, consider finding a provider on
+                the <Link to="/training/providers">providers page</Link> to
+                contact directly.
+            </div>
+        )
     }
     renderRow = row => {
         return (
@@ -106,15 +94,14 @@ export default class Courses extends Component {
             </ExpandableRow>
         )
     }
-    renderControlled(course) {
-        const name = course.getIn(['provider', 'name'])
-        const website = course.getIn(['provider', 'website'])
+    renderControlled({ description, provider }) {
+        const { name, website, email, phone, loc_description } = provider
 
         return (
             <div className={styles.Controlled}>
                 <List columns={1} theme="Inline" horizontal>
                     <Entry term="Description">
-                        <Markup>{course.get('description')}</Markup>
+                        <Markup>{description}</Markup>
                     </Entry>
                 </List>
                 <List columns={1} horizontal>
@@ -125,43 +112,33 @@ export default class Courses extends Component {
                         </a>
                     </Entry>
                     <Entry term="Email">
-                        <Mailto email={course.getIn(['provider', 'email'])} />
+                        <Mailto email={email} />
                     </Entry>
                     <Entry term="Phone">
-                        <Phone phone={course.getIn(['provider', 'phone'])} />
+                        <Phone phone={phone} />
                     </Entry>
-                    <Entry term="Location">
-                        {course.getIn(['provider', 'locDescription'])}
-                    </Entry>
+                    <Entry term="Location">{loc_description}</Entry>
                 </List>
             </div>
         )
     }
     renderRows = courses => {
-        return courses.toList().map(this.renderRow)
+        return courses.map(this.renderRow)
     }
-    renderBody({ courses }) {
-        if (courses.isEmpty()) {
+    renderBody = courses => {
+        if (courses.length === 0) {
             return null
         }
 
-        const { place } = this.props
-        const { sorting, page } = this.state
+        const { sorting, place } = this.props
+        const { page } = this.state
         const [name, order] = sorting || []
 
         if (place) {
-            courses = courses.map(course =>
-                course.set(
-                    'distance',
-                    Math.max(
-                        distance(
-                            turf.point(course.get('loc').toArray()),
-                            place
-                        ),
-                        MINIMUM_DISTANCE
-                    )
-                )
-            )
+            courses = courses.map(course => ({
+                ...course,
+                distance: distance(turf.point(course.loc), place),
+            }))
         }
 
         return (
@@ -175,31 +152,40 @@ export default class Courses extends Component {
             </TBody>
         )
     }
-    renderChildren({ props }) {
+    renderError() {
+        return <Error>An error happened while loading courses.</Error>
+    }
+    renderPagination = courses => {
         return (
-            <Layout title={this.getTitle(props)}>
+            <Pagination
+                count={courses.length}
+                page={this.state.page}
+                onChange={this.handlePageChange}
+            />
+        )
+    }
+    renderContent = ({ courses }) => {
+        return (
+            <Layout title={this.getTitle(courses)}>
                 <Responsive>
                     <Table>
                         <Header
                             columns={COLUMNS}
-                            sorting={this.state.sorting}
+                            sorting={this.props.sorting}
                             onSortingChange={this.handleSortingChange}
                             place={this.props.place}
                         />
-                        {this.renderBody(props)}
+                        {Array.isArray(courses) && this.renderBody(courses)}
                         <Caption>
-                            <Status
-                                {...props.status}
-                                messages={this.createMessages(props)}
-                            />
+                            <Fetch.Loading>
+                                <Muted>Loading courses...</Muted>
+                            </Fetch.Loading>
+                            {Array.isArray(courses) &&
+                                this.renderEmptyMessage(courses)}
                         </Caption>
                     </Table>
                 </Responsive>
-                <Pagination
-                    count={props.courses.size}
-                    page={this.state.page}
-                    onChange={this.handlePageChange}
-                />
+                {Array.isArray(courses) && this.renderPagination(courses)}
             </Layout>
         )
     }
@@ -207,9 +193,11 @@ export default class Courses extends Component {
         const { level, from, to, tags } = this.props
 
         return (
-            <Container level={level} from={from} to={to} tags={tags}>
-                {data => this.renderChildren(data)}
-            </Container>
+            <ErrorBoundary fallback={this.renderError}>
+                <Container level={level} from={from} to={to} tags={tags}>
+                    {this.renderContent}
+                </Container>
+            </ErrorBoundary>
         )
     }
 }
@@ -219,88 +207,68 @@ const COLUMNS = [
     {
         name: 'dates',
         title: 'Dates',
-        property(course) {
-            const dateStart = course.get('dateStart')
-            const dateEnd = course.get('dateEnd')
-
-            if (isSameDay(dateStart, dateEnd)) {
-                return <DateTime value={dateStart} />
+        property({ date_start, date_end }) {
+            if (isSameDay(date_start, date_end)) {
+                return <DateTime value={date_start} />
             }
 
-            return <Range format={DATE} from={dateStart} to={dateEnd} />
+            return <Range format={DATE} from={date_start} to={date_end} />
         },
         sorting: NONE,
     },
     {
         name: 'level',
         title: 'Level',
-        property(course) {
-            return course.get('level')
+        property({ level }) {
+            return level
         },
     },
     {
         name: 'provider',
         title: 'Provider',
         sorting: NONE,
-        property(course) {
-            return course.getIn(['provider', 'name'])
+        property({ provider }) {
+            return provider.name
         },
     },
     {
         name: 'distance',
         title({ place }) {
-            if (place) {
-                return (
-                    <Helper
-                        title={`Straight line between ${
-                            place.text
-                        } and the course.`}>
-                        Distance
-                    </Helper>
-                )
-            }
-
-            return 'Distance'
+            return place ? (
+                <Helper
+                    title={`Straight line between ${
+                        place.text
+                    } and the course.`}>
+                    Distance
+                </Helper>
+            ) : (
+                'Distance'
+            )
         },
-        property(course) {
-            const distance = course.get('distance')
-
-            if (typeof distance === 'number') {
-                if (distance <= MINIMUM_DISTANCE) {
-                    return `< ${MINIMUM_DISTANCE} km`
-                } else {
-                    return `${Math.ceil(distance)} km`
-                }
-            }
-
-            return 'N/A'
+        property({ distance }) {
+            return <Distance value={distance} />
         },
         sorting: NONE,
     },
     {
         name: 'location',
         title: 'Location',
-        property(course) {
-            return course.get('locDescription')
+        property({ loc_description }) {
+            return loc_description
         },
     },
     {
         name: 'tags',
         title: 'Tags',
-        property(course) {
-            return course
-                .get('tags')
-                .sort()
-                .join(', ')
+        property({ tags }) {
+            return <Tags value={tags} />
         },
     },
     {
         name: 'cost',
         title: 'Cost',
-        property(course) {
-            const { cost, currency } = course.get('cost').toObject()
-
-            return `${cost} ${currency}`
+        property({ cost }) {
+            return `${cost.cost} ${cost.currency}`
         },
     },
 ]
@@ -308,10 +276,10 @@ const SORTERS = new Map([
     [
         'provider',
         (a, b) =>
-            a
-                .getIn(['provider', 'name'])
-                .localeCompare(b.getIn(['provider', 'name'])),
+            a.provider.name.localeCompare(b.provider.name, 'en', {
+                sensitivity: 'base',
+            }),
     ],
-    ['distance', (a, b) => a.get('distance') < b.get('distance')],
-    ['dates', (a, b) => a.get('dateStart') < b.get('dateStart')],
+    ['distance', (a, b) => a.distance - b.distance],
+    ['dates', (a, b) => a.date_start - b.date_start],
 ])

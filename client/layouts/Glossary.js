@@ -2,21 +2,19 @@ import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Link, withRouter } from 'react-router-dom'
 import memoize from 'lodash/memoize'
-import { parse } from 'prismic'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
-import { Document, DocumentsContainer } from 'prismic/containers'
+import { Document, Documents } from 'prismic/containers'
+import { glossary } from 'prismic/params'
 import { StructuredText, SliceZone } from 'prismic/components/base'
-import * as Predicates from 'vendor/prismic/predicates'
 import SliceComponents from 'prismic/components/slice/rework'
-import { GLOSSARY, DEFINITION } from 'constants/prismic'
 import * as utils from 'utils/search'
 import styles from './Glossary.css'
 
@@ -78,23 +76,17 @@ export default class Layout extends Component {
 }
 
 class Glossary extends Component {
-    renderContent = ({ document, status }) => {
+    renderContent = ({ document, loading }) => {
         return (
             <Fragment>
-                <Status {...status} />
+                <Loading show={loading} />
                 {document && <GlossaryContent {...document.data} />}
             </Fragment>
         )
     }
     render() {
         return (
-            <Document
-                parse
-                type={GLOSSARY}
-                uid="glossary"
-                options={FETCH_DEFINITION_TITLE_OPTIONS}>
-                {this.renderContent}
-            </Document>
+            <Document {...glossary.glossary()}>{this.renderContent}</Document>
         )
     }
 }
@@ -104,21 +96,17 @@ class Definition extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
     }
-    renderContent = ({ status, document }) => {
+    renderContent = ({ loading, document }) => {
         return (
             <Fragment>
-                <Status {...status} />
-                {document && <DefinitionLayout {...document} />}
+                <Loading show={loading} />
+                {document && <DefinitionLayout {...document.data} />}
             </Fragment>
         )
     }
     render() {
         return (
-            <Document
-                parse
-                type={DEFINITION}
-                uid={this.props.uid}
-                options={FETCH_DEFINITION_TITLE_OPTIONS}>
+            <Document {...glossary.definition(this.props.uid)}>
                 {this.renderContent}
             </Document>
         )
@@ -141,7 +129,9 @@ class DefinitionLayout extends PureComponent {
                 </h2>
                 {tags.length > 0 && (
                     <TagSet>
-                        {tags.map((tag, index) => <Tag key={index}>{tag}</Tag>)}
+                        {tags.map((tag, index) => (
+                            <Tag key={index}>{tag}</Tag>
+                        ))}
                     </TagSet>
                 )}
                 <SliceZone
@@ -316,7 +306,7 @@ class GlossaryContent extends Component {
 
         return sections
     })
-    renderContent = ({ documents, status }) => {
+    renderContent = ({ documents = [], loading }) => {
         const filtered = this.filter(this.state.filterText, documents)
 
         if (documents.length === 0) {
@@ -326,11 +316,11 @@ class GlossaryContent extends Component {
 
         return (
             <Fragment>
-                <Status {...status} />
-                {status.isLoaded &&
-                    sections.length === 0 && (
-                        <Muted>No definition matches your criteria.</Muted>
-                    )}
+                {loading ? (
+                    <Loading>Loading definitions...</Loading>
+                ) : documents && sections.length === 0 ? (
+                    <Muted>No definition matches your criteria.</Muted>
+                ) : null}
                 <TagSet>
                     {sections.map(({ letter }) => (
                         <LetterTag key={letter} letter={letter} />
@@ -351,45 +341,16 @@ class GlossaryContent extends Component {
                     value={this.state.filterText}
                     placeholder="Search for a definition"
                 />
-                <DefinitionsContainer>
+                <Documents {...glossary.definitions()}>
                     {this.renderContent}
-                </DefinitionsContainer>
+                </Documents>
             </Fragment>
-        )
-    }
-}
-
-class DefinitionsContainer extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    get params() {
-        return {
-            predicates: [Predicates.type(DEFINITION)],
-            options: FETCH_DEFINITION_TITLE_OPTIONS,
-        }
-    }
-    parse = memoize(documents => documents.map(parse))
-    render() {
-        return (
-            <DocumentsContainer params={this.params}>
-                {props =>
-                    this.props.children({
-                        ...props,
-                        documents: this.parse(props.documents),
-                    })
-                }
-            </DocumentsContainer>
         )
     }
 }
 
 // Constants
 const LETTERS = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-const FETCH_DEFINITION_TITLE_OPTIONS = {
-    fetchLinks: 'definition.title',
-    pageSize: 1000,
-}
 
 // Utils
 function hasDefinition({ definition }) {

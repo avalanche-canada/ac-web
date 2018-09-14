@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react'
-import WeatherStations from 'containers/WeatherStations'
+import React, { PureComponent, Fragment } from 'react'
+import { Stations } from 'containers/weather'
+import ErrorBoundary from 'components/ErrorBoundary'
 import {
     List,
     ListItem,
@@ -9,35 +10,54 @@ import {
     Main,
     Headline,
 } from 'components/page'
-import { Status } from 'components/misc'
+import Fetch from 'components/fetch'
+import { Error, Muted } from 'components/text'
 
 export default class WeatherStationList extends PureComponent {
-    children = stations => [
-        stations.isEmpty() || (
-            <Headline>
-                Click on a link below to see weather station data.
-            </Headline>
-        ),
-        <Status isLoading={stations.isEmpty()} />,
-        <List>
-            {stations.map(item => {
-                const id = item.get('stationId')
-
-                return (
-                    <ListItem key={id} to={`/weather/stations/${id}`}>
-                        {item.get('name')}
-                    </ListItem>
-                )
-            })}
-        </List>,
-    ]
+    renderData(data) {
+        return (
+            <Fragment>
+                <Headline>
+                    Click on a link below to see weather station data.
+                </Headline>
+                <List>
+                    {data.map(({ stationId, name }) => {
+                        return (
+                            <ListItem
+                                key={stationId}
+                                to={`/weather/stations/${stationId}`}>
+                                {name}
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            </Fragment>
+        )
+    }
+    children = () => (
+        <Fragment>
+            <Fetch.Loading>
+                <Muted>Loading weather station data...</Muted>
+            </Fetch.Loading>
+            <Fetch.Data strict>{this.renderData}</Fetch.Data>
+        </Fragment>
+    )
+    renderError() {
+        return (
+            <Error>
+                Oups!! An error happened while loading weather station data.
+            </Error>
+        )
+    }
     render() {
         return (
             <Page>
                 <Header title="Weather stations" />
                 <Content>
                     <Main>
-                        <WeatherStations>{this.children}</WeatherStations>
+                        <ErrorBoundary fallback={this.renderError}>
+                            <Stations>{this.children}</Stations>
+                        </ErrorBoundary>
                     </Main>
                 </Content>
             </Page>

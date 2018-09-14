@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { ItemSet, Item } from 'components/sponsor'
-import { DocumentsById } from 'prismic/containers'
-import { Status } from 'components/misc'
+import { Documents } from 'prismic/containers'
+import { Loading } from 'components/text'
+import * as params from 'prismic/params'
 
 export default class SponsorSet extends Component {
     get ids() {
@@ -10,13 +11,17 @@ export default class SponsorSet extends Component {
     renderItem({ id, data: { image229, name, url } }) {
         return <Item key={id} title={name} src={image229} url={url} />
     }
-    renderer = ({ status, documents }) => (
+    renderChildren = ({ loading, documents = [] }) => (
         <Fragment>
-            <Status {...status} />
+            <Loading show={loading} />
             <ItemSet>{documents.map(this.renderItem)}</ItemSet>
         </Fragment>
     )
     render() {
-        return <DocumentsById ids={this.ids}>{this.renderer}</DocumentsById>
+        return (
+            <Documents {...params.ids(this.ids)}>
+                {this.renderChildren}
+            </Documents>
+        )
     }
 }

@@ -1,8 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Biography from 'components/biography'
 import { StructuredText } from 'prismic/components/base'
-import { DocumentsById } from 'prismic/containers'
-import { Status } from 'components/misc'
+import { Documents } from 'prismic/containers'
+import { Loading } from 'components/text'
+import * as params from 'prismic/params'
 
 export default class StaffSet extends Component {
     get ids() {
@@ -19,11 +20,17 @@ export default class StaffSet extends Component {
             </Biography>
         )
     }
-    renderer = ({ status, documents }) => [
-        <Status {...status} />,
-        documents.map(this.renderItem),
-    ]
+    renderChildren = ({ loading, documents = [] }) => (
+        <Fragment>
+            <Loading show={loading} />
+            {documents.map(this.renderItem)}
+        </Fragment>
+    )
     render() {
-        return <DocumentsById ids={this.ids}>{this.renderer}</DocumentsById>
+        return (
+            <Documents {...params.ids(this.ids)}>
+                {this.renderChildren}
+            </Documents>
+        )
     }
 }

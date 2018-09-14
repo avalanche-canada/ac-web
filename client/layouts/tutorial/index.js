@@ -1,13 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Switch, Route, Link, Redirect } from 'react-router-dom'
-import * as Containers from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import { tutorial } from 'prismic/params'
 import * as Page from 'components/page'
 import Tree, { Node } from 'components/tree'
 import { SliceZone } from 'prismic/components/base'
 import * as LocaleContext from 'contexts/locale'
 import SliceComponents from 'prismic/components/slice/rework'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import Pager, { Previous, Next } from 'components/pager'
 import { Window } from 'components/Dimensions'
 import Shim from 'components/Shim'
@@ -46,44 +47,42 @@ export default class Layout extends Component {
             })
         }
     }
-    renderContent = ({ status, document }) => {
+    renderContent = ({ loading, document }) => {
         const { match } = this.props
 
-        return (
+        return loading ? (
+            <Loading />
+        ) : document ? (
             <Fragment>
-                <Status {...status}>
-                    {document && (
-                        <Fragment>
-                            <Sidebar
-                                location={this.props.location}
-                                items={document.data.items}
-                                title={document.data.title[0].text}
-                            />
-                            <Content match={match}>
-                                <h1>
-                                    {match.isExact ? (
-                                        document.data.title[0].text
-                                    ) : (
-                                        <Link to={match.path}>
-                                            {document.data.title[0].text}
-                                        </Link>
-                                    )}
-                                </h1>
-                            </Content>
-                        </Fragment>
-                    )}
-                </Status>
+                <Sidebar
+                    location={this.props.location}
+                    items={document.data.items}
+                    title={document.data.title[0].text}
+                />
+                <Content match={match}>
+                    <h1>
+                        {match.isExact ? (
+                            document.data.title[0].text
+                        ) : (
+                            <Link to={match.path}>
+                                {document.data.title[0].text}
+                            </Link>
+                        )}
+                    </h1>
+                </Content>
             </Fragment>
-        )
+        ) : null
     }
     render() {
         return (
             <Page.Page>
                 <Page.Content>
                     <LocaleContext.Provider value={this.state}>
-                        <Containers.Tutorial locale={this.state.locale}>
+                        <Document
+                            {...tutorial.home()}
+                            locale={this.state.locale}>
                             {this.renderContent}
-                        </Containers.Tutorial>
+                        </Document>
                     </LocaleContext.Provider>
                 </Page.Content>
             </Page.Page>
@@ -170,7 +169,7 @@ class Content extends Component {
         return params.has('uid') ? (
             <LocaleContext.Locale>
                 {locale => (
-                    <Containers.Tutorial locale={locale}>
+                    <Document {...tutorial.home()} locale={locale}>
                         {({ document }) => {
                             if (!document) {
                                 return null
@@ -209,7 +208,7 @@ class Content extends Component {
 
                             return <Redirect to={paths.reverse().join('/')} />
                         }}
-                    </Containers.Tutorial>
+                    </Document>
                 )}
             </LocaleContext.Locale>
         ) : null
@@ -264,9 +263,9 @@ class Home extends Component {
         return (
             <LocaleContext.Locale>
                 {locale => (
-                    <Containers.Tutorial locale={locale}>
+                    <Document {...tutorial.home()} locale={locale}>
                         {this.renderContent}
-                    </Containers.Tutorial>
+                    </Document>
                 )}
             </LocaleContext.Locale>
         )
@@ -327,34 +326,30 @@ class Tutorial extends Component {
                 />
                 <LocaleContext.Locale>
                     {locale => (
-                        <Containers.Tutorial locale={locale}>
+                        <Document {...tutorial.home()} locale={locale}>
                             {this.renderPager}
-                        </Containers.Tutorial>
+                        </Document>
                     )}
                 </LocaleContext.Locale>
             </Fragment>
         )
     }
-    renderContent = ({ status, document }) => {
-        return (
-            <Fragment>
-                <Status {...status}>
-                    {document ? (
-                        this.renderTutorial(document)
-                    ) : (
-                        <NoDocument uid={this.uid} />
-                    )}
-                </Status>
-            </Fragment>
+    renderContent = ({ loading, document }) => {
+        return loading ? (
+            <Loading />
+        ) : document ? (
+            this.renderTutorial(document)
+        ) : (
+            <NoDocument uid={this.uid} />
         )
     }
     render() {
         return (
             <LocaleContext.Locale>
                 {locale => (
-                    <Containers.TutorialArticle uid={this.uid} locale={locale}>
+                    <Document {...tutorial.article(this.uid)} locale={locale}>
                         {this.renderContent}
-                    </Containers.TutorialArticle>
+                    </Document>
                 )}
             </LocaleContext.Locale>
         )
@@ -401,9 +396,9 @@ class NoDocument extends Component {
         return (
             <LocaleContext.Locale>
                 {locale => (
-                    <Containers.Tutorial locale={locale}>
+                    <Document {...tutorial.home()} locale={locale}>
                         {props => this.renderContent(props, locale)}
-                    </Containers.Tutorial>
+                    </Document>
                 )}
             </LocaleContext.Locale>
         )

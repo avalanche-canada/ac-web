@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { CancelToken } from 'axios'
 import { Input } from 'components/controls'
 import { Place, Close, Spinner } from 'components/icons'
 import { findPlaces } from 'services/mapbox/api'
@@ -24,14 +23,7 @@ export default class Geocoder extends PureComponent {
         isFetching: false,
         isActive: false,
         error: null,
-        value: '',
-    }
-    constructor(props) {
-        super(props)
-
-        /* eslint-disable react/no-direct-mutation-state */
-        this.state.value = props.value
-        /* eslint-disable react/no-direct-mutation-state */
+        value: this.props.value || '',
     }
     get isActive() {
         return this.state.isActive
@@ -55,22 +47,12 @@ export default class Geocoder extends PureComponent {
             {
                 isFetching: true,
             },
-            this.findPlaces.bind(this, value)
+            () => {
+                findPlaces(value).then(this.handleLoad, this.handleError)
+            }
         )
     }
-    findPlaces(value) {
-        if (this.source) {
-            this.source.cancel()
-        }
-
-        const source = (this.source = CancelToken.source())
-        const options = {
-            cancelToken: source.token,
-        }
-
-        findPlaces(value, options).then(this.handleLoad, this.handleError)
-    }
-    handleLoad = ({ data: { features } }) => {
+    handleLoad = ({ features }) => {
         this.setState({
             places: features,
             isFetching: false,
@@ -143,7 +125,7 @@ export default class Geocoder extends PureComponent {
                     <Dropdown>
                         <OptionSet onChange={this.handleOptionClick}>
                             {places.map(place => (
-                                <Option value={place}>
+                                <Option key={place.id} value={place}>
                                     {place.place_name}
                                 </Option>
                             ))}

@@ -1,6 +1,7 @@
 export Input from './Input'
 export * from './Dropdown'
 export Geocoder from './Geocoder'
+export { Option, OptionSet } from './options'
 export DateRange from './DateRange'
 export DayPicker from './DayPicker'
 export Holder from './Holder'

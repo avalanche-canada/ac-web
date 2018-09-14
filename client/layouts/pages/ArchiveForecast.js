@@ -1,20 +1,19 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import Url from 'url'
-import ForecastRegions from 'containers/ForecastRegions'
-import Container from 'containers/Forecast'
+import formatDate from 'date-fns/format'
+import endOfYesterday from 'date-fns/end_of_yesterday'
+import { Forecast } from 'containers/forecast'
+import { Region, Regions } from 'containers/features'
 import { Page, Content, Header, Main } from 'components/page'
-import * as Components from 'layouts/products/forecast'
+import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
+import Fetch from 'components/fetch'
 import { Muted } from 'components/text'
 import { DateElement } from 'components/time'
-import { Status } from 'components/misc'
 import Alert, { WARNING } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
-import formatDate from 'date-fns/format'
-import endOfYesterday from 'date-fns/end_of_yesterday'
 import {
     PARKS_CANADA,
     CHIC_CHOCS,
@@ -31,60 +30,63 @@ export default class ArchiveForecast extends PureComponent {
         name: this.props.name,
         date: this.props.date,
     }
-    constructor(props) {
-        super(props)
-
-        this.disabledDays = {
-            after: endOfYesterday(),
-        }
+    disabledDays = {
+        after: endOfYesterday(),
     }
     componentWillReceiveProps({ name, date }) {
         if (name !== this.state.name || date !== this.state.date) {
-            this.setState({
-                name,
-                date,
-            })
+            this.setState({ name, date })
         }
     }
     handleParamsChange = () => this.props.onParamsChange(this.state)
     handleNameChange = name => this.setState({ name }, this.handleParamsChange)
     handleDateChange = date => this.setState({ date }, this.handleParamsChange)
-    regionsDropdown(regions) {
-        return (
+    regionsDropdown = ({ data }) => {
+        return data ? (
             <Dropdown
-                options={new Map(regions.map(createRegionOption))}
+                options={new Map(data.map(createRegionOption))}
                 value={this.state.name}
                 onChange={this.handleNameChange}
                 disabled
                 placeholder="Select a region"
             />
+        ) : (
+            'Loading...'
         )
     }
-    renderWarning(region) {
-        const to = getWarningUrl(region, this.props.date)
+    renderWarning = ({ data }) => {
+        if (!data) {
+            return null
+        }
+
+        const to = getWarningUrl(data, this.props.date)
 
         return to ? (
-            <Link to={to} target={region.get('id')}>
-                <Alert type={WARNING}>{getWarningText(region)}</Alert>
+            <Link to={to} target={data.id}>
+                <Alert type={WARNING}>{getWarningText(data)}</Alert>
             </Link>
         ) : null
     }
-    forecast = ({ forecast, region, status }) => (
-        <Components.Forecast value={forecast && forecast.toJSON()}>
-            <Status {...status} />
-            <Components.Metadata />
-            <Components.ArchiveWarning />
-            <Components.Headline />
-            <Components.TabSet />
-            <Components.Footer>
-                <Footer.DangerRatings />
-                <Footer.Disclaimer />
-            </Components.Footer>
-            {!forecast && status.isLoaded && region
-                ? this.renderWarning(region)
-                : null}
-        </Components.Forecast>
-    )
+    forecast({ data }) {
+        const { name } = this.state
+
+        return (
+            <components.Forecast value={data}>
+                <Fetch.Loading>
+                    <Muted>Loading forecast...</Muted>
+                </Fetch.Loading>
+                <components.Metadata />
+                <components.ArchiveWarning date={this.props.date} />
+                <components.Headline />
+                <components.TabSet />
+                <components.Footer>
+                    <Footer.DangerRatings />
+                    <Footer.Disclaimer />
+                </components.Footer>
+                <Region name={name}>{this.renderWarning}</Region>
+            </components.Forecast>
+        )
+    }
     get container() {
         const { name, date } = this.state
 
@@ -97,9 +99,9 @@ export default class ArchiveForecast extends PureComponent {
         }
 
         return (
-            <Container name={name} date={date}>
-                {this.forecast}
-            </Container>
+            <Forecast name={name} date={date}>
+                {props => this.forecast(props)}
+            </Forecast>
         )
     }
     get metadata() {
@@ -108,9 +110,7 @@ export default class ArchiveForecast extends PureComponent {
         return (
             <Metadata>
                 <Entry>
-                    <ForecastRegions>
-                        {regions => this.regionsDropdown(regions)}
-                    </ForecastRegions>
+                    <Regions>{this.regionsDropdown}</Regions>
                 </Entry>
                 {name && (
                     <Entry>
@@ -145,14 +145,11 @@ export default class ArchiveForecast extends PureComponent {
 }
 
 // Utils
-function createRegionOption(region) {
-    return [region.get('id'), region.get('name')]
+function createRegionOption({ id, name }) {
+    return [id, name]
 }
 
-function getWarningText(region) {
-    const owner = region.get('owner')
-    const name = region.get('name')
-
+function getWarningText({ name, owner }) {
     switch (owner) {
         case PARKS_CANADA:
             return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
@@ -164,22 +161,15 @@ function getWarningText(region) {
     }
 }
 
-function getWarningUrl(region, date) {
-    const type = region.get('type')
-    const url = region.get('url')
-
+function getWarningUrl({ type, url, externalUrl }, date) {
     switch (type) {
         case 'parks': {
-            const externalUrl = region.get('externalUrl')
-            const url = Url.parse(externalUrl, true)
+            const [path, search] = externalUrl.split('?')
+            const params = new URLSearchParams(search)
 
-            delete url.search
+            params.set('d', formatDate(date, 'YYYY-MM-DD'))
 
-            Object.assign(url.query, {
-                d: formatDate(date, 'YYYY-MM-DD'),
-            })
-
-            return Url.format(url)
+            return [path, params.toString()].join('?')
         }
         case 'link':
             return url.replace('http://avalanche.ca', '')

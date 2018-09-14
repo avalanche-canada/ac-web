@@ -2,11 +2,12 @@ import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Page, Header, Main, Content, Aside } from 'components/page'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import { Item } from 'components/sidebar'
 import * as Hzr from 'layouts/products/hzr'
-import { HotZoneReport as Container } from 'prismic/containers'
-import HotZone from 'containers/HotZone'
+import { Document } from 'prismic/containers'
+import { hotZone } from 'prismic/params'
+import { HotZone } from 'containers/features'
 import * as utils from 'utils/hzr'
 
 export default class HotZoneReportLayout extends PureComponent {
@@ -14,17 +15,26 @@ export default class HotZoneReportLayout extends PureComponent {
         region: PropTypes.string.isRequired,
         uid: PropTypes.string,
     }
-    renderHeader = props => {
-        return <Header title={utils.title(props)} />
+    renderHeader = (report, loading) => {
+        return (
+            <HotZone name={this.props.region}>
+                {({ data }) => (
+                    <Header
+                        title={utils.title({ report, loading, hotZone: data })}
+                    />
+                )}
+            </HotZone>
+        )
     }
-    renderChildrenFactory = ({ report, status }) => ({ hotZone }) => (
+    renderReport = ({ document, loading }) => (
         <Fragment>
-            {this.renderHeader({ report, status, hotZone })}
+            {this.renderHeader(document, loading)}
             <Content>
                 <Main>
-                    <Status {...status} />
-                    {status.isLoaded && (
-                        <Hzr.Report value={report}>
+                    {loading ? (
+                        <Loading />
+                    ) : (
+                        <Hzr.Report value={document}>
                             <Hzr.Metadata shareable />
                             <Hzr.ArchiveWarning />
                             <Hzr.Header />
@@ -37,7 +47,7 @@ export default class HotZoneReportLayout extends PureComponent {
                     )}
                 </Main>
                 <Aside>
-                    <Hzr.Report value={report}>
+                    <Hzr.Report value={document}>
                         <Hzr.Sidebar shareable>
                             <Item>
                                 <Link
@@ -53,15 +63,13 @@ export default class HotZoneReportLayout extends PureComponent {
             </Content>
         </Fragment>
     )
-    children = props => (
-        <HotZone id={this.props.region}>
-            {this.renderChildrenFactory(props)}
-        </HotZone>
-    )
     render() {
+        const { uid, region } = this.props
+        const params = uid ? hotZone.uid(uid) : hotZone.report(region)
+
         return (
             <Page>
-                <Container {...this.props}>{this.children}</Container>
+                <Document {...params}>{this.renderReport}</Document>
             </Page>
         )
     }

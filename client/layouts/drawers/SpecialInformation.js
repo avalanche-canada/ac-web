@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Container,
@@ -8,12 +8,13 @@ import {
     Content,
     Close,
 } from 'components/page/drawer'
-import { Status } from 'components/misc'
+import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import { SpecialInformation as SpecialInformationContainer } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import { special } from 'prismic/params'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { geometry } from '@turf/helpers'
+import * as turf from '@turf/helpers'
 import { StructuredText } from 'prismic/components/base'
 
 function parseLocation({ location: { longitude, latitude } }) {
@@ -26,23 +27,24 @@ export default class SpecialInformation extends PureComponent {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    renderHeader = ({ headline, locations }) => {
-        const { onLocateClick } = this.props
-        function handleLocateClick() {
-            const { length } = locations
-            const type = length === 1 ? 'Point' : 'MultiPoint'
-            const coordinates =
-                length === 1
-                    ? parseLocation(locations[0])
-                    : locations.map(parseLocation)
+    handleLocateClick = () => {
+        const { locations } = this.document
+        const { length } = locations
+        const feature = length === 1 ? turf.point : turf.multiPoint
+        const coordinates =
+            length === 1
+                ? parseLocation(locations[0])
+                : locations.map(parseLocation)
 
-            onLocateClick(geometry(type, coordinates))
-        }
+        this.props.onLocateClick(feature(coordinates))
+    }
+    renderHeader = document => {
+        this.document = document
 
         return (
             <h1>
-                <span>{headline}</span>
-                <DisplayOnMap onClick={handleLocateClick} />
+                <span>{document.headline}</span>
+                <DisplayOnMap onClick={this.handleLocateClick} />
             </h1>
         )
     }
@@ -88,32 +90,40 @@ export default class SpecialInformation extends PureComponent {
                 : `Special information "${id}" is not available anymore.`,
         }
     }
-    children = ({ document, status }) => (
+    renderChildren = ({ document, loading }) => (
         <Container>
             <Navbar>
                 <Close onClick={this.props.onCloseClick} />
             </Navbar>
             <Header subject="Special Information">
-                {document && this.renderHeader(document)}
+                {document && this.renderHeader(document.data)}
             </Header>
             <Body>
                 <Content>
-                    <Status
-                        {...status}
-                        messages={this.createMessages(document)}
-                    />
-                    {document && this.renderMetadata(document)}
-                    {document && this.renderLocation(document)}
-                    {document && this.renderContent(document)}
+                    {loading ? (
+                        <Loading>Loading latest special information...</Loading>
+                    ) : document ? (
+                        <Fragment>
+                            {this.renderMetadata(document.data)}
+                            {this.renderLocation(document.data)}
+                            {this.renderContent(document.data)}
+                        </Fragment>
+                    ) : (
+                        <Muted>
+                            {`Special information "${
+                                this.props.id
+                            }" is not available anymore.`}
+                        </Muted>
+                    )}
                 </Content>
             </Body>
         </Container>
     )
     render() {
         return (
-            <SpecialInformationContainer id={this.props.id}>
-                {this.children}
-            </SpecialInformationContainer>
+            <Document {...special.report(this.props.id)}>
+                {this.renderChildren}
+            </Document>
         )
     }
 }

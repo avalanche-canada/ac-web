@@ -1,10 +1,5 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Provider } from './Context'
-import TabSet from './TabSet'
-import Headline from './Headline'
-import Footer from './Footer'
-import ArchiveWarning from './ArchiveWarning'
-import Metadata from './Metadata'
 
 export { Provider, Consumer } from './Context'
 export Metadata from './Metadata'
@@ -16,17 +11,5 @@ export Sidebar from './Sidebar'
 export KananaskisSidebar from './KananaskisSidebar'
 
 export function Forecast({ children, value }) {
-    return (
-        <Provider value={value}>
-            {children || (
-                <Fragment>
-                    <Metadata />
-                    <ArchiveWarning />
-                    <Headline />
-                    <TabSet />
-                    <Footer />
-                </Fragment>
-            )}
-        </Provider>
-    )
+    return <Provider value={value}>{children}</Provider>
 }

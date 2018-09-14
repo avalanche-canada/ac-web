@@ -2,19 +2,15 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
-import {
-    Forecast,
-    Metadata,
-    Headline,
-    TabSet,
-    Footer,
-} from 'layouts/products/forecast'
-import { Status, SPAW as SPAWComponent } from 'components/misc'
+import * as components from 'layouts/products/forecast'
+import { SPAW as SPAWComponent } from 'components/misc'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import ForecastContainer from 'containers/Forecast'
+import { Muted } from 'components/text'
+import { Forecast } from 'containers/forecast'
+import { Region } from 'containers/features'
 import * as utils from 'utils/region'
 
 export default class Layout extends PureComponent {
@@ -36,60 +32,60 @@ export default class Layout extends PureComponent {
 
         return <SPAWComponent link={link} style={style} />
     }
-    renderHeader(region, forecast, status) {
-        const { onLocateClick } = this.props
-        let title = status.messages.isLoading
-
-        if (forecast) {
-            title = forecast.get('bulletinTitle')
-        } else if (region) {
-            title = region.get('name')
-        }
-
-        function handleLocateClick() {
-            onLocateClick(utils.geometry(region))
-        }
+    handleLocateClick = () => {
+        this.props.onLocateClick(utils.geometry(this.region))
+    }
+    renderHeader({ data, loading }) {
+        this.region = data
+        const title = loading || !data ? 'Loading...' : data.name
 
         return (
-            <Header subject="Avalanche Forecast">
-                <h1>
-                    <Link to={this.link}>{title}</Link>
-                    {region && <DisplayOnMap onClick={handleLocateClick} />}
-                </h1>
-            </Header>
+            <h1>
+                {data ? <Link to={this.link}>{title}</Link> : title}
+                {data && <DisplayOnMap onClick={this.handleLocateClick} />}
+            </h1>
         )
     }
-    children = ({ region, forecast, status }) => (
-        <Container>
-            <Navbar>
-                <SPAW name={this.props.name}>{this.renderSPAW}</SPAW>
-                <Sponsor label={null} />
-                <Close onClick={this.props.onCloseClick} />
-            </Navbar>
-            {this.renderHeader(region, forecast, status)}
-            <Body>
-                <Status style={STATUS_STYLE} {...status} />
-                <Forecast value={forecast && forecast.toJSON()}>
-                    <Shim horizontal>
-                        <Metadata />
-                        <Headline />
-                    </Shim>
-                    <TabSet />
-                    <Footer />
-                </Forecast>
-            </Body>
-        </Container>
-    )
+    children({ loading, data }) {
+        const { name, onCloseClick } = this.props
+
+        return (
+            <Container>
+                <Navbar>
+                    <SPAW name={name}>{this.renderSPAW}</SPAW>
+                    <Sponsor label={null} />
+                    <Close onClick={onCloseClick} />
+                </Navbar>
+                <Header subject="Avalanche Forecast">
+                    <Region name={name}>
+                        {props => this.renderHeader(props)}
+                    </Region>
+                </Header>
+                <Body>
+                    {loading && (
+                        <Shim all>
+                            <Muted>Loading avalanche forecast...</Muted>
+                        </Shim>
+                    )}
+                    {data && (
+                        <components.Forecast value={data}>
+                            <Shim horizontal>
+                                <components.Metadata />
+                                <components.Headline />
+                            </Shim>
+                            <components.TabSet />
+                            <components.Footer />
+                        </components.Forecast>
+                    )}
+                </Body>
+            </Container>
+        )
+    }
     render() {
         return (
-            <ForecastContainer name={this.props.name}>
-                {this.children}
-            </ForecastContainer>
+            <Forecast name={this.props.name}>
+                {props => this.children(props)}
+            </Forecast>
         )
     }
-}
-
-// Constants
-const STATUS_STYLE = {
-    margin: '1em',
 }

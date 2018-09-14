@@ -1,5 +1,3 @@
-import * as qs from 'querystring'
-import { clean } from 'utils/object'
 import { ASC, DESC, NONE } from 'constants/sortings'
 import baseFormatDate from 'date-fns/format'
 import baseParseDate from 'date-fns/parse'
@@ -7,51 +5,52 @@ import baseParseDate from 'date-fns/parse'
 const DATE = 'YYYY-MM-DD'
 
 export function parse(search) {
-    if (typeof search === 'string') {
-        return qs.parse(search.replace(/^\?/, ''))
+    const params = new URLSearchParams(search)
+    const query = {}
+
+    for (const [key, value] of params.entries()) {
+        if (key in query) {
+            if (Array.isArray(query[key])) {
+                query[key].push(value)
+            } else {
+                query[key] = [query[key], value]
+            }
+        } else {
+            query[key] = value
+        }
     }
 
-    return {}
+    return query
 }
 
 export function stringify(query = {}) {
-    query = clean({ ...query })
-
-    if (Object.keys(query).length === 0) {
-        return null
-    }
-
-    for (let key in query) {
-        if (query[key] instanceof Set) {
-            query[key] = Array.from(query[key])
+    const params = Object.entries(query).reduce((params, [key, value]) => {
+        if (value) {
+            if (value instanceof Date) {
+                params.append(key, formatDate(value))
+            } else if (value instanceof Set || Array.isArray(value)) {
+                for (const valeur of value) {
+                    params.append(key, valeur)
+                }
+            } else {
+                params.append(key, value)
+            }
         }
-        if (query[key] instanceof Date) {
-            query[key] = formatDate(query[key])
-        }
-    }
 
-    return '?' + qs.stringify(query)
-}
+        return params
+    }, new URLSearchParams())
 
-export function assign(previous, next) {
-    previous = typeof previous === 'string' ? parse(previous) : previous
-    next = typeof next === 'string' ? parse(next) : next
-
-    return clean(Object.assign({}, previous, next))
+    return params.keys().next().done ? null : '?' + params.toString()
 }
 
 export function toSet(values) {
     if (values === undefined) {
-        return
+        return new Set()
     }
 
     values = typeof values === 'string' ? [values] : values
 
-    return new Set(values.map(trim).filter(Boolean))
-}
-
-function trim(string) {
-    return string.trim()
+    return new Set(Array.from(values, trim).filter(Boolean))
 }
 
 export function toNumber(value) {
@@ -98,4 +97,9 @@ export function parseDate(string) {
 
 export function formatDate(date) {
     return date && baseFormatDate(date, DATE)
+}
+
+// Utils
+function trim(string) {
+    return string.trim()
 }

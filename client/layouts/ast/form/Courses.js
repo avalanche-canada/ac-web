@@ -5,6 +5,7 @@ import Layout from './Layout'
 import { Control } from 'components/form'
 import { DropdownFromOptions, Geocoder, DateRange } from 'components/controls'
 import { LEVELS, TAGS } from '../constants'
+import { ASC } from 'constants/sortings'
 
 export default class Courses extends PureComponent {
     static propTypes = {
@@ -13,7 +14,7 @@ export default class Courses extends PureComponent {
         to: PropTypes.instanceOf(Date),
         tags: PropTypes.instanceOf(Set),
         place: PropTypes.object,
-        onParamChange: PropTypes.func.isRequired,
+        onParamsChange: PropTypes.func.isRequired,
     }
     state = {
         place: this.props.place,
@@ -22,14 +23,27 @@ export default class Courses extends PureComponent {
         to: this.props.to,
         tags: this.props.tags,
     }
-    handleParamChange = () => this.props.onParamChange(this.state)
-    handleLevelChange = level =>
-        this.setState({ level }, this.handleParamChange)
-    handleDateRangeChange = range =>
-        this.setState(range, this.handleParamChange)
-    handleTagsChange = tags => this.setState({ tags }, this.handleParamChange)
-    handlePlaceChange = place =>
-        this.setState({ place }, this.handleParamChange)
+    handleParamsChange = () => {
+        this.props.onParamsChange(this.state)
+    }
+    handleLevelChange = level => {
+        this.setState({ level }, this.handleParamsChange)
+    }
+    handleDateRangeChange = range => {
+        this.setState(range, this.handleParamsChange)
+    }
+    handleTagsChange = tags => {
+        this.setState({ tags }, this.handleParamsChange)
+    }
+    handlePlaceChange = place => {
+        this.setState(
+            {
+                place,
+                sorting: place ? ['distance', ASC] : null,
+            },
+            this.handleParamsChange
+        )
+    }
     render() {
         return (
             <Layout legend="Find a course">

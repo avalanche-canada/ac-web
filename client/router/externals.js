@@ -1,20 +1,19 @@
-import URL from 'url'
 import { VANCOUVER_ISLAND, CHIC_CHOCS } from 'constants/forecast/owners'
 
 const externals = new Map([
-    ['little-yoho', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY'],
+    ['little-yoho', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY'],
     [
         'banff-yoho-kootenay',
-        'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY',
+        '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY',
     ],
-    [VANCOUVER_ISLAND, 'http://www.islandavalanchebulletin.com/'],
-    ['jasper', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=2&d=TODAY'],
-    ['waterton', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=4&d=TODAY'],
+    [VANCOUVER_ISLAND, '//www.islandavalanchebulletin.com/'],
+    ['jasper', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=2&d=TODAY'],
+    ['waterton', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=4&d=TODAY'],
     [
         CHIC_CHOCS,
-        'https://avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche',
+        '//avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche',
     ],
-    ['glacier', 'http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY'],
+    ['glacier', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY'],
 ])
 
 export default externals
@@ -27,13 +26,12 @@ export function open(name, date) {
     let url = externals.get(name)
 
     if (date) {
-        const parsedUrl = URL.parse(url, true)
+        const [path, search] = url.split('?')
+        const params = new URLSearchParams(search)
 
-        parsedUrl.query.d = date
+        params.set('d', date)
 
-        delete parsedUrl.search
-
-        url = URL.format(parsedUrl)
+        url = [path, params.toString()].filter(Boolean).join('?')
     }
 
     try {

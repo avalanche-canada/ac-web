@@ -69,7 +69,7 @@
         background-color: var(--primary);
 
         &:hover {
-            background-color: color(var(--primary) blackness(15%));
+            background-color: color-mod(var(--primary) blackness(15%));
         }
 
         &:after {
@@ -99,7 +99,7 @@
         background-color: var(--brand-secondary);
 
         &:hover {
-            background-color: color(var(--brand-secondary) blackness(15%));
+            background-color: color-mod(var(--brand-secondary) blackness(15%));
         }
 
         &:after {

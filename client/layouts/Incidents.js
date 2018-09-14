@@ -1,16 +1,13 @@
-import React, { PureComponent, Fragment } from 'react'
-import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
+import React, { PureComponent } from 'react'
+import { Page, Main, Content, Header } from 'components/page'
 import * as c from 'components/incidents'
 import format from 'date-fns/format'
-import { incidentsBaseUrl } from 'api/config'
+import * as requests from 'api/requests/incidents'
+import * as utils from 'services/fetch/utils'
 
-
-
-const PENDING   = 'PENDING';
-const FULFILLED = 'FULFILLED';
-const ERROR     = 'ERROR';
-
-const BASE_URL = incidentsBaseUrl + '/public/incidents'
+const PENDING = 'PENDING'
+const FULFILLED = 'FULFILLED'
+const ERROR = 'ERROR'
 
 class IncidentDetailsContainer extends PureComponent {
     state = {
@@ -19,30 +16,27 @@ class IncidentDetailsContainer extends PureComponent {
 
     componentDidMount() {
         this.setState({
-            status:  PENDING,
-        });
+            status: PENDING,
+        })
 
-        const url =  BASE_URL + '/' + this.props.id + '/';
-        console.log(url)
-        fetch(url)
-			.then((d) => d.json())
-            .then((data) => {
+        fetch(requests.incident(this.props.id))
+            .then(utils.status)
+            .then(data => {
                 this.setState({
                     status: FULFILLED,
-                    data: data
+                    data,
                 })
             })
-            .catch((err) => {
+            .catch(err => {
                 this.setState({
                     status: ERROR,
-                    error:  err,
+                    error: err,
                 })
-                console.error(err)
             })
     }
 
-    render () {
-       return this.props.children(this.state)
+    render() {
+        return this.props.children(this.state)
     }
 }
 
@@ -58,75 +52,70 @@ class IncidentListContainer extends PureComponent {
     }
     loadData() {
         this.setState({
-            status:  PENDING,
-        });
+            status: PENDING,
+        })
 
+        const { filters, page } = this.state
+        const params = Object.assign({ page }, filters)
 
-        const opts = Object.assign({page: this.state.page}, this.state.filters)
-        const qs = toQS(opts)
-        const url = BASE_URL + '/' + '?' + qs
+        if (params.from) {
+            params.from = seasonToFrom(params.from)
+        }
+        if (params.to) {
+            params.to = seasonToTo(params.to)
+        }
 
-        fetch(url)
-			.then((d) => d.json())
-            .then((data) => {
+        fetch(requests.incidents(params))
+            .then(utils.status)
+            .then(data => {
                 this.setState({
                     status: FULFILLED,
-                    data: data
+                    data,
                 })
             })
-            .catch((err) => {
+            .catch(err => {
                 this.setState({
                     status: ERROR,
-                    error:  err,
+                    error: err,
                 })
-                console.error(err)
             })
     }
 
-    pageChange = (n) => {
+    pageChange = n => {
         this.setState(
-            (prevState, props) => Object.assign(prevState, {page: n}),
+            (prevState, props) => Object.assign(prevState, { page: n }),
             () => this.loadData()
-        );
+        )
     }
 
-    filterChange = (f) => {
+    filterChange = f => {
         this.setState(
-            (prevState, props) => Object.assign(prevState, {filters: f, page:undefined}),
+            (prevState, props) =>
+                Object.assign(prevState, { filters: f, page: undefined }),
             () => this.loadData()
-        );
+        )
     }
 
-    render () {
-       return this.props.children(this.state, this.pageChange, this.filterChange)
+    render() {
+        return this.props.children(
+            this.state,
+            this.pageChange,
+            this.filterChange
+        )
     }
 }
 
 /*
  * TODO(wnh): This is SOOOO gross. I feel dirty.
  */
-const seasonToFrom =  s => {
+const seasonToFrom = s => {
     if (s === 1980) {
-        return  '0001-01-01'
+        return '0001-01-01'
     } else {
         return format(new Date(s, 5, 1), 'YYYY-MM-DD')
     }
 }
-const seasonToTo  =  s => format(new Date(s+1, 4, 30), 'YYYY-MM-DD')
-
-function toQS(opts) {
-    var pairs = []
-    if(opts.page) {
-        pairs.push('page='+opts.page)
-    }
-    if(opts.from) {
-        pairs.push('from='+seasonToFrom(opts.from))
-    }
-    if(opts.to) {
-        pairs.push('to='+seasonToTo(opts.to))
-    }
-    return pairs.join('&')
-}
+const seasonToTo = s => format(new Date(s + 1, 4, 30), 'YYYY-MM-DD')
 
 export class IncidentsList extends PureComponent {
     render() {
@@ -135,9 +124,17 @@ export class IncidentsList extends PureComponent {
                 <Header title="Historical Incidents" />
                 <Content>
                     <Main>
-                        <IncidentListContainer>{ (props, pageChange, filterChange) => {
-                            return <c.IncidentList {...props} onPageChange={pageChange} onFilterChange={filterChange} />
-                        }}</IncidentListContainer>
+                        <IncidentListContainer>
+                            {(props, pageChange, filterChange) => {
+                                return (
+                                    <c.IncidentList
+                                        {...props}
+                                        onPageChange={pageChange}
+                                        onFilterChange={filterChange}
+                                    />
+                                )
+                            }}
+                        </IncidentListContainer>
                     </Main>
                 </Content>
             </Page>
@@ -153,9 +150,14 @@ export class IncidentDetails extends PureComponent {
                 <Header title="Historical Incidents" />
                 <Content>
                     <Main>
-                        <IncidentDetailsContainer id={id}>{ ({status, data}) => 
-                            <c.IncidentDetails status={status} data={data} />
-                        }</IncidentDetailsContainer>
+                        <IncidentDetailsContainer id={id}>
+                            {({ status, data }) => (
+                                <c.IncidentDetails
+                                    status={status}
+                                    data={data}
+                                />
+                            )}
+                        </IncidentDetailsContainer>
                     </Main>
                 </Content>
             </Page>

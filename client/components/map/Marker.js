@@ -1,57 +1,44 @@
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import StaticComponent from 'components/StaticComponent'
-import mapbox from 'mapbox-gl/mapbox-gl'
+import mapbox from 'mapbox-gl/dist/mapbox-gl'
 
-const { LngLat } = mapbox
-
-export default class Marker extends StaticComponent {
+export default class Marker extends Component {
     static propTypes = {
-        lngLat: PropTypes.instanceOf(LngLat).isRequired,
+        map: PropTypes.object.isRequired,
+        lngLat: PropTypes.arrayOf(PropTypes.number).isRequired,
         element: PropTypes.object.isRequired,
         onClick: PropTypes.func,
         options: PropTypes.object,
-    }
-    static contextTypes = {
-        map: PropTypes.object.isRequired,
-    }
-    _marker = null
-    set marker(marker) {
-        this.remove()
-
-        this._marker = marker
-
-        marker.addTo(this.context.map)
-    }
-    get marker() {
-        return this._marker
     }
     remove() {
         if (this.marker) {
             this.marker.remove()
         }
     }
-    createMarker({ element, lngLat, options, onClick }) {
+    createMarker() {
+        const { element, lngLat, options, onClick, map } = this.props
+
         if (typeof onClick === 'function') {
             Object.assign(element, {
                 onclick: event => onClick(this.props, event),
             })
         }
 
-        return new mapbox.Marker(element, options).setLngLat(lngLat)
+        this.marker = new mapbox.Marker(element, options)
+            .setLngLat(lngLat)
+            .addTo(map)
     }
     componentDidMount() {
-        this.marker = this.createMarker(this.props)
+        this.createMarker()
     }
-    componentWillReceiveProps(nextProps) {
-        const { element, lngLat } = nextProps
-
+    componentDidUpdate({ element, lngLat }) {
         if (this.props.element !== element) {
-            this.marker = this.createMarker(nextProps)
-            return
+            this.remove()
+            this.createMarker()
         }
 
         if (this.props.lngLat !== lngLat) {
-            this.marker.setLngLat(lngLat)
+            this.marker.setLngLat(this.props.lngLat)
         }
     }
     componentWillUnmount() {

@@ -1,10 +1,4 @@
-import Axios from 'axios'
-
-const resourcePrefix = '//res.cloudinary.com/avalanche-ca/image/upload'
-const api = Axios.create({
-    baseURL: '/vendor/cloudinary/resources/image/tags/',
-})
-const THUMBNAIL_SIZE = 50
+import { status, clean } from 'services/fetch/utils'
 
 export function mapToSizeFactory(
     width = THUMBNAIL_SIZE,
@@ -15,28 +9,23 @@ export function mapToSizeFactory(
 
     return function mapToSize({ public_id }) {
         return {
-            original: `${resourcePrefix}/${original}/${public_id}.png`,
-            thumbnail: `${resourcePrefix}/${transform}/${public_id}.png`,
+            original: `${RESOURCE_PREFIX}/${original}/${public_id}.png`,
+            thumbnail: `${RESOURCE_PREFIX}/${transform}/${public_id}.png`,
         }
     }
 }
 
-const OPTIONS = {
-    max_results: 25,
+export function getByTag(tag, options = {}) {
+    const params = new URLSearchParams(clean({ ...OPTIONS, ...options }))
+    const url = `${TAGS_PATH}/${tag.trim()}?${params.toString()}`
+
+    return fetch(url).then(status)
 }
 
-export function getByTag(tag, options = {}) {
-    const params = {
-        ...OPTIONS,
-        ...options,
-    }
-    const { max_results, next_cursor } = params
-    const config = {
-        params: {
-            max_results,
-            next_cursor,
-        },
-    }
-
-    return api.get(tag, config).then(result => result.data)
+// Constants
+const RESOURCE_PREFIX = '//res.cloudinary.com/avalanche-ca/image/upload'
+const THUMBNAIL_SIZE = 50
+const TAGS_PATH = '/vendor/cloudinary/resources/image/tags'
+const OPTIONS = {
+    max_results: 25,
 }

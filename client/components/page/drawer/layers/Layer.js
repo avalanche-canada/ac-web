@@ -11,7 +11,7 @@ export default class Layer extends PureComponent {
         visible: PropTypes.bool.isRequired,
         icon: PropTypes.node,
         onClick: PropTypes.func.isRequired,
-        children: PropTypes.node,
+        children: PropTypes.element,
     }
     state = {
         expanded: false,
