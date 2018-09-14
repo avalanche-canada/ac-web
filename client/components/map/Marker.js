@@ -1,10 +1,8 @@
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import StaticComponent from 'components/StaticComponent'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 
-// TODO: Simplify implementation
-
-export default class Marker extends StaticComponent {
+export default class Marker extends Component {
     static propTypes = {
         map: PropTypes.object.isRequired,
         lngLat: PropTypes.arrayOf(PropTypes.number).isRequired,
@@ -12,24 +10,13 @@ export default class Marker extends StaticComponent {
         onClick: PropTypes.func,
         options: PropTypes.object,
     }
-    _marker = null
-    set marker(marker) {
-        this.remove()
-
-        this._marker = marker
-
-        marker.addTo(this.props.map)
-    }
-    get marker() {
-        return this._marker
-    }
     remove() {
         if (this.marker) {
             this.marker.remove()
         }
     }
     createMarker() {
-        const { element, lngLat, options, onClick } = this.props
+        const { element, lngLat, options, onClick, map } = this.props
 
         if (typeof onClick === 'function') {
             Object.assign(element, {
@@ -37,15 +24,17 @@ export default class Marker extends StaticComponent {
             })
         }
 
-        return new mapbox.Marker(element, options).setLngLat(lngLat)
+        this.marker = new mapbox.Marker(element, options)
+            .setLngLat(lngLat)
+            .addTo(map)
     }
     componentDidMount() {
-        this.marker = this.createMarker()
+        this.createMarker()
     }
     componentDidUpdate({ element, lngLat }) {
         if (this.props.element !== element) {
-            this.marker = this.createMarker()
-            return
+            this.remove()
+            this.createMarker()
         }
 
         if (this.props.lngLat !== lngLat) {
