@@ -15,7 +15,7 @@ export default function ContextMap({ children, ...props }) {
         <div className={styles.ContextMap}>
             {supported() ? (
                 <Map style="2016" {...props}>
-                    {children}
+                    <Map.With>{children}</Map.With>
                     <NavigationControl />
                 </Map>
             ) : (
