@@ -5,7 +5,6 @@ import {
     hostname,
     styleIds,
 } from './config.json'
-import Url from 'url'
 import * as requests from './requests'
 import { status } from 'services/fetch/utils'
 import { Revelstoke } from 'constants/map/locations'
@@ -58,12 +57,5 @@ export function createStyleUrl({
         pathname = pathname + '@2x'
     }
 
-    return Url.format({
-        protocol,
-        hostname,
-        pathname,
-        query: {
-            access_token: accessToken,
-        },
-    })
+    return `${protocol}://${hostname}/${pathname}?access_token=${accessToken}`
 }

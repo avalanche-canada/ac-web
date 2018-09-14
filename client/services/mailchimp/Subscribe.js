@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Url from 'url'
 import { Input } from 'components/controls'
 import Button from 'components/button'
 import styles from './Subscribe.css'
@@ -10,7 +9,7 @@ Subscribe.propTypes = {
 }
 
 export default function Subscribe({ url }) {
-    const { query } = Url.parse(url, true)
+    const params = new URLSearchParams(url)
 
     return (
         <form
@@ -28,13 +27,8 @@ export default function Subscribe({ url }) {
             <Button type="submit" className={styles.Submit}>
                 Subscribe
             </Button>
-            {Object.keys(query).map(name => (
-                <input
-                    key={name}
-                    name={name}
-                    type="hidden"
-                    value={query[name]}
-                />
+            {Array.from(params.entries()).map(([name, value]) => (
+                <input key={name} name={name} type="hidden" value={value} />
             ))}
         </form>
     )

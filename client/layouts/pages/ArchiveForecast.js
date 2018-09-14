@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
-import Url from 'url'
 import { Forecast } from 'containers/forecast'
 import { Region, Regions } from 'containers/features'
 import { Page, Content, Header, Main } from 'components/page'
@@ -165,15 +164,12 @@ function getWarningText({ name, owner }) {
 function getWarningUrl({ type, url, externalUrl }, date) {
     switch (type) {
         case 'parks': {
-            const url = Url.parse(externalUrl, true)
+            const [path, search] = externalUrl.split('?')
+            const params = new URLSearchParams(search)
 
-            delete url.search
+            params.set('d', formatDate(date, 'YYYY-MM-DD'))
 
-            Object.assign(url.query, {
-                d: formatDate(date, 'YYYY-MM-DD'),
-            })
-
-            return Url.format(url)
+            return [path, params.toString()].join('?')
         }
         case 'link':
             return url.replace('http://avalanche.ca', '')

@@ -1,7 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
-import Url from 'url'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -230,24 +229,28 @@ const COLUMNS = [
 
 // Utils
 const TERM_STYLE = {
-    flex: '0 1 35%',
+    // minWidth: 75,
+    flex: '0 1 25%',
+}
+const DEFINITION_STYLE = {
+    maxWidth: 325,
+    flex: '75%',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
 }
 function Entry({ term, children }) {
     return (
         <Fragment>
             <Term style={TERM_STYLE}>{term}</Term>
-            <Definition>{children}</Definition>
+            <Definition style={DEFINITION_STYLE}>{children}</Definition>
         </Fragment>
     )
 }
 function Anchor({ href }) {
-    let { hostname, path } = Url.parse(href)
-
-    path = (typeof path === 'string' && path.replace(/\//, '')) || null
-
     return (
         <a href={href} title={href} target="_blank">
-            {path ? `${hostname}/…` : hostname}
+            {href.replace(/^(https|http):\/\//, '')}
         </a>
     )
 }

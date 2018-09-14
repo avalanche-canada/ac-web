@@ -1,4 +1,3 @@
-import URL from 'url'
 import { VANCOUVER_ISLAND, CHIC_CHOCS } from 'constants/forecast/owners'
 
 const externals = new Map([
@@ -27,13 +26,12 @@ export function open(name, date) {
     let url = externals.get(name)
 
     if (date) {
-        const parsedUrl = URL.parse(url, true)
+        const [path, search] = url.split('?')
+        const params = new URLSearchParams(search)
 
-        parsedUrl.query.d = date
+        params.set('d', date)
 
-        delete parsedUrl.search
-
-        url = URL.format(parsedUrl)
+        url = [path, params.toString()].filter(Boolean).join('?')
     }
 
     try {
