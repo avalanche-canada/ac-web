@@ -14,12 +14,10 @@ import 'styles'
 
 configureRaven()
 
-const element = document.getElementById('app')
-
 const application = (
     <Auth.Provider>
         <Router />
     </Auth.Provider>
 )
 
-ReactDOM.render(application, element)
+ReactDOM.render(application, document.getElementById('app'))
