@@ -3,7 +3,6 @@ import 'raf/polyfill'
 import 'url-search-params-polyfill'
 import 'whatwg-fetch'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
-import 'services/mapbox/map'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
