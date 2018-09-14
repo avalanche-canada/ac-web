@@ -72,7 +72,7 @@ export default class Fetch extends Component {
                 data: this.cache.get(this.url),
             })
         } else {
-            this.setState({ loading: true }, () => {
+            this.setState({ loading: true, data: undefined }, () => {
                 const { url } = this
                 let fetching
 
