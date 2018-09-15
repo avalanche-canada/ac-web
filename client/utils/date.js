@@ -22,4 +22,4 @@ export function lazyParse(date, ...rest) {
     return parse(date, ...rest)
 }
 
-export const addDayToRange = DateUtils.addDayToRange
+export const { addDayToRange } = DateUtils
