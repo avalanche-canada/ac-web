@@ -3,7 +3,7 @@
 exports[`mailto component 1`] = `
 <a
   href="mailto:kguillotte@avalanche.ca"
-  title="Email Avalanche Canada"
+  title="kguillotte@avalanche.ca"
 >
   kguillotte@avalanche.ca
 </a>
@@ -12,7 +12,7 @@ exports[`mailto component 1`] = `
 exports[`mailto component 2`] = `
 <a
   href="mailto:kguillotte@avalanche.ca"
-  title="Email Avalanche Canada"
+  title="kguillotte@avalanche.ca"
 >
   Karl Guillotte
 </a>
