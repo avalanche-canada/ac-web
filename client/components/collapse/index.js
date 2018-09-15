@@ -12,23 +12,6 @@ const MARGINS = new Map([
     [WIDTH, ['marginLeft', 'marginRight']],
 ])
 
-function styleOf({ style }, propertyName) {
-    return parseInt(style[propertyName] || 0, 10)
-}
-
-function computeStyle(dimension, value, computed) {
-    if (value === computed) {
-        return {
-            [DIMENSIONS.get(dimension)]: '100%',
-        }
-    }
-
-    return {
-        [DIMENSIONS.get(dimension)]: `${value}px`,
-        overflow: 'hidden',
-    }
-}
-
 export default class Collapse extends PureComponent {
     static propTypes = {
         collapsed: PropTypes.bool.isRequired,
@@ -40,14 +23,7 @@ export default class Collapse extends PureComponent {
         dimension: HEIGHT,
     }
     state = {
-        opened: false,
-    }
-    constructor(props) {
-        super(props)
-
-        /* eslint-disable react/no-direct-mutation-state */
-        this.state.opened = !props.collapsed
-        /* eslint-disable react/no-direct-mutation-state */
+        opened: !this.props.collapsed,
     }
     collapsable = null
     setRef = ref => (this.collapsable = ref)
@@ -80,13 +56,32 @@ export default class Collapse extends PureComponent {
 
         return (
             <Motion defaultStyle={defaultStyle} style={style}>
-                {style =>
+                {style => (
                     <div style={computeStyle(dimension, style.value, computed)}>
                         {cloneElement(Children.only(children), {
                             ref: this.setRef,
                         })}
-                    </div>}
+                    </div>
+                )}
             </Motion>
         )
+    }
+}
+
+// Utils
+function styleOf({ style }, propertyName) {
+    return parseInt(style[propertyName] || 0, 10)
+}
+
+function computeStyle(dimension, value, computed) {
+    if (value === computed) {
+        return {
+            [DIMENSIONS.get(dimension)]: '100%',
+        }
+    }
+
+    return {
+        [DIMENSIONS.get(dimension)]: `${value}px`,
+        overflow: 'hidden',
     }
 }
