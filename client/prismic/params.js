@@ -364,17 +364,3 @@ const FEED_ORDERINGS = new Map([
     [types.BLOG, `my.${types.BLOG}.date desc`],
     [types.EVENT, `my.${types.EVENT}.start_date`],
 ])
-const MONTHS = [
-    'january',
-    'february',
-    'march',
-    'april',
-    'may',
-    'june',
-    'july',
-    'august',
-    'september',
-    'october',
-    'november',
-    'december',
-]
