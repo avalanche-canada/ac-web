@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
-import { Image, Delay } from 'components/misc'
+import { Image, Delay, Ratio } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import Fullscreen from 'components/Fullscreen'
 import ButtonSet from './ButtonSet'
 import Button from 'components/button'
 import { WHITE } from 'constants/colors'
 import styles from './Loop.css'
-import { Ratio } from 'components/misc'
 
 export default class Loop extends Component {
     static propTypes = {
@@ -185,7 +184,14 @@ export default class Loop extends Component {
                     </Button>
                 </div>
                 <Ratio y={956} x={1124}>
-                    {(w,h) => <Image width={w} height={h} {...image} style={{backroundColor: '#eee'}} />}
+                    {(w, h) => (
+                        <Image
+                            width={w}
+                            height={h}
+                            {...image}
+                            style={{ backroundColor: '#eee' }}
+                        />
+                    )}
                 </Ratio>
             </div>
         )
