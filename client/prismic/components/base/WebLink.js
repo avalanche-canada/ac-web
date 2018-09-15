@@ -16,9 +16,9 @@ WebLink.propTypes = {
 
 export default function WebLink({ children, value: { url }, ...props }) {
     if (avalancheCanadaPathRegex.test(url)) {
-        if (/fxresources/.test(url)) {
+        if (FXResourcesRegex.test(url)) {
             return (
-                <a href={url} target="_blank" {...props}>
+                <a {...props} href={url} target="_blank">
                     {children}
                 </a>
             )
@@ -39,3 +39,6 @@ export default function WebLink({ children, value: { url }, ...props }) {
         </a>
     )
 }
+
+// Constants
+const FXResourcesRegex = /fxresources/
