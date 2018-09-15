@@ -1,16 +1,9 @@
-import React, { PureComponent, cloneElement, Children } from 'react'
+import React, { PureComponent, cloneElement, Children, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Motion, spring } from 'react-motion'
 
 export const HEIGHT = 'HEIGHT'
 export const WIDTH = 'WIDTH'
-
-const DIMENSIONS = new Map([[HEIGHT, 'height'], [WIDTH, 'width']])
-const TITLIZED = new Map([[HEIGHT, 'Height'], [WIDTH, 'Width']])
-const MARGINS = new Map([
-    [HEIGHT, ['marginTop', 'marginBottom']],
-    [WIDTH, ['marginLeft', 'marginRight']],
-])
 
 export default class Collapse extends PureComponent {
     static propTypes = {
@@ -25,10 +18,9 @@ export default class Collapse extends PureComponent {
     state = {
         opened: !this.props.collapsed,
     }
-    collapsable = null
-    setRef = ref => (this.collapsable = ref)
+    collapsable = createRef()
     get computed() {
-        const { collapsable } = this
+        const collapsable = this.collapsable.current
 
         if (!collapsable) {
             return null
@@ -59,7 +51,7 @@ export default class Collapse extends PureComponent {
                 {style => (
                     <div style={computeStyle(dimension, style.value, computed)}>
                         {cloneElement(Children.only(children), {
-                            ref: this.setRef,
+                            ref: this.collapsable,
                         })}
                     </div>
                 )}
@@ -85,3 +77,11 @@ function computeStyle(dimension, value, computed) {
         overflow: 'hidden',
     }
 }
+
+// Constants
+const DIMENSIONS = new Map([[HEIGHT, 'height'], [WIDTH, 'width']])
+const TITLIZED = new Map([[HEIGHT, 'Height'], [WIDTH, 'Width']])
+const MARGINS = new Map([
+    [HEIGHT, ['marginTop', 'marginBottom']],
+    [WIDTH, ['marginLeft', 'marginRight']],
+])
