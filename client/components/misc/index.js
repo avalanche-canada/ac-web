@@ -1,7 +1,5 @@
 export Sponsor from './Sponsor'
-// TODO: Move to markup
 export Ribbon from './Ribbon'
-// TODO: Move to markup
 export Backdrop from './Backdrop'
 export SPAW from './SPAW'
 export InnerHTML from './InnerHTML'
