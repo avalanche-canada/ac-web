@@ -1,6 +1,6 @@
 import React, { Children, cloneElement, PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Index } from 'react-powerplug'
+import { Value } from 'react-powerplug'
 
 export default class BannerSet extends PureComponent {
     static propTypes = {
@@ -12,15 +12,15 @@ export default class BannerSet extends PureComponent {
         showTravelAdvice: false,
         expandable: false,
     }
-    renderer = ({ index, setIndex }) => {
+    renderer = ({ value, set }) => {
         const { showTravelAdvice, expandable } = this.props
         function cloneBanner(banner, i) {
             return cloneElement(banner, {
                 showTravelAdvice,
                 expandable,
-                expanded: index === i,
+                expanded: value === i,
                 onExpandClick() {
-                    setIndex(index === i ? null : i)
+                    set(value === i ? null : i)
                 },
             })
         }
@@ -30,7 +30,7 @@ export default class BannerSet extends PureComponent {
     render() {
         return (
             <g>
-                <Index initial={null}>{this.renderer}</Index>
+                <Value initial={null}>{this.renderer}</Value>
             </g>
         )
     }
