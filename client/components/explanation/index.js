@@ -43,20 +43,3 @@ export class Content extends Component {
         )
     }
 }
-
-export class Compound extends Component {
-    static propTypes = {
-        header: PropTypes.string.isRequired,
-        children: PropTypes.node.isRequired,
-    }
-    render() {
-        const { header, children } = this.props
-
-        return (
-            <Section>
-                <Header>{header}</Header>
-                <Content>{children}</Content>
-            </Section>
-        )
-    }
-}
