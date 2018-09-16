@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Link from './Link'
 import styles from './Navbar.css'
 import classnames from 'classnames/bind'
-import noop from 'lodash/noop'
 
 export default class Item extends PureComponent {
     static propTypes = {
@@ -16,7 +15,7 @@ export default class Item extends PureComponent {
     }
     static defaultProps = {
         isActive: false,
-        onClick: noop,
+        onClick() {},
         noWrap: false,
     }
     constructor(props) {
