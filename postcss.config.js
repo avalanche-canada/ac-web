@@ -6,6 +6,9 @@ module.exports = {
             features: {
                 'nesting-rules': true,
                 'custom-media-queries': true,
+                'color-mod-function': {
+                    unresolved: 'warn',
+                },
             },
         }),
     ],
