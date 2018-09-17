@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Application from 'components/application'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import Bundle from 'components/Bundle'
 import { NotFoundRoute, StaticPageRoute, GenericPageRoute } from 'router/common'
 import LoginComplete from './LoginComplete'
 import Login from './Login'
@@ -9,7 +10,7 @@ import SPAW from './SPAW'
 import Highlight from './Highlight'
 import Footer from 'components/footer'
 import Main from 'layouts/main'
-import Tutorial from './tutorial'
+import loadTutorial from 'bundle-loader?lazy!./tutorial'
 import Ast from './Ast'
 import mountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
@@ -21,7 +22,7 @@ import TripPlanner from './TripPlanner'
 import * as Feed from './feed'
 import Glossary from 'layouts/Glossary'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Error } from 'components/text'
+import { Error, Loading } from 'components/text'
 import * as Page from 'components/page'
 import { ButtonSet } from 'components/button'
 import styles from 'components/page/Page.css'
@@ -102,7 +103,8 @@ export default class AvalancheCanada extends Component {
                             <Route path="/login" component={Login} />
                             <Route path="/map/:type?/:name?" component={Main} />
                             <Route path="/glossary" component={Glossary} />
-                            <Route path="/tutorial" component={Tutorial} />
+                            <Route path="/tutorial" render={tutorial} />
+                            <Route path="/tutoriel" render={tutorial} />
                             <Route
                                 path="/hot-zone-reports"
                                 component={HotZoneReport}
@@ -764,5 +766,24 @@ function min({ match }) {
             />
             <Redirect from={path} to="/mountain-information-network" />
         </Switch>
+    )
+}
+function tutorial(props) {
+    return (
+        <Bundle load={loadTutorial}>
+            {Component =>
+                Component ? (
+                    <Component {...props} />
+                ) : (
+                    <Page.Page>
+                        <Page.Content>
+                            <h1>
+                                <Loading />
+                            </h1>
+                        </Page.Content>
+                    </Page.Page>
+                )
+            }
+        </Bundle>
     )
 }
