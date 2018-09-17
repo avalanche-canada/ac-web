@@ -40,10 +40,10 @@ export default class Layout extends Component {
         locale: getLocaleFromMatch(this.props.match),
         dictionnaries,
     }
-    componentWillReceiveProps({ match }) {
+    componentDidUpdate({ match }) {
         if (match.path !== this.props.match.path) {
             this.setState({
-                locale: getLocaleFromMatch(match),
+                locale: getLocaleFromMatch(this.props.match),
             })
         }
     }
