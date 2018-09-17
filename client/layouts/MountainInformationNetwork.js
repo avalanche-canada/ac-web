@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import { ProtectedRoute, NotFoundRoute, StaticPageRoute } from 'router/common'
 import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
 import Submission from 'layouts/Submission'
@@ -58,9 +58,15 @@ function submissions({ location, history }) {
     )
 }
 
-export default function MountainInformationNetwork({ match: { path } }) {
+export default function mountainInformationNetwork({ match }) {
+    const { path } = match
+
     return (
         <Switch>
+            <Redirect
+                from="/submit"
+                to="/mountain-information-network/submit"
+            />
             <ProtectedRoute path={`${path}/submit`} component={Submit} />
             <Route path={`${path}/submissions/:id`} render={submission} />
             <Route path={`${path}/submissions`} render={submissions} />

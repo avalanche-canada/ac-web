@@ -6,7 +6,6 @@ import {
     StaticPageRoute,
     GenericPageRoute,
     WIPPageRoute,
-    FallbackPageRoute,
 } from 'router/common'
 import LoginComplete from './LoginComplete'
 import Login from './Login'
@@ -17,7 +16,7 @@ import Footer from 'components/footer'
 import Main from 'layouts/main'
 import Tutorial from './tutorial'
 import Ast from './Ast'
-import MountainInformationNetwork from './MountainInformationNetwork'
+import mountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
 import { IncidentsList, IncidentDetails } from './Incidents'
@@ -33,6 +32,8 @@ import { ButtonSet } from 'components/button'
 import styles from 'components/page/Page.css'
 import { captureException } from 'services/raven'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
+import * as prismic from 'prismic/layouts'
+import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 
 export default class AvalancheCanada extends Component {
     capture(error, { extra }) {
@@ -81,6 +82,24 @@ export default class AvalancheCanada extends Component {
                         fallback={this.renderError}>
                         <Switch>
                             <Redirect exact from="/" to="/map" />
+                            <Redirect
+                                from="/map/ates"
+                                to="/planning/trip-planner"
+                            />
+                            <Redirect
+                                from="/trip-planner"
+                                to="/planning/trip-planner"
+                            />
+                            <Redirect
+                                from="/trip-planning/:page"
+                                to="/planning/:page"
+                            />
+                            <Redirect from="/trip-planning" to="/planning" />
+                            <Redirect
+                                from="/forecast/:name"
+                                to="/forecasts/:name"
+                            />
+                            <Redirect from="/learn" to="/training" />
                             <Route
                                 path="/login-complete"
                                 component={LoginComplete}
@@ -99,9 +118,10 @@ export default class AvalancheCanada extends Component {
                             <Route path="/news" render={news} />
                             <Route path="/events" render={events} />
                             <Route path="/incidents" render={incidents} />
+                            <Route path="/min" render={min} />
                             <Route
                                 path="/mountain-information-network"
-                                component={MountainInformationNetwork}
+                                render={mountainInformationNetwork}
                             />
                             <Route path="/weather" component={Weather} />
                             <Route path="/training/:type" component={Ast} />
@@ -210,7 +230,7 @@ export default class AvalancheCanada extends Component {
                                     `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
                                 }
                             />
-                            <FallbackPageRoute path="/pages/:type/:uid" />
+                            <Route path="/pages" render={pages} />
                             <NotFoundRoute />
                         </Switch>
                     </ErrorBoundary>
@@ -681,6 +701,85 @@ function incidents({ match }) {
         <Switch>
             <Route path={`${path}/:id`} component={IncidentDetails} />
             <Route path={path} component={IncidentsList} />
+        </Switch>
+    )
+}
+function pages({ match }) {
+    const { path } = match
+
+    return (
+        <Switch>
+            <Route path={`${path}/${STATIC_PAGE}`} render={staticPage} />
+            <Route path={`${path}/${GENERIC}`} render={generic} />
+        </Switch>
+    )
+}
+function staticPage({ match }) {
+    const { path } = match
+
+    return (
+        <Switch>
+            <Redirect from={`${path}/planning`} to="/planning" />
+            <Redirect
+                from={`${path}/decision-making`}
+                to="/planning/decision-making"
+            />
+            <Redirect from={`${path}/sled`} to="/sled" />
+            <Redirect from={`${path}/youth`} to="/youth" />
+            <Redirect from={`${path}/essential-gear`} to="/gear" />
+            <Redirect from={`${path}/training`} to="/training" />
+            <Redirect
+                from={`${path}/mountain-information-network-overview`}
+                to="/mountain-information-network"
+            />
+            <Redirect
+                from={`${path}/mountain-information-network-submission-guidelines`}
+                to="/mountain-information-network/submission-guidelines"
+            />
+            <Redirect from={`${path}/about`} to="/about" />
+            <Redirect
+                from={`${path}/mountain-information-network-faq`}
+                to="/mountain-information-network/faq"
+            />
+            <Redirect from={`${path}/ambassadors`} to="/ambassadors" />
+            <Redirect from={`${path}/sponsors`} to="/sponsors" />
+            <Redirect from={`${path}/collaborators`} to="/collaborators" />
+            <Redirect from={`${path}/membership-overview`} to="/membership" />
+            <Route
+                path={`${path}/:uid`}
+                render={() => <prismic.StaticPage {...match.params} />}
+            />
+        </Switch>
+    )
+}
+function generic({ match }) {
+    const { path } = match
+
+    return (
+        <Switch>
+            <Redirect from={`${path}/privacy-policy`} to="/privacy-policy" />
+            <Redirect from={`${path}/terms-of-use`} to="/terms-of-use" />
+            <Route
+                path={`${path}/:uid`}
+                render={() => <prismic.Generic {...match.params} />}
+            />
+        </Switch>
+    )
+}
+function min({ match }) {
+    const { path } = match
+
+    return (
+        <Switch>
+            <Redirect
+                from={`${path}/submissions/:id`}
+                to="/mountain-information-network/submissions/:id"
+            />
+            <Redirect
+                from={`${path}/:page`}
+                to="/mountain-information-network/:page"
+            />
+            <Redirect from={path} to="/mountain-information-network" />
         </Switch>
     )
 }
