@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import Application from 'components/application'
+import Alert from 'components/highlight'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import Bundle from 'components/Bundle'
 import { NotFoundRoute, StaticPageRoute, GenericPageRoute } from 'router/common'
@@ -110,13 +111,7 @@ export default class AvalancheCanada extends Component {
                                 to="/tutorial"
                             />
                             <Route path="/tutorial" render={tutorial} />
-                            <Redirect
-                                strict
-                                exact
-                                from="/tutoriel/"
-                                to="/tutoriel"
-                            />
-                            <Route path="/tutoriel" render={tutorial} />
+                            <Route path="/tutoriel" render={tutoriel} />
                             <Route
                                 path="/hot-zone-reports"
                                 component={HotZoneReport}
@@ -797,5 +792,28 @@ function tutorial(props) {
                 )
             }
         </Bundle>
+    )
+}
+function tutoriel({ match }) {
+    const { path } = match
+    const STYLE = {
+        textAlign: 'center',
+        padding: '1em',
+    }
+
+    return (
+        <Fragment>
+            <Redirect strict exact from={`${path}/`} to={path} />
+            <Route
+                path={path}
+                render={() => (
+                    <Alert style={STYLE}>
+                        We are currently working on updating the French tutorial
+                        content, stay tuned for updates.
+                    </Alert>
+                )}
+            />
+            <Route path={path} render={tutorial} />
+        </Fragment>
     )
 }
