@@ -3,13 +3,18 @@ import PropTypes from 'prop-types'
 import styles from './Tooltip.css'
 
 Tooltip.propTypes = {
-    placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']).isRequired,
+    placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
     children: PropTypes.node.isRequired,
     style: PropTypes.object,
     arrowStyle: PropTypes.object,
 }
 
-export default function Tooltip({ placement, children, style, arrowStyle }) {
+export default function Tooltip({
+    placement = 'top',
+    children,
+    style,
+    arrowStyle,
+}) {
     return (
         <div className={styles[`Container--${placement}`]} style={style}>
             <div className={styles[`Arrow--${placement}`]} style={arrowStyle} />

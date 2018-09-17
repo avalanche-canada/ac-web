@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Avatar.css'
 import { initials } from 'utils/string'
-import { Loading } from 'react-powerplug'
+import { Toggle } from 'react-powerplug'
 
 export default class Avatar extends PureComponent {
     static propTypes = {
@@ -28,11 +28,11 @@ export default class Avatar extends PureComponent {
             fontSize: size < 50 ? '0.75em' : '1em',
         }
     }
-    renderer = ({ isLoading, setLoading }) => {
+    renderer = ({ on, set }) => {
         const { url, name } = this.props
         const classNames = this.classnames({
-            Initials: isLoading,
-            Avatar: !isLoading,
+            Initials: on,
+            Avatar: !on,
         })
 
         return (
@@ -45,8 +45,8 @@ export default class Avatar extends PureComponent {
                         src={url}
                         alt={initials(name)}
                         title={name}
-                        onLoad={() => setLoading(false)}
-                        onError={() => setLoading(false)}
+                        onLoad={() => set(false)}
+                        onError={() => set(false)}
                     />
                 )}
             </div>
@@ -55,6 +55,6 @@ export default class Avatar extends PureComponent {
     render() {
         const loading = Boolean(this.props.url)
 
-        return <Loading initial={loading}>{this.renderer}</Loading>
+        return <Toggle initial={loading}>{this.renderer}</Toggle>
     }
 }

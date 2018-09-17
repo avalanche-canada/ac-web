@@ -7,13 +7,6 @@ export const INFO = 'INFO'
 export const WARNING = 'WARNING'
 export const SUCCESS = 'SUCCESS'
 
-const classNames = new Map([
-    [DANGER, styles.Danger],
-    [INFO, styles.Info],
-    [WARNING, styles.Warning],
-    [SUCCESS, styles.Success],
-])
-
 Alert.propTypes = {
     type: PropTypes.oneOf([DANGER, INFO, WARNING, SUCCESS]).isRequired,
     children: PropTypes.node.isRequired,
@@ -26,3 +19,10 @@ export default function Alert({ type = DANGER, children, ...props }) {
         </div>
     )
 }
+
+const classNames = new Map([
+    [DANGER, styles.Danger],
+    [INFO, styles.Info],
+    [WARNING, styles.Warning],
+    [SUCCESS, styles.Success],
+])

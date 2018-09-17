@@ -2,7 +2,6 @@ import { lazyParse as parseDate } from 'utils/date'
 import camelCase from 'lodash/camelCase'
 import identity from 'lodash/identity'
 import DocumentTransformers from './transformers'
-import { normalizeTags } from './utils'
 
 const TypeTransformers = new Map([
     ['Date', parseDate],
@@ -92,4 +91,11 @@ export function parseLocation(document) {
     const { location } = parse(document).data
 
     return location ? [location.longitude, location.latitude] : null
+}
+
+// TODO: Remove that function. We should not need that.
+function normalizeTags(tags) {
+    if (Array.isArray(tags)) {
+        return Array.from(new Set(tags.map(tag => tag.trim().toLowerCase())))
+    }
 }

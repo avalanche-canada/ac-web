@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from 'components/button'
-import noop from 'lodash/noop'
 import {
     FirstPage,
     LastPage,
@@ -19,7 +18,7 @@ AnimateButton.propTypes = {
     onPlay: PropTypes.func,
 }
 
-function AnimateButton({ isPlaying = false, onPause = noop, onPlay = noop }) {
+function AnimateButton({ isPlaying = false, onPause, onPlay }) {
     const title = `${isPlaying ? 'Pause' : 'Play'} the animation`
     const onClick = isPlaying ? onPause : onPlay
 

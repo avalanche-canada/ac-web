@@ -1,7 +1,5 @@
 import Memory from './Memory'
 
-const { parse, stringify } = JSON
-
 export default class Storage {
     static create(/* options */) {
         throw new Error('Not implemented.')
@@ -52,3 +50,5 @@ export default class Storage {
         return this.storage.removeItem(key)
     }
 }
+
+const { parse, stringify } = JSON

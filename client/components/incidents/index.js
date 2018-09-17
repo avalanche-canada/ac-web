@@ -1,11 +1,9 @@
-import React, { PureComponent, Fragment } from 'react'
-import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
+import React, { PureComponent } from 'react'
 import { Time } from 'components/time'
 import * as t from 'components/table'
 import Pagination from 'components/pagination'
-import { Status } from 'components/misc'
+import { Loading } from 'components/text'
 import styles from './incidents.css'
-import { Form, Legend, Control } from 'components/form'
 import { DropdownFromOptions } from 'components/controls'
 import getYear from 'date-fns/get_year'
 import getMonth from 'date-fns/get_month'
@@ -21,7 +19,6 @@ const ERROR = 'ERROR'
 
 export const IncidentList = ({
     status,
-    error,
     data,
     page,
     filters,
@@ -30,11 +27,7 @@ export const IncidentList = ({
 }) => {
     return (
         <div>
-            <Status
-                isLoading={status === PENDING}
-                isLoaded={status === FULFILLED}
-                isError={status === ERROR}
-            />
+            {status === PENDING && <Loading />}
             {status === FULFILLED ? (
                 <IncidentTable
                     data={data}
@@ -229,11 +222,7 @@ const Row = ({ inc }) => {
 export const IncidentDetails = ({ status, data }) => {
     return (
         <div>
-            <Status
-                isLoading={status === PENDING}
-                isLoaded={status === FULFILLED}
-                isError={status === ERROR}
-            />
+            {status === PENDING && <Loading />}
             {status === FULFILLED ? <IncPage incident={data} /> : <div />}
         </div>
     )

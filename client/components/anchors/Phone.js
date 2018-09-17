@@ -12,7 +12,7 @@ function computePhoneString(phone, ext) {
 }
 
 export default function Phone({ phone, ext, children, ...rest }) {
-    const href = `tel://${phone}`
+    const href = `tel:${phone}`
 
     return (
         <a href={href} {...rest}>

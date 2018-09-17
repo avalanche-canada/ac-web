@@ -22,12 +22,4 @@ export function lazyParse(date, ...rest) {
     return parse(date, ...rest)
 }
 
-export const addDayToRange = DateUtils.addDayToRange
-
-const OCTOBER = 9
-export function startOfSeason(date = new Date()) {
-    const year = date.getFullYear()
-    const month = date.getMonth()
-
-    return new Date(month < OCTOBER ? year - 1 : year, OCTOBER, 1)
-}
+export const { addDayToRange } = DateUtils

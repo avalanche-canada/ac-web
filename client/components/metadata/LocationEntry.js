@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Toggle } from 'react-powerplug'
-import Position from 'components/misc/Position'
+import { Position } from 'components/misc'
 import Entry from './Entry'
 
 LocationEntry.propTypes = {

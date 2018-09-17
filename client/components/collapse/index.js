@@ -1,33 +1,9 @@
-import React, { PureComponent, cloneElement, Children } from 'react'
+import React, { PureComponent, cloneElement, Children, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Motion, spring } from 'react-motion'
 
 export const HEIGHT = 'HEIGHT'
 export const WIDTH = 'WIDTH'
-
-const DIMENSIONS = new Map([[HEIGHT, 'height'], [WIDTH, 'width']])
-const TITLIZED = new Map([[HEIGHT, 'Height'], [WIDTH, 'Width']])
-const MARGINS = new Map([
-    [HEIGHT, ['marginTop', 'marginBottom']],
-    [WIDTH, ['marginLeft', 'marginRight']],
-])
-
-function styleOf({ style }, propertyName) {
-    return parseInt(style[propertyName] || 0, 10)
-}
-
-function computeStyle(dimension, value, computed) {
-    if (value === computed) {
-        return {
-            [DIMENSIONS.get(dimension)]: '100%',
-        }
-    }
-
-    return {
-        [DIMENSIONS.get(dimension)]: `${value}px`,
-        overflow: 'hidden',
-    }
-}
 
 export default class Collapse extends PureComponent {
     static propTypes = {
@@ -40,19 +16,11 @@ export default class Collapse extends PureComponent {
         dimension: HEIGHT,
     }
     state = {
-        opened: false,
+        opened: !this.props.collapsed,
     }
-    constructor(props) {
-        super(props)
-
-        /* eslint-disable react/no-direct-mutation-state */
-        this.state.opened = !props.collapsed
-        /* eslint-disable react/no-direct-mutation-state */
-    }
-    collapsable = null
-    setRef = ref => (this.collapsable = ref)
+    collapsable = createRef()
     get computed() {
-        const { collapsable } = this
+        const collapsable = this.collapsable.current
 
         if (!collapsable) {
             return null
@@ -80,13 +48,40 @@ export default class Collapse extends PureComponent {
 
         return (
             <Motion defaultStyle={defaultStyle} style={style}>
-                {style =>
+                {style => (
                     <div style={computeStyle(dimension, style.value, computed)}>
                         {cloneElement(Children.only(children), {
-                            ref: this.setRef,
+                            ref: this.collapsable,
                         })}
-                    </div>}
+                    </div>
+                )}
             </Motion>
         )
     }
 }
+
+// Utils
+function styleOf({ style }, propertyName) {
+    return parseInt(style[propertyName] || 0, 10)
+}
+
+function computeStyle(dimension, value, computed) {
+    if (value === computed) {
+        return {
+            [DIMENSIONS.get(dimension)]: '100%',
+        }
+    }
+
+    return {
+        [DIMENSIONS.get(dimension)]: `${value}px`,
+        overflow: 'hidden',
+    }
+}
+
+// Constants
+const DIMENSIONS = new Map([[HEIGHT, 'height'], [WIDTH, 'width']])
+const TITLIZED = new Map([[HEIGHT, 'Height'], [WIDTH, 'Width']])
+const MARGINS = new Map([
+    [HEIGHT, ['marginTop', 'marginBottom']],
+    [WIDTH, ['marginLeft', 'marginRight']],
+])

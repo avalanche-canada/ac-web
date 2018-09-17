@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
 import styles from './Drawer.css'
-import noop from 'lodash/noop'
 
 export default class Drawer extends Component {
     static propTypes = {
@@ -16,8 +15,8 @@ export default class Drawer extends Component {
         children: PropTypes.node.isRequired,
     }
     static defaultProps = {
-        onClose: noop,
-        onClick: noop,
+        onClose() {},
+        onClick() {},
         style: null,
     }
     shouldComponentUpdate({ style }) {

@@ -13,7 +13,6 @@ import { layout, observationSet } from './templates'
 import { ObservationSet } from './factories'
 import format from 'date-fns/format'
 import endOfToday from 'date-fns/end_of_today'
-import noop from 'lodash/noop'
 import styles from './Form.css'
 import isMapboxSupported from '@mapbox/mapbox-gl-supported'
 
@@ -86,7 +85,8 @@ const Required = {
                             href="//www.latlong.net/degrees-minutes-seconds-to-decimal-degrees"
                             target="converter">
                             online converter
-                        </a>.
+                        </a>
+                        .
                     </p>
                 </Fragment>
             ),
@@ -780,7 +780,7 @@ export default {
             label: 'Step 3. Observations',
             config: {
                 activeTab: 0,
-                onTabActivate: noop,
+                onTabActivate() {},
             },
             fields: {
                 [QUICK]: Quick,

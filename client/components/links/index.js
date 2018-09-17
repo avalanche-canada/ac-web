@@ -5,8 +5,6 @@ import classnames from 'classnames'
 import isSupported from '@mapbox/mapbox-gl-supported'
 import styles from 'styles/typography.css'
 
-const supported = isSupported()
-
 export class Home extends PureComponent {
     static propTypes = {
         children: PropTypes.node,
@@ -39,7 +37,7 @@ export class MountainInformationNetwork extends PureComponent {
 }
 
 export function mountainInformationNetwork(id) {
-    return supported
+    return isSupported()
         ? `/map?panel=mountain-information-network-submissions/${id}`
         : `/mountain-information-network/submissions/${id}`
 }
@@ -56,5 +54,5 @@ export class Forecast extends PureComponent {
 }
 
 export function forecast(id) {
-    return supported ? `/map/forecasts/${id}` : `/forecasts/${id}`
+    return isSupported() ? `/map/forecasts/${id}` : `/forecasts/${id}`
 }

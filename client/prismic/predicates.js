@@ -27,10 +27,14 @@ function toQueryValue(value) {
 export function toQuery(predicate) {
     var operator = stripQuotes(predicate[0])
     var path = stripQuotes(predicate[1])
-    var pathArg = path.indexOf('my.') === 0 || path.indexOf('document') === 0
-        ? path
-        : '"' + path + '"'
-    var values = predicate.slice(2).map(toQueryValue).join(',')
+    var pathArg =
+        path.indexOf('my.') === 0 || path.indexOf('document') === 0
+            ? path
+            : '"' + path + '"'
+    var values = predicate
+        .slice(2)
+        .map(toQueryValue)
+        .join(',')
     return (
         '[:d = ' +
         operator +
@@ -73,9 +77,9 @@ export function not(fragment, value) {
  * @param fragment {String}
  * @returns {Array} an array corresponding to the predicate
  */
-export function missing(fragment) {
-    return ['missing', fragment]
-}
+// export function missing(fragment) {
+//     return ['missing', fragment]
+// }
 
 /**
  * Build a "has" predicate: documents where the requested field is defined
@@ -84,9 +88,9 @@ export function missing(fragment) {
  * @param fragment {String}
  * @returns {Array} an array corresponding to the predicate
  */
-export function has(fragment) {
-    return ['has', fragment]
-}
+// export function has(fragment) {
+//     return ['has', fragment]
+// }
 
 /**
  * Build an "any" predicate: equality of a fragment to a value.
@@ -96,9 +100,9 @@ export function has(fragment) {
  * @param values {Array}
  * @returns {Array} an array corresponding to the predicate
  */
-export function any(fragment, values) {
-    return ['any', fragment, values]
-}
+// export function any(fragment, values) {
+//     return ['any', fragment, values]
+// }
 
 /**
  * Build an "in" predicate: equality of a fragment to a value.
@@ -119,9 +123,9 @@ module.exports.in = (fragment, values) => ['in', fragment, values]
  * @param value {String} the term to search
  * @returns {Array} an array corresponding to the predicate
  */
-export function fulltext(fragment, value) {
-    return ['fulltext', fragment, value]
-}
+// export function fulltext(fragment, value) {
+//     return ['fulltext', fragment, value]
+// }
 
 /**
  * Build a "similar" predicate.
@@ -131,9 +135,9 @@ export function fulltext(fragment, value) {
  * @param maxResults {Number} the maximum number of results to return
  * @returns {Array} an array corresponding to the predicate
  */
-export function similar(documentId, maxResults) {
-    return ['similar', documentId, maxResults]
-}
+// export function similar(documentId, maxResults) {
+//     return ['similar', documentId, maxResults]
+// }
 
 /**
  * Build a "number.gt" predicate: documents where the fragment field is greater than the given value.
@@ -143,9 +147,9 @@ export function similar(documentId, maxResults) {
  * @param value {Number} the lower bound of the predicate
  * @returns {Array} an array corresponding to the predicate
  */
-export function gt(fragment, value) {
-    return ['number.gt', fragment, value]
-}
+// export function gt(fragment, value) {
+//     return ['number.gt', fragment, value]
+// }
 
 /**
  * Build a "number.lt" predicate: documents where the fragment field is lower than the given value.
@@ -155,9 +159,9 @@ export function gt(fragment, value) {
  * @param value {Number} the upper bound of the predicate
  * @returns {Array} an array corresponding to the predicate
  */
-export function lt(fragment, value) {
-    return ['number.lt', fragment, value]
-}
+// export function lt(fragment, value) {
+//     return ['number.lt', fragment, value]
+// }
 
 /**
  * Build a "number.inRange" predicate: combination of lt and gt.
@@ -168,9 +172,9 @@ export function lt(fragment, value) {
  * @param after {Number}
  * @returns {Array} an array corresponding to the predicate
  */
-export function inRange(fragment, before, after) {
-    return ['number.inRange', fragment, before, after]
-}
+// export function inRange(fragment, before, after) {
+//     return ['number.inRange', fragment, before, after]
+// }
 
 /**
  * Build a "date.before" predicate: documents where the fragment field is before the given date.
@@ -205,9 +209,9 @@ export function dateAfter(fragment, after) {
  * @param after {Date}
  * @returns {Array} an array corresponding to the predicate
  */
-export function dateBetween(fragment, before, after) {
-    return ['date.between', fragment, before, after]
-}
+// export function dateBetween(fragment, before, after) {
+//     return ['date.between', fragment, before, after]
+// }
 
 /**
  *
@@ -216,9 +220,9 @@ export function dateBetween(fragment, before, after) {
  * @param day {Number} between 1 and 31
  * @returns {Array}
  */
-export function dayOfMonth(fragment, day) {
-    return ['date.day-of-month', fragment, day]
-}
+// export function dayOfMonth(fragment, day) {
+//     return ['date.day-of-month', fragment, day]
+// }
 
 /**
  *
@@ -227,9 +231,9 @@ export function dayOfMonth(fragment, day) {
  * @param day {Number} between 1 and 31
  * @returns {Array}
  */
-export function dayOfMonthAfter(fragment, day) {
-    return ['date.day-of-month-after', fragment, day]
-}
+// export function dayOfMonthAfter(fragment, day) {
+//     return ['date.day-of-month-after', fragment, day]
+// }
 
 /**
  *
@@ -238,9 +242,9 @@ export function dayOfMonthAfter(fragment, day) {
  * @param day {Number} between 1 and 31
  * @returns {Array}
  */
-export function dayOfMonthBefore(fragment, day) {
-    return ['date.day-of-month-before', fragment, day]
-}
+// export function dayOfMonthBefore(fragment, day) {
+//     return ['date.day-of-month-before', fragment, day]
+// }
 
 /**
  *
@@ -249,9 +253,9 @@ export function dayOfMonthBefore(fragment, day) {
  * @param day {Number|String} Number between 1 and 7 or string between "Monday" and "Sunday"
  * @returns {Array}
  */
-export function dayOfWeek(fragment, day) {
-    return ['date.day-of-week', fragment, day]
-}
+// export function dayOfWeek(fragment, day) {
+//     return ['date.day-of-week', fragment, day]
+// }
 
 /**
  *
@@ -260,9 +264,9 @@ export function dayOfWeek(fragment, day) {
  * @param day {Number|String} Number between 1 and 7 or string between "Monday" and "Sunday"
  * @returns {Array}
  */
-export function dayOfWeekAfter(fragment, day) {
-    return ['date.day-of-week-after', fragment, day]
-}
+// export function dayOfWeekAfter(fragment, day) {
+//     return ['date.day-of-week-after', fragment, day]
+// }
 
 /**
  *
@@ -271,9 +275,9 @@ export function dayOfWeekAfter(fragment, day) {
  * @param day {Number|String} Number between 1 and 7 or string between "Monday" and "Sunday"
  * @returns {Array}
  */
-export function dayOfWeekBefore(fragment, day) {
-    return ['date.day-of-week-before', fragment, day]
-}
+// export function dayOfWeekBefore(fragment, day) {
+//     return ['date.day-of-week-before', fragment, day]
+// }
 
 /**
  *
@@ -293,9 +297,9 @@ export function month(fragment, month) {
  * @param month {Number|String} Number between 1 and 12 or string between "January" and "December"
  * @returns {Array}
  */
-export function monthBefore(fragment, month) {
-    return ['date.month-before', fragment, month]
-}
+// export function monthBefore(fragment, month) {
+//     return ['date.month-before', fragment, month]
+// }
 
 /**
  *
@@ -305,9 +309,9 @@ export function monthBefore(fragment, month) {
  * @returns {Array}
  * @returns {Array}
  */
-export function monthAfter(fragment, month) {
-    return ['date.month-after', fragment, month]
-}
+// export function monthAfter(fragment, month) {
+//     return ['date.month-after', fragment, month]
+// }
 
 /**
  *
@@ -327,9 +331,9 @@ export function year(fragment, year) {
  * @param hour {Number}
  * @returns {Array}
  */
-export function hour(fragment, hour) {
-    return ['date.hour', fragment, hour]
-}
+// export function hour(fragment, hour) {
+//     return ['date.hour', fragment, hour]
+// }
 
 /**
  *
@@ -338,9 +342,9 @@ export function hour(fragment, hour) {
  * @param hour {Number}
  * @returns {Array}
  */
-export function hourBefore(fragment, hour) {
-    return ['date.hour-before', fragment, hour]
-}
+// export function hourBefore(fragment, hour) {
+//     return ['date.hour-before', fragment, hour]
+// }
 
 /**
  *
@@ -349,9 +353,9 @@ export function hourBefore(fragment, hour) {
  * @param hour {Number}
  * @returns {Array}
  */
-export function hourAfter(fragment, hour) {
-    return ['date.hour-after', fragment, hour]
-}
+// export function hourAfter(fragment, hour) {
+//     return ['date.hour-after', fragment, hour]
+// }
 
 /**
  *
@@ -362,10 +366,11 @@ export function hourAfter(fragment, hour) {
  * @param radius {Number} in kilometers
  * @returns {Array}
  */
-export function near(fragment, latitude, longitude, radius) {
-    return ['geopoint.near', fragment, latitude, longitude, radius]
-}
+// export function near(fragment, latitude, longitude, radius) {
+//     return ['geopoint.near', fragment, latitude, longitude, radius]
+// }
 
+// Custom functions
 export function id(id) {
     return at('document.id', id)
 }

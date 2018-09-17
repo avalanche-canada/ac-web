@@ -40,7 +40,9 @@ export function stringify(query = {}) {
         return params
     }, new URLSearchParams())
 
-    return params.keys().next().done ? null : '?' + params.toString()
+    return Array.from(params.keys()).length === 0
+        ? null
+        : '?' + params.toString()
 }
 
 export function toSet(values) {

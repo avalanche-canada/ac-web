@@ -90,15 +90,3 @@ WIPPageRoute.propTypes = {
 export function WIPPageRoute({ path, ...props }) {
     return <Route path={path} render={() => <WorkInProgress {...props} />} />
 }
-
-function fallbackPage({ match }) {
-    return <layouts.Fallback {...match.params} />
-}
-
-FallbackPageRoute.propTypes = {
-    path: PropTypes.string.isRequired,
-}
-
-export function FallbackPageRoute({ path }) {
-    return <Route path={path} render={fallbackPage} />
-}

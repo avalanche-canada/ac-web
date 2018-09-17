@@ -4,14 +4,6 @@ import PropTypes from 'prop-types'
 import Link from 'components/navbar/Link'
 import styles from './Drawer.css'
 
-Item.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-function Item({ children }) {
-    return <li className={styles.Item}>{children}</li>
-}
-
 export default class ItemSet extends StaticComponent {
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -55,4 +47,12 @@ export default class ItemSet extends StaticComponent {
             </div>
         )
     }
+}
+
+Item.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+function Item({ children }) {
+    return <li className={styles.Item}>{children}</li>
 }

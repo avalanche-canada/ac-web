@@ -1,4 +1,4 @@
-import { Predicates } from 'prismic'
+import * as Predicates from 'prismic/predicates'
 import { root, version } from './config.json'
 
 export function api() {

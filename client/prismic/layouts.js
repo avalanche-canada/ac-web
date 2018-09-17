@@ -37,16 +37,3 @@ export class Generic extends Component {
         )
     }
 }
-
-Fallback.propTypes = {
-    type: PropTypes.oneOf([STATIC_PAGE, GENERIC]).isRequired,
-    uid: PropTypes.string.isRequired,
-}
-
-export function Fallback({ type, uid }) {
-    return type === STATIC_PAGE ? (
-        <StaticPage uid={uid} />
-    ) : (
-        <Generic uid={uid} />
-    )
-}

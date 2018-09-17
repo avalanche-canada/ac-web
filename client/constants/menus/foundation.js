@@ -1,4 +1,4 @@
-let id = 1000
+let id = 100
 
 export default {
     id: String(id++),
