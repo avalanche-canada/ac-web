@@ -808,8 +808,9 @@ function tutoriel({ match }) {
                 path={path}
                 render={() => (
                     <Alert style={STYLE}>
-                        We are currently working on updating the French tutorial
-                        content, stay tuned for updates.
+                        Some sections of the French tutorial are outdated, we
+                        are currently updating its content. Stay tuned for
+                        updates!
                     </Alert>
                 )}
             />
