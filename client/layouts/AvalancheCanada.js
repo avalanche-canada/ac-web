@@ -138,11 +138,6 @@ export default class AvalancheCanada extends Component {
                                 title="Early Season Conditions"
                             />
                             <StaticPageRoute
-                                path="/tech"
-                                uid="tech"
-                                title="Tech"
-                            />
-                            <StaticPageRoute
                                 path="/faq"
                                 uid="faq"
                                 title="FAQ"
