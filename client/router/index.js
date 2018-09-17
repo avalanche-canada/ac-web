@@ -513,28 +513,16 @@ export default function Router() {
                         />
                         <Redirect from="/cherrybowl" to="/cherry-bowl" />
                         <Redirect
-                            from="/min"
-                            to="/mountain-information-network"
-                        />
-                        <Redirect
-                            from="/min/submit"
-                            to="/mountain-information-network/submit"
-                        />
-                        <Redirect
-                            from="/min/faq"
-                            to="/mountain-information-network/faq"
-                        />
-                        <Redirect
-                            from="/min/submission-guidelines"
-                            to="/mountain-information-network/submission-guidelines"
-                        />
-                        <Redirect
                             from="/min/submissions/:id"
                             to="/mountain-information-network/submissions/:id"
                         />
                         <Redirect
-                            from="/min/submissions"
-                            to="/mountain-information-network/submissions"
+                            from="/min/:page"
+                            to="/mountain-information-network/:page"
+                        />
+                        <Redirect
+                            from="/min"
+                            to="/mountain-information-network"
                         />
                         <Redirect from="/learn" to="/training" />
                         <Redirect
