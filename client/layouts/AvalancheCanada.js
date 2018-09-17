@@ -46,21 +46,21 @@ export default class AvalancheCanada extends Component {
                         <Error>{error.message}</Error>
                     </Page.Headline>
                     <ButtonSet>
-                        <Link to="/" className={styles.Link}>
+                        <a href="/" className={styles.Link}>
                             Forecasts
-                        </Link>
-                        <Link to="/training" className={styles.Link}>
+                        </a>
+                        <a href="/training" className={styles.Link}>
                             Training
-                        </Link>
-                        <Link to="/news" className={styles.Link}>
+                        </a>
+                        <a href="/news" className={styles.Link}>
                             Latest news
-                        </Link>
-                        <Link to="/events" className={styles.Link}>
+                        </a>
+                        <a href="/events" className={styles.Link}>
                             Upcoming events
-                        </Link>
-                        <Link to="/blogs" className={styles.Link}>
+                        </a>
+                        <a href="/blogs" className={styles.Link}>
                             Our blog
-                        </Link>
+                        </a>
                     </ButtonSet>
                 </Page.Main>
             </Page.Error>
