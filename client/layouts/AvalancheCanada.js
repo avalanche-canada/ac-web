@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Application from 'components/application'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import Bundle from 'components/Bundle'
 import { NotFoundRoute, StaticPageRoute, GenericPageRoute } from 'router/common'
 import LoginComplete from './LoginComplete'
@@ -103,7 +103,19 @@ export default class AvalancheCanada extends Component {
                             <Route path="/login" component={Login} />
                             <Route path="/map/:type?/:name?" component={Main} />
                             <Route path="/glossary" component={Glossary} />
+                            <Redirect
+                                strict
+                                exact
+                                from="/tutorial/"
+                                to="/tutorial"
+                            />
                             <Route path="/tutorial" render={tutorial} />
+                            <Redirect
+                                strict
+                                exact
+                                from="/tutoriel/"
+                                to="/tutoriel"
+                            />
                             <Route path="/tutoriel" render={tutorial} />
                             <Route
                                 path="/hot-zone-reports"
