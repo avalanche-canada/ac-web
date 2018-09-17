@@ -1,12 +1,7 @@
 import React, { Component } from 'react'
 import Application from 'components/application'
 import { Link, Route, Redirect, Switch } from 'react-router-dom'
-import {
-    NotFoundRoute,
-    StaticPageRoute,
-    GenericPageRoute,
-    WIPPageRoute,
-} from 'router/common'
+import { NotFoundRoute, StaticPageRoute, GenericPageRoute } from 'router/common'
 import LoginComplete from './LoginComplete'
 import Login from './Login'
 import Navbar from './Navbar'
@@ -219,17 +214,6 @@ export default class AvalancheCanada extends Component {
                                 uid="terms-of-use"
                                 title="Terms of use"
                             />
-                            <WIPPageRoute
-                                path="/tutoriel"
-                                name="French Tutorial / Tutoriel"
-                                oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
-                                title={defaultTitle =>
-                                    `${defaultTitle}<br />Nous travaillons présentement sur cette page...`
-                                }
-                                subtitle={defaultSubtitle =>
-                                    `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
-                                }
-                            />
                             <Route path="/pages" render={pages} />
                             <NotFoundRoute />
                         </Switch>
@@ -237,7 +221,6 @@ export default class AvalancheCanada extends Component {
                     <Switch>
                         <Route path="/map" component={null} />
                         <Route path="/planning/trip-planner" component={null} />
-                        <Route path="/tutoriel" component={null} />
                         <Route component={Footer} />
                     </Switch>
                 </Application>

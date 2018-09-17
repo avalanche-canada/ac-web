@@ -4,7 +4,6 @@ import { Route, Redirect } from 'react-router-dom'
 import { NotFound } from 'components/page'
 import * as Auth from 'contexts/auth'
 import ga from 'services/analytics'
-import { WorkInProgress } from 'components/page'
 import * as layouts from 'prismic/layouts'
 
 export class ProtectedRoute extends Component {
@@ -77,16 +76,4 @@ export function GenericPageRoute({ path, uid, title }) {
             render={() => <layouts.Generic uid={uid} title={title} />}
         />
     )
-}
-
-WIPPageRoute.propTypes = {
-    path: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    oldUrl: PropTypes.string.isRequired,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    subtitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-}
-
-export function WIPPageRoute({ path, ...props }) {
-    return <Route path={path} render={() => <WorkInProgress {...props} />} />
 }
