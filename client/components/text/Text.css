@@ -1,23 +1,15 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
-.Text {
+.Muted {
     color: var(--gray);
 }
 
-.Muted {
-    composes: Text;
-}
-
 .Loading {
-    composes: Text;
+    color: var(--gray);
 }
 
 .Error {
     color: var(--brand-secondary);
-}
-
-.Warning {
-    color: #ec971f;
 }
 
 .Helper {

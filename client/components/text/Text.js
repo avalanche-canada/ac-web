@@ -1,13 +1,5 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import styles from './Text.css'
-
-export function Text({ children, ...props }) {
-    return (
-        <p className={styles.Text} {...props}>
-            {children}
-        </p>
-    )
-}
 
 export function Muted({ children, ...props }) {
     return (
@@ -25,20 +17,14 @@ export function Loading({ children = 'Loading...', show, ...props }) {
     ) : null
 }
 
-export function Error({ children = 'An error happened.', ...props }) {
-    return (
-        <p className={styles.Error} {...props}>
-            {children}
-        </p>
-    )
-}
+export function Error({
+    children = 'An error happened.',
+    component = 'p',
+    ...props
+}) {
+    Object.assign(props, { className: styles.Error })
 
-export function Warning({ children, ...props }) {
-    return (
-        <p className={styles.Warning} {...props}>
-            {children}
-        </p>
-    )
+    return createElement(component, props, children)
 }
 
 export function Helper({ children, ...props }) {
