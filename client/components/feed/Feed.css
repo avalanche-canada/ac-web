@@ -1,5 +1,7 @@
 @import '../../styles/colors.css';
 
+@custom-media --side-by-side (width > 600px);
+
 .Entry {
     display: flex;
     padding: 0.5em 0;
@@ -22,8 +24,13 @@
 }
 
 .Image {
-    flex: 250px;
-    max-width: 250px;
+    display: none;
+
+    @media (--side-by-side) {
+        display: block;
+        flex: 250px;
+        max-width: 250px;
+    }
 }
 
 .Content {
