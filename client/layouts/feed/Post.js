@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
 import { Loading } from 'components/text'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
@@ -57,6 +56,7 @@ class Post extends PureComponent {
         )
     }
     children = ({ loading, document }) => {
+        // FIXME: What if a post is not found?!?
         // if (loading.isLoaded && !document) {
         //     // Post not found, redirecting to feed
         //     return <Redirect to={this.props.type} />
