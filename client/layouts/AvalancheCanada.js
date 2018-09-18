@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Application from 'components/application'
-import { Link, Route, Redirect, Switch } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import {
     NotFoundRoute,
     StaticPageRoute,
@@ -30,16 +30,11 @@ import { Error } from 'components/text'
 import * as Page from 'components/page'
 import { ButtonSet } from 'components/button'
 import styles from 'components/page/Page.css'
-import { captureException } from 'services/raven'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
 import * as prismic from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 
 export default class AvalancheCanada extends Component {
-    capture(error, { extra }) {
-        // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
-        captureException(error, { extra })
-    }
     renderError({ error }) {
         return (
             <Page.Error>
@@ -77,9 +72,7 @@ export default class AvalancheCanada extends Component {
                     <Navbar />
                     <SPAW />
                     <Highlight />
-                    <ErrorBoundary
-                        onError={this.capture}
-                        fallback={this.renderError}>
+                    <ErrorBoundary fallback={this.renderError}>
                         <Switch>
                             <Redirect exact from="/" to="/map" />
                             <Redirect
