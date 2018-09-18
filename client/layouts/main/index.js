@@ -8,7 +8,6 @@ import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
 import Device from 'components/Device'
-import { captureException } from 'services/raven'
 import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
@@ -45,10 +44,8 @@ export default class Layout extends PureComponent {
 
         return [x, 0]
     }
-    handleError = error => {
-        this.setState({ hasError: true }, () => {
-            captureException(error)
-        })
+    handleError = () => {
+        this.setState({ hasError: true }
     }
     handleLoad = ({ target }) => {
         Object.assign(this, {
