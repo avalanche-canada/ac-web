@@ -58,13 +58,10 @@ export default class Fetch extends Component {
     fulfill = data => {
         this.setState({ loading: false, data }, () => {
             this.cache.set(this.url, data)
-            FETCHING.delete(this.url)
         })
     }
     reject = error => {
-        this.setState({ loading: false, data: undefined }, () => {
-            FETCHING.delete(this.url)
-        })
+        this.setState({ loading: false, data: undefined })
 
         throw error
     }
@@ -87,7 +84,9 @@ export default class Fetch extends Component {
                     FETCHING.set(url, fetching)
                 }
 
-                fetching.then(this.fulfill, this.reject)
+                fetching.then(this.fulfill, this.reject).finally(() => {
+                    FETCHING.delete(url)
+                })
             })
         }
     }
