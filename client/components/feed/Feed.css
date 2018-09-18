@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Entry {
     display: flex;
@@ -14,7 +14,7 @@
     composes: Entry;
 
     & .Content:before {
-        content: "featured";
+        content: 'featured';
         color: var(--brand-secondary);
         text-transform: uppercase;
         display: block;
@@ -57,7 +57,7 @@
     list-style: none;
 
     & > *:not(:first-child):before {
-        content: "•";
+        content: '•';
         padding: 0 0.25em;
     }
 }
