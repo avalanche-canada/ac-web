@@ -112,7 +112,6 @@
         "bundle-loader": "^0.5.5",
         "classnames": "^2.2.5",
         "clean-webpack-plugin": "^0.1.19",
-        "cloudinary-core": "^2.1.6",
         "connect-livereload": "~0.4.0",
         "css-loader": "^0.28.7",
         "eslint": "^3.19.0",
@@ -167,6 +166,7 @@
         "url-search-params-polyfill": "^4.0.1",
         "victory": "0.24.2",
         "webpack": "^4.19.1",
+        "webpack-bundle-analyzer": "^3.0.2",
         "webpack-cli": "^3.1.0",
         "webpack-dev-middleware": "^3.3.0",
         "webpack-merge": "^4.1.0",
@@ -191,7 +191,8 @@
         "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
         "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
         "lint": "eslint \"client/**/*.js\"",
-        "test": "jest"
+        "test": "jest",
+        "analyze": "webpack --config webpack.development.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json"
     },
     "jest": {
         "testURL": "http://localhost/",

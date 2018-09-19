@@ -11,7 +11,7 @@ import {
 } from 'components/page/drawer'
 import { Ratio } from 'components/misc'
 import { Loading, Muted } from 'components/text'
-import cloudinary from 'services/cloudinary/cl'
+import * as cloudinary from 'services/cloudinary'
 import format from 'date-fns/format'
 import { DATE } from 'utils/date'
 import { StructuredText } from 'prismic/components/base'
