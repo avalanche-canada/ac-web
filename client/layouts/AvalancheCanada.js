@@ -797,7 +797,7 @@ function tutorial(props) {
 function tutoriel({ match }) {
     const { path } = match
     const STYLE = {
-        textAlign: 'center',
+        justifyContent: 'center',
         padding: '1em',
     }
 
@@ -808,8 +808,12 @@ function tutoriel({ match }) {
                 path={path}
                 render={() => (
                     <Alert style={STYLE}>
-                        Some sections of the French tutorial are outdated, we
-                        are currently updating its content. Stay tuned for
+                        Quelques sections de notre tutoriel ne sont pas à jour.
+                        Revenez regulièrement pour consulter les améliorations
+                        que nous y apportons.
+                        <br />
+                        Some sections of the French tutorial are outdated. We
+                        are currently working on improvements so stay tuned for
                         updates!
                     </Alert>
                 )}
