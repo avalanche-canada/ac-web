@@ -192,7 +192,9 @@
         "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
         "lint": "eslint \"client/**/*.js\"",
         "test": "jest",
-        "analyze": "webpack --config webpack.development.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json"
+        "analyze": "npm run analyze:dev",
+        "analyze:dev": "webpack --config webpack.development.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/public",
+        "analyze:prod": "webpack --config webpack.production.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/public"
     },
     "jest": {
         "testURL": "http://localhost/",
