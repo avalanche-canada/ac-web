@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory as Cache } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Error } from 'components/text'
+import * as Text from 'components/text'
 import * as requests from './requests'
 import * as params from 'prismic/params'
 import { status } from 'services/fetch/utils'
@@ -46,9 +46,23 @@ class Search extends Component {
             </Fetch>
         )
     }
-    renderError() {
+    renderError({ error }) {
         return (
-            <Error>An error happened while retrieving data from prismic.</Error>
+            <Text.Error>
+                <details>
+                    <summary>
+                        An error happened while loading and display content.{' '}
+                        <a href={document.location}>Retry</a>
+                    </summary>
+                    <p>
+                        An error happened while retrieving data from prismic and
+                        rendering its content.
+                    </p>
+                    <p>
+                        {error.name}: {error.message}
+                    </p>
+                </details>
+            </Text.Error>
         )
     }
     render() {

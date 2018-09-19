@@ -1,4 +1,6 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
+
+@custom-media --side-by-side (width > 600px);
 
 .Entry {
     display: flex;
@@ -14,7 +16,7 @@
     composes: Entry;
 
     & .Content:before {
-        content: "featured";
+        content: 'featured';
         color: var(--brand-secondary);
         text-transform: uppercase;
         display: block;
@@ -22,8 +24,13 @@
 }
 
 .Image {
-    flex: 250px;
-    max-width: 250px;
+    display: none;
+
+    @media (--side-by-side) {
+        display: block;
+        flex: 250px;
+        max-width: 250px;
+    }
 }
 
 .Content {
@@ -57,7 +64,7 @@
     list-style: none;
 
     & > *:not(:first-child):before {
-        content: "•";
+        content: '•';
         padding: 0 0.25em;
     }
 }

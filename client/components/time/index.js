@@ -4,16 +4,6 @@ import parse from 'date-fns/parse'
 import { DATE, DATETIME, TIME } from 'utils/date'
 import Base from './Time'
 
-function dateTimeFormatGetter(date) {
-    date = parse(date)
-
-    if (startOfDay(date).getTime() === date.getTime()) {
-        return DATE
-    }
-
-    return DATETIME
-}
-
 export Relative from './Relative'
 export Range from './Range'
 
@@ -31,4 +21,15 @@ export function Day(props) {
 
 export function DateElement(props) {
     return <Base format={DATE} {...props} />
+}
+
+// Utils
+export function dateTimeFormatGetter(date) {
+    date = parse(date)
+
+    if (startOfDay(date).getTime() === date.getTime()) {
+        return DATE
+    }
+
+    return DATETIME
 }

@@ -1,12 +1,11 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
 import { Loading } from 'components/text'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { Page, Content, Header, Main, Headline, Aside } from 'components/page'
 import { Metadata, Entry } from 'components/metadata'
-import { DateElement } from 'components/time'
+import { DateElement, Range, dateTimeFormatGetter } from 'components/time'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
@@ -20,17 +19,19 @@ class Post extends PureComponent {
         return <Header title={post?.title || 'Loading...'} />
     }
     renderMetadata({ date, source, location, hostedBy, startDate, endDate }) {
-        const hasDateRange = startDate && endDate
+        const hasDateRange =
+            startDate && endDate && startDate.getTime() !== endDate.getTime()
 
         return (
             <Metadata>
                 {date && (
                     <Entry term="Date">
                         {hasDateRange ? (
-                            <span>
-                                <DateElement value={startDate} /> <em>to</em>{' '}
-                                <DateElement value={endDate} />
-                            </span>
+                            <Range
+                                from={startDate}
+                                to={endDate}
+                                format={dateTimeFormatGetter}
+                            />
                         ) : (
                             <DateElement value={date} />
                         )}
@@ -57,6 +58,7 @@ class Post extends PureComponent {
         )
     }
     children = ({ loading, document }) => {
+        // FIXME: What if a post is not found?!?
         // if (loading.isLoaded && !document) {
         //     // Post not found, redirecting to feed
         //     return <Redirect to={this.props.type} />

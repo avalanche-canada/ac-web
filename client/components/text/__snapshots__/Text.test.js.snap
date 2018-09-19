@@ -2,7 +2,7 @@
 
 exports[`text component 1`] = `
 <p
-  className="Text"
+  className="Muted"
 >
   Content
 </p>
@@ -10,7 +10,7 @@ exports[`text component 1`] = `
 
 exports[`text component 2`] = `
 <p
-  className="Muted"
+  className="Loading"
 >
   Content
 </p>
@@ -18,29 +18,13 @@ exports[`text component 2`] = `
 
 exports[`text component 3`] = `
 <p
-  className="Loading"
->
-  Content
-</p>
-`;
-
-exports[`text component 4`] = `
-<p
   className="Error"
 >
   Content
 </p>
 `;
 
-exports[`text component 5`] = `
-<p
-  className="Warning"
->
-  Content
-</p>
-`;
-
-exports[`text component 6`] = `
+exports[`text component 4`] = `
 <span
   className="Helper"
 >

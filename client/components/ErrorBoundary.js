@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { captureException } from 'services/raven'
 
 export default class ErrorBoundary extends Component {
     static propTypes = {
@@ -14,6 +15,9 @@ export default class ErrorBoundary extends Component {
     state = {}
     componentDidCatch(error, extra) {
         const { onError } = this.props
+
+        // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
+        captureException(error, { extra })
 
         this.setState({ error, extra }, () => {
             onError(error, extra)
