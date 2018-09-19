@@ -262,6 +262,17 @@ const SummaryVal = ({ name, val, suffix }) => {
     )
 }
 
+const LatLng = ({coords}) => {
+    if (coords) {
+        const lat = coords[0].toFixed(5)
+        const lng = coords[1].toFixed(5)
+
+        return <td>{lat}&deg;, {lng}&deg;</td>
+    } else {
+        return <td>-</td>
+    }
+}
+
 const IncSummary = ({ incident }) => {
     return (
         <div>
@@ -282,13 +293,13 @@ const IncSummary = ({ incident }) => {
                         val={incident.location_province}
                     />
                     {/*
-                TODO(wnh): Figure out where this comes from. Needs work in the API
-                <SummaryVal name="Mountain Range"       val="TODO" />
-            */}
-                    <SummaryVal
-                        name="Coordinates"
-                        val={incident.location_coords}
-                    />
+                        TODO(wnh): Figure out where this comes from. Needs work in the API
+                        <SummaryVal name="Mountain Range"       val="TODO" />
+                    */}
+                    <tr>
+                        <th>Coordinates</th>
+                        <LatLng coords={incident.location_coords} />
+                    </tr>
                     <SummaryVal
                         name="Elevation"
                         val={incident.location_elevation}
