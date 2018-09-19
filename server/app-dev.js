@@ -16,8 +16,7 @@ console.log(__dirname);
 
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
-// const webpackHotMiddleware = require('webpack-hot-middleware');
-const config = require(path.resolve(__dirname, '../webpack.dev.js'));
+const config = require(path.resolve(__dirname, '../webpack.development.config.js'));
 const compiler = webpack(config);
 const middleware = webpackMiddleware(compiler, {
     publicPath: config.output.publicPath,
@@ -32,11 +31,11 @@ const middleware = webpackMiddleware(compiler, {
     },
 });
 
-// app.use(webpackHotMiddleware(compiler));
 app.use(middleware);
 
 app.get('*', function response(req, res) {
-    const filename = path.resolve(__dirname, '../dist/public/index.html');
+    const filename = path.join(compiler.outputPath,'index.html')
+    //path.resolve(__dirname, '../dist/public/index.html');
 
     res.write(middleware.fileSystem.readFileSync(filename));
     res.end();
