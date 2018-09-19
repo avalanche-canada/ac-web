@@ -202,9 +202,7 @@ const Row = ({ inc }) => {
     return (
         <t.Row>
             <t.Cell>
-                <span className={styles.DateCell}>
-                    <Time format="YYYY-MM-DD" value={inc.date} />
-                </span>
+                <span className={styles.DateCell}>{inc.date}</span>
             </t.Cell>
             <t.Cell>{inc.location}</t.Cell>
             <t.Cell>{dash(inc.location_province)}</t.Cell>
@@ -272,12 +270,7 @@ const IncSummary = ({ incident }) => {
                 <tbody>
                     <tr>
                         <th>Date</th>
-                        <td>
-                            <Time
-                                format="YYYY-MM-DD"
-                                value={incident.ob_date}
-                            />
-                        </td>
+                        <td>{incident.ob_date}</td>
                     </tr>
                     <SummaryVal name="Location" val={incident.location} />
                     <SummaryVal
@@ -331,9 +324,7 @@ const RowVal = ({ val, suffix }) => {
 const IncAvalanche = ({ avalanches }) => {
     const rows = avalanches.map((av, i) => (
         <t.Row key={i}>
-            <t.Cell>
-                <Time format="YYYY-MM-DD HH:mm" value={av.observation_date} />
-            </t.Cell>
+            <t.Cell>{av.observation_date}</t.Cell>
             <RowVal val={av.size} />
             <RowVal val={av.type} />
             <RowVal val={av.trigger} />
@@ -358,7 +349,7 @@ const IncAvalanche = ({ avalanches }) => {
                         <t.HeaderCell>Aspect</t.HeaderCell>
                         <t.HeaderCell>Slab Width</t.HeaderCell>
                         <t.HeaderCell>Slab Thickness</t.HeaderCell>
-                    </t.Row>
+                </t.Row>
                 </t.Header>
                 <t.TBody>{rows}</t.TBody>
             </t.Table>
@@ -447,9 +438,7 @@ const IncSnow = ({ snowpack, snowpackComment }) => {
 const IncDocuments = ({ docs }) => {
     const rows = docs.map((d, i) => (
         <t.Row key={i}>
-            <t.Cell>
-                <Time format="YYYY-MM-DD" value={d.date} />
-            </t.Cell>
+            <t.Cell>{d.date}</t.Cell>
             <t.Cell>{d.title}</t.Cell>
             <t.Cell>{d.source}</t.Cell>
             <t.Cell>
