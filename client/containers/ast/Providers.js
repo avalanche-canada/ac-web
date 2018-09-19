@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
+import { Memory } from 'components/fetch/Cache'
 import * as ast from 'api/requests/ast'
 
 export default class ProviderContainer extends Component {
@@ -25,11 +26,16 @@ export default class ProviderContainer extends Component {
         })
     }
     render() {
-        return <Fetch request={ast.providers(PARAMS)}>{this.children}</Fetch>
+        return (
+            <Fetch cache={CACHE} request={ast.providers(PARAMS)}>
+                {this.children}
+            </Fetch>
+        )
     }
 }
 
 // Constatns and utils
+const CACHE = new Memory()
 const PARAMS = {
     page_size: 1000,
 }
