@@ -4,12 +4,12 @@ export default class Bundle extends Component {
     state = {
         module: null,
     }
-    componentWillMount() {
+    componentDidMount() {
         this.load(this.props)
     }
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.load !== this.props.load) {
-            this.load(nextProps)
+    componentDidUpdate({ load }) {
+        if (load !== this.props.load) {
+            this.load(this.props)
         }
     }
     load(props) {

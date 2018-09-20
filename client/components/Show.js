@@ -9,7 +9,7 @@ export default class Show extends Component {
     state = {
         visible: this.props.after === 0,
     }
-    componentWillMount() {
+    componentDidMount() {
         this.setTimeout(this.props.after)
     }
     componentWillReceiveProps({ after }) {

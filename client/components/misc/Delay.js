@@ -12,7 +12,7 @@ export default class Delay extends PureComponent {
     state = {
         visible: false,
     }
-    componentWillMount() {
+    componentDidMount() {
         this.timeoutId = window.setTimeout(() => {
             this.setState({
                 visible: true,
