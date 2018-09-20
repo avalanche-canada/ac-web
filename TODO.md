@@ -1,8 +1,7 @@
 Frontend
 
--   Remove url module dependency
--   Remove querystring module dependency
--   Clean up the utils functions and modules
+-   Remove querystring module dependency, DONE
+-   Clean up the utils functions and modules, DONE
 -   Map
     -   Mouse hover on features, HMMMMM, only work once! Should display tooltips
     -   Active id for forecast layers, DONE
@@ -17,7 +16,7 @@ Frontend
     -   Test posting a MIN report, DONE
     -   Add to map MIN report directly accessed, DONE
     -   Zoom to MIN A & B does not work, DONE
--   Static page should not display other content when loading a page
+-   Static page should not display other content when loading a page, DONE
 -   Do more caching
 
 # Map style
