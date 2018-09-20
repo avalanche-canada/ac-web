@@ -1,4 +1,4 @@
-import React, { PureComponent, createRef } from 'react'
+import React, { PureComponent, Children, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Media, Caption } from 'components/media'
 import { StructuredText, Image as Base } from 'prismic/components/base'
@@ -30,7 +30,7 @@ export default class Image extends PureComponent {
         return (
             <Media>
                 <Base ref={this.target} {...image.main} credit={credit} />
-                <div className={styles.Toolbar}>
+                <Toolbar>
                     {caption?.length > 0 && (
                         <Caption>
                             <StructuredText value={caption} />
@@ -46,8 +46,14 @@ export default class Image extends PureComponent {
                             )}
                         </Fullscreen>
                     )}
-                </div>
+                </Toolbar>
             </Media>
         )
     }
+}
+
+function Toolbar({ children }) {
+    return Children.count(children) === 0 ? null : (
+        <div className={styles.Toolbar}>{children}</div>
+    )
 }

@@ -2,7 +2,6 @@ import React, { Children, PureComponent, createRef } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { Credit } from 'components/markup'
-import Dimensions from 'components/Dimensions'
 import WebLink from './WebLink'
 import styles from './Image.css'
 
@@ -18,7 +17,7 @@ export default class Image extends PureComponent {
         }),
         label: PropTypes.string,
         linkTo: PropTypes.object,
-        imgRef: PropTypes.func,
+        children: PropTypes.element,
     }
     state = {
         isLoading: true,
@@ -43,14 +42,16 @@ export default class Image extends PureComponent {
             })
         }
     }
-    renderCredit = ({ width }) => {
-        const compact = width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT
-        const { copyright, credit } = this.props
-
-        return <Credit compact={compact}>{credit || copyright}</Credit>
-    }
     render() {
-        const { url, alt, copyright, credit, linkTo, label } = this.props
+        const {
+            url,
+            alt,
+            copyright,
+            credit,
+            linkTo,
+            label,
+            children,
+        } = this.props
         const { isLoading } = this.state
         const classNames = this.classNames(label, {
             Figure: !isLoading,
@@ -73,10 +74,9 @@ export default class Image extends PureComponent {
                     image
                 )}
                 {(copyright || credit) && (
-                    <footer>
-                        <Dimensions>{this.renderCredit}</Dimensions>
-                    </footer>
+                    <Credit>{credit || copyright}</Credit>
                 )}
+                {children}
             </figure>
         )
     }
@@ -96,6 +96,3 @@ export function OpenInNewTab({ children }) {
         </a>
     )
 }
-
-// Constants
-const MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT = 200

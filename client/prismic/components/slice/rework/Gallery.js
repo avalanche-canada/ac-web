@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import Base from 'components/gallery'
-import Image from './Image'
+import { Media, Caption } from 'components/media'
+import { StructuredText, Image } from 'prismic/components/base'
+import { Credit } from 'components/markup'
 
 export default class Gallery extends PureComponent {
     static propTypes = {
@@ -13,7 +15,20 @@ export default class Gallery extends PureComponent {
         ),
     }
     renderItem(item) {
-        return <Image nonRepeat={item} />
+        const { image, caption, credit } = item
+
+        return (
+            <Media>
+                {caption?.length > 0 && (
+                    <Caption>
+                        <StructuredText value={caption} />
+                    </Caption>
+                )}
+                <Image {...image.main}>
+                    {credit && <Credit.Managed top>{credit}</Credit.Managed>}
+                </Image>
+            </Media>
+        )
     }
     render() {
         const items = this.props.repeat.filter(Boolean)
