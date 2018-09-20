@@ -11,6 +11,10 @@ module.exports = {
     },
     resolve: {
         modules: ['node_modules', path.resolve(__dirname, 'client')],
+        alias: {
+            'lodash.throttle': 'lodash/throttle',
+            'lodash.debounce': 'lodash/debounce',
+        }
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
