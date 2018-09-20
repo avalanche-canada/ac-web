@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Time } from 'components/time'
 import * as t from 'components/table'
 import Pagination from 'components/pagination'
-import { Loading } from 'components/text'
+import { Loading, Error } from 'components/text'
 import styles from './incidents.css'
 import { DropdownFromOptions } from 'components/controls'
 import getYear from 'date-fns/get_year'
@@ -28,6 +28,7 @@ export const IncidentList = ({
     return (
         <div>
             {status === PENDING && <Loading />}
+            {status === ERROR && <Error />}
             {status === FULFILLED ? (
                 <IncidentTable
                     data={data}
@@ -202,9 +203,7 @@ const Row = ({ inc }) => {
     return (
         <t.Row>
             <t.Cell>
-                <span className={styles.DateCell}>
-                    <Time format="YYYY-MM-DD" value={inc.date} />
-                </span>
+                <span className={styles.DateCell}>{inc.date}</span>
             </t.Cell>
             <t.Cell>{inc.location}</t.Cell>
             <t.Cell>{dash(inc.location_province)}</t.Cell>
@@ -223,6 +222,7 @@ export const IncidentDetails = ({ status, data }) => {
     return (
         <div>
             {status === PENDING && <Loading />}
+            {status === ERROR && <Error />}
             {status === FULFILLED ? <IncPage incident={data} /> : <div />}
         </div>
     )
@@ -264,6 +264,23 @@ const SummaryVal = ({ name, val, suffix }) => {
     )
 }
 
+const LatLng = ({ coords }) => {
+    if (coords) {
+        const lat = coords[0].toFixed(5)
+        const lng = coords[1].toFixed(5)
+
+        return (
+            <td>
+                {lat}
+                &deg;, {lng}
+                &deg;
+            </td>
+        )
+    } else {
+        return <td>-</td>
+    }
+}
+
 const IncSummary = ({ incident }) => {
     return (
         <div>
@@ -272,12 +289,7 @@ const IncSummary = ({ incident }) => {
                 <tbody>
                     <tr>
                         <th>Date</th>
-                        <td>
-                            <Time
-                                format="YYYY-MM-DD"
-                                value={incident.ob_date}
-                            />
-                        </td>
+                        <td>{incident.ob_date}</td>
                     </tr>
                     <SummaryVal name="Location" val={incident.location} />
                     <SummaryVal
@@ -289,13 +301,13 @@ const IncSummary = ({ incident }) => {
                         val={incident.location_province}
                     />
                     {/*
-                TODO(wnh): Figure out where this comes from. Needs work in the API
-                <SummaryVal name="Mountain Range"       val="TODO" />
-            */}
-                    <SummaryVal
-                        name="Coordinates"
-                        val={incident.location_coords}
-                    />
+                        TODO(wnh): Figure out where this comes from. Needs work in the API
+                        <SummaryVal name="Mountain Range"       val="TODO" />
+                    */}
+                    <tr>
+                        <th>Coordinates</th>
+                        <LatLng coords={incident.location_coords} />
+                    </tr>
                     <SummaryVal
                         name="Elevation"
                         val={incident.location_elevation}
@@ -331,9 +343,7 @@ const RowVal = ({ val, suffix }) => {
 const IncAvalanche = ({ avalanches }) => {
     const rows = avalanches.map((av, i) => (
         <t.Row key={i}>
-            <t.Cell>
-                <Time format="YYYY-MM-DD HH:mm" value={av.observation_date} />
-            </t.Cell>
+            <t.Cell>{av.observation_date}</t.Cell>
             <RowVal val={av.size} />
             <RowVal val={av.type} />
             <RowVal val={av.trigger} />
@@ -447,9 +457,7 @@ const IncSnow = ({ snowpack, snowpackComment }) => {
 const IncDocuments = ({ docs }) => {
     const rows = docs.map((d, i) => (
         <t.Row key={i}>
-            <t.Cell>
-                <Time format="YYYY-MM-DD" value={d.date} />
-            </t.Cell>
+            <t.Cell>{d.date}</t.Cell>
             <t.Cell>{d.title}</t.Cell>
             <t.Cell>{d.source}</t.Cell>
             <t.Cell>

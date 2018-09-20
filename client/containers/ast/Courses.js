@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import addDays from 'date-fns/add_days'
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
 import Fetch from 'components/fetch'
+import { Memory } from 'components/fetch/Cache'
 import * as ast from 'api/requests/ast'
 
 export default class CoursesContainer extends Component {
@@ -26,9 +27,15 @@ export default class CoursesContainer extends Component {
         return this.props.children(props)
     }
     render() {
-        return <Fetch request={ast.courses(PARAMS)}>{this.children}</Fetch>
+        return (
+            <Fetch cache={CACHE} request={ast.courses(PARAMS)}>
+                {this.children}
+            </Fetch>
+        )
     }
 }
+
+const CACHE = new Memory()
 
 // Utils
 const PARAMS = {
