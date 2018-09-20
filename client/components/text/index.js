@@ -1,1 +1,1 @@
-export { Muted, Loading, Error, Helper } from './Text'
+export { Muted, Loading, Error, Helper, Warning } from './Text'
