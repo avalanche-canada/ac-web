@@ -6,7 +6,6 @@
     text-align: center;
     margin: 0 auto;
     z-index: 2;
-    color: white;
     font-weight: 700;
     background-color: var(--brand-secondary);
 
@@ -14,10 +13,8 @@
         flex: 1 0;
     }
 
-    & a {
-        color: white;
-    }
-
+    &,
+    & a,
     & button {
         color: white;
     }
@@ -35,6 +32,12 @@
     composes: Highlight;
 
     background-color: var(--warning);
+
+    &,
+    & a,
+    & button {
+        color: var(--gray-darker);
+    }
 }
 
 .Info {

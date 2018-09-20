@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import Base from 'components/alert'
+import Base, { DANGER, INFO, WARNING, SUCCESS } from 'components/alert'
 import { StructuredText } from 'prismic/components/base'
 
 export default class Alert extends PureComponent {
@@ -24,7 +24,8 @@ export default class Alert extends PureComponent {
 
 // Constants
 const TYPES = new Map([
-    ['Warning', 'WARNING'],
-    ['Information', 'INFO'],
-    ['Danger', 'DANGER'],
+    ['Warning', WARNING],
+    ['Information', INFO],
+    ['Danger', DANGER],
+    ['Success', SUCCESS],
 ])

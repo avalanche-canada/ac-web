@@ -46,7 +46,7 @@ a[href] {
 
     &,
     & a[href] {
-        color: black;
+        color: var(--gray-darker);
     }
 }
 
