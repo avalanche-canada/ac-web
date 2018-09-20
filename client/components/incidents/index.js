@@ -265,15 +265,14 @@ const SummaryVal = ({ name, val, suffix }) => {
 }
 
 const LatLng = ({ coords }) => {
-    if (coords) {
-        const lat = coords[0].toFixed(5)
-        const lng = coords[1].toFixed(5)
-
+    if (Array.isArray(coords)) {
         return (
             <td>
-                {lat}
-                &deg;, {lng}
-                &deg;
+                {coords
+                    .filter(Boolean)
+                    .map(Number)
+                    .map(coord => `${coord.toFixed(5)} °`)
+                    .join(', ') || '-'}
             </td>
         )
     } else {
