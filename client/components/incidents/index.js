@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { Time } from 'components/time'
 import * as t from 'components/table'
 import Pagination from 'components/pagination'
-import { Loading } from 'components/text'
+import { Loading, Error } from 'components/text'
 import styles from './incidents.css'
 import { DropdownFromOptions } from 'components/controls'
 import getYear from 'date-fns/get_year'
@@ -28,6 +28,7 @@ export const IncidentList = ({
     return (
         <div>
             {status === PENDING && <Loading />}
+            {status === ERROR && <Error />}
             {status === FULFILLED ? (
                 <IncidentTable
                     data={data}
@@ -221,6 +222,7 @@ export const IncidentDetails = ({ status, data }) => {
     return (
         <div>
             {status === PENDING && <Loading />}
+            {status === ERROR && <Error />}
             {status === FULFILLED ? <IncPage incident={data} /> : <div />}
         </div>
     )
@@ -262,12 +264,18 @@ const SummaryVal = ({ name, val, suffix }) => {
     )
 }
 
-const LatLng = ({coords}) => {
+const LatLng = ({ coords }) => {
     if (coords) {
         const lat = coords[0].toFixed(5)
         const lng = coords[1].toFixed(5)
 
-        return <td>{lat}&deg;, {lng}&deg;</td>
+        return (
+            <td>
+                {lat}
+                &deg;, {lng}
+                &deg;
+            </td>
+        )
     } else {
         return <td>-</td>
     }
@@ -360,7 +368,7 @@ const IncAvalanche = ({ avalanches }) => {
                         <t.HeaderCell>Aspect</t.HeaderCell>
                         <t.HeaderCell>Slab Width</t.HeaderCell>
                         <t.HeaderCell>Slab Thickness</t.HeaderCell>
-                </t.Row>
+                    </t.Row>
                 </t.Header>
                 <t.TBody>{rows}</t.TBody>
             </t.Table>
