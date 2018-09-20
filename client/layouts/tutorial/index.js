@@ -47,10 +47,10 @@ export default class Layout extends Component {
             })
         }
     }
-    renderContent = ({ loading, document }) => {
+    renderContent = ({ pending, document }) => {
         const { match } = this.props
 
-        return loading ? (
+        return pending ? (
             <Loading />
         ) : document ? (
             <Fragment>
@@ -334,14 +334,20 @@ class Tutorial extends Component {
             </Fragment>
         )
     }
-    renderContent = ({ loading, document }) => {
-        return loading ? (
-            <Loading />
-        ) : document ? (
-            this.renderTutorial(document)
-        ) : (
-            <NoDocument uid={this.uid} />
-        )
+    renderContent = ({ pending, fulfilled, document }) => {
+        if (pending) {
+            return <Loading />
+        }
+
+        if (fulfilled) {
+            return document ? (
+                this.renderTutorial(document)
+            ) : (
+                <NoDocument uid={this.uid} />
+            )
+        }
+
+        return null
     }
     render() {
         return (
