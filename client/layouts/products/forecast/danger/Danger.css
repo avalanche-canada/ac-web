@@ -1,10 +1,9 @@
-@custom-media --full-width (width > 480px);
+@custom-media --full-width (width > 420px);
 
 .Table {
 }
 
 .DaySet {
-
 }
 
 .Day {
@@ -22,7 +21,7 @@
 }
 
 .Title {
-    composes: import SectionHeader from "../Forecast.css";
+    composes: import SectionHeader from '../Forecast.css';
 }
 
 .Row {
@@ -34,22 +33,22 @@
 }
 
 .Elevation {
-    composes: import SubSectionHeader from "../Forecast.css";
+    composes: import SubSectionHeader from '../Forecast.css';
 
     flex: 40%;
 }
 
 .Rating {
-    composes: import SubSectionHeader from "../Forecast.css";
+    composes: import SubSectionHeader from '../Forecast.css';
 
     flex: 60%;
     white-space: nowrap;
 }
 
 .Condition {
-    composes: import Section from "../Forecast.css";
+    composes: import Section from '../Forecast.css';
 
-    display: inline-flex;
+    display: flex;
     flex-direction: column;
 
     @media (--full-width) {
@@ -60,7 +59,7 @@
 }
 
 .ConditionHeader {
-    composes: import SectionHeader from "../Forecast.css";
+    composes: import SectionHeader from '../Forecast.css';
 
     flex: 100%;
 }
@@ -69,9 +68,11 @@
     padding: 1em;
     box-sizing: border-box;
     max-width: 100%;
+    text-align: center;
+    line-height: 10em;
 
     @media (--full-width) {
-        max-width: 33%;
+        flex: 33%;
     }
 }
 
@@ -80,6 +81,6 @@
     box-sizing: border-box;
 
     @media (--full-width) {
-        max-width: 66%;
+        flex: 66%;
     }
 }
