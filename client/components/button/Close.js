@@ -7,7 +7,7 @@ import styles from './Button.css'
 
 Close.propTypes = {
     className: PropTypes.string,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.element.isRequired,
 }
 
 export default function Close({ children = '×', className, ...rest }) {

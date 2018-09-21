@@ -8,13 +8,6 @@ export const BOTTOM = 'bottom'
 export const LEFT = 'left'
 export const RIGHT = 'right'
 
-const classNames = new Map([
-    [TOP, styles.Top],
-    [BOTTOM, styles.Bottom],
-    [LEFT, styles.Left],
-    [RIGHT, styles.Right],
-])
-
 Callout.propTypes = {
     children: PropTypes.node.isRequired,
     placement: PropTypes.oneOf([TOP, BOTTOM, LEFT, RIGHT]),
@@ -28,3 +21,10 @@ export default function Callout({ children, placement = BOTTOM, style }) {
         </div>
     )
 }
+
+const classNames = new Map([
+    [TOP, styles.Top],
+    [BOTTOM, styles.Bottom],
+    [LEFT, styles.Left],
+    [RIGHT, styles.Right],
+])

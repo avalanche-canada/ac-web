@@ -4,11 +4,6 @@ import { SUBTILE } from './kinds'
 import Button from './Button'
 import { Remove, Add, ExpandMore, ExpandLess } from 'components/icons'
 
-const ICONS = new Map([
-    [true, new Map([[true, <ExpandLess />], [false, <ExpandMore />]])],
-    [false, new Map([[true, <Remove />], [false, <Add />]])],
-])
-
 export default class Expand extends PureComponent {
     static propTypes = {
         expanded: PropTypes.bool.isRequired,
@@ -28,3 +23,8 @@ export default class Expand extends PureComponent {
         )
     }
 }
+
+const ICONS = new Map([
+    [true, new Map([[true, <ExpandLess />], [false, <ExpandMore />]])],
+    [false, new Map([[true, <Remove />], [false, <Add />]])],
+])
