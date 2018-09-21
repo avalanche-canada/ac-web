@@ -1,9 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import styles from './Panel.css'
+import { Toggle } from 'react-powerplug'
 import Collapse from 'components/collapse'
 import { Expand } from 'components/button'
+import styles from './Panel.css'
 
 export const SIMPLE = 'Simple'
 export const INVERSE = 'Inverse'
@@ -21,20 +22,8 @@ export default class Panel extends PureComponent {
         expandable: false,
         theme: SIMPLE,
         expanded: false,
-        onExpandedChange() {},
-    }
-    state = {
-        expanded: this.props.expanded,
     }
     classnames = classnames.bind(styles)
-    get expanded() {
-        return this.state.expanded
-    }
-    set expanded(expanded) {
-        this.setState({ expanded }, () => {
-            this.props.onExpandedChange(expanded)
-        })
-    }
     get className() {
         const { theme, expandable } = this.props
 
@@ -43,37 +32,22 @@ export default class Panel extends PureComponent {
             [`Container--${theme}`]: !expandable,
         })
     }
-    componentWillReceiveProps({ expanded }) {
-        if (expanded !== this.expanded) {
-            this.expanded = expanded
-        }
-    }
-    handleHeaderClick = () => {
-        if (!this.props.expandable) {
-            return
-        }
-
-        this.expanded = !this.expanded
-    }
-    render() {
+    renderContent = ({ on, toggle }) => {
         const { expandable, children } = this.props
 
         return (
             <div className={this.className}>
                 <header
                     className={styles.Header}
-                    onClick={this.handleHeaderClick}>
+                    onClick={expandable ? toggle : null}>
                     {expandable && (
-                        <Expand
-                            className={styles.Expand}
-                            expanded={this.expanded}
-                        />
+                        <Expand className={styles.Expand} expanded={on} />
                     )}
                     <span className={styles.Title}>{this.props.header}</span>
                 </header>
                 <div className={styles.Content}>
                     {expandable ? (
-                        <Collapse collapsed={!this.expanded}>
+                        <Collapse collapsed={!on}>
                             <div style={STYLE_HACK}>{children}</div>
                         </Collapse>
                     ) : (
@@ -81,6 +55,15 @@ export default class Panel extends PureComponent {
                     )}
                 </div>
             </div>
+        )
+    }
+    render() {
+        const { expanded, onExpandedChange } = this.props
+
+        return (
+            <Toggle initial={expanded} onChange={onExpandedChange}>
+                {this.renderContent}
+            </Toggle>
         )
     }
 }
