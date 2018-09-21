@@ -138,7 +138,7 @@ export default class Layout extends Component {
     shouldComponentUpdate({ show }, { node }) {
         return show !== this.props.show || node !== this.state.node
     }
-    componentDidUpdate({ location }) {
+    componentWillReceiveProps({ location }) {
         if (location !== this.props.location) {
             this.props.onClose()
         }
