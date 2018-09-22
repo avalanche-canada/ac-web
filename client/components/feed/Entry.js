@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { DateElement } from 'components/time'
 import { TagSet, Tag } from 'components/tag'
 import { StructuredText, Image } from 'prismic/components/base'
@@ -57,7 +57,9 @@ function Entry({
                 </ul>
                 {Array.isArray(tags) && (
                     <TagSet>
-                        {tags.sort().map(tag => <Tag key={tag}>{tag}</Tag>)}
+                        {tags.sort().map(tag => (
+                            <Tag key={tag}>{tag}</Tag>
+                        ))}
                     </TagSet>
                 )}
             </div>

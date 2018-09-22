@@ -41,20 +41,18 @@ class Search extends Component {
     }
     renderError({ error }) {
         return (
-            <Text.Error>
-                <details>
-                    <summary>
-                        An error happened while loading and display content.{' '}
-                        <a href={document.location}>Retry</a>
-                    </summary>
-                    <p>
-                        An error happened while retrieving data from prismic and
-                        rendering its content.
-                    </p>
-                    <p>
-                        {error.name}: {error.message}
-                    </p>
-                </details>
+            <Text.Error component="details">
+                <summary>
+                    An error happened while loading and display content.{' '}
+                    <a href={document.location}>Retry</a>
+                </summary>
+                <p>
+                    An error happened while retrieving data from prismic and
+                    rendering its content.
+                </p>
+                <p>
+                    {error.name}: {error.message}
+                </p>
             </Text.Error>
         )
     }

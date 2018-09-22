@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import format from 'date-fns/format'
 import {
     Header,
     Container,
@@ -12,7 +13,6 @@ import {
 import { Ratio } from 'components/misc'
 import { Loading, Muted } from 'components/text'
 import * as cloudinary from 'services/cloudinary'
-import format from 'date-fns/format'
 import { DATE } from 'utils/date'
 import { StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'

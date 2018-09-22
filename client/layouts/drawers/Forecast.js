@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
 import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'

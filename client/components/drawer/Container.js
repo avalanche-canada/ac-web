@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
 import { Motion, spring, presets } from 'react-motion'
 import Cabinet from './Cabinet'
 import styles from './Drawer.css'
@@ -123,7 +122,6 @@ function Container({ style = null, drawers, onClick }) {
 
 // TODO: Remove the need for that function
 
-@withRouter
 export default class Layout extends Component {
     static propTypes = {
         menu: PropTypes.object,
@@ -138,11 +136,11 @@ export default class Layout extends Component {
     shouldComponentUpdate({ show }, { node }) {
         return show !== this.props.show || node !== this.state.node
     }
-    componentWillReceiveProps({ location }) {
-        if (location !== this.props.location) {
-            this.props.onClose()
-        }
-    }
+    // componentWillReceiveProps({ location }) {
+    //     if (location !== this.props.location) {
+    //         this.props.onClose()
+    //     }
+    // }
     render() {
         const { menu, location, ...props } = this.props
         const { node } = this.state

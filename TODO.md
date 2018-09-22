@@ -25,3 +25,14 @@ Frontend
 2.  Add layers and sources manually
 3.  Layer & Source components as accessor, or components do not remove when unmounting
 4.  DataSet components fetch data and set it to the source
+
+# React Router replacement
+
+Close Drawer > mobile + desktop
+NotFound > log to ga
+ScrollTo > finishing implementation
+Add redirect for the old /map and testing all urls possibilities
+Make sure <Sponsor>s render fine
+client/components/drawer/Container.js
+client/components/navbar/ItemSet.js
+Look at all <Link>s

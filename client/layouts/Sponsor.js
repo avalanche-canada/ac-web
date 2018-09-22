@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Route, Switch } from 'react-router-dom'
+import { Router } from '@reach/router'
 import { Sponsor as Component } from 'components/misc'
 import { Document } from 'prismic/containers'
 import { Loading } from 'components/text'
@@ -9,44 +9,39 @@ import * as params from 'prismic/params'
 
 export default function SponsorRoutes() {
     return (
-        <Switch>
-            <SponsorRoute
-                path="/map/forecasts/kananaskis"
+        <Router>
+            <Sponsor
+                path="map/forecasts/kananaskis"
                 name="kananaskis"
                 label={null}
             />
-            <SponsorRoute path="/map" name="Forecast" label={null} />
-            <SponsorRoute path="/mountain-information-network" name="MIN" />
-            <SponsorRoute path="/events/:uid" name="EventPage" />
-            <SponsorRoute path="/events" name="EventIndex" />
-            <SponsorRoute path="/news/:uid" name="NewsPage" />
-            <SponsorRoute path="/news" name="NewsIndex" />
-            <SponsorRoute path="/blogs/:uid" name="BlogPage" />
-            <SponsorRoute path="/blogs" name="BlogIndex" />
-            <SponsorRoute path="/forecasts/kananaskis" name="kananaskis" />
-            <SponsorRoute path="/forecasts" name="Forecast" />
-            <SponsorRoute path="/hot-zone-reports" name="Forecast" />
-            <SponsorRoute path="/hot-zones" name="Forecast" />
-            <SponsorRoute path="/weather" name="Weather" />
-            <SponsorRoute path="/training" name="Training" />
-            <SponsorRoute path="/courses" name="Training" />
-            <SponsorRoute path="/instructing-ast" name="Training" />
-            <SponsorRoute path="/youth" name="Youth" />
-            <SponsorRoute path="/gear" name="Gear" />
-            <SponsorRoute path="/about" name="About" />
-        </Switch>
+            <Sponsor path="map" name="Forecast" label={null} />
+            <Sponsor path="mountain-information-network" name="MIN" />
+            <Sponsor path="events/:uid" name="EventPage" />
+            <Sponsor path="events" name="EventIndex" />
+            <Sponsor path="news/:uid" name="NewsPage" />
+            <Sponsor path="news" name="NewsIndex" />
+            <Sponsor path="blogs/:uid" name="BlogPage" />
+            <Sponsor path="blogs" name="BlogIndex" />
+            <Sponsor path="forecasts/kananaskis" name="kananaskis" />
+            <Sponsor path="forecasts" name="Forecast" />
+            <Sponsor path="hot-zone-reports" name="Forecast" />
+            <Sponsor path="hot-zones" name="Forecast" />
+            <Sponsor path="weather" name="Weather" />
+            <Sponsor path="training" name="Training" />
+            <Sponsor path="courses" name="Training" />
+            <Sponsor path="instructing-ast" name="Training" />
+            <Sponsor path="youth" name="Youth" />
+            <Sponsor path="gear" name="Gear" />
+            <Sponsor path="about" name="About" />
+        </Router>
     )
 }
 
 // Utils
-SponsorRoute.propTypes = {
-    path: PropTypes.string.isRequired,
+Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
     label: PropTypes.string,
-}
-
-function SponsorRoute({ path, ...props }) {
-    return <Route path={path} render={() => <Sponsor {...props} />} />
 }
 
 class Sponsor extends PureComponent {

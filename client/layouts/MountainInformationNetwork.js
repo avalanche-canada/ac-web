@@ -58,7 +58,7 @@ function submissions({ location, history }) {
     )
 }
 
-export default function mountainInformationNetwork({ match }) {
+export default function MountainInformationNetwork({ match }) {
     const { path } = match
 
     return (

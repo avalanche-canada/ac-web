@@ -1,22 +1,18 @@
 import React, { Component } from 'react'
 import Application from 'components/application'
-import { Route, Redirect, Switch } from 'react-router-dom'
-import {
-    NotFoundRoute,
-    StaticPageRoute,
-    GenericPageRoute,
-    WIPPageRoute,
-} from 'router/common'
+import { Router, Redirect } from '@reach/router'
+import { NotFound, WorkInProgress } from 'components/page'
 import LoginComplete from './LoginComplete'
 import Login from './Login'
 import Navbar from './Navbar'
 import SPAW from './SPAW'
 import Highlight from './Highlight'
 import Footer from 'components/footer'
+import Null from 'components/Null'
 import Main from 'layouts/main'
 import Tutorial from './tutorial'
 import Ast from './Ast'
-import mountainInformationNetwork from './MountainInformationNetwork'
+import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
 import { IncidentsList, IncidentDetails } from './Incidents'
@@ -31,7 +27,7 @@ import * as Page from 'components/page'
 import { ButtonSet } from 'components/button'
 import styles from 'components/page/Page.css'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
-import * as prismic from 'prismic/layouts'
+import { StaticPage, Generic } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 
 export default class AvalancheCanada extends Component {
@@ -73,147 +69,127 @@ export default class AvalancheCanada extends Component {
                     <SPAW />
                     <Highlight />
                     <ErrorBoundary fallback={this.renderError}>
-                        <Switch>
-                            <Redirect exact from="/" to="/map" />
+                        <Router>
+                            <Main path="map/*" />
+                            {/* <Redirect from="/" to="map" /> */}
                             <Redirect
-                                from="/map/ates"
-                                to="/planning/trip-planner"
-                            />
-                            <Redirect
-                                from="/trip-planner"
-                                to="/planning/trip-planner"
+                                from="map/ates"
+                                to="planning/trip-planner"
                             />
                             <Redirect
-                                from="/trip-planning/:page"
-                                to="/planning/:page"
+                                from="trip-planner"
+                                to="planning/trip-planner"
                             />
-                            <Redirect from="/trip-planning" to="/planning" />
                             <Redirect
-                                from="/forecast/:name"
-                                to="/forecasts/:name"
+                                from="trip-planning/:page"
+                                to="planning/:page"
                             />
-                            <Redirect from="/learn" to="/training" />
-                            <Route
-                                path="/login-complete"
-                                component={LoginComplete}
+                            <Redirect from="trip-planning" to="planning" />
+                            <Redirect
+                                from="forecast/:name"
+                                to="forecasts/:name"
                             />
-                            <Route path="/login" component={Login} />
-                            <Route path="/map/:type?/:name?" component={Main} />
-                            <Route path="/glossary" component={Glossary} />
-                            <Route path="/tutorial" component={Tutorial} />
-                            <Route
-                                path="/hot-zone-reports"
-                                component={HotZoneReport}
-                            />
-                            <Route path="/hot-zones" component={HotZoneList} />
-                            <Route path="/forecasts" component={Forecast} />
-                            <Route path="/blogs" render={blogs} />
-                            <Route path="/news" render={news} />
-                            <Route path="/events" render={events} />
-                            <Route path="/incidents" render={incidents} />
-                            <Route path="/min" render={min} />
-                            <Route
-                                path="/mountain-information-network"
-                                render={mountainInformationNetwork}
-                            />
-                            <Route path="/weather" component={Weather} />
-                            <Route path="/training/:type" component={Ast} />
-                            <StaticPageRoute
-                                path="/about"
+                            <Redirect from="learn" to="training" />
+                            <LoginComplete path="login-complete" />
+                            <Login path="login" />
+                            <Glossary path="glossary/*" />
+                            <Tutorial path="tutorial/*" />
+                            <HotZoneReport path="hot-zone-reports/*" />
+                            <HotZoneList path="hot-zones/*" />
+                            <Forecast path="forecasts/*" />
+                            <Blogs path="blogs/*" />
+                            <News path="news/*" />
+                            <Events path="events/*" />
+                            <Incidents path="incidents/*" />
+                            <MIN path="min/*" />
+                            <MountainInformationNetwork path="mountain-information-network/*" />
+                            <Weather path="weather/*" />
+                            <Ast path="training/:type" />
+                            <StaticPage
+                                path="about"
                                 uid="about"
                                 title="About"
                             />
-                            <StaticPageRoute
-                                path="/early-season-conditions"
+                            <StaticPage
+                                path="early-season-conditions"
                                 uid="early-season-conditions"
                                 title="Early Season Conditions"
                             />
-                            <StaticPageRoute
-                                path="/faq"
-                                uid="faq"
-                                title="FAQ"
-                            />
-                            <Route
-                                path="/planning/trip-planner"
-                                component={TripPlanner}
-                            />
-                            <StaticPageRoute
-                                path="/planning/decision-making"
+                            <StaticPage path="faq" uid="faq" title="FAQ" />
+                            <TripPlanner path="planning/trip-planner" />
+                            <StaticPage
+                                path="planning/decision-making"
                                 uid="decision-making"
                                 title="Decision Making"
                             />
-                            <StaticPageRoute
-                                path="/planning"
+                            <StaticPage
+                                path="planning"
                                 uid="planning"
                                 title="Planning"
                             />
-                            <StaticPageRoute
-                                path="/information"
+                            <StaticPage
+                                path="information"
                                 uid="information"
                                 title="Information"
                             />
-                            <StaticPageRoute
-                                path="/sled"
-                                uid="sled"
-                                title="Sled"
-                            />
-                            <StaticPageRoute
-                                path="/youth"
+                            <StaticPage path="sled" uid="sled" title="Sled" />
+                            <StaticPage
+                                path="youth"
                                 uid="youth"
                                 title="Youth"
                             />
-                            <StaticPageRoute
-                                path="/gear"
+                            <StaticPage
+                                path="gear"
                                 uid="essential-gear"
                                 title="Essential Gear"
                             />
-                            <StaticPageRoute
-                                path="/training"
+                            <StaticPage
+                                path="training"
                                 uid="training"
                                 title="Go Farther — Get Avalanche Trained"
                             />
-                            <StaticPageRoute
-                                path="/education"
+                            <StaticPage
+                                path="education"
                                 uid="education"
                                 title="Go Farther — Get Avalanche Trained"
                             />
-                            <StaticPageRoute
-                                path="/instructing-ast"
+                            <StaticPage
+                                path="instructing-ast"
                                 uid="instructing-ast"
                                 title="Teaching Avalanche Skills Training (AST)"
                             />
-                            <StaticPageRoute
-                                path="/ambassadors"
+                            <StaticPage
+                                path="ambassadors"
                                 uid="ambassadors"
                                 title="Ambassadors"
                             />
-                            <StaticPageRoute
-                                path="/sponsors"
+                            <StaticPage
+                                path="sponsors"
                                 uid="sponsors"
                                 title="Sponsors"
                             />
-                            <StaticPageRoute
-                                path="/collaborators"
+                            <StaticPage
+                                path="collaborators"
                                 uid="collaborators"
                                 title="Collaborators"
                             />
-                            <StaticPageRoute
-                                path="/membership"
+                            <StaticPage
+                                path="membership"
                                 uid="membership-overview"
                                 title="Membership Overview"
                             />
-                            <GenericPageRoute
-                                path="/privacy-policy"
+                            <Generic
+                                path="privacy-policy"
                                 uid="privacy-policy"
                                 title="Privacy Policy"
                             />
-                            <GenericPageRoute
-                                path="/terms-of-use"
+                            <Generic
+                                path="terms-of-use"
                                 uid="terms-of-use"
                                 title="Terms of use"
                             />
-                            <WIPPageRoute
-                                path="/tutoriel"
+                            <WorkInProgress
+                                path="tutoriel"
                                 name="French Tutorial / Tutoriel"
                                 oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
                                 title={defaultTitle =>
@@ -223,16 +199,16 @@ export default class AvalancheCanada extends Component {
                                     `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
                                 }
                             />
-                            <Route path="/pages" render={pages} />
-                            <NotFoundRoute />
-                        </Switch>
+                            <Pages path="pages" />
+                            <NotFound default />
+                        </Router>
                     </ErrorBoundary>
-                    <Switch>
-                        <Route path="/map" component={null} />
-                        <Route path="/planning/trip-planner" component={null} />
-                        <Route path="/tutoriel" component={null} />
-                        <Route component={Footer} />
-                    </Switch>
+                    <Router>
+                        <Null path="map/*" />
+                        <Null path="planning/trip-planner" />
+                        <Null path="tutoriel" />
+                        <Footer default />
+                    </Router>
                 </Application>
             </SponsorsMetadataProvider>
         )
@@ -241,538 +217,354 @@ export default class AvalancheCanada extends Component {
 
 // Subroutes
 // Create renderers to split concerns and reduce to initial rendering
-function blogs({ match }) {
-    const { path } = match
-
+function Blogs() {
     return (
-        <Switch>
-            <Route path={`${path}/:uid`} component={Feed.BlogPost} />
-            <Route path={path} component={Feed.BlogPostFeed} />
-        </Switch>
+        <Router>
+            <Feed.BlogPostFeed path="/" />
+            <Feed.BlogPost path=":uid" />
+        </Router>
     )
 }
-function news({ match }) {
-    const { path } = match
-
+function News() {
     return (
-        <Switch>
+        <Router>
+            <Feed.NewsFeed path="/" />
+            <Feed.NewsPost path=":uid" />
+            <Redirect from="V-r0EyYAACcAbkKw" to="register-now" />
             <Redirect
-                from={`${path}/V-r0EyYAACcAbkKw`}
-                to={`${path}/register-now`}
+                from="V8hpNyQAABuEOE6V"
+                to="avalanche-canada-has-brand-new-youth-tool-boxes-available"
             />
             <Redirect
-                from={`${path}/V8hpNyQAABuEOE6V`}
-                to={`${path}/avalanche-canada-has-brand-new-youth-tool-boxes-available`}
+                from="V9Br8SYAACcAzxmI"
+                to="calgary-foundation-grant-award"
+            />
+            <Redirect from="Vow8-R8AAFDJUq1b" to="transceiver-interference" />
+            <Redirect from="VEV1hyYAAKwITagl" to="annual-report-2014" />
+            <Redirect
+                from="VIDCKCsAACcAgEpK"
+                to="donation-request-avalanche-canada"
             />
             <Redirect
-                from={`${path}/V9Br8SYAACcAzxmI`}
-                to={`${path}/calgary-foundation-grant-award`}
+                from="VL63mCUAACYAOeVo"
+                to="canuck-splitfest-fundraiser-success-2015"
             />
             <Redirect
-                from={`${path}/Vow8-R8AAFDJUq1b`}
-                to={`${path}/transceiver-interference`}
+                from="VL7ZgiUAACMAOilw"
+                to="thunderstruck-fundraiser-donation-2015"
             />
             <Redirect
-                from={`${path}/VEV1hyYAAKwITagl`}
-                to={`${path}/annual-report-2014`}
+                from="VNASWCUAAJQpqGrY"
+                to="deep-winter-photo-challenge-fundraiser-2015"
             />
             <Redirect
-                from={`${path}/VIDCKCsAACcAgEpK`}
-                to={`${path}/donation-request-avalanche-canada`}
+                from="VT_rPiYAACUAbasG"
+                to="mountain-weather-forecast-summer"
+            />
+            <Redirect from="VftedR8AAIYAI8QW" to="acc-new-hut" />
+            <Redirect from="ViGKDCEAAEwWNpIz" to="agm-2015" />
+            <Redirect
+                from="VHZlwSgAACYAw466"
+                to="boundary-changes-south-rockies"
             />
             <Redirect
-                from={`${path}/VL63mCUAACYAOeVo`}
-                to={`${path}/canuck-splitfest-fundraiser-success-2015`}
+                from="VH-XbykAACwAQbtc"
+                to="arcteryx-deep-winter-photo-challenge-2014"
             />
             <Redirect
-                from={`${path}/VL7ZgiUAACMAOilw`}
-                to={`${path}/thunderstruck-fundraiser-donation-2015`}
+                from="VJIKXCcAACYAFiD-"
+                to="avalanche-awareness-days-2015"
             />
             <Redirect
-                from={`${path}/VNASWCUAAJQpqGrY`}
-                to={`${path}/deep-winter-photo-challenge-fundraiser-2015`}
+                from="VLbN0CMAALqmQ9tp"
+                to="introduction-mountain-information-network"
+            />
+            <Redirect from="VRmZzR8AAOIMXMnP" to="agm-october-announcement" />
+            <Redirect from="VZ7psx0AAB0AuUBl" to="recall-bd-jetforce-airbag" />
+            <Redirect
+                from="ViauYB0AAHAHUPr_"
+                to="new-support-craig-kelly-fund"
+            />
+            <Redirect from="ViayAx0AAB4AURDZ" to="cora-shea-memorial-awards" />
+            <Redirect
+                from="VkDizCEAAJsBkh2d"
+                to="bca-backcountry-basics-videos"
             />
             <Redirect
-                from={`${path}/VT_rPiYAACUAbasG`}
-                to={`${path}/mountain-weather-forecast-summer`}
+                from="VDbtkScAAKUBPZm5"
+                to="introducing-avalanche-canada"
             />
             <Redirect
-                from={`${path}/VftedR8AAIYAI8QW`}
-                to={`${path}/acc-new-hut`}
+                from="VH5GLSMAACcAc0vA"
+                to="snorider-brent-strand-announcement"
+            />
+            <Redirect from="VIockywAACsA-wP3" to="forecasts-inbox-rss" />
+            <Redirect
+                from="VL6NXiUAACYAOZA3"
+                to="announcement-new-mountain-weather-forecast"
             />
             <Redirect
-                from={`${path}/ViGKDCEAAEwWNpIz`}
-                to={`${path}/agm-2015`}
+                from="VP9AZR4AACQAlToR"
+                to="land-thundering-snow-launch"
+            />
+            <Redirect from="VRrR-x8AAKBCX0JI" to="recall-ortovox-s1" />
+            <Redirect
+                from="VQh-RikAACgA6K4B"
+                to="calgary-fundraiser-success-2015"
+            />
+            <Redirect from="VdNwyB8AAE4Ln13g" to="al-hodgson-memorial-fund" />
+            <Redirect
+                from="VEbXGiYAACsAaNZV"
+                to="five-snowmobile-safety-messages"
+            />
+            <Redirect from="VEbHaSYAACsAaLc_" to="tedx-talk-risk" />
+            <Redirect from="VH-KSykAACkAQaCR" to="baw-success-2014" />
+            <Redirect
+                from="VIivUisAACYAY0tp"
+                to="avalanche-canada-widget-update"
             />
             <Redirect
-                from={`${path}/VHZlwSgAACYAw466`}
-                to={`${path}/boundary-changes-south-rockies`}
+                from="VIoEBSwAACsA-tKL"
+                to="dramatic-rescue-clemina-creek"
+            />
+            <Redirect from="VEVy9CYAACQATaL-" to="justin-trudeau-message" />
+            <Redirect from="VVtiryYAAOwJxyOO" to="recall-msr-snow-shovels" />
+            <Redirect from="VMgrmyUAAJQpmL6o" to="min-how-to-videos" />
+            <Redirect from="VjkZEB0AAB0AV7J4" to="annual-report-2015" />
+            <Redirect
+                from="VkogLh8AAB0AI-ag"
+                to="free-ast-youth-course-fernie"
+            />
+            <Redirect from="Vk4VIh4AAG8G0bZg" to="new-sponsor-g3" />
+            <Redirect
+                from="VlN8siIAAFANmCkM"
+                to="new-release-throttle-decisions"
             />
             <Redirect
-                from={`${path}/VH-XbykAACwAQbtc`}
-                to={`${path}/arcteryx-deep-winter-photo-challenge-2014`}
+                from="VlYciR0AADgEB1Sp"
+                to="cross-border-collaboration-training"
             />
             <Redirect
-                from={`${path}/VJIKXCcAACYAFiD-`}
-                to={`${path}/avalanche-awareness-days-2015`}
+                from="VpPu3h8AAKAFGUI2"
+                to="avalanche-awareness-days-primer"
             />
             <Redirect
-                from={`${path}/VLbN0CMAALqmQ9tp`}
-                to={`${path}/introduction-mountain-information-network`}
+                from="VrOc4CsAACwA4KjU"
+                to="pr-bc-coroner-avalanche-feb3"
             />
             <Redirect
-                from={`${path}/VRmZzR8AAOIMXMnP`}
-                to={`${path}/agm-october-announcement`}
+                from="VrjoXiYAAEwCjmRs"
+                to="avalanche-ambassador-aad-revelstoke"
+            />
+            <Redirect from="VN0YqSYAACoAJakp" to="membership-drive" />
+            <Redirect from="Vst0dyMAADoSu4_N" to="al-hodgson-memorial-award" />
+            <Redirect from="Vplv7SMAAFQcaHWb" to="sfu-new-research-chair" />
+            <Redirect from="VpV_lx8AAMUSIpac" to="min-update" />
+            <Redirect
+                from="VuxMXiwAALFL7Yyb"
+                to="foundation-calgary-benefit-2016"
+            />
+            <Redirect from="VjukhiMAACQA2fJX" to="new-office-space" />
+            <Redirect
+                from="VnHASR8AAIoSs8eR"
+                to="thunderstruck-rsc-fundraiser"
             />
             <Redirect
-                from={`${path}/VZ7psx0AAB0AuUBl`}
-                to={`${path}/recall-bd-jetforce-airbag`}
+                from="Vw6XMCkAAD9f09uB"
+                to="craig-kelly-scholarship-awarded"
+            />
+            <Redirect from="Vx-6kSkAAEG1OTEL" to="hot-zone-reports" />
+            <Redirect from="Vk0CliEAAKIFhX3l" to="2015-service-award" />
+            <Redirect
+                from="Vh1iVx4AALsES5Zw"
+                to="avalanche-ambassador-program-announcement"
+            />
+            <Redirect from="VyeeSiYAAASDd20a" to="land-of-thundering-snow" />
+            <Redirect from="VpP3lB8AAKAFGXVS" to="canuck-splitfest-2016" />
+            <Redirect from="VK7R4iMAACMAM93b" to="snowmobile-loaners-2016" />
+            <Redirect
+                from="VuhTEiwAAMEK1gWI"
+                to="adjunct-professor-announcement"
             />
             <Redirect
-                from={`${path}/ViauYB0AAHAHUPr_`}
-                to={`${path}/new-support-craig-kelly-fund`}
+                from="Vw_rICkAALuO27JE"
+                to="royal-canadian-pacific-fundraiser"
             />
-            <Redirect
-                from={`${path}/ViayAx0AAB4AURDZ`}
-                to={`${path}/cora-shea-memorial-awards`}
-            />
-            <Redirect
-                from={`${path}/VkDizCEAAJsBkh2d`}
-                to={`${path}/bca-backcountry-basics-videos`}
-            />
-            <Redirect
-                from={`${path}/VDbtkScAAKUBPZm5`}
-                to={`${path}/introducing-avalanche-canada`}
-            />
-            <Redirect
-                from={`${path}/VH5GLSMAACcAc0vA`}
-                to={`${path}/snorider-brent-strand-announcement`}
-            />
-            <Redirect
-                from={`${path}/VIockywAACsA-wP3`}
-                to={`${path}/forecasts-inbox-rss`}
-            />
-            <Redirect
-                from={`${path}/VL6NXiUAACYAOZA3`}
-                to={`${path}/announcement-new-mountain-weather-forecast`}
-            />
-            <Redirect
-                from={`${path}/VP9AZR4AACQAlToR`}
-                to={`${path}/land-thundering-snow-launch`}
-            />
-            <Redirect
-                from={`${path}/VRrR-x8AAKBCX0JI`}
-                to={`${path}/recall-ortovox-s1`}
-            />
-            <Redirect
-                from={`${path}/VQh-RikAACgA6K4B`}
-                to={`${path}/calgary-fundraiser-success-2015`}
-            />
-            <Redirect
-                from={`${path}/VdNwyB8AAE4Ln13g`}
-                to={`${path}/al-hodgson-memorial-fund`}
-            />
-            <Redirect
-                from={`${path}/VEbXGiYAACsAaNZV`}
-                to={`${path}/five-snowmobile-safety-messages`}
-            />
-            <Redirect
-                from={`${path}/VEbHaSYAACsAaLc_`}
-                to={`${path}/tedx-talk-risk`}
-            />
-            <Redirect
-                from={`${path}/VH-KSykAACkAQaCR`}
-                to={`${path}/baw-success-2014`}
-            />
-            <Redirect
-                from={`${path}/VIivUisAACYAY0tp`}
-                to={`${path}/avalanche-canada-widget-update`}
-            />
-            <Redirect
-                from={`${path}/VIoEBSwAACsA-tKL`}
-                to={`${path}/dramatic-rescue-clemina-creek`}
-            />
-            <Redirect
-                from={`${path}/VEVy9CYAACQATaL-`}
-                to={`${path}/justin-trudeau-message`}
-            />
-            <Redirect
-                from={`${path}/VVtiryYAAOwJxyOO`}
-                to={`${path}/recall-msr-snow-shovels`}
-            />
-            <Redirect
-                from={`${path}/VMgrmyUAAJQpmL6o`}
-                to={`${path}/min-how-to-videos`}
-            />
-            <Redirect
-                from={`${path}/VjkZEB0AAB0AV7J4`}
-                to={`${path}/annual-report-2015`}
-            />
-            <Redirect
-                from={`${path}/VkogLh8AAB0AI-ag`}
-                to={`${path}/free-ast-youth-course-fernie`}
-            />
-            <Redirect
-                from={`${path}/Vk4VIh4AAG8G0bZg`}
-                to={`${path}/new-sponsor-g3`}
-            />
-            <Redirect
-                from={`${path}/VlN8siIAAFANmCkM`}
-                to={`${path}/new-release-throttle-decisions`}
-            />
-            <Redirect
-                from={`${path}/VlYciR0AADgEB1Sp`}
-                to={`${path}/cross-border-collaboration-training`}
-            />
-            <Redirect
-                from={`${path}/VpPu3h8AAKAFGUI2`}
-                to={`${path}/avalanche-awareness-days-primer`}
-            />
-            <Redirect
-                from={`${path}/VrOc4CsAACwA4KjU`}
-                to={`${path}/pr-bc-coroner-avalanche-feb3`}
-            />
-            <Redirect
-                from={`${path}/VrjoXiYAAEwCjmRs`}
-                to={`${path}/avalanche-ambassador-aad-revelstoke`}
-            />
-            <Redirect
-                from={`${path}/VN0YqSYAACoAJakp`}
-                to={`${path}/membership-drive`}
-            />
-            <Redirect
-                from={`${path}/Vst0dyMAADoSu4_N`}
-                to={`${path}/al-hodgson-memorial-award`}
-            />
-            <Redirect
-                from={`${path}/Vplv7SMAAFQcaHWb`}
-                to={`${path}/sfu-new-research-chair`}
-            />
-            <Redirect
-                from={`${path}/VpV_lx8AAMUSIpac`}
-                to={`${path}/min-update`}
-            />
-            <Redirect
-                from={`${path}/VuxMXiwAALFL7Yyb`}
-                to={`${path}/foundation-calgary-benefit-2016`}
-            />
-            <Redirect
-                from={`${path}/VjukhiMAACQA2fJX`}
-                to={`${path}/new-office-space`}
-            />
-            <Redirect
-                from={`${path}/VnHASR8AAIoSs8eR`}
-                to={`${path}/thunderstruck-rsc-fundraiser`}
-            />
-            <Redirect
-                from={`${path}/Vw6XMCkAAD9f09uB`}
-                to={`${path}/craig-kelly-scholarship-awarded`}
-            />
-            <Redirect
-                from={`${path}/Vx-6kSkAAEG1OTEL`}
-                to={`${path}/hot-zone-reports`}
-            />
-            <Redirect
-                from={`${path}/Vk0CliEAAKIFhX3l`}
-                to={`${path}/2015-service-award`}
-            />
-            <Redirect
-                from={`${path}/Vh1iVx4AALsES5Zw`}
-                to={`${path}/avalanche-ambassador-program-announcement`}
-            />
-            <Redirect
-                from={`${path}/VyeeSiYAAASDd20a`}
-                to={`${path}/land-of-thundering-snow`}
-            />
-            <Redirect
-                from={`${path}/VpP3lB8AAKAFGXVS`}
-                to={`${path}/canuck-splitfest-2016`}
-            />
-            <Redirect
-                from={`${path}/VK7R4iMAACMAM93b`}
-                to={`${path}/snowmobile-loaners-2016`}
-            />
-            <Redirect
-                from={`${path}/VuhTEiwAAMEK1gWI`}
-                to={`${path}/adjunct-professor-announcement`}
-            />
-            <Redirect
-                from={`${path}/Vw_rICkAALuO27JE`}
-                to={`${path}/royal-canadian-pacific-fundraiser`}
-            />
-            <Route path={`${path}/:uid`} component={Feed.NewsPost} />
-            <Route path={path} component={Feed.NewsFeed} />
-        </Switch>
+        </Router>
     )
 }
-function events({ match }) {
-    const { path } = match
-
+function Events() {
     return (
-        <Switch>
+        <Router>
+            <Feed.EventFeed path="/" />
+            <Feed.EventPost path=":uid" />
+            <Redirect from="VvLeBSUAAJgDAgX6" to="asa-snowmobile-show-2016" />
+            <Redirect from="V-r2XyYAACcAblCX" to="spin-safety-fundraiser" />
             <Redirect
-                from={`${path}/VvLeBSUAAJgDAgX6`}
-                to={`${path}/asa-snowmobile-show-2016`}
+                from="VEFS_yYAACYARWyK"
+                to="thunderstuck-fundraiser-2016"
             />
             <Redirect
-                from={`${path}/V-r2XyYAACcAblCX`}
-                to={`${path}/spin-safety-fundraiser`}
+                from="V9bxeiYAACgA9jex"
+                to="cardel-homes-movie-ruin-rose"
+            />
+            <Redirect from="V9By4yYAACgAz0Ni" to="agm-save-the-date-2016" />
+            <Redirect from="V7Sy6ycAACUAo4u_" to="bcsnowmobileshow_2016" />
+            <Redirect
+                from="Vmdqex4AAB0AxBYc"
+                to="youth-snow-safety-phoenixmnt-2016"
+            />
+            <Redirect from="VnCZbR8AAFYKrNgo" to="aad-kananaskis-jan-2016" />
+            <Redirect from="VoQjoR8AADZzIjEZ" to="aad-whitewater-jan-2016" />
+            <Redirect
+                from="VnCX1h8AAFYKrM88"
+                to="lake-louise-staying-alive-2016"
             />
             <Redirect
-                from={`${path}/VEFS_yYAACYARWyK`}
-                to={`${path}/thunderstuck-fundraiser-2016`}
+                from="VliqsR0AAOcTy0Ig"
+                to="aad-general-announcement-2016"
+            />
+            <Redirect from="VpfKah8AAI1FMEHK" to="aad-mtseymour-jan-2016" />
+            <Redirect
+                from="Vpf4ACMAACQAX8yN"
+                to="aad-bouldermnt-revelstoke-2016"
             />
             <Redirect
-                from={`${path}/V9bxeiYAACgA9jex`}
-                to={`${path}/cardel-homes-movie-ruin-rose`}
+                from="VsukNiMAACwavKfV"
+                to="shreducation-yukon-feb-2016"
+            />
+            <Redirect from="VmdsER4AAPYJxB90" to="aad-lake-louise-2016" />
+            <Redirect from="VoQkah8AAEZvIjSt" to="aad-khmr-jan-2016" />
+            <Redirect from="VlyuDyUAACUAnMJ-" to="baw-fernie-jan-2016" />
+            <Redirect from="Vo1p7yIAAMcFB2W7" to="aad-rossland-jan-2016" />
+            <Redirect from="VpfMIx8AAKlFMEwl" to="aad-crowsnestpass-jan-2016" />
+            <Redirect from="Vp1xcSYAACUAQUbq" to="aad-mtsima-jan-2016" />
+            <Redirect
+                from="VlywoyUAACQAnNG8"
+                to="shreducation-revelstoke-jan-2016"
             />
             <Redirect
-                from={`${path}/V9By4yYAACgAz0Ni`}
-                to={`${path}/agm-save-the-date-2016`}
+                from="VvHBBCwAAAisDiFM"
+                to="avalanche-rescue-challenge-stewart-2016"
             />
             <Redirect
-                from={`${path}/V7Sy6ycAACUAo4u_`}
-                to={`${path}/bcsnowmobileshow_2016`}
+                from="VvLUTCUAAMEAAc3N"
+                to="saskatchewan-snowmobile-show-nov-2016"
+            />
+            <Redirect from="VnCWSR8AAMoKrMX6" to="aad-garibaldi-jan-2016" />
+            <Redirect from="VpRUhx8AABsHG57y" to="aad-kakwa-feb-2016" />
+            <Redirect
+                from="VpfOKCMAACIAXtdX"
+                to="rumrunner-cherrybowl-presentation-2016"
             />
             <Redirect
-                from={`${path}/Vmdqex4AAB0AxBYc`}
-                to={`${path}/youth-snow-safety-phoenixmnt-2016`}
+                from="VrJnQisAAGMj2Y_U"
+                to="ascend-splitboard-fest-2016"
             />
             <Redirect
-                from={`${path}/VnCZbR8AAFYKrNgo`}
-                to={`${path}/aad-kananaskis-jan-2016`}
+                from="VrpuBSgAAEIC5kXJ"
+                to="acc-cherrybowl-presentation-2016"
             />
             <Redirect
-                from={`${path}/VoQjoR8AADZzIjEZ`}
-                to={`${path}/aad-whitewater-jan-2016`}
+                from="VK8DjSMAACUANEm1"
+                to="foundation-calgary-fundraiser-2016"
+            />
+            <Redirect from="VvBrrywAAHOKBjIg" to="bcsf-agm-pemberton-2016" />
+            <Redirect
+                from="VkTj0CAAAB8AKQs5"
+                to="staying-alive-khmr-dec-2015"
+            />
+            <Redirect from="VmdlSR4AAAMNw_cW" to="aad-mt-cain-feb-2016" />
+            <Redirect
+                from="VoQlZx8AAEZvIjpK"
+                to="aad-fernie-alpine-resort-2016"
+            />
+            <Redirect from="VownoR8AAIinUi2W" to="aad-apex-jan-2016" />
+            <Redirect from="VpRSkB8AAOELG5N2" to="aad-whistler-jan-2016" />
+            <Redirect from="VpmCByMAAFUcaOGm" to="aad-rmr-jan-2016" />
+            <Redirect
+                from="VqkoRSQAACUAbEwW"
+                to="youth-sled-day-revelstoke-2016"
             />
             <Redirect
-                from={`${path}/VnCX1h8AAFYKrM88`}
-                to={`${path}/lake-louise-staying-alive-2016`}
+                from="VvLCACUAAMEAAWBL"
+                to="avcan-agm-vancouver-fall-2016"
             />
             <Redirect
-                from={`${path}/VliqsR0AAOcTy0Ig`}
-                to={`${path}/aad-general-announcement-2016`}
+                from="VyE6eiYAAJURUa72"
+                to="caa-spring-conference-case-studies-2016"
             />
-            <Redirect
-                from={`${path}/VpfKah8AAI1FMEHK`}
-                to={`${path}/aad-mtseymour-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/Vpf4ACMAACQAX8yN`}
-                to={`${path}/aad-bouldermnt-revelstoke-2016`}
-            />
-            <Redirect
-                from={`${path}/VsukNiMAACwavKfV`}
-                to={`${path}/shreducation-yukon-feb-2016`}
-            />
-            <Redirect
-                from={`${path}/VmdsER4AAPYJxB90`}
-                to={`${path}/aad-lake-louise-2016`}
-            />
-            <Redirect
-                from={`${path}/VoQkah8AAEZvIjSt`}
-                to={`${path}/aad-khmr-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VlyuDyUAACUAnMJ-`}
-                to={`${path}/baw-fernie-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/Vo1p7yIAAMcFB2W7`}
-                to={`${path}/aad-rossland-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VpfMIx8AAKlFMEwl`}
-                to={`${path}/aad-crowsnestpass-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/Vp1xcSYAACUAQUbq`}
-                to={`${path}/aad-mtsima-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VlywoyUAACQAnNG8`}
-                to={`${path}/shreducation-revelstoke-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VvHBBCwAAAisDiFM`}
-                to={`${path}/avalanche-rescue-challenge-stewart-2016`}
-            />
-            <Redirect
-                from={`${path}/VvLUTCUAAMEAAc3N`}
-                to={`${path}/saskatchewan-snowmobile-show-nov-2016`}
-            />
-            <Redirect
-                from={`${path}/VnCWSR8AAMoKrMX6`}
-                to={`${path}/aad-garibaldi-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VpRUhx8AABsHG57y`}
-                to={`${path}/aad-kakwa-feb-2016`}
-            />
-            <Redirect
-                from={`${path}/VpfOKCMAACIAXtdX`}
-                to={`${path}/rumrunner-cherrybowl-presentation-2016`}
-            />
-            <Redirect
-                from={`${path}/VrJnQisAAGMj2Y_U`}
-                to={`${path}/ascend-splitboard-fest-2016`}
-            />
-            <Redirect
-                from={`${path}/VrpuBSgAAEIC5kXJ`}
-                to={`${path}/acc-cherrybowl-presentation-2016`}
-            />
-            <Redirect
-                from={`${path}/VK8DjSMAACUANEm1`}
-                to={`${path}/foundation-calgary-fundraiser-2016`}
-            />
-            <Redirect
-                from={`${path}/VvBrrywAAHOKBjIg`}
-                to={`${path}/bcsf-agm-pemberton-2016`}
-            />
-            <Redirect
-                from={`${path}/VkTj0CAAAB8AKQs5`}
-                to={`${path}/staying-alive-khmr-dec-2015`}
-            />
-            <Redirect
-                from={`${path}/VmdlSR4AAAMNw_cW`}
-                to={`${path}/aad-mt-cain-feb-2016`}
-            />
-            <Redirect
-                from={`${path}/VoQlZx8AAEZvIjpK`}
-                to={`${path}/aad-fernie-alpine-resort-2016`}
-            />
-            <Redirect
-                from={`${path}/VownoR8AAIinUi2W`}
-                to={`${path}/aad-apex-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VpRSkB8AAOELG5N2`}
-                to={`${path}/aad-whistler-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VpmCByMAAFUcaOGm`}
-                to={`${path}/aad-rmr-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/VqkoRSQAACUAbEwW`}
-                to={`${path}/youth-sled-day-revelstoke-2016`}
-            />
-            <Redirect
-                from={`${path}/VvLCACUAAMEAAWBL`}
-                to={`${path}/avcan-agm-vancouver-fall-2016`}
-            />
-            <Redirect
-                from={`${path}/VyE6eiYAAJURUa72`}
-                to={`${path}/caa-spring-conference-case-studies-2016`}
-            />
-            <Redirect
-                from={`${path}/VvF1CSwAAGKgDF2C`}
-                to={`${path}/issw-2016-breckenridge`}
-            />
-            <Redirect
-                from={`${path}/Vmdhxx4AAAQNw-Jb`}
-                to={`${path}/aad-banff-jan-2016`}
-            />
-            <Redirect
-                from={`${path}/Vqfpwh4AACMAso45`}
-                to={`${path}/aad-smithers-2016`}
-            />
-            <Redirect
-                from={`${path}/VvB06CwAAIqKBmhf`}
-                to={`${path}/isc-2016-snowmobile`}
-            />
-            <Route path={`${path}/:uid`} component={Feed.EventPost} />
-            <Route path={path} component={Feed.EventFeed} />
-        </Switch>
+            <Redirect from="VvF1CSwAAGKgDF2C" to="issw-2016-breckenridge" />
+            <Redirect from="Vmdhxx4AAAQNw-Jb" to="aad-banff-jan-2016" />
+            <Redirect from="Vqfpwh4AACMAso45" to="aad-smithers-2016" />
+            <Redirect from="VvB06CwAAIqKBmhf" to="isc-2016-snowmobile" />
+        </Router>
     )
 }
-function incidents({ match }) {
-    const { path } = match
-
+function Incidents() {
     return (
-        <Switch>
-            <Route path={`${path}/:id`} component={IncidentDetails} />
-            <Route path={path} component={IncidentsList} />
-        </Switch>
+        <Router>
+            <IncidentsList path="/" />
+            <IncidentDetails path=":id" />
+        </Router>
     )
 }
-function pages({ match }) {
-    const { path } = match
-
+function Pages() {
     return (
-        <Switch>
-            <Route path={`${path}/${STATIC_PAGE}`} render={staticPage} />
-            <Route path={`${path}/${GENERIC}`} render={generic} />
-        </Switch>
+        <Router>
+            <StaticPagePages path={`${STATIC_PAGE}/*`} />
+            <GenericPages path={`${GENERIC}/*`} />
+        </Router>
     )
 }
-function staticPage({ match }) {
-    const { path } = match
-
+function StaticPagePages() {
     return (
-        <Switch>
-            <Redirect from={`${path}/planning`} to="/planning" />
+        <Router>
+            <Redirect from="planning" to="/planning" />
+            <Redirect from="decision-making" to="/planning/decision-making" />
+            <Redirect from="sled" to="/sled" />
+            <Redirect from="youth" to="/youth" />
+            <Redirect from="essential-gear" to="/gear" />
+            <Redirect from="training" to="/training" />
             <Redirect
-                from={`${path}/decision-making`}
-                to="/planning/decision-making"
-            />
-            <Redirect from={`${path}/sled`} to="/sled" />
-            <Redirect from={`${path}/youth`} to="/youth" />
-            <Redirect from={`${path}/essential-gear`} to="/gear" />
-            <Redirect from={`${path}/training`} to="/training" />
-            <Redirect
-                from={`${path}/mountain-information-network-overview`}
+                from="mountain-information-network-overview"
                 to="/mountain-information-network"
             />
             <Redirect
-                from={`${path}/mountain-information-network-submission-guidelines`}
+                from="mountain-information-network-submission-guidelines"
                 to="/mountain-information-network/submission-guidelines"
             />
-            <Redirect from={`${path}/about`} to="/about" />
+            <Redirect from="about" to="/about" />
             <Redirect
-                from={`${path}/mountain-information-network-faq`}
+                from="mountain-information-network-faq"
                 to="/mountain-information-network/faq"
             />
-            <Redirect from={`${path}/ambassadors`} to="/ambassadors" />
-            <Redirect from={`${path}/sponsors`} to="/sponsors" />
-            <Redirect from={`${path}/collaborators`} to="/collaborators" />
-            <Redirect from={`${path}/membership-overview`} to="/membership" />
-            <Route
-                path={`${path}/:uid`}
-                render={() => <prismic.StaticPage {...match.params} />}
-            />
-        </Switch>
+            <Redirect from="ambassadors" to="/ambassadors" />
+            <Redirect from="sponsors" to="/sponsors" />
+            <Redirect from="collaborators" to="/collaborators" />
+            <Redirect from="membership-overview" to="/membership" />
+            <StaticPage path=":uid" />
+        </Router>
     )
 }
-function generic({ match }) {
-    const { path } = match
-
+function GenericPages() {
     return (
-        <Switch>
-            <Redirect from={`${path}/privacy-policy`} to="/privacy-policy" />
-            <Redirect from={`${path}/terms-of-use`} to="/terms-of-use" />
-            <Route
-                path={`${path}/:uid`}
-                render={() => <prismic.Generic {...match.params} />}
-            />
-        </Switch>
+        <Router>
+            <Redirect from="privacy-policy" to="/privacy-policy" />
+            <Redirect from="terms-of-use" to="/terms-of-use" />
+            <Generic path=":uid" />
+        </Router>
     )
 }
-function min({ match }) {
-    const { path } = match
-
+function MIN() {
     return (
-        <Switch>
+        <Router>
             <Redirect
-                from={`${path}/submissions/:id`}
+                from="submissions/:id"
                 to="/mountain-information-network/submissions/:id"
             />
-            <Redirect
-                from={`${path}/:page`}
-                to="/mountain-information-network/:page"
-            />
-            <Redirect from={path} to="/mountain-information-network" />
-        </Switch>
+            <Redirect from=":page" to="/mountain-information-network/:page" />
+            <Redirect from="/" to="/mountain-information-network" />
+        </Router>
     )
 }

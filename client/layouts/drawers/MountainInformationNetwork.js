@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { Container, Header, Body, Navbar, Close } from 'components/page/drawer'
 import Shim from 'components/Shim'
 import { Submission, Metadata, TabSet, Gallery } from 'layouts/products/min'

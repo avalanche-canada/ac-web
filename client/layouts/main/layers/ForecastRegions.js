@@ -1,6 +1,6 @@
 import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
+import { Match } from '@reach/router'
 import * as turf from '@turf/helpers'
 import { FeatureCollection } from 'containers/mapbox'
 import { Source, Layer, Map } from 'components/map'
@@ -39,11 +39,11 @@ export default class ForecastRegions extends Component {
         )
     }
     renderForecastRegionActivator({ match }) {
-        return (
+        return match ? (
             <Map.With loaded>
-                <ForecastRegionActivator match={match} />
+                <ForecastRegionActivator id={match.id} />
             </Map.With>
-        )
+        ) : null
     }
     render() {
         return (
@@ -51,11 +51,9 @@ export default class ForecastRegions extends Component {
                 <FeatureCollection id="regions">
                     {this.renderLayers}
                 </FeatureCollection>
-                <Route
-                    exact
-                    path="/map/forecasts/:id"
-                    render={this.renderForecastRegionActivator}
-                />
+                <Match path="forecasts/:id">
+                    {this.renderForecastRegionActivator}
+                </Match>
             </Fragment>
         )
     }
@@ -63,8 +61,8 @@ export default class ForecastRegions extends Component {
 
 class ForecastRegionActivator extends PureComponent {
     static propTypes = {
+        id: PropTypes.string.isRequired,
         map: PropTypes.object.isRequired,
-        match: PropTypes.object.isRequired,
     }
     setActive(id, active) {
         const { map } = this.props
@@ -83,13 +81,13 @@ class ForecastRegionActivator extends PureComponent {
         }
     }
     get id() {
-        return this.props.match.params.id
+        return this.props.id
     }
     componentDidMount() {
         this.setActive(this.id, true)
     }
-    componentDidUpdate({ match }) {
-        this.setActive(match.params.id, false)
+    componentDidUpdate({ id }) {
+        this.setActive(id, false)
         this.setActive(this.id, true)
     }
     componentWillUnmount() {

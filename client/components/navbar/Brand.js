@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from './Navbar.css'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 
 export default function Brand({ children, ...props }) {
     return (

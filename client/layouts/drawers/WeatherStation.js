@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from '@reach/router'
 import {
     Header,
     Container,
@@ -12,7 +13,6 @@ import { Metadata, Station, Footer } from 'components/weather/station'
 import { Error, Muted } from 'components/text'
 import ErrorBoundary from 'components/ErrorBoundary'
 import Fetch from 'components/fetch'
-import { Link } from 'react-router-dom'
 import * as containers from 'containers/weather'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'

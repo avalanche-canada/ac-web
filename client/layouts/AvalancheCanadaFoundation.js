@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Route, Switch } from 'react-router-dom'
+import { Router } from '@reach/router'
 import Application from 'components/application'
 import SPAW from './SPAW'
 import Footer from 'components/footer'
+import Null from 'components/Null'
 import { NotFound } from 'components/page'
-import { StaticPageRoute } from 'router/common'
 import Navbar from 'components/navbar'
 import logo from 'styles/AvalancheCanadaFoundation.svg'
 import menu from 'constants/menus/foundation'
+import { StaticPage } from 'prismic/layouts'
 
 AvalancheCanadaFoundation.propTypes = {
     match: PropTypes.object.isRequired,
@@ -16,75 +17,74 @@ AvalancheCanadaFoundation.propTypes = {
 
 // TODO: Could have an AvCan Foundation not found page, not just a regular one
 
-export default function AvalancheCanadaFoundation({ match }) {
-    const { url } = match
-
+export default function AvalancheCanadaFoundation() {
     return (
         <Application>
             <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
             <SPAW />
-            <Switch>
-                <StaticPageRoute exact path={url} uid="foundation-home" />
-                <StaticPageRoute
-                    path={`${url}/about`}
-                    uid="foundation-about"
-                    title="About"
-                />
-                <StaticPageRoute
-                    path={`${url}/programs`}
+            <Router>
+                <StaticPage path="/" uid="foundation-home" />
+                <StaticPage path="about" uid="foundation-about" title="About" />
+                <StaticPage
+                    path="programs"
                     uid="foundation-programs"
                     title="Programs"
                 />
-                <StaticPageRoute
-                    path={`${url}/donors`}
+                <StaticPage
+                    path="donors"
                     uid="foundation-donors"
                     title="Donors"
                 />
-                <StaticPageRoute
-                    path={`${url}/event-sponsors`}
+                <StaticPage
+                    path="event-sponsors"
                     uid="foundation-event-sponsors"
                     title="Event Sponsors"
                 />
-                <StaticPageRoute
-                    path={`${url}/news-and-events`}
+                <StaticPage
+                    path="news-and-events"
                     uid="foundation-news-and-events"
                 />
-                <StaticPageRoute
-                    path={`${url}/donate`}
+                <StaticPage
+                    path="donate"
                     uid="foundation-donate"
                     title="Donate to Public Avalanche Safety"
                 />
-                <StaticPageRoute
-                    path={`${url}/funds/hugh-and-helen-hincks-memorial`}
-                    uid="hugh-and-helen-hincks-memorial-fund"
-                    title="Hugh & Helen Hincks Memorial Fund"
-                />
-                <StaticPageRoute
-                    path={`${url}/funds/craig-kelly-memorial-scholarship`}
-                    uid="craig-kelly-memorial-scholarship-fund"
-                    title="Craig Kelly Memorial Scholarship Fund"
-                />
-                <StaticPageRoute
-                    path={`${url}/funds/cora-shea-memorial`}
-                    uid="cora-shea-memorial-fund"
-                    title="Cora Shea Memorial Fund"
-                />
-                <StaticPageRoute
-                    path={`${url}/funds/al-hodgson-memorial`}
-                    uid="al-hodgson-memorial-fund"
-                    title="Al Hodgson Memorial Fund"
-                />
-                <StaticPageRoute
-                    path={`${url}/funds/issw`}
-                    uid="issw-fund"
-                    title="ISSW Fund"
-                />
-                <Route component={NotFound} />
-            </Switch>
-            <Switch>
-                <Route exact path={url} component={null} />
-                <Route component={Footer} />
-            </Switch>
+                <Funds path="funds/*" />
+                <NotFound default />
+            </Router>
+            <Router>
+                <Null path="/" />
+                <Footer default />
+            </Router>
         </Application>
+    )
+}
+
+// Subroutes
+function Funds() {
+    return (
+        <Router>
+            <StaticPage
+                path="hugh-and-helen-hincks-memorial"
+                uid="hugh-and-helen-hincks-memorial-fund"
+                title="Hugh & Helen Hincks Memorial Fund"
+            />
+            <StaticPage
+                path="craig-kelly-memorial-scholarship"
+                uid="craig-kelly-memorial-scholarship-fund"
+                title="Craig Kelly Memorial Scholarship Fund"
+            />
+            <StaticPage
+                path="cora-shea-memorial"
+                uid="cora-shea-memorial-fund"
+                title="Cora Shea Memorial Fund"
+            />
+            <StaticPage
+                path="al-hodgson-memorial"
+                uid="al-hodgson-memorial-fund"
+                title="Al Hodgson Memorial Fund"
+            />
+            <StaticPage path="issw" uid="issw-fund" title="ISSW Fund" />
+        </Router>
     )
 }

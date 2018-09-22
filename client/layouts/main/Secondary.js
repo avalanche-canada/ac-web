@@ -12,21 +12,20 @@ import MountainConditionsReport from 'layouts/drawers/MountainConditionsReport'
 export default class Secondary extends PureComponent {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired,
+        navigate: PropTypes.func.isRequired,
         width: PropTypes.number.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
     handleClose = () => {
-        this.props.history.push({
-            ...this.props.location,
-            search: null,
-        })
+        const { navigate, location } = this.props
+
+        navigate(location.pathname)
     }
     get error() {
         return (
             <Error>
-                Component not avaialble. Make sure you clicked properly or get
-                the right URL.
+                Product not avaialble. Make sure you clicked properly or get the
+                right URL.
             </Error>
         )
     }

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import styles from './Drawer.css'
 
 export default class Toolbar extends StaticComponent {

@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment, createRef } from 'react'
-import { Link, Route, Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Link, Match } from '@reach/router'
 import supported from '@mapbox/mapbox-gl-supported'
 import bbox from '@turf/bbox'
 import * as turf from '@turf/helpers'
@@ -22,6 +23,10 @@ import styles from './Map.css'
 const MAX_DRAWER_WIDTH = 500
 
 export default class Layout extends PureComponent {
+    static propTypes = {
+        navigate: PropTypes.func.isRequired,
+        location: PropTypes.object.isRequired,
+    }
     state = {
         hasError: false,
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
@@ -92,25 +97,25 @@ export default class Layout extends PureComponent {
                 }
             )
         } else {
+            let { pathname, search } = this.props.location
             const { type, id } = properties
-            let { search, pathname } = this.props.location
 
             if (PATHS.has(type)) {
-                pathname = `/map/${PATHS.get(type)}/${id}`
+                pathname = `${PATHS.get(type)}/${id}`
             }
 
             if (SEARCHS.has(type)) {
                 search = `?panel=${SEARCHS.get(type)}/${id}`
             }
 
-            this.props.history.push({ search, pathname })
+            this.props.navigate(pathname + search)
         }
     }
     handleMarkerClick = id => {
-        this.props.history.push({
-            ...this.props.location,
-            pathname: `/map/${PATHS.get(TYPES.FORECASTS)}/${id}`,
-        })
+        const { location, uri } = this.props
+        const path = `/${PATHS.get(TYPES.FORECASTS)}/${id}`
+
+        this.props.navigate(uri + path + location.search)
     }
     handleResize = event => {
         const { clientWidth } = event.target.getContainer()
@@ -127,17 +132,16 @@ export default class Layout extends PureComponent {
         }
     }
     openExternalForecast = ({ match }) => {
-        const { name } = match.params
+        if (match) {
+            const { name } = match
 
-        if (externals.has(name)) {
-            const location = {
-                ...this.props.location,
-                pathname: '/map',
+            if (externals.has(name)) {
+                const { location, navigate } = this.props
+
+                open(name)
+
+                navigate(location.search)
             }
-
-            open(name)
-
-            return <Redirect to={location} />
         }
 
         return null
@@ -158,38 +162,6 @@ export default class Layout extends PureComponent {
             onLocateClick={this.handleLocateClick}
         />
     )
-    // showClusterPopup(layer, features, lngLat) {
-    //     const html = document.createElement('div')
-    //     const p = document.createElement('p')
-    //     const ul = document.createElement('ul')
-    //
-    //     p.textContent = `${
-    //         features.length
-    //     } reports are available at this location:`
-    //
-    //     features.forEach(({ properties: { id, name, title } }) => {
-    //         const li = document.createElement('li')
-    //         const a = document.createElement('a')
-    //
-    //         a.href = '#'
-    //         a.textContent = title || name
-    //         a.onclick = () => {
-    //             this.transitionToFeature(layer, id)
-    //         }
-    //
-    //         li.appendChild(a)
-    //
-    //         ul.appendChild(li)
-    //     })
-    //
-    //     html.appendChild(p)
-    //     html.appendChild(ul)
-    //
-    //     this.popup
-    //         .setLngLat(lngLat)
-    //         .setDOMContent(html)
-    //         .addTo(this.map)
-    // }
     render() {
         if (supported()) {
             return (
@@ -202,14 +174,13 @@ export default class Layout extends PureComponent {
                                 onFeatureClick={this.handleFeatureClick}
                                 onMarkerClick={this.handleMarkerClick}
                             />
-                            <Route
-                                path="/map/forecasts/:name"
-                                render={this.openExternalForecast}
-                            />
-                            <Route path="/map/:type/:name">
+                            <Match path="forecasts/:name">
+                                {this.openExternalForecast}
+                            </Match>
+                            <Match path=":type/:name">
                                 {this.renderPrimary}
-                            </Route>
-                            <Route path="/map*">{this.renderSecondary}</Route>
+                            </Match>
+                            <Match path="/*">{this.renderSecondary}</Match>
                             <Menu />
                             <ToggleMenu />
                             <LinkControlSet>
@@ -245,12 +216,9 @@ class LinkControlSet extends PureComponent {
         return [
             <Link
                 className={styles['LinkControlSet--MIN']}
-                to="/mountain-information-network/submit"
+                to="mountain-information-network/submit"
             />,
-            <Link
-                className={styles['LinkControlSet--Weather']}
-                to="/weather"
-            />,
+            <Link className={styles['LinkControlSet--Weather']} to="weather" />,
         ]
     }
     renderer = ({ isTouchable }) => {

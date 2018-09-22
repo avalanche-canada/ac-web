@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { pathname } from 'utils/prismic'
 import { Loading } from 'components/text'
 import { DocumentByUID } from 'prismic/containers'

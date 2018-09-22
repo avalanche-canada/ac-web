@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { Region } from 'containers/features'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'

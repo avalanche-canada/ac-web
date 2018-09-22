@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import * as Hzr from 'layouts/products/hzr'
 import { Container, Navbar, Header, Body, Close } from 'components/page/drawer'
 import { Loading } from 'components/text'

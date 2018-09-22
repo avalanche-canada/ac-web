@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
@@ -10,6 +9,8 @@ import ItemSet from './ItemSet'
 import Brand from './Brand'
 import Donate from './Donate'
 import Dimensions from 'components/Dimensions'
+
+// TODO: Could use <Toggle> here!
 
 export default class Layout extends Component {
     static propTypes = {
@@ -34,14 +35,10 @@ export default class Layout extends Component {
     }
     get items() {
         return (
-            <Route>
-                {({ location }) => (
-                    <ItemSet location={location}>
-                        {this.props.menu.children.map(createItem)}
-                        {this.props.children}
-                    </ItemSet>
-                )}
-            </Route>
+            <ItemSet>
+                {this.props.menu.children.map(createItem)}
+                {this.props.children}
+            </ItemSet>
         )
     }
     get cabinet() {

@@ -1,6 +1,6 @@
 import React from 'react'
 import StaticComponent from 'components/StaticComponent'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import styles from './Footer.css'
 
 export default class Footer extends StaticComponent {

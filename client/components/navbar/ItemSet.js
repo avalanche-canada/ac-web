@@ -7,7 +7,6 @@ import styles from './Navbar.css'
 export default class ItemSet extends Component {
     static propTypes = {
         children: PropTypes.node.isRequired,
-        location: PropTypes.object.isRequired,
     }
     state = {
         activeIndex: null,
@@ -47,11 +46,11 @@ export default class ItemSet extends Component {
     componentWillUnmount() {
         window.removeEventListener('keyup', this.handleKeyUp)
     }
-    componentWillReceiveProps({ location }) {
-        if (location !== this.props.location) {
-            this.close()
-        }
-    }
+    // componentWillReceiveProps({ location }) {
+    //     if (location !== this.props.location) {
+    //         this.close()
+    //     }
+    // }
     get children() {
         return Children.toArray(this.props.children).filter(Boolean)
     }
