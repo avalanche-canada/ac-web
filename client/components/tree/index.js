@@ -1,6 +1,6 @@
 import React, { Component, Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import Button, { SUBTILE } from 'components/button'
 import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'

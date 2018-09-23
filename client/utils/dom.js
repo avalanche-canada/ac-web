@@ -1,5 +1,7 @@
-export function scrollPosition(hash) {
-    const element = document.querySelector(`a[href="${hash}"]`)
+export function scrollPosition(element) {
+    if (typeof element === 'string') {
+        element = document.querySelector(`a[name="${element}"]`)
+    }
 
     if (!element) {
         return null

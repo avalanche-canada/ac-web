@@ -10,9 +10,9 @@ import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 
-class Post extends PureComponent {
+export default class Post extends PureComponent {
     static propTypes = {
-        type: PropTypes.string.isRequired,
+        type: PropTypes.oneOf([NEWS, BLOG, EVENT]).isRequired,
         uid: PropTypes.string.isRequired,
     }
     renderHeader(post) {
@@ -87,18 +87,4 @@ class Post extends PureComponent {
             </Page>
         )
     }
-}
-
-export function NewsPost(props) {
-    return <Post uid={uid(props)} type={NEWS} />
-}
-export function BlogPost(props) {
-    return <Post uid={uid(props)} type={BLOG} />
-}
-export function EventPost(props) {
-    return <Post uid={uid(props)} type={EVENT} />
-}
-
-function uid({ match }) {
-    return match.params.uid
 }

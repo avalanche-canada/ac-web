@@ -5,6 +5,36 @@ import * as Icons from 'components/icons'
 import styles from './Social.css'
 import { FACEBOOK, TWITTER, INSTAGRAM, VIMEO, GOOGLE_PLUS } from './Providers'
 
+Item.propTypes = {
+    link: PropTypes.string.isRequired,
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    children: PropTypes.node,
+    style: PropTypes.object,
+}
+
+export default function Item({ link, title, children, style }) {
+    const provider = getProvider(link)
+    const name = PROVIDER_NAMES.get(provider)
+
+    if (!title) {
+        title = `Visit on ${name}.`
+    } else if (typeof title === 'function') {
+        title = title(name)
+    }
+
+    return (
+        <a
+            className={styles.Item}
+            target="_blank"
+            href={link}
+            title={title}
+            style={style}>
+            {PROVIDER_ICONS.get(provider)}
+            {children}
+        </a>
+    )
+}
+
 const PROVIDER_REGEXES = new Map([
     [FACEBOOK, /facebook.com/],
     [TWITTER, /twitter.com/],
@@ -37,33 +67,3 @@ const getProvider = memoize(url => {
 
     return null
 })
-
-Item.propTypes = {
-    link: PropTypes.string.isRequired,
-    title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
-    children: PropTypes.node,
-    style: PropTypes.object,
-}
-
-export default function Item({ link, title, children, style }) {
-    const provider = getProvider(link)
-    const name = PROVIDER_NAMES.get(provider)
-
-    if (!title) {
-        title = `Visit on ${name}.`
-    } else if (typeof title === 'function') {
-        title = title(name)
-    }
-
-    return (
-        <a
-            className={styles.Item}
-            target="_blank"
-            href={link}
-            title={title}
-            style={style}>
-            {PROVIDER_ICONS.get(provider)}
-            {children}
-        </a>
-    )
-}

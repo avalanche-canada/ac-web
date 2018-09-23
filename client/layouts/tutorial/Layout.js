@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import { Router, Redirect } from '@reach/router'
 import { Page, Main, Content } from 'components/page'
 import Tree from './Tree'
 import AtesExercise from './AtesExercise'
@@ -15,6 +16,9 @@ import styles from './Tutorial.css'
 const TUTORIAL_REGEX = new RegExp('^/tutorial/')
 
 export default class Layout extends PureComponent {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+    }
     get splat() {
         return this.props.location.pathname.replace(TUTORIAL_REGEX, '')
     }
@@ -36,35 +40,34 @@ export default class Layout extends PureComponent {
 
         return <Redirect to={`/tutorial/${splat}`} />
     }
-    get tree() {
-        return <Tree currentPage={this.splat} />
-    }
-    get routes() {
-        return (
-            <Switch>
-                <Route
-                    path="/tutorial/avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise"
-                    component={AtesExercise}
-                />
-                <Route exact path="/tutorial" render={this.renderHome} />
-                <Route component={Tutorial} />
-            </Switch>
-        )
-    }
     render() {
         return (
             <Page>
                 <Content>
                     <Main>
                         <div className={styles.Page}>
-                            <div className={styles.Sidebar}>{this.tree}</div>
-                            <div className={styles.Content}>{this.routes}</div>
+                            <div className={styles.Sidebar}>
+                                <Tree currentPage={this.splat} />
+                            </div>
+                            <div className={styles.Content}>
+                                <Router>
+                                    <Home path="/" />
+                                    <Tutorial path="/*" />
+                                    <AtesExercise path="avalanche-terrain/avalanche-terrain-exposure-scale/ates-exercise" />
+                                </Router>
+                            </div>
                         </div>
                     </Main>
                 </Content>
             </Page>
         )
     }
+}
+
+function Home() {
+    return (
+        <Generic uid="tutorial-home">{Generic.renderers.bodyAndTitle}</Generic>
+    )
 }
 
 function Tutorial({ location }) {

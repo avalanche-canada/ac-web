@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { withRouter } from 'react-router-dom'
+import { navigate } from '@reach/router'
 import { HotZones } from 'containers/features'
 import { Report } from 'layouts/products/hzr'
 import { Page, Content, Header, Main } from 'components/page'
@@ -17,19 +17,17 @@ import { Document, Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
 import { DATE } from 'utils/date'
 
-@withRouter
 export default class ArchiveHotZoneReport extends PureComponent {
     static propTypes = {
         name: PropTypes.string,
         date: PropTypes.instanceOf(Date),
-        history: PropTypes.object.isRequired,
     }
     state = {
         name: this.props.name,
         date: this.props.date,
         month: this.props.date || new Date(),
     }
-    pushToHistory = () => {
+    navigate = () => {
         const { name, date } = this.state
         const paths = [
             '/hot-zone-reports',
@@ -38,13 +36,13 @@ export default class ArchiveHotZoneReport extends PureComponent {
             date && formatDate(date, 'YYYY-MM-DD'),
         ]
 
-        this.props.history.push(paths.filter(Boolean).join('/'))
+        navigate(paths.filter(Boolean).join('/'))
     }
     handleNameChange = name => {
-        this.setState({ name }, this.pushToHistory)
+        this.setState({ name }, this.navigate)
     }
     handleDateChange = date => {
-        this.setState({ date }, this.pushToHistory)
+        this.setState({ date }, this.navigate)
     }
     handleMonthChange = month => this.setState({ month })
     zonesDropdown = ({ data }) =>

@@ -1,14 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
+import { Link } from '@reach/router'
 import menu from './menu.json'
-import styles from './ates.css'
+import styles from './Tutorial.css'
+
+Tree.propTypes = {
+    currentPage: PropTypes.number.isRequired,
+}
+
+export default function Tree({ currentPage }) {
+    return (
+        <ul>
+            {menu.map(item => (
+                <MenuItem key={item.slug} currentPage={currentPage} {...item} />
+            ))}
+        </ul>
+    )
+}
 
 MenuItem.propTypes = {
     title: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
-    currentPage: PropTypes.number,
+    currentPage: PropTypes.string,
 }
 
 function MenuItem({ title, slug, children, currentPage }) {
@@ -17,13 +31,10 @@ function MenuItem({ title, slug, children, currentPage }) {
 
     return (
         <li>
-            <NavLink
-                exact
-                activeClassName={styles.ActiveMenuItem}
-                to={`/tutorial/${slug}`}>
+            <Link to={slug} getProps={isPartiallyActive}>
                 {title}
                 {showElipsis && '...'}
-            </NavLink>
+            </Link>
             {showChildren && (
                 <ul>
                     {children.map(child => (
@@ -39,16 +50,7 @@ function MenuItem({ title, slug, children, currentPage }) {
     )
 }
 
-Tree.propTypes = {
-    currentPage: PropTypes.number.isRequired,
-}
-
-export default function Tree({ currentPage }) {
-    return (
-        <ul>
-            {menu.map(item => (
-                <MenuItem key={item.slug} currentPage={currentPage} {...item} />
-            ))}
-        </ul>
-    )
+// Utils
+function isPartiallyActive({ isPartiallyCurrent }) {
+    return isPartiallyCurrent ? { className: styles.ActiveMenuItem } : null
 }

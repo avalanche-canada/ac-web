@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import { Forecast } from 'containers/forecast'
@@ -62,9 +61,9 @@ export default class ArchiveForecast extends PureComponent {
         const to = getWarningUrl(data, this.props.date)
 
         return to ? (
-            <Link to={to} target={data.id}>
+            <a href={to} target={data.id}>
                 <Alert type={WARNING}>{getWarningText(data)}</Alert>
-            </Link>
+            </a>
         ) : null
     }
     forecast({ data }) {

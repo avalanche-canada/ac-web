@@ -28,11 +28,7 @@ Frontend
 
 # React Router replacement
 
-Close Drawer > mobile + desktop
-NotFound > log to ga
-ScrollTo > finishing implementation
+Close/Open Drawer > mobile + desktop
 Add redirect for the old /map and testing all urls possibilities
-Make sure <Sponsor>s render fine
 Look at all <Link>s
 Look at the Glossary > finish searching, it is slow and does not handle change well
-Finishing FragmentIdentifier, name is not set

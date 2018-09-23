@@ -29,6 +29,7 @@ import styles from 'components/page/Page.css'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
 import { StaticPage, Generic } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
+import { NEWS, BLOG, EVENT } from 'constants/prismic'
 
 export default class AvalancheCanada extends Component {
     renderError({ error }) {
@@ -227,7 +228,7 @@ function Blogs() {
     return (
         <Router>
             <Feed.BlogPostFeed path="/" />
-            <Feed.BlogPost path=":uid" />
+            <Feed.Post path=":uid" type={BLOG} />
         </Router>
     )
 }
@@ -235,7 +236,7 @@ function News() {
     return (
         <Router>
             <Feed.NewsFeed path="/" />
-            <Feed.NewsPost path=":uid" />
+            <Feed.Post path=":uid" type={NEWS} />
             <Redirect from="V-r0EyYAACcAbkKw" to="register-now" />
             <Redirect
                 from="V8hpNyQAABuEOE6V"
@@ -403,7 +404,7 @@ function Events() {
     return (
         <Router>
             <Feed.EventFeed path="/" />
-            <Feed.EventPost path=":uid" />
+            <Feed.Post path=":uid" type={EVENT} />
             <Redirect from="VvLeBSUAAJgDAgX6" to="asa-snowmobile-show-2016" />
             <Redirect from="V-r2XyYAACcAblCX" to="spin-safety-fundraiser" />
             <Redirect

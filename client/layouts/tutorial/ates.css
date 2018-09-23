@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .Input {
     flex: 1;
@@ -31,8 +31,4 @@
     composes: Result;
 
     background-color: var(--danger);
-}
-
-.ActiveMenuItem {
-    font-weight: 700;
 }

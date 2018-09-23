@@ -1,18 +1,22 @@
 .Page {
-  display: flex;
-  padding: 0 2em;
+    display: flex;
+    padding: 0 2em;
 }
 
 .Sidebar {
-  flex: 2;
-  padding: 1em 0;
+    flex: 2;
+    padding: 1em 0;
 
-  & > ul {
-      padding: 0 !important;
-  }
+    & > ul {
+        padding: 0 !important;
+    }
 }
 
 .Content {
-  flex: 7;
-  padding: 1em;
+    flex: 7;
+    padding: 1em;
+}
+
+.ActiveMenuItem {
+    font-weight: 700;
 }

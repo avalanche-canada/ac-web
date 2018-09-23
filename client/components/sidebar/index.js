@@ -21,14 +21,6 @@ CompleteSidebar.propTypes = {
     children: PropTypes.node,
 }
 
-function createSocialElement(element, component) {
-    if (element === true) {
-        return createElement(component)
-    }
-
-    return isValidElement(element) ? element : null
-}
-
 export default function CompleteSidebar({ children, contact, share, follow }) {
     return (
         <Sidebar>
@@ -38,4 +30,13 @@ export default function CompleteSidebar({ children, contact, share, follow }) {
             {createSocialElement(contact, Contact)}
         </Sidebar>
     )
+}
+
+// Utils
+function createSocialElement(element, component) {
+    if (element === true) {
+        return createElement(component)
+    }
+
+    return isValidElement(element) ? element : null
 }
