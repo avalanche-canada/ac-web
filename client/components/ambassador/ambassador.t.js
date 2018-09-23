@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import { MemoryRouter } from 'react-router-dom'
+import { Router } from '@reach/router'
 import Ambassador from './'
 
 const Nadine = {
@@ -25,11 +25,9 @@ const Nadine = {
 test('ambassador component', () => {
     const { biography, ...props } = Nadine
     const ambassador = Renderer.create(
-        <MemoryRouter>
-            <Ambassador {...props}>
-                {biography}
-            </Ambassador>
-        </MemoryRouter>
+        <Router>
+            <Ambassador {...props}>{biography}</Ambassador>
+        </Router>
     )
 
     expect(ambassador).toMatchSnapshot()

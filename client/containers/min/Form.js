@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+import { navigate } from '@reach/router'
 import t from 'vendor/tcomb-form'
-import { withRouter } from 'react-router-dom'
 import { Page, Header, Main, Content } from 'components/page'
 import * as links from 'components/links'
 import OPTIONS from './options'
@@ -22,11 +21,7 @@ function isObservationError(error) {
     return error.path[0] === 'observations'
 }
 
-@withRouter
 export default class SubmissionForm extends Component {
-    static propTypes = {
-        history: PropTypes.object.isRequired,
-    }
     state = {
         value: null,
         options: OPTIONS,
@@ -147,9 +142,7 @@ export default class SubmissionForm extends Component {
                             CACHE.reset()
                             const { subid } = data
 
-                            this.props.history.push(
-                                links.mountainInformationNetwork(subid)
-                            )
+                            navigate(links.mountainInformationNetwork(subid))
                         })
                     },
                     err => {

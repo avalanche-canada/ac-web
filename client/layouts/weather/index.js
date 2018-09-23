@@ -1,30 +1,24 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Switch, Route } from 'react-router-dom'
+import { Router, Redirect } from '@reach/router'
 import Bundle from 'components/Bundle'
 import loadMountainWeather from 'bundle-loader?lazy!./forecast/MountainWeather'
 import WeatherStation from './station/WeatherStation'
 import WeatherStationList from './station/WeatherStationList'
 
-Weather.propTypes = {
-    match: PropTypes.object.isRequired,
-}
-
-export default function Weather({ match: { path } }) {
+export default function Weather() {
     return (
-        <Switch>
-            <Route path={`${path}/stations/:id`} render={station} />
-            <Route path={`${path}/stations`} component={WeatherStationList} />
-            <Route render={mountainWeather} />
-        </Switch>
+        <Router>
+            <Redirect from="/" to="weather/forecast" />
+            <MountainWeather path="forecast/*" />
+            <WeatherStationList path="stations">
+                <WeatherStation path=":id" />
+            </WeatherStationList>
+        </Router>
     )
 }
 
-// Renderers
-function station({ match }) {
-    return <WeatherStation id={match.params.id} />
-}
-function mountainWeather(props) {
+// Subroutes
+function MountainWeather(props) {
     return (
         <Bundle load={loadMountainWeather}>
             {Component => (Component ? <Component {...props} /> : null)}

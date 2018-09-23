@@ -23,10 +23,8 @@ function renderer({ loading, data }) {
     return (
         <List>
             {data.map(({ id, name }) => {
-                const to = externals.has(id)
-                    ? externals.get(id)
-                    : `/forecasts/${id}`
-                const target = externals.has(id) ? name : null
+                const to = externals.has(id) ? externals.get(id) : id
+                const target = externals.has(id) ? id : null
 
                 return (
                     <ListItem key={id} to={to} target={target}>

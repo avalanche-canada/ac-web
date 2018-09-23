@@ -1,11 +1,14 @@
 import React from 'react'
 import { Link } from '@reach/router'
+import { notFound } from 'services/analytics'
 import Error from './Error'
 import Main from './Main'
 import { ButtonSet } from 'components/button'
 import styles from './Page.css'
 
-export default function NotFound() {
+export default function NotFound({ location }) {
+    notFound(location)
+
     return (
         <Error>
             <Main>

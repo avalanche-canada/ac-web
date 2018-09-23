@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import styles from './Page.css'
 
 List.propTypes = {
@@ -14,12 +14,21 @@ export default function List({ children }) {
 Item.propTypes = {
     children: PropTypes.number,
     to: PropTypes.string.isRequired,
+    target: PropTypes.string,
 }
 
-export function Item({ children, ...link }) {
+export function Item({ children, target, to, ...link }) {
     return (
         <li>
-            <Link {...link}>{children}</Link>
+            {target ? (
+                <a href={to} target={target} {...link}>
+                    {children}
+                </a>
+            ) : (
+                <Link to={to} target={target} {...link}>
+                    {children}
+                </Link>
+            )}
         </li>
     )
 }

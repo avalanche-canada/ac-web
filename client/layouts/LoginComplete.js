@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
+import { navigate } from '@reach/router'
 import * as Auth from 'contexts/auth'
 
 export default class LoginComplete extends Component {
     resume = ({ resume }) => {
-        const { location, history } = this.props
+        const { hash } = this.props.location
 
-        resume(location.hash).then(({ state = '/' }) => {
-            history.replace(state)
+        resume(hash).then(({ state = '/' }) => {
+            navigate(state)
         })
 
         return null

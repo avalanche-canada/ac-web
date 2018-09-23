@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import supported from '@mapbox/mapbox-gl-supported'
 import { Error, Main, Headline } from 'components/page'
 import { Mailto } from 'components/anchors'

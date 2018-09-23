@@ -1,6 +1,6 @@
 import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route, Link, withRouter } from 'react-router-dom'
+import { Router, Link } from '@reach/router'
 import memoize from 'lodash/memoize'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
@@ -11,66 +11,54 @@ import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
+import StaticComponent from 'components/StaticComponent'
 import { Document, Documents } from 'prismic/containers'
 import { glossary } from 'prismic/params'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
-import * as utils from 'utils/search'
 import styles from './Glossary.css'
 
-export default class Layout extends Component {
-    renderGlossary() {
-        return (
-            <Page>
-                <Header title="Glossary" />
-                <Content>
-                    <Main>
-                        <Glossary />
-                    </Main>
-                    <Aside>
-                        <Sidebar>
-                            <SidebarHeader>Related links</SidebarHeader>
-                            <SidebarItem>
-                                <a
-                                    target="_blank"
-                                    href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088">
-                                    ICAR Glossary
-                                </a>
-                            </SidebarItem>
-                            <SidebarItem>
-                                <a
-                                    target="_blank"
-                                    href="http://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf">
-                                    Lexique Avalanche - Avalanche Lexicon
-                                </a>
-                            </SidebarItem>
-                        </Sidebar>
-                    </Aside>
-                </Content>
-            </Page>
-        )
-    }
-    renderDefinition({ match }) {
-        return (
-            <Page>
-                <Header title="Glossary" />
-                <Content>
-                    <Main>
-                        <Definition uid={match.params.uid} />
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
+export default function Layout() {
+    return (
+        <Page>
+            <Header title="Glossary" />
+            <Content>
+                <Main>
+                    <Router>
+                        <Definition path="terms/:uid" />
+                        <Glossary default />
+                    </Router>
+                </Main>
+                <Router>
+                    <GlossaryAside path="/" />
+                </Router>
+            </Content>
+        </Page>
+    )
+}
+
+class GlossaryAside extends StaticComponent {
     render() {
         return (
-            <Switch>
-                <Route exact path="/glossary" render={this.renderGlossary} />
-                <Route
-                    path="/glossary/terms/:uid"
-                    render={this.renderDefinition}
-                />
-            </Switch>
+            <Aside>
+                <Sidebar>
+                    <SidebarHeader>Related links</SidebarHeader>
+                    <SidebarItem>
+                        <a
+                            href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
+                            target="ICAR">
+                            ICAR Glossary
+                        </a>
+                    </SidebarItem>
+                    <SidebarItem>
+                        <a
+                            href="http://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
+                            target="LexiqueLexicon">
+                            Lexique Avalanche - Avalanche Lexicon
+                        </a>
+                    </SidebarItem>
+                </Sidebar>
+            </Aside>
         )
     }
 }
@@ -80,7 +68,9 @@ class Glossary extends Component {
         return (
             <Fragment>
                 <Loading show={loading} />
-                {document && <GlossaryContent {...document.data} />}
+                {document && (
+                    <GlossaryContent {...this.props} {...document.data} />
+                )}
             </Fragment>
         )
     }
@@ -100,7 +90,7 @@ class Definition extends Component {
         return (
             <Fragment>
                 <Loading show={loading} />
-                {document && <DefinitionLayout {...document.data} />}
+                {document && <DefinitionLayout linkToExternal {...document} />}
             </Fragment>
         )
     }
@@ -114,18 +104,26 @@ class Definition extends Component {
 }
 
 class DefinitionLayout extends PureComponent {
+    static propTypes = {
+        linkToExternal: PropTypes.bool,
+        uid: PropTypes.string.isRequired,
+        tags: PropTypes.array.isRequired,
+        data: PropTypes.object.isRequired,
+    }
     render() {
-        const { uid, tags, data } = this.props
+        const { uid, tags, data, linkToExternal } = this.props
+        const { title } = data
 
         return (
             <article className={styles.Definition}>
                 <h2>
-                    <Switch>
-                        <Route exact path="/glossary">
-                            <a href={`#${uid}`}>{data.title}</a>
-                        </Route>
-                        <Route render={() => data.title} />
-                    </Switch>
+                    {linkToExternal ? (
+                        title
+                    ) : (
+                        <a href={`#${uid}`} name={uid}>
+                            {title}
+                        </a>
+                    )}
                 </h2>
                 {tags.length > 0 && (
                     <TagSet>
@@ -143,38 +141,8 @@ class DefinitionLayout extends PureComponent {
                     components={SliceComponents}
                     value={data.content.filter(isNotImage)}
                 />
-                <Related items={data.related} />
+                <Related linkToExternal={linkToExternal} items={data.related} />
             </article>
-        )
-    }
-}
-
-class DefinitionLink extends Component {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        children: PropTypes.node.isRequired,
-    }
-    render() {
-        const { uid, children, ...props } = this.props
-
-        return (
-            <Switch>
-                <Route
-                    path="/glossary/terms"
-                    render={({ match }) => (
-                        <Link to={`${match.path}/${uid}`} {...props}>
-                            {children}
-                        </Link>
-                    )}
-                />
-                <Route
-                    render={() => (
-                        <Link to={`/glossary/#${uid}`} {...props}>
-                            {children}
-                        </Link>
-                    )}
-                />
-            </Switch>
         )
     }
 }
@@ -182,20 +150,28 @@ class DefinitionLink extends Component {
 class Related extends Component {
     static propTypes = {
         items: PropTypes.arrayOf(PropTypes.object).isRequired,
+        linkToExternal: PropTypes.bool,
     }
     renderItem({ definition }) {
         if (definition.value.isBroken) {
             return null
         }
 
+        const { linkToExternal } = this.props
         const { uid, data } = definition.value.document
         const title = data.definition.title.value
 
         return (
             <li key={uid}>
-                <DefinitionLink uid={uid} title={title}>
-                    {title}
-                </DefinitionLink>
+                {linkToExternal ? (
+                    <Link to={`../${uid}`} title={title}>
+                        {title}
+                    </Link>
+                ) : (
+                    <a href={`#${uid}`} title={title}>
+                        {title}
+                    </a>
+                )}
             </li>
         )
     }
@@ -205,7 +181,7 @@ class Related extends Component {
         return items.length === 0 ? null : (
             <div>
                 <Muted>See also: </Muted>
-                <ul>{items.map(this.renderItem)}</ul>
+                <ul>{items.map(this.renderItem, this)}</ul>
             </div>
         )
     }
@@ -228,41 +204,19 @@ class LetterTag extends PureComponent {
     }
 }
 
-@withRouter
 class GlossaryContent extends Component {
     static propTypes = {
         headline: PropTypes.arrayOf(PropTypes.object).isRequired,
-        history: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
+        navigate: PropTypes.func.isRequired,
     }
-    state = {
-        filterText: utils.parse(this.props.location.search).q || '',
-    }
-    componentDidMount() {
-        this.unlisten = this.props.history.listen(this.handleHistoryChange)
-    }
-    componentWillUnmount() {
-        this.unlisten()
-    }
-    handleHistoryChange = ({ search }) => {
-        if (search === '') {
-            this.resetFilterText()
-        }
-    }
-    resetFilterText() {
-        if (this.state.filterText === '') {
-            return
-        }
+    get q() {
+        const params = new URLSearchParams(this.props.location.search)
 
-        this.handleFilterTextChange('')
+        return params.has('q') ? params.get('q') : ''
     }
-    handleFilterTextChange = filterText => {
-        this.setState({ filterText }, () => {
-            const q = filterText ? utils.stringify({ q: filterText }) : ''
-            const path = this.props.location.pathname + q
-
-            this.props.history.push(path, { q })
-        })
+    handleSearchChange = q => {
+        this.props.navigate(q ? `?q=${q}` : '')
     }
     renderSection({ letter, definitions }) {
         return (
@@ -280,8 +234,8 @@ class GlossaryContent extends Component {
             </section>
         )
     }
-    filter = memoize((term, documents) => {
-        const definitions = filter(documents, term)
+    filter = memoize(documents => {
+        const definitions = filter(documents, this.q)
 
         return new Map(definitions.map(document => [document.uid, document]))
     })
@@ -307,7 +261,7 @@ class GlossaryContent extends Component {
         return sections
     })
     renderContent = ({ documents = [], loading }) => {
-        const filtered = this.filter(this.state.filterText, documents)
+        const filtered = this.filter(documents)
 
         if (documents.length === 0) {
             this.filter.cache.clear()
@@ -337,8 +291,8 @@ class GlossaryContent extends Component {
                     <StructuredText value={this.props.headline} />
                 </Headline>
                 <Search
-                    onChange={this.handleFilterTextChange}
-                    value={this.state.filterText}
+                    onChange={this.handleSearchChange}
+                    value={this.q}
                     placeholder="Search for a definition"
                 />
                 <Documents {...glossary.definitions()}>

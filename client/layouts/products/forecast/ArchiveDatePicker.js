@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { DateElement } from 'components/time'
 import { DayPicker } from 'components/controls'
 import styles from './ArchiveDatePicker.css'

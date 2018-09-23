@@ -6,11 +6,12 @@ import { stringify } from 'utils/search'
 import { Loading, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import Pagination from 'components/pagination'
-import ScrollToTop from 'components/ScrollToTop'
 import { EntrySet, Entry } from 'components/feed'
 import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
+
+// FIXME: Do not parse params, just use them from this.props.location.search
 
 export class NorthRockiesBlogFeed extends PureComponent {
     state = {
@@ -223,14 +224,12 @@ export class EventFeed extends PureComponent {
 // Components
 function FeedLayout({ title, children }) {
     return (
-        <ScrollToTop>
-            <Page>
-                <Header title={title} />
-                <Content>
-                    <Main>{children}</Main>
-                </Content>
-            </Page>
-        </ScrollToTop>
+        <Page>
+            <Header title={title} />
+            <Content>
+                <Main>{children}</Main>
+            </Content>
+        </Page>
     )
 }
 
@@ -318,13 +317,12 @@ function renderEntry(post) {
 }
 function serialize() {
     const { page } = this.state
-
-    this.props.history.push({
-        search: stringify({
-            ...this.state,
-            page: page > 1 ? page : undefined,
-        }),
+    const search = stringify({
+        ...this.state,
+        page: page > 1 ? page : undefined,
     })
+
+    this.props.navigate(search)
 }
 function sanitizeTags(tags) {
     return typeof tags === 'string' ? [tags] : tags

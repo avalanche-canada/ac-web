@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { Page, Header, Main, Content, Aside } from 'components/page'
 import { Loading } from 'components/text'
 import { Item } from 'components/sidebar'

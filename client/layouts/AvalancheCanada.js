@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Application from 'components/application'
 import { Router, Redirect } from '@reach/router'
+import Null from 'components/Null'
 import { NotFound, WorkInProgress } from 'components/page'
 import LoginComplete from './LoginComplete'
 import Login from './Login'
@@ -8,10 +9,9 @@ import Navbar from './Navbar'
 import SPAW from './SPAW'
 import Highlight from './Highlight'
 import Footer from 'components/footer'
-import Null from 'components/Null'
 import Main from 'layouts/main'
 import Tutorial from './tutorial'
-import Ast from './Ast'
+import { Courses, Providers } from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
@@ -70,8 +70,8 @@ export default class AvalancheCanada extends Component {
                     <Highlight />
                     <ErrorBoundary fallback={this.renderError}>
                         <Router>
+                            <Redirect from="/" to="/map" />
                             <Main path="map/*" />
-                            {/* <Redirect from="/" to="map" /> */}
                             <Redirect
                                 from="map/ates"
                                 to="planning/trip-planner"
@@ -103,8 +103,14 @@ export default class AvalancheCanada extends Component {
                             <Incidents path="incidents/*" />
                             <MIN path="min/*" />
                             <MountainInformationNetwork path="mountain-information-network/*" />
+                            <Redirect
+                                from="submit"
+                                to="mountain-information-network/submit"
+                            />
+
                             <Weather path="weather/*" />
-                            <Ast path="training/:type" />
+                            <Courses path="training/courses" />
+                            <Providers path="training/providers" />
                             <StaticPage
                                 path="about"
                                 uid="about"

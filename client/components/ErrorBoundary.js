@@ -1,5 +1,6 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
+import { isRedirect } from '@reach/router'
 import { captureException } from 'services/raven'
 
 export default class ErrorBoundary extends Component {
@@ -14,6 +15,10 @@ export default class ErrorBoundary extends Component {
     }
     state = {}
     componentDidCatch(error, extra) {
+        if (isRedirect(error)) {
+            throw error
+        }
+
         const { onError } = this.props
 
         // https://blog.sentry.io/2017/09/28/react-16-error-boundaries

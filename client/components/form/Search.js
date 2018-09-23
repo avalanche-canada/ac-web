@@ -1,6 +1,5 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, createRef } from 'react'
 import PropTypes from 'prop-types'
-import debounce from 'lodash/debounce'
 import * as Icons from 'components/icons'
 import { Close } from 'components/button'
 import { Control } from 'components/form'
@@ -11,42 +10,27 @@ export default class Search extends PureComponent {
         onChange: PropTypes.func.isRequired,
         value: PropTypes.string,
         placeholder: PropTypes.string,
-        delay: PropTypes.number,
     }
     static defaultProps = {
         placeholder: 'Search...',
-        delay: 150,
     }
-    state = {
-        value: this.props.value || '',
-    }
-    componentWillReceiveProps({ value }) {
-        if (value !== this.state.value) {
-            this.setState({ value })
-        }
-    }
-    setRef = input => (this.input = input)
-    sendChange = debounce(() => {
-        this.props.onChange(this.state.value)
-    }, this.props.delay)
+    input = createRef()
     handleReset = () => {
         const value = ''
 
-        this.setState({ value }, () => {
-            this.focus()
-            this.props.onChange(value)
-        })
+        this.focus()
+        this.props.onChange(value)
     }
     focus = () => {
-        this.input.focus()
+        this.input.current.focus()
     }
     handleChange = event => {
         const { value } = event.target
 
-        this.setState({ value }, this.sendChange)
+        this.props.onChange(value)
     }
     render() {
-        const { value } = this.state
+        const { value } = this.props
 
         return (
             <Control horizontal bordered>
@@ -54,7 +38,7 @@ export default class Search extends PureComponent {
                     <Icons.Search color={GRAY_LIGHT} />
                 </i>
                 <input
-                    ref={this.setRef}
+                    ref={this.input}
                     name="search"
                     type="search"
                     placeholder={this.props.placeholder}

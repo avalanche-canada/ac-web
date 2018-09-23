@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import t from 'vendor/tcomb-form'
 import {
     QUICK,
@@ -631,7 +631,7 @@ const Incident = {
             reporting serious accidents check our{' '}
             <Link
                 to="/mountain-information-network/submission-guidelines"
-                target="_blank">
+                target="guidelines">
                 submission guidelines
             </Link>
             .
@@ -748,7 +748,7 @@ const Incident = {
                     No names and no judging please. See{' '}
                     <Link
                         to="/mountain-information-network/submission-guidelines"
-                        target="_blank">
+                        target="guidelines">
                         submission guidelines
                     </Link>{' '}
                     for more details.

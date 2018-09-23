@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link} from '@reach/router'
 import { storiesOf, action } from '@storybook/react'
 import { Sidebar, Header, Item } from './index'
 

@@ -1,3 +1,5 @@
+import { Component } from 'react'
+import PropTypes from 'prop-types'
 import ga from 'react-ga'
 import supported from '@mapbox/mapbox-gl-supported'
 import { googleAnalyticsId } from './config.json'
@@ -15,8 +17,6 @@ ga.set({
     [MAPBOXGL_SUPPORTED]: supported(),
 })
 
-export default ga
-
 // From: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 export function handleOutboundSponsorClick(event) {
     ga.event({
@@ -33,4 +33,34 @@ export function handleForecastTabActivate(label) {
         action: 'Forecast Tab activation',
         label,
     })
+}
+
+export function notFound({ pathname }) {
+    ga.event({
+        category: 'Navigation',
+        action: 'Not Found',
+        label: pathname,
+        nonInteraction: true,
+    })
+}
+
+export default class Analytics extends Component {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        children: PropTypes.element,
+    }
+    log() {
+        ga.pageview(this.props.location.pathname)
+    }
+    componentDidMount() {
+        this.log()
+    }
+    componentDidUpdate({ location }) {
+        if (this.props.location.pathname !== location.pathname) {
+            this.log()
+        }
+    }
+    render() {
+        return this.props.children
+    }
 }

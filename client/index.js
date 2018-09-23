@@ -6,31 +6,40 @@ import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Match, Redirect } from '@reach/router'
+import { Router, Match, Redirect, Location } from '@reach/router'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
+import ScrollTo from 'components/ScrollTo'
 import configureRaven from 'services/raven'
+import Analytics from 'services/analytics'
 import * as Auth from 'contexts/auth'
 
 import 'styles'
 
 configureRaven()
 
-// TODO: Add Analytics and ScrollTo
-
-const application = (
-    <Auth.Provider>
-        <Router>
-            <CAC path="cac" />
-            <Redirect from="cherrybowl/*" to="cherry-bowl" />
-            <Match path="fxresources/*">{redirect}</Match>
-            <Match path="cherry-bowl/*">{redirect}</Match>
-            <AvalancheCanada path="/*" />
-            <AvalancheCanadaFoundation path="foundation/*" />
-        </Router>
-    </Auth.Provider>
+ReactDOM.render(
+    <Location>{application}</Location>,
+    document.getElementById('app')
 )
 
-ReactDOM.render(application, document.getElementById('app'))
+function application({ location }) {
+    return (
+        <Auth.Provider>
+            <Analytics location={location}>
+                <ScrollTo location={location}>
+                    <Router>
+                        <CAC path="cac" />
+                        <Redirect from="cherrybowl/*" to="cherry-bowl" />
+                        <Match path="fxresources/*">{redirect}</Match>
+                        <Match path="cherry-bowl/*">{redirect}</Match>
+                        <AvalancheCanada path="/*" />
+                        <AvalancheCanadaFoundation path="foundation/*" />
+                    </Router>
+                </ScrollTo>
+            </Analytics>
+        </Auth.Provider>
+    )
+}
 
 // Subroutes
 function CAC() {

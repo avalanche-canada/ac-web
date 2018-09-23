@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import * as Icons from 'components/icons'
 import Button from 'components/button'
 import styles from './Pager.css'

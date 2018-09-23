@@ -39,10 +39,9 @@ export function stringify(query = {}) {
 
         return params
     }, new URLSearchParams())
+    const string = params.toString()
 
-    return Array.from(params.keys()).length === 0
-        ? null
-        : '?' + params.toString()
+    return string ? '?' + string : string
 }
 
 export function toSet(values) {

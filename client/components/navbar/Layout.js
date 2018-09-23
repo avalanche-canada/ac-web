@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Location } from '@reach/router'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
@@ -33,17 +34,18 @@ export default class Layout extends Component {
     get burger() {
         return <Burger onClick={this.showCabinet} />
     }
-    get items() {
+    renderItems(location) {
         return (
-            <ItemSet>
+            <ItemSet location={location}>
                 {this.props.menu.children.map(createItem)}
                 {this.props.children}
             </ItemSet>
         )
     }
-    get cabinet() {
+    renderCabinet(location) {
         return (
             <Cabinet
+                location={location}
                 menu={this.props.menu}
                 show={this.state.isCabinetOpened}
                 onClose={this.hideCabinet}
@@ -52,22 +54,26 @@ export default class Layout extends Component {
     }
     showCabinet = () => this.setState({ isCabinetOpened: true })
     hideCabinet = () => this.setState({ isCabinetOpened: false })
-    children = ({ width }) => {
+    withDimensions = ({ width }) => {
         const fullNavbar = width > 768
 
         return (
-            <div className={styles.Layout}>
-                <Navbar>
-                    {this.brand}
-                    {fullNavbar && this.items}
-                    {fullNavbar || this.burger}
-                    <Donate to={this.props.donate} />
-                </Navbar>
-                {fullNavbar || this.cabinet}
-            </div>
+            <Location>
+                {({ location }) => (
+                    <div className={styles.Layout}>
+                        <Navbar>
+                            {this.brand}
+                            {fullNavbar && this.renderItems(location)}
+                            {fullNavbar || this.burger}
+                            <Donate to={this.props.donate} />
+                        </Navbar>
+                        {fullNavbar || this.renderCabinet(location)}
+                    </div>
+                )}
+            </Location>
         )
     }
     render() {
-        return <Dimensions>{this.children}</Dimensions>
+        return <Dimensions>{this.withDimensions}</Dimensions>
     }
 }

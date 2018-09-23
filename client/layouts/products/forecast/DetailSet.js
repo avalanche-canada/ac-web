@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { InnerHTML } from 'components/misc'
 import Summary from './Summary'
 
@@ -39,8 +39,7 @@ export default function DetailSet({ avalanche, snowpack, weather }) {
             <Section title="Weather Forecast" value={weather}>
                 <p>
                     More details can be found on the{' '}
-                    <Link to="/weather">Mountain Weather Forecast</Link>
-                    .
+                    <Link to="/weather">Mountain Weather Forecast</Link>.
                 </p>
             </Section>
         </Fragment>

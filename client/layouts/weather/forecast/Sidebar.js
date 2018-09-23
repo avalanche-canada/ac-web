@@ -1,49 +1,48 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import { Link } from '@reach/router'
+import StaticComponent from 'components/StaticComponent'
 import Sidebar, { Item, Header } from 'components/sidebar'
 
-export default function WeatherSidebar() {
-    return (
-        <Sidebar>
-            <Header>Forecast</Header>
-            <Item>
-                <Link to="/weather">Mountain Weather Forecast</Link>
-            </Item>
-            <Item>
-                <Link to="/weather/hourly-precipitation">
-                    Hourly Precipitation
-                </Link>
-            </Item>
-            <Item>
-                <Link to="/weather/12h-precipitation">
-                    12hr Total Precipitation
-                </Link>
-            </Item>
-            <Item>
-                <Link to="/weather/temperatures">Temperatures</Link>
-            </Item>
-            <Item>
-                <Link to="/weather/winds">Winds</Link>
-            </Item>
-            <Item>
-                <Link to="/weather/surface-maps">Surface Maps</Link>
-            </Item>
-            <Item>
-                <Link to="/weather/other-maps">500mb & Precipitable Water</Link>
-            </Item>
-            <Header>Current Conditions</Header>
-            <Item>
-                <Link to="/weather/radar">Radar</Link>
-            </Item>
-            <Item>
-                <Link to="/weather/satellite">Satellite</Link>
-            </Item>
-            <Item>
-                <Link to="/weather/actual-temperatures">Temperatures</Link>
-            </Item>
-            <Item>
-                <Link to="/weather/warnings">Warnings</Link>
-            </Item>
-        </Sidebar>
-    )
+export default class WeatherSidebar extends StaticComponent {
+    render() {
+        return (
+            <Sidebar>
+                <Header>Forecast</Header>
+                <Item>
+                    <Link to="">Mountain Weather Forecast</Link>
+                </Item>
+                <Item>
+                    <Link to="hourly-precipitation">Hourly Precipitation</Link>
+                </Item>
+                <Item>
+                    <Link to="12h-precipitation">12hr Total Precipitation</Link>
+                </Item>
+                <Item>
+                    <Link to="temperatures">Temperatures</Link>
+                </Item>
+                <Item>
+                    <Link to="winds">Winds</Link>
+                </Item>
+                <Item>
+                    <Link to="surface-maps">Surface Maps</Link>
+                </Item>
+                <Item>
+                    <Link to="other-maps">500mb & Precipitable Water</Link>
+                </Item>
+                <Header>Current Conditions</Header>
+                <Item>
+                    <Link to="radar">Radar</Link>
+                </Item>
+                <Item>
+                    <Link to="satellite">Satellite</Link>
+                </Item>
+                <Item>
+                    <Link to="actual-temperatures">Temperatures</Link>
+                </Item>
+                <Item>
+                    <Link to="warnings">Warnings</Link>
+                </Item>
+            </Sidebar>
+        )
+    }
 }

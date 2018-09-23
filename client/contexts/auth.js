@@ -84,4 +84,14 @@ export class Provider extends Component {
     }
 }
 
+export class IsAuthenticated extends Component {
+    static propTypes = {
+        children: PropTypes.func.isRequired,
+    }
+    withAuth = ({ isAuthenticated }) => this.props.children(isAuthenticated)
+    render() {
+        return <Consumer>{this.withAuth}</Consumer>
+    }
+}
+
 export const { Consumer } = AuthContext

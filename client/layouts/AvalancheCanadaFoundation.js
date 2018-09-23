@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import Application from 'components/application'
 import SPAW from './SPAW'
@@ -10,10 +9,6 @@ import Navbar from 'components/navbar'
 import logo from 'styles/AvalancheCanadaFoundation.svg'
 import menu from 'constants/menus/foundation'
 import { StaticPage } from 'prismic/layouts'
-
-AvalancheCanadaFoundation.propTypes = {
-    match: PropTypes.object.isRequired,
-}
 
 // TODO: Could have an AvCan Foundation not found page, not just a regular one
 

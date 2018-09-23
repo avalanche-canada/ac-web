@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
+import { navigate } from '@reach/router'
 import * as Auth from 'contexts/auth'
-import get from 'lodash/get'
 
 export default class Login extends Component {
     login = ({ isAuthenticated, login }) => {
         if (!isAuthenticated) {
             login().then(() => {
-                const { location, history } = this.props
+                const params = new URLSearchParams(this.props.location.search)
 
-                history.replace(get(location, 'state.from', '/'))
+                navigate(params.has('from') ? params.get('from') : '/')
             })
         }
 

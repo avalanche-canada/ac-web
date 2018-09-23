@@ -91,7 +91,7 @@
         "@babel/plugin-syntax-import-meta": "^7.0.0",
         "@babel/preset-env": "^7.1.0",
         "@babel/preset-react": "^7.0.0",
-        "@reach/router": "^1.1.1",
+        "@reach/router": "^1.2.0",
         "@storybook/addon-info": "^3.4.4",
         "@storybook/addon-knobs": "^3.4.3",
         "@storybook/react": "^3.4.3",

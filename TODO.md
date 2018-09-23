@@ -33,6 +33,6 @@ NotFound > log to ga
 ScrollTo > finishing implementation
 Add redirect for the old /map and testing all urls possibilities
 Make sure <Sponsor>s render fine
-client/components/drawer/Container.js
-client/components/navbar/ItemSet.js
 Look at all <Link>s
+Look at the Glossary > finish searching, it is slow and does not handle change well
+Finishing FragmentIdentifier, name is not set

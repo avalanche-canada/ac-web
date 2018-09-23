@@ -1,6 +1,6 @@
 import { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import classnames from 'classnames'
 import isSupported from '@mapbox/mapbox-gl-supported'
 import styles from 'styles/typography.css'

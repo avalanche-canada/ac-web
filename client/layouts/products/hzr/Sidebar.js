@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link } from '@reach/router'
 import { Consumer } from './Context'
 import { Sidebar, Contact, Follow, Share, Item } from 'components/sidebar'
 import * as utils from 'utils/hzr'

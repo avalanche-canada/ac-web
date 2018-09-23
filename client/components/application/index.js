@@ -1,6 +1,6 @@
 import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
+import { Location } from '@reach/router'
 import classnames from 'classnames'
 import styles from './Application.css'
 
@@ -21,7 +21,7 @@ export class Banner extends Component {
     render() {
         return (
             <div className={styles.Banner}>
-                <Route>{this.children}</Route>
+                <Location>{this.children}</Location>
             </div>
         )
     }

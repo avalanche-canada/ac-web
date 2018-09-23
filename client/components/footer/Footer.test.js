@@ -1,13 +1,13 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import { MemoryRouter } from 'react-router-dom'
+import { Router } from '@reach/router'
 import Footer from './'
 
 test('footer component', () => {
     const footer = Renderer.create(
-        <MemoryRouter>
+        <Router>
             <Footer />
-        </MemoryRouter>
+        </Router>
     )
 
     expect(footer).toMatchSnapshot()

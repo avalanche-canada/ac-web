@@ -1,13 +1,39 @@
-import React from 'react'
-import { Route, Redirect, Switch } from 'react-router-dom'
-import { ProtectedRoute, NotFoundRoute, StaticPageRoute } from 'router/common'
+import React, { Component } from 'react'
+import { Router } from '@reach/router'
+import { Protected } from 'router'
+import Bundle from 'components/Bundle'
 import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
 import Submission from 'layouts/Submission'
 import SubmissionList from 'layouts/SubmissionList'
-import * as utils from 'utils/search'
 import { Loading } from 'components/text'
-import Bundle from 'components/Bundle'
+import { StaticPage } from 'prismic/layouts'
 import { Page, Content } from 'components/page'
+import * as utils from 'utils/search'
+
+export default function MountainInformationNetwork() {
+    return (
+        <Router>
+            <Protected path="submit" component={Submit} />
+            <Submissions path="submissions" />
+            <Submission path="submissions/:id" />
+            <StaticPage
+                path="submission-guidelines"
+                uid="mountain-information-network-submission-guidelines"
+                title="Mountain Information Network — Submission Guidelines"
+            />
+            <StaticPage
+                path="faq"
+                uid="mountain-information-network-faq"
+                title="Mountain Information Network — FAQ"
+            />
+            <StaticPage
+                path="/"
+                uid="mountain-information-network-overview"
+                title="Mountain Information Network — Overview"
+            />
+        </Router>
+    )
+}
 
 function Submit(props) {
     return (
@@ -29,62 +55,27 @@ function Submit(props) {
     )
 }
 
-function submission({ match }) {
-    return <Submission id={match.params.id} />
-}
-
-function submissions({ location, history }) {
-    const { days, types, regions, sorting } = utils.parse(location.search)
-    function onParamsChange({ days, types, regions, sorting }) {
-        history.push({
-            ...location,
-            search: utils.stringify({
-                days,
-                types,
-                regions,
-                sorting: utils.formatSorting(sorting),
-            }),
+class Submissions extends Component {
+    handleParamsChange = params => {
+        const to = utils.stringify({
+            ...params,
+            sorting: utils.formatSorting(params.sorting),
         })
+
+        this.props.navigate(to)
     }
+    render() {
+        const { search } = this.props.location
+        const { days, types, regions, sorting } = utils.parse(search)
 
-    return (
-        <SubmissionList
-            days={utils.toNumber(days)}
-            types={utils.toSet(types)}
-            regions={utils.toSet(regions)}
-            sorting={utils.parseSorting(sorting)}
-            onParamsChange={onParamsChange}
-        />
-    )
-}
-
-export default function MountainInformationNetwork({ match }) {
-    const { path } = match
-
-    return (
-        <Switch>
-            <Redirect
-                from="/submit"
-                to="/mountain-information-network/submit"
+        return (
+            <SubmissionList
+                days={utils.toNumber(days)}
+                types={utils.toSet(types)}
+                regions={utils.toSet(regions)}
+                sorting={utils.parseSorting(sorting)}
+                onParamsChange={this.handleParamsChange}
             />
-            <ProtectedRoute path={`${path}/submit`} component={Submit} />
-            <Route path={`${path}/submissions/:id`} render={submission} />
-            <Route path={`${path}/submissions`} render={submissions} />
-            <StaticPageRoute
-                path={`${path}/submission-guidelines`}
-                uid="mountain-information-network-submission-guidelines"
-                title="Mountain Information Network — Submission Guidelines"
-            />
-            <StaticPageRoute
-                path={`${path}/faq`}
-                uid="mountain-information-network-faq"
-                title="Mountain Information Network — FAQ"
-            />
-            <StaticPageRoute
-                uid="mountain-information-network-overview"
-                title="Mountain Information Network — Overview"
-            />
-            <NotFoundRoute />
-        </Switch>
-    )
+        )
+    }
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Route } from 'react-router-dom'
-import { ProtectedRoute } from 'router/common'
+import { navigate, Location } from '@reach/router'
+import { Protected } from 'router'
 import * as Auth from 'contexts/auth'
 import Navbar, {
     Item,
@@ -17,19 +17,19 @@ import logo from 'styles/AvalancheCanada.svg'
 export default class AvalancheCanadaNavbar extends Component {
     renderLogout = logout => {
         return (
-            <Route>
-                {({ history, location }) => {
+            <Location>
+                {({ location }) => {
                     function handleClick() {
                         logout().then(() => {
-                            if (ProtectedRoute.PATHS.has(location.pathname)) {
-                                history.push('/')
+                            if (Protected.PATHS.has(location.pathname)) {
+                                navigate('/')
                             }
                         })
                     }
 
                     return <Link onClick={handleClick}>Logout</Link>
                 }}
-            </Route>
+            </Location>
         )
     }
     renderNavbar = ({ isAuthenticated, login, logout, profile = {} }) => {

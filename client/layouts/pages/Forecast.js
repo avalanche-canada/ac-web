@@ -1,6 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Route } from 'react-router-dom'
 import isToday from 'date-fns/is_today'
 import { Forecast } from 'containers/forecast'
 import { Region } from 'containers/features'
@@ -15,7 +14,7 @@ import { Region as SPAW } from 'layouts/SPAW'
 export default class ForecastLayout extends PureComponent {
     static propTypes = {
         name: PropTypes.string.isRequired,
-        date: PropTypes.instanceOf(Date).isRequired,
+        date: PropTypes.instanceOf(Date),
     }
     renderSPAW = ({ document }) => {
         const { link, description } = document
@@ -35,17 +34,9 @@ export default class ForecastLayout extends PureComponent {
     renderHeader({ loading, data }) {
         return <Header title={loading || !data ? 'Loading...' : data.name} />
     }
-    sidebar = ({ match }) => {
-        const { name, date } = match.params
-
-        return name === 'kananaskis' ? (
-            <components.KananaskisSidebar />
-        ) : (
-            <components.Sidebar isPrintable={!date || isToday(date)} />
-        )
-    }
     children = props => {
-        const { name } = this.props
+        const { name, date } = this.props
+        const isPrintable = !date || isToday(date)
 
         return (
             <Fragment>
@@ -64,7 +55,11 @@ export default class ForecastLayout extends PureComponent {
                         </components.Forecast>
                     </Main>
                     <Aside>
-                        <Route>{this.sidebar}</Route>
+                        {name === 'kananaskis' ? (
+                            <components.KananaskisSidebar />
+                        ) : (
+                            <components.Sidebar isPrintable={isPrintable} />
+                        )}
                     </Aside>
                 </Content>
             </Fragment>
