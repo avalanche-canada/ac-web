@@ -47,7 +47,7 @@ export default class Fetch extends Component {
     }
     state = {
         pending: false,
-        fulfilled: false,
+        fulfilled: this.cache.has(this.url),
         data: this.cache.get(this.url),
     }
     get cache() {

@@ -5,18 +5,15 @@ export default class Bundle extends Component {
         module: null,
     }
     componentDidMount() {
-        this.load(this.props)
+        this.load()
     }
     componentDidUpdate({ load }) {
         if (load !== this.props.load) {
-            this.load(this.props)
+            this.setState({ module: null }, this.load)
         }
     }
-    load(props) {
-        this.setState({
-            module: null,
-        })
-        props.load(module => {
+    load = () => {
+        this.props.load(module => {
             this.setState({
                 module: module.default,
             })
