@@ -5,7 +5,7 @@ export function title({ data, loading }) {
 }
 
 export function geometry({ longitude, latitude }) {
-    return turf.geometry('Point', [longitude, latitude])
+    return turf.point([longitude, latitude])
 }
 
 export function shareUrl(station) {

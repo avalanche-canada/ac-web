@@ -17,6 +17,20 @@ ForecastLayout.propTypes = {
     match: PropTypes.object.isRequired,
 }
 
+export default function ForecastLayout({ match }) {
+    const { path } = match
+
+    return (
+        <Switch>
+            <Route path={`${path}/archives/:name?/:date?`} render={archive} />
+            <Route path={`${path}/north-rockies`} component={NorthRockies} />
+            <Route path={`${path}/:name/:date?`} render={forecast} />
+            <Route path={path} component={ForecastRegionList} />
+        </Switch>
+    )
+}
+
+// Renderers
 function archive({ match, history }) {
     const { name, date } = match.params
 
@@ -76,17 +90,4 @@ function forecast({ match }) {
     }
 
     return <Forecast name={name} />
-}
-
-export default function ForecastLayout({ match }) {
-    const { path } = match
-
-    return (
-        <Switch>
-            <Route path={`${path}/archives/:name?/:date?`} render={archive} />
-            <Route path={`${path}/north-rockies`} component={NorthRockies} />
-            <Route path={`${path}/:name/:date?`} render={forecast} />
-            <Route path={path} component={ForecastRegionList} />
-        </Switch>
-    )
 }

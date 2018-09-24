@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 .List {
     display: flex;
@@ -30,7 +30,8 @@
 }
 
 .Bordered {
-    & .Child:not(.Block), & .Definition.Block {
+    & .Child:not(.Block),
+    & .Definition.Block {
         border-bottom: 1px solid var(--gray-lighter);
     }
 }
@@ -42,12 +43,6 @@
 
     &.Block {
         flex: 100%;
-    }
-
-    &.OneLiner {
-        text-overflow: ellipsis;
-        overflow: hidden;
-        white-space: nowrap;
     }
 }
 
@@ -78,7 +73,7 @@
     }
 
     & .Child {
-      flex: 0 1 100%
+        flex: 0 1 100%;
     }
 }
 

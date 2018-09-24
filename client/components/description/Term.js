@@ -9,7 +9,6 @@ export default class Term extends PureComponent {
         style: PropTypes.object,
         className: PropTypes.string,
         block: PropTypes.bool,
-        oneLiner: PropTypes.bool,
     }
     constructor(props) {
         super(props)
@@ -20,7 +19,6 @@ export default class Term extends PureComponent {
         return this.classnames(this.props.className, {
             Term: true,
             Block: this.props.block,
-            OneLiner: this.props.oneLiner,
         })
     }
     render() {
