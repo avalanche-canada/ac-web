@@ -18,7 +18,16 @@ import 'styles'
 configureRaven()
 
 ReactDOM.render(
-    <Location>{application}</Location>,
+    <Auth.Provider>
+        <Router>
+            <CAC path="cac" />
+            <Redirect from="cherrybowl/*" to="cherry-bowl" />
+            <Match path="fxresources/*">{redirect}</Match>
+            <Match path="cherry-bowl/*">{redirect}</Match>
+            <AvalancheCanada path="/*" />
+            <AvalancheCanadaFoundation path="foundation/*" />
+        </Router>
+    </Auth.Provider>,
     document.getElementById('app')
 )
 

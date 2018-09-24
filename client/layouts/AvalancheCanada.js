@@ -22,6 +22,7 @@ import TripPlanner from './TripPlanner'
 import * as Feed from './feed'
 import Glossary from 'layouts/Glossary'
 import ErrorBoundary from 'components/ErrorBoundary'
+import StaticComponent from 'components/StaticComponent'
 import { Error } from 'components/text'
 import * as Page from 'components/page'
 import { ButtonSet } from 'components/button'
@@ -31,7 +32,7 @@ import { StaticPage, Generic } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 
-export default class AvalancheCanada extends Component {
+export default class AvalancheCanada extends StaticComponent {
     renderError({ error }) {
         return (
             <Page.Error>
@@ -71,26 +72,26 @@ export default class AvalancheCanada extends Component {
                     <Highlight />
                     <ErrorBoundary fallback={this.renderError}>
                         <Router>
-                            <Redirect from="/" to="/map" />
                             <Main path="map/*" />
+                            <Redirect from="/" to="/map" />
                             <Redirect
-                                from="map/ates"
-                                to="planning/trip-planner"
+                                from="/map/ates"
+                                to="/planning/trip-planner"
                             />
                             <Redirect
-                                from="trip-planner"
-                                to="planning/trip-planner"
+                                from="/trip-planner"
+                                to="/planning/trip-planner"
                             />
                             <Redirect
-                                from="trip-planning/:page"
-                                to="planning/:page"
+                                from="/trip-planning/:page"
+                                to="/planning/:page"
                             />
-                            <Redirect from="trip-planning" to="planning" />
+                            <Redirect from="/trip-planning" to="/planning" />
                             <Redirect
-                                from="forecast/:name"
-                                to="forecasts/:name"
+                                from="/forecast/:name"
+                                to="/forecasts/:name"
                             />
-                            <Redirect from="learn" to="training" />
+                            <Redirect from="/learn" to="/training" />
                             <LoginComplete path="login-complete" />
                             <Login path="login" />
                             <Glossary path="glossary/*" />
@@ -105,8 +106,8 @@ export default class AvalancheCanada extends Component {
                             <MIN path="min/*" />
                             <MountainInformationNetwork path="mountain-information-network/*" />
                             <Redirect
-                                from="submit"
-                                to="mountain-information-network/submit"
+                                from="/submit"
+                                to="/mountain-information-network/submit"
                             />
 
                             <Weather path="weather/*" />
@@ -210,7 +211,7 @@ export default class AvalancheCanada extends Component {
                             <NotFound default />
                         </Router>
                     </ErrorBoundary>
-                    <Router>
+                    <Router primary={false}>
                         <Null path="map/*" />
                         <Null path="planning/trip-planner" />
                         <Null path="tutoriel" />

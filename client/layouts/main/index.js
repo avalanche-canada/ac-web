@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment, createRef } from 'react'
+import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match } from '@reach/router'
 import supported from '@mapbox/mapbox-gl-supported'
@@ -22,17 +22,17 @@ import styles from './Map.css'
 
 const MAX_DRAWER_WIDTH = 500
 
-export default class Layout extends PureComponent {
+export default class Main extends Component {
     static propTypes = {
         navigate: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
+        '*': PropTypes.string.isRequired,
     }
     state = {
         hasError: false,
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
-    primary = createRef()
-    secondary = createRef()
+    supported = supported()
     flyTo() {}
     fitBounds() {}
     getSource() {}
@@ -40,11 +40,11 @@ export default class Layout extends PureComponent {
         const { width } = this.state
         let x = 0
 
-        if (this.primary.current.opened) {
+        if (this.isPrimaryOpened) {
             x -= width / 2
         }
 
-        if (this.secondary.current.opened) {
+        if (this.isSecondaryOpened) {
             x += width / 2
         }
 
@@ -107,12 +107,12 @@ export default class Layout extends PureComponent {
             if (SEARCHS.has(type)) {
                 search = `?panel=${SEARCHS.get(type)}/${id}`
             }
-
+            console.warn('navigate', pathname + search)
             this.props.navigate(pathname + search)
         }
     }
     handleMarkerClick = id => {
-        const { location, uri } = this.props
+        const { location } = this.props
         const path = `/${PATHS.get(TYPES.FORECASTS)}/${id}`
 
         this.props.navigate(uri + path + location.search)
@@ -146,53 +146,69 @@ export default class Layout extends PureComponent {
 
         return null
     }
-    renderPrimary = props => (
-        <Primary
-            ref={this.primary}
-            {...props}
-            width={this.state.width}
-            onLocateClick={this.handleLocateClick}
-        />
-    )
-    renderSecondary = props => (
-        <Secondary
-            ref={this.secondary}
-            {...props}
-            width={this.state.width}
-            onLocateClick={this.handleLocateClick}
-        />
-    )
-    render() {
-        if (supported()) {
+    shouldComponentUpdate({ location }) {
+        console.warn(this.props.location.href, location.href)
+        return this.props.location.href !== location.href
+    }
+    get isPrimaryOpened() {
+        const [type, name] = this.props['*'].split('/')
+
+        return (
+            typeof type === 'string' &&
+            typeof name === 'string' &&
+            !externals.has(name) &&
+            new Set(PATHS.values()).has(type)
+        )
+    }
+    get isSecondaryOpened() {
+        const params = new URLSearchParams(this.props.location.search)
+
+        if (params.has('panel')) {
+            const [type, id] = params.get('panel').split('/')
+
             return (
-                <layers.Provider>
-                    <menu.Provider>
-                        <div className={styles.Layout}>
-                            <Base
-                                onError={this.handleError}
-                                onLoad={this.handleLoad}
-                                onFeatureClick={this.handleFeatureClick}
-                                onMarkerClick={this.handleMarkerClick}
-                            />
-                            <Match path="forecasts/:name">
-                                {this.openExternalForecast}
-                            </Match>
-                            <Match path=":type/:name">
-                                {this.renderPrimary}
-                            </Match>
-                            <Match path="/*">{this.renderSecondary}</Match>
-                            <Menu />
-                            <ToggleMenu />
-                            <LinkControlSet>
-                                {this.state.hasError && <ErrorIndicator />}
-                            </LinkControlSet>
-                        </div>
-                    </menu.Provider>
-                </layers.Provider>
+                typeof type === 'string' &&
+                typeof id === 'string' &&
+                new Set(SEARCHS.values()).has(type)
             )
         }
 
-        return <UnsupportedMap />
+        return false
+    }
+    render() {
+        if (!this.supported) {
+            return <UnsupportedMap />
+        }
+
+        const { width, hasError } = this.state
+        console.warn('render layout', this.isPrimaryOpened)
+        return (
+            <layers.Provider>
+                <menu.Provider>
+                    <div className={styles.Layout}>
+                        <Base
+                            onError={this.handleError}
+                            onLoad={this.handleLoad}
+                            onFeatureClick={this.handleFeatureClick}
+                            onMarkerClick={this.handleMarkerClick}
+                        />
+                        <Primary opened={this.isPrimaryOpened} width={width} />
+                        <Secondary
+                            opened={this.isSecondaryOpened}
+                            width={width}
+                        />
+                        <Menu />
+                        <ToggleMenu />
+                        <LinkControlSet>
+                            {hasError && <ErrorIndicator />}
+                        </LinkControlSet>
+                        <Match path="forecasts/:name">
+                            {this.openExternalForecast}
+                        </Match>
+                    </div>
+                </menu.Provider>
+            </layers.Provider>
+        )
     }
 }
 

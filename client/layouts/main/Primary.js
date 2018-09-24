@@ -1,62 +1,32 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import Forecast from 'layouts/drawers/Forecast'
 import HotZoneReport from 'layouts/drawers/HotZoneReport'
 import NorthRockies from 'layouts/drawers/NorthRockies'
 import Drawer, { RIGHT } from 'components/page/drawer'
-import externals from 'router/externals'
 
-export default class Primary extends PureComponent {
+export default class Primary extends Component {
     static propTypes = {
-        match: PropTypes.object.isRequired,
-        navigate: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
+        opened: PropTypes.bool.isRequired,
         width: PropTypes.number.isRequired,
+        onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    handleClose = () => {
-        const { navigate, location } = this.props
-
-        navigate(location.search)
-    }
-    get opened() {
-        const { match } = this.props
-
-        if (match) {
-            const { name, type } = match
-
-            return (
-                typeof type === 'string' &&
-                typeof name === 'string' &&
-                !externals.has(name)
-            )
-        }
-
-        return false
+    shouldComponentUpdate({ opened, width }) {
+        return this.props.opened !== opened || this.props.width !== width
     }
     render() {
-        const { onLocateClick, width } = this.props
+        console.warn('render Primary()', this.props)
+        const { width, opened, ...events } = this.props
 
         return (
-            <Drawer side={RIGHT} open={this.opened} width={width}>
-                <Router>
-                    <NorthRockies
-                        path="forecasts/north-rockies"
-                        onCloseClick={this.handleClose}
-                        onLocateClick={onLocateClick}
-                    />
-                    <Forecast
-                        path="forecasts/:name"
-                        onCloseClick={this.handleClose}
-                        onLocateClick={onLocateClick}
-                    />
-                    <HotZoneReport
-                        path="hot-zone-reports/:name"
-                        onCloseClick={this.handleClose}
-                        onLocateClick={onLocateClick}
-                    />
-                </Router>
+            <Drawer side={RIGHT} open={opened} width={width}>
+                <NorthRockies path="forecasts/north-rockies" {...events} />
+                {/* <Router>
+                    <Forecast path="forecasts/:name" {...events} />
+                    <HotZoneReport path="hot-zone-reports/:name" {...events} />
+                </Router> */}
             </Drawer>
         )
     }

@@ -16,11 +16,11 @@ export default class Secondary extends PureComponent {
         width: PropTypes.number.isRequired,
         onLocateClick: PropTypes.func.isRequired,
     }
-    handleClose = () => {
-        const { navigate, location } = this.props
-
-        navigate(location.pathname)
-    }
+    // handleClose = () => {
+    //     const { navigate, location } = this.props
+    //
+    //     navigate(location.pathname)
+    // }
     get error() {
         return (
             <Error>
@@ -60,11 +60,11 @@ export default class Secondary extends PureComponent {
         return typeof type === 'string' && typeof id === 'string'
     }
     render() {
-        const { width } = this.props
+        const { width, opened } = this.props
 
         return (
-            <Drawer open={this.opened} width={width} side={LEFT}>
-                {this.opened ? this.content : null}
+            <Drawer open={opened} width={width} side={LEFT}>
+                {opened ? this.content : null}
             </Drawer>
         )
     }
