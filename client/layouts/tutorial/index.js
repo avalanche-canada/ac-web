@@ -4,6 +4,7 @@ import { Switch, Route, Link, Redirect } from 'react-router-dom'
 import { Document } from 'prismic/containers'
 import { tutorial } from 'prismic/params'
 import * as Page from 'components/page'
+import Alert from 'components/highlight'
 import Tree, { Node } from 'components/tree'
 import { SliceZone } from 'prismic/components/base'
 import * as LocaleContext from 'contexts/locale'
@@ -74,18 +75,31 @@ export default class Layout extends Component {
         ) : null
     }
     render() {
+        const { locale } = this.state
+
         return (
-            <Page.Page>
-                <Page.Content>
-                    <LocaleContext.Provider value={this.state}>
-                        <Document
-                            {...tutorial.home()}
-                            locale={this.state.locale}>
-                            {this.renderContent}
-                        </Document>
-                    </LocaleContext.Provider>
-                </Page.Content>
-            </Page.Page>
+            <Fragment>
+                {locale === FR && (
+                    <Alert style={ALERT_STYLE}>
+                        Quelques sections de notre tutoriel ne sont pas à jour.
+                        Revenez regulièrement pour consulter les améliorations
+                        que nous y apportons.
+                        <br />
+                        Some sections of the French tutorial are outdated. We
+                        are currently working on improvements so stay tuned for
+                        updates!
+                    </Alert>
+                )}
+                <Page.Page>
+                    <Page.Content>
+                        <LocaleContext.Provider value={this.state}>
+                            <Document {...tutorial.home()} locale={locale}>
+                                {this.renderContent}
+                            </Document>
+                        </LocaleContext.Provider>
+                    </Page.Content>
+                </Page.Page>
+            </Fragment>
         )
     }
 }
@@ -493,6 +507,10 @@ const BUTTON_STYLE = {
     padding: '1em',
     position: 'relative',
     top: '-0.75em',
+}
+const ALERT_STYLE = {
+    justifyContent: 'center',
+    padding: '1em',
 }
 
 // Components

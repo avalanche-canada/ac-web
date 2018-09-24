@@ -1,6 +1,5 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import Application from 'components/application'
-import Alert from 'components/highlight'
 import { Route, Redirect, Switch } from 'react-router-dom'
 import Bundle from 'components/Bundle'
 import { NotFoundRoute, StaticPageRoute, GenericPageRoute } from 'router/common'
@@ -104,7 +103,13 @@ export default class AvalancheCanada extends Component {
                                 to="/tutorial"
                             />
                             <Route path="/tutorial" render={tutorial} />
-                            <Route path="/tutoriel" render={tutoriel} />
+                            <Redirect
+                                strict
+                                exact
+                                from="/tutoriel/"
+                                to="/tutoriel"
+                            />
+                            <Route path="/tutoriel" render={tutorial} />
                             <Route
                                 path="/hot-zone-reports"
                                 component={HotZoneReport}
@@ -785,33 +790,5 @@ function tutorial(props) {
                 )
             }
         </Bundle>
-    )
-}
-function tutoriel({ match }) {
-    const { path } = match
-    const STYLE = {
-        justifyContent: 'center',
-        padding: '1em',
-    }
-
-    return (
-        <Fragment>
-            <Redirect strict exact from={`${path}/`} to={path} />
-            <Route
-                path={path}
-                render={() => (
-                    <Alert style={STYLE}>
-                        Quelques sections de notre tutoriel ne sont pas à jour.
-                        Revenez regulièrement pour consulter les améliorations
-                        que nous y apportons.
-                        <br />
-                        Some sections of the French tutorial are outdated. We
-                        are currently working on improvements so stay tuned for
-                        updates!
-                    </Alert>
-                )}
-            />
-            <Route path={path} render={tutorial} />
-        </Fragment>
     )
 }
