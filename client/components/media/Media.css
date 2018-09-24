@@ -10,13 +10,19 @@
 
 .Caption {
     width: 100%;
-    padding: 0 1em;
+    padding: 1em;
+    box-sizing: border-box;
     background-color: var(--gray-lighter);
+
+    & > p {
+        margin: 0;
+    }
 }
 
 :global(.image-gallery) {
-    & .Caption {
-        padding: 0.5em 1em;
+    & .Caption > p {
+        /* FIXME: So weird the styling here. line-height!!! */
+        margin: 0.5em 0;
     }
 }
 
