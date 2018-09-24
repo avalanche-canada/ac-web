@@ -3,13 +3,13 @@
 .Container {
     /* If you change the display: look at the gear page: https://www.avalanche.ca/gear. It was set to display: inline-block before.  */
     display: block;
-    background-color: var(--gray-lighter);
     color: var(--gray-darker);
     margin: 0;
     padding: 0;
 }
 
 .Caption {
+    width: 100%;
     padding: 0 1em;
     background-color: var(--gray-lighter);
 }
