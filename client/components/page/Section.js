@@ -1,6 +1,6 @@
 import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
-import FragmentIdentifier from 'router/FragmentIdentifier'
+import { FragmentIdentifier } from 'router'
 import Headline from './Headline'
 import { Ribbon } from 'components/misc'
 import styles from './Page.css'

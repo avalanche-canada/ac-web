@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import kebabCase from 'lodash/kebabCase'
 import { Image } from 'prismic/components/base'
 import { SocialSet, SocialItem } from 'components/social'
-import FragmentIdentifier from 'router/FragmentIdentifier'
+import { FragmentIdentifier } from 'router'
 import styles from './Ambassador.css'
 
 Ambassador.propTypes = {
