@@ -2,6 +2,10 @@
 
 .Container {
     margin: 1em 0;
+
+    & img {
+        width: 100%;
+    }
 }
 
 .Input {
