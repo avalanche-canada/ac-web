@@ -49,10 +49,10 @@ class FragmentIdentifierWithLocation extends Component {
         this.scrollTo()
     }
     render() {
-        const { hash, children } = this.props
+        const { location, hash, children, ...props } = this.props
 
         return (
-            <a ref={this.anchor} name={hash} href={this.hash}>
+            <a ref={this.anchor} name={hash} href={this.hash} {...props}>
                 {children}
             </a>
         )
