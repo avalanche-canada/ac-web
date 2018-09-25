@@ -1,4 +1,4 @@
-@import "./colors.css";
+@import './colors.css';
 
 :root {
     --component-bg: var(--gray);
@@ -18,6 +18,14 @@
     --component-secondary-bg-active: color-mod(var(--secondary) lightness(60%));
 
     --component-tertiary-bg: var(--brand-secondary);
-    --component-tertiary-bg-hover: color-mod(var(--brand-secondary) lightness(75%));
-    --component-tertiary-bg-active: color-mod(var(--brand-secondary) lightness(60%));
+    --component-tertiary-bg-hover: color-mod(
+        var(--brand-secondary) lightness(75%)
+    );
+    --component-tertiary-bg-active: color-mod(
+        var(--brand-secondary) lightness(60%)
+    );
+}
+
+.MatchParent {
+    height: 100%;
 }

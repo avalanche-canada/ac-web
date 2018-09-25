@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
 import styles from './Drawer.css'
@@ -8,14 +8,21 @@ export default class Body extends Component {
         children: PropTypes.node,
         onScroll: PropTypes.func,
     }
-    setRef = ref => (this.ref = ref)
+    static defaultProps = {
+        onScroll() {},
+    }
+    ref = createRef()
     handleScroll = throttle(() => {
-        if (this.ref) {
-            this.props.onScroll({
-                left: this.ref.scrollLeft,
-                top: this.ref.scrollTop,
-            })
+        if (!this.ref) {
+            return
         }
+
+        const { scrollLeft, scrollTop } = this.ref.current
+
+        this.props.onScroll({
+            left: scrollLeft,
+            top: scrollTop,
+        })
     }, 250)
     render() {
         const { children, onScroll, ...props } = this.props
@@ -23,8 +30,8 @@ export default class Body extends Component {
         return (
             <div
                 {...props}
-                ref={this.setRef}
-                onScroll={onScroll ? this.handleScroll : null}
+                ref={this.ref}
+                onScroll={this.handleScroll}
                 className={styles.Body}>
                 {children}
             </div>

@@ -1,12 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Drawer.css'
 import SIDE, { LEFT, RIGHT } from './constants/sides'
 
-const STYLE_NAMES = new Map([[LEFT, 'Drawer--Left'], [RIGHT, 'Drawer--Right']])
-
-export default class Drawer extends PureComponent {
+export default class Drawer extends Component {
     static propTypes = {
         side: PropTypes.oneOf([LEFT, RIGHT]).isRequired,
         open: PropTypes.bool.isRequired,
@@ -17,11 +15,7 @@ export default class Drawer extends PureComponent {
     static defaultProps = {
         side: SIDE,
     }
-    constructor(props) {
-        super(props)
-
-        this.classNames = classnames.bind(styles)
-    }
+    classNames = classnames.bind(styles)
     get className() {
         const { side, open } = this.props
 
@@ -48,3 +42,6 @@ export default class Drawer extends PureComponent {
         )
     }
 }
+
+// Styles
+const STYLE_NAMES = new Map([[LEFT, 'Drawer--Left'], [RIGHT, 'Drawer--Right']])

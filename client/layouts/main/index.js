@@ -1,4 +1,4 @@
-import React, { Component, PureComponent, Fragment } from 'react'
+import React, { Component, PureComponent, Fragment, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match } from '@reach/router'
 import supported from '@mapbox/mapbox-gl-supported'
@@ -26,13 +26,14 @@ export default class Main extends Component {
     static propTypes = {
         navigate: PropTypes.func.isRequired,
         location: PropTypes.object.isRequired,
-        '*': PropTypes.string.isRequired,
     }
     state = {
         hasError: false,
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
     supported = supported()
+    primary = createRef()
+    secondary = createRef()
     flyTo() {}
     fitBounds() {}
     getSource() {}
@@ -40,11 +41,11 @@ export default class Main extends Component {
         const { width } = this.state
         let x = 0
 
-        if (this.isPrimaryOpened) {
+        if (this.primary?.current?.opened) {
             x -= width / 2
         }
 
-        if (this.isSecondaryOpened) {
+        if (this.secondary?.current?.opened) {
             x += width / 2
         }
 
@@ -107,7 +108,7 @@ export default class Main extends Component {
             if (SEARCHS.has(type)) {
                 search = `?panel=${SEARCHS.get(type)}/${id}`
             }
-            console.warn('navigate', pathname + search)
+
             this.props.navigate(pathname + search)
         }
     }
@@ -146,34 +147,15 @@ export default class Main extends Component {
 
         return null
     }
-    shouldComponentUpdate({ location }) {
-        console.warn(this.props.location.href, location.href)
-        return this.props.location.href !== location.href
+    handlePrimaryCloseClick = () => {
+        const { navigate, location } = this.props
+
+        navigate(location.search)
     }
-    get isPrimaryOpened() {
-        const [type, name] = this.props['*'].split('/')
+    handleSecondaryCloseClick = () => {
+        const { navigate, location } = this.props
 
-        return (
-            typeof type === 'string' &&
-            typeof name === 'string' &&
-            !externals.has(name) &&
-            new Set(PATHS.values()).has(type)
-        )
-    }
-    get isSecondaryOpened() {
-        const params = new URLSearchParams(this.props.location.search)
-
-        if (params.has('panel')) {
-            const [type, id] = params.get('panel').split('/')
-
-            return (
-                typeof type === 'string' &&
-                typeof id === 'string' &&
-                new Set(SEARCHS.values()).has(type)
-            )
-        }
-
-        return false
+        navigate(location.pathname)
     }
     render() {
         if (!this.supported) {
@@ -181,7 +163,7 @@ export default class Main extends Component {
         }
 
         const { width, hasError } = this.state
-        console.warn('render layout', this.isPrimaryOpened)
+
         return (
             <layers.Provider>
                 <menu.Provider>
@@ -192,10 +174,17 @@ export default class Main extends Component {
                             onFeatureClick={this.handleFeatureClick}
                             onMarkerClick={this.handleMarkerClick}
                         />
-                        <Primary opened={this.isPrimaryOpened} width={width} />
-                        <Secondary
-                            opened={this.isSecondaryOpened}
+                        <Primary
+                            ref={this.primary}
                             width={width}
+                            onLocateClick={this.handleLocateClick}
+                            onCloseClick={this.handlePrimaryCloseClick}
+                        />
+                        <Secondary
+                            ref={this.secondary}
+                            width={width}
+                            onLocateClick={this.handleLocateClick}
+                            onCloseClick={this.handleSecondaryCloseClick}
                         />
                         <Menu />
                         <ToggleMenu />

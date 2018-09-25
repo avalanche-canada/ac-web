@@ -11,42 +11,30 @@ import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import configureRaven from 'services/raven'
 import Analytics from 'services/analytics'
-import * as Auth from 'contexts/auth'
 
 import 'styles'
 
 configureRaven()
 
 ReactDOM.render(
-    <Auth.Provider>
-        <Router>
-            <CAC path="cac" />
-            <Redirect from="cherrybowl/*" to="cherry-bowl" />
-            <Match path="fxresources/*">{redirect}</Match>
-            <Match path="cherry-bowl/*">{redirect}</Match>
-            <AvalancheCanada path="/*" />
-            <AvalancheCanadaFoundation path="foundation/*" />
-        </Router>
-    </Auth.Provider>,
+    <Location>{application}</Location>,
     document.getElementById('app')
 )
 
 function application({ location }) {
     return (
-        <Auth.Provider>
-            <Analytics location={location}>
-                <ScrollTo location={location}>
-                    <Router>
-                        <CAC path="cac" />
-                        <Redirect from="cherrybowl/*" to="cherry-bowl" />
-                        <Match path="fxresources/*">{redirect}</Match>
-                        <Match path="cherry-bowl/*">{redirect}</Match>
-                        <AvalancheCanada path="/*" />
-                        <AvalancheCanadaFoundation path="foundation/*" />
-                    </Router>
-                </ScrollTo>
-            </Analytics>
-        </Auth.Provider>
+        <Analytics location={location}>
+            <ScrollTo location={location}>
+                <AvalancheCanada path="/*" />
+                <Router primary={false}>
+                    <CAC path="cac" />
+                    <Redirect from="cherrybowl/*" to="cherry-bowl" />
+                    <Match path="fxresources/*">{redirect}</Match>
+                    <Match path="cherry-bowl/*">{redirect}</Match>
+                    <AvalancheCanadaFoundation path="foundation/*" />
+                </Router>
+            </ScrollTo>
+        </Analytics>
     )
 }
 
