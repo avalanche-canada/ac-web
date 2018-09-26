@@ -2,6 +2,7 @@ import React, { Component, PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link } from '@reach/router'
 import memoize from 'lodash/memoize'
+import throttle from 'lodash/throttle'
 import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
@@ -29,36 +30,36 @@ export default function Layout() {
                         <Glossary default />
                     </Router>
                 </Main>
-                <Router>
-                    <GlossaryAside path="/" />
-                </Router>
+                <Aside>
+                    <Router primary={false}>
+                        <GlossarySidebar path="/" />
+                    </Router>
+                </Aside>
             </Content>
         </Page>
     )
 }
 
-class GlossaryAside extends StaticComponent {
+class GlossarySidebar extends StaticComponent {
     render() {
         return (
-            <Aside>
-                <Sidebar>
-                    <SidebarHeader>Related links</SidebarHeader>
-                    <SidebarItem>
-                        <a
-                            href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
-                            target="ICAR">
-                            ICAR Glossary
-                        </a>
-                    </SidebarItem>
-                    <SidebarItem>
-                        <a
-                            href="http://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
-                            target="LexiqueLexicon">
-                            Lexique Avalanche - Avalanche Lexicon
-                        </a>
-                    </SidebarItem>
-                </Sidebar>
-            </Aside>
+            <Sidebar>
+                <SidebarHeader>Related links</SidebarHeader>
+                <SidebarItem>
+                    <a
+                        href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
+                        target="ICAR">
+                        ICAR Glossary
+                    </a>
+                </SidebarItem>
+                <SidebarItem>
+                    <a
+                        href="http://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
+                        target="LexiqueLexicon">
+                        Lexique Avalanche - Avalanche Lexicon
+                    </a>
+                </SidebarItem>
+            </Sidebar>
         )
     }
 }
@@ -207,17 +208,13 @@ class LetterTag extends PureComponent {
 class GlossaryContent extends Component {
     static propTypes = {
         headline: PropTypes.arrayOf(PropTypes.object).isRequired,
-        location: PropTypes.object.isRequired,
-        navigate: PropTypes.func.isRequired,
     }
-    get q() {
-        const params = new URLSearchParams(this.props.location.search)
-
-        return params.has('q') ? params.get('q') : ''
+    state = {
+        q: '',
     }
-    handleSearchChange = q => {
-        this.props.navigate(q ? `?q=${q}` : '')
-    }
+    handleSearchChange = throttle(q => {
+        this.setState(() => ({ q }))
+    }, 250)
     renderSection({ letter, definitions }) {
         return (
             <section key={letter} className={styles.Section}>
@@ -235,7 +232,9 @@ class GlossaryContent extends Component {
         )
     }
     filter = memoize(documents => {
-        const definitions = filter(documents, this.q)
+        const definitions = filter(documents, this.state.q)
+
+        console.warn('filter')
 
         return new Map(definitions.map(document => [document.uid, document]))
     })
@@ -292,7 +291,7 @@ class GlossaryContent extends Component {
                 </Headline>
                 <Search
                     onChange={this.handleSearchChange}
-                    value={this.q}
+                    value={this.state.q}
                     placeholder="Search for a definition"
                 />
                 <Documents {...glossary.definitions()}>
