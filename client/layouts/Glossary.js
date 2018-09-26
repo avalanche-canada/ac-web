@@ -104,7 +104,7 @@ class Definition extends Component {
     }
 }
 
-class DefinitionLayout extends PureComponent {
+class DefinitionLayout extends StaticComponent {
     static propTypes = {
         linkToExternal: PropTypes.bool,
         uid: PropTypes.string.isRequired,
@@ -188,7 +188,7 @@ class Related extends Component {
     }
 }
 
-class LetterTag extends PureComponent {
+class LetterTag extends StaticComponent {
     static propTypes = {
         letter: PropTypes.string.isRequired,
     }
@@ -208,42 +208,30 @@ class LetterTag extends PureComponent {
 class GlossaryContent extends Component {
     static propTypes = {
         headline: PropTypes.arrayOf(PropTypes.object).isRequired,
+        location: PropTypes.object.isRequired,
+        navigate: PropTypes.func.isRequired,
     }
-    state = {
-        q: '',
+    get term() {
+        const params = new URLSearchParams(this.props.location.search)
+
+        return params.get('q')
     }
-    handleSearchChange = throttle(q => {
-        this.setState(() => ({ q }))
+    handleSearchChange = throttle(term => {
+        this.props.navigate(`?q=${term}`)
     }, 250)
-    renderSection({ letter, definitions }) {
-        return (
-            <section key={letter} className={styles.Section}>
-                <h1>
-                    <a
-                        href={`#${letter.toLowerCase()}`}
-                        name={letter.toLowerCase()}>
-                        {letter}
-                    </a>
-                </h1>
-                {definitions.map(definition => (
-                    <DefinitionLayout key={definition.uid} {...definition} />
-                ))}
-            </section>
+    createSections = memoize((documents = []) => {
+        const allDefinitions = new Map(
+            documents.map(document => [
+                document.uid,
+                createDefinition(document),
+            ])
         )
-    }
-    filter = memoize(documents => {
-        const definitions = filter(documents, this.state.q)
 
-        console.warn('filter')
-
-        return new Map(definitions.map(document => [document.uid, document]))
-    })
-    createSections = memoize(documents => {
-        const sections = LETTERS.reduce((sections, letter) => {
+        return LETTERS.reduce((sections, letter) => {
             const definitions = this.props[letter.toLowerCase()]
                 .filter(hasDefinition)
                 .map(({ definition }) =>
-                    documents.get(definition.value.document.uid)
+                    allDefinitions.get(definition.value.document.uid)
                 )
                 .filter(Boolean)
 
@@ -256,16 +244,14 @@ class GlossaryContent extends Component {
 
             return sections
         }, [])
-
-        return sections
     })
-    renderContent = ({ documents = [], loading }) => {
-        const filtered = this.filter(documents)
+    renderContent = ({ documents, loading }) => {
+        const { term } = this
+        let sections = this.createSections(documents)
 
-        if (documents.length === 0) {
-            this.filter.cache.clear()
+        if (term) {
+            sections = filterSections(term, sections)
         }
-        const sections = this.createSections(filtered)
 
         return (
             <Fragment>
@@ -279,7 +265,7 @@ class GlossaryContent extends Component {
                         <LetterTag key={letter} letter={letter} />
                     ))}
                 </TagSet>
-                {sections.map(this.renderSection)}
+                {sections.map(renderSection)}
             </Fragment>
         )
     }
@@ -291,13 +277,42 @@ class GlossaryContent extends Component {
                 </Headline>
                 <Search
                     onChange={this.handleSearchChange}
-                    value={this.state.q}
+                    value={this.term}
                     placeholder="Search for a definition"
                 />
                 <Documents {...glossary.definitions()}>
                     {this.renderContent}
                 </Documents>
             </Fragment>
+        )
+    }
+}
+
+class Section extends Component {
+    static propTypes = {
+        letter: PropTypes.string.isRequired,
+        definitions: PropTypes.array.isRequired,
+    }
+    render() {
+        const { letter, definitions } = this.props
+
+        if (definitions.length === 0) {
+            return null
+        }
+
+        return (
+            <section key={letter} className={styles.Section}>
+                <h1>
+                    <a
+                        href={`#${letter.toLowerCase()}`}
+                        name={letter.toLowerCase()}>
+                        {letter}
+                    </a>
+                </h1>
+                {definitions.map(definition => (
+                    <DefinitionLayout key={definition.uid} {...definition} />
+                ))}
+            </section>
         )
     }
 }
@@ -318,35 +333,66 @@ function isImage({ type }) {
 function isNotImage({ type }) {
     return type !== 'image'
 }
-function filter(definitions, term) {
-    if (!term) {
-        return definitions
-    }
+function renderSection(props) {
+    return <Section key={props.letter} {...props} />
+}
+function createDefinition(definition) {
+    const { uid, data, tags } = definition
 
-    const regexp = new RegExp(term, 'gi')
-
-    return definitions.filter(
-        doc =>
-            regexp.test(doc.data.title) ||
-            doc.data.related
+    return {
+        ...definition,
+        searchable:
+            uid +
+            data.title +
+            data.related
                 .filter(hasDefinition)
-                .some(doc =>
-                    regexp.test(
-                        doc.definition.value.document.data.definition.title
-                            .value
-                    )
-                ) ||
-            doc.data.content
+                .reduce(
+                    (previous, current) =>
+                        previous +
+                        current.definition.value.document.data.definition.title
+                            .value,
+                    ''
+                ) +
+            data.content
                 .filter(isText)
-                .some(({ nonRepeat }) =>
-                    nonRepeat.content.some(({ text }) => regexp.test(text))
-                ) ||
-            doc.data.content
+                .reduce(
+                    (previous, current) =>
+                        previous +
+                        current.nonRepeat.content.reduce(
+                            (previous, current) => previous + current.text,
+                            previous
+                        ),
+                    ''
+                ) +
+            data.content
                 .filter(isImage)
                 .filter(({ nonRepeat }) => Boolean(nonRepeat.caption))
-                .some(({ nonRepeat }) =>
-                    nonRepeat.caption.some(({ text }) => regexp.test(text))
-                ) ||
-            doc.tags.some(regexp.test, regexp)
-    )
+                .reduce(
+                    (previous, current) =>
+                        previous +
+                        current.nonRepeat.caption.reduce(
+                            (previous, current) => previous + current.text,
+                            previous
+                        ),
+                    ''
+                ) +
+            tags.join(''),
+    }
 }
+const filterSections = memoize((term, sections) => {
+    const regexp = new RegExp(term, 'gi')
+    function predicate(definition) {
+        return regexp.test(definition.searchable)
+    }
+
+    return sections.reduce((sections, section) => {
+        if (section.definitions.some(predicate)) {
+            sections.push({
+                ...section,
+                definitions: section.definitions.filter(predicate),
+            })
+        }
+
+        return sections
+    }, [])
+})

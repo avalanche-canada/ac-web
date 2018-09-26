@@ -30,5 +30,5 @@ Frontend
 
 Testing all urls possibilities
 Look at all <Link>s
-Look at the Glossary > finish searching, it is slow and does not handle change well
+Look at the Glossary > finish searching, it is slow and does not handle changes well
 Merge new Tutorial
