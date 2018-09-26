@@ -343,7 +343,7 @@ const MAX_PAGE_SIZE = 100
 const DATE = 'YYYY-MM-DD'
 const FETCH_DEFINITION_TITLE_OPTIONS = {
     fetchLinks: 'definition.title',
-    pageSize: 1000,
+    pageSize: MAX_PAGE_SIZE,
 }
 function rangePredicates(start, end, date = new Date()) {
     return [

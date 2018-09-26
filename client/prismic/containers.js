@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory as Cache } from 'components/fetch/Cache'
@@ -117,6 +117,54 @@ export class Documents extends Component {
     render() {
         return <Search {...this.props}>{this.children}</Search>
     }
+}
+
+export class Pages extends Component {
+    static propTypes = {
+        total: PropTypes.number.isRequired,
+        children: PropTypes.func.isRequired,
+    }
+    render() {
+        const { total, children, ...props } = this.props
+        const components = Array.from(new Array(total), (_, i) => i + 1).map(
+            page => (
+                <Documents key={page} {...props} page={page}>
+                    {props => props}
+                </Documents>
+            )
+        )
+
+        return <Compose components={components}>{this.props.children}</Compose>
+    }
+}
+
+// Copied from https://github.com/jamesplease/react-composer/blob/master/src/index.js
+class Compose extends Component {
+    static propTypes = {
+        children: PropTypes.func.isRequired,
+        components: PropTypes.arrayOf(PropTypes.element).isRequired,
+    }
+    render() {
+        const { children, components } = this.props
+
+        return renderRecursive(children, components)
+    }
+}
+
+function renderRecursive(render, remaining, results = []) {
+    if (!remaining[0]) {
+        return render(results)
+    }
+
+    function nextRender(value) {
+        return renderRecursive(
+            render,
+            remaining.slice(1),
+            results.concat([value])
+        )
+    }
+
+    return cloneElement(remaining[0], { children: nextRender })
 }
 
 export class Tags extends Component {

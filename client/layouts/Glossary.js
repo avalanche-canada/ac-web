@@ -1,4 +1,4 @@
-import React, { Component, PureComponent, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link } from '@reach/router'
 import memoize from 'lodash/memoize'
@@ -8,12 +8,13 @@ import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
+import { FragmentIdentifier } from 'router'
 import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
 import StaticComponent from 'components/StaticComponent'
-import { Document, Documents } from 'prismic/containers'
+import { Document, Documents, Pages } from 'prismic/containers'
 import { glossary } from 'prismic/params'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
@@ -121,9 +122,9 @@ class DefinitionLayout extends StaticComponent {
                     {linkToExternal ? (
                         title
                     ) : (
-                        <a href={`#${uid}`} name={uid}>
+                        <FragmentIdentifier hash={uid} title={title}>
                             {title}
-                        </a>
+                        </FragmentIdentifier>
                     )}
                 </h2>
                 {tags.length > 0 && (
@@ -214,12 +215,25 @@ class GlossaryContent extends Component {
     get term() {
         const params = new URLSearchParams(this.props.location.search)
 
-        return params.get('q')
+        return params.has('q') ? params.get('q') : ''
+    }
+    shouldComponentUpdate({ location }) {
+        return location.search !== this.props.location.search
     }
     handleSearchChange = throttle(term => {
-        this.props.navigate(`?q=${term}`)
+        const params = new URLSearchParams()
+
+        if (term) {
+            params.set('q', term)
+        }
+
+        this.props.navigate(`?${params.toString()}`)
     }, 250)
-    createSections = memoize((documents = []) => {
+    createSections = memoize(pages => {
+        const documents = pages.reduce(
+            (documents, page) => [...documents, ...(page?.documents || [])],
+            []
+        )
         const allDefinitions = new Map(
             documents.map(document => [
                 document.uid,
@@ -245,19 +259,24 @@ class GlossaryContent extends Component {
             return sections
         }, [])
     })
-    renderContent = ({ documents, loading }) => {
+    renderContent = pages => {
+        let sections = []
+        const loading = pages.some(page => page.loading)
         const { term } = this
-        let sections = this.createSections(documents)
 
-        if (term) {
-            sections = filterSections(term, sections)
+        if (loading === false) {
+            sections = this.createSections(pages)
+
+            if (term) {
+                sections = filterSections(term, sections)
+            }
         }
 
         return (
             <Fragment>
                 {loading ? (
                     <Loading>Loading definitions...</Loading>
-                ) : documents && sections.length === 0 ? (
+                ) : sections.length === 0 ? (
                     <Muted>No definition matches your criteria.</Muted>
                 ) : null}
                 <TagSet>
@@ -280,9 +299,9 @@ class GlossaryContent extends Component {
                     value={this.term}
                     placeholder="Search for a definition"
                 />
-                <Documents {...glossary.definitions()}>
+                <Pages {...glossary.definitions()} total={2}>
                     {this.renderContent}
-                </Documents>
+                </Pages>
             </Fragment>
         )
     }
@@ -303,11 +322,9 @@ class Section extends Component {
         return (
             <section key={letter} className={styles.Section}>
                 <h1>
-                    <a
-                        href={`#${letter.toLowerCase()}`}
-                        name={letter.toLowerCase()}>
+                    <FragmentIdentifier hash={letter.toLowerCase()}>
                         {letter}
-                    </a>
+                    </FragmentIdentifier>
                 </h1>
                 {definitions.map(definition => (
                     <DefinitionLayout key={definition.uid} {...definition} />
