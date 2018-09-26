@@ -1,8 +1,9 @@
-import React, { Component, cloneElement } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory as Cache } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
+import Compose from 'components/Compose'
 import * as Text from 'components/text'
 import * as requests from './requests'
 import * as params from 'prismic/params'
@@ -67,7 +68,12 @@ class Search extends Component {
 
 export class Document extends Component {
     static propTypes = {
-        children: PropTypes.func.isRequired,
+        children: PropTypes.func,
+    }
+    static defaultProps = {
+        children(props) {
+            return props
+        },
     }
     children = ({ data, ...props }) =>
         this.props.children(
@@ -86,7 +92,7 @@ export class Document extends Component {
 // TODO: Not sure if this class is needed! We could use Document.
 export class DocumentByUID extends Component {
     static propTypes = {
-        children: PropTypes.func.isRequired,
+        children: PropTypes.func,
         type: PropTypes.string.isRequired,
         uid: PropTypes.string.isRequired,
     }
@@ -101,7 +107,12 @@ export class DocumentByUID extends Component {
 
 export class Documents extends Component {
     static propTypes = {
-        children: PropTypes.func.isRequired,
+        children: PropTypes.func,
+    }
+    static defaultProps = {
+        children(props) {
+            return props
+        },
     }
     children = ({ data, ...props }) => {
         if (data) {
@@ -122,49 +133,30 @@ export class Documents extends Component {
 export class Pages extends Component {
     static propTypes = {
         total: PropTypes.number.isRequired,
-        children: PropTypes.func.isRequired,
+        children: PropTypes.func,
+    }
+    static defaultProps = {
+        children(props) {
+            return props
+        },
+    }
+    constructor(props) {
+        super(props)
+
+        const { total, children, ...rest } = props
+        const pages = Array.from(Array(total), (_, index) => index + 1)
+
+        this.components = pages.map(page => (
+            <Documents key={page} {...rest} page={page} />
+        ))
     }
     render() {
-        const { total, children, ...props } = this.props
-        const components = Array.from(new Array(total), (_, i) => i + 1).map(
-            page => (
-                <Documents key={page} {...props} page={page}>
-                    {props => props}
-                </Documents>
-            )
-        )
-
-        return <Compose components={components}>{this.props.children}</Compose>
-    }
-}
-
-// Copied from https://github.com/jamesplease/react-composer/blob/master/src/index.js
-class Compose extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-        components: PropTypes.arrayOf(PropTypes.element).isRequired,
-    }
-    render() {
-        const { children, components } = this.props
-
-        return renderRecursive(children, components)
-    }
-}
-
-function renderRecursive(render, remaining, results = []) {
-    if (!remaining[0]) {
-        return render(results)
-    }
-
-    function nextRender(value) {
-        return renderRecursive(
-            render,
-            remaining.slice(1),
-            results.concat([value])
+        return (
+            <Compose components={this.components}>
+                {this.props.children}
+            </Compose>
         )
     }
-
-    return cloneElement(remaining[0], { children: nextRender })
 }
 
 export class Tags extends Component {

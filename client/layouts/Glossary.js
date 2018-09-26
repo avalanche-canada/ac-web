@@ -231,7 +231,7 @@ class GlossaryContent extends Component {
     }, 250)
     createSections = memoize(pages => {
         const documents = pages.reduce(
-            (documents, page) => [...documents, ...(page?.documents || [])],
+            (documents, page) => [...documents, ...(page.documents || [])],
             []
         )
         const allDefinitions = new Map(
@@ -260,31 +260,30 @@ class GlossaryContent extends Component {
         }, [])
     })
     renderContent = pages => {
-        let sections = []
-        const loading = pages.some(page => page.loading)
         const { term } = this
+        const pending = pages.some(page => page.pending)
+        const fulfilled = pages.every(page => page.fulfilled)
+        let sections = this.createSections(pages)
 
-        if (loading === false) {
-            sections = this.createSections(pages)
-
-            if (term) {
-                sections = filterSections(term, sections)
-            }
+        if (fulfilled && term) {
+            sections = filterSections(term, sections)
         }
 
         return (
             <Fragment>
-                {loading ? (
+                {pending ? (
                     <Loading>Loading definitions...</Loading>
                 ) : sections.length === 0 ? (
                     <Muted>No definition matches your criteria.</Muted>
                 ) : null}
-                <TagSet>
-                    {sections.map(({ letter }) => (
-                        <LetterTag key={letter} letter={letter} />
-                    ))}
-                </TagSet>
-                {sections.map(renderSection)}
+                {fulfilled && (
+                    <TagSet>
+                        {sections.map(({ letter }) => (
+                            <LetterTag key={letter} letter={letter} />
+                        ))}
+                    </TagSet>
+                )}
+                {fulfilled && sections.map(renderSection)}
             </Fragment>
         )
     }
