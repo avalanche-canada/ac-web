@@ -1,15 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Media.css'
+import classnames from 'classnames'
 
 Media.propTypes = {
     caption: PropTypes.node,
+    className: PropTypes.string,
     children: PropTypes.node,
 }
 
-export default function Media({ caption, children }) {
+export default function Media({ caption, className, children }) {
     return (
-        <figure className={styles.Container}>
+        <figure className={classnames(styles.Container, className)}>
             {children}
             {caption}
         </figure>

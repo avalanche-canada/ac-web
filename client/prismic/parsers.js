@@ -40,8 +40,8 @@ function parseSliceZone(slices = []) {
     return slices.map(parseSlice)
 }
 
-function parseData(data, transformer = identity) {
-    return transformer({
+function parseData(data) {
+    return {
         ...Object.keys(data).reduce((object, key) => {
             const camelCaseKey = camelCase(key)
 
@@ -49,11 +49,11 @@ function parseData(data, transformer = identity) {
 
             return object
         }, {}),
-    })
+    }
 }
 
-function parseGroup(group, transformer) {
-    return group.map(item => parseData(item, transformer))
+function parseGroup(group) {
+    return group.map(item => parseData(item))
 }
 
 function parseDocument(document, transformer = identity) {

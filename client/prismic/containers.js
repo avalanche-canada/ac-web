@@ -10,6 +10,7 @@ import * as params from 'prismic/params'
 import { status } from 'services/fetch/utils'
 import parse from './parsers'
 import { FEED } from 'constants/prismic'
+import { FR, EN } from 'constants/locale'
 
 class MasterRef extends Component {
     static CACHE = new Cache(60 * 1000)
@@ -29,9 +30,15 @@ class Search extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
         predicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+        locale: PropTypes.oneOf([FR, EN]),
     }
     withMasterRef = ref => {
-        const { children, predicates, ...options } = this.props
+        const { children, predicates, locale, ...options } = this.props
+
+        if (locale === FR) {
+            Object.assign(options, { lang: 'fr-ca' })
+        }
+
         const request = requests.search(ref, predicates, options)
 
         return (
@@ -85,11 +92,13 @@ export class Document extends Component {
             })
         )
     render() {
-        return <Search {...this.props}>{this.children}</Search>
+        const { children, ...props } = this.props
+
+        return <Search {...props}>{this.children}</Search>
     }
 }
 
-// TODO: Not sure if this class is needed! We could use Document.
+// TODO: Not sure if this class is needed! We could use Document instead.
 export class DocumentByUID extends Component {
     static propTypes = {
         children: PropTypes.func,
@@ -97,11 +106,9 @@ export class DocumentByUID extends Component {
         uid: PropTypes.string.isRequired,
     }
     render() {
-        return (
-            <Document {...params.uid(this.props)}>
-                {this.props.children}
-            </Document>
-        )
+        const { children, ...props } = this.props
+
+        return <Document {...params.uid(props)}>{children}</Document>
     }
 }
 

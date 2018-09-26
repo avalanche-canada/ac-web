@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Section as Base } from 'components/page'
-import { StructuredText, Link } from 'prismic/components/base'
+import { StructuredText } from 'prismic/components/base'
 
 export default class Section extends PureComponent {
     static propTypes = {

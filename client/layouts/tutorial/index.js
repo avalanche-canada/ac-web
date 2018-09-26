@@ -1,24 +1,36 @@
-import React, { Component } from 'react'
-import Bundle from 'components/Bundle'
+import React from 'react'
+import { Document } from 'prismic/containers'
+import { tutorial } from 'prismic/params'
 import { Loading } from 'components/text'
-import { Page, Content } from 'components/page'
-import loadLayout from 'bundle-loader?lazy!./Layout'
+import Bundle from 'components/Bundle'
+import load from 'bundle-loader?lazy!./layout'
+import * as Page from 'components/page'
+import { FR, EN } from 'constants/locale'
 
-export default class Tutorial extends Component {
-    renderer = Component =>
-        Component ? (
-            // TODO: Avoid passing location...
-            <Component location={this.props.location} />
-        ) : (
-            <Page>
-                <Content>
-                    <h1>
-                        <Loading />
-                    </h1>
-                </Content>
-            </Page>
-        )
-    render() {
-        return <Bundle load={loadLayout}>{this.renderer}</Bundle>
-    }
+export default function Tutorial(props) {
+    const locale = props.match.path === '/tutoriel' ? FR : EN
+
+    return (
+        <Bundle load={load}>
+            {Component => (
+                <Document {...tutorial.home()} locale={locale}>
+                    {({ document }) => {
+                        const loaded = document && Component
+
+                        return loaded ? (
+                            <Component {...props} />
+                        ) : (
+                            <Page.Page>
+                                <Page.Content>
+                                    <h1>
+                                        <Loading />
+                                    </h1>
+                                </Page.Content>
+                            </Page.Page>
+                        )
+                    }}
+                </Document>
+            )}
+        </Bundle>
+    )
 }

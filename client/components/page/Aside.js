@@ -6,6 +6,10 @@ Aside.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export default function Aside({ children }) {
-    return <aside className={styles.Aside}>{children}</aside>
+export default function Aside({ children, ...props }) {
+    return (
+        <aside className={styles.Aside} {...props}>
+            {children}
+        </aside>
+    )
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Children, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Media, Caption } from 'components/media'
 import { StructuredText, Image as Base } from 'prismic/components/base'
@@ -17,17 +17,11 @@ export default class Image extends PureComponent {
         }).isRequired,
         fullscreen: PropTypes.bool,
     }
-    state = {
-        target: null,
-    }
-    setTarget = base => {
-        if (!base) {
-            return
+    target = createRef()
+    componentDidMount() {
+        if (this.props.fullscreen) {
+            this.forceUpdate()
         }
-
-        this.setState({
-            target: base.image,
-        })
     }
     render() {
         const { fullscreen } = this.props
@@ -35,15 +29,16 @@ export default class Image extends PureComponent {
 
         return (
             <Media>
-                <Base ref={this.setTarget} {...image.main} credit={credit} />
-                <div className={styles.ImageToolbar}>
-                    {caption && (
+                <Base ref={this.target} {...image.main} credit={credit} />
+                <Toolbar>
+                    {caption?.length > 0 && (
                         <Caption>
                             <StructuredText value={caption} />
                         </Caption>
                     )}
                     {fullscreen && (
-                        <Fullscreen target={this.state.target}>
+                        <Fullscreen
+                            target={this.target?.current?.image?.current}>
                             {({ toggle }) => (
                                 <Button kind={INCOGNITO} onClick={toggle}>
                                     <Icon color={PRIMARY} />
@@ -51,8 +46,14 @@ export default class Image extends PureComponent {
                             )}
                         </Fullscreen>
                     )}
-                </div>
+                </Toolbar>
             </Media>
         )
     }
+}
+
+function Toolbar({ children }) {
+    return Children.count(children) === 0 ? null : (
+        <div className={styles.Toolbar}>{children}</div>
+    )
 }

@@ -1,0 +1,13 @@
+.Media {
+    position: relative;
+}
+
+.GoodJob {
+    composes: import Yep from './ATESExercise.css';
+    margin: 0;
+}
+
+.NotSoGoodJob {
+    composes: import Nope from './ATESExercise.css';
+    margin: 0;
+}

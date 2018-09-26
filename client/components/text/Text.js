@@ -34,3 +34,11 @@ export function Helper({ children, ...props }) {
         </span>
     )
 }
+
+export function Warning({ children, ...props }) {
+    return (
+        <p className={styles.Warning} {...props}>
+            {children}
+        </p>
+    )
+}

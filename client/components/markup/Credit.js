@@ -1,40 +1,46 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
+import { Toggle } from 'react-powerplug'
 import classnames from 'classnames/bind'
+import Dimensions from 'components/Dimensions'
 import styles from './Credit.css'
 
 export default class Credit extends PureComponent {
     static propTypes = {
         children: PropTypes.string.isRequired,
         compact: PropTypes.bool,
+        top: PropTypes.bool,
     }
-    state = {
-        expanded: false,
+    static Managed = class Managed extends PureComponent {
+        renderContent = ({ width }) =>
+            createElement(Credit, {
+                ...this.props,
+                compact: width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT,
+            })
+        render() {
+            return <Dimensions>{this.renderContent}</Dimensions>
+        }
     }
     classnames = classnames.bind(styles)
-    toggle = () => this.setState(toggle)
-    get className() {
-        return this.classnames({
+    renderContent = ({ on, toggle }) => {
+        const { top, compact } = this.props
+        const className = this.classnames({
             Credit: true,
-            Compact: this.props.compact,
-            Expanded: this.state.expanded,
+            Compact: compact,
+            Expanded: on,
+            Top: top,
         })
-    }
-    render() {
+
         return (
-            <span
-                data-label="Credit"
-                className={this.className}
-                onClick={this.toggle}>
+            <span data-label="Credit" className={className} onClick={toggle}>
                 {this.props.children}
             </span>
         )
     }
-}
-
-// Utils
-function toggle({ expanded }) {
-    return {
-        expanded: !expanded,
+    render() {
+        return <Toggle>{this.renderContent}</Toggle>
     }
 }
+
+// Constants
+const MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT = 250

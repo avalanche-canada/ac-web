@@ -5,8 +5,8 @@ import {
     NEWS,
     GENERIC,
     STATIC_PAGE,
-    TUTORIAL_PAGE,
     DEFINITION,
+    TUTORIAL_ARTICLE,
 } from 'constants/prismic'
 
 export function title(document = {}) {
@@ -27,7 +27,7 @@ export function title(document = {}) {
     }
 }
 
-export function pathname({ type, uid, slug }) {
+export function pathname({ type, uid, slug, lang }) {
     switch (type) {
         case EVENT:
             return `/events/${uid}`
@@ -38,8 +38,8 @@ export function pathname({ type, uid, slug }) {
         case GENERIC:
         case STATIC_PAGE:
             return `/pages/${type}/${uid}`
-        case TUTORIAL_PAGE:
-            return `/tutorial?slug=${slug}`
+        case TUTORIAL_ARTICLE:
+            return `/${lang === 'fr-ca' ? 'tutoriel' : 'tutorial'}?uid=${uid}`
         case DEFINITION:
             return `/glossary#${uid}`
         default:

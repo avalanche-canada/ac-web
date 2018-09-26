@@ -29,7 +29,7 @@ export default class SPAW extends PureComponent {
         return (
             <Banner>
                 <Highlight
-                    style={DANGER}
+                    type={DANGER}
                     onDismiss={this.handleDismiss}
                     dismissable>
                     {link ? <Link {...link}>{content}</Link> : content}

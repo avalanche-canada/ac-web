@@ -1,4 +1,7 @@
-.ImageToolbar {
+@import '../../../../styles/colors.css';
+
+.Toolbar {
     display: flex;
     justify-content: space-between;
+    background-color: var(--gray-lighter);
 }

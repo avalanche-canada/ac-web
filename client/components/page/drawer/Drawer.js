@@ -36,9 +36,9 @@ export default class Drawer extends Component {
     }
     render() {
         return (
-            <div style={this.style} className={this.className}>
+            <section style={this.style} className={this.className}>
                 {this.props.children}
-            </div>
+            </section>
         )
     }
 }

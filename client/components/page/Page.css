@@ -217,15 +217,6 @@
     }
 }
 
-.WorkInProgress {
-    composes: Background;
-
-    &:after {
-        background-image: url('//res.cloudinary.com/avalanche-ca/image/upload/c_crop,g_xy_center,h_3250,q_25,w_5370/v1476221240/03_14_15_AvCan_0101_tnszks.jpg');
-        opacity: 0.35;
-    }
-}
-
 .Link {
     composes: import Large from '../button/Button.css';
     composes: import Primary from '../button/Button.css';

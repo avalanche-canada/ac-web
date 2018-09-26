@@ -9,6 +9,8 @@ import endOfMonth from 'date-fns/end_of_month'
 import * as Predicates from 'prismic/predicates'
 import * as types from 'constants/prismic'
 
+// TODO: Find a way to reduce file size here!!!
+
 export function uid({ type, uid }) {
     return {
         predicates: [Predicates.uid(type, uid)],
@@ -62,10 +64,16 @@ export const mw = {
     },
 }
 
-export function tutorial(slug) {
-    return {
-        predicates: [Predicates.field(types.TUTORIAL_PAGE, 'slug', slug)],
-    }
+export const tutorial = {
+    article(id) {
+        return uid({
+            type: types.TUTORIAL_ARTICLE,
+            uid: id,
+        })
+    },
+    home() {
+        return all(types.TUTORIAL)
+    },
 }
 
 export function sponsor(id) {

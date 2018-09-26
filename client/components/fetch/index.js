@@ -18,12 +18,12 @@ export default class Fetch extends Component {
             children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
                 .isRequired,
         }
-        children = ({ loading }) => {
+        children = ({ pending }) => {
             const { children } = this.props
 
             return typeof children === 'function'
-                ? children(loading)
-                : loading
+                ? children(pending)
+                : pending
                     ? children
                     : null
         }
@@ -46,7 +46,8 @@ export default class Fetch extends Component {
         }
     }
     state = {
-        loading: false,
+        pending: false,
+        fulfilled: this.cache.has(this.url),
         data: this.cache.get(this.url),
     }
     get cache() {
@@ -56,39 +57,46 @@ export default class Fetch extends Component {
         return this.props.request.url
     }
     fulfill = data => {
-        this.setState({ loading: false, data }, () => {
+        this.setState({ pending: false, fulfilled: true, data }, () => {
             this.cache.set(this.url, data)
             FETCHING.delete(this.url)
         })
     }
     reject = error => {
-        this.setState({ loading: false, data: undefined }, () => {
-            FETCHING.delete(this.url)
-        })
+        this.setState(
+            { pending: false, fulfilled: true, data: undefined },
+            () => {
+                FETCHING.delete(this.url)
+            }
+        )
 
         throw error
     }
     fetch() {
         if (this.cache.has(this.url)) {
             this.setState({
-                loading: false,
+                pending: false,
+                fulfilled: true,
                 data: this.cache.get(this.url),
             })
         } else {
-            this.setState({ loading: true, data: undefined }, () => {
-                const { url } = this
-                let fetching
+            this.setState(
+                { pending: true, fulfilled: false, data: undefined },
+                () => {
+                    const { url } = this
+                    let fetching
 
-                if (FETCHING.has(url)) {
-                    fetching = FETCHING.get(url)
-                } else {
-                    fetching = fetch(this.props.request).then(status)
+                    if (FETCHING.has(url)) {
+                        fetching = FETCHING.get(url)
+                    } else {
+                        fetching = fetch(this.props.request).then(status)
 
-                    FETCHING.set(url, fetching)
+                        FETCHING.set(url, fetching)
+                    }
+
+                    fetching.then(this.fulfill, this.reject)
                 }
-
-                fetching.then(this.fulfill, this.reject)
-            })
+            )
         }
     }
     componentDidUpdate({ request }) {
@@ -99,13 +107,20 @@ export default class Fetch extends Component {
     componentDidMount() {
         this.fetch()
     }
+    get params() {
+        return {
+            ...this.state,
+            // TODO: Remove loading
+            loading: this.state.pending, // Backward compatibility
+        }
+    }
     render() {
         const { children } = this.props
 
         return (
-            <Provider value={this.state}>
+            <Provider value={this.params}>
                 {typeof children === 'function'
-                    ? children(this.state)
+                    ? children(this.params)
                     : children}
             </Provider>
         )

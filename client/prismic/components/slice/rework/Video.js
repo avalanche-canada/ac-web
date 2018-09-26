@@ -16,8 +16,8 @@ export default class Video extends PureComponent {
 
         return (
             <Media>
-                <Embed {...video} />
-                {caption && (
+                <Embed oembed={video.oembed} />
+                {caption.length > 0 && (
                     <Caption>
                         <StructuredText value={caption} />
                     </Caption>

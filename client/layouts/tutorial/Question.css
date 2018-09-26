@@ -1,0 +1,38 @@
+@import '../../styles/colors.css';
+
+.AllAnswers {
+    margin: 0.5em 0;
+
+    & > header {
+        font-weight: 700;
+    }
+
+    & > dl {
+        display: flex;
+
+        & > * {
+            flex: 1;
+            background-color: var(--gray-lightest);
+
+            &:first-child {
+                margin-right: 0.25em;
+            }
+        }
+
+        & dt {
+            text-align: center;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.5em 0;
+        }
+
+        & dd {
+            margin: 1em;
+            white-space: pre-wrap;
+        }
+    }
+}
+
+.Button {
+    float: right;
+}

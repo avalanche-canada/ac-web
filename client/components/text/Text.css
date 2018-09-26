@@ -16,3 +16,7 @@
     cursor: help;
     border-bottom: 1px dotted var(--gray);
 }
+
+.Warning {
+    color: #ec971f;
+}

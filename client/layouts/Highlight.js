@@ -30,7 +30,7 @@ export default class Highlight extends PureComponent {
         return (
             <Banner>
                 <Component
-                    style={style}
+                    type={style}
                     onDismiss={this.handleDismiss}
                     dismissable>
                     {link ? <Link {...link}>{content}</Link> : content}

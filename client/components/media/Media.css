@@ -1,24 +1,31 @@
 @import '../../styles/colors.css';
 
 .Container {
-    background-color: var(--gray-lighter);
-    border: 4px solid var(--gray-lighter);
-    color: var(--gray-darker);
-    /* If you change the display: look at the gear page: http://www.avalanche.ca/gear. It was set to display: inline-block before.  */
+    /* If you change the display: look at the gear page: https://www.avalanche.ca/gear. It was set to display: inline-block before.  */
     display: block;
+    color: var(--gray-darker);
     margin: 0;
     padding: 0;
 }
 
 .Caption {
+    width: 100%;
     padding: 1em;
+    box-sizing: border-box;
     background-color: var(--gray-lighter);
 
-    & p {
+    & > p {
         margin: 0;
     }
 }
 
-.Image {
-    composes: Container;
+:global(.image-gallery) {
+    & .Caption > p {
+        /* FIXME: So weird the styling here. line-height!!! */
+        margin: 0.5em 0;
+    }
+}
+
+.Container + .Container {
+    margin-top: 1em;
 }

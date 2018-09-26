@@ -2,15 +2,16 @@
 
 .Figure {
     position: relative;
-    display: inline-block;
     margin: 0;
     background-color: transparent;
 }
 
 .Image {
-    margin: 0;
+    display: block;
+    margin: 0 auto;
     opacity: 1;
     transition: opacity 1s;
+    max-width: 100%;
 }
 
 .Figure--Loading {
@@ -22,4 +23,8 @@
     & .Image {
         opacity: 0;
     }
+}
+
+.Figure + .Figure {
+    margin-top: 1em;
 }
