@@ -30,5 +30,9 @@ Frontend
 
 Testing all urls possibilities
 Look at all <Link>s
-Look at the Glossary > finish searching, it is slow and does not handle changes well
-Merge new Tutorial
+Merge new Tutorial and test
+
+# General
+
+-   Glossary
+    -   When there is filter, related link are visible, but the definition might not be. Need a way, so the user can still link to these definitions
