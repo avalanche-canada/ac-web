@@ -28,7 +28,7 @@ Frontend
 
 # React Router replacement
 
-Close/Open Drawer > mobile + desktop. It is not working well. There is too much rerenders happening.
 Testing all urls possibilities
 Look at all <Link>s
 Look at the Glossary > finish searching, it is slow and does not handle change well
+Merge new Tutorial
