@@ -200,11 +200,6 @@ export default class AvalancheCanada extends StaticComponent {
                                     title="Privacy Policy"
                                 />
                                 <Generic
-                                    path="privacy-policy"
-                                    uid="privacy-policy"
-                                    title="Privacy Policy"
-                                />
-                                <Generic
                                     path="terms-of-use"
                                     uid="terms-of-use"
                                     title="Terms of use"
