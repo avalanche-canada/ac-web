@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Switch, Route, Link, Redirect } from 'react-router-dom'
+import { Router, Link, Redirect, Location } from '@reach/router'
 import { Document } from 'prismic/containers'
 import { tutorial } from 'prismic/params'
 import * as Page from 'components/page'
@@ -34,23 +34,22 @@ import { FR, EN } from 'constants/locale'
 
 export default class Layout extends Component {
     static propTypes = {
-        match: PropTypes.object.isRequired,
         location: PropTypes.object.isRequired,
     }
     state = {
-        locale: getLocaleFromMatch(this.props.match),
+        locale: getLocaleFromProps(this.props),
         dictionnaries,
     }
-    componentDidUpdate({ match }) {
-        if (match.path !== this.props.match.path) {
+    componentDidUpdate(nextProps) {
+        if (nextProps['*'] !== this.props['*']) {
             this.setState({
-                locale: getLocaleFromMatch(this.props.match),
+                locale: getLocaleFromProps(this.props),
             })
         }
     }
     renderContent = ({ document }) => {
-        const { match } = this.props
-        const { isExact, path } = match
+        const { path, uri } = this.props
+        const isExact = path === uri
         const title = document?.data?.title[0]?.text
 
         return (
@@ -60,13 +59,13 @@ export default class Layout extends Component {
                     items={document?.data?.items}
                     title={title}
                 />
-                <Content match={match}>
+                <Content>
                     <h1>
                         {title ? (
                             isExact ? (
                                 title
                             ) : (
-                                <Link to={path}>{title}</Link>
+                                <Link to={uri}>{title}</Link>
                             )
                         ) : (
                             <Loading />
@@ -125,16 +124,14 @@ class Sidebar extends Component {
     toggleDrawer = () => this.setState(toggleDrawer)
     closeDrawer = () => this.setState({ open: false })
     get tree() {
+        const { path } = this.props
+
         return (
-            <Route>
-                {({ match }) => (
-                    <Tree>
-                        {this.props.items
-                            .reduce(reduceTreeNode, [])
-                            .map(node => renderTreeNode(node, match.url))}
-                    </Tree>
-                )}
-            </Route>
+            <Tree>
+                {this.props.items
+                    .reduce(reduceTreeNode, [])
+                    .map(node => renderTreeNode(node, path))}
+            </Tree>
         )
     }
     render() {
@@ -182,7 +179,7 @@ class Sidebar extends Component {
 }
 
 class Content extends Component {
-    redirect = ({ location, match }) => {
+    redirect = ({ location }) => {
         const params = new URLSearchParams(location.search)
 
         return params.has('uid') ? (
@@ -223,7 +220,7 @@ class Content extends Component {
                                 level = level - 1
                             } while (level > 0)
 
-                            paths.push(match.path)
+                            paths.push(location.pathname)
 
                             return <Redirect to={paths.reverse().join('/')} />
                         }}
@@ -233,33 +230,27 @@ class Content extends Component {
         ) : null
     }
     render() {
-        const { children, match } = this.props
+        const { children } = this.props
 
         return (
             <Page.Main style={CONTENT_STYLE}>
                 {children}
-                <Switch>
-                    <Route exact path={match.path} component={Home} />
-                    <Route path={`${match.path}/:uids+`} component={Tutorial} />
-                </Switch>
-                <Route exact path={match.path}>
-                    {this.redirect}
-                </Route>
+                <Router>
+                    <Home path="/" />
+                    <Tutorial path="/*" />
+                </Router>
+                <Location>{this.redirect}</Location>
             </Page.Main>
         )
     }
 }
 
 class Home extends Component {
-    static propTypes = {
-        match: PropTypes.object.isRequired,
-    }
     renderContent = ({ document }) => {
         if (!document) {
             return null
         }
 
-        const { match } = this.props
         const [first] = document.data.items
 
         return (
@@ -270,7 +261,7 @@ class Home extends Component {
                 />
                 <Pager>
                     <Next
-                        to={`${match.url}/${getUIDFromMenuItem(first)}`}
+                        to={`${getUIDFromMenuItem(first)}`}
                         subtitle={<Translate>Start with</Translate>}>
                         {first.title}
                     </Next>
@@ -292,10 +283,11 @@ class Home extends Component {
 }
 class Tutorial extends Component {
     static propTypes = {
-        match: PropTypes.object.isRequired,
+        ['*']: PropTypes.string.isRequired,
+        uri: PropTypes.string.isRequired,
     }
     get uid() {
-        const parts = this.props.match.params.uids.split('/')
+        const parts = this.props['*'].split('/')
 
         return parts[parts.length - 1]
     }
@@ -304,7 +296,6 @@ class Tutorial extends Component {
             return null
         }
 
-        const { match } = this.props
         const { items, title } = document.data
         const { uid } = this
         const item = items.find(item => getUIDFromMenuItem(item) === uid)
@@ -312,22 +303,18 @@ class Tutorial extends Component {
         const previous = items[index - 1]
         const next = items[index + 1]
         const previousSubtitle = previous ? 'Previous' : 'Back to'
-        const [root] = match.path.split('/').filter(Boolean)
+        const { uri } = this.props
 
         return (
             <Pager>
                 <Previous
-                    to={
-                        previous
-                            ? buildNodeLink(previous, items, `/${root}`)
-                            : `/${root}`
-                    }
+                    to={previous ? buildNodeLink(previous, items, uri) : uri}
                     subtitle={<Translate>{previousSubtitle}</Translate>}>
                     {previous ? previous.title : title[0].text}
                 </Previous>
                 {next && (
                     <Next
-                        to={buildNodeLink(next, items, `/${root}`)}
+                        to={buildNodeLink(next, items, uri)}
                         subtitle={<Translate>Next</Translate>}>
                         {next.title}
                     </Next>
@@ -366,7 +353,7 @@ class Tutorial extends Component {
             return document ? (
                 this.renderTutorial(document)
             ) : (
-                <NoDocument uid={this.uid} />
+                <NoDocument uid={this.uid} uri={this.props.uri} />
             )
         }
 
@@ -387,6 +374,7 @@ class Tutorial extends Component {
 class NoDocument extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
+        uri: PropTypes.string.isRequired,
     }
     getTitle(document) {
         return document ? document.data.title[0].text : null
@@ -404,7 +392,7 @@ class NoDocument extends Component {
 
         return item ? item.title : uid
     }
-    renderContent({ document }, locale) {
+    renderContent = ({ document }) => {
         return (
             <Fragment>
                 <Warning>
@@ -413,7 +401,7 @@ class NoDocument extends Component {
                 </Warning>
                 <Pager>
                     <Next
-                        to={locale === FR ? '/tutoriel' : '/tutorial'}
+                        to={this.props.uri}
                         subtitle={<Translate>Visit the</Translate>}>
                         {this.getTitle(document)}
                     </Next>
@@ -426,7 +414,7 @@ class NoDocument extends Component {
             <LocaleContext.Locale>
                 {locale => (
                     <Document {...tutorial.home()} locale={locale}>
-                        {props => this.renderContent(props, locale)}
+                        {this.renderContent}
                     </Document>
                 )}
             </LocaleContext.Locale>
@@ -496,8 +484,8 @@ function toggleDrawer({ open }) {
         open: !open,
     }
 }
-function getLocaleFromMatch(match) {
-    return match.path === '/tutoriel' ? FR : EN
+function getLocaleFromProps({ path }) {
+    return path === '/tutoriel' ? FR : EN
 }
 
 // Styles

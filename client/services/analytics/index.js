@@ -47,7 +47,7 @@ export function notFound({ pathname }) {
 export default class Analytics extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
-        children: PropTypes.element,
+        children: PropTypes.element.isRequired,
     }
     log() {
         ga.pageview(this.props.location.pathname)

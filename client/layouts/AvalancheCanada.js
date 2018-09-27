@@ -205,17 +205,6 @@ export default class AvalancheCanada extends StaticComponent {
                                     uid="terms-of-use"
                                     title="Terms of use"
                                 />
-                                <Page.WorkInProgress
-                                    path="tutoriel"
-                                    name="French Tutorial / Tutoriel"
-                                    oldUrl="http://old.avalanche.ca/fr/cac/training/online-course"
-                                    title={defaultTitle =>
-                                        `${defaultTitle}<br />Nous travaillons présentement sur cette page...`
-                                    }
-                                    subtitle={defaultSubtitle =>
-                                        `${defaultSubtitle}<br />Pour l'instant, vous pouvez consulter cette page sur notre ancien site.`
-                                    }
-                                />
                                 <Pages path="pages" />
                                 <Page.NotFound default />
                             </Router>

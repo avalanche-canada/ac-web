@@ -8,7 +8,7 @@ import * as Page from 'components/page'
 import { FR, EN } from 'constants/locale'
 
 export default function Tutorial(props) {
-    const locale = props.match.path === '/tutoriel' ? FR : EN
+    const locale = props.path === '/tutoriel' ? FR : EN
 
     return (
         <Bundle load={load}>

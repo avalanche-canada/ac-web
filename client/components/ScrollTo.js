@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 
 export default class ScrollTo extends Component {
     static propTypes = {
-        location: PropTypes.object,
+        location: PropTypes.object.isRequired,
+        children: PropTypes.element.isRequired,
         x: PropTypes.number,
         y: PropTypes.number,
-        children: PropTypes.element,
     }
     static defaultProps = {
         x: 0,

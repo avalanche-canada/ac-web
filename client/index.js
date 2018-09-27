@@ -9,8 +9,8 @@ import ReactDOM from 'react-dom'
 import { Router, Match, Redirect, Location } from '@reach/router'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
-import configureRaven from 'services/raven'
 import Analytics from 'services/analytics'
+import configureRaven from 'services/raven'
 
 import 'styles'
 

@@ -49,49 +49,40 @@ export class Node extends Component {
         cloneElement(node, {
             level: this.props.level + 1,
         })
+    getLinkProps = ({ isPartiallyCurrent }) => ({
+        className: classNames({
+            Node: true,
+            Active: isPartiallyCurrent,
+        }),
+    })
     render() {
         let { isExpanded } = this.state
         const { children, link, title, onClick } = this.props
         const hasChildren = Children.count(children) > 0
 
         return (
-            <Route>
-                {({ location }) => {
-                    if (!isExpanded && location.pathname !== link) {
-                        isExpanded = location.pathname.startsWith(link)
-                    }
-
-                    return (
-                        <Fragment>
-                            <NavLink
-                                to={link || '#'}
-                                title={title}
-                                onClick={onClick}
-                                style={this.style}
-                                activeClassName={styles.Active}
-                                className={styles.Node}>
-                                <div
-                                    className={classNames({
-                                        NodeControl: true,
-                                        Expanded: isExpanded,
-                                    })}>
-                                    {hasChildren && (
-                                        <Control
-                                            onClick={this.handleExpandClick}
-                                        />
-                                    )}
-                                </div>
-                                <div className={styles.Label}>
-                                    {this.props.label}
-                                </div>
-                            </NavLink>
-                            {hasChildren &&
-                                isExpanded &&
-                                Children.map(children, this.cloneChildNode)}
-                        </Fragment>
-                    )
-                }}
-            </Route>
+            <Fragment>
+                <Link
+                    to={link || '#'}
+                    title={title}
+                    onClick={onClick}
+                    style={this.style}
+                    getProps={this.getLinkProps}>
+                    <div
+                        className={classNames({
+                            NodeControl: true,
+                            Expanded: isExpanded,
+                        })}>
+                        {hasChildren && (
+                            <Control onClick={this.handleExpandClick} />
+                        )}
+                    </div>
+                    <div className={styles.Label}>{this.props.label}</div>
+                </Link>
+                {hasChildren &&
+                    isExpanded &&
+                    Children.map(children, this.cloneChildNode)}
+            </Fragment>
         )
     }
 }
