@@ -2,7 +2,7 @@ import React, { createContext, Component } from 'react'
 import PropTypes from 'prop-types'
 import Service from 'services/auth/auth0'
 import Accessor from 'services/auth/accessor'
-import * as Raven from 'services/raven'
+import { setUserContext } from 'services/sentry'
 
 const AuthContext = createContext()
 
@@ -66,7 +66,7 @@ export class Provider extends Component {
         const { profile } = this.state
 
         if (profile) {
-            Raven.setUserContext(profile)
+            setUserContext(profile)
         }
     }
     componentDidMount() {

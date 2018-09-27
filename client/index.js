@@ -10,11 +10,9 @@ import { Router, Match, Redirect, Location } from '@reach/router'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import Analytics from 'services/analytics'
-import configureRaven from 'services/raven'
+import 'services/sentry'
 
 import 'styles'
-
-configureRaven()
 
 ReactDOM.render(
     <Location>{application}</Location>,

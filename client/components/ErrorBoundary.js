@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { isRedirect } from '@reach/router'
-import { captureException } from 'services/raven'
+import { captureException } from 'services/sentry'
 
 export default class ErrorBoundary extends Component {
     static propTypes = {
