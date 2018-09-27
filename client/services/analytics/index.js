@@ -1,47 +1,18 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import ga from 'react-ga'
 import supported from '@mapbox/mapbox-gl-supported'
-import { googleAnalyticsId } from './config.json'
-
-// Set in the google analytics custom dimentions
-//  Needs to use the dimention<n> settings
-//  it will be named correctly in the UI
-const MAPBOXGL_SUPPORTED = 'dimension1'
-
-const options = process.env.NODE_ENV === 'production' ? {} : { debug: true }
-
-ga.initialize(googleAnalyticsId, options)
-
-ga.set({
-    [MAPBOXGL_SUPPORTED]: supported(),
-})
 
 // From: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 export function handleOutboundSponsorClick(event) {
-    ga.event({
-        category: 'Navigation',
-        action: 'Outbound Sponsor',
-        label: event.currentTarget.href,
-        transport: 'beacon',
-    })
+    navigation('Outbound Sponsor', event.currentTarget.href)
 }
 
 export function handleForecastTabActivate(label) {
-    ga.event({
-        category: 'Navigation',
-        action: 'Forecast Tab activation',
-        label,
-    })
+    navigation('Forecast Tab activation', label)
 }
 
 export function notFound({ pathname }) {
-    ga.event({
-        category: 'Navigation',
-        action: 'Not Found',
-        label: pathname,
-        nonInteraction: true,
-    })
+    navigation('Not Found', pathname, { nonInteraction: true })
 }
 
 export default class Analytics extends Component {
@@ -50,9 +21,13 @@ export default class Analytics extends Component {
         children: PropTypes.element.isRequired,
     }
     log() {
-        ga.pageview(this.props.location.pathname)
+        const { pathname } = this.props.location
+
+        ga('send', 'pageview', pathname)
     }
     componentDidMount() {
+        ga('set', 'transport', 'beacon')
+        ga('set', MAPBOXGL_SUPPORTED, supported().toString())
         this.log()
     }
     componentDidUpdate({ location }) {
@@ -63,4 +38,11 @@ export default class Analytics extends Component {
     render() {
         return this.props.children
     }
+}
+
+// Utils and constants
+const { ga } = window
+const MAPBOXGL_SUPPORTED = 'dimension1'
+function navigation(...args) {
+    ga('send', 'event', 'Navigation', ...args)
 }

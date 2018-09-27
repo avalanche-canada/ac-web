@@ -15,5 +15,12 @@
             </div>
         <![endif]-->
         <div id="app"></div>
+        <!-- Google Analytics -->
+        <script>
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', '<%= googleAnalyticsId %>', 'auto');
+        </script>
+        <script async src='https://www.google-analytics.com/<%= googleAnalyticsFilename %>'></script>
+        <!-- End Google Analytics -->
     </body>
 </html>

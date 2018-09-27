@@ -1,6 +1,7 @@
 var path = require('path')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
+const { googleAnalyticsId } = require('./client/services/analytics/config.json');
 
 module.exports = {
     entry: path.resolve(__dirname, 'client/index.js'),
@@ -24,6 +25,10 @@ module.exports = {
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'client/index.tpl.html'),
+            templateParameters:{
+                googleAnalyticsId,
+                googleAnalyticsFilename: process.env.NODE_ENV === 'production' ? 'analytics.js' : 'analytics_debug.js',
+            },
         }),
     ],
 }
