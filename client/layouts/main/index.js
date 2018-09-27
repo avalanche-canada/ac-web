@@ -114,7 +114,7 @@ export default class Main extends Component {
     }
     handleMarkerClick = id => {
         const { location } = this.props
-        const path = `/${PATHS.get(TYPES.FORECASTS)}/${id}`
+        const path = `${PATHS.get(TYPES.FORECASTS)}/${id}`
 
         this.props.navigate(path + location.search)
     }
