@@ -116,7 +116,7 @@ export default class Main extends Component {
         const { location } = this.props
         const path = `/${PATHS.get(TYPES.FORECASTS)}/${id}`
 
-        this.props.navigate(uri + path + location.search)
+        this.props.navigate(path + location.search)
     }
     handleResize = event => {
         const { clientWidth } = event.target.getContainer()
@@ -239,7 +239,8 @@ class LinkControlSet extends PureComponent {
                     <Wrapper
                         key={index}
                         tooltip={tooltips[index]}
-                        placement="right">
+                        placement="right"
+                    >
                         {link}
                     </Wrapper>
                 ))}
