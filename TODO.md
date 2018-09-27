@@ -35,3 +35,7 @@ Look at all <Link>s, DONE
 
 -   Glossary
     -   When there is filter, related link are visible, but the definition might not be. Need a way, so the user can still link to these definitions
+
+# Upgrades
+
+-   React 16.5
