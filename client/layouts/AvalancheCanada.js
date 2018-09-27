@@ -194,6 +194,11 @@ export default class AvalancheCanada extends StaticComponent {
                                     uid="membership-overview"
                                     title="Membership Overview"
                                 />
+                                <StaticPage
+                                    path="privacy-policy"
+                                    uid="privacy-policy"
+                                    title="Privacy Policy"
+                                />
                                 <Generic
                                     path="privacy-policy"
                                     uid="privacy-policy"
