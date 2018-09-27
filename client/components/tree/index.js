@@ -1,6 +1,6 @@
 import React, { Component, Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
+import { Link, Location } from '@reach/router'
 import Button, { SUBTILE } from 'components/button'
 import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'
@@ -13,8 +13,16 @@ export default class Tree extends Component {
     static propTypes = {
         children: PropTypes.node,
     }
+    children = ({ location }) =>
+        Children.map(this.props.children, node =>
+            cloneElement(node, { location })
+        )
     render() {
-        return <div className={styles.Tree}>{this.props.children}</div>
+        return (
+            <div className={styles.Tree}>
+                <Location>{this.children}</Location>
+            </div>
+        )
     }
 }
 
@@ -27,6 +35,7 @@ export class Node extends Component {
         isExpanded: PropTypes.bool,
         children: PropTypes.arrayOf(PropTypes.node),
         level: PropTypes.number,
+        location: PropTypes.object.isRequired,
     }
     static defaultProps = {
         isExpanded: false,
@@ -40,6 +49,9 @@ export class Node extends Component {
             paddingLeft: this.props.level * 15,
         }
     }
+    get hasChildren() {
+        return Children.count(this.props.children) > 0
+    }
     handleExpandClick = event => {
         event.preventDefault()
         event.stopPropagation()
@@ -48,17 +60,28 @@ export class Node extends Component {
     cloneChildNode = node =>
         cloneElement(node, {
             level: this.props.level + 1,
+            location: this.props.location,
         })
-    getLinkProps = ({ isPartiallyCurrent }) => ({
-        className: classNames({
-            Node: true,
-            Active: isPartiallyCurrent,
-        }),
-    })
+    getLinkProps = ({ isPartiallyCurrent }) => {
+        return {
+            className: classNames({
+                Node: true,
+                Active: isPartiallyCurrent,
+            }),
+        }
+    }
+    get isExpanded() {
+        const { pathname } = this.props.location
+        const { link } = this.props
+
+        return (
+            this.state.isExpanded ||
+            (pathname.includes(link) && !pathname.endsWith(link))
+        )
+    }
     render() {
-        let { isExpanded } = this.state
+        const { hasChildren, isExpanded } = this
         const { children, link, title, onClick } = this.props
-        const hasChildren = Children.count(children) > 0
 
         return (
             <Fragment>

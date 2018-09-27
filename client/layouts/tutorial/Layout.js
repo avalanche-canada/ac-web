@@ -466,11 +466,11 @@ function buildNodeLink(node, nodes, root) {
     let level = Number(node.level) - 1
     const index = nodes.indexOf(node)
     const uids = [getUIDFromMenuItem(node)]
-    const previousItems = nodes.slice(0, index).reverse()
+    const previousItems = nodes.slice(0, index)
 
-    for (node of previousItems.slice(
-        Math.max(0, previousItems.length - level - 1)
-    )) {
+    previousItems.reverse()
+
+    for (node of previousItems) {
         if (node.level == level) {
             level = level - 1
             uids.unshift(getUIDFromMenuItem(node))
