@@ -42,13 +42,16 @@ export default class Layout extends Component {
         this.props.onLoad(event)
     }
     handleClick = ({ target, point }) => {
-        const [feature] = target.queryRenderedFeatures(point)
+        const [feature] = target.queryRenderedFeatures(point, {
+            layers: Array.from(LAYERS_KEYS),
+        })
 
         if (feature) {
             this.props.onFeatureClick(feature)
         }
     }
     renderLayer([key, layer]) {
+        LAYERS_KEYS.add(key)
         return createElement(LAYERS.get(key), {
             ...layer,
             key,
@@ -73,6 +76,7 @@ export default class Layout extends Component {
 }
 
 // Constants
+const LAYERS_KEYS = new Set()
 const TITLES = new Map([
     [TYPES.WEATHER_STATION, 'weather stations'],
     [TYPES.TOYOTA_TRUCK_REPORTS, 'Toyota Truck Report'],

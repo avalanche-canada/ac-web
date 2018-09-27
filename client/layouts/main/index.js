@@ -91,6 +91,7 @@ export default class Main extends Component {
                 null,
                 (error, features) => {
                     if (error) {
+                        // We do not really care if there is an errro
                         return
                     }
 
