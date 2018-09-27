@@ -28,9 +28,8 @@ Frontend
 
 # React Router replacement
 
-Testing all urls possibilities
-Look at all <Link>s
-Merge new Tutorial and test
+Testing all urls possibilities, DONE
+Look at all <Link>s, DONE
 
 # General
 
