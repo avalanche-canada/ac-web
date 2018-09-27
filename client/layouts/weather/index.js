@@ -10,9 +10,8 @@ export default function Weather() {
         <Router>
             <Redirect from="/" to="weather/forecast" />
             <MountainWeather path="forecast/*" />
-            <WeatherStationList path="stations">
-                <WeatherStation path=":id" />
-            </WeatherStationList>
+            <WeatherStationList path="stations" />
+            <WeatherStation path="stations/:id" />
         </Router>
     )
 }

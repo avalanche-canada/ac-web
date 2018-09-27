@@ -128,7 +128,6 @@ export default class AvalancheCanada extends StaticComponent {
                                     uid="early-season-conditions"
                                     title="Early Season Conditions"
                                 />
-                                <StaticPage path="faq" uid="faq" title="FAQ" />
                                 <TripPlanner path="planning/trip-planner" />
                                 <StaticPage
                                     path="planning/decision-making"
@@ -205,7 +204,7 @@ export default class AvalancheCanada extends StaticComponent {
                                     uid="terms-of-use"
                                     title="Terms of use"
                                 />
-                                <Pages path="pages" />
+                                <Pages path="pages/*" />
                                 <Page.NotFound default />
                             </Router>
                         </ErrorBoundary>
@@ -232,279 +231,387 @@ function Blogs() {
         </Router>
     )
 }
-function News() {
+function News({ uri }) {
     return (
         <Router>
             <Feed.NewsFeed path="/" />
             <Feed.Post path=":uid" type={NEWS} />
-            <Redirect from="V-r0EyYAACcAbkKw" to="register-now" />
+            <Redirect from="V-r0EyYAACcAbkKw" to={`${uri}/register-now`} />
             <Redirect
                 from="V8hpNyQAABuEOE6V"
-                to="avalanche-canada-has-brand-new-youth-tool-boxes-available"
+                to={`${uri}/avalanche-canada-has-brand-new-youth-tool-boxes-available`}
             />
             <Redirect
                 from="V9Br8SYAACcAzxmI"
-                to="calgary-foundation-grant-award"
+                to={`${uri}/calgary-foundation-grant-award`}
             />
-            <Redirect from="Vow8-R8AAFDJUq1b" to="transceiver-interference" />
-            <Redirect from="VEV1hyYAAKwITagl" to="annual-report-2014" />
+            <Redirect
+                from="Vow8-R8AAFDJUq1b"
+                to={`${uri}/transceiver-interference`}
+            />
+            <Redirect
+                from="VEV1hyYAAKwITagl"
+                to={`${uri}/annual-report-2014`}
+            />
             <Redirect
                 from="VIDCKCsAACcAgEpK"
-                to="donation-request-avalanche-canada"
+                to={`${uri}/donation-request-avalanche-canada`}
             />
             <Redirect
                 from="VL63mCUAACYAOeVo"
-                to="canuck-splitfest-fundraiser-success-2015"
+                to={`${uri}/canuck-splitfest-fundraiser-success-2015`}
             />
             <Redirect
                 from="VL7ZgiUAACMAOilw"
-                to="thunderstruck-fundraiser-donation-2015"
+                to={`${uri}/thunderstruck-fundraiser-donation-2015`}
             />
             <Redirect
                 from="VNASWCUAAJQpqGrY"
-                to="deep-winter-photo-challenge-fundraiser-2015"
+                to={`${uri}/deep-winter-photo-challenge-fundraiser-2015`}
             />
             <Redirect
                 from="VT_rPiYAACUAbasG"
-                to="mountain-weather-forecast-summer"
+                to={`${uri}/mountain-weather-forecast-summer`}
             />
-            <Redirect from="VftedR8AAIYAI8QW" to="acc-new-hut" />
-            <Redirect from="ViGKDCEAAEwWNpIz" to="agm-2015" />
+            <Redirect from="VftedR8AAIYAI8QW" to={`${uri}/acc-new-hut`} />
+            <Redirect from="ViGKDCEAAEwWNpIz" to={`${uri}/agm-2015`} />
             <Redirect
                 from="VHZlwSgAACYAw466"
-                to="boundary-changes-south-rockies"
+                to={`${uri}/boundary-changes-south-rockies`}
             />
             <Redirect
                 from="VH-XbykAACwAQbtc"
-                to="arcteryx-deep-winter-photo-challenge-2014"
+                to={`${uri}/arcteryx-deep-winter-photo-challenge-2014`}
             />
             <Redirect
                 from="VJIKXCcAACYAFiD-"
-                to="avalanche-awareness-days-2015"
+                to={`${uri}/avalanche-awareness-days-2015`}
             />
             <Redirect
                 from="VLbN0CMAALqmQ9tp"
-                to="introduction-mountain-information-network"
+                to={`${uri}/introduction-mountain-information-network`}
             />
-            <Redirect from="VRmZzR8AAOIMXMnP" to="agm-october-announcement" />
-            <Redirect from="VZ7psx0AAB0AuUBl" to="recall-bd-jetforce-airbag" />
+            <Redirect
+                from="VRmZzR8AAOIMXMnP"
+                to={`${uri}/agm-october-announcement`}
+            />
+            <Redirect
+                from="VZ7psx0AAB0AuUBl"
+                to={`${uri}/recall-bd-jetforce-airbag`}
+            />
             <Redirect
                 from="ViauYB0AAHAHUPr_"
-                to="new-support-craig-kelly-fund"
+                to={`${uri}/new-support-craig-kelly-fund`}
             />
-            <Redirect from="ViayAx0AAB4AURDZ" to="cora-shea-memorial-awards" />
+            <Redirect
+                from="ViayAx0AAB4AURDZ"
+                to={`${uri}/cora-shea-memorial-awards`}
+            />
             <Redirect
                 from="VkDizCEAAJsBkh2d"
-                to="bca-backcountry-basics-videos"
+                to={`${uri}/bca-backcountry-basics-videos`}
             />
             <Redirect
                 from="VDbtkScAAKUBPZm5"
-                to="introducing-avalanche-canada"
+                to={`${uri}/introducing-avalanche-canada`}
             />
             <Redirect
                 from="VH5GLSMAACcAc0vA"
-                to="snorider-brent-strand-announcement"
+                to={`${uri}/snorider-brent-strand-announcement`}
             />
-            <Redirect from="VIockywAACsA-wP3" to="forecasts-inbox-rss" />
+            <Redirect
+                from="VIockywAACsA-wP3"
+                to={`${uri}/forecasts-inbox-rss`}
+            />
             <Redirect
                 from="VL6NXiUAACYAOZA3"
-                to="announcement-new-mountain-weather-forecast"
+                to={`${uri}/announcement-new-mountain-weather-forecast`}
             />
             <Redirect
                 from="VP9AZR4AACQAlToR"
-                to="land-thundering-snow-launch"
+                to={`${uri}/land-thundering-snow-launch`}
             />
-            <Redirect from="VRrR-x8AAKBCX0JI" to="recall-ortovox-s1" />
+            <Redirect from="VRrR-x8AAKBCX0JI" to={`${uri}/recall-ortovox-s1`} />
             <Redirect
                 from="VQh-RikAACgA6K4B"
-                to="calgary-fundraiser-success-2015"
+                to={`${uri}/calgary-fundraiser-success-2015`}
             />
-            <Redirect from="VdNwyB8AAE4Ln13g" to="al-hodgson-memorial-fund" />
+            <Redirect
+                from="VdNwyB8AAE4Ln13g"
+                to={`${uri}/al-hodgson-memorial-fund`}
+            />
             <Redirect
                 from="VEbXGiYAACsAaNZV"
-                to="five-snowmobile-safety-messages"
+                to={`${uri}/five-snowmobile-safety-messages`}
             />
-            <Redirect from="VEbHaSYAACsAaLc_" to="tedx-talk-risk" />
-            <Redirect from="VH-KSykAACkAQaCR" to="baw-success-2014" />
+            <Redirect from="VEbHaSYAACsAaLc_" to={`${uri}/tedx-talk-risk`} />
+            <Redirect from="VH-KSykAACkAQaCR" to={`${uri}/baw-success-2014`} />
             <Redirect
                 from="VIivUisAACYAY0tp"
-                to="avalanche-canada-widget-update"
+                to={`${uri}/avalanche-canada-widget-update`}
             />
             <Redirect
                 from="VIoEBSwAACsA-tKL"
-                to="dramatic-rescue-clemina-creek"
+                to={`${uri}/dramatic-rescue-clemina-creek`}
             />
-            <Redirect from="VEVy9CYAACQATaL-" to="justin-trudeau-message" />
-            <Redirect from="VVtiryYAAOwJxyOO" to="recall-msr-snow-shovels" />
-            <Redirect from="VMgrmyUAAJQpmL6o" to="min-how-to-videos" />
-            <Redirect from="VjkZEB0AAB0AV7J4" to="annual-report-2015" />
+            <Redirect
+                from="VEVy9CYAACQATaL-"
+                to={`${uri}/justin-trudeau-message`}
+            />
+            <Redirect
+                from="VVtiryYAAOwJxyOO"
+                to={`${uri}/recall-msr-snow-shovels`}
+            />
+            <Redirect from="VMgrmyUAAJQpmL6o" to={`${uri}/min-how-to-videos`} />
+            <Redirect
+                from="VjkZEB0AAB0AV7J4"
+                to={`${uri}/annual-report-2015`}
+            />
             <Redirect
                 from="VkogLh8AAB0AI-ag"
-                to="free-ast-youth-course-fernie"
+                to={`${uri}/free-ast-youth-course-fernie`}
             />
-            <Redirect from="Vk4VIh4AAG8G0bZg" to="new-sponsor-g3" />
+            <Redirect from="Vk4VIh4AAG8G0bZg" to={`${uri}/new-sponsor-g3`} />
             <Redirect
                 from="VlN8siIAAFANmCkM"
-                to="new-release-throttle-decisions"
+                to={`${uri}/new-release-throttle-decisions`}
             />
             <Redirect
                 from="VlYciR0AADgEB1Sp"
-                to="cross-border-collaboration-training"
+                to={`${uri}/cross-border-collaboration-training`}
             />
             <Redirect
                 from="VpPu3h8AAKAFGUI2"
-                to="avalanche-awareness-days-primer"
+                to={`${uri}/avalanche-awareness-days-primer`}
             />
             <Redirect
                 from="VrOc4CsAACwA4KjU"
-                to="pr-bc-coroner-avalanche-feb3"
+                to={`${uri}/pr-bc-coroner-avalanche-feb3`}
             />
             <Redirect
                 from="VrjoXiYAAEwCjmRs"
-                to="avalanche-ambassador-aad-revelstoke"
+                to={`${uri}/avalanche-ambassador-aad-revelstoke`}
             />
-            <Redirect from="VN0YqSYAACoAJakp" to="membership-drive" />
-            <Redirect from="Vst0dyMAADoSu4_N" to="al-hodgson-memorial-award" />
-            <Redirect from="Vplv7SMAAFQcaHWb" to="sfu-new-research-chair" />
-            <Redirect from="VpV_lx8AAMUSIpac" to="min-update" />
+            <Redirect from="VN0YqSYAACoAJakp" to={`${uri}/membership-drive`} />
+            <Redirect
+                from="Vst0dyMAADoSu4_N"
+                to={`${uri}/al-hodgson-memorial-award`}
+            />
+            <Redirect
+                from="Vplv7SMAAFQcaHWb"
+                to={`${uri}/sfu-new-research-chair`}
+            />
+            <Redirect from="VpV_lx8AAMUSIpac" to={`${uri}/min-update`} />
             <Redirect
                 from="VuxMXiwAALFL7Yyb"
-                to="foundation-calgary-benefit-2016"
+                to={`${uri}/foundation-calgary-benefit-2016`}
             />
-            <Redirect from="VjukhiMAACQA2fJX" to="new-office-space" />
+            <Redirect from="VjukhiMAACQA2fJX" to={`${uri}/new-office-space`} />
             <Redirect
                 from="VnHASR8AAIoSs8eR"
-                to="thunderstruck-rsc-fundraiser"
+                to={`${uri}/thunderstruck-rsc-fundraiser`}
             />
             <Redirect
                 from="Vw6XMCkAAD9f09uB"
-                to="craig-kelly-scholarship-awarded"
+                to={`${uri}/craig-kelly-scholarship-awarded`}
             />
-            <Redirect from="Vx-6kSkAAEG1OTEL" to="hot-zone-reports" />
-            <Redirect from="Vk0CliEAAKIFhX3l" to="2015-service-award" />
+            <Redirect from="Vx-6kSkAAEG1OTEL" to={`${uri}/hot-zone-reports`} />
+            <Redirect
+                from="Vk0CliEAAKIFhX3l"
+                to={`${uri}/2015-service-award`}
+            />
             <Redirect
                 from="Vh1iVx4AALsES5Zw"
-                to="avalanche-ambassador-program-announcement"
+                to={`${uri}/avalanche-ambassador-program-announcement`}
             />
-            <Redirect from="VyeeSiYAAASDd20a" to="land-of-thundering-snow" />
-            <Redirect from="VpP3lB8AAKAFGXVS" to="canuck-splitfest-2016" />
-            <Redirect from="VK7R4iMAACMAM93b" to="snowmobile-loaners-2016" />
+            <Redirect
+                from="VyeeSiYAAASDd20a"
+                to={`${uri}/land-of-thundering-snow`}
+            />
+            <Redirect
+                from="VpP3lB8AAKAFGXVS"
+                to={`${uri}/canuck-splitfest-2016`}
+            />
+            <Redirect
+                from="VK7R4iMAACMAM93b"
+                to={`${uri}/snowmobile-loaners-2016`}
+            />
             <Redirect
                 from="VuhTEiwAAMEK1gWI"
-                to="adjunct-professor-announcement"
+                to={`${uri}/adjunct-professor-announcement`}
             />
             <Redirect
                 from="Vw_rICkAALuO27JE"
-                to="royal-canadian-pacific-fundraiser"
+                to={`${uri}/royal-canadian-pacific-fundraiser`}
             />
         </Router>
     )
 }
-function Events() {
+function Events({ uri }) {
     return (
         <Router>
             <Feed.EventFeed path="/" />
             <Feed.Post path=":uid" type={EVENT} />
-            <Redirect from="VvLeBSUAAJgDAgX6" to="asa-snowmobile-show-2016" />
-            <Redirect from="V-r2XyYAACcAblCX" to="spin-safety-fundraiser" />
+            <Redirect
+                from="VvLeBSUAAJgDAgX6"
+                to={`${uri}/asa-snowmobile-show-2016`}
+            />
+            <Redirect
+                from="V-r2XyYAACcAblCX"
+                to={`${uri}/spin-safety-fundraiser`}
+            />
             <Redirect
                 from="VEFS_yYAACYARWyK"
-                to="thunderstuck-fundraiser-2016"
+                to={`${uri}/thunderstuck-fundraiser-2016`}
             />
             <Redirect
                 from="V9bxeiYAACgA9jex"
-                to="cardel-homes-movie-ruin-rose"
+                to={`${uri}/cardel-homes-movie-ruin-rose`}
             />
-            <Redirect from="V9By4yYAACgAz0Ni" to="agm-save-the-date-2016" />
-            <Redirect from="V7Sy6ycAACUAo4u_" to="bcsnowmobileshow_2016" />
+            <Redirect
+                from="V9By4yYAACgAz0Ni"
+                to={`${uri}/agm-save-the-date-2016`}
+            />
+            <Redirect
+                from="V7Sy6ycAACUAo4u_"
+                to={`${uri}/bcsnowmobileshow_2016`}
+            />
             <Redirect
                 from="Vmdqex4AAB0AxBYc"
-                to="youth-snow-safety-phoenixmnt-2016"
+                to={`${uri}/youth-snow-safety-phoenixmnt-2016`}
             />
-            <Redirect from="VnCZbR8AAFYKrNgo" to="aad-kananaskis-jan-2016" />
-            <Redirect from="VoQjoR8AADZzIjEZ" to="aad-whitewater-jan-2016" />
+            <Redirect
+                from="VnCZbR8AAFYKrNgo"
+                to={`${uri}/aad-kananaskis-jan-2016`}
+            />
+            <Redirect
+                from="VoQjoR8AADZzIjEZ"
+                to={`${uri}/aad-whitewater-jan-2016`}
+            />
             <Redirect
                 from="VnCX1h8AAFYKrM88"
-                to="lake-louise-staying-alive-2016"
+                to={`${uri}/lake-louise-staying-alive-2016`}
             />
             <Redirect
                 from="VliqsR0AAOcTy0Ig"
-                to="aad-general-announcement-2016"
+                to={`${uri}/aad-general-announcement-2016`}
             />
-            <Redirect from="VpfKah8AAI1FMEHK" to="aad-mtseymour-jan-2016" />
+            <Redirect
+                from="VpfKah8AAI1FMEHK"
+                to={`${uri}/aad-mtseymour-jan-2016`}
+            />
             <Redirect
                 from="Vpf4ACMAACQAX8yN"
-                to="aad-bouldermnt-revelstoke-2016"
+                to={`${uri}/aad-bouldermnt-revelstoke-2016`}
             />
             <Redirect
                 from="VsukNiMAACwavKfV"
-                to="shreducation-yukon-feb-2016"
+                to={`${uri}/shreducation-yukon-feb-2016`}
             />
-            <Redirect from="VmdsER4AAPYJxB90" to="aad-lake-louise-2016" />
-            <Redirect from="VoQkah8AAEZvIjSt" to="aad-khmr-jan-2016" />
-            <Redirect from="VlyuDyUAACUAnMJ-" to="baw-fernie-jan-2016" />
-            <Redirect from="Vo1p7yIAAMcFB2W7" to="aad-rossland-jan-2016" />
-            <Redirect from="VpfMIx8AAKlFMEwl" to="aad-crowsnestpass-jan-2016" />
-            <Redirect from="Vp1xcSYAACUAQUbq" to="aad-mtsima-jan-2016" />
+            <Redirect
+                from="VmdsER4AAPYJxB90"
+                to={`${uri}/aad-lake-louise-2016`}
+            />
+            <Redirect from="VoQkah8AAEZvIjSt" to={`${uri}/aad-khmr-jan-2016`} />
+            <Redirect
+                from="VlyuDyUAACUAnMJ-"
+                to={`${uri}/baw-fernie-jan-2016`}
+            />
+            <Redirect
+                from="Vo1p7yIAAMcFB2W7"
+                to={`${uri}/aad-rossland-jan-2016`}
+            />
+            <Redirect
+                from="VpfMIx8AAKlFMEwl"
+                to={`${uri}/aad-crowsnestpass-jan-2016`}
+            />
+            <Redirect
+                from="Vp1xcSYAACUAQUbq"
+                to={`${uri}/aad-mtsima-jan-2016`}
+            />
             <Redirect
                 from="VlywoyUAACQAnNG8"
-                to="shreducation-revelstoke-jan-2016"
+                to={`${uri}/shreducation-revelstoke-jan-2016`}
             />
             <Redirect
                 from="VvHBBCwAAAisDiFM"
-                to="avalanche-rescue-challenge-stewart-2016"
+                to={`${uri}/avalanche-rescue-challenge-stewart-2016`}
             />
             <Redirect
                 from="VvLUTCUAAMEAAc3N"
-                to="saskatchewan-snowmobile-show-nov-2016"
+                to={`${uri}/saskatchewan-snowmobile-show-nov-2016`}
             />
-            <Redirect from="VnCWSR8AAMoKrMX6" to="aad-garibaldi-jan-2016" />
-            <Redirect from="VpRUhx8AABsHG57y" to="aad-kakwa-feb-2016" />
+            <Redirect
+                from="VnCWSR8AAMoKrMX6"
+                to={`${uri}/aad-garibaldi-jan-2016`}
+            />
+            <Redirect
+                from="VpRUhx8AABsHG57y"
+                to={`${uri}/aad-kakwa-feb-2016`}
+            />
             <Redirect
                 from="VpfOKCMAACIAXtdX"
-                to="rumrunner-cherrybowl-presentation-2016"
+                to={`${uri}/rumrunner-cherrybowl-presentation-2016`}
             />
             <Redirect
                 from="VrJnQisAAGMj2Y_U"
-                to="ascend-splitboard-fest-2016"
+                to={`${uri}/ascend-splitboard-fest-2016`}
             />
             <Redirect
                 from="VrpuBSgAAEIC5kXJ"
-                to="acc-cherrybowl-presentation-2016"
+                to={`${uri}/acc-cherrybowl-presentation-2016`}
             />
             <Redirect
                 from="VK8DjSMAACUANEm1"
-                to="foundation-calgary-fundraiser-2016"
+                to={`${uri}/foundation-calgary-fundraiser-2016`}
             />
-            <Redirect from="VvBrrywAAHOKBjIg" to="bcsf-agm-pemberton-2016" />
+            <Redirect
+                from="VvBrrywAAHOKBjIg"
+                to={`${uri}/bcsf-agm-pemberton-2016`}
+            />
             <Redirect
                 from="VkTj0CAAAB8AKQs5"
-                to="staying-alive-khmr-dec-2015"
+                to={`${uri}/staying-alive-khmr-dec-2015`}
             />
-            <Redirect from="VmdlSR4AAAMNw_cW" to="aad-mt-cain-feb-2016" />
+            <Redirect
+                from="VmdlSR4AAAMNw_cW"
+                to={`${uri}/aad-mt-cain-feb-2016`}
+            />
             <Redirect
                 from="VoQlZx8AAEZvIjpK"
-                to="aad-fernie-alpine-resort-2016"
+                to={`${uri}/aad-fernie-alpine-resort-2016`}
             />
-            <Redirect from="VownoR8AAIinUi2W" to="aad-apex-jan-2016" />
-            <Redirect from="VpRSkB8AAOELG5N2" to="aad-whistler-jan-2016" />
-            <Redirect from="VpmCByMAAFUcaOGm" to="aad-rmr-jan-2016" />
+            <Redirect from="VownoR8AAIinUi2W" to={`${uri}/aad-apex-jan-2016`} />
+            <Redirect
+                from="VpRSkB8AAOELG5N2"
+                to={`${uri}/aad-whistler-jan-2016`}
+            />
+            <Redirect from="VpmCByMAAFUcaOGm" to={`${uri}/aad-rmr-jan-2016`} />
             <Redirect
                 from="VqkoRSQAACUAbEwW"
-                to="youth-sled-day-revelstoke-2016"
+                to={`${uri}/youth-sled-day-revelstoke-2016`}
             />
             <Redirect
                 from="VvLCACUAAMEAAWBL"
-                to="avcan-agm-vancouver-fall-2016"
+                to={`${uri}/avcan-agm-vancouver-fall-2016`}
             />
             <Redirect
                 from="VyE6eiYAAJURUa72"
-                to="caa-spring-conference-case-studies-2016"
+                to={`${uri}/caa-spring-conference-case-studies-2016`}
             />
-            <Redirect from="VvF1CSwAAGKgDF2C" to="issw-2016-breckenridge" />
-            <Redirect from="Vmdhxx4AAAQNw-Jb" to="aad-banff-jan-2016" />
-            <Redirect from="Vqfpwh4AACMAso45" to="aad-smithers-2016" />
-            <Redirect from="VvB06CwAAIqKBmhf" to="isc-2016-snowmobile" />
+            <Redirect
+                from="VvF1CSwAAGKgDF2C"
+                to={`${uri}/issw-2016-breckenridge`}
+            />
+            <Redirect
+                from="Vmdhxx4AAAQNw-Jb"
+                to={`${uri}/aad-banff-jan-2016`}
+            />
+            <Redirect from="Vqfpwh4AACMAso45" to={`${uri}/aad-smithers-2016`} />
+            <Redirect
+                from="VvB06CwAAIqKBmhf"
+                to={`${uri}/isc-2016-snowmobile`}
+            />
         </Router>
     )
 }

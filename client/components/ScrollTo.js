@@ -23,9 +23,7 @@ export default class ScrollTo extends Component {
         this.scrollTo()
     }
     componentDidUpdate({ location }) {
-        const { pathname, search } = this.props.location
-
-        if (location.pathname !== pathname || location.search !== search) {
+        if (location.pathname !== this.props.location.pathname) {
             this.scrollTo()
         }
     }

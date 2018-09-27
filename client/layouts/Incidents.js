@@ -144,7 +144,8 @@ export class IncidentsList extends PureComponent {
 
 export class IncidentDetails extends PureComponent {
     render() {
-        const id = this.props.match.params.id
+        const { id } = this.props
+
         return (
             <Page>
                 <Header title="Historical Incidents" />
