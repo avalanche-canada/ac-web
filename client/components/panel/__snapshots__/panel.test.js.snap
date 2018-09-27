@@ -6,7 +6,7 @@ exports[`panel component 1`] = `
 >
   <header
     className="Header"
-    onClick={[Function]}
+    onClick={null}
   >
     <span
       className="Title"
@@ -28,7 +28,7 @@ exports[`panel component 2`] = `
 >
   <header
     className="Header"
-    onClick={[Function]}
+    onClick={null}
   >
     <span
       className="Title"
@@ -50,7 +50,7 @@ exports[`panel component 3`] = `
 >
   <header
     className="Header"
-    onClick={[Function]}
+    onClick={null}
   >
     <span
       className="Title"
@@ -72,7 +72,7 @@ exports[`panel component 4`] = `
 >
   <header
     className="Header"
-    onClick={[Function]}
+    onClick={null}
   >
     <span
       className="Title"

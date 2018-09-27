@@ -11,6 +11,7 @@ exports[`footer component 1`] = `
       className="Nav"
     >
       <a
+        aria-current={undefined}
         className="Link"
         href="/about#contact-us"
         onClick={[Function]}
@@ -18,6 +19,7 @@ exports[`footer component 1`] = `
         Contact
       </a>
       <a
+        aria-current={undefined}
         className="Link"
         href="/privacy-policy"
         onClick={[Function]}
@@ -25,6 +27,7 @@ exports[`footer component 1`] = `
         Privacy Policy
       </a>
       <a
+        aria-current={undefined}
         className="Link"
         href="/terms-of-use"
         onClick={[Function]}
@@ -41,4 +44,4 @@ exports[`footer component 1`] = `
     </span>
   </div>
 </footer>
-`
+`;
