@@ -26,12 +26,6 @@ export function captureException(error, context) {
     /* eslint-disable no-console */
 }
 
-export function captureMessage(message, context) {
-    if (Raven.isSetup()) {
-        Raven.captureMessage(message, context)
-    }
-}
-
 export function setUserContext({ user_id, email, name }) {
     if (Raven.isSetup()) {
         Raven.setUserContext({
