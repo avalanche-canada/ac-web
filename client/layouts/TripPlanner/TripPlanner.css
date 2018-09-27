@@ -1,6 +1,6 @@
 .Layout {
     position: relative;
-    height: 100%;
+    height: calc(100vh - 75px);
     overflow: hidden;
 }
 
