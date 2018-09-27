@@ -39,3 +39,7 @@ Look at all <Link>s, DONE
 # Upgrades
 
 -   React 16.5
+
+# Improvements
+
+-   Remove react-ga
