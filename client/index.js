@@ -4,7 +4,7 @@ import 'raf/polyfill'
 import 'url-search-params-polyfill'
 import 'whatwg-fetch'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
-import 'utils/shims/requestIdleCallback'
+import 'utils/polyfills/requestIdleCallback'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
