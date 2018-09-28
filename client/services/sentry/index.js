@@ -14,22 +14,24 @@ let Sentry = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-    import('@sentry/browser').then(mod => {
-        mod.init({ dsn: `https://${key}@sentry.io/${project}` })
+    requestIdleCallback(() => {
+        import('@sentry/browser').then(mod => {
+            mod.init({ dsn: `https://${key}@sentry.io/${project}` })
 
-        mod.configureScope(scope => {
-            scope.setExtra('mapboxgl.supported', supported())
+            mod.configureScope(scope => {
+                scope.setExtra('mapboxgl.supported', supported())
+            })
+
+            for (const exception of EXCEPTION_QUEUE) {
+                mod.captureException(...exception)
+            }
+
+            for (const scope of SCOPE_QUEUE) {
+                mod.configureScope(...scope)
+            }
+
+            Sentry = mod
         })
-
-        for (const exception of EXCEPTION_QUEUE) {
-            mod.captureException(...exception)
-        }
-
-        for (const scope of SCOPE_QUEUE) {
-            mod.configureScope(...scope)
-        }
-
-        Sentry = mod
     })
 }
 

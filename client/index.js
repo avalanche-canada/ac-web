@@ -1,8 +1,10 @@
+// Polyfills and shims
 import '@babel/polyfill'
 import 'raf/polyfill'
 import 'url-search-params-polyfill'
 import 'whatwg-fetch'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
+import 'utils/shims/requestIdleCallback'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -10,6 +12,7 @@ import { Router, Match, Redirect, Location } from '@reach/router'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import Analytics from 'services/analytics'
+
 import 'services/sentry'
 
 import 'styles'
