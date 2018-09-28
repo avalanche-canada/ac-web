@@ -22,12 +22,12 @@ if (process.env.NODE_ENV === 'production') {
                 scope.setExtra('mapboxgl.supported', supported())
             })
 
-            for (const exception of EXCEPTION_QUEUE) {
-                mod.captureException(...exception)
-            }
-
             for (const scope of SCOPE_QUEUE) {
                 mod.configureScope(...scope)
+            }
+
+            for (const exception of EXCEPTION_QUEUE) {
+                mod.captureException(...exception)
             }
 
             Sentry = mod
