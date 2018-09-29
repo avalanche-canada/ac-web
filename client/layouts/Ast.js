@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import get from 'lodash/get'
 import { Container, PillSet, Pill } from 'components/pill'
 import { Page, Content, Banner, Main } from 'components/page'
 import CoursesForm from './ast/form/Courses'
@@ -21,7 +20,7 @@ export class Courses extends Component {
 
         const { search } = props.location
         const params = utils.parse(search)
-        const place = get(props.location, 'state.place')
+        const place = props.location?.state?.place
 
         this.state = this.prepareParams({ ...params, place })
     }
@@ -88,7 +87,7 @@ export class Providers extends Component {
 
         const { location } = props
         const params = utils.parse(location.search)
-        const place = get(location, 'state.place')
+        const place = location?.state?.place
 
         this.state = this.prepareParams({ ...params, place })
     }

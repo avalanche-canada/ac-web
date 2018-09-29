@@ -13,7 +13,6 @@ import {
 import Pagination from 'components/pagination'
 import { Loading, Muted } from 'components/text'
 import { Br } from 'components/markup'
-import get from 'lodash/get'
 import snakeCase from 'lodash/snakeCase'
 import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
@@ -63,7 +62,7 @@ export default class PrismicTable extends PureComponent {
         }
     }
     get type() {
-        return get(this.props, ['value', 0, 'source'])
+        return this.props?.value?.[0]?.source
     }
     get params() {
         const { pageSize, page } = this.state

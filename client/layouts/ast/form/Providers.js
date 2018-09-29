@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import get from 'lodash/get'
 import Layout from './Layout'
 import { Control } from 'components/form'
 import { DropdownFromOptions, Geocoder } from 'components/controls'
@@ -47,7 +46,7 @@ export default class Courses extends PureComponent {
                     <Geocoder
                         placeholder="Location"
                         onChange={this.handlePlaceChange}
-                        value={get(this.state, 'place.text')}
+                        value={this.state?.place?.text}
                     />
                 </Control>
             </Layout>

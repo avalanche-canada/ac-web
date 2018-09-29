@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import {
     EVENT,
     BLOG,
@@ -19,7 +18,7 @@ export function title(document = {}) {
             return document.title
         case GENERIC:
         case STATIC_PAGE:
-            return get(document, ['data', type, 'title', 'value'])
+            return document.data?.[type]?.title?.value
         default:
             throw new Error(
                 `Can not compute a title from Prismic document of type "${type}".`

@@ -1,4 +1,3 @@
-import get from 'lodash/get'
 import { EVENT, BLOG, NEWS } from 'constants/prismic'
 
 // TODO: Review if we need all these transformers
@@ -20,7 +19,7 @@ function transformBlog({ uid, type, tags, data }) {
         featured: tags.includes('featured'),
         headline: shortlede,
         content: body,
-        preview: get(previewImage, ['views', 'column']),
+        preview: previewImage?.views?.column,
         link: `/${type}s/${uid}`,
         year: date && date.getFullYear(),
         month: date && date.getMonth(),
@@ -38,7 +37,7 @@ function transformEvent({ uid, type, tags, data }) {
         featured: tags.includes('featured'),
         headline: shortlede,
         content: description,
-        preview: get(featuredImage, 'main'),
+        preview: featuredImage?.main,
         link: `/${type}s/${uid}`,
         start: startDate,
         end: endDate,
@@ -59,7 +58,7 @@ function transformNews({ uid, type, tags, data }) {
         featured: tags.includes('featured'),
         headline: shortlede,
         content: body,
-        preview: get(featuredImage, ['views', 'preview']),
+        preview: featuredImage?.views?.preview,
         link: `/${type}/${uid}`,
         year: date.getFullYear(),
         month: date.getMonth(),
