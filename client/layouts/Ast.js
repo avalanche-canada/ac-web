@@ -75,6 +75,8 @@ export class Courses extends Component {
     }
 }
 
+// TODO: Do not store to state values get can be easily computed from the location prop
+
 export class Providers extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
