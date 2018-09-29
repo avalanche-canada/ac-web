@@ -8,26 +8,18 @@ export class Provider extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
     }
-    storage = SessionStorage.create({ keyPrefix: 'map' })
+    storage = SessionStorage.create({ keyPrefix: 'map:state' })
     state = {
         zoom: this.storage.get('zoom', 4.3),
         center: this.storage.get('center', [-125.15, 54.8]),
     }
     setZoom = zoom => {
-        this.setState(
-            () => ({ zoom }),
-            () => {
-                this.storage.set('zoom', zoom)
-            }
-        )
+        this.setState({ zoom })
+        this.storage.set('zoom', zoom)
     }
     setCenter = center => {
-        this.setState(
-            () => ({ center }),
-            () => {
-                this.storage.set('center', center)
-            }
-        )
+        this.setState({ center })
+        this.storage.set('center', center)
     }
     get value() {
         return {

@@ -17,11 +17,7 @@ export default class Storage {
         }
     }
     generateKey(name) {
-        if (this.options.keyPrefix) {
-            return `${this.options.keyPrefix}:${name}`
-        }
-
-        return name
+        return [this.options.keyPrefix, name].filter(Boolean).join(':')
     }
     get(name, defaultValue) {
         const key = this.generateKey(name)
