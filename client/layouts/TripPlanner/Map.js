@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Map, NavigationControl } from 'components/map'
 import bbox from '@turf/bbox'
+import * as MapStateContext from 'contexts/map/state'
+import { Map, NavigationControl } from 'components/map'
 import styles from './TripPlanner.css'
 
 export default class TripPlannerMap extends Component {
@@ -11,11 +12,19 @@ export default class TripPlannerMap extends Component {
         onFeaturesSelect: PropTypes.func.isRequired,
     }
     cursorEnterCounter = 0
+    handleZoomEnd = event => {
+        this.setZoom(event.target.getZoom())
+    }
+    handleMoveEnd = event => {
+        this.setCenter(event.target.getCenter())
+    }
     handleLoad = event => {
         const map = event.target
         const container = map.getContainer()
 
         map.on('click', this.handleClick)
+        map.on('zoomend', this.handleZoomEnd)
+        map.on('moveend', this.handleMoveEnd)
 
         for (let layer of [
             ...ATES_AREAS_LAYERS,
@@ -23,7 +32,6 @@ export default class TripPlannerMap extends Component {
             ...FORECAST_LAYERS,
         ]) {
             map.on('mouseenter', layer, this.handleMouseenterLayer)
-            map.on('mouseleave', layer, this.handleMouseleaveLayer)
         }
 
         container.addEventListener('mouseleave', this.handleMouseleave, false)
@@ -84,16 +92,26 @@ export default class TripPlannerMap extends Component {
             this.props.onFeaturesSelect({ region, area })
         }
     }
-    render() {
+    withMapState = ({ zoom, center, setZoom, setCenter }) => {
+        this.setZoom = setZoom
+        this.setCenter = setCenter
+
         return (
             <Map
                 className={styles.Map}
                 style="ates"
                 onLoad={this.handleLoad}
-                zoom={10}
-                center={CENTER}>
+                zoom={zoom}
+                center={center}>
                 <NavigationControl />
             </Map>
+        )
+    }
+    render() {
+        return (
+            <MapStateContext.Consumer>
+                {this.withMapState}
+            </MapStateContext.Consumer>
         )
     }
 }
@@ -102,4 +120,3 @@ export default class TripPlannerMap extends Component {
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
 const ATES_AREAS_LAYERS = ['ates-terrain']
 const ATES_ZONES_LAYERS = ['ates-zones']
-const CENTER = [-118.3, 51.17]

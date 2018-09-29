@@ -1,6 +1,7 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
-import * as context from 'contexts/layers'
+import * as LayersContext from 'contexts/layers'
+import * as MapStateContext from 'contexts/map/state'
 import ForecastMarkers from './layers/ForecastMarkers'
 import { Map as Base, NavigationControl } from 'components/map'
 import * as TYPES from 'constants/drawers'
@@ -36,8 +37,16 @@ export default class Layout extends Component {
             canvas.title = ''
         }
     }
+    handleZoomEnd = event => {
+        this.setZoom(event.target.getZoom())
+    }
+    handleCenterEnd = event => {
+        this.setCenter(event.target.getCenter())
+    }
     handleLoad = event => {
         event.target.on('click', this.handleClick)
+        event.target.on('zoomend', this.handleZoomEnd)
+        event.target.on('moveend', this.handleCenterEnd)
 
         this.props.onLoad(event)
     }
@@ -62,15 +71,32 @@ export default class Layout extends Component {
     renderLayers = layers => {
         return Object.entries(layers).map(this.renderLayer, this)
     }
-    render() {
+    withMapState = ({ zoom, center, setZoom, setCenter }) => {
+        const { onMarkerClick, onFeatureClick, ...props } = this.props
+
+        this.setZoom = setZoom
+        this.setCenter = setCenter
+
         return (
-            <Base {...this.props} onLoad={this.handleLoad} style="2019">
+            <Base
+                {...props}
+                zoom={zoom}
+                center={center}
+                onLoad={this.handleLoad}
+                style="2019">
                 <Base.With>
-                    <ForecastMarkers onMarkerClick={this.props.onMarkerClick} />
+                    <ForecastMarkers onMarkerClick={onMarkerClick} />
                 </Base.With>
-                <context.Layers>{this.renderLayers}</context.Layers>
+                <LayersContext.Layers>{this.renderLayers}</LayersContext.Layers>
                 <NavigationControl />
             </Base>
+        )
+    }
+    render() {
+        return (
+            <MapStateContext.Consumer>
+                {this.withMapState}
+            </MapStateContext.Consumer>
         )
     }
 }
