@@ -1,21 +1,17 @@
 export default class Memory {
     constructor() {
-        this.content = {}
+        this.content = new Map()
     }
     getItem(key, defaultValue) {
-        if (this.content.hasOwnProperty(key)) {
-            return this.content[key]
-        }
-
-        return defaultValue
+        return this.content.has(key) ? this.content.get(key) : defaultValue
     }
     setItem(key, value) {
-        this.content[key] = value
+        this.content.set(key, value)
     }
     removeItem(key) {
-        delete this.content[key]
+        this.content.delete(key)
     }
     clear() {
-        this.content = {}
+        this.content.clear()
     }
 }
