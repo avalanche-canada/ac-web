@@ -1,5 +1,3 @@
-export const avalancheCanadaPathRegex = /^(http|https):\/\/(www.|)avalanche.ca/
-
 export function href(url) {
     if (avalancheCanadaPathRegex.test(url)) {
         return url.replace(avalancheCanadaPathRegex, '') || '/'
@@ -16,6 +14,7 @@ export function isExternal(path) {
     return isExternalRegExp.test(path)
 }
 
+export const avalancheCanadaPathRegex = /^(http|https):\/\/(www.|)avalanche.ca/
 const isExternalRegExp = new RegExp('^(https|http)://')
 
 export function forceHttps(url) {

@@ -26,12 +26,12 @@ function application({ location }) {
     return (
         <Analytics location={location}>
             <ScrollTo location={location}>
-                <AvalancheCanada path="/*" />
                 <Router primary={false}>
                     <CAC path="cac" />
                     <Redirect from="cherrybowl/*" to="cherry-bowl" />
                     <Match path="fxresources/*">{redirect}</Match>
                     <Match path="cherry-bowl/*">{redirect}</Match>
+                    <AvalancheCanada path="/*" />
                     <AvalancheCanadaFoundation path="foundation/*" />
                 </Router>
             </ScrollTo>
