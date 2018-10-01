@@ -220,11 +220,11 @@ class LinkControlSet extends PureComponent {
     }
     get links() {
         return [
+            <Link className={styles['LinkControlSet--MIN']} to="/submit" />,
             <Link
-                className={styles['LinkControlSet--MIN']}
-                to="mountain-information-network/submit"
+                className={styles['LinkControlSet--Weather']}
+                to="/weather"
             />,
-            <Link className={styles['LinkControlSet--Weather']} to="weather" />,
         ]
     }
     renderer = ({ isTouchable }) => {
@@ -240,8 +240,7 @@ class LinkControlSet extends PureComponent {
                     <Wrapper
                         key={index}
                         tooltip={tooltips[index]}
-                        placement="right"
-                    >
+                        placement="right">
                         {link}
                     </Wrapper>
                 ))}
