@@ -15,7 +15,7 @@ export function isExternal(path) {
 }
 
 export const avalancheCanadaPathRegex = /^(http|https):\/\/(www.|)avalanche.ca/
-const isExternalRegExp = new RegExp('^(https|http)://')
+export const isExternalRegExp = new RegExp('^(https|http)://')
 
 export function forceHttps(url) {
     return typeof url === 'string' ? url.replace(/^http:/, 'https:') : url

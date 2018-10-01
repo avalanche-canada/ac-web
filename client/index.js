@@ -8,7 +8,7 @@ import 'utils/polyfills/requestIdleCallback'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Match, Redirect, Location } from '@reach/router'
+import { Router, Redirect, Location } from '@reach/router'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import Analytics from 'services/analytics'
@@ -28,9 +28,6 @@ function application({ location }) {
             <ScrollTo location={location}>
                 <Router primary={false}>
                     <CAC path="cac" />
-                    <Redirect from="cherrybowl/*" to="cherry-bowl" />
-                    <Match path="fxresources/*">{redirect}</Match>
-                    <Match path="cherry-bowl/*">{redirect}</Match>
                     <AvalancheCanada path="/*" />
                     <AvalancheCanadaFoundation path="foundation/*" />
                 </Router>
@@ -54,10 +51,10 @@ function CAC() {
 // Utils
 function redirect({ match }) {
     if (match) {
-        const { path } = match
+        const { uri } = match
 
         // Leave the application and goes to nginx to do appropriate redirect
-        window.open(`https://avalanche.ca/${path}`, path)
+        window.open(`https://avalanche.ca/${uri}`, uri)
     }
 
     return null

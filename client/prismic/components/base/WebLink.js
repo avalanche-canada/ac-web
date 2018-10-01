@@ -1,7 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import { avalancheCanadaPathRegex, href } from 'utils/url'
+import {
+    avalancheCanadaPathRegex,
+    isExternalRegExp,
+    forceHttps,
+    href,
+} from 'utils/url'
 
 // TODO: Rework links props. Should be simplified.
 // Links are used in StructuredText and as standalone types.
@@ -18,7 +23,13 @@ export default function WebLink({ children, value: { url }, ...props }) {
     if (avalancheCanadaPathRegex.test(url)) {
         if (FXResourcesRegex.test(url)) {
             return (
-                <a {...props} href={url} target="_blank">
+                <a {...props} href={forceHttps(url)} target="fxresources">
+                    {children}
+                </a>
+            )
+        } else if (CherryBowlRegex.test(url)) {
+            return (
+                <a {...props} href={forceHttps(url)} target="cherry-bowl">
                     {children}
                 </a>
             )
@@ -31,7 +42,7 @@ export default function WebLink({ children, value: { url }, ...props }) {
         }
     }
 
-    const target = url.startsWith('http') ? '_blank' : undefined
+    const target = isExternalRegExp.test(url) ? '_blank' : undefined
 
     return (
         <a href={url} target={target} {...props}>
@@ -42,3 +53,4 @@ export default function WebLink({ children, value: { url }, ...props }) {
 
 // Constants
 const FXResourcesRegex = /fxresources/
+const CherryBowlRegex = /(cherry-bowl|cherrybowl)/
