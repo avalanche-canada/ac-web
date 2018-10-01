@@ -19,7 +19,6 @@ module.exports = {
             // @reach/router
             'create-react-context': path.resolve(__dirname, 'client/vendor/create-react-context/shim.js'),
             'react-lifecycles-compat': path.resolve(__dirname, 'client/vendor/react-lifecycles-compat/shim.js'),
-            // 'object-assign': path.resolve(__dirname, 'client/vendor/object-assign/shim.js'),
         }
     },
     plugins: [
