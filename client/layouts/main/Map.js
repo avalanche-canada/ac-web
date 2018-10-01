@@ -61,6 +61,7 @@ export default class Layout extends Component {
     }
     renderLayer([key, layer]) {
         LAYERS_KEYS.add(key)
+
         return createElement(LAYERS.get(key), {
             ...layer,
             key,

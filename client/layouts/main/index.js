@@ -99,8 +99,14 @@ export default class Main extends Component {
                 }
             )
         } else {
-            let { pathname, search } = this.props.location
             const { type, id } = properties
+
+            if (type === TYPES.FORECASTS && externals.has(id)) {
+                open(id)
+                return
+            }
+
+            let { pathname, search } = this.props.location
 
             if (PATHS.has(type)) {
                 pathname = `${PATHS.get(type)}/${id}`
@@ -114,6 +120,11 @@ export default class Main extends Component {
         }
     }
     handleMarkerClick = id => {
+        if (externals.has(id)) {
+            open(id)
+            return
+        }
+
         const { location } = this.props
         const path = `${PATHS.get(TYPES.FORECASTS)}/${id}`
 
