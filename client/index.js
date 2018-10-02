@@ -47,15 +47,3 @@ function CAC() {
         </Router>
     )
 }
-
-// Utils
-function redirect({ match }) {
-    if (match) {
-        const { uri } = match
-
-        // Leave the application and goes to nginx to do appropriate redirect
-        window.open(`https://avalanche.ca/${uri}`, uri)
-    }
-
-    return null
-}
