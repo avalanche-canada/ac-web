@@ -15,7 +15,6 @@ export default class Item extends PureComponent {
     }
     static defaultProps = {
         isActive: false,
-        onClick() {},
         noWrap: false,
     }
     constructor(props) {

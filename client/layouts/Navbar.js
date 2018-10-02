@@ -11,33 +11,37 @@ import Navbar, {
     Link,
 } from 'components/navbar'
 import Avatar from 'components/avatar'
+import Compose from 'components/Compose'
 import menu from 'constants/menus/avcan'
 import logo from 'styles/AvalancheCanada.svg'
 
 export default class AvalancheCanadaNavbar extends Component {
-    renderLogout = logout => {
-        return (
-            <Location>
-                {({ location }) => {
-                    function handleClick() {
-                        logout().then(() => {
-                            if (Protected.PATHS.has(location.pathname)) {
-                                navigate('/')
-                            }
-                        })
-                    }
+    handleLoginClick = event => {
+        event.preventDefault()
 
-                    return <Link onClick={handleClick}>Logout</Link>
-                }}
-            </Location>
-        )
+        this.login()
     }
-    renderNavbar = ({ isAuthenticated, login, logout, profile = {} }) => {
+    handleLogoutClick = event => {
+        event.preventDefault()
+
+        this.logout().then(() => {
+            if (Protected.PATHS.has(this.location.pathname)) {
+                navigate('/')
+            }
+        })
+    }
+    renderNavbar = ([
+        { isAuthenticated, login, logout, profile = {} },
+        { location },
+    ]) => {
+        this.login = login
+        this.logout = logout
+        this.location = location
+
         return (
             <Navbar logo={logo} donate="/foundation" menu={menu}>
                 {isAuthenticated ? (
                     <Item
-                        onClick={logout}
                         title={
                             <Avatar
                                 name={profile.name}
@@ -51,17 +55,25 @@ export default class AvalancheCanadaNavbar extends Component {
                                     name={profile.name}
                                     avatar={profile.picture}
                                 />
-                                <Header>{this.renderLogout(logout)}</Header>
+                                <Header>
+                                    <Link onClick={this.handleLogoutClick}>
+                                        Logout
+                                    </Link>
+                                </Header>
                             </Section>
                         </Menu>
                     </Item>
                 ) : (
-                    <Item title="Login" onClick={login} />
+                    <Item title="Login" onClick={this.handleLoginClick} />
                 )}
             </Navbar>
         )
     }
     render() {
-        return <Auth.Consumer>{this.renderNavbar}</Auth.Consumer>
+        return (
+            <Compose components={[<Auth.Consumer />, <Location />]}>
+                {this.renderNavbar}
+            </Compose>
+        )
     }
 }
