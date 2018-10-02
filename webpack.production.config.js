@@ -8,6 +8,7 @@ module.exports = Object.assign({}, common, {
     devtool: 'source-map',
     output: Object.assign({}, common.output, {
         filename: '[name].[contenthash].js',
+        chunkFilename: '[name].[contenthash].chunk.js',
     }),
     plugins: common.plugins.concat(
         new MiniCssExtractPlugin({
