@@ -1,14 +1,16 @@
 import React, { Component, createContext } from 'react'
 import PropTypes from 'prop-types'
+import formatDate from 'date-fns/format'
 import { resource } from 'api/requests/static'
 import { status } from 'services/fetch/utils'
-import formatDate from 'date-fns/format'
+import { LocalStorage } from 'services/storage'
 
 export class Provider extends Component {
     static propTypes = {
         children: PropTypes.element,
     }
-    state = {
+    storage = LocalStorage.create()
+    state = this.storage.get('sponsors', {
         About: 'rmr',
         BlogIndex: 'toyotastacked',
         BlogPage: 'mec',
@@ -22,18 +24,22 @@ export class Provider extends Component {
         Training: 'revelstoke-tourism',
         Weather: 'toyotastacked',
         Youth: 'cbt',
-    }
+    })
     async fetch() {
         const response = await fetch(resource('sponsors'))
-        const sponsors = await status(response)
+        const data = await status(response)
         const date = formatDate(new Date(), 'YYYY-MM-DD')
+        const sponsors = Object.assign({}, data.default, data[date])
 
-        this.setState(Object.assign({}, sponsors.default, sponsors[date]))
+        this.storage.set('sponsors', sponsors)
+
+        this.setState(sponsors)
     }
     componentWillUnmount() {
         clearTimeout(this.timeoutId)
     }
     componentDidMount() {
+        console.warn(this.state)
         // TODO Could also use requestIdleCallback
         this.timeoutId = setTimeout(this.fetch.bind(this), 9999)
     }
