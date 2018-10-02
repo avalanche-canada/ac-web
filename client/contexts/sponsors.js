@@ -39,7 +39,6 @@ export class Provider extends Component {
         clearTimeout(this.timeoutId)
     }
     componentDidMount() {
-        console.warn(this.state)
         // TODO Could also use requestIdleCallback
         this.timeoutId = setTimeout(this.fetch.bind(this), 9999)
     }
