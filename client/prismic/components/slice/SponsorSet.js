@@ -1,27 +1,23 @@
-import React, { Component, Fragment } from 'react'
+import React from 'react'
 import { ItemSet, Item } from 'components/sponsor'
-import { Documents } from 'prismic/containers'
-import { Loading } from 'components/text'
-import * as params from 'prismic/params'
+import parse from '../../parsers'
 
-export default class SponsorSet extends Component {
-    get ids() {
-        return this.props.value.map(({ sponsor }) => sponsor.value.document.id)
-    }
-    renderItem({ id, data: { image229, name, url } }) {
-        return <Item key={id} title={name} src={image229} url={url} />
-    }
-    renderChildren = ({ loading, documents = [] }) => (
-        <Fragment>
-            <Loading show={loading} />
-            <ItemSet>{documents.map(this.renderItem)}</ItemSet>
-        </Fragment>
+export default function SponsorSet({ value }) {
+    return (
+        <ItemSet>
+            {value
+                .filter(({ sponsor }) => !sponsor.value.isBroken)
+                .map(renderItem)}
+        </ItemSet>
     )
-    render() {
-        return (
-            <Documents {...params.ids(this.ids)}>
-                {this.renderChildren}
-            </Documents>
-        )
-    }
+}
+
+// Utils
+function renderItem(slice) {
+    const {
+        id,
+        data: { image229, name, url },
+    } = parse(slice.sponsor.value.document)
+
+    return <Item key={id} title={name} src={image229} url={url} />
 }

@@ -10,12 +10,8 @@ export default class StaffSet extends Component {
         return this.props.value.map(({ staff }) => staff.value.document.id)
     }
     renderItem({ id, data: { biography, avatar, ...props } }) {
-        if (avatar) {
-            avatar = avatar.main.url
-        }
-
         return (
-            <Biography key={id} avatar={avatar} {...props}>
+            <Biography key={id} avatar={avatar?.main?.url} {...props}>
                 <StructuredText value={biography} />
             </Biography>
         )

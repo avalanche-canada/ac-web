@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { DocumentByUID } from 'prismic/containers'
-import { STATIC_PAGE, GENERIC } from 'constants/prismic'
+import { STATIC_PAGE, GENERIC, SPONSOR } from 'constants/prismic'
 import * as Pages from 'prismic/components/page'
 
 export class StaticPage extends Component {
@@ -14,7 +14,10 @@ export class StaticPage extends Component {
         const { uid } = this.props
 
         return (
-            <DocumentByUID type={STATIC_PAGE} uid={uid}>
+            <DocumentByUID
+                type={STATIC_PAGE}
+                fetchLinks={`${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`}
+                uid={uid}>
                 {this.renderPage}
             </DocumentByUID>
         )

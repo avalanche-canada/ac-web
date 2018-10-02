@@ -106,9 +106,13 @@ export class DocumentByUID extends Component {
         uid: PropTypes.string.isRequired,
     }
     render() {
-        const { children, ...props } = this.props
+        const { children, type, uid, ...props } = this.props
 
-        return <Document {...params.uid(props)}>{children}</Document>
+        return (
+            <Document {...params.uid({ type, uid })} {...props}>
+                {children}
+            </Document>
+        )
     }
 }
 

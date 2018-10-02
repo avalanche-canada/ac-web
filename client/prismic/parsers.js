@@ -93,7 +93,7 @@ export function parseLocation(document) {
     return location ? [location.longitude, location.latitude] : null
 }
 
-// TODO: Remove that function. We should not need that.
+// TODO: Remove that function. We should not need that, after cleaning up the tags
 function normalizeTags(tags) {
     if (Array.isArray(tags)) {
         return Array.from(new Set(tags.map(tag => tag.trim().toLowerCase())))
