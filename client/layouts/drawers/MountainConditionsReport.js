@@ -19,7 +19,7 @@ import {
     Location,
     Media,
 } from 'layouts/products/mcr'
-import * as containers from 'containers/mcr'
+import { Report } from 'containers/mcr'
 
 const NAVBAR_STYLE = {
     position: 'absolute',
