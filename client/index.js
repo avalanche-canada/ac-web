@@ -1,5 +1,4 @@
 // Polyfills and shims
-import '@babel/polyfill'
 import 'raf/polyfill'
 import 'url-search-params-polyfill'
 import 'whatwg-fetch'
