@@ -49,11 +49,8 @@ class IncidentsList extends PureComponent {
             page: 1,
         })
     }
-    renderContent = ({ data, pending, fulfilled, rejected }) => {
-        const status =
-            (pending && PENDING) ||
-            (fulfilled && FULFILLED) ||
-            (rejected && ERROR)
+    renderContent = ({ data, pending, fulfilled }) => {
+        const status = (pending && PENDING) || (fulfilled && FULFILLED)
 
         return (
             <c.IncidentList
@@ -76,10 +73,7 @@ class IncidentsList extends PureComponent {
 
 class IncidentDetails extends PureComponent {
     renderContent = ({ data, pending, fulfilled, rejected }) => {
-        const status =
-            (pending && PENDING) ||
-            (fulfilled && FULFILLED) ||
-            (rejected && ERROR)
+        const status = (pending && PENDING) || (fulfilled && FULFILLED)
 
         return <c.IncidentDetails status={status} data={data} />
     }
@@ -108,4 +102,3 @@ const seasonToTo = s => format(new Date(s + 1, 4, 30), 'YYYY-MM-DD')
 // Constants
 const PENDING = 'PENDING'
 const FULFILLED = 'FULFILLED'
-const ERROR = 'ERROR'
