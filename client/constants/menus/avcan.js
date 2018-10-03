@@ -1,4 +1,4 @@
-let id = 0
+var id = 0
 
 const Gear = {
     id: String(id++),
