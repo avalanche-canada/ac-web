@@ -1,106 +1,93 @@
 import React, { PureComponent } from 'react'
+import { Router } from '@reach/router'
 import { Page, Main, Content, Header } from 'components/page'
 import * as c from 'components/incidents'
+import * as containers from 'containers/incidents'
 import format from 'date-fns/format'
-import * as requests from 'api/requests/incidents'
-import * as utils from 'services/fetch/utils'
 
-const PENDING = 'PENDING'
-const FULFILLED = 'FULFILLED'
-const ERROR = 'ERROR'
-
-class IncidentDetailsContainer extends PureComponent {
-    state = {
-        status: {},
-    }
-
-    componentDidMount() {
-        this.setState({
-            status: PENDING,
-        })
-
-        fetch(requests.incident(this.props.id))
-            .then(utils.status)
-            .then(data => {
-                this.setState({
-                    status: FULFILLED,
-                    data,
-                })
-            })
-            .catch(err => {
-                this.setState({
-                    status: ERROR,
-                    error: err,
-                })
-            })
-    }
-
-    render() {
-        return this.props.children(this.state)
-    }
+export default function Incidents() {
+    return (
+        <Page>
+            <Header title="Historical Incidents" />
+            <Content>
+                <Main>
+                    <Router>
+                        <IncidentsList path="/" />
+                        <IncidentDetails path=":id" />
+                    </Router>
+                </Main>
+            </Content>
+        </Page>
+    )
 }
 
-class IncidentListContainer extends PureComponent {
+class IncidentsList extends PureComponent {
     state = {
-        status: {},
         filters: {},
         page: 1,
     }
+    get params() {
+        const { filters, ...params } = this.state
+        const { from, to } = filters
 
-    componentDidMount() {
-        this.loadData()
+        if (from) {
+            params.from = seasonToFrom(from)
+        }
+
+        if (to) {
+            params.to = seasonToTo(to)
+        }
+
+        return params
     }
-    loadData() {
+    handlePageChange = page => {
+        this.setState({ page })
+    }
+    handlerFiltersChange = filters => {
         this.setState({
-            status: PENDING,
+            filters,
+            page: 1,
         })
-
-        const { filters, page } = this.state
-        const params = Object.assign({ page }, filters)
-
-        if (params.from) {
-            params.from = seasonToFrom(params.from)
-        }
-        if (params.to) {
-            params.to = seasonToTo(params.to)
-        }
-
-        fetch(requests.incidents(params))
-            .then(utils.status)
-            .then(data => {
-                this.setState({
-                    status: FULFILLED,
-                    data,
-                })
-            })
-            .catch(err => {
-                this.setState({
-                    status: ERROR,
-                    error: err,
-                })
-            })
     }
+    renderContent = ({ data, pending, fulfilled, rejected }) => {
+        const status =
+            (pending && PENDING) ||
+            (fulfilled && FULFILLED) ||
+            (rejected && ERROR)
 
-    pageChange = n => {
-        this.setState(
-            (prevState, props) => Object.assign(prevState, { page: n }),
-            () => this.loadData()
+        return (
+            <c.IncidentList
+                {...this.state}
+                data={data}
+                status={status}
+                onPageChange={this.handlePageChange}
+                onFilterChange={this.handlerFiltersChange}
+            />
         )
     }
-
-    filterChange = f => {
-        this.setState(
-            (prevState, props) =>
-                Object.assign(prevState, { filters: f, page: undefined }),
-            () => this.loadData()
-        )
-    }
-
     render() {
-        return this.props.children(
-            this.state,
-            this.pageChange,
-            this.filterChange
+        return (
+            <containers.Incidents {...this.params}>
+                {this.renderContent}
+            </containers.Incidents>
+        )
+    }
+}
+
+class IncidentDetails extends PureComponent {
+    renderContent = ({ data, pending, fulfilled, rejected }) => {
+        const status =
+            (pending && PENDING) ||
+            (fulfilled && FULFILLED) ||
+            (rejected && ERROR)
+
+        return <c.IncidentDetails status={status} data={data} />
+    }
+    render() {
+        return (
+            <containers.Incident id={this.props.id}>
+                {this.renderContent}
+            </containers.Incident>
         )
     }
 }
@@ -108,6 +95,7 @@ class IncidentListContainer extends PureComponent {
 /*
  * TODO(wnh): This is SOOOO gross. I feel dirty.
  */
+// Utils
 const seasonToFrom = s => {
     if (s === 1980) {
         return '0001-01-01'
@@ -117,51 +105,7 @@ const seasonToFrom = s => {
 }
 const seasonToTo = s => format(new Date(s + 1, 4, 30), 'YYYY-MM-DD')
 
-export class IncidentsList extends PureComponent {
-    render() {
-        return (
-            <Page>
-                <Header title="Historical Incidents" />
-                <Content>
-                    <Main>
-                        <IncidentListContainer>
-                            {(props, pageChange, filterChange) => {
-                                return (
-                                    <c.IncidentList
-                                        {...props}
-                                        onPageChange={pageChange}
-                                        onFilterChange={filterChange}
-                                    />
-                                )
-                            }}
-                        </IncidentListContainer>
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
-}
-
-export class IncidentDetails extends PureComponent {
-    render() {
-        const { id } = this.props
-
-        return (
-            <Page>
-                <Header title="Historical Incidents" />
-                <Content>
-                    <Main>
-                        <IncidentDetailsContainer id={id}>
-                            {({ status, data }) => (
-                                <c.IncidentDetails
-                                    status={status}
-                                    data={data}
-                                />
-                            )}
-                        </IncidentDetailsContainer>
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
-}
+// Constants
+const PENDING = 'PENDING'
+const FULFILLED = 'FULFILLED'
+const ERROR = 'ERROR'

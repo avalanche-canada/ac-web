@@ -14,7 +14,7 @@ import { Courses, Providers } from './Ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
-import { IncidentsList, IncidentDetails } from './Incidents'
+import Incidents from './Incidents'
 import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import TripPlanner from './TripPlanner'
@@ -615,14 +615,6 @@ function Events({ uri }) {
                 from="VvB06CwAAIqKBmhf"
                 to={`${uri}/isc-2016-snowmobile`}
             />
-        </Router>
-    )
-}
-function Incidents() {
-    return (
-        <Router>
-            <IncidentsList path="/" />
-            <IncidentDetails path=":id" />
         </Router>
     )
 }
