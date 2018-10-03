@@ -1,39 +1,3 @@
-import React, { Component, Fragment } from 'react'
-import { Link, ColumnSet } from 'components/navbar'
-import { DocumentByUID } from 'prismic/containers'
-import { Loading } from 'components/text'
-import { STATIC_PAGE } from 'constants/prismic'
-
-class Ambassadors extends Component {
-    renderLink({ fullName }) {
-        const { to } = this.props
-        const hash = fullName.toLowerCase().replace(/\s/, '-', 'g')
-
-        return (
-            <Link key={hash} to={`${to}#${hash}`}>
-                {fullName}
-            </Link>
-        )
-    }
-    renderContent = ({ loading, document }) => (
-        <Fragment>
-            <Loading show={loading} />
-            {document && (
-                <ColumnSet>
-                    {document.data.content[0].value.map(this.renderLink, this)}
-                </ColumnSet>
-            )}
-        </Fragment>
-    )
-    render() {
-        return (
-            <DocumentByUID type={STATIC_PAGE} uid="ambassadors">
-                {this.renderContent}
-            </DocumentByUID>
-        )
-    }
-}
-
 let id = 0
 
 const Gear = {
@@ -147,7 +111,7 @@ const Planning = {
     ],
 }
 
-export default {
+module.exports = {
     id: String(id++),
     label: 'Avalanche Canada',
     to: '/',
@@ -156,7 +120,9 @@ export default {
             id: String(id++),
             label: 'Backcountry Resources',
             children: [
-                { ...MountainInformationNetwork, id: String(id++) },
+                Object.assign({}, MountainInformationNetwork, {
+                    id: String(id++),
+                }),
                 Planning,
                 {
                     id: String(id++),
@@ -187,7 +153,7 @@ export default {
             id: String(id++),
             label: 'Learn',
             children: [
-                { ...AvCanTrainingCourses, id: String(id++) },
+                Object.assign({}, AvCanTrainingCourses, { id: String(id++) }),
                 {
                     id: String(id++),
                     label: 'Online Education',
@@ -294,9 +260,11 @@ export default {
                         },
                     ],
                 },
-                { ...MountainInformationNetwork, id: String(id++) },
+                Object.assign({}, MountainInformationNetwork, {
+                    id: String(id++),
+                }),
                 Planning,
-                { ...AvCanTrainingCourses, id: String(id++) },
+                Object.assign({}, AvCanTrainingCourses, { id: String(id++) }),
             ],
         },
         {
@@ -391,7 +359,7 @@ export default {
                     label: 'Ambassadors',
                     header: true,
                     to: '/ambassadors',
-                    children: Ambassadors,
+                    // children: 'Ambassadors',
                 },
                 {
                     id: String(id++),
