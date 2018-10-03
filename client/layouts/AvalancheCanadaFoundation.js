@@ -7,7 +7,7 @@ import Null from 'components/Null'
 import { NotFound } from 'components/page'
 import Navbar from 'components/navbar'
 import logo from 'styles/AvalancheCanadaFoundation.svg'
-import menu from 'constants/menus/foundation'
+import menu from /* preval */ '../constants/menus/foundation'
 import { StaticPage } from 'prismic/layouts'
 
 // TODO: Could have an AvCan Foundation not found page, not just a regular one

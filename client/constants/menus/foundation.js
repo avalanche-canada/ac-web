@@ -1,6 +1,6 @@
 let id = 100
 
-export default {
+module.exports = {
     id: String(id++),
     label: 'Avalanche Canada Foundation',
     to: '/foundation',
