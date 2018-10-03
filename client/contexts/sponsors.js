@@ -4,6 +4,7 @@ import formatDate from 'date-fns/format'
 import { resource } from 'api/requests/static'
 import { status } from 'services/fetch/utils'
 import { LocalStorage } from 'services/storage'
+import { captureException } from 'services/sentry'
 
 export class Provider extends Component {
     static propTypes = {
@@ -26,14 +27,18 @@ export class Provider extends Component {
         Youth: 'cbt',
     })
     async fetch() {
-        const response = await fetch(resource('sponsors'))
-        const data = await status(response)
-        const date = formatDate(new Date(), 'YYYY-MM-DD')
-        const sponsors = Object.assign({}, data.default, data[date])
+        try {
+            const response = await fetch(resource('sponsors'))
+            const data = await status(response)
+            const date = formatDate(new Date(), 'YYYY-MM-DD')
+            const sponsors = Object.assign({}, data.default, data[date])
 
-        this.storage.set('sponsors', sponsors)
+            this.storage.set('sponsors', sponsors)
 
-        this.setState(sponsors)
+            this.setState(sponsors)
+        } catch (error) {
+            captureException(error)
+        }
     }
     componentWillUnmount() {
         clearTimeout(this.timeoutId)
