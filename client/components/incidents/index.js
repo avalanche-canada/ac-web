@@ -1,71 +1,55 @@
-import React, { PureComponent } from 'react'
-import { Time } from 'components/time'
+import React, { PureComponent, Fragment } from 'react'
+import { Link } from '@reach/router'
 import * as t from 'components/table'
 import Pagination from 'components/pagination'
-import { Loading, Error } from 'components/text'
-import styles from './incidents.css'
 import { DropdownFromOptions } from 'components/controls'
 import getYear from 'date-fns/get_year'
 import getMonth from 'date-fns/get_month'
 import format from 'date-fns/format'
 import { incidentsBaseUrl } from 'api/config'
+import styles from './incidents.css'
 
-//TODO(wnh): is property destructuring only an arrow function thing???
-// function IncidentList({status, data}) was not working at all at a
-
-const PENDING = 'PENDING'
-const FULFILLED = 'FULFILLED'
-const ERROR = 'ERROR'
-
-export const IncidentList = ({
-    status,
-    data,
-    page,
-    filters,
-    onPageChange,
-    onFilterChange,
-}) => {
-    return (
-        <div>
-            {status === PENDING && <Loading />}
-            {status === ERROR && <Error />}
-            {status === FULFILLED ? (
-                <IncidentTable
-                    data={data}
-                    page={page}
-                    filters={filters}
-                    onPageChange={onPageChange}
-                    onFilterChange={onFilterChange}
-                />
-            ) : (
-                <div />
-            )}
-        </div>
-    )
-}
-
-class IncidentTable extends PureComponent {
-    //= ({data, onPageChange, page}) => {
-    //
-    state = {}
-
-    render() {
-        const page_count = this.props.data.count / 50
-        //const page_count = Math.ceil(data.count / 50);
-        const results = this.props.data.results
-        const rows = results.map(inc => {
-            return <Row key={inc.id} inc={inc} />
-        })
-
-        const filters = this.props.filters || {}
+export class IncidentTable extends PureComponent {
+    renderRow({
+        date,
+        location,
+        location_province,
+        group_activity,
+        num_involved,
+        num_injured,
+        num_fatal,
+        id,
+    }) {
         return (
-            <div>
+            <t.Row>
+                <t.Cell>
+                    <span className={styles.DateCell}>{date}</span>
+                </t.Cell>
+                <t.Cell>{location}</t.Cell>
+                <t.Cell>{dash(location_province)}</t.Cell>
+                <t.Cell>{group_activity}</t.Cell>
+                <t.Cell>{dash(num_involved)}</t.Cell>
+                <t.Cell>{dash(num_injured)}</t.Cell>
+                <t.Cell>{dash(num_fatal)}</t.Cell>
+                <t.Cell>
+                    <Link to={id}>view</Link>
+                </t.Cell>
+            </t.Row>
+        )
+    }
+    render() {
+        const { onFilterChange, page, onPageChange, filters = {} } = this.props
+        const { results, count } = this.props.data
+        const pageCount = count / 50
+
+        return (
+            <Fragment>
                 <IncidentFilters
                     values={{
                         from: filters.from,
                         to: filters.to,
                     }}
-                    onChange={this.props.onFilterChange}
+                    onChange={onFilterChange}
                 />
                 <t.Table>
                     <t.Header>
@@ -80,15 +64,324 @@ class IncidentTable extends PureComponent {
                             <t.HeaderCell />
                         </t.Row>
                     </t.Header>
-                    <t.TBody>{rows}</t.TBody>
+                    <t.TBody>{results.map(this.renderRow)}</t.TBody>
                 </t.Table>
                 <Pagination
-                    total={page_count}
-                    active={this.props.page}
-                    onChange={this.props.onPageChange}
+                    total={pageCount}
+                    active={page}
+                    onChange={onPageChange}
                 />
+            </Fragment>
+        )
+    }
+}
+
+export class IncidentFilters extends PureComponent {
+    handleChangeFrom = fromSeason =>
+        this.props.onChange({ from: fromSeason, to: this.props.values.to })
+    handleChangeTo = toSeason =>
+        this.props.onChange({ from: this.props.values.from, to: toSeason })
+    render() {
+        // Remove last filter year ( most recent ) as it results in an empty "TO" list and no elements
+        // Validate this works when there are entries for this year
+        const f = FILTERS.slice(0, FILTERS.length - 1)
+        const froms = new Map(
+            f
+                .filter(f => startsBefore(f, this.props.values.to))
+                .map(f => [f.season, f.title])
+        )
+        const tos = new Map(
+            FILTERS.filter(f => startsAfter(f, this.props.values.from)).map(
+                f => [f.season, f.title]
+            )
+        )
+        return (
+            <div className={styles.Filters}>
+                <div>
+                    <label>From:</label>
+                    <DropdownFromOptions
+                        onChange={this.handleChangeFrom}
+                        value={this.props.values.from}
+                        placeholder="From"
+                        options={froms}
+                    />
+                </div>
+                <div>
+                    <label>To:</label>
+                    <DropdownFromOptions
+                        onChange={this.handleChangeTo}
+                        value={this.props.values.to}
+                        placeholder="To"
+                        options={tos}
+                    />
+                </div>
             </div>
         )
+    }
+}
+
+export function IncidentDetails({ data }) {
+    const {
+        avalanche_obs,
+        weather_obs,
+        weather_comment,
+        snowpack_obs,
+        snowpack_comment,
+        documents,
+    } = data
+
+    return (
+        <article>
+            <Summary incident={data} />
+            <Avalanche avalanches={avalanche_obs} />
+            <Weather weather={weather_obs} weatherComment={weather_comment} />
+            <Snowpack
+                snowpack={snowpack_obs}
+                snowpackComment={snowpack_comment}
+            />
+            <Documents docs={documents} />
+        </article>
+    )
+}
+
+function Summary({ incident }) {
+    return (
+        <section>
+            <h2>Incident Summary</h2>
+            <table className={styles.SummaryTable}>
+                <tbody>
+                    <SummaryValue name="Date">{incident.ob_date}</SummaryValue>
+                    <SummaryValue name="Location">
+                        {incident.location}
+                    </SummaryValue>
+                    <SummaryValue name="Location Description">
+                        {incident.location_desc}
+                    </SummaryValue>
+                    <SummaryValue name="Province">
+                        {incident.location_province}
+                    </SummaryValue>
+                    <SummaryValue name="Coordinates">
+                        {latLng(incident.location_coords)}
+                    </SummaryValue>
+                    <SummaryValue name="Elevation" suffix="m">
+                        {incident.location_elevation}
+                    </SummaryValue>
+                    <SummaryValue name="Activity">
+                        {incident.group_activity}
+                    </SummaryValue>
+                    <SummaryValue name="Involvement">
+                        {incident.num_involved}
+                    </SummaryValue>
+                    <SummaryValue name="Injury">
+                        {incident.num_injured}
+                    </SummaryValue>
+                    <SummaryValue name="Fatality">
+                        {incident.num_fatal}
+                    </SummaryValue>
+                    <SummaryValue name="Description">
+                        {incident.comment}
+                    </SummaryValue>
+                </tbody>
+            </table>
+        </section>
+    )
+}
+
+function SummaryValue({ name, children, suffix }) {
+    return (
+        <tr>
+            <th>{name}</th>
+            <td>
+                {children ? [children, suffix].filter(Boolean).join(' ') : '-'}
+            </td>
+        </tr>
+    )
+}
+
+function Avalanche({ avalanches }) {
+    const rows = avalanches.map((avalanche, i) => (
+        <t.Row key={i}>
+            <t.Cell>{avalanche.observation_date}</t.Cell>
+            <Cell>{avalanche.size}</Cell>
+            <Cell>{avalanche.type}</Cell>
+            <Cell>{avalanche.trigger}</Cell>
+            <Cell suffix="m">{avalanche.elevation}</Cell>
+            <Cell>{avalanche.aspect}</Cell>
+            <Cell suffix="m">{avalanche.slab_width}</Cell>
+            <Cell suffix="cm">{avalanche.slab_thickness}</Cell>
+        </t.Row>
+    ))
+
+    return (
+        <Section title="Avalanches">
+            <t.Table>
+                <t.Header>
+                    <t.Row>
+                        <t.HeaderCell>Date/Time</t.HeaderCell>
+                        <t.HeaderCell>Size</t.HeaderCell>
+                        <t.HeaderCell>Type</t.HeaderCell>
+                        <t.HeaderCell>Trigger</t.HeaderCell>
+                        <t.HeaderCell>Elevation</t.HeaderCell>
+                        <t.HeaderCell>Aspect</t.HeaderCell>
+                        <t.HeaderCell>Slab Width</t.HeaderCell>
+                        <t.HeaderCell>Slab Thickness</t.HeaderCell>
+                    </t.Row>
+                </t.Header>
+                <t.TBody>{rows}</t.TBody>
+            </t.Table>
+        </Section>
+    )
+}
+
+function Weather({ weather, weatherComment }) {
+    return (
+        <Section title="Weather">
+            <t.Table>
+                <t.Header>
+                    <t.Row>
+                        <t.HeaderCell>Present Temp</t.HeaderCell>
+                        <t.HeaderCell>Max Temp</t.HeaderCell>
+                        <t.HeaderCell>Min Temp</t.HeaderCell>
+                        <t.HeaderCell>24hr Trend</t.HeaderCell>
+                        <t.HeaderCell>Wind Speed</t.HeaderCell>
+                        <t.HeaderCell>Wind Direction</t.HeaderCell>
+                        <t.HeaderCell>Sky Condition</t.HeaderCell>
+                        <t.HeaderCell>
+                            Precipitation Type & Intensity
+                        </t.HeaderCell>
+                    </t.Row>
+                </t.Header>
+                <t.TBody>
+                    <t.Row>
+                        <Cell>{weather.temp_pressent}</Cell>
+                        <Cell>{weather.temp_max}</Cell>
+                        <Cell>{weather.temp_min}</Cell>
+                        <Cell>{weather.temp_trend}</Cell>
+                        <Cell>{weather.wind_speed}</Cell>
+                        <Cell>{weather.wind_dir}</Cell>
+                        <Cell>{weather.sky}</Cell>
+                        <Cell>{weather.precip}</Cell>
+                    </t.Row>
+                </t.TBody>
+            </t.Table>
+            {weatherComment && (
+                <p>
+                    <b>Weather Comment:</b> {weatherComment}
+                </p>
+            )}
+        </Section>
+    )
+}
+
+function Snowpack({ snowpack, snowpackComment }) {
+    return (
+        <Section title="Snowpack">
+            <t.Table>
+                <t.Header>
+                    <t.Row>
+                        <t.HeaderCell>Snowpack</t.HeaderCell>
+                        <t.HeaderCell>24hr Snow</t.HeaderCell>
+                        <t.HeaderCell>Storm Snow</t.HeaderCell>
+                        <t.HeaderCell>Storm Date</t.HeaderCell>
+                    </t.Row>
+                </t.Header>
+                <t.TBody>
+                    <t.Row>
+                        <Cell suffix="cm">{snowpack.hs}</Cell>
+                        <Cell suffix="cm">{snowpack.hn24}</Cell>
+                        <Cell suffix="cm">{snowpack.hst}</Cell>
+                        <Cell suffix="cm">{snowpack.hst_reset}</Cell>
+                    </t.Row>
+                </t.TBody>
+            </t.Table>
+            {snowpackComment && (
+                <p>
+                    <b>Snowpack Comment:</b> {snowpackComment}
+                </p>
+            )}
+        </Section>
+    )
+}
+
+function Documents({ docs }) {
+    const rows = docs.map((d, i) => (
+        <t.Row key={i}>
+            <t.Cell>{d.date}</t.Cell>
+            <t.Cell>{d.title}</t.Cell>
+            <t.Cell>{d.source}</t.Cell>
+            <t.Cell>
+                <a href={incidentsBaseUrl + d.url} target={d.title}>
+                    view
+                </a>
+            </t.Cell>
+        </t.Row>
+    ))
+
+    return (
+        <Section title="Documents">
+            <t.Table>
+                <t.Header>
+                    <t.Row>
+                        <t.HeaderCell>Document Date</t.HeaderCell>
+                        <t.HeaderCell>Title</t.HeaderCell>
+                        <t.HeaderCell>Source</t.HeaderCell>
+                        <t.HeaderCell />
+                    </t.Row>
+                </t.Header>
+                <t.TBody>{rows}</t.TBody>
+            </t.Table>
+        </Section>
+    )
+}
+
+function Section({ title, children }) {
+    return (
+        <section>
+            <h3>{title}</h3>
+            {children}
+        </section>
+    )
+}
+
+function Cell({ children, suffix }) {
+    return (
+        <t.Cell>
+            {children ? [children, suffix].filter(Boolean).join(' ') : '-'}
+        </t.Cell>
+    )
+}
+
+// Utils
+function latLng(coords) {
+    if (!Array.isArray(coords)) {
+        return '-'
+    }
+
+    return (
+        coords
+            .filter(Boolean)
+            .map(Number)
+            .map(coord => `${coord.toFixed(5)} °`)
+            .join(', ') || '-'
+    )
+}
+function dash(value) {
+    return value || '-'
+}
+function startsBefore(filterVal, currentToVal) {
+    // If the current set from value is null or undefined show everything
+    if (!currentToVal) {
+        return true
+    } else {
+        return filterVal.season < currentToVal
+    }
+}
+function startsAfter(filterVal, currentFromVal) {
+    // If the current set from value is null or undefined show everything
+    if (!currentFromVal) {
+        return true
+    } else {
+        return filterVal.season > currentFromVal
     }
 }
 
@@ -126,358 +419,4 @@ function makeFilters() {
         filters.push(f)
     }
     return filters
-}
-
-function startsBefore(filterVal, currentToVal) {
-    // If the current set from value is null or undefined show everything
-    if (!currentToVal) {
-        return true
-    } else {
-        return filterVal.season < currentToVal
-    }
-}
-function startsAfter(filterVal, currentFromVal) {
-    // If the current set from value is null or undefined show everything
-    if (!currentFromVal) {
-        return true
-    } else {
-        return filterVal.season > currentFromVal
-    }
-}
-
-class IncidentFilters extends PureComponent {
-    handleChangeFrom = fromSeason =>
-        this.props.onChange({ from: fromSeason, to: this.props.values.to })
-    handleChangeTo = toSeason =>
-        this.props.onChange({ from: this.props.values.from, to: toSeason })
-    render() {
-        // Remove last filter year ( most recent ) as it results in an empty "TO" list and no elements
-        // Validate this works when there are entries for this year
-        const f = FILTERS.slice(0, FILTERS.length - 1)
-        const froms = new Map(
-            f
-                .filter(f => startsBefore(f, this.props.values.to))
-                .map(f => [f.season, f.title])
-        )
-        const tos = new Map(
-            FILTERS.filter(f => startsAfter(f, this.props.values.from)).map(
-                f => [f.season, f.title]
-            )
-        )
-        return (
-            <div>
-                {/* <div>Filter Seasons:</div> */}
-
-                <div className={styles.Filters}>
-                    <div>
-                        <label>From:</label>
-                        <DropdownFromOptions
-                            onChange={this.handleChangeFrom}
-                            value={this.props.values.from}
-                            placeholder="From"
-                            options={froms}
-                        />
-                    </div>
-                    <div>
-                        <label>To:</label>
-                        <DropdownFromOptions
-                            onChange={this.handleChangeTo}
-                            value={this.props.values.to}
-                            placeholder="To"
-                            options={tos}
-                        />
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
-const dash = val => {
-    if (val === null || typeof val === 'undefined' || val === '') {
-        return '-'
-    }
-    return val
-}
-
-const Row = ({ inc }) => {
-    return (
-        <t.Row>
-            <t.Cell>
-                <span className={styles.DateCell}>{inc.date}</span>
-            </t.Cell>
-            <t.Cell>{inc.location}</t.Cell>
-            <t.Cell>{dash(inc.location_province)}</t.Cell>
-            <t.Cell>{inc.group_activity}</t.Cell>
-            <t.Cell>{dash(inc.num_involved)}</t.Cell>
-            <t.Cell>{dash(inc.num_injured)}</t.Cell>
-            <t.Cell>{dash(inc.num_fatal)}</t.Cell>
-            <t.Cell>
-                <a href={`/incidents/${inc.id}`}>view</a>
-            </t.Cell>
-        </t.Row>
-    )
-}
-
-export const IncidentDetails = ({ status, data }) => {
-    return (
-        <div>
-            {status === PENDING && <Loading />}
-            {status === ERROR && <Error />}
-            {status === FULFILLED ? <IncPage incident={data} /> : <div />}
-        </div>
-    )
-}
-
-const IncPage = ({ incident }) => {
-    return (
-        <div>
-            <IncSummary incident={incident} />
-            <IncAvalanche avalanches={incident.avalanche_obs} />
-            <IncWx
-                weather={incident.weather_obs}
-                weatherComment={incident.weather_comment}
-            />
-            <IncSnow
-                snowpack={incident.snowpack_obs}
-                snowpackComment={incident.snowpack_comment}
-            />
-            <IncDocuments docs={incident.documents} />
-        </div>
-    )
-}
-
-const SummaryVal = ({ name, val, suffix }) => {
-    var cell = <td>-</td>
-    if (val) {
-        cell = (
-            <td>
-                {val}
-                {suffix}
-            </td>
-        )
-    }
-    return (
-        <tr>
-            <th>{name}</th>
-            {cell}
-        </tr>
-    )
-}
-
-const LatLng = ({ coords }) => {
-    if (Array.isArray(coords)) {
-        return (
-            <td>
-                {coords
-                    .filter(Boolean)
-                    .map(Number)
-                    .map(coord => `${coord.toFixed(5)} °`)
-                    .join(', ') || '-'}
-            </td>
-        )
-    } else {
-        return <td>-</td>
-    }
-}
-
-const IncSummary = ({ incident }) => {
-    return (
-        <div>
-            <h2>Incident Summary</h2>
-            <table className={styles.SummaryTable}>
-                <tbody>
-                    <tr>
-                        <th>Date</th>
-                        <td>{incident.ob_date}</td>
-                    </tr>
-                    <SummaryVal name="Location" val={incident.location} />
-                    <SummaryVal
-                        name="Location Description"
-                        val={incident.location_desc}
-                    />
-                    <SummaryVal
-                        name="Province"
-                        val={incident.location_province}
-                    />
-                    {/*
-                        TODO(wnh): Figure out where this comes from. Needs work in the API
-                        <SummaryVal name="Mountain Range"       val="TODO" />
-                    */}
-                    <tr>
-                        <th>Coordinates</th>
-                        <LatLng coords={incident.location_coords} />
-                    </tr>
-                    <SummaryVal
-                        name="Elevation"
-                        val={incident.location_elevation}
-                        suffix="m"
-                    />
-                    <SummaryVal name="Activity" val={incident.group_activity} />
-                    <SummaryVal
-                        name="Involvement"
-                        val={incident.num_involved}
-                    />
-                    <SummaryVal name="Injury" val={incident.num_injured} />
-                    <SummaryVal name="Fatality" val={incident.num_fatal} />
-                    <SummaryVal name="Description" val={incident.comment} />
-                </tbody>
-            </table>
-        </div>
-    )
-}
-
-const RowVal = ({ val, suffix }) => {
-    if (val) {
-        return (
-            <t.Cell>
-                {val}
-                {suffix}
-            </t.Cell>
-        )
-    } else {
-        return <t.Cell>-</t.Cell>
-    }
-}
-
-const IncAvalanche = ({ avalanches }) => {
-    const rows = avalanches.map((av, i) => (
-        <t.Row key={i}>
-            <t.Cell>{av.observation_date}</t.Cell>
-            <RowVal val={av.size} />
-            <RowVal val={av.type} />
-            <RowVal val={av.trigger} />
-            <RowVal val={av.elevation} suffix="m" />
-            <RowVal val={av.aspect} />
-            <RowVal val={av.slab_width} suffix="m" />
-            <RowVal val={av.slab_thickness} suffix="cm" />
-        </t.Row>
-    ))
-
-    return (
-        <div>
-            <h3>Avalanches</h3>
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Date/Time</t.HeaderCell>
-                        <t.HeaderCell>Size</t.HeaderCell>
-                        <t.HeaderCell>Type</t.HeaderCell>
-                        <t.HeaderCell>Trigger</t.HeaderCell>
-                        <t.HeaderCell>Elevation</t.HeaderCell>
-                        <t.HeaderCell>Aspect</t.HeaderCell>
-                        <t.HeaderCell>Slab Width</t.HeaderCell>
-                        <t.HeaderCell>Slab Thickness</t.HeaderCell>
-                    </t.Row>
-                </t.Header>
-                <t.TBody>{rows}</t.TBody>
-            </t.Table>
-        </div>
-    )
-}
-
-const IncWx = ({ weather, weatherComment }) => {
-    const wx = weather
-    return (
-        <div>
-            <h3>Weather</h3>
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Present Temp</t.HeaderCell>
-                        <t.HeaderCell>Max Temp</t.HeaderCell>
-                        <t.HeaderCell>Min Temp</t.HeaderCell>
-                        <t.HeaderCell>24hr Trend</t.HeaderCell>
-                        <t.HeaderCell>Wind Speed</t.HeaderCell>
-                        <t.HeaderCell>Wind Direction</t.HeaderCell>
-                        <t.HeaderCell>Sky Condition</t.HeaderCell>
-                        <t.HeaderCell>
-                            Precipitation Type & Intensity
-                        </t.HeaderCell>
-                    </t.Row>
-                </t.Header>
-                <t.TBody>
-                    <t.Row>
-                        <RowVal val={wx.temp_pressent} />
-                        <RowVal val={wx.temp_max} />
-                        <RowVal val={wx.temp_min} />
-                        <RowVal val={wx.temp_trend} />
-                        <RowVal val={wx.wind_speed} />
-                        <RowVal val={wx.wind_dir} />
-                        <RowVal val={wx.sky} />
-                        <RowVal val={wx.precip} />
-                    </t.Row>
-                </t.TBody>
-            </t.Table>
-            {weatherComment ? (
-                <p>
-                    <b>Weather Comment:</b> {weatherComment}
-                </p>
-            ) : (
-                <p />
-            )}
-        </div>
-    )
-}
-
-const IncSnow = ({ snowpack, snowpackComment }) => {
-    const s = snowpack
-    return (
-        <div>
-            <h3>Snowpack</h3>
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Snowpack</t.HeaderCell>
-                        <t.HeaderCell>24hr Snow</t.HeaderCell>
-                        <t.HeaderCell>Storm Snow</t.HeaderCell>
-                        <t.HeaderCell>Storm Date</t.HeaderCell>
-                    </t.Row>
-                </t.Header>
-                <t.TBody>
-                    <t.Row>
-                        <RowVal val={s.hs} suffix="cm" />
-                        <RowVal val={s.hn24} suffix="cm" />
-                        <RowVal val={s.hst} suffix="cm" />
-                        <RowVal val={s.hst_reset} suffix="cm" />
-                    </t.Row>
-                </t.TBody>
-            </t.Table>
-            {snowpackComment ? (
-                <p>
-                    <b>Snowpack Comment:</b> {snowpackComment}
-                </p>
-            ) : (
-                <p />
-            )}
-        </div>
-    )
-}
-
-const IncDocuments = ({ docs }) => {
-    const rows = docs.map((d, i) => (
-        <t.Row key={i}>
-            <t.Cell>{d.date}</t.Cell>
-            <t.Cell>{d.title}</t.Cell>
-            <t.Cell>{d.source}</t.Cell>
-            <t.Cell>
-                <a href={incidentsBaseUrl + d.url}>view</a>
-            </t.Cell>
-        </t.Row>
-    ))
-    return (
-        <div>
-            <h3>Documents</h3>
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Document Date</t.HeaderCell>
-                        <t.HeaderCell>Title</t.HeaderCell>
-                        <t.HeaderCell>Source</t.HeaderCell>
-                        <t.HeaderCell />
-                    </t.Row>
-                </t.Header>
-                <t.TBody>{rows}</t.TBody>
-            </t.Table>
-        </div>
-    )
 }

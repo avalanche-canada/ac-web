@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
 import { Router } from '@reach/router'
+import { Pending, Fulfilled } from 'components/fetch'
 import { Page, Main, Content, Header } from 'components/page'
+import { Loading } from 'components/text'
 import * as c from 'components/incidents'
 import * as containers from 'containers/incidents'
 import format from 'date-fns/format'
@@ -49,41 +51,35 @@ class IncidentsList extends PureComponent {
             page: 1,
         })
     }
-    renderContent = ({ data, pending, fulfilled }) => {
-        const status = (pending && PENDING) || (fulfilled && FULFILLED)
-
-        return (
-            <c.IncidentList
-                {...this.state}
-                data={data}
-                status={status}
-                onPageChange={this.handlePageChange}
-                onFilterChange={this.handlerFiltersChange}
-            />
-        )
-    }
     render() {
         return (
             <containers.Incidents {...this.params}>
-                {this.renderContent}
+                <Pending>
+                    <Loading />
+                </Pending>
+                <Fulfilled>
+                    <c.IncidentTable
+                        {...this.state}
+                        onPageChange={this.handlePageChange}
+                        onFilterChange={this.handlerFiltersChange}
+                    />
+                </Fulfilled>
             </containers.Incidents>
         )
     }
 }
 
-class IncidentDetails extends PureComponent {
-    renderContent = ({ data, pending, fulfilled, rejected }) => {
-        const status = (pending && PENDING) || (fulfilled && FULFILLED)
-
-        return <c.IncidentDetails status={status} data={data} />
-    }
-    render() {
-        return (
-            <containers.Incident id={this.props.id}>
-                {this.renderContent}
-            </containers.Incident>
-        )
-    }
+function IncidentDetails({ id }) {
+    return (
+        <containers.Incident id={id}>
+            <Pending>
+                <Loading />
+            </Pending>
+            <Fulfilled>
+                <c.IncidentDetails />
+            </Fulfilled>
+        </containers.Incident>
+    )
 }
 
 /*
@@ -98,7 +94,3 @@ const seasonToFrom = s => {
     }
 }
 const seasonToTo = s => format(new Date(s + 1, 4, 30), 'YYYY-MM-DD')
-
-// Constants
-const PENDING = 'PENDING'
-const FULFILLED = 'FULFILLED'
