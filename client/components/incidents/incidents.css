@@ -1,24 +1,25 @@
-
-.SummaryTable th {
-  text-align: left;
-  padding-right: 2em;
-  line-height: 2em;
-  white-space: nowrap;
-  vertical-align: top;
+.Summary {
+    & dl {
+        & dt {
+            flex: 0 1 25% !important;
+        }
+        & dd {
+            flex: 0 1 75% !important;
+        }
+    }
 }
 
 .DateCell {
-  white-space: nowrap;
+    white-space: nowrap;
 }
-
 
 .Filters {
-  display:flex;
+    display: flex;
 }
 .Filters > * {
-  flex:1;
+    flex: 1;
 }
 
 .Filters label {
-  padding-left: 10px;
+    padding-left: 1em;
 }

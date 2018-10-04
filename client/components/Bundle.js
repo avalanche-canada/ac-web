@@ -14,9 +14,7 @@ export default class Bundle extends Component {
     }
     load = () => {
         this.props.load(module => {
-            this.setState({
-                module: module.default,
-            })
+            this.setState({ module })
         })
     }
     render() {

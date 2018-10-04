@@ -9,9 +9,9 @@ import loadLayout from 'bundle-loader?lazy!./Layout'
 export default function TripPlanner() {
     return supported() ? (
         <Bundle load={loadLayout}>
-            {Component =>
-                Component ? (
-                    <Component />
+            {module =>
+                module ? (
+                    <module.default />
                 ) : (
                     <Page>
                         <Content>

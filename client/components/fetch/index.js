@@ -129,8 +129,11 @@ export default class Fetch extends Component {
 
 export class Fulfilled extends Component {
     static propTypes = {
-        children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-            .isRequired,
+        children: PropTypes.oneOfType([
+            PropTypes.element,
+            PropTypes.arrayOf(PropTypes.element),
+            PropTypes.func,
+        ]).isRequired,
     }
     children = ({ fulfilled, data }) => {
         if (!fulfilled) {
@@ -141,7 +144,7 @@ export class Fulfilled extends Component {
 
         return typeof children === 'function'
             ? children(data)
-            : cloneElement(Children.only(children), { data })
+            : Children.map(children, child => cloneElement(child, { data }))
     }
     render() {
         return <Consumer>{this.children}</Consumer>

@@ -20,7 +20,7 @@ export default function Weather() {
 function MountainWeather(props) {
     return (
         <Bundle load={loadMountainWeather}>
-            {Component => (Component ? <Component {...props} /> : null)}
+            {module => (module ? <module.default {...props} /> : null)}
         </Bundle>
     )
 }

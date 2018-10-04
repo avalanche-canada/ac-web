@@ -38,9 +38,9 @@ export default function MountainInformationNetwork() {
 function Submit(props) {
     return (
         <Bundle load={loadSubmit}>
-            {Component =>
-                Component ? (
-                    <Component {...props} />
+            {module =>
+                module ? (
+                    <module.default {...props} />
                 ) : (
                     <Page>
                         <Content>

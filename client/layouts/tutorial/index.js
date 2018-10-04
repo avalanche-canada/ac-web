@@ -12,13 +12,13 @@ export default function Tutorial(props) {
 
     return (
         <Bundle load={load}>
-            {Component => (
+            {module => (
                 <Document {...tutorial.home()} locale={locale}>
                     {({ document }) => {
-                        const loaded = document && Component
+                        const loaded = document && module
 
                         return loaded ? (
-                            <Component {...props} />
+                            <module.default {...props} />
                         ) : (
                             <Page.Page>
                                 <Page.Content>

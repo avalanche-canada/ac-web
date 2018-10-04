@@ -11,7 +11,7 @@ import * as Headers from './headers'
 function ChartSet(props) {
     return (
         <Bundle load={loadChartSet}>
-            {Component => (Component ? <Component {...props} /> : <Loading />)}
+            {module => (module ? <module.default {...props} /> : <Loading />)}
         </Bundle>
     )
 }
