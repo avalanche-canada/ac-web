@@ -1,4 +1,4 @@
-import React, { Component, createContext } from 'react'
+import React, { Component, createContext, cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
 import Cache, { None } from './Cache'
@@ -124,6 +124,37 @@ export default class Fetch extends Component {
                     : children}
             </Provider>
         )
+    }
+}
+
+export class Fulfilled extends Component {
+    static propTypes = {
+        children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
+            .isRequired,
+    }
+    children = ({ fulfilled, data }) => {
+        if (!fulfilled) {
+            return null
+        }
+
+        const { children } = this.props
+
+        return typeof children === 'function'
+            ? children(data)
+            : cloneElement(Children.only(children), { data })
+    }
+    render() {
+        return <Consumer>{this.children}</Consumer>
+    }
+}
+
+export class Pending extends Component {
+    static propTypes = {
+        children: PropTypes.element.isRequired,
+    }
+    children = ({ pending }) => (pending ? this.props.children : null)
+    render() {
+        return <Consumer>{this.children}</Consumer>
     }
 }
 
