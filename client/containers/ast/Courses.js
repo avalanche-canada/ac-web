@@ -4,6 +4,7 @@ import addDays from 'date-fns/add_days'
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
+import isAfter from 'date-fns/is_after'
 import * as ast from 'api/requests/ast'
 
 export default class CoursesContainer extends Component {
@@ -16,9 +17,13 @@ export default class CoursesContainer extends Component {
     }
     children = ({ data, loading }) => {
         const props = { loading }
-        const results = data?.results
+        let results = data?.results
 
         if (Array.isArray(results)) {
+            const now = new Date()
+
+            results = results.filter(course => isAfter(course.date_end, now))
+
             props.courses = getFilters(this.props)
                 .reduce(filterReducer, results)
                 .sort(sorter)
