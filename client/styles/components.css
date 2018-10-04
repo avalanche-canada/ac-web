@@ -29,3 +29,11 @@
 .MatchParent {
     height: 100%;
 }
+
+.Flex {
+    display: flex;
+}
+
+.FullWidth {
+    width: 100%;
+}

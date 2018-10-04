@@ -10,7 +10,7 @@ import Highlight from './Highlight'
 import Footer from 'components/footer'
 import Main from 'layouts/main'
 import Tutorial from './tutorial'
-import { Courses, Providers } from './Ast'
+import Ast from './ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
@@ -118,8 +118,7 @@ export default class AvalancheCanada extends StaticComponent {
                                     />
 
                                     <Weather path="weather/*" />
-                                    <Courses path="training/courses" />
-                                    <Providers path="training/providers" />
+                                    <Ast path="training/*" />
                                     <StaticPage
                                         path="about"
                                         uid="about"
