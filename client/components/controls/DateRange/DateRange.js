@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from 'components/controls'
 import { Calendar, Close } from 'components/icons'
@@ -24,17 +24,10 @@ export default class DateRange extends Component {
     }
     state = {
         visible: false,
-        from: null,
-        to: null,
+        from: this.props.from || null,
+        to: this.props.to || null,
     }
-    constructor(props) {
-        super(props)
-
-        Object.assign(this.state, {
-            from: props.from,
-            to: props.to,
-        })
-    }
+    target = createRef()
     set visible(visible) {
         this.setState({ visible })
     }
@@ -65,7 +58,6 @@ export default class DateRange extends Component {
             this.props.onChange(range)
         })
     }
-    setTarget = target => (this.target = target)
     render() {
         const { hideCalendar } = this
         const { placeholder, container = this } = this.props
@@ -76,7 +68,7 @@ export default class DateRange extends Component {
             : ''
 
         return (
-            <div ref={this.setTarget} className={styles.Container}>
+            <div ref={this.target} className={styles.Container}>
                 <Calendar />
                 <Input
                     className={styles.Input}
@@ -99,7 +91,7 @@ export default class DateRange extends Component {
                     placement="bottom"
                     rootClose
                     shouldUpdatePosition
-                    target={this.target}
+                    target={this.target.current}
                     container={container}>
                     <Callout>
                         <DayPicker

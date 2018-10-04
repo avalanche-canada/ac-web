@@ -1,4 +1,4 @@
-@import "../../../styles/colors.css";
+@import '../../../styles/colors.css';
 
 .Container {
     position: relative;
@@ -25,13 +25,14 @@
         padding: 0;
     }
 
-    & path:not([fill="none"]) {
+    & path:not([fill='none']) {
         fill: var(--primary);
     }
 }
 
 .Clear {
     position: absolute;
+    top: 0;
     right: 0;
 }
 
