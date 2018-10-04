@@ -18,6 +18,10 @@ export class Courses extends PureComponent {
         this.props.onParamsChange(params)
     }
     handleLevelChange = level => {
+        if (level === this.props.level) {
+            level = undefined
+        }
+
         this.sendParamsChange({ level })
     }
     handleDateRangeChange = range => {
