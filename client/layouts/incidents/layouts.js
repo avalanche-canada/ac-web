@@ -1,10 +1,10 @@
 import React, { PureComponent, Fragment } from 'react'
+import format from 'date-fns/format'
 import { Pending, Fulfilled } from 'components/fetch'
-import { Loading } from 'components/text'
 import * as components from 'components/incidents'
 import * as containers from 'containers/incidents'
+import { Loading } from 'components/text'
 import Pagination from 'components/pagination'
-import format from 'date-fns/format'
 
 export class IncidentsList extends PureComponent {
     state = {
