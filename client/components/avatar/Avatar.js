@@ -14,11 +14,7 @@ export default class Avatar extends PureComponent {
     static defaultProps = {
         size: 60,
     }
-    constructor(props) {
-        super(props)
-
-        this.classnames = classnames.bind(styles)
-    }
+    classnames = classnames.bind(styles)
     get style() {
         const { size } = this.props
 
