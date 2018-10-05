@@ -9,6 +9,8 @@ import Button from 'components/button'
 import { WHITE } from 'constants/colors'
 import styles from './Loop.css'
 
+// TODO: Rewrite using a state machine
+
 export default class Loop extends Component {
     static propTypes = {
         urls: PropTypes.arrayOf(PropTypes.string).isRequired,
