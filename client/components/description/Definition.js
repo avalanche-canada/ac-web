@@ -1,26 +1,27 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Description.css'
 
-Definition.propTypes = {
-    children: PropTypes.node.isRequired,
-    style: PropTypes.object,
-    className: PropTypes.string,
-    block: PropTypes.bool,
+export default class Definition extends PureComponent {
+    static propTypes = {
+        children: PropTypes.node.isRequired,
+        style: PropTypes.object,
+        className: PropTypes.string,
+        block: PropTypes.bool,
+    }
+    classnames = classnames.bind(styles)
+    get className() {
+        return this.classnames(this.props.className, {
+            Definition: true,
+            Block: this.props.block,
+        })
+    }
+    render() {
+        return (
+            <dd className={this.className} style={this.props.style}>
+                {this.props.children}
+            </dd>
+        )
+    }
 }
-
-export default function Definition({ block, className, style, children }) {
-    className = classNames(className, {
-        Definition: true,
-        Block: block,
-    })
-
-    return (
-        <dd className={className} style={style}>
-            {children}
-        </dd>
-    )
-}
-
-const classNames = classnames.bind(styles)
