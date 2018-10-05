@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import ELEVATIONS, { ALP, TLN, BTL } from 'constants/forecast/elevation'
 import RATINGS, {
@@ -130,7 +130,9 @@ export default function Banner({
             {showTravelAdvice && (
                 <ExtraInformation rating={rating} expanded={expanded} />
             )}
-            <g transform="scale(0.45)">{IconGroups.get(rating)}</g>
+            <g transform="scale(0.45)">
+                {createElement(IconGroups.get(rating))}
+            </g>
             {expandable && (
                 <ExpandButton
                     rating={rating}

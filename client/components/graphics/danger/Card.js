@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NO_RATING } from 'constants/forecast/rating'
 import { ALP, TLN, BTL } from 'constants/forecast/elevation'
-import Icon from './Icon'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
+import * as Ratings from 'constants/forecast/rating'
 
 PositionText.propTypes = {
     children: PropTypes.string.isRequired,
@@ -26,9 +26,9 @@ const STYLE = {
 }
 
 Card.propTypes = {
-    alp: Icon.propTypes.rating,
-    tln: Icon.propTypes.rating,
-    btl: Icon.propTypes.rating,
+    alp: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    tln: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    btl: PropTypes.oneOf(Array.from(Ratings)).isRequired,
     showTravelAdvice: PropTypes.bool,
     showExtraInformation: PropTypes.bool,
 }
