@@ -10,11 +10,7 @@ export default class Definition extends PureComponent {
         className: PropTypes.string,
         block: PropTypes.bool,
     }
-    constructor(props) {
-        super(props)
-
-        this.classnames = classnames.bind(styles)
-    }
+    classnames = classnames.bind(styles)
     get className() {
         return this.classnames(this.props.className, {
             Definition: true,
