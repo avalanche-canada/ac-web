@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import StaticComponent from 'components/StaticComponent'
 import { Link } from '@reach/router'
@@ -112,8 +112,7 @@ export default class EntryComponent extends StaticComponent {
     }
     render() {
         const { condensed, ...props } = this.props
-        const Component = condensed ? CondensedEntry : Entry
 
-        return <Component {...props} />
+        return createElement(condensed ? CondensedEntry : Entry, props)
     }
 }
