@@ -1,6 +1,6 @@
 import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Location } from '@reach/router'
+import { Match } from '@reach/router'
 import classnames from 'classnames'
 import styles from './Application.css'
 
@@ -12,16 +12,16 @@ export class Banner extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
     }
-    children = ({ location }) =>
+    children = ({ match }) =>
         cloneElement(this.props.children, {
             className: classnames(styles.BannerContent, {
-                [styles.Map]: location.pathname.startsWith('/map'),
+                [styles.Map]: Boolean(match),
             }),
         })
     render() {
         return (
             <div className={styles.Banner}>
-                <Location>{this.children}</Location>
+                <Match path="/map">{this.children}</Match>
             </div>
         )
     }
