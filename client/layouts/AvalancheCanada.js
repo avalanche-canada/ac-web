@@ -103,6 +103,7 @@ export default class AvalancheCanada extends StaticComponent {
                                     <Login path="login" />
                                     <Glossary path="glossary/*" />
                                     <Tutorial path="tutorial/*" />
+                                    <Tutorial path="tutoriel/*" />
                                     <HotZoneReport path="hot-zone-reports/*" />
                                     <HotZoneList path="hot-zones/*" />
                                     <Forecast path="forecasts/*" />

@@ -484,8 +484,8 @@ function toggleDrawer({ open }) {
         open: !open,
     }
 }
-function getLocaleFromProps({ path }) {
-    return path === '/tutoriel' ? FR : EN
+function getLocaleFromProps({ uri }) {
+    return uri === '/tutoriel' ? FR : EN
 }
 
 // Styles
