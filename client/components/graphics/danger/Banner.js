@@ -10,7 +10,6 @@ import RATINGS, {
 } from 'constants/forecast/rating'
 import { BannerFill, BannerStroke, TextFill } from './colors'
 import IconGroups from './IconGroups'
-import noop from 'lodash/noop'
 
 const RatingPropType = PropTypes.oneOf(Array.from(RATINGS))
 
@@ -107,7 +106,7 @@ export default function Banner({
     showTravelAdvice = false,
     expanded,
     expandable = false,
-    onExpandClick = noop,
+    onExpandClick,
 }) {
     const value = ELEVATIONS_VALUES.get(elevation)
     const dx = 255 + 130 + value * 20
@@ -128,18 +127,18 @@ export default function Banner({
                 strokeMiterlimit={10}
             />
             <RatingText rating={rating} showTravelAdvice={showTravelAdvice} />
-            {showTravelAdvice &&
-                <ExtraInformation rating={rating} expanded={expanded} />}
-            <g transform="scale(0.45)">
-                {IconGroups.get(rating)}
-            </g>
-            {expandable &&
+            {showTravelAdvice && (
+                <ExtraInformation rating={rating} expanded={expanded} />
+            )}
+            <g transform="scale(0.45)">{IconGroups.get(rating)}</g>
+            {expandable && (
                 <ExpandButton
                     rating={rating}
                     onClick={onExpandClick}
                     expanded={expanded}
                     x={685 - dx}
-                />}
+                />
+            )}
         </g>
     )
 }
