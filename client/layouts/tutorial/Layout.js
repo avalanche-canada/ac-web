@@ -31,6 +31,7 @@ import dictionnaries from './locales'
 import { FR, EN } from 'constants/locale'
 
 // TODO: Use Context to propagate the tutorial document
+// TODO: Brings LocaleContext.Provider out of this layout...should be bring in the index file
 
 export default class Layout extends Component {
     static propTypes = {
