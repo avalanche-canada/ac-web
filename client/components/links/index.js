@@ -1,4 +1,4 @@
-import { PureComponent, createElement } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import classnames from 'classnames'
@@ -15,24 +15,29 @@ export class Home extends PureComponent {
         to: '/',
     }
     render() {
-        return createElement(Link, {
-            ...this.props,
-            className: classnames(styles.Back, this.props.className),
-        })
+        const { children, className, ...props } = this.props
+
+        return (
+            <Link className={classnames(styles.Back, className)} {...props}>
+                {children}
+            </Link>
+        )
     }
 }
 
 export class MountainInformationNetwork extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        children: PropTypes.element,
     }
     render() {
-        const { id, ...props } = this.props
+        const { id, children, ...props } = this.props
 
-        return createElement(Link, {
-            ...props,
-            to: mountainInformationNetwork(id),
-        })
+        return (
+            <Link {...props} to={mountainInformationNetwork(id)}>
+                {children}
+            </Link>
+        )
     }
 }
 
@@ -45,11 +50,16 @@ export function mountainInformationNetwork(id) {
 export class Forecast extends PureComponent {
     static propTypes = {
         id: PropTypes.string.isRequired,
+        children: PropTypes.element,
     }
     render() {
-        const { id, ...props } = this.props
+        const { id, children, ...props } = this.props
 
-        return createElement(Link, { ...props, to: forecast(id) })
+        return (
+            <Link {...props} to={forecast(id)}>
+                {children}
+            </Link>
+        )
     }
 }
 
