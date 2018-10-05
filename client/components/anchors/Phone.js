@@ -7,10 +7,6 @@ Phone.propTypes = {
     children: PropTypes.node,
 }
 
-function computePhoneString(phone, ext) {
-    return `${phone}${ext ? ` ext. ${ext}` : ''}`
-}
-
 export default function Phone({ phone, ext, children, ...rest }) {
     const href = `tel:${phone}`
 
@@ -19,4 +15,9 @@ export default function Phone({ phone, ext, children, ...rest }) {
             {children || computePhoneString(phone, ext)}
         </a>
     )
+}
+
+// Utils
+function computePhoneString(phone, ext) {
+    return `${phone}${ext ? ` ext. ${ext}` : ''}`
 }
