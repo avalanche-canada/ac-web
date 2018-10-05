@@ -13,6 +13,7 @@ export default class Fetch extends Component {
     static defaultProps = {
         cache: new None(),
     }
+    // TODO: Remove Loading and use Pending instead
     static Loading = class Loading extends Component {
         static propTypes = {
             children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
@@ -31,6 +32,7 @@ export default class Fetch extends Component {
             return <Consumer>{props => this.children(props)}</Consumer>
         }
     }
+    // TODO: Remove Data and use Fulfilled instead
     static Data = class Data extends Component {
         static propTypes = {
             children: PropTypes.func.isRequired,
