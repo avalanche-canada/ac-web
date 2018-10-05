@@ -16,7 +16,7 @@ import Ratings, {
     Palette as RatingPalette,
 } from 'constants/forecast/rating'
 import { WHITE, BLACK } from 'constants/forecast/palette'
-import { DangerCard } from 'components/graphics'
+import DangerCard from 'components/graphics/danger'
 
 const RatingPropType = PropTypes.oneOf(Array.from(Ratings))
 
