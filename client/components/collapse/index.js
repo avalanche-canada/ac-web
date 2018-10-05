@@ -15,9 +15,6 @@ export default class Collapse extends PureComponent {
         collapsed: true,
         dimension: HEIGHT,
     }
-    state = {
-        opened: !this.props.collapsed,
-    }
     collapsable = createRef()
     get computed() {
         const collapsable = this.collapsable.current
