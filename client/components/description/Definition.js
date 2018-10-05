@@ -12,15 +12,19 @@ export default class Definition extends PureComponent {
     }
     classnames = classnames.bind(styles)
     get className() {
-        return this.classnames(this.props.className, {
+        const { className, block } = this.props
+
+        return this.classnames(className, {
             Definition: true,
-            Block: this.props.block,
+            Block: block,
         })
     }
     render() {
+        const { style, children } = this.props
+
         return (
-            <dd className={this.className} style={this.props.style}>
-                {this.props.children}
+            <dd className={this.className} style={style}>
+                {children}
             </dd>
         )
     }

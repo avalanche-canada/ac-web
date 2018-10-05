@@ -18,25 +18,21 @@ export default class List extends PureComponent {
         condensed: false,
         bordered: false,
     }
-    constructor(props) {
-        super(props)
-
-        this.classNames = classnames.bind(styles)
-    }
+    classnames = classnames.bind(styles)
     get className() {
         const { columns, theme, condensed, bordered } = this.props
 
-        return this.classNames(`List--${theme}--${columns}Columns`, {
+        return this.classnames(`List--${theme}--${columns}Columns`, {
             Condensed: condensed,
             Bordered: bordered,
         })
     }
     render() {
-        const { style } = this.props
+        const { style, children } = this.props
 
         return (
             <dl style={style} className={this.className}>
-                {this.props.children}
+                {children}
             </dl>
         )
     }
