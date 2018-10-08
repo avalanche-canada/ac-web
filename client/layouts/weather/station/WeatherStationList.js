@@ -10,7 +10,7 @@ import {
     Main,
     Headline,
 } from 'components/page'
-import Fetch from 'components/fetch'
+import { Fulfilled, Pending } from 'components/fetch'
 import { Error, Muted } from 'components/text'
 
 export default class WeatherStationList extends PureComponent {
@@ -36,10 +36,10 @@ export default class WeatherStationList extends PureComponent {
     }
     children = () => (
         <Fragment>
-            <Fetch.Loading>
+            <Pending>
                 <Muted>Loading weather station data...</Muted>
-            </Fetch.Loading>
-            <Fetch.Data strict>{this.renderData}</Fetch.Data>
+            </Pending>
+            <Fulfilled strict>{this.renderData}</Fulfilled>
         </Fragment>
     )
     renderError() {

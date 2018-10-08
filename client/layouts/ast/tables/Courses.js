@@ -23,7 +23,7 @@ import {
 import { Helper } from 'components/text'
 import { Markup } from 'components/markup'
 import ErrorBoundary from 'components/ErrorBoundary'
-import Fetch from 'components/fetch'
+import { Pending } from 'components/fetch'
 import { Paginated, Sorted } from 'components/collection'
 import { Error, Muted } from 'components/text'
 import { Distance, Tags } from './cells'
@@ -177,9 +177,9 @@ export default class Courses extends Component {
                         />
                         {Array.isArray(courses) && this.renderBody(courses)}
                         <Caption>
-                            <Fetch.Loading>
+                            <Pending>
                                 <Muted>Loading courses...</Muted>
-                            </Fetch.Loading>
+                            </Pending>
                             {Array.isArray(courses) &&
                                 this.renderEmptyMessage(courses)}
                         </Caption>

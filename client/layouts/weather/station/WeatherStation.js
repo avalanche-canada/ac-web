@@ -4,7 +4,7 @@ import { Page, Content, Header, Main } from 'components/page'
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Error, Muted } from 'components/text'
 import ErrorBoundary from 'components/ErrorBoundary'
-import Fetch from 'components/fetch'
+import { Fulfilled, Pending } from 'components/fetch'
 import * as containers from 'containers/weather'
 
 export default class WeatherStation extends PureComponent {
@@ -37,10 +37,10 @@ export default class WeatherStation extends PureComponent {
             <Header title={this.getTitle(props)} />
             <Content>
                 <Main>
-                    <Fetch.Loading>
+                    <Pending>
                         <Muted>Loading weather station data...</Muted>
-                    </Fetch.Loading>
-                    <Fetch.Data strict>{this.renderStation}</Fetch.Data>
+                    </Pending>
+                    <Fulfilled strict>{this.renderStation}</Fulfilled>
                 </Main>
             </Content>
         </Fragment>

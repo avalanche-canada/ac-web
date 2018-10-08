@@ -5,7 +5,7 @@ import { Forecast } from 'containers/forecast'
 import { Region } from 'containers/features'
 import { Page, Header, Content, Main, Aside } from 'components/page'
 import { Muted } from 'components/text'
-import Fetch from 'components/fetch'
+import { Pending } from 'components/fetch'
 import { StructuredText } from 'prismic/components/base'
 import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
@@ -45,9 +45,9 @@ export default class ForecastLayout extends PureComponent {
                     <Main>
                         <components.Forecast value={props.data}>
                             <components.Metadata />
-                            <Fetch.Loading>
+                            <Pending>
                                 <Muted>Loading forecast data...</Muted>
-                            </Fetch.Loading>
+                            </Pending>
                             <SPAW name={name}>{this.renderSPAW}</SPAW>
                             <components.Headline />
                             <components.TabSet />

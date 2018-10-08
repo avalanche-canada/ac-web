@@ -7,7 +7,7 @@ import { Region, Regions } from 'containers/features'
 import { Page, Content, Header, Main } from 'components/page'
 import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
-import Fetch from 'components/fetch'
+import { Pending } from 'components/fetch'
 import { Muted } from 'components/text'
 import { DateElement } from 'components/time'
 import Alert, { WARNING } from 'components/alert'
@@ -71,9 +71,9 @@ export default class ArchiveForecast extends PureComponent {
 
         return (
             <components.Forecast value={data}>
-                <Fetch.Loading>
+                <Pending>
                     <Muted>Loading forecast...</Muted>
-                </Fetch.Loading>
+                </Pending>
                 <components.Metadata />
                 <components.ArchiveWarning date={this.props.date} />
                 <components.Headline />

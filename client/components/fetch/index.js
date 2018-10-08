@@ -13,40 +13,6 @@ export default class Fetch extends Component {
     static defaultProps = {
         cache: new None(),
     }
-    // TODO: Remove Loading and use Pending instead
-    static Loading = class Loading extends Component {
-        static propTypes = {
-            children: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
-                .isRequired,
-        }
-        children = ({ pending }) => {
-            const { children } = this.props
-
-            return typeof children === 'function'
-                ? children(pending)
-                : pending
-                    ? children
-                    : null
-        }
-        render() {
-            return <Consumer>{props => this.children(props)}</Consumer>
-        }
-    }
-    // TODO: Remove Data and use Fulfilled instead
-    static Data = class Data extends Component {
-        static propTypes = {
-            children: PropTypes.func.isRequired,
-            strict: PropTypes.bool,
-        }
-        children = ({ data }) => {
-            const { children, strict } = this.props
-
-            return strict ? (data ? children(data) : null) : children(data)
-        }
-        render() {
-            return <Consumer>{props => this.children(props)}</Consumer>
-        }
-    }
     state = {
         pending: false,
         fulfilled: this.cache.has(this.url),

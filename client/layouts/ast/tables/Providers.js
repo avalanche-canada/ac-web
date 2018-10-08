@@ -4,7 +4,7 @@ import { Link } from '@reach/router'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
 import ErrorBoundary from 'components/ErrorBoundary'
-import Fetch from 'components/fetch'
+import { Pending } from 'components/fetch'
 import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
 import { Table, Responsive, TBody, Row, Cell, Caption } from 'components/table'
@@ -126,9 +126,9 @@ export default class Providers extends PureComponent {
                         {Array.isArray(providers) &&
                             this.renderBodies(providers)}
                         <Caption>
-                            <Fetch.Loading>
+                            <Pending>
                                 <Muted>Loading providers...</Muted>
-                            </Fetch.Loading>
+                            </Pending>
                             {Array.isArray(providers) &&
                                 this.renderEmptyMessage(providers)}
                         </Caption>

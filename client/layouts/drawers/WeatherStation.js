@@ -12,7 +12,7 @@ import {
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Error, Muted } from 'components/text'
 import ErrorBoundary from 'components/ErrorBoundary'
-import Fetch from 'components/fetch'
+import { Fulfilled } from 'components/fetch'
 import * as containers from 'containers/weather'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
@@ -69,7 +69,7 @@ export default class WeatherStation extends PureComponent {
             </Header>
             <Body>
                 <Content>
-                    <Fetch.Data strict>{this.renderData}</Fetch.Data>
+                    <Fulfilled strict>{this.renderData}</Fulfilled>
                 </Content>
             </Body>
         </Container>
