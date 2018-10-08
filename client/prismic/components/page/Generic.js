@@ -15,7 +15,9 @@ export default function Generic({ title, loading, document }) {
         <Page>
             <Header title={document?.data?.title || title} />
             <Content>
-                <Loading show={loading}>{`Loading ${title} page...`}</Loading>
+                <Loading show={loading}>
+                    {title ? `Loading ${title} page...` : 'Loading  page...'}
+                </Loading>
                 <Main>
                     <StructuredText value={document?.data?.body} />
                 </Main>

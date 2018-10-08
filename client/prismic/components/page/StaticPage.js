@@ -68,7 +68,7 @@ export default class StaticPage extends Component {
                 <Header title={data.title || title} />
                 <Content>
                     <Loading show={loading}>
-                        {`Loading ${title} page...`}
+                        {title ? `Loading ${title} page...` : 'Loading page...'}
                     </Loading>
                     <Main>
                         {headline && <Headline>{headline}</Headline>}
