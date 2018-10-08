@@ -1,5 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from '@reach/router'
 import { Loading } from 'components/text'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
@@ -57,12 +58,11 @@ export default class Post extends PureComponent {
             </Fragment>
         )
     }
-    children = ({ loading, document }) => {
-        // FIXME: What if a post is not found?!?
-        // if (loading.isLoaded && !document) {
-        //     // Post not found, redirecting to feed
-        //     return <Redirect to={this.props.type} />
-        // }
+    children = ({ pending, fulfilled, document }) => {
+        // Post not found, redirecting to feed
+        if (fulfilled && !document) {
+            return <Redirect to={`/${this.props.type}`} />
+        }
 
         return (
             <Fragment>
@@ -71,7 +71,7 @@ export default class Post extends PureComponent {
                     <Main>
                         {document && this.renderMetadata(document)}
                         {document && this.renderContent(document)}
-                        <Loading show={loading} />
+                        <Loading show={pending} />
                     </Main>
                     <Aside>
                         <Sidebar {...this.props} />

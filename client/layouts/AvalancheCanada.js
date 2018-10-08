@@ -107,8 +107,10 @@ export default class AvalancheCanada extends StaticComponent {
                                     <HotZoneReport path="hot-zone-reports/*" />
                                     <HotZoneList path="hot-zones/*" />
                                     <Forecast path="forecasts/*" />
+                                    <Redirect from={BLOG} to="/blogs" />
                                     <Blogs path="blogs/*" />
                                     <News path="news/*" />
+                                    <Redirect from={EVENT} to="/events" />
                                     <Events path="events/*" />
                                     <Incidents path="incidents/*" />
                                     <MIN path="min/*" />
