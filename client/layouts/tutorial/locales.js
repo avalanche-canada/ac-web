@@ -29,7 +29,7 @@ export default new Map([
             ['Your answer is required.', 'Votre réponse est requise.'],
             [
                 'Good job! You can try to find other routes.',
-                "Bien jouer ! Essayer de trouver d'autres routes.",
+                "Bien jouer ! Essayez de trouver d'autres routes.",
             ],
             [
                 'Watch out, you are crossing some danger zones.',
