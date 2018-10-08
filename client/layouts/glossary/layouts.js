@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Router, Link } from '@reach/router'
+import { Link } from '@reach/router'
 import memoize from 'lodash/memoize'
 import throttle from 'lodash/throttle'
-import { Page, Main, Content, Header, Headline, Aside } from 'components/page'
+import { FragmentIdentifier } from 'router'
+import { Headline } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
-import { FragmentIdentifier } from 'router'
 import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
@@ -20,28 +20,7 @@ import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
 
-export default function Layout() {
-    return (
-        <Page>
-            <Header title="Glossary" />
-            <Content>
-                <Main>
-                    <Router>
-                        <Definition path="terms/:uid" />
-                        <Glossary default />
-                    </Router>
-                </Main>
-                <Aside>
-                    <Router primary={false}>
-                        <GlossarySidebar path="/" />
-                    </Router>
-                </Aside>
-            </Content>
-        </Page>
-    )
-}
-
-class GlossarySidebar extends StaticComponent {
+export class GlossarySidebar extends StaticComponent {
     render() {
         return (
             <Sidebar>
@@ -55,7 +34,7 @@ class GlossarySidebar extends StaticComponent {
                 </SidebarItem>
                 <SidebarItem>
                     <a
-                        href="http://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
+                        href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
                         target="LexiqueLexicon">
                         Lexique Avalanche - Avalanche Lexicon
                     </a>
@@ -65,7 +44,7 @@ class GlossarySidebar extends StaticComponent {
     }
 }
 
-class Glossary extends Component {
+export class Glossary extends Component {
     renderContent = ({ document, loading }) => {
         return (
             <Fragment>
@@ -83,8 +62,7 @@ class Glossary extends Component {
     }
 }
 
-// Utils
-class Definition extends Component {
+export class Definition extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
     }
@@ -105,6 +83,7 @@ class Definition extends Component {
     }
 }
 
+// Util layouts
 class DefinitionLayout extends StaticComponent {
     static propTypes = {
         linkToExternal: PropTypes.bool,
