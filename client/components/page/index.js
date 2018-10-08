@@ -13,6 +13,5 @@ export { Item as ListItem } from './List'
 
 export Error from './Error'
 export NotFound from './NotFound'
-export Loading from './Loading'
 
 export ContextMap from './ContextMap'
