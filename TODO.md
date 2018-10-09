@@ -42,4 +42,5 @@ Look at all <Link>s, DONE
 
 # Improvements
 
--   Remove react-ga
+-   Remove react-ga DONE
+-   https://github.com/babel/babel-loader

@@ -93,7 +93,7 @@ export default class MountainConditionsReport extends PureComponent {
                     <Navbar style={NAVBAR_STYLE}>
                         <Close shadow onClick={this.props.onCloseClick} />
                     </Navbar>
-                    <Report id={this.props.id}>{this.children}</Report>
+                    <Report id={Number(this.props.id)}>{this.children}</Report>
                 </Body>
             </Container>
         )

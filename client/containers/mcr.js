@@ -6,7 +6,7 @@ import * as mcr from 'api/requests/mcr'
 
 export class Report extends Component {
     static propTypes = {
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         children: PropTypes.func.isRequired,
     }
     children = ({ data, ...props }) => {
