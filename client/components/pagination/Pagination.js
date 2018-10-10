@@ -2,7 +2,6 @@ import React, { createElement, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Pagination.css'
 import Segment, { Disabled } from './Segment'
-import range from 'lodash/range'
 import pagination from 'utils/pagination'
 
 export default class Pagination extends PureComponent {
@@ -21,11 +20,12 @@ export default class Pagination extends PureComponent {
         return Math.ceil(this.props.total)
     }
     get segments() {
-        const  { active } = this.props
-
+        const { active } = this.props
 
         if (this.total <= 10) {
-            return range(1, this.total + 1)
+            return Array(this.total)
+                .fill(1)
+                .map((value, index) => value + index)
         }
 
         return pagination(active, this.total, 3, null)
