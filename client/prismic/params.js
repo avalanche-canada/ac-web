@@ -9,11 +9,15 @@ import endOfMonth from 'date-fns/end_of_month'
 import * as Predicates from 'prismic/predicates'
 import * as types from 'constants/prismic'
 
-// TODO: Find a way to reduce file size here!!!
+// TODO: Find a way to reduce this file size!!!
 
-export function uid({ type, uid }) {
+export function uid(type, uid) {
     return {
-        predicates: [Predicates.uid(type, uid)],
+        predicates: [
+            typeof type === 'object'
+                ? Predicates.uid(type.type, type.uid)
+                : Predicates.uid(type, uid),
+        ],
     }
 }
 
@@ -32,44 +36,33 @@ export function ids(ids) {
 
 export const mw = {
     forecast(date) {
+        const type = types.WEATHER_FORECAST
+
         if (date && !isToday(date)) {
             return {
                 predicates: [
-                    Predicates.field(
-                        types.WEATHER_FORECAST,
-                        'date',
-                        formatDate(date, DATE)
-                    ),
+                    Predicates.field(type, 'date', formatDate(date, DATE)),
                 ],
             }
         } else {
             return {
                 predicates: [
-                    Predicates.type(types.WEATHER_FORECAST),
-                    Predicates.dateBefore(
-                        `my.${types.WEATHER_FORECAST}.date`,
-                        startOfTomorrow()
-                    ),
+                    Predicates.type(type),
+                    Predicates.dateBefore(`my.${type}.date`, startOfTomorrow()),
                 ],
                 pageSize: 1,
-                orderings: [`my.${types.WEATHER_FORECAST}.date desc`],
+                orderings: [`my.${type}.date desc`],
             }
         }
     },
     tutorial(id) {
-        return uid({
-            type: types.WEATHER_TUTORIAL,
-            uid: id,
-        })
+        return uid(types.WEATHER_TUTORIAL, id)
     },
 }
 
 export const tutorial = {
     article(id) {
-        return uid({
-            type: types.TUTORIAL_ARTICLE,
-            uid: id,
-        })
+        return uid(types.TUTORIAL_ARTICLE, id)
     },
     home() {
         return all(types.TUTORIAL)
@@ -77,25 +70,16 @@ export const tutorial = {
 }
 
 export function sponsor(id) {
-    return uid({
-        type: types.SPONSOR,
-        uid: id,
-    })
+    return uid(types.SPONSOR, id)
 }
 
 export function generic(id) {
-    return uid({
-        type: types.GENERIC,
-        uid: id,
-    })
+    return uid(types.GENERIC, id)
 }
 
 export const fatal = {
     accident(id) {
-        return uid({
-            type: types.FATAL_ACCIDENT,
-            uid: id,
-        })
+        return uid(types.FATAL_ACCIDENT, id)
     },
     accidents() {
         return all(types.FATAL_ACCIDENT)
@@ -104,10 +88,7 @@ export const fatal = {
 
 export const toyota = {
     truck(id) {
-        return uid({
-            type: types.TOYOTA_TRUCK_REPORT,
-            uid: id,
-        })
+        return uid(types.TOYOTA_TRUCK_REPORT, id)
     },
     trucks() {
         return all(types.TOYOTA_TRUCK_REPORT)
@@ -116,10 +97,7 @@ export const toyota = {
 
 export const special = {
     report(id) {
-        return uid({
-            type: types.SPECIAL_INFORMATION,
-            uid: id,
-        })
+        return uid(types.SPECIAL_INFORMATION, id)
     },
     reports() {
         return all(types.SPECIAL_INFORMATION)
@@ -146,10 +124,7 @@ export const hotZone = {
         }
     },
     uid(id) {
-        return uid({
-            type: types.HOTZONE_REPORT,
-            uid: id,
-        })
+        return uid(types.HOTZONE_REPORT, id)
     },
     reports(date) {
         const { HOTZONE_REPORT } = types
@@ -194,19 +169,13 @@ export const glossary = {
     glossary() {
         return {
             ...FETCH_DEFINITION_TITLE_OPTIONS,
-            ...uid({
-                type: types.GLOSSARY,
-                uid: 'glossary',
-            }),
+            ...uid(types.GLOSSARY, 'glossary'),
         }
     },
     definition(id) {
         return {
             ...FETCH_DEFINITION_TITLE_OPTIONS,
-            ...uid({
-                type: types.DEFINITION,
-                uid: id,
-            }),
+            ...uid(types.DEFINITION, id),
         }
     },
     definitions() {

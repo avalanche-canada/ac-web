@@ -109,7 +109,7 @@ export class DocumentByUID extends Component {
         const { children, type, uid, ...props } = this.props
 
         return (
-            <Document {...params.uid({ type, uid })} {...props}>
+            <Document {...params.uid(type, uid)} {...props}>
                 {children}
             </Document>
         )
