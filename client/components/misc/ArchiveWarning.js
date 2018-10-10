@@ -4,15 +4,19 @@ import { Link } from '@reach/router'
 import Alert, { WARNING } from 'components/alert'
 import styles from './ArchiveWarning.css'
 
-const LinkPropType = PropTypes.shape({
-    to: PropTypes.string.isRequired,
-    children: PropTypes.string.isRequired,
-})
-
 ArchiveWarning.propTypes = {
-    nowcast: LinkPropType,
-    previous: LinkPropType,
-    next: LinkPropType,
+    nowcast: PropTypes.shape({
+        to: PropTypes.string.isRequired,
+        children: PropTypes.string.isRequired,
+    }),
+    previous: PropTypes.shape({
+        to: PropTypes.string.isRequired,
+        children: PropTypes.string.isRequired,
+    }),
+    next: PropTypes.shape({
+        to: PropTypes.string.isRequired,
+        children: PropTypes.string.isRequired,
+    }),
     children: PropTypes.number.isRequired,
 }
 

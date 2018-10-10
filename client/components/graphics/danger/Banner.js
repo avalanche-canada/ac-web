@@ -11,10 +11,8 @@ import RATINGS, {
 import { BannerFill, BannerStroke, TextFill } from './colors'
 import IconGroups from './IconGroups'
 
-const RatingPropType = PropTypes.oneOf(Array.from(RATINGS))
-
 RatingText.propTypes = {
-    rating: RatingPropType.isRequired,
+    rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
     showTravelAdvice: PropTypes.bool,
 }
 
@@ -40,7 +38,7 @@ function toLines(text, first = 0) {
 }
 
 ExtraInformation.propTypes = {
-    rating: RatingPropType.isRequired,
+    rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
     expanded: PropTypes.bool.isRequired,
 }
 
@@ -61,7 +59,7 @@ function ExtraInformation({ rating, expanded = false }) {
 }
 
 ExpandButton.propTypes = {
-    rating: RatingPropType,
+    rating: PropTypes.oneOf(Array.from(RATINGS)),
     x: PropTypes.number.isRequired,
     onClick: PropTypes.func.isRequired,
     expanded: PropTypes.bool.isRequired,
@@ -93,7 +91,7 @@ const ELEVATIONS_VALUES = new Map([[ALP, 0], [TLN, 1], [BTL, 2]])
 
 Banner.propTypes = {
     elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
-    rating: RatingPropType.isRequired,
+    rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
     showTravelAdvice: PropTypes.bool,
     onExpandClick: PropTypes.func,
     expandable: PropTypes.bool,

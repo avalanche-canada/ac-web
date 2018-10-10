@@ -5,19 +5,21 @@ import { pathname } from 'utils/prismic'
 import { Loading } from 'components/text'
 import { DocumentByUID } from 'prismic/containers'
 
-const DocumentType = PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    uid: PropTypes.string.isRequired,
-})
-
 export default class DocumentLink extends PureComponent {
     static propTypes = {
         value: PropTypes.shape({
-            document: DocumentType.isRequired,
+            document: PropTypes.shape({
+                id: PropTypes.string.isRequired,
+                type: PropTypes.string.isRequired,
+                uid: PropTypes.string.isRequired,
+            }).isRequired,
             isBroken: PropTypes.bool.isRequired,
         }).isRequired,
-        document: DocumentType,
+        document: PropTypes.shape({
+            id: PropTypes.string.isRequired,
+            type: PropTypes.string.isRequired,
+            uid: PropTypes.string.isRequired,
+        }),
         children: PropTypes.node,
     }
     renderer({ document }) {

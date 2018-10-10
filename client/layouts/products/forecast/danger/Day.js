@@ -18,10 +18,8 @@ import Ratings, {
 import { WHITE, BLACK } from 'constants/forecast/palette'
 import DangerCard from 'components/graphics/danger'
 
-const RatingPropType = PropTypes.oneOf(Array.from(Ratings))
-
 Row.propTypes = {
-    rating: RatingPropType.isRequired,
+    rating: PropTypes.oneOf(Array.from(Ratings)).isRequired,
     elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
 }
 
@@ -60,9 +58,9 @@ function Title({ date }) {
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
-    alp: RatingPropType.isRequired,
-    tln: RatingPropType.isRequired,
-    btl: RatingPropType.isRequired,
+    alp: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    tln: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    btl: PropTypes.oneOf(Array.from(Ratings)).isRequired,
 }
 
 export default function Day({ date, alp, tln, btl }) {
@@ -78,9 +76,9 @@ export default function Day({ date, alp, tln, btl }) {
 
 FirstDay.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
-    alp: RatingPropType.isRequired,
-    tln: RatingPropType.isRequired,
-    btl: RatingPropType.isRequired,
+    alp: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    tln: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    btl: PropTypes.oneOf(Array.from(Ratings)).isRequired,
 }
 
 export function FirstDay(props) {

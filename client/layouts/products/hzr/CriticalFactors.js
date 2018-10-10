@@ -33,10 +33,8 @@ const STYLES = new Map([
     ],
 ])
 
-const truthPropType = PropTypes.oneOf(['Yes', 'No'])
-
 CriticalFactor.propTypes = {
-    value: truthPropType,
+    value: PropTypes.oneOf(['Yes', 'No']),
     children: PropTypes.node.isRequired,
 }
 
@@ -59,13 +57,16 @@ function CriticalFactor({ children, value }) {
 
 class CriticalFactorsComponent extends PureComponent {
     static propTypes = {
-        criticalFactorsPersistentAvalancheProblem: truthPropType,
-        criticalFactorsSlabAvalanches: truthPropType,
-        criticalFactorsInstability: truthPropType,
-        criticalFactorsRecentSnowfall: truthPropType,
-        criticalFactorsRecentRainfall: truthPropType,
-        criticalFactorsRecentWindLoading: truthPropType,
-        criticalFactorsSignificantWarming: truthPropType,
+        criticalFactorsPersistentAvalancheProblem: PropTypes.oneOf([
+            'Yes',
+            'No',
+        ]),
+        criticalFactorsSlabAvalanches: PropTypes.oneOf(['Yes', 'No']),
+        criticalFactorsInstability: PropTypes.oneOf(['Yes', 'No']),
+        criticalFactorsRecentSnowfall: PropTypes.oneOf(['Yes', 'No']),
+        criticalFactorsRecentRainfall: PropTypes.oneOf(['Yes', 'No']),
+        criticalFactorsRecentWindLoading: PropTypes.oneOf(['Yes', 'No']),
+        criticalFactorsSignificantWarming: PropTypes.oneOf(['Yes', 'No']),
         criticalFactorsQuestions: PropTypes.string,
         criticalFactorsComments: PropTypes.string,
     }
