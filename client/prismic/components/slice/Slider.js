@@ -23,6 +23,7 @@ export default class Slider extends Component {
     }
 }
 
+// Utils
 function createItem({ image, content }) {
     return {
         src: image.main.url,
