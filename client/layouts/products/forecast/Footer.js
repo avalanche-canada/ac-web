@@ -4,7 +4,7 @@ import { Consumer } from './Context'
 import Panel from './Panel'
 import StaticComponent from 'components/StaticComponent'
 import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
-import { Generic } from 'prismic/components'
+import { Generic } from 'prismic/layouts'
 import ArchiveDatePicker from './ArchiveDatePicker'
 import styles from './Forecast.css'
 

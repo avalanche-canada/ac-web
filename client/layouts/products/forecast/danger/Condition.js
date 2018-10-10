@@ -7,7 +7,7 @@ import {
     EARLY_SEASON,
     Texts,
 } from 'constants/forecast/mode'
-import { Generic } from 'prismic/components'
+import { Generic } from 'prismic/layouts'
 import { domain } from 'assets/config.json'
 import styles from './Danger.css'
 

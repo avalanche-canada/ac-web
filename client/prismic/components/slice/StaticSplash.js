@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Splash } from 'components/page/sections'
-import { Generic } from 'prismic/components'
+import { Generic } from 'prismic/layouts'
 import { StructuredText } from 'prismic/components/base'
 
 StaticSplash.propTypes = {

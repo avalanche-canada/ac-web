@@ -28,7 +28,7 @@ import { ButtonSet } from 'components/button'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
 import { Provider as AuthProvider } from 'contexts/auth'
 import { Provider as MapStateProvider } from 'contexts/map/state'
-import { StaticPage, Generic } from 'prismic/layouts'
+import { StaticPage, GenericPage } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 import styles from 'components/page/Page.css'
@@ -203,7 +203,7 @@ export default class AvalancheCanada extends StaticComponent {
                                         uid="privacy-policy"
                                         title="Privacy Policy"
                                     />
-                                    <Generic
+                                    <GenericPage
                                         path="terms-of-use"
                                         uid="terms-of-use"
                                         title="Terms of use"
@@ -663,7 +663,7 @@ function GenericPages() {
         <Router>
             <Redirect from="privacy-policy" to="/privacy-policy" />
             <Redirect from="terms-of-use" to="/terms-of-use" />
-            <Generic path=":uid" />
+            <GenericPage path=":uid" />
         </Router>
     )
 }
