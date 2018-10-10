@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { pathname } from 'utils/prismic'
 import { Loading } from 'components/text'
-import { DocumentByUID } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import * as params from 'prismic/params'
 
 export default class DocumentLink extends PureComponent {
     static propTypes = {
@@ -28,11 +29,7 @@ export default class DocumentLink extends PureComponent {
     get children() {
         const { type, uid } = this.props.value.document
 
-        return (
-            <DocumentByUID type={type} uid={uid}>
-                {this.renderer}
-            </DocumentByUID>
-        )
+        return <Document {...params.uid(type, uid)}>{this.renderer}</Document>
     }
     render() {
         const { children, value, document, ...props } = this.props

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { DocumentByUID } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import * as params from 'prismic/params'
 import { STATIC_PAGE, GENERIC, SPONSOR } from 'constants/prismic'
 import * as Pages from 'prismic/components/page'
 
@@ -11,15 +12,12 @@ export class StaticPage extends Component {
     }
     renderPage = props => <Pages.StaticPage {...this.props} {...props} />
     render() {
-        const { uid } = this.props
-
         return (
-            <DocumentByUID
-                type={STATIC_PAGE}
-                fetchLinks={`${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`}
-                uid={uid}>
+            <Document
+                {...params.uid(STATIC_PAGE, this.props.uid)}
+                fetchLinks={`${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`}>
                 {this.renderPage}
-            </DocumentByUID>
+            </Document>
         )
     }
 }
@@ -31,12 +29,10 @@ export class Generic extends Component {
     }
     renderPage = props => <Pages.Generic {...this.props} {...props} />
     render() {
-        const { uid } = this.props
-
         return (
-            <DocumentByUID type={GENERIC} uid={uid}>
+            <Document {...params.uid(GENERIC, this.props.uid)}>
                 {this.renderPage}
-            </DocumentByUID>
+            </Document>
         )
     }
 }

@@ -98,24 +98,6 @@ export class Document extends Component {
     }
 }
 
-// TODO: Not sure if this class is needed! We could use Document instead.
-export class DocumentByUID extends Component {
-    static propTypes = {
-        children: PropTypes.func,
-        type: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired,
-    }
-    render() {
-        const { children, type, uid, ...props } = this.props
-
-        return (
-            <Document {...params.uid(type, uid)} {...props}>
-                {children}
-            </Document>
-        )
-    }
-}
-
 export class Documents extends Component {
     static propTypes = {
         children: PropTypes.func,

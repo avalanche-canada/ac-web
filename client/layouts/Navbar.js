@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import { navigate, Location } from '@reach/router'
 import * as Auth from 'contexts/auth'
-import { DocumentByUID } from 'prismic/containers'
+import { Document } from 'prismic/containers'
+import * as params from 'prismic/params'
 import { Loading } from 'components/text'
 import { STATIC_PAGE } from 'constants/prismic'
 import { Protected } from 'router'
@@ -43,9 +44,9 @@ class Ambassadors extends Component {
     )
     render() {
         return (
-            <DocumentByUID type={STATIC_PAGE} uid="ambassadors">
+            <Document {...params.uid(STATIC_PAGE, 'ambassadors')}>
                 {this.renderContent}
-            </DocumentByUID>
+            </Document>
         )
     }
 }
