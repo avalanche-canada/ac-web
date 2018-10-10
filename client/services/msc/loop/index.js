@@ -1,4 +1,3 @@
-import padstart from 'lodash/padStart'
 import { domain } from '../config.json'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
@@ -173,8 +172,8 @@ async function computeCurrentConditionsUrls({
 
 export function formatForecastUrl(type, date, run, hour) {
     const year = date.getUTCFullYear()
-    const month = padstart(date.getUTCMonth() + 1, 2, '0')
-    const day = padstart(date.getUTCDate(), 2, '0')
+    const month = padStart(date.getUTCMonth() + 1, 2, '0')
+    const day = padStart(date.getUTCDate(), 2, '0')
     const { id, extension } = metadata[type]
 
     return [
@@ -184,18 +183,18 @@ export function formatForecastUrl(type, date, run, hour) {
         day,
         [
             id,
-            year + month + day + padstart(run, 2, '0'),
-            padstart(hour, 3, '0') + 'HR.' + extension,
+            year + month + day + padStart(run, 2, '0'),
+            padStart(hour, 3, '0') + 'HR.' + extension,
         ].join('_'),
     ].join('/')
 }
 
 function formatCurrentConditionsUrl(type, date) {
     const year = date.getUTCFullYear()
-    const month = padstart(date.getUTCMonth() + 1, 2, '0')
-    const day = padstart(date.getUTCDate(), 2, '0')
-    const hour = padstart(date.getUTCHours(), 2, '0')
-    const minute = padstart(date.getUTCMinutes(), 2, '0')
+    const month = padStart(date.getUTCMonth() + 1, 2, '0')
+    const day = padStart(date.getUTCDate(), 2, '0')
+    const hour = padStart(date.getUTCHours(), 2, '0')
+    const minute = padStart(date.getUTCMinutes(), 2, '0')
     const { id, extension } = metadata[type]
 
     return [
@@ -224,4 +223,8 @@ async function getRun(type, date) {
             }
         }
     }
+}
+
+function padStart(string, targetLength, padString) {
+    return String(string).padStart(targetLength, padString)
 }

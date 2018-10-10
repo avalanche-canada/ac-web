@@ -1,4 +1,3 @@
-import padstart from 'lodash/padStart'
 import { meteogram } from 'services/msc/config.json'
 
 export const POINT_LOCATIONS = new Set([
@@ -112,7 +111,7 @@ export function format({ model, run, location }) {
     }
 
     const prefix = PREFIXES.get(model)
-    run = padstart(String(run), 2, '0')
+    run = String(run).padStart(2, '0')
 
     return `${meteogram}/cac/products/${prefix}.${run}Z_${location}.png`
 }

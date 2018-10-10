@@ -1,11 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import padStart from 'lodash/padStart'
 import styles from './TimePicker.css'
-
-function padMinute(minute) {
-    return padStart(minute, 2, '0')
-}
 
 export default class TimePicker extends PureComponent {
     static propTypes = {
@@ -23,7 +18,7 @@ export default class TimePicker extends PureComponent {
 
         this.state = {
             hour: value.split(':')[0] || 0,
-            minute: padMinute(value.split(':')[1] || 0),
+            minute: padMinute(value.split(':')[1]),
         }
     }
     handleHourChange = event => {
@@ -88,4 +83,9 @@ export default class TimePicker extends PureComponent {
             </div>
         )
     }
+}
+
+// Utils
+function padMinute(minute = 0) {
+    return String(minute).padStart(2, '0')
 }

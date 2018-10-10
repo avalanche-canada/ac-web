@@ -1,5 +1,4 @@
 import { naefs } from 'services/msc/config.json'
-import padstart from 'lodash/padStart'
 import baseFormatDate from 'date-fns/format'
 
 export const PRECIPITATION = 'PR-1'
@@ -49,12 +48,12 @@ export function format({ product, param, date, run = 0, start, end }) {
 
     date = formatDate(date)
     run = padRun(run)
-    start = padstart(String(start), 3, '0')
-    end = padstart(String(end), 3, '0')
+    start = String(start).padStart(3, '0')
+    end = String(end).padStart(3, '0')
 
-    return `${naefs.produit}/${product}/${param}/CMC_NCEP/${date}${run}_${
-        start
-    }_${end}.gif`
+    return `${
+        naefs.produit
+    }/${product}/${param}/CMC_NCEP/${date}${run}_${start}_${end}.gif`
 }
 
 export function carte({ product, date, run = 0, hour = 0 }) {
@@ -73,9 +72,9 @@ export function epsgram({ code, date, run = 0 }) {
     date = formatDate(date)
     run = padRun(run)
 
-    return `${naefs.epsgram}/${date}${run}_054@007_E1_${
-        code
-    }_I_NAEFS@EPSGRAMS_tt@surf@nt@pr@ws@surf_360.png`
+    return `${
+        naefs.epsgram
+    }/${date}${run}_054@007_E1_${code}_I_NAEFS@EPSGRAMS_tt@surf@nt@pr@ws@surf_360.png`
 }
 
 export function spaghetti({ date, run = 0, hPa = 546, hour = 0 }) {
@@ -83,17 +82,15 @@ export function spaghetti({ date, run = 0, hPa = 546, hour = 0 }) {
     hour = padHour(hour)
     run = padRun(run)
 
-    return `https://weather.gc.ca/data/ensemble/images/${date}${
-        run
-    }_054_E1_north@america_I_ENSEMBLE_spag@${hPa}_${hour}.png`
+    return `https://weather.gc.ca/data/ensemble/images/${date}${run}_054_E1_north@america_I_ENSEMBLE_spag@${hPa}_${hour}.png`
 }
 
 // Utils
 function padRun(run) {
-    return padstart(String(run), 2, '0')
+    return String(run).padStart(2, '0')
 }
 function padHour(hour) {
-    return padstart(String(hour), 3, '0')
+    return String(hour).padStart(3, '0')
 }
 function formatDate(date = new Date()) {
     return baseFormatDate(date, 'YYYYMMDD')

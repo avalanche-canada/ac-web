@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import kebabCase from 'lodash/kebabCase'
 import { Image } from 'prismic/components/base'
 import { SocialSet, SocialItem } from 'components/social'
 import { FragmentIdentifier } from 'router'
@@ -22,6 +21,7 @@ export default function Ambassador({
     avatar,
     children,
 }) {
+    const hash = fullName.toLowerCase().replace(/\s/g, '-')
     function title(name) {
         return `Visit ${fullName} on ${name}`
     }
@@ -39,7 +39,7 @@ export default function Ambassador({
                 </div>
                 <div className={styles.Content}>
                     <h2>
-                        <FragmentIdentifier hash={kebabCase(fullName)}>
+                        <FragmentIdentifier hash={hash}>
                             {fullName}
                         </FragmentIdentifier>
                     </h2>

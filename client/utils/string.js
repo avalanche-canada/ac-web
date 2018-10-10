@@ -1,11 +1,9 @@
-import words from 'lodash/words'
-
 export function initials(name) {
     if (!name || typeof name !== 'string') {
         return
     }
 
-    const [first = '', second = ''] = words(name)
+    const [first = '', second = ''] = name.split(' ')
 
     return (first.charAt(0) + second.charAt(0)).toUpperCase()
 }

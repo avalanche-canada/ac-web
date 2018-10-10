@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Section from './Section'
 import { List as Base, Term, Definition } from 'components/description'
 import { DateTime } from 'components/time'
-import isNil from 'lodash/isNil'
 import { trulyKeys } from 'utils/object'
 
 List.propTypes = {
@@ -67,7 +66,7 @@ export class Entry extends PureComponent {
     render() {
         const { term, children } = this.props
 
-        if (isNil(children)) {
+        if (children == null) {
             return null
         }
 
