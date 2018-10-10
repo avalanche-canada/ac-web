@@ -19,8 +19,6 @@ import { StructuredText } from 'prismic/components/base'
 import { Documents } from 'prismic/containers'
 import * as Predicates from 'prismic/predicates'
 
-const YES = 'Yes'
-
 export default class PrismicTable extends PureComponent {
     static propTypes = {
         value: PropTypes.array.isRequired,
@@ -30,11 +28,7 @@ export default class PrismicTable extends PureComponent {
         pageSize: 10,
         page: 1,
     }
-    constructor(props) {
-        super(props)
-
-        this.columns = props.value.map(createColumn)
-    }
+    columns = this.props.value.map(createColumn)
     handleSortingChange(name, order) {
         this.setState({
             sorting: [name, order],
@@ -155,6 +149,9 @@ export default class PrismicTable extends PureComponent {
         )
     }
 }
+
+// Constants
+const YES = 'Yes'
 
 // Utils
 function createProperty(type, property, option1) {
