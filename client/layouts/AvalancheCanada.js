@@ -3,7 +3,6 @@ import Application from 'components/application'
 import { Router, Redirect } from '@reach/router'
 import Null from 'components/Null'
 import LoginComplete from './LoginComplete'
-import Login from './Login'
 import Navbar from './Navbar'
 import SPAW from './SPAW'
 import Highlight from './Highlight'
@@ -100,7 +99,6 @@ export default class AvalancheCanada extends StaticComponent {
                                     />
                                     <Redirect from="/learn" to="/training" />
                                     <LoginComplete path="login-complete" />
-                                    <Login path="login" />
                                     <Glossary path="glossary/*" />
                                     <Tutorial path="tutorial/*" />
                                     <Tutorial path="tutoriel/*" />
