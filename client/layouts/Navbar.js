@@ -1,11 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import { navigate, Location } from '@reach/router'
+import { Location } from '@reach/router'
 import * as Auth from 'contexts/auth'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { Loading } from 'components/text'
 import { STATIC_PAGE } from 'constants/prismic'
-import { Protected } from 'router'
 import Navbar, {
     Item,
     Menu,
@@ -62,11 +61,7 @@ export default class AvalancheCanadaNavbar extends Component {
     handleLogoutClick = event => {
         event.preventDefault()
 
-        this.logout().then(() => {
-            if (Protected.PATHS.has(this.location.pathname)) {
-                navigate('/')
-            }
-        })
+        this.logout()
     }
     renderNavbar = ([
         { isAuthenticated, login, logout, profile = {} },

@@ -5,8 +5,9 @@ import { Page, Header, Main, Content } from 'components/page'
 import * as links from 'components/links'
 import OPTIONS from './options'
 import Submission from './types'
+import { Consumer as Auth } from 'contexts/auth'
 import { Submit } from 'components/button'
-import styles from './Form.css'
+import { Warning } from 'components/text'
 import { TYPES } from 'constants/min'
 import ObservationSetError from './ObservationSetError'
 import { scrollIntoView } from 'utils/dom'
@@ -14,12 +15,7 @@ import transform from './transform'
 import { status } from 'services/fetch/utils'
 import * as min from 'api/requests/min'
 import { CACHE } from './index'
-
-const { Form } = t.form
-
-function isObservationError(error) {
-    return error.path[0] === 'observations'
-}
+import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
     state = {
@@ -28,12 +24,18 @@ export default class SubmissionForm extends Component {
         type: Submission,
         isSubmitting: false,
     }
-    constructor(props) {
-        super(props)
-
+    async componentDidMount() {
         Object.assign(this.state.options.fields.observations.config, {
             onReportRemove: this.handleReportRemove,
             onTabActivate: this.handleTabActivate,
+        })
+
+        this.store = new FormStore()
+        await this.store.open()
+        const form = await this.store.get()
+
+        this.setState({
+            value: form || null,
         })
     }
     setRef = form => (this.form = form)
@@ -101,6 +103,7 @@ export default class SubmissionForm extends Component {
     }
     handleChange = value => {
         this.setState({ value })
+        this.store.set(value)
     }
     validate = () => {
         const result = this.form.validate()
@@ -109,12 +112,16 @@ export default class SubmissionForm extends Component {
 
         return result
     }
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault()
 
         const result = this.validate()
 
         if (result.isValid()) {
+            if (!this.isAuthenticated) {
+                await this.login()
+            }
+
             this.submit(result.value)
         }
     }
@@ -138,9 +145,11 @@ export default class SubmissionForm extends Component {
                 .then(
                     data => {
                         this.setState({ isSubmitting: false }, () => {
+                            const { subid } = data
+
                             // FIXME: Huge side effect hack, but it working for now
                             CACHE.reset()
-                            const { subid } = data
+                            this.store.reset()
 
                             navigate(links.mountainInformationNetwork(subid))
                         })
@@ -155,36 +164,182 @@ export default class SubmissionForm extends Component {
                 )
         })
     }
-    render() {
+    renderForm = ({ isAuthenticated, login }) => {
         const { options, type, value, isSubmitting } = this.state
         const disabled = isSubmitting
 
+        this.login = login
+        this.isAuthenticated = isAuthenticated
+
+        return (
+            <form
+                onSubmit={this.handleSubmit}
+                noValidate
+                className={styles.Container}>
+                <Form
+                    ref={this.setRef}
+                    value={value}
+                    type={type}
+                    options={options}
+                    disabled={disabled}
+                    onChange={this.handleChange}
+                />
+                {isAuthenticated || (
+                    <Warning>
+                        Posting your observations to the Mountain Information
+                        Network (MIN) requires you to be signed in, you wil be
+                        asked to enter your credetials once you click the submit
+                        button below. Thanks for posting your observations to
+                        the MIN!
+                    </Warning>
+                )}
+                <Submit large disabled={isSubmitting}>
+                    {isSubmitting
+                        ? 'Submitting your report...'
+                        : 'Submit your report'}
+                </Submit>
+            </form>
+        )
+    }
+    render() {
         return (
             <Page>
                 <Header title="Mountain Information Network — Create report" />
                 <Content>
                     <Main>
-                        <form
-                            onSubmit={this.handleSubmit}
-                            noValidate
-                            className={styles.Container}>
-                            <Form
-                                ref={this.setRef}
-                                value={value}
-                                type={type}
-                                options={options}
-                                disabled={disabled}
-                                onChange={this.handleChange}
-                            />
-                            <Submit large disabled={isSubmitting}>
-                                {isSubmitting
-                                    ? 'Submitting your report...'
-                                    : 'Submit your report'}
-                            </Submit>
-                        </form>
+                        <Auth>{this.renderForm}</Auth>
                     </Main>
                 </Content>
             </Page>
         )
+    }
+}
+
+// Utils
+const { Form } = t.form
+
+function isObservationError(error) {
+    return error.path[0] === 'observations'
+}
+
+class FormStore {
+    open() {
+        return new Promise((resolve, reject) => {
+            const indexedDB =
+                window.indexedDB ||
+                window.mozIndexedDB ||
+                window.webkitIndexedDB ||
+                window.msIndexedDB
+
+            if (!indexedDB) {
+                reject(new Error('indexedDB not supported'))
+                return
+            }
+
+            const request = indexedDB.open('avcan', 1)
+
+            request.onupgradeneeded = event => {
+                this.db = event.target.result
+
+                if (!this.db.objectStoreNames.contains('min')) {
+                    this.db.createObjectStore('min')
+                }
+
+                resolve()
+            }
+            request.onsuccess = event => {
+                this.db = event.target.result
+                resolve()
+            }
+            request.onerror = event => {
+                reject(event.error)
+            }
+        })
+    }
+    async get() {
+        return new Promise((resolve, reject) => {
+            if (!this.db) {
+                reject('indexedDB not opened')
+                return
+            }
+
+            const transaction = this.db.transaction('min', 'readonly')
+            const object = transaction.objectStore('min')
+            const get = object.get('form')
+
+            Object.assign(get, {
+                onsuccess() {
+                    resolve(get.result)
+                },
+                onerror(event) {
+                    reject(event.error)
+                },
+            })
+        })
+    }
+    async set(value) {
+        return new Promise((resolve, reject) => {
+            if (!this.db) {
+                reject('indexedDB not opened')
+                return
+            }
+
+            const transaction = this.db.transaction('min', 'readwrite')
+            const object = transaction.objectStore('min')
+            const get = object.get('form')
+
+            Object.assign(get, {
+                onsuccess() {
+                    if (get.result) {
+                        Object.assign(get.result, value)
+
+                        const update = object.put(value, 'form')
+
+                        Object.assign(update, {
+                            onsuccess() {
+                                resolve()
+                            },
+                            onerror(event) {
+                                reject(event.error)
+                            },
+                        })
+                    } else {
+                        const add = object.add(value, 'form')
+
+                        Object.assign(add, {
+                            onsuccess() {
+                                resolve()
+                            },
+                            onerror(event) {
+                                reject(event.error)
+                            },
+                        })
+                    }
+                },
+                onerror(event) {
+                    reject(event.error)
+                },
+            })
+        })
+    }
+    async reset() {
+        return new Promise((resolve, reject) => {
+            if (!this.db) {
+                reject('indexedDB not opened')
+                return
+            }
+
+            const transaction = this.db.transaction('min', 'readwrite')
+            const object = transaction.objectStore('min')
+
+            Object.assign(object.delete('form'), {
+                onsuccess() {
+                    resolve()
+                },
+                onerror(event) {
+                    reject(event.error)
+                },
+            })
+        })
     }
 }

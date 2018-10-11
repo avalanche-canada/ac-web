@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Router } from '@reach/router'
-import { Protected } from 'router'
 import Bundle from 'components/Bundle'
 import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
 import Submission from 'layouts/Submission'
@@ -13,7 +12,7 @@ import * as utils from 'utils/search'
 export default function MountainInformationNetwork() {
     return (
         <Router>
-            <Protected path="submit" component={Submit} />
+            <Submit path="submit" />
             <Submissions path="submissions" />
             <Submission path="submissions/:id" />
             <StaticPage

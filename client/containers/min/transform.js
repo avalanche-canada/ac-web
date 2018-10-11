@@ -74,8 +74,7 @@ const ObservationTransformers = new Map([
                 numberPartlyBuriedAbleBreathing = 0,
                 numberCaughtOnly = 0,
                 numberPeopleInjured = 0,
-            } =
-                incident.groupDetails || {}
+            } = incident.groupDetails || {}
             const numberInvolved =
                 numberFullyBuried +
                 numberPartlyBuriedImpairedBreathing +
@@ -129,6 +128,7 @@ export default function transform(value) {
     })
 
     // Files[Iterator] does not exist in Safari :(
+    // NO for (variable of iterable) { }
     const files = uploads.files || []
     for (let i = 0; i < files.length; i++) {
         form.append(`files${i + 1}`, files[i])
