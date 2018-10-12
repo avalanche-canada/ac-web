@@ -224,6 +224,10 @@ function isObservationError(error) {
 
 class FormStore {
     open() {
+        if (this.db) {
+            return Promise.resolve()
+        }
+
         return new Promise((resolve, reject) => {
             const indexedDB =
                 window.indexedDB ||
@@ -239,16 +243,19 @@ class FormStore {
             const request = indexedDB.open('avcan', 1)
 
             request.onupgradeneeded = event => {
-                this.db = event.target.result
+                const db = event.target.result
 
-                if (!this.db.objectStoreNames.contains('min')) {
-                    this.db.createObjectStore('min')
+                if (!db.objectStoreNames.contains('min')) {
+                    db.createObjectStore('min')
                 }
+
+                this.db = db
 
                 resolve()
             }
             request.onsuccess = event => {
                 this.db = event.target.result
+
                 resolve()
             }
             request.onerror = event => {
