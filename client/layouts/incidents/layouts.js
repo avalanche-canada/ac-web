@@ -3,7 +3,7 @@ import format from 'date-fns/format'
 import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'components/incidents'
 import * as containers from 'containers/incidents'
-import { Loading } from 'components/text'
+import { Loading, Warning } from 'components/text'
 import Pagination from 'components/pagination'
 
 export class IncidentsList extends PureComponent {
@@ -70,9 +70,12 @@ export function IncidentDetails({ id }) {
             <Pending>
                 <Loading />
             </Pending>
-            <Fulfilled>
+            <Fulfilled.Found>
                 <components.IncidentDetails />
-            </Fulfilled>
+            </Fulfilled.Found>
+            <Fulfilled.NotFound>
+                <Warning>Incident #{id} not found</Warning>
+            </Fulfilled.NotFound>
         </containers.Incident>
     )
 }
