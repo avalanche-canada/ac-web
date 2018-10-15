@@ -37,7 +37,6 @@ export default class Fetch extends Component {
                 FETCHING.delete(this.url)
             }
         )
-
         throw error
     }
     fetch() {
