@@ -103,16 +103,33 @@ export class Fulfilled extends Component {
             PropTypes.func,
         ]).isRequired,
     }
+    static Found({ children }) {
+        return (
+            <Fulfilled>
+                {data => (data ? Fulfilled.children(children, data) : null)}
+            </Fulfilled>
+        )
+    }
+    static NotFound({ children }) {
+        return (
+            <Fulfilled>
+                {data => (data ? null : Fulfilled.children(children))}
+            </Fulfilled>
+        )
+    }
+    static children(children, data) {
+        return typeof children === 'function'
+            ? children(data)
+            : data
+                ? Children.map(children, child => cloneElement(child, { data }))
+                : children
+    }
     children = ({ fulfilled, data }) => {
         if (!fulfilled) {
             return null
         }
 
-        const { children } = this.props
-
-        return typeof children === 'function'
-            ? children(data)
-            : Children.map(children, child => cloneElement(child, { data }))
+        return Fulfilled.children(this.props.children, data)
     }
     render() {
         return <Consumer>{this.children}</Consumer>
