@@ -5,10 +5,22 @@ import styles from './Page.css'
 
 List.propTypes = {
     children: PropTypes.node,
+    column: PropTypes.number,
 }
 
-export default function List({ children }) {
-    return <ul className={styles.List}>{children}</ul>
+export default function List({ children, column }) {
+    let style = null
+
+    if (typeof column === 'number') {
+        style = {
+            columnCount: column,
+        }
+    }
+    return (
+        <ul style={style} className={styles.List}>
+            {children}
+        </ul>
+    )
 }
 
 Item.propTypes = {

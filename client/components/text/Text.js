@@ -9,12 +9,21 @@ export function Muted({ children, ...props }) {
     )
 }
 
-export function Loading({ children = 'Loading...', show, ...props }) {
-    return show === true || show === undefined ? (
-        <p className={styles.Loading} {...props}>
-            {children}
-        </p>
-    ) : null
+export function Loading({
+    children = 'Loading...',
+    component = 'p',
+    show,
+    ...props
+}) {
+    return show === true || show === undefined
+        ? createElement(
+              component,
+              Object.assign(props, {
+                  className: styles.Loading,
+              }),
+              children
+          )
+        : null
 }
 
 export function Error({
@@ -35,10 +44,12 @@ export function Helper({ children, ...props }) {
     )
 }
 
-export function Warning({ children, ...props }) {
-    return (
-        <p className={styles.Warning} {...props}>
-            {children}
-        </p>
+export function Warning({ children, component = 'p', ...props }) {
+    return createElement(
+        component,
+        Object.assign(props, {
+            className: styles.Warning,
+        }),
+        children
     )
 }

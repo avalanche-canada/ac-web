@@ -39,7 +39,7 @@ export default class WeatherStationList extends PureComponent {
             <Pending>
                 <Muted>Loading weather station data...</Muted>
             </Pending>
-            <Fulfilled strict>{this.renderData}</Fulfilled>
+            <Fulfilled>{this.renderData}</Fulfilled>
         </Fragment>
     )
     renderError() {

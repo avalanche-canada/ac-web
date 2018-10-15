@@ -1,7 +1,7 @@
 import * as turf from '@turf/helpers'
 
 export function title({ data, loading }) {
-    return loading ? 'Loading...' : data?.name || 'No station'
+    return loading ? 'Loading...' : data?.name || 'Weather station not found'
 }
 
 export function geometry({ longitude, latitude }) {

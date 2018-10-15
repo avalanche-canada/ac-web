@@ -1,6 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
+import { Link, Location } from '@reach/router'
+import { List, ListItem } from 'components/page'
 import {
     Header,
     Container,
@@ -10,9 +11,9 @@ import {
     Close,
 } from 'components/page/drawer'
 import { Metadata, Station, Footer } from 'components/weather/station'
-import { Error, Muted } from 'components/text'
+import { Error, Muted, Loading, Warning } from 'components/text'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Fulfilled } from 'components/fetch'
+import { Fulfilled, Pending } from 'components/fetch'
 import * as containers from 'containers/weather'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
@@ -30,13 +31,26 @@ export default class WeatherStation extends PureComponent {
     renderHeader(station) {
         this.station = station
 
-        const { data } = station
-        const title = utils.title(station)
-
         return (
             <h1>
-                {data ? <Link to={utils.link(data)}>{title}</Link> : title}
-                {data && <DisplayOnMap onClick={this.handleLocateClick} />}
+                <Pending>
+                    <Loading component="span" />
+                </Pending>
+                <Fulfilled.NotFound>
+                    <Warning component="span">
+                        Weather station #{this.props.id} not found
+                    </Warning>
+                </Fulfilled.NotFound>
+                <Fulfilled.Found>
+                    {({ stationId, name }) => (
+                        <Fragment>
+                            <Link to={`/weather/stations/${stationId}`}>
+                                {name}
+                            </Link>
+                            <DisplayOnMap onClick={this.handleLocateClick} />
+                        </Fragment>
+                    )}
+                </Fulfilled.Found>
             </h1>
         )
     }
@@ -45,17 +59,6 @@ export default class WeatherStation extends PureComponent {
             <Muted>Loading westher station measurements...</Muted>
         ) : (
             <Station utcOffset={utcOffset} measurements={data} />
-        )
-    }
-    renderData = station => {
-        return (
-            <Fragment>
-                <Metadata {...station} />
-                <containers.Measurements id={this.props.id}>
-                    {this.renderMeasurements.bind(this, station)}
-                </containers.Measurements>
-                <Footer />
-            </Fragment>
         )
     }
     children = props => (
@@ -69,7 +72,21 @@ export default class WeatherStation extends PureComponent {
             </Header>
             <Body>
                 <Content>
-                    <Fulfilled strict>{this.renderData}</Fulfilled>
+                    <Fulfilled.Found>
+                        <Metadata {...props.data} />
+                        <containers.Measurements id={this.props.id}>
+                            {this.renderMeasurements.bind(this, props.data)}
+                        </containers.Measurements>
+                        <Footer />
+                    </Fulfilled.Found>
+                    <Fulfilled.NotFound>
+                        <containers.Stations>
+                            {renderStations}
+                        </containers.Stations>
+                    </Fulfilled.NotFound>
+                    <Pending>
+                        <Loading />
+                    </Pending>
                 </Content>
             </Body>
         </Container>
@@ -88,4 +105,33 @@ export default class WeatherStation extends PureComponent {
             </ErrorBoundary>
         )
     }
+}
+
+function renderStations() {
+    return (
+        <Fulfilled>
+            <h3>Click on a link below to see another weather station:</h3>
+            <WeatherStations />
+        </Fulfilled>
+    )
+}
+function WeatherStations({ data }) {
+    return (
+        <Location>
+            {({ location }) => (
+                <List column={1}>
+                    {data.map(({ stationId, name }) => (
+                        <ListItem
+                            key={stationId}
+                            to={`${
+                                location.pathname
+                            }?panel=weather-stations/${stationId}`}
+                            replace>
+                            {name}
+                        </ListItem>
+                    ))}
+                </List>
+            )}
+        </Location>
+    )
 }

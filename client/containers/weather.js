@@ -22,10 +22,16 @@ export class Stations extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
     }
+    children = ({ data, ...props }) =>
+        this.props.children(
+            Object.assign(props, {
+                data: Array.isArray(data) ? data.sort(sorter) : data,
+            })
+        )
     render() {
         return (
             <Fetch cache={STATIONS} request={weather.stations()}>
-                {this.props.children}
+                {this.children}
             </Fetch>
         )
     }
@@ -46,3 +52,7 @@ export class Measurements extends Component {
 }
 
 const STATIONS = new Memory()
+
+function sorter(a, b) {
+    return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
+}
