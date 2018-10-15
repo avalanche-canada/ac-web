@@ -8,16 +8,20 @@ import { Page, Content, Header, Main } from 'components/page'
 import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
 import { Pending } from 'components/fetch'
-import { Muted } from 'components/text'
+import { Muted, Loading } from 'components/text'
 import { DateElement } from 'components/time'
 import Alert, { WARNING } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
+import externals from 'router/externals'
 import {
     PARKS_CANADA,
     CHIC_CHOCS,
     VANCOUVER_ISLAND,
+    AVALANCHE_CANADA,
 } from 'constants/forecast/owners'
+
+// TODO: Could use <Router> to display warning intead of if statments
 
 export default class ArchiveForecast extends PureComponent {
     static propTypes = {
@@ -25,26 +29,24 @@ export default class ArchiveForecast extends PureComponent {
         date: PropTypes.instanceOf(Date),
         onParamsChange: PropTypes.func.isRequired,
     }
-    state = {
-        name: this.props.name,
-        date: this.props.date,
-    }
     disabledDays = {
         after: endOfYesterday(),
     }
-    componentWillReceiveProps({ name, date }) {
-        if (name !== this.state.name || date !== this.state.date) {
-            this.setState({ name, date })
-        }
-    }
-    handleParamsChange = () => this.props.onParamsChange(this.state)
-    handleNameChange = name => this.setState({ name }, this.handleParamsChange)
-    handleDateChange = date => this.setState({ date }, this.handleParamsChange)
+    handleNameChange = name =>
+        this.props.onParamsChange({
+            date: this.props.date,
+            name,
+        })
+    handleDateChange = date =>
+        this.props.onParamsChange({
+            name: this.props.name,
+            date,
+        })
     regionsDropdown = ({ data }) => {
         return data ? (
             <Dropdown
                 options={new Map(data.map(createRegionOption))}
-                value={this.state.name}
+                value={this.props.name}
                 onChange={this.handleNameChange}
                 disabled
                 placeholder="Select a region"
@@ -66,13 +68,13 @@ export default class ArchiveForecast extends PureComponent {
             </a>
         ) : null
     }
-    forecast({ data }) {
-        const { name } = this.state
+    forecast = ({ data }) => {
+        const { name } = this.props
 
         return (
             <components.Forecast value={data}>
                 <Pending>
-                    <Muted>Loading forecast...</Muted>
+                    <Loading>Loading forecast...</Loading>
                 </Pending>
                 <components.Metadata />
                 <components.ArchiveWarning date={this.props.date} />
@@ -87,7 +89,7 @@ export default class ArchiveForecast extends PureComponent {
         )
     }
     get container() {
-        const { name, date } = this.state
+        const { name, date } = this.props
 
         if (!name) {
             return <Muted>Select a forecast region.</Muted>
@@ -97,14 +99,16 @@ export default class ArchiveForecast extends PureComponent {
             return <Muted>Select a forecast date.</Muted>
         }
 
-        return (
+        return externals.has(name) || name === NORTH_ROCKIES ? (
+            <Region name={name}>{this.renderWarning}</Region>
+        ) : (
             <Forecast name={name} date={date}>
-                {props => this.forecast(props)}
+                {this.forecast}
             </Forecast>
         )
     }
     get metadata() {
-        const { name, date } = this.state
+        const { name, date } = this.props
 
         return (
             <Metadata>
@@ -148,13 +152,17 @@ function createRegionOption({ id, name }) {
     return [id, name]
 }
 
-function getWarningText({ name, owner }) {
+function getWarningText({ name, owner, id }) {
     switch (owner) {
         case PARKS_CANADA:
             return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
         case CHIC_CHOCS:
         case VANCOUVER_ISLAND:
             return `You can get more information for ${name} region on their website`
+        case AVALANCHE_CANADA:
+            return id === NORTH_ROCKIES
+                ? 'North Rockies are available as blog posts'
+                : null
         default:
             return null
     }
@@ -176,3 +184,5 @@ function getWarningUrl({ type, url, externalUrl }, date) {
             return null
     }
 }
+
+const NORTH_ROCKIES = 'north-rockies'

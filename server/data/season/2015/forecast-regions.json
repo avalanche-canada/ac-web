@@ -66868,7 +66868,7 @@
         "url": "https://avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche",
         "forecastUrl": "/api/forecasts/chic-chocs.json",
         "dangerIconUrl": "/api/forecasts/chic-chocs/danger-rating-icon.svg",
-        "owner": "chics-chocs",
+        "owner": "chic-chocs",
         "centroid": [
           -66.08685578290087,
           48.909684297640375
