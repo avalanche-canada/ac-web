@@ -240,27 +240,31 @@ class FormStore {
                 return
             }
 
-            const request = indexedDB.open('avcan', 1)
+            Object.assign(indexedDB.open('avcan', 1), {
+                onupgradeneeded(event) {
+                    this.db = event.target.result
 
-            request.onupgradeneeded = event => {
-                const db = event.target.result
+                    if (this.db.objectStoreNames.contains('min')) {
+                        resolve()
+                    } else {
+                        this.db.createObjectStore('min')
 
-                if (!db.objectStoreNames.contains('min')) {
-                    db.createObjectStore('min')
-                }
+                        Object.assign(event.target.transaction, {
+                            oncomplete() {
+                                resolve()
+                            },
+                        })
+                    }
+                },
+                onsuccess(event) {
+                    this.db = event.target.result
 
-                this.db = db
-
-                resolve()
-            }
-            request.onsuccess = event => {
-                this.db = event.target.result
-
-                resolve()
-            }
-            request.onerror = event => {
-                reject(event.error)
-            }
+                    resolve()
+                },
+                onerror(event) {
+                    reject(event.error)
+                },
+            })
         })
     }
     async get() {
