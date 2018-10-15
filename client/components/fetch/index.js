@@ -3,6 +3,13 @@ import PropTypes from 'prop-types'
 import { status } from 'services/fetch/utils'
 import Cache, { None } from './Cache'
 
+// Some inspirations, but still think this implementation is easier
+// https://github.com/CharlesMangwa/react-data-fetching
+// https://github.com/techniq/react-fetch-component
+
+// FIXME: Make sure component is still mounted when it is time to set state
+// TODO: Give a try to state machine
+
 export default class Fetch extends Component {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
@@ -17,6 +24,7 @@ export default class Fetch extends Component {
         pending: false,
         fulfilled: this.cache.has(this.url),
         data: this.cache.get(this.url),
+        error: null,
     }
     get cache() {
         return this.props.cache
@@ -25,14 +33,17 @@ export default class Fetch extends Component {
         return this.props.request.url
     }
     fulfill = data => {
-        this.setState({ pending: false, fulfilled: true, data }, () => {
-            this.cache.set(this.url, data)
-            FETCHING.delete(this.url)
-        })
+        this.setState(
+            { pending: false, fulfilled: true, data, error: null },
+            () => {
+                this.cache.set(this.url, data)
+                FETCHING.delete(this.url)
+            }
+        )
     }
     reject = error => {
         this.setState(
-            { pending: false, fulfilled: true, data: undefined },
+            { pending: false, fulfilled: true, data: undefined, error },
             () => {
                 FETCHING.delete(this.url)
             }
@@ -82,9 +93,12 @@ export default class Fetch extends Component {
         }
     }
     render() {
+        const { error } = this.state
         const { children } = this.props
 
-        return (
+        return error ? (
+            throw error
+        ) : (
             <Provider value={this.params}>
                 {typeof children === 'function'
                     ? children(this.params)

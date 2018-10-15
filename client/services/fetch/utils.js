@@ -5,7 +5,7 @@ export function status(response) {
         return response.json()
     }
 
-    return Promise.reject(throw new Error(response.statusText))
+    return Promise.reject(new Error(response.statusText))
 }
 
 export function clean(params) {
