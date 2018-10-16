@@ -6,34 +6,22 @@ import Shim from 'components/Shim'
 import * as components from 'layouts/products/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { Disclaimer, DangerRatings } from 'layouts/products/forecast/Footer'
+import externals from 'router/externals'
 import styles from './TripPlanner.css'
 
 export default class Content extends Component {
     static propTypes = {
         id: PropTypes.string.isRequired,
     }
-    renderOtherForecast({ id, externalUrl }) {
-        if (id === 'north-rockies') {
-            return <NorthRockiesBlogFeed />
-        }
-
-        return externalUrl ? (
-            <p className={styles.PanelContent}>
-                Avalanche forecast are available at:{' '}
-                <a href={externalUrl} target={id}>
-                    {externalUrl}
-                </a>
-            </p>
-        ) : null
-    }
-    children({ loading, data }) {
+    children({ pending, data }) {
         return (
             <Fragment>
-                {loading ? (
-                    <Muted>Loading avalanche forecast...</Muted>
-                ) : data && data.externalUrl ? (
-                    <Shim horizontal>{this.renderOtherForecast(data)}</Shim>
-                ) : (
+                {pending && (
+                    <Shim horizontal>
+                        <Muted>Loading avalanche forecast...</Muted>
+                    </Shim>
+                )}
+                {data && (
                     <components.Forecast value={data}>
                         <Shim horizontal>
                             <components.Metadata />
@@ -48,10 +36,27 @@ export default class Content extends Component {
         )
     }
     render() {
-        return (
-            <Forecast name={this.props.id}>
-                {props => this.children(props)}
-            </Forecast>
-        )
+        const { id } = this.props
+
+        if (id === 'north-rockies') {
+            return (
+                <Shim horizontal>
+                    <NorthRockiesBlogFeed />
+                </Shim>
+            )
+        }
+
+        if (externals.has(id)) {
+            return (
+                <p className={styles.PanelContent}>
+                    Avalanche forecast are available at:{' '}
+                    <a href={externals.get(id)} target={id}>
+                        {externals.get(id).replace('//', '')}
+                    </a>
+                </p>
+            )
+        }
+
+        return <Forecast name={id}>{props => this.children(props)}</Forecast>
     }
 }
