@@ -36,10 +36,10 @@ export class Forecast extends Component {
                         forecast region does not exist
                     </p>
                     <ButtonSet>
-                        <Link to="/forecasts" chevron>
+                        <Link to="/forecasts" replace chevron>
                             See all forecast regions
                         </Link>
-                        <Link to="/map" chevron>
+                        <Link to="/map" replace chevron>
                             Go to the map
                         </Link>
                     </ButtonSet>
