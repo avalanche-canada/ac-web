@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Forecast } from 'containers/forecast'

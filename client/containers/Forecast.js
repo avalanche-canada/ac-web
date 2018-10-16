@@ -3,9 +3,11 @@ import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
+import Error from 'components/error'
 import { forecast } from 'api/requests/forecast'
 import * as transformers from 'api/transformers'
-import { Error } from 'components/text'
+import { Blink } from 'components/text'
+import { ButtonSet, Link } from 'components/button'
 
 export class Forecast extends Component {
     static propTypes = {
@@ -25,10 +27,31 @@ export class Forecast extends Component {
         const { message } = error
 
         if (message === 'Not Found') {
-            return <Error>{this.props.name} forecast does not exist.</Error>
+            return (
+                <Error>
+                    <p>
+                        <Blink>
+                            <strong>{this.props.name}</strong>
+                        </Blink>{' '}
+                        forecast region does not exist
+                    </p>
+                    <ButtonSet>
+                        <Link to="/forecasts" chevron>
+                            See all forecast regions
+                        </Link>
+                        <Link to="/map" chevron>
+                            Go to the map
+                        </Link>
+                    </ButtonSet>
+                </Error>
+            )
         }
 
-        return <Error>An error happened while retrieving forecast data.</Error>
+        return (
+            <Error>
+                <p>An error happened while retrieving forecast data.</p>
+            </Error>
+        )
     }
     render() {
         const { name, date } = this.props
