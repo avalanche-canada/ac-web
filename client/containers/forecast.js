@@ -21,7 +21,13 @@ export class Forecast extends Component {
 
         return this.props.children(props)
     }
-    renderError() {
+    renderError = ({ error }) => {
+        const { message } = error
+
+        if (message === 'Not Found') {
+            return <Error>{this.props.name} forecast does not exist.</Error>
+        }
+
         return <Error>An error happened while retrieving forecast data.</Error>
     }
     render() {
