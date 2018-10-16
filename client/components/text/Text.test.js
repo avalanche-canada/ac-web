@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import { Muted, Loading, Error, Helper } from './Text'
+import { Muted, Loading, Error, Helper } from './index'
 
 test('text component', () => {
     const muted = Renderer.create(<Muted>Content</Muted>)
