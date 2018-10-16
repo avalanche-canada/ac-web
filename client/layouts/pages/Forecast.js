@@ -31,28 +31,39 @@ export default class ForecastLayout extends PureComponent {
             </SPAWComponent>
         )
     }
-    renderHeader({ loading, data }) {
-        return <Header title={loading || !data ? 'Loading...' : data.name} />
+    renderHeader = ({ pending, data }) => (
+        <Header
+            title={pending ? 'Loading...' : data?.name || this.props.name}
+        />
+    )
+    renderForecast = props => {
+        const { name } = this.props
+
+        return (
+            <components.Forecast value={props.data}>
+                <Pending>
+                    <Muted>Loading forecast data...</Muted>
+                </Pending>
+                <components.Metadata />
+                <SPAW name={name}>{this.renderSPAW}</SPAW>
+                <components.Headline />
+                <components.TabSet />
+                <components.Footer />
+            </components.Forecast>
+        )
     }
-    children = props => {
+    render() {
         const { name, date } = this.props
         const isPrintable = !date || isToday(date)
 
         return (
-            <Fragment>
+            <Page>
                 <Region name={name}>{this.renderHeader}</Region>
                 <Content>
                     <Main>
-                        <components.Forecast value={props.data}>
-                            <components.Metadata />
-                            <Pending>
-                                <Muted>Loading forecast data...</Muted>
-                            </Pending>
-                            <SPAW name={name}>{this.renderSPAW}</SPAW>
-                            <components.Headline />
-                            <components.TabSet />
-                            <components.Footer />
-                        </components.Forecast>
+                        <Forecast name={name} date={date}>
+                            {this.renderForecast}
+                        </Forecast>
                     </Main>
                     <Aside>
                         {name === 'kananaskis' ? (
@@ -62,17 +73,6 @@ export default class ForecastLayout extends PureComponent {
                         )}
                     </Aside>
                 </Content>
-            </Fragment>
-        )
-    }
-    render() {
-        const { name, date } = this.props
-
-        return (
-            <Page>
-                <Forecast name={name} date={date}>
-                    {this.children}
-                </Forecast>
             </Page>
         )
     }
