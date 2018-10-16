@@ -33,48 +33,55 @@ export default class Fetch extends Component {
         return this.props.request.url
     }
     fulfill = data => {
-        this.setState(
-            { pending: false, fulfilled: true, data, error: null },
-            () => {
-                this.cache.set(this.url, data)
-                FETCHING.delete(this.url)
-            }
-        )
+        this.setState({
+            pending: false,
+            fulfilled: true,
+            data,
+            error: null,
+        })
+
+        this.cache.set(this.url, data)
+        FETCHING.delete(this.url)
     }
     reject = error => {
-        this.setState(
-            { pending: false, fulfilled: true, data: undefined, error },
-            () => {
-                FETCHING.delete(this.url)
-            }
-        )
+        this.setState({
+            pending: false,
+            fulfilled: true,
+            data: undefined,
+            error,
+        })
+
+        FETCHING.delete(this.url)
+
         throw error
     }
     fetch() {
-        if (this.cache.has(this.url)) {
+        const { url } = this
+
+        if (this.cache.has(url)) {
             this.setState({
                 pending: false,
                 fulfilled: true,
-                data: this.cache.get(this.url),
+                data: this.cache.get(url),
             })
         } else {
-            this.setState(
-                { pending: true, fulfilled: false, data: undefined },
-                () => {
-                    const { url } = this
-                    let fetching
+            this.setState({
+                pending: true,
+                fulfilled: false,
+                data: undefined,
+            })
 
-                    if (FETCHING.has(url)) {
-                        fetching = FETCHING.get(url)
-                    } else {
-                        fetching = fetch(this.props.request).then(status)
+            let fetching
 
-                        FETCHING.set(url, fetching)
-                    }
+            if (FETCHING.has(url)) {
+                fetching = FETCHING.get(url)
+            } else {
+                fetching = fetch(this.props.request).then(status)
 
-                    fetching.then(this.fulfill, this.reject)
-                }
-            )
+                FETCHING.set(url, fetching)
+            }
+
+            fetching.then(this.fulfill, this.reject)
         }
     }
     componentDidUpdate({ request }) {
