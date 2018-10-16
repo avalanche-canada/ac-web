@@ -10,7 +10,7 @@ import * as utils from 'utils/search'
 
 export default class Weather extends Component {
     render() {
-        const title = <Link to="/">Mountain Weather Forecast</Link>
+        const title = <Link to={this.props.uri}>Mountain Weather Forecast</Link>
 
         return (
             <Page>
