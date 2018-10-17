@@ -1,6 +1,6 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
+import { Link, Location } from '@reach/router'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
 import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
@@ -8,9 +8,11 @@ import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { Muted } from 'components/text'
+import { Muted, Warning, Loading } from 'components/text'
 import { Forecast } from 'containers/forecast'
-import { Region } from 'containers/features'
+import { Fulfilled, Pending } from 'components/fetch'
+import { Region, Regions } from 'containers/features'
+import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 
 export default class Layout extends PureComponent {
@@ -35,18 +37,27 @@ export default class Layout extends PureComponent {
     handleLocateClick = () => {
         this.props.onLocateClick(utils.geometry(this.region))
     }
-    renderHeader({ data, loading }) {
+    renderHeader({ pending, fulfilled, data }) {
         this.region = data
-        const title = loading || !data ? 'Loading...' : data.name
 
         return (
             <h1>
-                {data ? <Link to={this.link}>{title}</Link> : title}
-                {data && <DisplayOnMap onClick={this.handleLocateClick} />}
+                {pending && <Loading component="span" />}
+                {fulfilled &&
+                    (data ? (
+                        <Fragment>
+                            <Link to={this.link}>{data.name}</Link>
+                            <DisplayOnMap onClick={this.handleLocateClick} />
+                        </Fragment>
+                    ) : (
+                        <Warning component="span">
+                            Forecast {this.props.name} not found
+                        </Warning>
+                    ))}
             </h1>
         )
     }
-    children({ loading, data }) {
+    children({ data }) {
         const { name, onCloseClick } = this.props
 
         return (
@@ -62,12 +73,12 @@ export default class Layout extends PureComponent {
                     </Region>
                 </Header>
                 <Body>
-                    {loading && (
+                    <Pending>
                         <Shim all>
                             <Muted>Loading avalanche forecast...</Muted>
                         </Shim>
-                    )}
-                    {data && (
+                    </Pending>
+                    <Fulfilled.Found>
                         <components.Forecast value={data}>
                             <Shim horizontal>
                                 <components.Metadata />
@@ -76,7 +87,10 @@ export default class Layout extends PureComponent {
                             <components.TabSet />
                             <components.Footer />
                         </components.Forecast>
-                    )}
+                    </Fulfilled.Found>
+                    <Fulfilled.NotFound>
+                        <Regions>{renderRegions}</Regions>
+                    </Fulfilled.NotFound>
                 </Body>
             </Container>
         )
@@ -88,4 +102,26 @@ export default class Layout extends PureComponent {
             </Forecast>
         )
     }
+}
+
+function renderRegions({ fulfilled, data }) {
+    return fulfilled ? (
+        <Location>
+            {({ location }) => (
+                <Shim horizontal>
+                    <h3>Click on a link below to see another forecast:</h3>
+                    <List column={1}>
+                        {data.map(({ id, name }) => (
+                            <ListItem
+                                key={id}
+                                to={`/map/forecasts/${id}${location.search}`}
+                                replace>
+                                {name}
+                            </ListItem>
+                        ))}
+                    </List>
+                </Shim>
+            )}
+        </Location>
+    ) : null
 }

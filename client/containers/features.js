@@ -20,7 +20,7 @@ export class Region extends Component {
         const { name } = this.props
 
         Object.assign(props, {
-            data: data ? data['forecast-regions'][name] : data,
+            data: data ? data['forecast-regions'][name] : null,
         })
 
         return this.props.children(props)
@@ -73,7 +73,7 @@ export class HotZone extends Component {
         const { name } = this.props
 
         Object.assign(props, {
-            data: data ? data['hot-zones'][name] : data,
+            data: data ? data['hot-zones'][name] : null,
         })
 
         return this.props.children(props)

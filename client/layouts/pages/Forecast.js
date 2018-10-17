@@ -1,15 +1,16 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Forecast } from 'containers/forecast'
-import { Region } from 'containers/features'
+import { Region, Regions } from 'containers/features'
 import { Page, Header, Content, Main, Aside } from 'components/page'
-import { Muted } from 'components/text'
-import { Pending } from 'components/fetch'
+import { Muted, Loading, Warning } from 'components/text'
+import { Pending, Fulfilled } from 'components/fetch'
 import { StructuredText } from 'prismic/components/base'
 import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
+import { List, ListItem } from 'components/page'
 
 export default class ForecastLayout extends PureComponent {
     static propTypes = {
@@ -33,23 +34,39 @@ export default class ForecastLayout extends PureComponent {
     }
     renderHeader = ({ pending, data }) => (
         <Header
-            title={pending ? 'Loading...' : data?.name || this.props.name}
+            title={
+                pending ? (
+                    <Loading component="span" />
+                ) : (
+                    data?.name || (
+                        <Warning component="span">
+                            {this.props.name} forecast not found
+                        </Warning>
+                    )
+                )
+            }
         />
     )
     renderForecast = props => {
         const { name } = this.props
 
         return (
-            <components.Forecast value={props.data}>
+            <Fragment>
                 <Pending>
                     <Muted>Loading forecast data...</Muted>
                 </Pending>
-                <components.Metadata />
-                <SPAW name={name}>{this.renderSPAW}</SPAW>
-                <components.Headline />
-                <components.TabSet />
-                <components.Footer />
-            </components.Forecast>
+                <Fulfilled.Found>
+                    <components.Forecast value={props.data}>
+                        <components.Metadata />
+                        <SPAW name={name}>{this.renderSPAW}</SPAW>
+                        <components.Headline />
+                        <components.TabSet />
+                        <components.Footer />
+                    </components.Forecast>
+                </Fulfilled.Found>
+                <Regions>{renderRegions}</Regions>
+                <Fulfilled.NotFound />
+            </Fragment>
         )
     }
     render() {
@@ -76,4 +93,20 @@ export default class ForecastLayout extends PureComponent {
             </Page>
         )
     }
+}
+
+// Utils
+function renderRegions({ fulfilled, data }) {
+    return fulfilled ? (
+        <Fragment>
+            <h3>Click on a link below to see another forecast:</h3>
+            <List column={1}>
+                {data.map(({ id, name }) => (
+                    <ListItem key={id} to={`../${id}`} replace>
+                        {name}
+                    </ListItem>
+                ))}
+            </List>
+        </Fragment>
+    ) : null
 }

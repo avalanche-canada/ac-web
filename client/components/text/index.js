@@ -53,7 +53,3 @@ export function Warning({ children, component = 'p', ...props }) {
         children
     )
 }
-
-export function Blink({ children }) {
-    return <span className={styles.Blink}>{children}</span>
-}

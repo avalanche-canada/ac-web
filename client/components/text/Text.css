@@ -20,16 +20,3 @@
 .Warning {
     color: #ec971f;
 }
-
-.Blink {
-    animation: blinker 1s ease-in-out infinite;
-}
-
-@keyframes blinker {
-    from {
-        opacity: 1;
-    }
-    to {
-        opacity: 0;
-    }
-}

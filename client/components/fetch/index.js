@@ -1,6 +1,6 @@
 import React, { Component, createContext, cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
-import { status } from 'services/fetch/utils'
+import { status, NotFound } from 'services/fetch/utils'
 import Cache, { None } from './Cache'
 
 // Some inspirations, but still think this implementation is easier
@@ -92,9 +92,13 @@ export default class Fetch extends Component {
     componentDidMount() {
         this.fetch()
     }
+    retry = () => {
+        this.fetch()
+    }
     get params() {
         return {
             ...this.state,
+            retry: this.retry,
             // TODO: Remove loading
             loading: this.state.pending, // Backward compatibility
         }
@@ -103,7 +107,7 @@ export default class Fetch extends Component {
         const { error } = this.state
         const { children } = this.props
 
-        return error ? (
+        return error && !(error instanceof NotFound) ? (
             throw error
         ) : (
             <Provider value={this.params}>

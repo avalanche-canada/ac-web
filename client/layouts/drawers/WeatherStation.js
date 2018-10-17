@@ -1,6 +1,7 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
+import { NotFound } from 'services/fetch/utils'
 import { List, ListItem } from 'components/page'
 import {
     Header,
@@ -28,8 +29,9 @@ export default class WeatherStation extends PureComponent {
     handleLocateClick = () => {
         this.props.onLocateClick(utils.geometry(this.station.data))
     }
-    renderHeader(station) {
-        this.station = station
+    renderHeader(props) {
+        const { id } = this.props
+        this.station = props
 
         return (
             <h1>
@@ -38,25 +40,21 @@ export default class WeatherStation extends PureComponent {
                 </Pending>
                 <Fulfilled.NotFound>
                     <Warning component="span">
-                        Weather station #{this.props.id} not found
+                        Weather station #{id} not found
                     </Warning>
                 </Fulfilled.NotFound>
                 <Fulfilled.Found>
-                    {({ stationId, name }) => (
-                        <Fragment>
-                            <Link to={`/weather/stations/${stationId}`}>
-                                {name}
-                            </Link>
-                            <DisplayOnMap onClick={this.handleLocateClick} />
-                        </Fragment>
-                    )}
+                    <Link to={`/weather/stations/${id}`}>
+                        {props?.data?.name}
+                    </Link>
+                    <DisplayOnMap onClick={this.handleLocateClick} />
                 </Fulfilled.Found>
             </h1>
         )
     }
     renderMeasurements({ utcOffset }, { data, loading }) {
         return loading || !data ? (
-            <Muted>Loading westher station measurements...</Muted>
+            <Muted>Loading weather station measurements...</Muted>
         ) : (
             <Station utcOffset={utcOffset} measurements={data} />
         )
@@ -91,7 +89,11 @@ export default class WeatherStation extends PureComponent {
             </Body>
         </Container>
     )
-    renderError() {
+    renderError({ error }) {
+        if (error instanceof NotFound) {
+            return <Error>Weather station not found.</Error>
+        }
+
         return (
             <Error>An error happened while loading weather station data.</Error>
         )
@@ -109,10 +111,10 @@ export default class WeatherStation extends PureComponent {
 
 function renderStations() {
     return (
-        <Fulfilled>
+        <Fulfilled.Found>
             <h3>Click on a link below to see another weather station:</h3>
             <WeatherStations />
-        </Fulfilled>
+        </Fulfilled.Found>
     )
 }
 function WeatherStations({ data }) {
