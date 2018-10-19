@@ -15,6 +15,7 @@ import transform from './transform'
 import { status } from 'services/fetch/utils'
 import * as min from 'api/requests/min'
 import { CACHE } from './index'
+import { SessionStorage } from 'services/storage'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
@@ -222,7 +223,17 @@ function isObservationError(error) {
     return error.path[0] === 'observations'
 }
 
+//
 class FormStore {
+    storage = new SessionStorage.create({ keyPrefix: 'min:form' })
+    constructor() {
+        const key = this.storage.get('key', String(Math.random() * 1e16))
+
+        this.storage.set('key', key)
+    }
+    get key() {
+        return this.storage.get('key')
+    }
     open() {
         if (this.db) {
             return Promise.resolve()
@@ -276,16 +287,14 @@ class FormStore {
 
             const transaction = this.db.transaction('min', 'readonly')
             const object = transaction.objectStore('min')
-            const get = object.get('form')
+            const get = object.get(this.key)
 
-            Object.assign(get, {
-                onsuccess() {
-                    resolve(get.result)
-                },
-                onerror(event) {
-                    reject(event.error)
-                },
-            })
+            get.onsuccess = () => {
+                resolve(get.result)
+            }
+            get.onerror = () => {
+                reject(event.error)
+            }
         })
     }
     async set(value) {
@@ -297,60 +306,53 @@ class FormStore {
 
             const transaction = this.db.transaction('min', 'readwrite')
             const object = transaction.objectStore('min')
-            const get = object.get('form')
+            const get = object.get(this.key)
 
-            Object.assign(get, {
-                onsuccess() {
-                    if (get.result) {
-                        Object.assign(get.result, value)
+            get.onsuccess = () => {
+                if (get.result) {
+                    Object.assign(get.result, value)
 
-                        const update = object.put(value, 'form')
+                    const update = object.put(value, this.key)
 
-                        Object.assign(update, {
-                            onsuccess() {
-                                resolve()
-                            },
-                            onerror(event) {
-                                reject(event.error)
-                            },
-                        })
-                    } else {
-                        const add = object.add(value, 'form')
-
-                        Object.assign(add, {
-                            onsuccess() {
-                                resolve()
-                            },
-                            onerror(event) {
-                                reject(event.error)
-                            },
-                        })
+                    update.onsuccess = () => {
+                        resolve()
                     }
-                },
-                onerror(event) {
-                    reject(event.error)
-                },
-            })
+                    update.onerror = event => {
+                        reject(event.error)
+                    }
+                } else {
+                    const add = object.add(value, this.key)
+
+                    add.onsuccess = () => {
+                        resolve()
+                    }
+                    add.onerror = event => {
+                        reject(event.error)
+                    }
+                }
+            }
+
+            get.onerror = event => {
+                reject(event.error)
+            }
         })
     }
     async reset() {
-        return new Promise((resolve, reject) => {
-            if (!this.db) {
-                reject('indexedDB not opened')
-                return
-            }
-
+        return new Promise(resolve => {
             const transaction = this.db.transaction('min', 'readwrite')
             const object = transaction.objectStore('min')
 
-            Object.assign(object.delete('form'), {
-                onsuccess() {
+            object.openCursor().onsuccess = event => {
+                const cursor = event.target.result
+
+                if (cursor) {
+                    object.delete(cursor.key).onsuccess = () => {
+                        cursor.continue()
+                    }
+                } else {
                     resolve()
-                },
-                onerror(event) {
-                    reject(event.error)
-                },
-            })
+                }
+            }
         })
     }
 }
