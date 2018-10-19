@@ -99,7 +99,7 @@ export default class Fetch extends Component {
         return {
             ...this.state,
             retry: this.retry,
-            // TODO: Remove loading
+            // TODO: Remove loading and just send the state to avoid rerender
             loading: this.state.pending, // Backward compatibility
         }
     }

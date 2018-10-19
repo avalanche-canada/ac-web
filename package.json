@@ -39,7 +39,7 @@
         "jwks-rsa": "^1.2.1",
         "jwt-decode": "^2.1.0",
         "keycode": "^2.1.1",
-        "lodash": "~4.15.0",
+        "lodash": "^4.17.11",
         "method-override": "~1.0.0",
         "moment": "^2.14.1",
         "moment-timezone": "^0.5.4",
