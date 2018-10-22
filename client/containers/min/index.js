@@ -55,9 +55,9 @@ export class Reports extends Component {
     children({ data, ...props }) {
         Object.assign(props, {
             data: data
-                ? transformers.sanitizeMountainInformationNetworkSubmissions(
-                      data
-                  )
+                ? transformers
+                      .sanitizeMountainInformationNetworkSubmissions(data)
+                      .sort(sorter)
                 : data,
         })
 
@@ -85,3 +85,8 @@ export class Reports extends Component {
 }
 
 export const CACHE = new Memory()
+
+// Utils
+function sorter(a, b) {
+    return a.datetime < b.datetime
+}
