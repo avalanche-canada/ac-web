@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import Bundle from 'components/Bundle'
 import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
@@ -55,24 +56,36 @@ function Submit(props) {
 }
 
 class Submissions extends Component {
-    handleParamsChange = params => {
+    static propTypes = {
+        location: PropTypes.object.isRequired,
+        navigate: PropTypes.func.isRequired,
+    }
+    handleParamsChange = async params => {
+        const search = Object.assign({}, this.params, params)
         const to = utils.stringify({
-            ...params,
-            sorting: utils.formatSorting(params.sorting),
+            ...search,
+            sorting: search.sorting
+                ? utils.formatSorting(search.sorting)
+                : undefined,
         })
 
-        this.props.navigate(to)
+        await this.props.navigate(to)
     }
-    render() {
+    get params() {
         const { search } = this.props.location
         const { days, types, regions, sorting } = utils.parse(search)
 
+        return {
+            days: utils.toNumber(days),
+            types: utils.toSet(types),
+            regions: utils.toSet(regions),
+            sorting: utils.parseSorting(sorting),
+        }
+    }
+    render() {
         return (
             <SubmissionList
-                days={utils.toNumber(days)}
-                types={utils.toSet(types)}
-                regions={utils.toSet(regions)}
-                sorting={utils.parseSorting(sorting)}
+                {...this.params}
                 onParamsChange={this.handleParamsChange}
             />
         )

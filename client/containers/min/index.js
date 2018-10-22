@@ -63,23 +63,13 @@ export class Reports extends Component {
 
         return this.props.children(props)
     }
-    renderError = () => {
-        return (
-            <Error>
-                An error happened while retrieving Mountain Information
-                Information reports for the last {this.props.days} days.
-            </Error>
-        )
-    }
     render() {
         const request = min.reports(this.props.days)
 
         return (
-            <ErrorBoundary fallback={this.renderError}>
-                <Fetch cache={CACHE} request={request}>
-                    {props => this.children(props)}
-                </Fetch>
-            </ErrorBoundary>
+            <Fetch cache={CACHE} request={request}>
+                {props => this.children(props)}
+            </Fetch>
         )
     }
 }

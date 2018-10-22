@@ -1,11 +1,13 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import inside from '@turf/inside'
 import * as turf from '@turf/helpers'
+import { Counter } from 'react-powerplug'
+import Button from 'components/button'
 import { Page, Header, Main, Content } from 'components/page'
-import { Muted } from 'components/text'
+import { Muted, Error } from 'components/text'
 import { Br } from 'components/markup'
 import {
     Table,
@@ -27,14 +29,13 @@ import { Sorted, Filtered } from 'components/collection'
 import * as links from 'components/links'
 import { INCIDENT, NAMES } from 'constants/min'
 import { NONE, DESC } from 'constants/sortings'
+import ErrorBoundary from 'components/ErrorBoundary'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
 import pin from 'components/icons/min/min-pin.svg'
 import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 
-// FIXME: Do not use state!!!
-
-export default class SubmissionList extends PureComponent {
+export default class SubmissionList extends Component {
     static propTypes = {
         days: PropTypes.number,
         types: PropTypes.instanceOf(Set),
@@ -48,33 +49,43 @@ export default class SubmissionList extends PureComponent {
         regions: new Set(),
         sorting: null,
     }
-    state = {
-        days: this.props.days,
-        types: this.props.types,
-        regions: this.props.regions,
-        sorting: this.props.sorting,
+    renderError = increment => ({ error }) => {
+        const handleClick = async () => {
+            await this.props.onParamsChange({ days: undefined })
+            increment()
+        }
+
+        return (
+            <Fragment>
+                <Error>
+                    An error happened while retrieving Mountain Information
+                    Information reports for the last {this.props.days} days.
+                </Error>
+                <Error>{error.message}</Error>
+                <Button onClick={handleClick}>
+                    Reset to the last {SubmissionList.defaultProps.days} days
+                </Button>
+            </Fragment>
+        )
     }
     handleFromDateChange = from => {
         const days = differenceInCalendarDays(new Date(), from)
 
-        this.setState({ days }, this.handleParamsChange)
+        this.props.onParamsChange({ days })
     }
     handleTypesChange = types => {
-        this.setState({ types }, this.handleParamsChange)
+        this.props.onParamsChange({ types })
     }
     handleRegionsChange = regions => {
-        this.setState({ regions }, this.handleParamsChange)
+        this.props.onParamsChange({ regions })
     }
     handleSortingChange(name, order) {
-        this.setState({ sorting: [name, order] }, this.handleParamsChange)
-    }
-    handleParamsChange = () => {
-        this.props.onParamsChange(this.state)
+        this.props.onParamsChange({ sorting: [name, order] })
     }
     get from() {
-        return subDays(new Date(), this.state.days)
+        return subDays(new Date(), this.props.days)
     }
-    renderMetadata({ data = [] }) {
+    renderForm({ data = [] }) {
         const { from } = this
 
         return (
@@ -89,7 +100,7 @@ export default class SubmissionList extends PureComponent {
                 </Entry>
                 <Entry term="Reports" sideBySide>
                     <Dropdown
-                        value={this.state.types}
+                        value={this.props.types}
                         onChange={this.handleTypesChange}
                         options={NAMES}
                         placeholder="Show all"
@@ -97,7 +108,7 @@ export default class SubmissionList extends PureComponent {
                 </Entry>
                 <Entry term="Regions" sideBySide>
                     <Dropdown
-                        value={this.state.regions}
+                        value={this.props.regions}
                         onChange={this.handleRegionsChange}
                         options={new Map(data.map(createRegionOption))}
                         placeholder="Show all"
@@ -119,8 +130,8 @@ export default class SubmissionList extends PureComponent {
     }
     renderSubmissions = submissions => submissions.map(this.renderSubmission)
     getSorting(name, order) {
-        if (Array.isArray(this.state.sorting)) {
-            const { sorting } = this.state
+        if (Array.isArray(this.props.sorting)) {
+            const { sorting } = this.props
 
             if (sorting[0] === name) {
                 return sorting[1]
@@ -141,7 +152,7 @@ export default class SubmissionList extends PureComponent {
         )
     }
     get sortProps() {
-        const [name, order] = this.state.sorting || []
+        const [name, order] = this.props.sorting || []
 
         if (order === NONE) {
             return {}
@@ -153,7 +164,7 @@ export default class SubmissionList extends PureComponent {
         }
     }
     get predicates() {
-        const { types, regions } = this.state
+        const { types, regions } = this.props
         const predicates = []
 
         if (types.size > 0) {
@@ -206,18 +217,34 @@ export default class SubmissionList extends PureComponent {
                 <Header title="Mountain Information Network — Submissions" />
                 <Content>
                     <Main>
-                        <Regions>{props => this.renderMetadata(props)}</Regions>
+                        <Regions>{props => this.renderForm(props)}</Regions>
                         <Br />
-                        <Responsive>
-                            <Table>
-                                <THead>
-                                    <Row>{COLUMNS.map(this.renderHeader)}</Row>
-                                </THead>
-                                <Reports days={this.state.days}>
-                                    {props => this.renderTableContent(props)}
-                                </Reports>
-                            </Table>
-                        </Responsive>
+                        <Counter>
+                            {({ count, inc }) => (
+                                <ErrorBoundary
+                                    key={count}
+                                    fallback={this.renderError(inc)}>
+                                    <Responsive>
+                                        <Table>
+                                            <THead>
+                                                <Row>
+                                                    {COLUMNS.map(
+                                                        this.renderHeader
+                                                    )}
+                                                </Row>
+                                            </THead>
+                                            <Reports days={this.props.days}>
+                                                {props =>
+                                                    this.renderTableContent(
+                                                        props
+                                                    )
+                                                }
+                                            </Reports>
+                                        </Table>
+                                    </Responsive>
+                                </ErrorBoundary>
+                            )}
+                        </Counter>
                     </Main>
                 </Content>
             </Page>
@@ -225,7 +252,7 @@ export default class SubmissionList extends PureComponent {
     }
 }
 
-class Reports extends PureComponent {
+class Reports extends Component {
     static propTypes = {
         days: PropTypes.number.isRequired,
         children: PropTypes.func.isRequired,
