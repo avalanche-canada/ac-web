@@ -13,7 +13,7 @@ export default class Body extends Component {
     }
     ref = createRef()
     handleScroll = throttle(() => {
-        if (!this.ref) {
+        if (!this.ref?.current) {
             return
         }
 
