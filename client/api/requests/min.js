@@ -7,6 +7,10 @@ export function report(id) {
 }
 
 export function reports(days = 7) {
+    if (days <= 0) {
+        throw new Error('Number of days must be higher or equal to 1.')
+    }
+
     return requests.get(BASE_URL, { client, last: `${days}:days` })
 }
 
