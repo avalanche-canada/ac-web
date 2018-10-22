@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import { isRedirect } from '@reach/router'
 import { captureException } from 'services/sentry'
@@ -34,7 +34,7 @@ export default class ErrorBoundary extends Component {
         return this.state.error
             ? typeof fallback === 'function'
                 ? fallback(this.state)
-                : fallback
+                : cloneElement(fallback, this.state)
             : children
     }
 }
