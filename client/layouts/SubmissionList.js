@@ -32,6 +32,8 @@ import pin from 'components/icons/min/min-pin.svg'
 import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 
+// FIXME: Do not use state!!!
+
 export default class SubmissionList extends PureComponent {
     static propTypes = {
         days: PropTypes.number,
@@ -171,7 +173,7 @@ export default class SubmissionList extends PureComponent {
 
         return predicates
     }
-    renderTableContent({ loading, data }) {
+    renderTableContent({ pending, data }) {
         return (
             <Filtered values={data || []} predicates={this.predicates}>
                 <Sorted {...this.sortProps}>
@@ -179,10 +181,10 @@ export default class SubmissionList extends PureComponent {
                         <Fragment>
                             <TBody>{this.renderSubmissions(submissions)}</TBody>
                             <Caption>
-                                {loading ? (
+                                {pending ? (
                                     <Muted>
                                         Loading Mountain Information Network
-                                        reports...
+                                        submissions...
                                     </Muted>
                                 ) : submissions.length === 0 ? (
                                     'No submissions found.'
@@ -201,7 +203,7 @@ export default class SubmissionList extends PureComponent {
     render() {
         return (
             <Page>
-                <Header title="Mountain Information Network — List View" />
+                <Header title="Mountain Information Network — Submissions" />
                 <Content>
                     <Main>
                         <Regions>{props => this.renderMetadata(props)}</Regions>
@@ -238,13 +240,13 @@ class Reports extends PureComponent {
                         {reports =>
                             features.data && reports.data
                                 ? children({
-                                      loading: false,
+                                      pending: false,
                                       data: runSubmissionsSpatialAnalysis(
                                           reports.data,
                                           features.data
                                       ),
                                   })
-                                : children({ loading: true })
+                                : children({ pending: true })
                         }
                     </containers.Reports>
                 )}
