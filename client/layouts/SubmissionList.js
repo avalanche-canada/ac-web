@@ -50,8 +50,9 @@ export default class SubmissionList extends Component {
         sorting: null,
     }
     renderError = increment => ({ error }) => {
-        const handleClick = async () => {
-            await this.props.onParamsChange({ days: undefined })
+        const { onParamsChange } = this.props
+        async function handleResetClick() {
+            await onParamsChange({ days: undefined })
             increment()
         }
 
@@ -62,9 +63,12 @@ export default class SubmissionList extends Component {
                     Information reports for the last {this.props.days} days.
                 </Error>
                 <Error>{error.message}</Error>
-                <Button onClick={handleClick}>
-                    Reset to the last {SubmissionList.defaultProps.days} days
-                </Button>
+                {error.name === 'RangeError' && (
+                    <Button onClick={handleResetClick}>
+                        Reset to the last {SubmissionList.defaultProps.days}{' '}
+                        days
+                    </Button>
+                )}
             </Fragment>
         )
     }
