@@ -61,13 +61,13 @@ export default class Fetch extends Component {
         throw error
     }
     fetch() {
-        const { url } = this
+        const { url, cache } = this
 
-        if (this.cache.has(url)) {
+        if (cache.has(url)) {
             this.safeSetState({
                 pending: false,
                 fulfilled: true,
-                data: this.cache.get(url),
+                data: cache.get(url),
             })
         } else {
             this.safeSetState({
