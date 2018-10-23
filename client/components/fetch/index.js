@@ -32,13 +32,13 @@ export default class Fetch extends Component {
     get url() {
         return this.props.request.url
     }
-    safeUpdateState(...args) {
+    safeSetState(...args) {
         if (this.mounted) {
             return this.setState(...args)
         }
     }
     fulfill = data => {
-        this.safeUpdateState({
+        this.safeSetState({
             pending: false,
             fulfilled: true,
             data,
@@ -49,7 +49,7 @@ export default class Fetch extends Component {
         FETCHING.delete(this.url)
     }
     reject = error => {
-        this.safeUpdateState({
+        this.safeSetState({
             pending: false,
             fulfilled: true,
             data: undefined,
@@ -64,13 +64,13 @@ export default class Fetch extends Component {
         const { url } = this
 
         if (this.cache.has(url)) {
-            this.safeUpdateState({
+            this.safeSetState({
                 pending: false,
                 fulfilled: true,
                 data: this.cache.get(url),
             })
         } else {
-            this.safeUpdateState({
+            this.safeSetState({
                 pending: true,
                 fulfilled: false,
                 data: undefined,
