@@ -309,10 +309,10 @@ function getFirstBulletin(bulletins) {
 }
 
 /*
- * filterRatingsForRegion takes the 4 danger ratings from a bulletin object 
+ * filterRatingsForRegion takes the 4 danger ratings from a bulletin object
  * (1 nowcast + 3 forecast) and return the appropriate ratings for a region
  * depending on if they forecast in the morning or the day before.
- *     Currently: 
+ *     Currently:
  *         Whistler      -> (1 nowcast + 2 forecast)
  *         everyone else -> (3 forecast)
  */
@@ -372,7 +372,7 @@ function formatAvProblem(date) {
 }
 
 function formatIcons(prob) {
-    var ROOT = 'http://www.avalanche.ca/assets/images';
+    var ROOT = 'https://www.avalanche.ca/assets/images';
 
     var sizemin = prob.size_min * 10;
     var sizemax = prob.size_max * 10;
