@@ -126,7 +126,7 @@ function getElevationIcon(elevations) {
     );
 
     return (
-        'http://www.avalanche.ca/assets/images/Elevation/Elevation-' +
+        'https://www.avalanche.ca/assets/images/Elevation/Elevation-' +
         zones[0] +
         '-' +
         zones[1] +
@@ -175,7 +175,7 @@ function getCompassIcon(aspects) {
 
     //http://www.avalanche.ca/Images/bulletin/Compass/compass-0-1-1-1-1-1-0-0_EN.png
     return (
-        'http://www.avalanche.ca/assets/images/Compass/compass-' +
+        'https://www.avalanche.ca/assets/images/Compass/compass-' +
         result[0] +
         '-' +
         result[1] +
@@ -234,7 +234,7 @@ function getLikelihoodIcon(likelihood) {
     }
 
     return (
-        'http://www.avalanche.ca/assets/images/Likelihood/Likelihood-' +
+        'https://www.avalanche.ca/assets/images/Likelihood/Likelihood-' +
         nLikelihood +
         '_EN.png'
     );
@@ -248,7 +248,7 @@ function getSizeIcon(sizes) {
     var max = sizes.max * 10;
 
     return (
-        'http://www.avalanche.ca/assets/images/size/Size-' +
+        'https://www.avalanche.ca/assets/images/size/Size-' +
         min +
         '-' +
         max +
@@ -638,7 +638,7 @@ function parseCaamlForecast(caaml, region, callback) {
 }
 
 /*
- * getDangerIconStyles(forecast) 
+ * getDangerIconStyles(forecast)
  *
  *    This function now just returns the 'first' danger rating in the list. This
  *    is to match the *large* danger rating on full forecast and thus avoid
