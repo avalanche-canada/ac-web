@@ -1,6 +1,12 @@
 import { Component } from 'react'
+import PropTypes from 'prop-types'
+import { SessionStorage } from 'services/storage'
 
 export default class Bundle extends Component {
+    static propTypes = {
+        children: PropTypes.func.isRequired,
+        load: PropTypes.func.isRequired,
+    }
     state = {
         module: null,
     }
@@ -13,11 +19,28 @@ export default class Bundle extends Component {
         }
     }
     load = () => {
-        this.props.load(module => {
-            this.setState({ module })
-        })
+        try {
+            this.props.load(module => {
+                this.setState({ module }, () => {
+                    STORAGE.set(KEY, null)
+                })
+            })
+        } catch (error) {
+            const { href } = window.location
+
+            if (error instanceof SyntaxError && STORAGE.get(KEY) !== href) {
+                STORAGE.set(KEY, href)
+
+                window.location.reload(true)
+            } else {
+                throw error
+            }
+        }
     }
     render() {
         return this.props.children(this.state.module)
     }
 }
+
+const STORAGE = SessionStorage.create()
+const KEY = 'bundle.reloaded'
