@@ -2,6 +2,8 @@ import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { SessionStorage } from 'services/storage'
 
+// TODO: Investigate if we could use <Value> from powerplug
+
 export default class Bundle extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
