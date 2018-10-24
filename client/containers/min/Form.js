@@ -7,7 +7,6 @@ import OPTIONS from './options'
 import Submission from './types'
 import { Consumer as Auth } from 'contexts/auth'
 import { Submit } from 'components/button'
-import { Warning } from 'components/text'
 import { TYPES } from 'constants/min'
 import ObservationSetError from './ObservationSetError'
 import { scrollIntoView } from 'utils/dom'
@@ -30,6 +29,10 @@ export default class SubmissionForm extends Component {
             onReportRemove: this.handleReportRemove,
             onTabActivate: this.handleTabActivate,
         })
+
+        if (!this.isAuthenticated) {
+            await this.login()
+        }
 
         this.store = new FormStore()
         await this.store.open()
@@ -119,10 +122,6 @@ export default class SubmissionForm extends Component {
         const result = this.validate()
 
         if (result.isValid()) {
-            if (!this.isAuthenticated) {
-                await this.login()
-            }
-
             this.submit(result.value)
         }
     }
@@ -169,8 +168,8 @@ export default class SubmissionForm extends Component {
         const { options, type, value, isSubmitting } = this.state
         const disabled = isSubmitting
 
-        this.login = login
         this.isAuthenticated = isAuthenticated
+        this.login = login
 
         return (
             <form
@@ -185,15 +184,6 @@ export default class SubmissionForm extends Component {
                     disabled={disabled}
                     onChange={this.handleChange}
                 />
-                {isAuthenticated || (
-                    <Warning>
-                        Posting your observations to the Mountain Information
-                        Network (MIN) requires you to be signed in, you wil be
-                        asked to enter your credetials once you click the submit
-                        button below. Thanks for posting your observations to
-                        the MIN!
-                    </Warning>
-                )}
                 <Submit large disabled={isSubmitting}>
                     {isSubmitting
                         ? 'Submitting your report...'
