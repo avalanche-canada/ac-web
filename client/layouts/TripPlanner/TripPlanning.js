@@ -4,6 +4,7 @@ import isSameDay from 'date-fns/is_same_day'
 import { Forecast } from 'containers/forecast'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
+import Shim from 'components/Shim'
 import { Chart } from 'components/graphics/avaluator'
 import { LEVELS, NO_RATING } from 'constants/forecast/rating'
 import { Control, ControlSet } from 'components/form'
@@ -78,12 +79,14 @@ export default class TripPlanning extends Component {
 
         return (
             <Fragment>
-                {region ? (
+                {region && region.id !== 'north-rockies' ? (
                     <Forecast name={region.id}>
                         {props => this.renderChildren(props)}
                     </Forecast>
                 ) : (
-                    <Muted>{this.isLoadedMessage}</Muted>
+                    <Shim horizontal>
+                        <Muted>{this.isLoadedMessage}</Muted>
+                    </Shim>
                 )}
                 <Help />
             </Fragment>
