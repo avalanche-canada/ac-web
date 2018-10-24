@@ -28,6 +28,7 @@ export default class Bundle extends Component {
         } catch (error) {
             const { href } = window.location
 
+            // We will try a full reload to see if it solves the issue
             if (error instanceof SyntaxError && STORAGE.get(KEY) !== href) {
                 STORAGE.set(KEY, href)
 
