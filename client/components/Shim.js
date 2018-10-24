@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 import classNames from 'classnames/bind'
 import css from './Shim.css'
 
-const styles = classNames.bind(css)
-
 export default class Shim extends PureComponent {
     static propTypes = {
         children: PropTypes.node,
@@ -22,3 +20,5 @@ export default class Shim extends PureComponent {
         return <div className={styles(values)}>{children}</div>
     }
 }
+
+const styles = classNames.bind(css)
