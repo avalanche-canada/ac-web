@@ -21,8 +21,6 @@ export default function Icon({
     className,
 }) {
     return (
-        <svg {...{ height, width, viewBox, fill, className }}>
-            {children}
-        </svg>
+        <svg {...{ height, width, viewBox, fill, className }}>{children}</svg>
     )
 }
