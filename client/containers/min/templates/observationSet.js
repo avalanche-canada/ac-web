@@ -9,7 +9,10 @@ const { struct } = t.form.Form.templates
 
 export default struct.clone({
     renderFieldsetFields(children, locals) {
-        const { disabled, config: { onTabActivate, activeTab } } = locals
+        const {
+            disabled,
+            config: { onTabActivate, activeTab },
+        } = locals
 
         children = Children.toArray(children)
 

@@ -18,18 +18,24 @@ import { SessionStorage } from 'services/storage'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
-    state = {
-        value: null,
-        options: OPTIONS,
-        type: Submission,
-        isSubmitting: false,
-    }
-    async componentDidMount() {
-        Object.assign(this.state.options.fields.observations.config, {
+    constructor(props) {
+        super(props)
+
+        const options = { ...OPTIONS }
+
+        Object.assign(options.fields.observations.config, {
             onReportRemove: this.handleReportRemove,
             onTabActivate: this.handleTabActivate,
         })
 
+        this.state = {
+            value: null,
+            options,
+            type: Submission,
+            isSubmitting: false,
+        }
+    }
+    async componentDidMount() {
         if (!this.isAuthenticated) {
             await this.login()
         }
