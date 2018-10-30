@@ -192,11 +192,6 @@ export default class AvalancheCanada extends StaticComponent {
                                         title="Collaborators"
                                     />
                                     <StaticPage
-                                        path="membership"
-                                        uid="membership-overview"
-                                        title="Membership Overview"
-                                    />
-                                    <StaticPage
                                         path="privacy-policy"
                                         uid="privacy-policy"
                                         title="Privacy Policy"
@@ -651,7 +646,6 @@ function StaticPagePages() {
             <Redirect from="ambassadors" to="/ambassadors" />
             <Redirect from="sponsors" to="/sponsors" />
             <Redirect from="collaborators" to="/collaborators" />
-            <Redirect from="membership-overview" to="/membership" />
             <StaticPage path=":uid" />
         </Router>
     )

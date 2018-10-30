@@ -50,7 +50,7 @@ class Ambassadors extends Component {
     }
 }
 
-menu.children[4].children[2].children = Ambassadors
+menu.children[4].children[1].children = Ambassadors
 
 export default class AvalancheCanadaNavbar extends Component {
     handleLoginClick = event => {

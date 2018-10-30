@@ -330,32 +330,6 @@ module.exports = {
                 },
                 {
                     id: String(id++),
-                    label: 'Membership',
-                    header: true,
-                    to: '/membership',
-                    children: [
-                        {
-                            id: String(id++),
-                            to:
-                                'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp',
-                            label: 'Individual',
-                        },
-                        {
-                            id: String(id++),
-                            to:
-                                'https://membership.avalanche.ca/np/clients/cac/membershipJoin.jsp?&constTypeFlag=org',
-                            label: 'Organization',
-                        },
-                        {
-                            id: String(id++),
-                            to:
-                                'https://membership.avalanche.ca/np/clients/cac/login.jsp',
-                            label: 'Already a Member?',
-                        },
-                    ],
-                },
-                {
-                    id: String(id++),
                     label: 'Ambassadors',
                     header: true,
                     to: '/ambassadors',
