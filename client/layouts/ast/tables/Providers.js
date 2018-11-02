@@ -36,7 +36,7 @@ export default class Providers extends PureComponent {
     handlePageChange = page => {
         this.setState({ page })
     }
-    componentWillReceiveProps({ tags, place, sorting }) {
+    componentDidUpdate({ tags, place, sorting }) {
         if (
             this.props.tags !== tags ||
             this.props.place !== place ||

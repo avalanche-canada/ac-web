@@ -58,7 +58,7 @@ export default class Courses extends Component {
             ? `All courses (${courses.length})`
             : 'All courses'
     }
-    componentWillReceiveProps({ level, from, to, tags, sorting }) {
+    componentDidUpdate({ level, from, to, tags, sorting }) {
         if (
             this.props.level !== level ||
             this.props.from !== from ||
@@ -281,5 +281,10 @@ const SORTERS = new Map([
             }),
     ],
     ['distance', (a, b) => a.distance - b.distance],
-    ['dates', (a, b) => a.date_start - b.date_start],
+    [
+        'dates',
+        (a, b) => {
+            return new Date(a.date_start) - new Date(b.date_start)
+        },
+    ],
 ])

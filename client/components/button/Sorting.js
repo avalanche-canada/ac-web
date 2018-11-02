@@ -46,7 +46,9 @@ export default class Sorting extends PureComponent {
     handleClick = () => {
         this.sorting = this.next
     }
-    componentWillReceiveProps({ sorting }) {
+    componentDidUpdate() {
+        const { sorting } = this.props
+
         if (sorting !== this.sorting) {
             this.setState({ sorting })
         }

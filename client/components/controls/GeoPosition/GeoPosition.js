@@ -69,8 +69,14 @@ export default class GeoPosition extends Component {
             })
         })
     }
-    componentWillReceiveProps({ longitude, latitude }) {
-        if (!areValidCoordinates(longitude, latitude)) {
+    componentDidUpdate(prevProps) {
+        const { longitude, latitude } = this.props
+
+        if (
+            (prevProps.longitude === longitude &&
+                prevProps.latitude === latitude) ||
+            !areValidCoordinates(longitude, latitude)
+        ) {
             return
         }
 

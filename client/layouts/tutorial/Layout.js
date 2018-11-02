@@ -117,7 +117,7 @@ class Sidebar extends Component {
     state = {
         open: false,
     }
-    componentWillReceiveProps({ location }) {
+    componentDidUpdate({ location }) {
         if (location !== this.props.location) {
             this.closeDrawer()
         }
