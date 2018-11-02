@@ -39,21 +39,19 @@ export default class ToyotaTruckReport extends PureComponent {
     renderBanner(report) {
         return (
             <Ratio>
-                {(ref, { width, height }) => (
-                    <div ref={ref}>
-                        <Banner>
-                            {report && (
-                                <img
-                                    src={cloudinary.url(report.data.banner, {
-                                        ...TRANSFORMATION,
-                                        height,
-                                        width,
-                                    })}
-                                    height={height}
-                                />
-                            )}
-                        </Banner>
-                    </div>
+                {(width, height) => (
+                    <Banner>
+                        {report && (
+                            <img
+                                src={cloudinary.url(report.data.banner, {
+                                    ...TRANSFORMATION,
+                                    height,
+                                    width,
+                                })}
+                                height={height}
+                            />
+                        )}
+                    </Banner>
                 )}
             </Ratio>
         )

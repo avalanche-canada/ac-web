@@ -1,4 +1,4 @@
-import { Component, createRef } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 
@@ -7,46 +7,69 @@ export default class Ratio extends Component {
         x: PropTypes.number,
         y: PropTypes.number,
         children: PropTypes.func.isRequired,
+        traverse: PropTypes.bool,
     }
     static defaultProps = {
         x: 16,
         y: 9,
+        traverse: false,
     }
     state = {
         width: 0,
         height: 0,
     }
-    ref = createRef()
-    computeDimensionsElement(element = this.ref?.current) {
-        if (!element) {
-            return this.state
-        }
-
-        const { x, y } = this.props
+    getComputedDimensions(props) {
+        return this.computeDimensionsElement(this.container, props)
+    }
+    computeDimensionsElement(element, props) {
+        const { x, y, traverse } = props
         const { width } = element.getBoundingClientRect()
+
+        if (traverse === true && width === 0) {
+            return this.computeDimensionsElement(element.parentNode, props)
+        }
 
         return {
             width: Math.round(width),
             height: Math.round(width * (y / x)),
         }
     }
-    componentDidMount() {
-        this.setState(this.computeDimensionsElement())
-
-        window.addEventListener('resize', this.handleResize)
+    componentWillReceiveProps(next) {
+        this.setState(this.getComputedDimensions(next))
     }
-    componentDidUpdate({ x, y }) {
-        if (x !== this.props.x || y !== this.props.y) {
-            this.setState(this.computeDimensionsElement())
-        }
+    componentDidMount() {
+        this.setState({
+            ...this.getComputedDimensions(this.props),
+            hasComputed: true,
+        })
+
+        window.addEventListener('resize', this.handleResize, false)
     }
     componentWillUnmount() {
-        window.removeEventListener('resize', this.handleResize)
+        window.removeEventListener('resize', this.handleResize, false)
     }
     handleResize = debounce(() => {
-        this.setState(this.computeDimensionsElement())
+        this.setState(
+            {
+                hasComputed: false,
+            },
+            () => {
+                this.setState({
+                    hasComputed: true,
+                    ...this.getComputedDimensions(this.props),
+                })
+            }
+        )
     }, 100)
     render() {
-        return this.props.children(this.ref, this.state)
+        return (
+            <div ref={ref => (this.container = ref)}>
+                {this.props.children(
+                    this.state.width,
+                    this.state.height,
+                    this.state.hasComputed
+                )}
+            </div>
+        )
     }
 }
