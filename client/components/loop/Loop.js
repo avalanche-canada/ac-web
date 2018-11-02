@@ -186,13 +186,15 @@ export default class Loop extends Component {
                     </Button>
                 </div>
                 <Ratio y={956} x={1124}>
-                    {(w, h) => (
-                        <Image
-                            width={w}
-                            height={h}
-                            {...image}
-                            style={{ backroundColor: '#eee' }}
-                        />
+                    {(ref, { width, height }) => (
+                        <div ref={ref}>
+                            <Image
+                                width={width}
+                                height={height}
+                                {...image}
+                                style={{ backroundColor: '#eee' }}
+                            />
+                        </div>
                     )}
                 </Ratio>
             </div>

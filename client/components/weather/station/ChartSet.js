@@ -24,7 +24,7 @@ export default class ChartSet extends Component {
             </Error>
         )
     }
-    renderCharSet = (width, height) => {
+    renderCharSet = (ref, { width, height }) => {
         const { measurements } = this.props
         const { min, max } = getDateExtent(measurements)
 
@@ -32,7 +32,7 @@ export default class ChartSet extends Component {
 
         return (
             <ErrorBoundary fallback={this.renderError}>
-                <div className={styles.ChartSet}>
+                <div ref={ref} className={styles.ChartSet}>
                     <Snow
                         data={measurements}
                         min={min}
@@ -66,6 +66,6 @@ export default class ChartSet extends Component {
         )
     }
     render() {
-        return <Ratio traverse>{this.renderCharSet}</Ratio>
+        return <Ratio>{this.renderCharSet}</Ratio>
     }
 }
