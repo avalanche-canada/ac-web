@@ -39,8 +39,8 @@ export default class TripPlannerMap extends Component {
         this.map = map
         this.props.onLoad(event)
     }
-    componentWillReceiveProps({ area }) {
-        if (!area) {
+    componentDidUpdate() {
+        if (!this.props.area) {
             this.setActiveArea()
         }
     }

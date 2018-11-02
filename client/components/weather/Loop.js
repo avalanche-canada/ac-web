@@ -2,27 +2,11 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isAfter from 'date-fns/is_after'
 import isBefore from 'date-fns/is_before'
+import isEqual from 'lodash/isEqual'
 import Base from 'components/loop'
 import { computeUrls, getNotes, isForecast } from 'services/msc/loop'
 import metadata from 'services/msc/loop/metadata.json'
 import { Loading, Error } from 'components/text'
-
-NoteSet.propTypes = {
-    notes: PropTypes.arrayOf(PropTypes.string).isRequired,
-}
-
-function NoteSet({ notes = [] }) {
-    if (!Array.isArray(notes) || notes.length === 0) {
-        return null
-    }
-
-    return (
-        <div>
-            <p>Please note:</p>
-            <ul>{notes.map((note, index) => <li key={index}>{note}</li>)}</ul>
-        </div>
-    )
-}
 
 export default class Loop extends PureComponent {
     static propTypes = {
@@ -39,6 +23,7 @@ export default class Loop extends PureComponent {
     static defaultProps = {
         withNotes: false,
     }
+    // TODO: Way should not use state here. Should be stateless and meomize
     state = {
         urls: [],
         notes: null,
@@ -49,16 +34,21 @@ export default class Loop extends PureComponent {
     componentDidMount() {
         const { type } = this.props
 
-        this.computeUrls(this.props)
+        this.computeUrls()
 
         // Autorefresh the urls for current conditions!
         if (metadata.hasOwnProperty(type) && !isForecast(metadata[type])) {
             this.intervalId = window.setInterval(
                 this.computeUrls,
                 5 * 60 * 1000, // every 5 minutes!
-                undefined,
                 true
             )
+        }
+    }
+
+    componentDidUpdate(nextProps) {
+        if (!isEqual(nextProps, this.props)) {
+            this.computeUrls()
         }
     }
     componentWillUnmount() {
@@ -66,16 +56,13 @@ export default class Loop extends PureComponent {
             window.clearInterval(this.intervalId)
         }
     }
-    componentWillReceiveProps(props) {
-        this.computeUrls(props)
-    }
-    computeUrls = (props = this.props, silent = false) => {
+    computeUrls = (silent = false) => {
         this.setState(
             {
                 isLoading: silent ? false : true,
             },
             () => {
-                computeUrls(props).then(
+                computeUrls(this.props).then(
                     this.handleFulfilled,
                     this.handleRejected
                 )
@@ -143,4 +130,25 @@ export default class Loop extends PureComponent {
             </div>
         )
     }
+}
+
+NoteSet.propTypes = {
+    notes: PropTypes.arrayOf(PropTypes.string).isRequired,
+}
+
+function NoteSet({ notes = [] }) {
+    if (!Array.isArray(notes) || notes.length === 0) {
+        return null
+    }
+
+    return (
+        <div>
+            <p>Please note:</p>
+            <ul>
+                {notes.map((note, index) => (
+                    <li key={index}>{note}</li>
+                ))}
+            </ul>
+        </div>
+    )
 }

@@ -15,19 +15,17 @@ export default class Tabs extends Component {
         theme: 'COMPACT',
         onTabChange() {},
     }
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            activeTab: props.activeTab || 0,
-        }
+    state = {
+        activeTab: this.props.activeTab || 0,
     }
     handleTabChange = activeTab => {
         this.setState({ activeTab }, () => {
             this.props.onTabChange(activeTab)
         })
     }
-    componentWillReceiveProps({ activeTab }) {
+    componentDidUpdate() {
+        const { activeTab } = this.props
+
         if (
             typeof activeTab === 'number' &&
             activeTab !== this.state.activeTab
