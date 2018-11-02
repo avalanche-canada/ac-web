@@ -153,7 +153,7 @@
         "react-image-gallery": "0.8.0",
         "react-jsonschema-form": "^0.40.0",
         "react-motion": "^0.5.2",
-        "react-overlays": "^0.8.2",
+        "react-overlays": "^0.8.3",
         "react-powerplug": "^1.0.0-rc.1",
         "react-test-renderer": "^16.5.2",
         "recompose": "^0.26.0",
