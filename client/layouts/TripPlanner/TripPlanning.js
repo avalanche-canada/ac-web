@@ -146,7 +146,9 @@ class Content extends Component {
             <Fragment>
                 <Form {...this.props} date={this.date} dates={this.dates} />
                 {danger === NO_RATING ? (
-                    <p>There is no rating available to show the chart.</p>
+                    <Muted>
+                        There is no rating available to show the chart.
+                    </Muted>
                 ) : (
                     <div style={CHART_STYLE}>
                         <Chart

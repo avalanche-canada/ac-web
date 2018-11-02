@@ -44,8 +44,10 @@ export default class ImageGallery extends Component {
             this.setImages(files)
         }
     }
-    componentWillReceiveProps({ files }) {
-        if (files !== this.props.files && Array.isArray(files)) {
+    componentDidUpdate(nextProps) {
+        const { files } = this.props
+
+        if (files !== nextProps.files && Array.isArray(files)) {
             this.setImages(files)
         }
     }
@@ -68,7 +70,12 @@ export default class ImageGallery extends Component {
         const photo = pluralize('photo', length, true)
 
         if (!images) {
-            return <Loading>Loading {photo}...</Loading>
+            return (
+                <Loading>
+                    Loading {photo}
+                    ...
+                </Loading>
+            )
         }
 
         const items = images.map(({ url }, index) => ({
