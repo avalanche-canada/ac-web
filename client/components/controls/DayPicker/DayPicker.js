@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import Overlay from 'react-overlays/lib/Overlay'
 import { DayPicker as Base } from 'components/pickers'
@@ -24,6 +24,7 @@ export default class DayPicker extends Component {
     state = {
         isCalendarVisible: false,
     }
+    target = createRef()
     set isCalendarVisible(isCalendarVisible) {
         this.setState({ isCalendarVisible })
     }
@@ -56,7 +57,7 @@ export default class DayPicker extends Component {
 
         return (
             <div
-                ref="target"
+                ref={this.target}
                 className={styles.Container}
                 onClick={handleClick}>
                 <div className={styles[className]} tabIndex={0}>
@@ -69,7 +70,7 @@ export default class DayPicker extends Component {
                     placement="bottom"
                     rootClose
                     shouldUpdatePosition
-                    target={this.refs.target}
+                    target={this.target.current}
                     container={container}>
                     <Callout>
                         <Base
