@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Link from './Link'
 import styles from './Navbar.css'
 import classnames from 'classnames/bind'
 
-export default class Item extends PureComponent {
+export default class Item extends Component {
     static propTypes = {
         title: PropTypes.node.isRequired,
         isActive: PropTypes.bool,
@@ -17,10 +17,9 @@ export default class Item extends PureComponent {
         isActive: false,
         noWrap: false,
     }
-    constructor(props) {
-        super(props)
-
-        this.styles = classnames.bind(styles)
+    styles = classnames.bind(styles)
+    shouldComponentUpdate({ isActive }) {
+        return this.props.isActive !== isActive
     }
     render() {
         const { isActive, title, onClick, noWrap, children, to } = this.props
