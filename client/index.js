@@ -5,7 +5,7 @@ import 'whatwg-fetch'
 import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import 'utils/polyfills/requestIdleCallback'
 
-import React from 'react'
+import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Redirect, Location } from '@reach/router'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
@@ -23,15 +23,17 @@ ReactDOM.render(
 
 function application({ location }) {
     return (
-        <Analytics location={location}>
-            <ScrollTo location={location}>
-                <Router primary={false}>
-                    <CAC path="cac" />
-                    <AvalancheCanada path="/*" />
-                    <AvalancheCanadaFoundation path="foundation/*" />
-                </Router>
-            </ScrollTo>
-        </Analytics>
+        <StrictMode>
+            <Analytics location={location}>
+                <ScrollTo location={location}>
+                    <Router primary={false}>
+                        <CAC path="cac" />
+                        <AvalancheCanada path="/*" />
+                        <AvalancheCanadaFoundation path="foundation/*" />
+                    </Router>
+                </ScrollTo>
+            </Analytics>
+        </StrictMode>
     )
 }
 
