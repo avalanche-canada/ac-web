@@ -8,7 +8,7 @@ import Drawer, { RIGHT } from 'components/page/drawer'
 import externals from 'router/externals'
 import styles from 'styles/components.css'
 
-// TODO: USE HOOKS
+// TODO: HOOKS
 
 export default class Primary extends Component {
     static propTypes = {

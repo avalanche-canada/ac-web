@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Form.css'
@@ -9,24 +9,18 @@ Control.propTypes = {
     bordered: PropTypes.bool,
 }
 
-export default class Control extends Component {
-    constructor(props) {
-        super(props)
+export default function Control({ children, horizontal, bordered, ...props }) {
+    const className = classNames({
+        Control: !horizontal,
+        'Control--Horizontal': horizontal,
+        Border: bordered,
+    })
 
-        this.classnames = classnames.bind(styles)
-    }
-    render() {
-        const { children, horizontal, bordered, ...props } = this.props
-        const classNames = this.classnames({
-            Control: !horizontal,
-            'Control--Horizontal': horizontal,
-            Border: bordered,
-        })
-
-        return (
-            <div className={classNames} {...props}>
-                {children}
-            </div>
-        )
-    }
+    return (
+        <div className={className} {...props}>
+            {children}
+        </div>
+    )
 }
+
+const classNames = classnames.bind(styles)

@@ -5,19 +5,9 @@ import Button from './Button'
 import { SUBTILE } from './kinds'
 import { NONE, ASC, DESC } from 'constants/sortings'
 
+// TODO: Move to stateless
+
 const SORTINGS = [NONE, ASC, DESC]
-
-const ICONS = new Map([
-    [ASC, <ExpandLess />],
-    [DESC, <ExpandMore />],
-    [NONE, <Remove />],
-])
-
-const TITLES = new Map([
-    [ASC, 'Ascending'],
-    [DESC, 'Desccending'],
-    [NONE, null],
-])
 
 export default class Sorting extends PureComponent {
     static propTypes = {
@@ -66,3 +56,15 @@ export default class Sorting extends PureComponent {
         )
     }
 }
+
+// Components
+const ICONS = new Map([
+    [ASC, <ExpandLess />],
+    [DESC, <ExpandMore />],
+    [NONE, <Remove />],
+])
+const TITLES = new Map([
+    [ASC, 'Ascending'],
+    [DESC, 'Desccending'],
+    [NONE, null],
+])

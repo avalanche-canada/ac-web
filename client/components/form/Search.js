@@ -5,6 +5,8 @@ import { Close } from 'components/button'
 import { Control } from 'components/form'
 import { GRAY_LIGHT } from 'constants/colors'
 
+// TODO: HOOKS
+
 export default class Search extends PureComponent {
     static propTypes = {
         onChange: PropTypes.func.isRequired,

@@ -1,27 +1,25 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Description.css'
 
-export default class Term extends PureComponent {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        style: PropTypes.object,
-        className: PropTypes.string,
-        block: PropTypes.bool,
-    }
-    classnames = classnames.bind(styles)
-    get className() {
-        return this.classnames(this.props.className, {
-            Term: true,
-            Block: this.props.block,
-        })
-    }
-    render() {
-        return (
-            <dt className={this.className} style={this.props.style}>
-                {this.props.children}
-            </dt>
-        )
-    }
+Term.propTypes = {
+    children: PropTypes.node.isRequired,
+    style: PropTypes.object,
+    className: PropTypes.string,
+    block: PropTypes.bool,
 }
+
+function Term({ style, block, className, children }) {
+    className = classNames(className, { Term: true, Block: block })
+
+    return (
+        <dt className={className} style={style}>
+            {children}
+        </dt>
+    )
+}
+
+export default memo(Term)
+
+const classNames = classnames.bind(styles)

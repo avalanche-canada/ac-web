@@ -2,6 +2,8 @@ import React, { Children, cloneElement, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Value } from 'react-powerplug'
 
+// TODO: HOOKS
+
 export default class BannerSet extends PureComponent {
     static propTypes = {
         showTravelAdvice: PropTypes.bool,

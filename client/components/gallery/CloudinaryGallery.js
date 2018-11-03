@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import Gallery from './Gallery'
 import * as cloudinary from 'services/cloudinary'
 
+// TODO: HOOKS
+
 export default class CloudinaryGallery extends PureComponent {
     static propTypes = {
         tag: PropTypes.string.isRequired,

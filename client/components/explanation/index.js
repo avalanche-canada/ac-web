@@ -1,45 +1,42 @@
-import React, { Component, PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Explanation.css'
 
-export class Section extends Component {
-    static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.element).isRequired,
-        style: PropTypes.object,
-    }
-    render() {
-        return (
-            <section style={this.props.style} className={styles.Section}>
-                {this.props.children}
-            </section>
-        )
-    }
+Section.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    style: PropTypes.object,
 }
 
-export class Header extends PureComponent {
-    static propTypes = {
-        children: PropTypes.string.isRequired,
-        style: PropTypes.object,
-    }
-    render() {
-        return (
-            <h3 style={this.props.style} className={styles.Header}>
-                {this.props.children}
-            </h3>
-        )
-    }
+export function Section({ style, children }) {
+    return (
+        <section style={style} className={styles.Section}>
+            {children}
+        </section>
+    )
 }
 
-export class Content extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        style: PropTypes.object,
-    }
-    render() {
-        return (
-            <div style={this.props} className={styles.Content}>
-                {this.props.children}
-            </div>
-        )
-    }
+Header.propTypes = {
+    children: PropTypes.string.isRequired,
+    style: PropTypes.object,
+}
+
+export function Header({ style, children }) {
+    return (
+        <h3 style={style} className={styles.Header}>
+            {children}
+        </h3>
+    )
+}
+
+Content.propTypes = {
+    children: PropTypes.node.isRequired,
+    style: PropTypes.object,
+}
+
+export function Content({ style, children }) {
+    return (
+        <div style={style} className={styles.Content}>
+            {children}
+        </div>
+    )
 }

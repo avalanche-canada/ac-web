@@ -4,6 +4,9 @@ import Button from './Button'
 import { MyLocation } from 'components/icons'
 import { SUBTILE } from './kinds'
 
+// Needs to stay as Component because dof "ref"
+// TODO: Look at "forwardRef"
+
 export default class Locate extends PureComponent {
     static propTypes = {
         ref: PropTypes.func.isRequired,
