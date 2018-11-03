@@ -1,28 +1,21 @@
-import { createElement, Component } from 'react'
+import { createElement, memo } from 'react'
 import PropTypes from 'prop-types'
 
-export default class InnerHTML extends Component {
-    static propTypes = {
-        children: PropTypes.string,
-        component: PropTypes.string,
-    }
-    static defaultProps = {
-        component: 'div',
-    }
-    shouldComponentUpdate({ children }) {
-        return children !== this.props.children
-    }
-    render() {
-        const { children, component, ...props } = this.props
+InnerHTML.propTypes = {
+    children: PropTypes.string,
+    component: PropTypes.string,
+}
 
-        if (children) {
-            props.dangerouslySetInnerHTML = {
-                __html: children,
-            }
-
-            return createElement(component, props)
+function InnerHTML({ component = 'div', children, ...props }) {
+    if (children) {
+        props.dangerouslySetInnerHTML = {
+            __html: children,
         }
 
-        return null
+        return createElement(component, props)
     }
+
+    return null
 }
+
+export default memo(InnerHTML)

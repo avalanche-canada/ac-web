@@ -6,7 +6,7 @@ export const TOP_RIGHT = 'top-right'
 export const BOTTOM_LEFT = 'bottom-left'
 export const BOTTOM_RIGHT = 'bottom-right'
 
-// TODO: HOOKS
+// TODO: USE HOOKS
 
 export default class Control extends Component {
     static propTypes = {
