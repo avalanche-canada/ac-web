@@ -1,32 +1,27 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { memo } from 'utils/react'
 
-export default class ColumnSet extends Component {
-    static propTypes = {
-        count: PropTypes.number,
-        gap: PropTypes.number,
-        children: PropTypes.node,
-    }
-    shouldComponentUpdate({ children }) {
-        return children !== this.props.children
-    }
-    get style() {
-        const { count, gap } = this.props
-
-        if (count === 1) {
-            return null
-        }
-
-        return {
-            columnCount: count,
-            WebkitColumnCount: count,
-            MozColumnCount: count,
-            columnGap: gap,
-            WebkitColumnGap: gap,
-            MozColumnGap: gap,
-        }
-    }
-    render() {
-        return <div style={this.style}>{this.props.children}</div>
-    }
+ColumnSet.propTypes = {
+    count: PropTypes.number,
+    gap: PropTypes.number,
+    children: PropTypes.node,
 }
+
+function ColumnSet({ count, gap, children }) {
+    const style =
+        count === 1
+            ? null
+            : {
+                  columnCount: count,
+                  WebkitColumnCount: count,
+                  MozColumnCount: count,
+                  columnGap: gap,
+                  WebkitColumnGap: gap,
+                  MozColumnGap: gap,
+              }
+
+    return <div style={style}>{children}</div>
+}
+
+export default memo.static(ColumnSet)

@@ -8,6 +8,8 @@ import Drawer, { RIGHT } from 'components/page/drawer'
 import externals from 'router/externals'
 import styles from 'styles/components.css'
 
+// TODO: USE HOOKS
+
 export default class Primary extends Component {
     static propTypes = {
         width: PropTypes.number.isRequired,
