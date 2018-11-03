@@ -1,13 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import Bundle from 'components/Bundle'
-import loadSubmit from 'bundle-loader?lazy!containers/min/Form'
 import Submission from 'layouts/Submission'
 import SubmissionList from 'layouts/SubmissionList'
-import { Loading } from 'components/text'
 import { StaticPage } from 'prismic/layouts'
-import { Page, Content } from 'components/page'
+import { Loading } from 'components/page'
 import * as utils from 'utils/search'
 
 export default function MountainInformationNetwork() {
@@ -35,22 +33,12 @@ export default function MountainInformationNetwork() {
     )
 }
 
+const SubmitContainer = lazy(() => import('containers/min/Form'))
+
 function Submit(props) {
     return (
-        <Bundle load={loadSubmit}>
-            {module =>
-                module ? (
-                    <module.default {...props} />
-                ) : (
-                    <Page>
-                        <Content>
-                            <h1>
-                                <Loading />
-                            </h1>
-                        </Content>
-                    </Page>
-                )
-            }
+        <Bundle fallback={<Loading />}>
+            <SubmitContainer {...props} />
         </Bundle>
     )
 }

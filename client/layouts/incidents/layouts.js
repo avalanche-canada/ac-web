@@ -1,4 +1,5 @@
 import React, { PureComponent, Fragment } from 'react'
+import { Router } from '@reach/router'
 import format from 'date-fns/format'
 import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'components/incidents'
@@ -6,7 +7,16 @@ import * as containers from 'containers/incidents'
 import { Loading, Warning } from 'components/text'
 import Pagination from 'components/pagination'
 
-export class IncidentsList extends PureComponent {
+export default function Layout() {
+    return (
+        <Router>
+            <IncidentsList path="/" />
+            <IncidentDetails path=":id" />
+        </Router>
+    )
+}
+
+class IncidentsList extends PureComponent {
     state = {
         filters: {},
         page: 1,
@@ -64,7 +74,7 @@ export class IncidentsList extends PureComponent {
     }
 }
 
-export function IncidentDetails({ id }) {
+function IncidentDetails({ id }) {
     return (
         <containers.Incident id={id}>
             <Pending>

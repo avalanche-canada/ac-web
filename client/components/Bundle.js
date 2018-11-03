@@ -1,47 +1,45 @@
-import { Component } from 'react'
+import React, { Component, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { SessionStorage } from 'services/storage'
-
-// TODO: Investigate if we could use <Value> from powerplug
+import ErrorBoundary from 'components/ErrorBoundary'
+import { Loading } from 'components/text'
 
 export default class Bundle extends Component {
     static propTypes = {
-        children: PropTypes.func.isRequired,
-        load: PropTypes.func.isRequired,
+        children: PropTypes.element.isRequired,
+        fallback: PropTypes.element.isRequired,
     }
-    state = {
-        module: null,
+    static defaultProps = {
+        fallback: <Loading />,
+    }
+    get ref() {
+        return STORAGE.get(KEY)
+    }
+    set ref(ref) {
+        STORAGE.set(KEY, ref)
     }
     componentDidMount() {
-        this.load()
-    }
-    componentDidUpdate({ load }) {
-        if (load !== this.props.load) {
-            this.setState({ module: null }, this.load)
+        if (this.ref !== window.location.href) {
+            this.ref = null
         }
     }
-    load = () => {
-        try {
-            this.props.load(module => {
-                this.setState({ module }, () => {
-                    STORAGE.set(KEY, null)
-                })
-            })
-        } catch (error) {
-            const { href } = window.location
+    handleError(error) {
+        if (error instanceof SyntaxError && this.ref === null) {
+            this.ref = window.location.href
 
-            // We will try a full reload to see if it solves the issue
-            if (error instanceof SyntaxError && STORAGE.get(KEY) !== href) {
-                STORAGE.set(KEY, href)
-
-                window.location.reload(true)
-            } else {
-                throw error
-            }
+            window.location.reload(true)
+        } else {
+            throw error
         }
     }
     render() {
-        return this.props.children(this.state.module)
+        const { fallback, children } = this.props
+
+        return (
+            <ErrorBoundary onError={this.handleError}>
+                <Suspense fallback={fallback}>{children}</Suspense>
+            </ErrorBoundary>
+        )
     }
 }
 

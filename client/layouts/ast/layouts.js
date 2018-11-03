@@ -1,10 +1,55 @@
 import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
+import { Link, Match, Router } from '@reach/router'
+import { Page, Content, Banner, Main, Header, Article } from 'components/page'
+import classnames from 'classnames'
+import { Container, PillSet, Pill } from 'components/pill'
 import * as forms from './forms'
 import * as tables from './tables'
 import * as utils from 'utils/search'
+import styles from 'styles/components.css'
 
-export class Courses extends Component {
+export default class AstLayout extends Component {
+    renderNavigation(props) {
+        return (
+            <PillSet activeIndex={Number(props.match?.type === 'providers')}>
+                <Pill>
+                    <Link to="courses">Courses</Link>
+                </Pill>
+                <Pill>
+                    <Link to="providers">Providers</Link>
+                </Pill>
+            </PillSet>
+        )
+    }
+    render() {
+        return (
+            <Page>
+                <Banner url={BANNER}>
+                    <Container>
+                        <Match path=":type">{this.renderNavigation}</Match>
+                    </Container>
+                    <Router
+                        primary={false}
+                        className={classnames(styles.MatchParent, styles.Flex)}>
+                        <Providers.Form path="providers" />
+                        <Courses.Form path="courses" />
+                    </Router>
+                </Banner>
+                <Main>
+                    <Content>
+                        <Router className={styles.FullWidth}>
+                            <Providers.Table path="providers" />
+                            <Courses.Table path="courses" />
+                        </Router>
+                    </Content>
+                </Main>
+            </Page>
+        )
+    }
+}
+
+class Courses extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         navigate: PropTypes.func.isRequired,
@@ -66,7 +111,7 @@ export class Courses extends Component {
     }
 }
 
-export class Providers extends Component {
+class Providers extends Component {
     static propTypes = {
         location: PropTypes.object.isRequired,
         navigate: PropTypes.func.isRequired,
@@ -125,3 +170,7 @@ export class Providers extends Component {
         return cloneElement(this.props.children, this.value)
     }
 }
+
+// Constants
+const BANNER =
+    '//res.cloudinary.com/avalanche-ca/image/upload/c_scale,w_2500/c_scale,e_make_transparent:10,g_south_east,l_watermark:Dunford_RyenReverse,w_200/v1440539610/Youth/DSC_0339.jpg'

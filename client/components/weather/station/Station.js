@@ -1,20 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component, lazy } from 'react'
 import PropTypes from 'prop-types'
 import Table from './Table'
-import loadChartSet from 'bundle-loader?lazy!./ChartSet'
 import Bundle from 'components/Bundle'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
-import { Loading, Muted } from 'components/text'
+import { Muted } from 'components/text'
 import * as Columns from './columns'
 import * as Headers from './headers'
 
-function ChartSet(props) {
-    return (
-        <Bundle load={loadChartSet}>
-            {module => (module ? <module.default {...props} /> : <Loading />)}
-        </Bundle>
-    )
-}
+const ChartSet = lazy(() => import('./ChartSet'))
 
 export default class Station extends Component {
     static propTypes = {
@@ -62,7 +55,9 @@ export default class Station extends Component {
                         />
                     </Panel>
                     <Panel title="Charts">
-                        <ChartSet measurements={measurements} />
+                        <Bundle>
+                            <ChartSet measurements={measurements} />
+                        </Bundle>
                     </Panel>
                 </PanelSet>
             </Tabs>

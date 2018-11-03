@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
+import { Router, Link } from '@reach/router'
 import memoize from 'lodash/memoize'
 import throttle from 'lodash/throttle'
 import { memo } from 'utils/react'
@@ -10,6 +10,7 @@ import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
+import { Main, Content, Aside } from 'components/page'
 import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
@@ -20,7 +21,25 @@ import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
 
-export const GlossarySidebar = memo.static(function GlossarySidebar() {
+export default function Layout() {
+    return (
+        <Content>
+            <Main>
+                <Router>
+                    <Definition path="terms/:uid" />
+                    <Glossary default />
+                </Router>
+            </Main>
+            <Aside>
+                <Router primary={false}>
+                    <GlossarySidebar path="/" />
+                </Router>
+            </Aside>
+        </Content>
+    )
+}
+
+const GlossarySidebar = memo.static(function GlossarySidebar() {
     return (
         <Sidebar>
             <SidebarHeader>Related links</SidebarHeader>
@@ -42,7 +61,7 @@ export const GlossarySidebar = memo.static(function GlossarySidebar() {
     )
 })
 
-export class Glossary extends Component {
+class Glossary extends Component {
     renderContent = ({ document, loading }) => {
         return (
             <Fragment>
@@ -60,7 +79,7 @@ export class Glossary extends Component {
     }
 }
 
-export class Definition extends Component {
+class Definition extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
     }
