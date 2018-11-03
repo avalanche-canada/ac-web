@@ -1,6 +1,6 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import StaticComponent from 'components/StaticComponent'
+import { memo } from 'utils/react'
 import { Menu } from 'components/icons'
 import Button, { INCOGNITO } from '../button'
 import styles from './Navbar.css'
@@ -22,4 +22,4 @@ function Burger({ onClick }) {
     )
 }
 
-export default memo(Burger, () => true)
+export default memo.static(Burger)

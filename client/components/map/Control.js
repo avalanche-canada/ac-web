@@ -1,12 +1,14 @@
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import StaticComponent from 'components/StaticComponent'
 
 export const TOP_LEFT = 'top-left'
 export const TOP_RIGHT = 'top-right'
 export const BOTTOM_LEFT = 'bottom-left'
 export const BOTTOM_RIGHT = 'bottom-right'
 
-export default class Control extends StaticComponent {
+// TODO: HOOKS
+
+export default class Control extends Component {
     static propTypes = {
         map: PropTypes.object, // actually isRequired
         factory: PropTypes.func.isRequired,
@@ -19,6 +21,9 @@ export default class Control extends StaticComponent {
     }
     static defaultProps = {
         position: BOTTOM_RIGHT,
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        return false
     }
     componentDidMount() {
         const { position, factory, map } = this.props

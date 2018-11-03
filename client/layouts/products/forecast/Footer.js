@@ -1,51 +1,12 @@
 import React, { Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
+import { memo } from 'utils/react'
 import { Consumer } from './Context'
 import Panel from './Panel'
-import StaticComponent from 'components/StaticComponent'
 import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
 import { Generic } from 'prismic/layouts'
 import ArchiveDatePicker from './ArchiveDatePicker'
 import styles from './Forecast.css'
-
-class FooterComponent extends StaticComponent {
-    static propTypes = {
-        region: PropTypes.string.isRequired,
-        date: PropTypes.instanceOf(Date),
-        children: PropTypes.node,
-    }
-    get children() {
-        return [
-            <ArchivedBulletins />,
-            <DangerRatings />,
-            <Inbox />,
-            <Disclaimer />,
-        ]
-    }
-    cloneChild = child => {
-        switch (child.type) {
-            case ArchivedBulletins:
-                return cloneElement(child, {
-                    region: this.props.region,
-                })
-            default:
-                return child
-        }
-    }
-    render() {
-        const children = this.props.children || this.children
-
-        return (
-            <footer className={styles.Footer}>
-                <Fragment>
-                    {Children.toArray(children)
-                        .filter(Boolean)
-                        .map(this.cloneChild)}
-                </Fragment>
-            </footer>
-        )
-    }
-}
 
 export default function Footer() {
     return (
@@ -62,51 +23,74 @@ export default function Footer() {
     )
 }
 
-export class ArchivedBulletins extends StaticComponent {
-    static propTypes = {
-        region: PropTypes.string.isRequired,
-    }
-    render() {
-        const { region } = this.props
+export const ArchivedBulletins = memo.static(function ArchivedBulletins(props) {
+    return (
+        <Panel header="Archived bulletins">
+            <ArchiveDatePicker region={props.region} />
+        </Panel>
+    )
+})
 
-        return (
-            <Panel header="Archived bulletins">
-                <ArchiveDatePicker region={region} />
-            </Panel>
-        )
-    }
+export const Inbox = memo.static(function Inbox() {
+    return (
+        <Panel header="Avalanche Forecasts in your Inbox">
+            <div className={styles.PanelContent}>
+                <Generic uid="forecast-rss-message" />
+            </div>
+        </Panel>
+    )
+})
+
+export const Disclaimer = memo.static(function Disclaimer() {
+    return (
+        <Panel header="Forecast Disclaimer">
+            <div className={styles.PanelContent}>
+                <Generic uid="forecast-disclaimer" />
+            </div>
+        </Panel>
+    )
+})
+
+export const DangerRatings = memo.static(function DangerRatings() {
+    return (
+        <Panel header="Danger Ratings Explained">
+            <RatingExplanation />
+        </Panel>
+    )
+})
+
+FooterComponent.propTypes = {
+    region: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date),
+    children: PropTypes.node,
 }
 
-export class DangerRatings extends StaticComponent {
-    render() {
-        return (
-            <Panel header="Danger Ratings Explained">
-                <RatingExplanation />
-            </Panel>
-        )
+function FooterComponent({ children, region }) {
+    function cloneChild(child) {
+        switch (child.type) {
+            case ArchivedBulletins:
+                return cloneElement(child, { region })
+            default:
+                return child
+        }
     }
+
+    children = children || [
+        <ArchivedBulletins />,
+        <DangerRatings />,
+        <Inbox />,
+        <Disclaimer />,
+    ]
+
+    return (
+        <footer className={styles.Footer}>
+            <Fragment>
+                {Children.toArray(children)
+                    .filter(Boolean)
+                    .map(cloneChild)}
+            </Fragment>
+        </footer>
+    )
 }
 
-export class Inbox extends StaticComponent {
-    render() {
-        return (
-            <Panel header="Avalanche Forecasts in your Inbox">
-                <div className={styles.PanelContent}>
-                    <Generic uid="forecast-rss-message" />
-                </div>
-            </Panel>
-        )
-    }
-}
-
-export class Disclaimer extends StaticComponent {
-    render() {
-        return (
-            <Panel header="Forecast Disclaimer">
-                <div className={styles.PanelContent}>
-                    <Generic uid="forecast-disclaimer" />
-                </div>
-            </Panel>
-        )
-    }
-}
+const FooterComponent = memo.static(FooterComponent)

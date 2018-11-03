@@ -1,21 +1,22 @@
 import React from 'react'
-import StaticComponent from 'components/StaticComponent'
+import { memo } from 'utils/react'
 import { Consumer } from 'contexts/menu'
 import { Menu } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 
-export default class Toggle extends StaticComponent {
-    renderButton({ toggle }) {
-        return (
-            <Button style={STYLE} onClick={toggle} kind={SUBTILE}>
-                <Menu />
-            </Button>
-        )
-    }
-    render() {
-        return <Consumer>{this.renderButton}</Consumer>
-    }
+function Toggle() {
+    return (
+        <Consumer>
+            {({ toggle }) => (
+                <Button style={STYLE} onClick={toggle} kind={SUBTILE}>
+                    <Menu />
+                </Button>
+            )}
+        </Consumer>
+    )
 }
+
+export default memo.static(Toggle)
 
 // Style
 const STYLE = {

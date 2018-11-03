@@ -1,7 +1,7 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import StaticComponent from 'components/StaticComponent'
 import { Link } from '@reach/router'
+import { memo } from 'utils/react'
 import { DateElement } from 'components/time'
 import { TagSet, Tag } from 'components/tag'
 import { StructuredText, Image } from 'prismic/components/base'
@@ -106,13 +106,12 @@ function CondensedEntry({
     )
 }
 
-export default class EntryComponent extends StaticComponent {
-    static propTypes = {
-        condensed: PropTypes.bool,
-    }
-    render() {
-        const { condensed, ...props } = this.props
-
-        return createElement(condensed ? CondensedEntry : Entry, props)
-    }
+EntryComponent.propTypes = {
+    condensed: PropTypes.bool,
 }
+
+function EntryComponent({ condensed, ...props }) {
+    return createElement(condensed ? CondensedEntry : Entry, props)
+}
+
+export default memo.static(EntryComponent)

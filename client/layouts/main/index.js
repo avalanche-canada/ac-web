@@ -4,7 +4,7 @@ import { Link, Match } from '@reach/router'
 import supported from '@mapbox/mapbox-gl-supported'
 import bbox from '@turf/bbox'
 import * as turf from '@turf/helpers'
-import StaticComponent from 'components/StaticComponent'
+import { memo } from 'utils/react'
 import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
@@ -268,39 +268,35 @@ class LinkControlSet extends PureComponent {
     }
 }
 
-class ErrorIndicator extends StaticComponent {
-    reload() {
+const ErrorIndicator = memo.static(function ErrorIndicator() {
+    function reload() {
         window.location.reload(true)
     }
-    get tooltip() {
-        const style = {
-            padding: '0.25em',
-            maxWidth: 225,
-        }
+    const style = {
+        padding: '0.25em',
+        maxWidth: 225,
+    }
+    const tooltip = (
+        <div style={style}>
+            An error happened while initializing the map. Therefore, some
+            functionnalities might not be available.
+            <br />
+            <Device>
+                {({ isTouchable }) =>
+                    `${isTouchable ? 'Tap' : 'Click'} to reload the map.`
+                }
+            </Device>
+        </div>
+    )
 
-        return (
-            <div style={style}>
-                An error happened while initializing the map. Therefore, some
-                functionnalities might not be available.
-                <br />
-                <Device>
-                    {({ isTouchable }) =>
-                        `${isTouchable ? 'Tap' : 'Click'} to reload the map.`
-                    }
-                </Device>
-            </div>
-        )
-    }
-    render() {
-        return (
-            <Wrapper tooltip={this.tooltip}>
-                <button onClick={this.reload} className={styles.Error}>
-                    <Warning inverse />
-                </button>
-            </Wrapper>
-        )
-    }
-}
+    return (
+        <Wrapper tooltip={tooltip}>
+            <button onClick={reload} className={styles.Error}>
+                <Warning inverse />
+            </button>
+        </Wrapper>
+    )
+})
 
 // Constants
 const PATHS = new Map([

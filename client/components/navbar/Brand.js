@@ -1,9 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import styles from './Navbar.css'
 import { Link } from '@reach/router'
+import { memo } from 'utils/react'
 
 function Brand({ children, ...props }) {
-    console.warn('render Brand')
     return (
         <Link className={styles.Brand} {...props}>
             {children}
@@ -11,4 +11,4 @@ function Brand({ children, ...props }) {
     )
 }
 
-export default memo(Brand, () => true)
+export default memo.static(Brand)

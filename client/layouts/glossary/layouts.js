@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import memoize from 'lodash/memoize'
 import throttle from 'lodash/throttle'
+import { memo } from 'utils/react'
 import { FragmentIdentifier } from 'router'
 import { Headline } from 'components/page'
 import Sidebar, {
@@ -13,36 +14,33 @@ import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
-import StaticComponent from 'components/StaticComponent'
 import { Document, Pages } from 'prismic/containers'
 import { glossary } from 'prismic/params'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
 
-export class GlossarySidebar extends StaticComponent {
-    render() {
-        return (
-            <Sidebar>
-                <SidebarHeader>Related links</SidebarHeader>
-                <SidebarItem>
-                    <a
-                        href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
-                        target="ICAR">
-                        ICAR Glossary
-                    </a>
-                </SidebarItem>
-                <SidebarItem>
-                    <a
-                        href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
-                        target="LexiqueLexicon">
-                        Lexique Avalanche - Avalanche Lexicon
-                    </a>
-                </SidebarItem>
-            </Sidebar>
-        )
-    }
-}
+export const GlossarySidebar = memo.static(function GlossarySidebar() {
+    return (
+        <Sidebar>
+            <SidebarHeader>Related links</SidebarHeader>
+            <SidebarItem>
+                <a
+                    href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
+                    target="ICAR">
+                    ICAR Glossary
+                </a>
+            </SidebarItem>
+            <SidebarItem>
+                <a
+                    href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
+                    target="LexiqueLexicon">
+                    Lexique Avalanche - Avalanche Lexicon
+                </a>
+            </SidebarItem>
+        </Sidebar>
+    )
+})
 
 export class Glossary extends Component {
     renderContent = ({ document, loading }) => {
@@ -84,48 +82,46 @@ export class Definition extends Component {
 }
 
 // Util layouts
-class DefinitionLayout extends StaticComponent {
-    static propTypes = {
-        linkToExternal: PropTypes.bool,
-        uid: PropTypes.string.isRequired,
-        tags: PropTypes.array.isRequired,
-        data: PropTypes.object.isRequired,
-    }
-    render() {
-        const { uid, tags, data, linkToExternal } = this.props
-        const { title } = data
+DefinitionLayout.propTypes = {
+    linkToExternal: PropTypes.bool,
+    uid: PropTypes.string.isRequired,
+    tags: PropTypes.array.isRequired,
+    data: PropTypes.object.isRequired,
+}
 
-        return (
-            <article className={styles.Definition}>
-                <h2>
-                    {linkToExternal ? (
-                        title
-                    ) : (
-                        <FragmentIdentifier hash={uid} title={title}>
-                            {title}
-                        </FragmentIdentifier>
-                    )}
-                </h2>
-                {tags.length > 0 && (
-                    <TagSet>
-                        {tags.map((tag, index) => (
-                            <Tag key={index}>{tag}</Tag>
-                        ))}
-                    </TagSet>
+function DefinitionLayout({ uid, tags, data, linkToExternal }) {
+    const { title } = data
+
+    return (
+        <article className={styles.Definition}>
+            <h2>
+                {linkToExternal ? (
+                    title
+                ) : (
+                    <FragmentIdentifier hash={uid} title={title}>
+                        {title}
+                    </FragmentIdentifier>
                 )}
-                <SliceZone
-                    components={SliceComponents}
-                    value={data.content.filter(isImage)}
-                    fullscreen
-                />
-                <SliceZone
-                    components={SliceComponents}
-                    value={data.content.filter(isNotImage)}
-                />
-                <Related linkToExternal={linkToExternal} items={data.related} />
-            </article>
-        )
-    }
+            </h2>
+            {tags.length > 0 && (
+                <TagSet>
+                    {tags.map((tag, index) => (
+                        <Tag key={index}>{tag}</Tag>
+                    ))}
+                </TagSet>
+            )}
+            <SliceZone
+                components={SliceComponents}
+                value={data.content.filter(isImage)}
+                fullscreen
+            />
+            <SliceZone
+                components={SliceComponents}
+                value={data.content.filter(isNotImage)}
+            />
+            <Related linkToExternal={linkToExternal} items={data.related} />
+        </article>
+    )
 }
 
 class Related extends Component {
@@ -168,22 +164,21 @@ class Related extends Component {
     }
 }
 
-class LetterTag extends StaticComponent {
-    static propTypes = {
-        letter: PropTypes.string.isRequired,
-    }
-    render() {
-        const { letter } = this.props
-
-        return (
-            <Tag key={letter}>
-                <a href={`#${letter.toLowerCase()}`}>
-                    <b>{letter.toUpperCase()}</b>
-                </a>
-            </Tag>
-        )
-    }
+LetterTag.propTypes = {
+    letter: PropTypes.string.isRequired,
 }
+
+function LetterTag({ letter }) {
+    return (
+        <Tag key={letter}>
+            <a href={`#${letter.toLowerCase()}`}>
+                <b>{letter.toUpperCase()}</b>
+            </a>
+        </Tag>
+    )
+}
+
+const LetterTag = memo.static(LetterTag)
 
 class GlossaryContent extends Component {
     static propTypes = {

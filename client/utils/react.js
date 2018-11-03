@@ -1,5 +1,6 @@
 import React, { cloneElement, isValidElement } from 'react'
 import flatten from 'lodash/flatten'
+import isEqual from 'lodash/isEqual'
 
 const LINE_FEED_REGEX = /(\n)/
 function br(string, index) {
@@ -101,7 +102,25 @@ export function swap(source, start, end, element) {
     )
 }
 
+export const memo = {
+    static(component) {
+        return React.memo(component, t)
+    },
+    // props(component) {
+    //     return React.memo(component, arePropsEqual)
+    // },
+}
+
 // Utils
 function addKey(child, index) {
     return isValidElement(child) ? cloneElement(child, { key: index }) : child
 }
+function t() {
+    return true
+}
+// function arePropsEqual(
+//     { children: pc, ...prevProps },
+//     { children: np, ...nextProps }
+// ) {
+//     return isEqual(prevProps.nextProps)
+// }

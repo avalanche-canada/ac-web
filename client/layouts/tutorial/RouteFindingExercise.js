@@ -5,7 +5,6 @@ import { drag } from 'd3-drag'
 import { line } from 'd3-shape'
 import { polygonCentroid } from 'd3-polygon'
 import { Translate } from 'contexts/locale'
-import StaticComponent from 'components/StaticComponent'
 import { Media, Caption } from 'components/media'
 import { Credit } from 'components/markup'
 import { StructuredText } from 'prismic/components/base'
@@ -224,20 +223,18 @@ export default class RouteFindingExercise extends Component {
 }
 
 // Utils
-class EndPoint extends StaticComponent {
-    static propTypes = {
-        coordinates: PropTypes.string.isRequired,
-        start: PropTypes.bool,
-    }
-    render() {
-        const { coordinates, start } = this.props
-        const [cx, cy] = coordinates.split(',').map(Number)
-        const fill = start ? COLORS.SUCCESS : COLORS.DANGER
-        const cursor = start ? 'crosshair' : null
-
-        return <circle cx={cx} cy={cy} r={10} fill={fill} cursor={cursor} />
-    }
+EndPoint.propTypes = {
+    coordinates: PropTypes.string.isRequired,
+    start: PropTypes.bool,
 }
+function EndPoint({ coordinates, start }) {
+    const [cx, cy] = coordinates.split(',').map(Number)
+    const fill = start ? COLORS.SUCCESS : COLORS.DANGER
+    const cursor = start ? 'crosshair' : null
+
+    return <circle cx={cx} cy={cy} r={10} fill={fill} cursor={cursor} />
+}
+
 class DangerZone extends Component {
     static propTypes = {
         index: PropTypes.number.isRequired,
@@ -245,25 +242,16 @@ class DangerZone extends Component {
         onMouseOver: PropTypes.func.isRequired,
         touched: PropTypes.bool,
     }
-    static Label = class Label extends StaticComponent {
-        static propTypes = {
-            children: PropTypes.node.isRequired,
-            coordinates: PropTypes.string.isRequired,
-        }
-        render() {
-            const { coordinates, children } = this.props
-            const [cx, cy] = polygonCentroid(
-                coordinates
-                    .split(' ')
-                    .map(coords => coords.split(',').map(Number))
-            )
+    static Label({ coordinates, children }) {
+        const [cx, cy] = polygonCentroid(
+            coordinates.split(' ').map(coords => coords.split(',').map(Number))
+        )
 
-            return (
-                <text x={cx} y={cy} fill={COLORS.WHITE} dx={-5} dy={5}>
-                    {children}
-                </text>
-            )
-        }
+        return (
+            <text x={cx} y={cy} fill={COLORS.WHITE} dx={-5} dy={5}>
+                {children}
+            </text>
+        )
     }
     get d() {
         const [[x0, y0], ...coords] = this.props.coordinates
