@@ -1,58 +1,50 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
-import * as weather from 'api/requests/weather'
+import { station, stations, measurements } from 'api/requests/weather'
 
-export class Station extends Component {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    render() {
-        return (
-            <Fetch cache={STATIONS} request={weather.station(this.props.id)}>
-                {this.props.children}
-            </Fetch>
-        )
-    }
+Station.propTypes = {
+    id: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired,
 }
 
-export class Stations extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    children = ({ data, ...props }) =>
-        this.props.children(
-            Object.assign(props, {
-                data: Array.isArray(data) ? data.sort(sorter) : data,
-            })
-        )
-    render() {
-        return (
-            <Fetch cache={STATIONS} request={weather.stations()}>
-                {this.children}
-            </Fetch>
-        )
-    }
+export function Station({ id, children }) {
+    return (
+        <Fetch cache={STATIONS} request={station(id)}>
+            {children}
+        </Fetch>
+    )
 }
 
-export class Measurements extends Component {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    render() {
-        return (
-            <Fetch request={weather.measurements(this.props.id)}>
-                {this.props.children}
-            </Fetch>
-        )
-    }
+Stations.propTypes = {
+    children: PropTypes.func.isRequired,
+}
+
+export function Stations({ children }) {
+    return (
+        <Fetch cache={STATIONS} request={stations()}>
+            {({ data, ...props }) =>
+                children(
+                    Object.assign(props, {
+                        data: Array.isArray(data) ? data.sort(sorter) : data,
+                    })
+                )
+            }
+        </Fetch>
+    )
+}
+
+Measurements.propTypes = {
+    id: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired,
+}
+
+export function Measurements({ id, children }) {
+    return <Fetch request={measurements(id)}>{children}</Fetch>
 }
 
 const STATIONS = new Memory()
-
 function sorter(a, b) {
     return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 }

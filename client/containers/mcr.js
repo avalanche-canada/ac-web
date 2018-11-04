@@ -1,40 +1,40 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
-import * as mcr from 'api/requests/mcr'
+import { reports } from 'api/requests/mcr'
 
-export class Report extends Component {
-    static propTypes = {
-        id: PropTypes.number.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    children = ({ data, ...props }) => {
-        const { id } = this.props
-
-        Object.assign(props, {
-            data: Array.isArray(data)
-                ? data.find(report => report.id === id)
-                : false,
-        })
-
-        return this.props.children(props)
-    }
-    render() {
-        return <Reports>{this.children}</Reports>
-    }
+Report.propTypes = {
+    id: PropTypes.number.isRequired,
+    children: PropTypes.func.isRequired,
 }
 
-export class Reports extends Component {
-    static CACHE = new Memory()
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    render() {
-        return (
-            <Fetch cache={Reports.CACHE} request={mcr.reports()}>
-                {this.props.children}
-            </Fetch>
-        )
-    }
+export function Report({ id, children }) {
+    return (
+        <Reports>
+            {({ data, ...props }) => {
+                Object.assign(props, {
+                    data: Array.isArray(data)
+                        ? data.find(report => report.id === id)
+                        : false,
+                })
+
+                return children(props)
+            }}
+        </Reports>
+    )
 }
+
+Reports.propTypes = {
+    children: PropTypes.func.isRequired,
+}
+
+export function Reports({ children }) {
+    return (
+        <Fetch cache={CACHE} request={reports()}>
+            {children}
+        </Fetch>
+    )
+}
+
+const CACHE = new Memory()
