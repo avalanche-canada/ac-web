@@ -13,7 +13,7 @@ export default function Error({ children }) {
     return (
         <Page className={styles.Error}>
             <Content>
-                {this.props.children}
+                {children}
                 <Credit>Kroschel Films</Credit>
             </Content>
         </Page>
