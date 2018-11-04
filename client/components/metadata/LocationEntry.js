@@ -4,6 +4,8 @@ import { Toggle } from 'react-powerplug'
 import { Position } from 'components/misc'
 import Entry from './Entry'
 
+// TODO: HOOKS
+
 LocationEntry.propTypes = {
     longitude: PropTypes.number.isRequired,
     latitude: PropTypes.number.isRequired,

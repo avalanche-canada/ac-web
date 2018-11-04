@@ -4,6 +4,8 @@ import Overlay from 'react-overlays/lib/Overlay'
 import Tooltip from './Tooltip'
 import styles from './Tooltip.css'
 
+// TODO: HOOKS
+
 export default class Wrapper extends Component {
     static propTypes = {
         placement: PropTypes.oneOf(['left', 'top', 'right', 'bottom']),

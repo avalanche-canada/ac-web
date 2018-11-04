@@ -7,24 +7,25 @@ import { GRAY } from 'constants/colors'
 import classnames from 'classnames/bind'
 import styles from './Tree.css'
 
-const classNames = classnames.bind(styles)
-
-export default class Tree extends Component {
-    static propTypes = {
-        children: PropTypes.node,
-    }
-    children = ({ location }) =>
-        Children.map(this.props.children, node =>
-            cloneElement(node, { location })
-        )
-    render() {
-        return (
-            <div className={styles.Tree}>
-                <Location>{this.children}</Location>
-            </div>
-        )
-    }
+Tree.propTypes = {
+    children: PropTypes.node,
 }
+
+export default function Tree({ children }) {
+    return (
+        <div className={styles.Tree}>
+            <Location>
+                {({ location }) =>
+                    Children.map(children, node =>
+                        cloneElement(node, { location })
+                    )
+                }
+            </Location>
+        </div>
+    )
+}
+
+// TODO: HOOKS
 
 export class Node extends Component {
     static propTypes = {
@@ -123,3 +124,5 @@ function toggle({ isExpanded }) {
         isExpanded: !isExpanded,
     }
 }
+
+const classNames = classnames.bind(styles)

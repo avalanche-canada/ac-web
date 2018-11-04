@@ -1,24 +1,23 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames/bind'
-import css from './Shim.css'
+import classnames from 'classnames/bind'
+import styles from './Shim.css'
 
-export default class Shim extends PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-        top: PropTypes.bool,
-        right: PropTypes.bool,
-        bottom: PropTypes.bool,
-        left: PropTypes.bool,
-        vertical: PropTypes.bool,
-        horizontal: PropTypes.bool,
-        all: PropTypes.bool,
-    }
-    render() {
-        const { children, ...values } = this.props
-
-        return <div className={styles(values)}>{children}</div>
-    }
+Shim.propTypes = {
+    children: PropTypes.node,
+    top: PropTypes.bool,
+    right: PropTypes.bool,
+    bottom: PropTypes.bool,
+    left: PropTypes.bool,
+    vertical: PropTypes.bool,
+    horizontal: PropTypes.bool,
+    all: PropTypes.bool,
 }
 
-const styles = classNames.bind(css)
+function Shim({ children, ...values }) {
+    return <div className={classNames(values)}>{children}</div>
+}
+
+export default memo(Shim)
+
+const classNames = classnames.bind(styles)

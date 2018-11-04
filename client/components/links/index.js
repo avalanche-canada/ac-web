@@ -1,44 +1,40 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import classnames from 'classnames'
 import isSupported from '@mapbox/mapbox-gl-supported'
 import styles from 'styles/typography.css'
 
-export class Home extends PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-        className: PropTypes.string,
-    }
-    static defaultProps = {
-        children: 'Back to home',
-        to: '/',
-    }
-    render() {
-        const { children, className, ...props } = this.props
-
-        return (
-            <Link className={classnames(styles.Back, className)} {...props}>
-                {children}
-            </Link>
-        )
-    }
+Home.propTypes = {
+    children: PropTypes.node,
+    to: PropTypes.string,
+    className: PropTypes.string,
 }
 
-export class MountainInformationNetwork extends PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        children: PropTypes.element,
-    }
-    render() {
-        const { id, children, ...props } = this.props
+export function Home({
+    to = '/',
+    className,
+    children = 'Back to home',
+    ...props
+}) {
+    return (
+        <Link className={classnames(styles.Back, className)} to={to} {...props}>
+            {children}
+        </Link>
+    )
+}
 
-        return (
-            <Link {...props} to={mountainInformationNetwork(id)}>
-                {children}
-            </Link>
-        )
-    }
+MountainInformationNetwork.propTypes = {
+    id: PropTypes.string.isRequired,
+    children: PropTypes.element,
+}
+
+export function MountainInformationNetwork({ id, children, ...props }) {
+    return (
+        <Link {...props} to={mountainInformationNetwork(id)}>
+            {children}
+        </Link>
+    )
 }
 
 export function mountainInformationNetwork(id) {
@@ -47,20 +43,17 @@ export function mountainInformationNetwork(id) {
         : `/mountain-information-network/submissions/${id}`
 }
 
-export class Forecast extends PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        children: PropTypes.element,
-    }
-    render() {
-        const { id, children, ...props } = this.props
+Forecast.propTypes = {
+    id: PropTypes.string.isRequired,
+    children: PropTypes.element,
+}
 
-        return (
-            <Link {...props} to={forecast(id)}>
-                {children}
-            </Link>
-        )
-    }
+export function Forecast({ id, children, ...props }) {
+    return (
+        <Link {...props} to={forecast(id)}>
+            {children}
+        </Link>
+    )
 }
 
 export function forecast(id) {

@@ -4,6 +4,8 @@ import HeaderSet from './HeaderSet'
 import PanelSet from './PanelSet'
 import styles from './Tabs.css'
 
+// TODO: HOOKS
+
 export default class Tabs extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,

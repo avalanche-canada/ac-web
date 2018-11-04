@@ -11,9 +11,7 @@ Index.propTypes = {
     forecast: PropTypes.object.isRequired,
 }
 
-export default function Index(props) {
-    const { forecast } = props
-
+export default function Index({ forecast }) {
     return (
         <section className={styles.Index}>
             <h2 className={styles.Headline}>{forecast.headline}</h2>

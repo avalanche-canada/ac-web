@@ -1,9 +1,11 @@
-import React, { PureComponent, cloneElement, Children } from 'react'
+import React, { PureComponent, cloneElement, Children, memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import Button, { INCOGNITO } from 'components/button'
 import { ExpandMore, ExpandLess } from 'components/icons'
 import styles from './Tabs.css'
+
+// TODO: HOOKS
 
 export default class HeaderSet extends PureComponent {
     static propTypes = {
@@ -19,11 +21,6 @@ export default class HeaderSet extends PureComponent {
     }
     state = {
         expanded: false,
-    }
-    constructor(props) {
-        super(props)
-
-        this.styles = classnames.bind(styles)
     }
     cloneHeader = (header, index) =>
         cloneElement(header, {
@@ -61,7 +58,7 @@ export default class HeaderSet extends PureComponent {
     render() {
         const { theme, stacked } = this.props
         const { expanded } = this.state
-        const classNames = this.styles({
+        const className = classNames({
             HeaderSet: true,
             'HeaderSet--Loose': theme === 'LOOSE',
             'HeaderSet--Compact': theme === 'COMPACT',
@@ -70,7 +67,7 @@ export default class HeaderSet extends PureComponent {
         })
 
         return (
-            <div className={classNames} onClick={this.handleClick}>
+            <div className={className} onClick={this.handleClick}>
                 {Children.map(this.props.children, this.cloneHeader)}
                 {stacked && this.expand}
             </div>
@@ -78,47 +75,35 @@ export default class HeaderSet extends PureComponent {
     }
 }
 
-export class Header extends PureComponent {
-    static propTypes = {
-        isActive: PropTypes.bool,
-        disabled: PropTypes.bool,
-        arrow: PropTypes.bool,
-        onActivate: PropTypes.func,
-        style: PropTypes.object,
-        children: PropTypes.node.isRequired,
-    }
-    constructor(props) {
-        super(props)
-
-        this.styles = classnames.bind(styles)
-    }
-    render() {
-        const {
-            isActive,
-            disabled,
-            arrow,
-            onActivate,
-            children,
-            style,
-        } = this.props
-        const classNames = this.styles({
-            Header: true,
-            'Header--Arrow': arrow,
-            'Header--isActive': isActive,
-            'Header--Disabled': disabled,
-        })
-
-        return (
-            <div
-                role="tab"
-                className={classNames}
-                style={style}
-                onClick={onActivate}>
-                {children}
-            </div>
-        )
-    }
+Header.propTypes = {
+    isActive: PropTypes.bool,
+    disabled: PropTypes.bool,
+    arrow: PropTypes.bool,
+    onActivate: PropTypes.func,
+    style: PropTypes.object,
+    children: PropTypes.node.isRequired,
 }
+
+function Header({ isActive, disabled, arrow, onActivate, children, style }) {
+    const className = classNames({
+        Header: true,
+        'Header--Arrow': arrow,
+        'Header--isActive': isActive,
+        'Header--Disabled': disabled,
+    })
+
+    return (
+        <div
+            role="tab"
+            className={className}
+            style={style}
+            onClick={onActivate}>
+            {children}
+        </div>
+    )
+}
+
+export const Header = memo(Header)
 
 ColoredHeader.propTypes = {
     color: PropTypes.string,
@@ -140,3 +125,5 @@ export function ColoredHeader({ color, ...props }) {
 
     return <Header {...props} style={style} />
 }
+
+const classNames = classnames.bind(styles)

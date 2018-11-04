@@ -12,17 +12,12 @@ import styles from './Station.css'
 
 const MIN_HEIGHT = 200
 
+// Needs to be a class Component, ref is required
+// TODO: HOOKS
+
 export default class ChartSet extends Component {
     static propTypes = {
         measurements: PropTypes.arrayOf(PropTypes.object).isRequired,
-    }
-    renderError() {
-        return (
-            <Error>
-                An error happened while showing charts. Not worries we are
-                already loooking into it.
-            </Error>
-        )
     }
     renderCharSet = (ref, { width, height }) => {
         const { measurements } = this.props
@@ -31,7 +26,7 @@ export default class ChartSet extends Component {
         height = Math.max(MIN_HEIGHT, height)
 
         return (
-            <ErrorBoundary fallback={this.renderError}>
+            <ErrorBoundary fallback={renderError}>
                 <div ref={ref} className={styles.ChartSet}>
                     <Snow
                         data={measurements}
@@ -68,4 +63,8 @@ export default class ChartSet extends Component {
     render() {
         return <Ratio>{this.renderCharSet}</Ratio>
     }
+}
+
+function renderError() {
+    return <Error>An error happened while showing charts.</Error>
 }

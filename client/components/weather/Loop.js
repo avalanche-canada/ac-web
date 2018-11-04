@@ -8,6 +8,8 @@ import { computeUrls, getNotes, isForecast } from 'services/msc/loop'
 import metadata from 'services/msc/loop/metadata.json'
 import { Loading, Error } from 'components/text'
 
+// TODO: HOOKS
+
 export default class Loop extends PureComponent {
     static propTypes = {
         type: PropTypes.string.isRequired,

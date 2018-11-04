@@ -122,6 +122,8 @@ const DEFAULT_PARAMETERS = new Map([
     [ACCUMULATED_PRECIPITATION, 'GT0.025'],
 ])
 
+// Needs to be a class...
+// TODO: HOOKS
 class DayPickerContainer extends Component {
     render() {
         const { children, ...props } = this.props
@@ -134,6 +136,7 @@ class DayPickerContainer extends Component {
     }
 }
 
+// TODO: HOOKS
 export default class ExceedanceProbability extends Component {
     static propTypes = {
         date: PropTypes.instanceOf(Date).isRequired,

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import Base, { WeekdayPropTypes, NavbarPropTypes } from 'react-day-picker'
 import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
@@ -16,50 +16,51 @@ function Weekday({ weekday, className, localeUtils, locale }) {
     )
 }
 
-class Navbar extends PureComponent {
-    static propTypes = NavbarPropTypes
-    months = this.props.localeUtils.getMonths()
-    handlePreviousClick = event => {
-        event.preventDefault()
-        this.props.onPreviousClick()
-    }
-    handleNextClick = event => {
-        event.preventDefault()
-        this.props.onNextClick()
-    }
-    get previous() {
-        return (
-            <Button
-                kind={SUBTILE}
-                title={this.months[this.props.previousMonth.getMonth()]}
-                className={styles.navButtonPrev}
-                onClick={this.handlePreviousClick}>
-                <ChevronLeft />
-            </Button>
-        )
-    }
-    get next() {
-        return (
-            <Button
-                kind={SUBTILE}
-                title={this.months[this.props.nextMonth.getMonth()]}
-                className={styles.navButtonNext}
-                onClick={this.handleNextClick}>
-                <ChevronRight />
-            </Button>
-        )
-    }
-    render() {
-        const { className, showPreviousButton, showNextButton } = this.props
+Navbar.propTypes = NavbarPropTypes
 
-        return (
-            <div className={className}>
-                {showPreviousButton && this.previous}
-                {showNextButton && this.next}
-            </div>
-        )
-    }
+function Navbar({
+    className,
+    showPreviousButton,
+    previousMonth,
+    onPreviousClick,
+    showNextButton,
+    nextMonth,
+    onNextClick,
+    localeUtils,
+}) {
+    const MONTHS = localeUtils.getMonths()
+
+    return (
+        <div className={className}>
+            {showPreviousButton && (
+                <Button
+                    kind={SUBTILE}
+                    title={MONTHS[previousMonth.getMonth()]}
+                    className={styles.navButtonPrev}
+                    onClick={event => {
+                        event.preventDefault()
+                        onPreviousClick()
+                    }}>
+                    <ChevronLeft />
+                </Button>
+            )}
+            {showNextButton && (
+                <Button
+                    kind={SUBTILE}
+                    title={MONTHS[nextMonth.getMonth()]}
+                    className={styles.navButtonNext}
+                    onClick={event => {
+                        event.preventDefault()
+                        onNextClick()
+                    }}>
+                    <ChevronRight />
+                </Button>
+            )}
+        </div>
+    )
 }
+
+const Navbar = memo(Navbar)
 
 export default function DayPicker(props) {
     return (

@@ -1,23 +1,8 @@
-import React, { PureComponent, Component, Children } from 'react'
+import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
 import { createStyleUrl } from 'services/mapbox/api'
 import Marker from './Marker'
 import debounce from 'lodash/debounce'
-
-class Managed extends Component {
-    render() {
-        const { children, center, ...props } = this.props
-
-        return (
-            <StaticMap
-                {...props}
-                longitude={center.lng}
-                latitude={center.lat}
-                overlay={createOverlay(children)}
-            />
-        )
-    }
-}
 
 export default class StaticMap extends PureComponent {
     static propTypes = {
@@ -34,7 +19,16 @@ export default class StaticMap extends PureComponent {
         height: PropTypes.number,
         retina: PropTypes.bool,
     }
-    static Managed = Managed
+    static Managed({ children, center, ...props }) {
+        return (
+            <StaticMap
+                {...props}
+                longitude={center.lng}
+                latitude={center.lat}
+                overlay={createOverlay(children)}
+            />
+        )
+    }
     state = {
         url: null,
         isLoading: false,

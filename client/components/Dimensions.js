@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
 
+// TODO: HOOKS
+
 export default class Dimensions extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,

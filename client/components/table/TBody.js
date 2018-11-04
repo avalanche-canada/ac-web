@@ -1,25 +1,19 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Table.css'
 
-export default class TBody extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        featured: PropTypes.bool,
-        title: PropTypes.string,
-    }
-    get className() {
-        const className = this.props.featured ? 'TBody--Featured' : 'TBody'
+TBody.propTypes = {
+    children: PropTypes.node.isRequired,
+    featured: PropTypes.bool,
+    title: PropTypes.string,
+}
 
-        return styles[className]
-    }
-    render() {
-        const { title, children } = this.props
+export default function TBody({ title, featured, children }) {
+    const className = featured ? 'TBody--Featured' : 'TBody'
 
-        return (
-            <tbody data-title={title} className={this.className}>
-                {children}
-            </tbody>
-        )
-    }
+    return (
+        <tbody data-title={title} className={styles[className]}>
+            {children}
+        </tbody>
+    )
 }

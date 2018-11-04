@@ -2,6 +2,8 @@ import { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 
+// TODO: HOOKS
+
 export default class Ratio extends Component {
     static propTypes = {
         x: PropTypes.number,

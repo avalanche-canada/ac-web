@@ -11,7 +11,7 @@ import Brand from './Brand'
 import Donate from './Donate'
 import Dimensions from 'components/Dimensions'
 
-// TODO: Could use <Toggle> here!
+// TODO: HOOKS
 
 export default class Layout extends Component {
     static propTypes = {

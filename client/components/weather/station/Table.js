@@ -20,24 +20,6 @@ StationTable.propTypes = {
     caption: PropTypes.string,
 }
 
-function renderRow({ property, name, ...props }, index) {
-    if (index === 0) {
-        return (
-            <HeaderCell key={name}>
-                {typeof property === 'function'
-                    ? property(this)
-                    : this[property]}
-            </HeaderCell>
-        )
-    }
-
-    return (
-        <Cell key={name} {...props}>
-            {typeof property === 'function' ? property(this) : this[property]}
-        </Cell>
-    )
-}
-
 export default function StationTable({
     columns,
     measurements,
@@ -90,5 +72,24 @@ export default function StationTable({
                 </Table>
             </div>
         </div>
+    )
+}
+
+// Utils
+function renderRow({ property, name, ...props }, index) {
+    if (index === 0) {
+        return (
+            <HeaderCell key={name}>
+                {typeof property === 'function'
+                    ? property(this)
+                    : this[property]}
+            </HeaderCell>
+        )
+    }
+
+    return (
+        <Cell key={name} {...props}>
+            {typeof property === 'function' ? property(this) : this[property]}
+        </Cell>
     )
 }

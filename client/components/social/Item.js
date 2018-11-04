@@ -57,7 +57,6 @@ const PROVIDER_ICONS = new Map([
     [GOOGLE_PLUS, <Icons.GooglePlus />],
     [null, <Icons.Website />],
 ])
-
 const getProvider = memoize(url => {
     for (const [provider, regex] of PROVIDER_REGEXES) {
         if (regex.test(url)) {

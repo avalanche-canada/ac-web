@@ -4,6 +4,8 @@ import { SessionStorage } from 'services/storage'
 import ErrorBoundary from 'components/ErrorBoundary'
 import { Loading } from 'components/text'
 
+// TODO: HOOKS
+
 export default class Bundle extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,

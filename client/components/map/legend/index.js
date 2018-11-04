@@ -1,56 +1,48 @@
-import React, { Component, PureComponent, Children } from 'react'
+import React, { Children } from 'react'
 import PropTypes from 'prop-types'
 import styles from './styles.css'
 
-export class Entry extends Component {
-    static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    }
-    render() {
-        const children = Children.toArray(this.props.children)
+Entry.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+}
 
-        return (
-            <div className={styles.Entry}>
-                {children.find(isSymbol)}
-                <div className={styles.Explanation}>
-                    {children.filter(isNotSymbol)}
-                </div>
+export function Entry({ children }) {
+    return (
+        <div className={styles.Entry}>
+            {children.find(isSymbol)}
+            <div className={styles.Explanation}>
+                {Children.toArray(children).filter(isNotSymbol)}
             </div>
-        )
-    }
+        </div>
+    )
 }
 
-export class Symbol extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-    }
-    render() {
-        const { children, ...props } = this.props
-
-        return (
-            <div className={styles.Symbol} {...props}>
-                {children}
-            </div>
-        )
-    }
+Symbol.propTypes = {
+    children: PropTypes.node.isRequired,
 }
 
-export class Name extends PureComponent {
-    static propTypes = {
-        children: PropTypes.string.isRequired,
-    }
-    render() {
-        return <div className={styles.Name}>{this.props.children}</div>
-    }
+export function Symbol({ children, ...props }) {
+    return (
+        <div className={styles.Symbol} {...props}>
+            {children}
+        </div>
+    )
 }
 
-export class Description extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-    }
-    render() {
-        return <div className={styles.Description}>{this.props.children}</div>
-    }
+Name.propTypes = {
+    children: PropTypes.string.isRequired,
+}
+
+export function Name({ children }) {
+    return <div className={styles.Name}>{children}</div>
+}
+
+Description.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
+export function Description({ children }) {
+    return <div className={styles.Description}>{children}</div>
 }
 
 // Utils

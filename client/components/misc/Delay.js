@@ -1,6 +1,8 @@
 import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
+// TODO: HOOKS
+
 export default class Delay extends PureComponent {
     static propTypes = {
         children: PropTypes.node.isRequired,

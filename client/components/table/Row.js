@@ -1,38 +1,32 @@
-import React, { Children, cloneElement, PureComponent } from 'react'
+import React, { Children, cloneElement, memo, PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Table.css'
 import { Expand } from 'components/button'
 
-export default class Row extends PureComponent {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        controlled: PropTypes.bool,
-        onClick: PropTypes.func,
-    }
-    constructor(props) {
-        super(props)
-
-        this.classNames = classnames.bind(styles)
-    }
-    get className() {
-        return this.classNames({
-            Row: true,
-            'Row--Controlled': this.props.controlled,
-            'Row--Clickable': typeof this.props.onClick === 'function',
-        })
-    }
-
-    render() {
-        const { children, onClick } = this.props
-
-        return (
-            <tr className={this.className} onClick={onClick}>
-                {children}
-            </tr>
-        )
-    }
+Row.propTypes = {
+    children: PropTypes.node.isRequired,
+    controlled: PropTypes.bool,
+    onClick: PropTypes.func,
 }
+
+function Row({ children, controlled, onClick }) {
+    const className = classNames({
+        Row: true,
+        'Row--Controlled': controlled,
+        'Row--Clickable': typeof onClick === 'function',
+    })
+
+    return (
+        <tr className={className} onClick={onClick}>
+            {children}
+        </tr>
+    )
+}
+
+export default memo(Row)
+
+// TODO: HOOKS
 
 export class Expandable extends PureComponent {
     static propTypes = {
@@ -85,3 +79,4 @@ const TR_WITH_BUTTON_PROPS = {
         paddingRight: 36,
     },
 }
+const classNames = classnames.bind(styles)
