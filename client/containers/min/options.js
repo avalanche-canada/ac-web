@@ -14,7 +14,7 @@ import { ObservationSet } from './factories'
 import format from 'date-fns/format'
 import endOfToday from 'date-fns/end_of_today'
 import styles from './Form.css'
-import isMapboxSupported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 
 function handleNumberInputWheel(event) {
     if (document.activeElement === event.currentTarget) {
@@ -72,7 +72,7 @@ const Required = {
             help: (
                 <Fragment>
                     <p style={{ margin: 0 }}>
-                        {isMapboxSupported()
+                        {supported()
                             ? 'Click on the map to place a pin or enter '
                             : 'Enter '}
                         a latitude and a longitude in fields below.

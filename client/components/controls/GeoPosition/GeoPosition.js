@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { PropTypes } from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
-import isSupported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 import {
     Map,
     Marker,
@@ -93,7 +93,7 @@ export default class GeoPosition extends Component {
         })
     }
     render() {
-        if (!isSupported()) {
+        if (!supported()) {
             return null
         }
 

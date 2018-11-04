@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import supported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 import { Map, NavigationControl, StaticMap } from 'components/map'
 import styles from './Page.css'
 

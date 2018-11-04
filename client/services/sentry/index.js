@@ -1,4 +1,4 @@
-import supported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 import { key, project } from './config.json'
 
 const EXCEPTION_QUEUE = []

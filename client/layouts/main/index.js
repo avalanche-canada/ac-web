@@ -1,7 +1,7 @@
 import React, { Component, PureComponent, Fragment, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match } from '@reach/router'
-import supported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 import bbox from '@turf/bbox'
 import * as turf from '@turf/helpers'
 import { memo } from 'utils/react'
@@ -31,7 +31,6 @@ export default class Main extends Component {
         hasError: false,
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
-    supported = supported()
     primary = createRef()
     secondary = createRef()
     flyTo() {}
@@ -170,7 +169,7 @@ export default class Main extends Component {
         navigate(location.pathname)
     }
     render() {
-        if (!this.supported) {
+        if (!supported()) {
             return <UnsupportedMap />
         }
 

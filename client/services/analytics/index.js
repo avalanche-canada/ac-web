@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import supported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 
 // From: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 export function handleOutboundSponsorClick(event) {

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import classnames from 'classnames'
-import isSupported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 import styles from 'styles/typography.css'
 
 Home.propTypes = {
@@ -38,7 +38,7 @@ export function MountainInformationNetwork({ id, children, ...props }) {
 }
 
 export function mountainInformationNetwork(id) {
-    return isSupported()
+    return supported()
         ? `/map?panel=mountain-information-network-submissions/${id}`
         : `/mountain-information-network/submissions/${id}`
 }
@@ -57,5 +57,5 @@ export function Forecast({ id, children, ...props }) {
 }
 
 export function forecast(id) {
-    return isSupported() ? `/map/forecasts/${id}` : `/forecasts/${id}`
+    return supported() ? `/map/forecasts/${id}` : `/forecasts/${id}`
 }

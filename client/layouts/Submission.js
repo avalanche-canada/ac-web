@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import isSupported from '@mapbox/mapbox-gl-supported'
+import { supported } from 'utils/mapbox'
 import { Page, Header, Main, Content, Aside } from 'components/page'
 import { MountainInformationNetwork as Link } from 'components/links'
 import { Item } from 'components/sidebar'
@@ -44,7 +44,7 @@ export default class Layout extends PureComponent {
                     </Main>
                     <Aside>
                         <Sidebar>
-                            {isSupported() && (
+                            {supported() && (
                                 <Item>
                                     <Link id={this.props.id}>
                                         See this submission on the main map
