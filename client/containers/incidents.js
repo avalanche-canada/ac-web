@@ -9,7 +9,6 @@ export class Incident extends Component {
         id: PropTypes.string.isRequired,
         children: PropTypes.func.isRequired,
     }
-    static CACHE = new Memory()
     render() {
         const { id, children } = this.props
 
