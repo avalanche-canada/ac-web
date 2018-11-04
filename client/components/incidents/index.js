@@ -20,7 +20,7 @@ export class IncidentTable extends PureComponent {
         id,
     }) {
         return (
-            <t.Row>
+            <t.Row key={id}>
                 <t.Cell>
                     <span className={styles.DateCell}>{date}</span>
                 </t.Cell>
