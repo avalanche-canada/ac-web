@@ -13,6 +13,9 @@ export default class ErrorBoundary extends Component {
     static defaultProps = {
         onError() {},
     }
+    static getDerivedStateFromError(error) {
+        return { error }
+    }
     state = {}
     componentDidCatch(error, extra) {
         if (isRedirect(error)) {
