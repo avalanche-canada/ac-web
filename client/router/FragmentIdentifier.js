@@ -3,14 +3,20 @@ import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import { scrollPosition } from 'utils/dom'
 
-export default class FragmentIdentifier extends Component {
-    withLocation = ({ location }) => (
-        <FragmentIdentifierWithLocation location={location} {...this.props} />
+export default function FragmentIdentifier(props) {
+    return (
+        <Location>
+            {({ location }) => (
+                <FragmentIdentifierWithLocation
+                    location={location}
+                    {...props}
+                />
+            )}
+        </Location>
     )
-    render() {
-        return <Location>{this.withLocation}</Location>
-    }
 }
+
+// TODO: HOOKS
 
 class FragmentIdentifierWithLocation extends Component {
     static propTypes = {
