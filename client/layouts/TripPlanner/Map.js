@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import bbox from '@turf/bbox'
-import * as MapStateContext from 'contexts/map/state'
+import MapStateContext from 'contexts/map/state'
 import { Map, NavigationControl } from 'components/map'
 import styles from './TripPlanner.css'
 
@@ -11,12 +11,13 @@ export default class TripPlannerMap extends Component {
         onLoad: PropTypes.func.isRequired,
         onFeaturesSelect: PropTypes.func.isRequired,
     }
+    static contextType = MapStateContext
     cursorEnterCounter = 0
     handleZoomEnd = event => {
-        this.setZoom(event.target.getZoom())
+        this.context.setZoom(event.target.getZoom())
     }
     handleMoveEnd = event => {
-        this.setCenter(event.target.getCenter())
+        this.context.setCenter(event.target.getCenter())
     }
     handleLoad = event => {
         const map = event.target
@@ -92,9 +93,8 @@ export default class TripPlannerMap extends Component {
             this.props.onFeaturesSelect({ region, area })
         }
     }
-    withMapState = ({ zoom, center, setZoom, setCenter }) => {
-        this.setZoom = setZoom
-        this.setCenter = setCenter
+    render() {
+        const { zoom, center } = this.context
 
         return (
             <Map
@@ -105,13 +105,6 @@ export default class TripPlannerMap extends Component {
                 center={center}>
                 <NavigationControl />
             </Map>
-        )
-    }
-    render() {
-        return (
-            <MapStateContext.Consumer>
-                {this.withMapState}
-            </MapStateContext.Consumer>
         )
     }
 }

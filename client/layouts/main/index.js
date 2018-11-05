@@ -15,8 +15,8 @@ import Primary from './Primary'
 import Secondary from './Secondary'
 import { Menu, ToggleMenu } from './drawers'
 import externals, { open } from 'router/externals'
-import * as menu from 'contexts/menu'
-import * as layers from 'contexts/layers'
+import { Provider as MenuProvider } from 'contexts/menu'
+import { Provider as LayersProvider } from 'contexts/layers'
 import * as TYPES from 'constants/drawers'
 import styles from './Map.css'
 
@@ -176,8 +176,8 @@ export default class Main extends Component {
         const { width, hasError } = this.state
 
         return (
-            <layers.Provider>
-                <menu.Provider>
+            <LayersProvider>
+                <MenuProvider>
                     <div className={styles.Layout}>
                         <Base
                             onError={this.handleError}
@@ -206,8 +206,8 @@ export default class Main extends Component {
                             {this.openExternalForecast}
                         </Match>
                     </div>
-                </menu.Provider>
-            </layers.Provider>
+                </MenuProvider>
+            </LayersProvider>
         )
     }
 }

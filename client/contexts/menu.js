@@ -1,18 +1,15 @@
 import React, { createContext, Component } from 'react'
 import PropTypes from 'prop-types'
 
-const Context = createContext()
-
 export class Provider extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
     }
-    state = {
-        opened: false,
-    }
-    get value() {
-        return {
-            opened: this.state.opened,
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            opened: false,
             open: this.open,
             close: this.close,
             toggle: this.toggle,
@@ -29,11 +26,13 @@ export class Provider extends Component {
     }
     render() {
         return (
-            <Context.Provider value={this.value}>
+            <MenuContext.Provider value={this.state}>
                 {this.props.children}
-            </Context.Provider>
+            </MenuContext.Provider>
         )
     }
 }
 
-export const Consumer = Context.Consumer
+const MenuContext = createContext()
+
+export default MenuContext

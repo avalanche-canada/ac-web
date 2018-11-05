@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import * as LAYERS from 'constants/drawers'
 import { LocalStorage } from 'services/storage'
 
+const LayersContext = createContext(LAYERS)
+
 const VISIBILITY = LocalStorage.create({
     keyPrefix: 'layers-visibility',
 })
@@ -87,9 +89,9 @@ export class Provider extends Component {
     }
     render() {
         return (
-            <Context.Provider value={this.value}>
+            <LayersContext.Provider value={this.value}>
                 {this.props.children}
-            </Context.Provider>
+            </LayersContext.Provider>
         )
     }
 }
@@ -99,36 +101,35 @@ export class Layer extends Component {
         id: PropTypes.oneOf(LAYERS.default).isRequired,
         children: PropTypes.func.isRequired,
     }
-    children = ({ toggle, setFilterValue, layers }) => {
-        const { children, id } = this.props
-
-        return children({
-            ...layers[id],
-            toggle() {
-                toggle(id)
-            },
-            setFilterValue(name, value) {
-                setFilterValue(id, name, value)
-            },
-        })
+    static contextType = LayersContext
+    toggle = () => {
+        this.context.toggle(this.props.id)
+    }
+    setFilterValue = (name, value) => {
+        this.context.setFilterValue(this.props.id, name, value)
     }
     render() {
-        return <Consumer>{this.children}</Consumer>
+        const { children, id } = this.props
+        const { toggle, setFilterValue } = this
+
+        return children({
+            ...this.context.layers[id],
+            toggle,
+            setFilterValue,
+        })
     }
 }
 
+// TODO: Remove when HOOKS appear
 export class Layers extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
     }
-    children = ({ layers }) => this.props.children(layers)
+    static contextType = LayersContext
     render() {
-        return <Consumer>{this.children}</Consumer>
+        return this.props.children(this.context.layers)
     }
 }
-
-const Context = createContext(LAYERS)
-const { Consumer } = Context
 
 // Utils
 function getVisibility(key, defaultValue = false) {

@@ -6,6 +6,8 @@ import { setUserContext } from 'services/sentry'
 
 const AuthContext = createContext()
 
+export default AuthContext
+
 export class Provider extends Component {
     static propTypes = {
         children: PropTypes.node.isRequired,
@@ -88,10 +90,8 @@ export class IsAuthenticated extends Component {
     static propTypes = {
         children: PropTypes.func.isRequired,
     }
-    withAuth = ({ isAuthenticated }) => this.props.children(isAuthenticated)
+    static contextType = AuthContext
     render() {
-        return <Consumer>{this.withAuth}</Consumer>
+        return this.props.children(this.context.isAuthenticated)
     }
 }
-
-export const { Consumer } = AuthContext

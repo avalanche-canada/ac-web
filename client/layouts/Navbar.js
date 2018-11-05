@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { Location } from '@reach/router'
-import * as Auth from 'contexts/auth'
+import AuthContext from 'contexts/auth'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { Loading } from 'components/text'
@@ -15,7 +15,6 @@ import Navbar, {
     ColumnSet,
 } from 'components/navbar'
 import Avatar from 'components/avatar'
-import Compose from 'components/Compose'
 import menu from /* preval */ '../constants/menus/avcan'
 import logo from 'styles/AvalancheCanada.svg'
 
@@ -53,41 +52,29 @@ class Ambassadors extends Component {
 menu.children[4].children[1].children = Ambassadors
 
 export default class AvalancheCanadaNavbar extends Component {
+    static contextType = AuthContext
     handleLoginClick = event => {
         event.preventDefault()
 
-        this.login()
+        this.context.login()
     }
     handleLogoutClick = event => {
         event.preventDefault()
 
-        this.logout()
+        this.context.logout()
     }
-    renderNavbar = ([
-        { isAuthenticated, login, logout, profile = {} },
-        { location },
-    ]) => {
-        this.login = login
-        this.logout = logout
-        this.location = location
+    render() {
+        const { isAuthenticated } = this.context
+        const { name, picture } = this.context.profile || {}
 
         return (
             <Navbar logo={logo} donate="/foundation" menu={menu}>
                 {isAuthenticated ? (
                     <Item
-                        title={
-                            <Avatar
-                                name={profile.name}
-                                url={profile.picture}
-                                size={30}
-                            />
-                        }>
+                        title={<Avatar name={name} url={picture} size={30} />}>
                         <Menu>
                             <Section>
-                                <UserProfile
-                                    name={profile.name}
-                                    avatar={profile.picture}
-                                />
+                                <UserProfile name={name} avatar={picture} />
                                 <Header>
                                     <Link onClick={this.handleLogoutClick}>
                                         Logout
@@ -100,13 +87,6 @@ export default class AvalancheCanadaNavbar extends Component {
                     <Item title="Login" onClick={this.handleLoginClick} />
                 )}
             </Navbar>
-        )
-    }
-    render() {
-        return (
-            <Compose components={[<Auth.Consumer />, <Location />]}>
-                {this.renderNavbar}
-            </Compose>
         )
     }
 }

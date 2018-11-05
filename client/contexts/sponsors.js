@@ -33,29 +33,29 @@ export class Provider extends Component {
             const date = formatDate(new Date(), 'YYYY-MM-DD')
             const sponsors = Object.assign({}, data.default, data[date])
 
-            this.storage.set('sponsors', sponsors)
-
-            this.setState(sponsors)
+            this.setState(sponsors, () => {
+                this.storage.set('sponsors', sponsors)
+            })
         } catch (error) {
             captureException(error)
         }
-    }
-    componentWillUnmount() {
-        clearTimeout(this.timeoutId)
     }
     componentDidMount() {
         // TODO Could also use requestIdleCallback
         this.timeoutId = setTimeout(this.fetch.bind(this), 9999)
     }
+    componentWillUnmount() {
+        clearTimeout(this.timeoutId)
+    }
     render() {
         return (
-            <Context.Provider value={this.state}>
+            <SponsorsContext.Provider value={this.state}>
                 {this.props.children}
-            </Context.Provider>
+            </SponsorsContext.Provider>
         )
     }
 }
 
-const Context = createContext()
+const SponsorsContext = createContext()
 
-export default Context.Consumer
+export default SponsorsContext

@@ -2,7 +2,9 @@ import React, { createContext, Component } from 'react'
 import PropTypes from 'prop-types'
 import { SessionStorage } from 'services/storage'
 
-const Context = createContext()
+const MapStateContext = createContext()
+
+export default MapStateContext
 
 export class Provider extends Component {
     static propTypes = {
@@ -30,11 +32,11 @@ export class Provider extends Component {
     }
     render() {
         return (
-            <Context.Provider value={this.value}>
+            <MapStateContext.Provider value={this.value}>
                 {this.props.children}
-            </Context.Provider>
+            </MapStateContext.Provider>
         )
     }
 }
 
-export const Consumer = Context.Consumer
+export const Consumer = MapStateContext.Consumer

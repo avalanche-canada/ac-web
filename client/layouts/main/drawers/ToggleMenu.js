@@ -1,22 +1,22 @@
-import React from 'react'
-import { memo } from 'utils/react'
-import { Consumer } from 'contexts/menu'
+import React, { Component } from 'react'
+import MenuContext from 'contexts/menu'
 import { Menu } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 
-function Toggle() {
-    return (
-        <Consumer>
-            {({ toggle }) => (
-                <Button style={STYLE} onClick={toggle} kind={SUBTILE}>
-                    <Menu />
-                </Button>
-            )}
-        </Consumer>
-    )
-}
+// TODO: HOOKS
 
-export default memo.static(Toggle)
+export default class Toggle extends Component {
+    static contextType = MenuContext
+    render() {
+        const { toggle } = this.context
+
+        return (
+            <Button style={STYLE} onClick={toggle} kind={SUBTILE}>
+                <Menu />
+            </Button>
+        )
+    }
+}
 
 // Style
 const STYLE = {

@@ -1,12 +1,17 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import Drawer, { LEFT } from 'components/page/drawer'
-import { Consumer } from 'contexts/menu'
+import MenuContext from 'contexts/menu'
 import MenuContent from './Menu'
 
 export ToggleMenu from './ToggleMenu'
 
-export class Menu extends PureComponent {
-    renderDrawer({ opened, close }) {
+// TODO: HOOKS
+
+export class Menu extends Component {
+    static contextType = MenuContext
+    render() {
+        const { opened, close } = this.context
+
         return (
             <Drawer
                 side={LEFT}
@@ -17,8 +22,5 @@ export class Menu extends PureComponent {
                 <MenuContent onCloseClick={close} />
             </Drawer>
         )
-    }
-    render() {
-        return <Consumer>{this.renderDrawer}</Consumer>
     }
 }

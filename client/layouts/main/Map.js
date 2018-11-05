@@ -1,19 +1,20 @@
 import React, { Component, createElement } from 'react'
 import PropTypes from 'prop-types'
 import * as LayersContext from 'contexts/layers'
-import * as MapStateContext from 'contexts/map/state'
+import MapStateContext from 'contexts/map/state'
 import ForecastMarkers from './layers/ForecastMarkers'
 import { Map as Base, NavigationControl } from 'components/map'
 import * as TYPES from 'constants/drawers'
 import LAYERS from './layers'
 
 export default class Layout extends Component {
-    propTypes = {
+    static propTypes = {
         onFeatureClick: PropTypes.func.isRequired,
         onMarkerClick: PropTypes.func.isRequired,
         onError: PropTypes.func,
         onLoad: PropTypes.func,
     }
+    static contextType = MapStateContext
     cursorEnterCounter = 0
     handleMouseEnterLayer = ({ target, features }) => {
         const [feature] = features
@@ -38,10 +39,10 @@ export default class Layout extends Component {
         }
     }
     handleZoomEnd = event => {
-        this.setZoom(event.target.getZoom())
+        this.context.setZoom(event.target.getZoom())
     }
     handleCenterEnd = event => {
-        this.setCenter(event.target.getCenter())
+        this.context.setCenter(event.target.getCenter())
     }
     handleLoad = event => {
         event.target.on('click', this.handleClick)
@@ -68,11 +69,9 @@ export default class Layout extends Component {
     renderLayers = layers => {
         return Object.entries(layers).map(this.renderLayer, this)
     }
-    withMapState = ({ zoom, center, setZoom, setCenter }) => {
+    render() {
         const { onMarkerClick, onFeatureClick, ...props } = this.props
-
-        this.setZoom = setZoom
-        this.setCenter = setCenter
+        const { zoom, center } = this.context
 
         return (
             <Base
@@ -87,13 +86,6 @@ export default class Layout extends Component {
                 <LayersContext.Layers>{this.renderLayers}</LayersContext.Layers>
                 <NavigationControl />
             </Base>
-        )
-    }
-    render() {
-        return (
-            <MapStateContext.Consumer>
-                {this.withMapState}
-            </MapStateContext.Consumer>
         )
     }
 }

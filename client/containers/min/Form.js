@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import { navigate } from '@reach/router'
 import t from 'vendor/tcomb-form'
 import { Page, Header, Main, Content } from 'components/page'
 import * as links from 'components/links'
 import OPTIONS from './options'
 import Submission from './types'
-import { Consumer as Auth } from 'contexts/auth'
+import AuthContext from 'contexts/auth'
 import { Submit } from 'components/button'
 import { TYPES } from 'constants/min'
 import ObservationSetError from './ObservationSetError'
@@ -18,6 +18,8 @@ import { SessionStorage } from 'services/storage'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
+    static contextType = AuthContext
+    form = createRef()
     constructor(props) {
         super(props)
 
@@ -36,19 +38,18 @@ export default class SubmissionForm extends Component {
         }
     }
     async componentDidMount() {
-        if (!this.isAuthenticated) {
-            await this.login()
+        if (!this.context.isAuthenticated) {
+            await this.context.login()
         }
 
         this.store = new FormStore()
         await this.store.open()
-        const form = await this.store.get()
+        const value = await this.store.get()
 
         this.setState({
-            value: form || null,
+            value: value || null,
         })
     }
-    setRef = form => (this.form = form)
     setActiveTab(activeTab) {
         if (typeof activeTab === 'string') {
             activeTab = TYPES.indexOf(activeTab)
@@ -116,7 +117,7 @@ export default class SubmissionForm extends Component {
         this.store.set(value)
     }
     validate = () => {
-        const result = this.form.validate()
+        const result = this.form.current.validate()
 
         this.showErrorState(result)
 
@@ -170,41 +171,32 @@ export default class SubmissionForm extends Component {
                 )
         })
     }
-    renderForm = ({ isAuthenticated, login }) => {
-        const { options, type, value, isSubmitting } = this.state
-        const disabled = isSubmitting
-
-        this.isAuthenticated = isAuthenticated
-        this.login = login
-
-        return (
-            <form
-                onSubmit={this.handleSubmit}
-                noValidate
-                className={styles.Container}>
-                <Form
-                    ref={this.setRef}
-                    value={value}
-                    type={type}
-                    options={options}
-                    disabled={disabled}
-                    onChange={this.handleChange}
-                />
-                <Submit large disabled={isSubmitting}>
-                    {isSubmitting
-                        ? 'Submitting your report...'
-                        : 'Submit your report'}
-                </Submit>
-            </form>
-        )
-    }
     render() {
+        const { options, type, value, isSubmitting } = this.state
+
         return (
             <Page>
                 <Header title="Mountain Information Network — Create report" />
                 <Content>
                     <Main>
-                        <Auth>{this.renderForm}</Auth>
+                        <form
+                            onSubmit={this.handleSubmit}
+                            noValidate
+                            className={styles.Container}>
+                            <t.form.Form
+                                ref={this.form}
+                                value={value}
+                                type={type}
+                                options={options}
+                                disabled={isSubmitting}
+                                onChange={this.handleChange}
+                            />
+                            <Submit large disabled={isSubmitting}>
+                                {isSubmitting
+                                    ? 'Submitting your report...'
+                                    : 'Submit your report'}
+                            </Submit>
+                        </form>
                     </Main>
                 </Content>
             </Page>
@@ -213,8 +205,6 @@ export default class SubmissionForm extends Component {
 }
 
 // Utils
-const { Form } = t.form
-
 function isObservationError(error) {
     return error.path[0] === 'observations'
 }

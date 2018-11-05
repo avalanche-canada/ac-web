@@ -4,7 +4,7 @@ import { Router } from '@reach/router'
 import { Sponsor } from 'components/misc'
 import { Document } from 'prismic/containers'
 import { Loading } from 'components/text'
-import Metadata from 'contexts/sponsors'
+import SponsorsContext from 'contexts/sponsors'
 import * as params from 'prismic/params'
 
 export default function SponsorRoutes() {
@@ -43,6 +43,7 @@ class SponsorRoute extends Component {
         name: PropTypes.string.isRequired,
         label: PropTypes.string,
     }
+    static contextType = SponsorsContext
     shouldComponentUpdate({ name }) {
         return name !== this.props.name
     }
@@ -59,15 +60,12 @@ class SponsorRoute extends Component {
             </Sponsor>
         )
     }
-    withMetadata = metadata => {
-        const { name } = this.props
-        const uid = metadata[name] || name
-
-        return (
-            <Document {...params.sponsor(uid)}>{this.renderComponent}</Document>
-        )
-    }
+    withSponsors = metadata => {}
     render() {
-        return <Metadata>{this.withMetadata}</Metadata>
+        const { name } = this.props
+        const uid = this.context[name] || name
+        const props = params.sponsor(uid)
+
+        return <Document {...props}>{this.renderComponent}</Document>
     }
 }
