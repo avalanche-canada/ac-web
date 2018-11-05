@@ -48,11 +48,11 @@ class FragmentIdentifierWithLocation extends Component {
 
         this.scrollTo()
     }
-    componentWillUnmount() {
-        window.removeEventListener('hashchange', this.handleHashchange)
-    }
     componentDidUpdate() {
         this.scrollTo()
+    }
+    componentWillUnmount() {
+        window.removeEventListener('hashchange', this.handleHashchange)
     }
     render() {
         const { location, hash, children, ...props } = this.props
