@@ -6,7 +6,12 @@ import * as components from 'components/page/drawer/layers'
 import * as context from 'contexts/layers'
 import * as Layers from 'constants/drawers'
 import * as Icons from 'components/icons'
+import { NAMES } from 'constants/min'
 import { Dropdown, Option } from 'components/controls'
+
+Menu.propTypes = {
+    onCloseClick: PropTypes.func.isRequired,
+}
 
 function Menu({ onCloseClick }) {
     return (
@@ -24,18 +29,18 @@ function Menu({ onCloseClick }) {
                     <components.LayerSet title="Observations">
                         <Layer id={Layers.MOUNTAIN_INFORMATION_NETWORK}>
                             <Dropdown name="days">
-                                <Option value={1}>1 day</Option>
-                                <Option value={3}>3 days</Option>
-                                <Option value={7}>7 days</Option>
-                                <Option value={14}>14 days</Option>
-                                <Option value={30}>30 days</Option>
+                                {DAYS.map(day => (
+                                    <Option key={day} value={day}>
+                                        {day} day
+                                    </Option>
+                                ))}
                             </Dropdown>
                             <Dropdown name="types">
-                                <Option value="quick">Quick</Option>
-                                <Option value="avalanche">Avalanche</Option>
-                                <Option value="snowpack">Snowpack</Option>
-                                <Option value="weather">Weather</Option>
-                                <Option value="incident">Incident</Option>
+                                {Array.from(NAMES).map(([value, name]) => (
+                                    <Option key={value} value={value}>
+                                        {name}
+                                    </Option>
+                                ))}
                             </Dropdown>
                         </Layer>
                         <Layer id={Layers.WEATHER_STATION} />
@@ -53,11 +58,12 @@ function Menu({ onCloseClick }) {
 
 export default memo.static(Menu)
 
-// Util layouts
+// Util components
 Layer.propTypes = {
     id: PropTypes.string.isRequired,
     children: PropTypes.element,
 }
+
 function Layer({ id, children }) {
     return (
         <context.Layer id={id}>
@@ -86,6 +92,7 @@ function Layer({ id, children }) {
 }
 
 // Constants
+const DAYS = [1, 3, 7, 14, 30]
 const ICONS = new Map([
     [Layers.FORECASTS, <Icons.Forecast />],
     [Layers.HOT_ZONE_REPORTS, <Icons.HotZoneReport />],

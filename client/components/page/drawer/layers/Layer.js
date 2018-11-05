@@ -16,11 +16,7 @@ export default class Layer extends PureComponent {
     state = {
         expanded: false,
     }
-    constructor(props) {
-        super(props)
-
-        this.classnames = classnames.bind(styles)
-    }
+    classNames = classnames.bind(styles)
     get expanded() {
         return this.state.expanded
     }
@@ -30,7 +26,7 @@ export default class Layer extends PureComponent {
     get className() {
         const { visible } = this.props
 
-        return this.classnames({
+        return this.classNames({
             Layer: !visible,
             'Layer--Visible': visible,
         })
@@ -40,6 +36,7 @@ export default class Layer extends PureComponent {
 
         this.expanded = !this.expanded
     }
+
     render() {
         const { title, icon, onClick, children } = this.props
 
