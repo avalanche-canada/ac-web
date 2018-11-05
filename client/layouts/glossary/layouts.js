@@ -252,7 +252,7 @@ class GlossaryContent extends Component {
             return sections
         }, [])
     })
-    renderContent = pages => {
+    renderContent(pages) {
         const { term } = this
         const pending = pages.some(page => page.pending)
         const fulfilled = pages.every(page => page.fulfilled)
