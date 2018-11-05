@@ -32,6 +32,15 @@ var CAAML_MODES = {
     EARLY_SEASON: 'Early season',
 };
 
+var DANGER_LABELS = {
+    '1'   : 'Low',
+    '2'   : 'Moderate',
+    '3'   : 'Considerable',
+    '4'   : 'High',
+    '5'   : 'Extreme',
+    'N/A' : 'No Rating',
+}
+
 var dangerRatingStyles = {
     iconFill: {
         '1:Low': colors.green,
@@ -329,13 +338,8 @@ function parksForecast(caaml, region) {
 
         function formatDangerRating(dangerRating) {
             var value = dangerRating['mainValue'][0];
-            var txt =
-                dangerRating['customData'][0]['DangerRatingDisplay'][0][
-                    'mainLabel'
-                ][0];
-            // TODO(wnh): figure out why this says 'Spring' when its early season and if its still required
-            if (txt === "'Spring'") {
-                console.log("Fixing 'Spring' rating");
+            var txt = DANGER_LABELS[value.toUpperCase()]
+            if(txt === undefined)  {
                 txt = 'No Rating';
             }
             return value + ':' + txt;
