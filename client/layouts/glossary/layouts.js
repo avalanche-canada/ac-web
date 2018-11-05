@@ -281,6 +281,8 @@ class GlossaryContent extends Component {
         )
     }
     render() {
+        const params = glossary.definitions()
+
         return (
             <Fragment>
                 <Headline>
@@ -291,9 +293,9 @@ class GlossaryContent extends Component {
                     value={this.term}
                     placeholder="Search for a definition"
                 />
-                <Documents {...glossary.definitions()} page={1}>
+                <Documents {...params} page={1}>
                     {first => (
-                        <Documents {...glossary.definitions()} page={2}>
+                        <Documents {...params} page={2}>
                             {second => this.renderContent([first, second])}
                         </Documents>
                     )}
