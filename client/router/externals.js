@@ -1,19 +1,16 @@
 import { VANCOUVER_ISLAND, CHIC_CHOCS } from 'constants/forecast/owners'
 
 const externals = new Map([
-    ['little-yoho', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=5&d=TODAY'],
-    [
-        'banff-yoho-kootenay',
-        '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY',
-    ],
+    ['little-yoho', createParkURL(5)],
+    ['banff-yoho-kootenay', createParkURL(1)],
     [VANCOUVER_ISLAND, '//www.islandavalanchebulletin.com/'],
-    ['jasper', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=2&d=TODAY'],
-    ['waterton', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=4&d=TODAY'],
+    ['jasper', createParkURL(2)],
+    ['waterton', createParkURL(4)],
     [
         CHIC_CHOCS,
         '//avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche',
     ],
-    ['glacier', '//avalanche.pc.gc.ca/bulletin-eng.aspx?r=3&d=TODAY'],
+    ['glacier', createParkURL(3)],
 ])
 
 export default externals
@@ -39,4 +36,9 @@ export function open(name, date) {
     } catch (error) {
         return
     }
+}
+
+// Utils
+function createParkURL(region) {
+    return `//avalanche.pc.gc.ca/bulletin-eng.aspx?r=${region}&d=TODAY`
 }
