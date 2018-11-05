@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import identity from 'lodash/identity'
 import Fetch from 'components/fetch'
 import { Memory as Cache } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -12,116 +13,93 @@ import parse from './parsers'
 import { FEED } from 'constants/prismic'
 import { FR, EN } from 'constants/locale'
 
-class MasterRef extends Component {
-    static CACHE = new Cache(60 * 1000)
-    children = ({ data }) =>
-        data ? this.props.children(data.refs.find(isMasterRef).ref) : null
-    render() {
-        return (
-            <Fetch cache={MasterRef.CACHE} request={requests.api()}>
-                {this.children}
-            </Fetch>
-        )
-    }
+// TODO: HOOKS
+
+MasterRef.CACHE = new Cache(60 * 1000)
+
+function MasterRef({ children }) {
+    return (
+        <Fetch cache={MasterRef.CACHE} request={requests.api()}>
+            {({ data }) =>
+                data ? children(data.refs.find(isMasterRef).ref) : null
+            }
+        </Fetch>
+    )
 }
 
-class Search extends Component {
-    static CACHE = new Cache()
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-        predicates: PropTypes.arrayOf(PropTypes.string).isRequired,
-        locale: PropTypes.oneOf([FR, EN]),
-    }
-    withMasterRef = ref => {
-        const { children, predicates, locale, ...options } = this.props
-
-        if (locale === FR) {
-            Object.assign(options, { lang: 'fr-ca' })
-        }
-
-        const request = requests.search(ref, predicates, options)
-
-        return (
-            <Fetch cache={Search.CACHE} request={request}>
-                {children}
-            </Fetch>
-        )
-    }
-    renderError({ error }) {
-        return (
-            <Text.Error component="details">
-                <summary>
-                    An error happened while loading and display content.{' '}
-                    <a href={document.location}>Retry</a>
-                </summary>
-                <p>
-                    An error happened while retrieving data from prismic and
-                    rendering its content.
-                </p>
-                <p>
-                    {error.name}: {error.message}
-                </p>
-            </Text.Error>
-        )
-    }
-    render() {
-        return (
-            <ErrorBoundary fallback={this.renderError}>
-                <MasterRef>{this.withMasterRef}</MasterRef>
-            </ErrorBoundary>
-        )
-    }
+Search.CACHE = new Cache()
+Search.propTypes = {
+    children: PropTypes.func.isRequired,
+    predicates: PropTypes.arrayOf(PropTypes.string).isRequired,
+    locale: PropTypes.oneOf([FR, EN]),
 }
 
-export class Document extends Component {
-    static propTypes = {
-        children: PropTypes.func,
-    }
-    static defaultProps = {
-        children(props) {
-            return props
-        },
-    }
-    children = ({ data, ...props }) =>
-        this.props.children(
-            Object.assign(props, {
-                document:
-                    data?.results?.length > 0
-                        ? parse(data.results[0])
-                        : undefined,
-            })
-        )
-    render() {
-        const { children, ...props } = this.props
+function Search({ children, predicates, locale, ...options }) {
+    return (
+        <ErrorBoundary fallback={renderError}>
+            <MasterRef>
+                {ref => {
+                    if (locale === FR) {
+                        Object.assign(options, { lang: 'fr-ca' })
+                    }
 
-        return <Search {...props}>{this.children}</Search>
-    }
+                    const request = requests.search(ref, predicates, options)
+
+                    return (
+                        <Fetch cache={Search.CACHE} request={request}>
+                            {children}
+                        </Fetch>
+                    )
+                }}
+            </MasterRef>
+        </ErrorBoundary>
+    )
 }
 
-export class Documents extends Component {
-    static propTypes = {
-        children: PropTypes.func,
-    }
-    static defaultProps = {
-        children(props) {
-            return props
-        },
-    }
-    children = ({ data, ...props }) => {
-        if (data) {
-            const { results, ...rest } = data
-
-            Object.assign(props, rest, {
-                documents: results.map(d => parse(d)),
-            })
-        }
-
-        return this.props.children(props)
-    }
-    render() {
-        return <Search {...this.props}>{this.children}</Search>
-    }
+Document.propTypes = {
+    children: PropTypes.func,
 }
+
+export function Document({ children = identity, ...props }) {
+    return (
+        <Search {...props}>
+            {({ data, ...rest }) =>
+                children(
+                    Object.assign(rest, {
+                        document:
+                            data?.results?.length > 0
+                                ? parse(data.results[0])
+                                : undefined,
+                    })
+                )
+            }
+        </Search>
+    )
+}
+
+Documents.propTypes = {
+    children: PropTypes.func,
+}
+
+export function Documents({ children = identity, ...props }) {
+    return (
+        <Search {...props}>
+            {({ data, ...props }) => {
+                if (data) {
+                    const { results, ...rest } = data
+
+                    Object.assign(props, rest, {
+                        documents: results.map(d => parse(d)),
+                    })
+                }
+
+                return children(props)
+            }}
+        </Search>
+    )
+}
+
+// TODO: HOOKS
 
 export class Pages extends Component {
     static propTypes = {
@@ -151,6 +129,8 @@ export class Pages extends Component {
         )
     }
 }
+
+// TODO: HOOKS
 
 export class Tags extends Component {
     static propTypes = {
@@ -219,4 +199,21 @@ function isMasterRef({ isMasterRef }) {
 }
 function sorter(a, b) {
     return a.localeCompare(b, 'en', { sensitivity: 'base' })
+}
+function renderError({ error }) {
+    return (
+        <Text.Error component="details">
+            <summary>
+                An error happened while loading and display content.{' '}
+                <a href={document.location}>Retry</a>
+            </summary>
+            <p>
+                An error happened while retrieving data from prismic and
+                rendering its content.
+            </p>
+            <p>
+                {error.name}: {error.message}
+            </p>
+        </Text.Error>
+    )
 }

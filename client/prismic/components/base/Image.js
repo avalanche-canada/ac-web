@@ -5,6 +5,8 @@ import { Credit } from 'components/markup'
 import WebLink from './WebLink'
 import styles from './Image.css'
 
+// TODO: HOOKS
+
 export default class Image extends PureComponent {
     static propTypes = {
         url: PropTypes.string.isRequired,

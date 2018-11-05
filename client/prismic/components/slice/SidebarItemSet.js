@@ -11,6 +11,7 @@ export default function ItemSet({ value }) {
     return value.map(createItem)
 }
 
+// Utils
 function createItem({ link, title }, index) {
     return (
         <Item key={index}>

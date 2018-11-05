@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './MountainInformationNetworkFeatures.css'
 
+// TODO: Remove once new mobile application out
+
 const Texts = new Map([['Not available', 'N/A']])
 
 MountainInformationNetworkFeatures.propTypes = {

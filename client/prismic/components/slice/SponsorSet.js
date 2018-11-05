@@ -3,16 +3,13 @@ import { ItemSet, Item } from 'components/sponsor'
 import parse from '../../parsers'
 
 export default function SponsorSet({ value }) {
-    return (
-        <ItemSet>
-            {value
-                .filter(({ sponsor }) => !sponsor.value.isBroken)
-                .map(renderItem)}
-        </ItemSet>
-    )
+    return <ItemSet>{value.filter(isNotBroken).map(renderItem)}</ItemSet>
 }
 
 // Utils
+function isNotBroken({ sponsor }) {
+    return !sponsor.value.isBroken
+}
 function renderItem(slice) {
     const {
         id,

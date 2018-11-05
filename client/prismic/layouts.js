@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
@@ -17,49 +17,29 @@ import { StructuredText } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
 import { SliceZone } from 'prismic/components/base'
 
-export class StaticPage extends Component {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        title: PropTypes.string,
-    }
-    renderAside({ sharing, following, contacting, sidebar = [], contact }) {
-        sharing = boolean(sharing)
-        following = boolean(following)
-        contacting = boolean(contacting)
+// TODO: SUSPENSE
 
-        if (sharing || following || contacting || sidebar.length) {
-            contact = contacting
-                ? typeof contact === 'string'
-                    ? contact.replace(/^mailto:/, '')
-                    : true
-                : false
+StaticPage.propTypes = {
+    uid: PropTypes.string.isRequired,
+    title: PropTypes.string,
+}
 
-            return (
-                <Aside>
-                    <Sidebar
-                        share={sharing}
-                        follow={following}
-                        contact={contact}>
-                        <SliceZone value={sidebar} />
-                    </Sidebar>
-                </Aside>
-            )
-        } else {
-            return null
-        }
+export function StaticPage({ uid, title }) {
+    const props = {
+        ...params.uid(STATIC_PAGE, uid),
+        fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
     }
-    renderPage = ({ loading, document }) => {
-        const { uid, title } = this.props
+    function renderPage({ loading, document }) {
         const data = document?.data
         const headline = data?.headline
         const content = data?.content
         const banner = data?.banner
-        const className = `${STATIC_PAGE}-${uid}`
+
         // classes are defined in prismic.css, kind of a hack to have full control
         // styling pages.
 
         return (
-            <Page className={className}>
+            <Page className={`${STATIC_PAGE}-${uid}`}>
                 {banner && <Banner {...banner.main} />}
                 <Header title={data?.title || title} />
                 <Content>
@@ -72,30 +52,22 @@ export class StaticPage extends Component {
                             <SliceZone value={content} />
                         )}
                     </Main>
-                    {data && this.renderAside(data)}
+                    {data && renderAside(data)}
                 </Content>
             </Page>
         )
     }
-    get params() {
-        return {
-            ...params.uid(STATIC_PAGE, this.props.uid),
-            fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
-        }
-    }
-    render() {
-        return <Document {...this.params}>{this.renderPage}</Document>
-    }
+
+    return <Document {...props}>{renderPage}</Document>
 }
 
-export class GenericPage extends Component {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        title: PropTypes.string,
-    }
-    renderPage = ({ document, loading }) => {
-        const { title } = this.props
+GenericPage.propTypes = {
+    uid: PropTypes.string.isRequired,
+    title: PropTypes.string,
+}
 
+export function GenericPage({ uid, title }) {
+    function renderPage({ document, loading }) {
         return (
             <Page>
                 <Header title={document?.data?.title || title} />
@@ -110,54 +82,41 @@ export class GenericPage extends Component {
             </Page>
         )
     }
-    get params() {
-        return params.uid(GENERIC, this.props.uid)
-    }
-    render() {
-        return <Document {...this.params}>{this.renderPage}</Document>
-    }
+
+    return <Document {...params.uid(GENERIC, uid)}>{renderPage}</Document>
 }
 
-export class Generic extends Component {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        children: PropTypes.func,
-    }
-    static defaultProps = {
-        children(props) {
-            return Generic.renderers.body(props)
-        },
-    }
-    static renderers = {
-        bodyAndTitle({ loading, document }) {
-            return (
-                <Fragment>
-                    <Loading show={loading} />
-                    {document && (
-                        <Fragment>
-                            <h1>{document.data.title}</h1>
-                            <StructuredText value={document.data.body} />
-                        </Fragment>
-                    )}
-                </Fragment>
-            )
-        },
-        body({ loading, document }) {
-            return (
-                <Fragment>
-                    <Loading show={loading} />
-                    {document && <StructuredText value={document.data.body} />}
-                </Fragment>
-            )
-        },
-    }
-    render() {
+Generic.propTypes = {
+    uid: PropTypes.string.isRequired,
+    children: PropTypes.func,
+}
+
+Generic.renderers = {
+    bodyAndTitle({ loading, document }) {
         return (
-            <Document {...params.generic(this.props.uid)}>
-                {this.props.children}
-            </Document>
+            <Fragment>
+                <Loading show={loading} />
+                {document && (
+                    <Fragment>
+                        <h1>{document.data.title}</h1>
+                        <StructuredText value={document.data.body} />
+                    </Fragment>
+                )}
+            </Fragment>
         )
-    }
+    },
+    body({ loading, document }) {
+        return (
+            <Fragment>
+                <Loading show={loading} />
+                {document && <StructuredText value={document.data.body} />}
+            </Fragment>
+        )
+    },
+}
+
+export function Generic({ uid, children = Generic.renderers.body }) {
+    return <Document {...params.generic(uid)}>{children}</Document>
 }
 
 // Constants & utils
@@ -169,4 +128,33 @@ const ToBoolean = new Map([
 ])
 function boolean(string) {
     return ToBoolean.get(string)
+}
+function renderAside({
+    sharing,
+    following,
+    contacting,
+    sidebar = [],
+    contact,
+}) {
+    sharing = boolean(sharing)
+    following = boolean(following)
+    contacting = boolean(contacting)
+
+    if (sharing || following || contacting || sidebar.length) {
+        contact = contacting
+            ? typeof contact === 'string'
+                ? contact.replace(/^mailto:/, '')
+                : true
+            : false
+
+        return (
+            <Aside>
+                <Sidebar share={sharing} follow={following} contact={contact}>
+                    <SliceZone value={sidebar} />
+                </Sidebar>
+            </Aside>
+        )
+    } else {
+        return null
+    }
 }

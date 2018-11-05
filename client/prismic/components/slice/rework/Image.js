@@ -8,6 +8,8 @@ import { Fullscreen as Icon } from 'components/icons'
 import { PRIMARY } from 'constants/colors'
 import styles from './Image.css'
 
+// TODO: HOOKS
+
 export default class Image extends PureComponent {
     static propTypes = {
         nonRepeat: PropTypes.shape({

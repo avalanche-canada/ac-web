@@ -19,6 +19,8 @@ import { StructuredText } from 'prismic/components/base'
 import { Documents } from 'prismic/containers'
 import * as Predicates from 'prismic/predicates'
 
+// TODO: HOOKS
+
 export default class PrismicTable extends PureComponent {
     static propTypes = {
         value: PropTypes.array.isRequired,

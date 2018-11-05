@@ -12,6 +12,7 @@ export default function MultiColumnLayout({ value }) {
     return <div className={styles.ColumnSet}>{value.map(createItem)}</div>
 }
 
+// Utils
 function createItem({ content }, index) {
     return (
         <div key={index}>
