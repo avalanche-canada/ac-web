@@ -15,7 +15,7 @@ import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
-import { Document, Pages } from 'prismic/containers'
+import { Document, Documents } from 'prismic/containers'
 import { glossary } from 'prismic/params'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
@@ -291,9 +291,13 @@ class GlossaryContent extends Component {
                     value={this.term}
                     placeholder="Search for a definition"
                 />
-                <Pages {...glossary.definitions()} total={2}>
-                    {this.renderContent}
-                </Pages>
+                <Documents {...glossary.definitions()} page={1}>
+                    {first => (
+                        <Documents {...glossary.definitions()} page={2}>
+                            {second => this.renderContent([first, second])}
+                        </Documents>
+                    )}
+                </Documents>
             </Fragment>
         )
     }

@@ -4,7 +4,6 @@ import identity from 'lodash/identity'
 import Fetch from 'components/fetch'
 import { Memory as Cache } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
-import Compose from 'components/Compose'
 import * as Text from 'components/text'
 import * as requests from './requests'
 import * as params from 'prismic/params'
@@ -97,37 +96,6 @@ export function Documents({ children = identity, ...props }) {
             }}
         </Search>
     )
-}
-
-// TODO: HOOKS
-
-export class Pages extends Component {
-    static propTypes = {
-        total: PropTypes.number.isRequired,
-        children: PropTypes.func,
-    }
-    static defaultProps = {
-        children(props) {
-            return props
-        },
-    }
-    constructor(props) {
-        super(props)
-
-        const { total, children, ...rest } = props
-        const pages = Array.from(Array(total), (_, index) => index + 1)
-
-        this.components = pages.map(page => (
-            <Documents key={page} {...rest} page={page} />
-        ))
-    }
-    render() {
-        return (
-            <Compose components={this.components}>
-                {this.props.children}
-            </Compose>
-        )
-    }
 }
 
 // TODO: HOOKS
