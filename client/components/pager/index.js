@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import * as Icons from 'components/icons'
+import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button from 'components/button'
 import styles from './Pager.css'
 import { WHITE } from 'constants/colors'
@@ -9,13 +9,13 @@ import { WHITE } from 'constants/colors'
 export const Previous = withNavigation({
     defaultSubtitle: 'Previous',
     className: styles.Previous,
-    icon: <Icons.ChevronLeft color={WHITE} width={32} height={32} />,
+    icon: <ChevronLeft color={WHITE} width={32} height={32} />,
 })
 
 export const Next = withNavigation({
     defaultSubtitle: 'Next',
     className: styles.Next,
-    icon: <Icons.ChevronRight color={WHITE} width={32} height={32} />,
+    icon: <ChevronRight color={WHITE} width={32} height={32} />,
 })
 
 export default function Pager({ children }) {

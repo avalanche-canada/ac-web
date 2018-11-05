@@ -10,7 +10,7 @@ import * as utils from 'utils/search'
 import styles from 'styles/components.css'
 
 export default class AstLayout extends Component {
-    renderNavigation(props) {
+    renderNavbar(props) {
         return (
             <PillSet activeIndex={Number(props.match?.type === 'providers')}>
                 <Pill>
@@ -27,7 +27,7 @@ export default class AstLayout extends Component {
             <Page>
                 <Banner url={BANNER}>
                     <Container>
-                        <Match path=":type">{this.renderNavigation}</Match>
+                        <Match path=":type">{this.renderNavbar}</Match>
                     </Container>
                     <Router
                         primary={false}
