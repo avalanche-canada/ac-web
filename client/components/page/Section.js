@@ -1,4 +1,4 @@
-import React, { memo, createElement } from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { FragmentIdentifier } from 'router'
 import Headline from './Headline'
@@ -16,7 +16,14 @@ Section.propTypes = {
     level: PropTypes.oneOf([1, 2, 3, 4, 5]),
 }
 
-function Section({ headline, children, level = 1, ribbon, hash, title }) {
+export default function Section({
+    headline,
+    children,
+    level = 1,
+    ribbon,
+    hash,
+    title,
+}) {
     const header = `h${level + 1}`
 
     if (hash) {
@@ -37,5 +44,3 @@ function Section({ headline, children, level = 1, ribbon, hash, title }) {
         </section>
     )
 }
-
-export default memo(Section)
