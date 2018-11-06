@@ -148,6 +148,7 @@
         "random-words": "0.0.1",
         "react": "^16.6.0",
         "react-addons-shallow-compare": "^15.3.1",
+        "react-cache": "^2.0.0-alpha.1",
         "react-day-picker": "^6.2.0",
         "react-dom": "^16.6.0",
         "react-image-gallery": "0.8.0",
