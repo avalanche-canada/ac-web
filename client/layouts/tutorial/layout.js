@@ -223,7 +223,12 @@ class Content extends Component {
 
                             paths.push(location.pathname)
 
-                            return <Redirect to={paths.reverse().join('/')} />
+                            return (
+                                <Redirect
+                                    noThrow
+                                    to={paths.reverse().join('/')}
+                                />
+                            )
                         }}
                     </Document>
                 )}

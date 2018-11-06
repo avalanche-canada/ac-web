@@ -25,7 +25,7 @@ export default class Bundle extends Component {
             this.ref = null
         }
     }
-    handleError(error) {
+    handleError({ error }) {
         if (error instanceof SyntaxError && this.ref === null) {
             this.ref = window.location.href
 
