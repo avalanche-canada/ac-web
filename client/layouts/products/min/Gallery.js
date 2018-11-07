@@ -15,7 +15,7 @@ export default function Gallery() {
                 }
 
                 const items = report.uploads.map(upload => ({
-                    original: `/api/min/uploads/${upload}`,
+                    original: `https://www.avalanche.ca/api/min/uploads/${upload}`,
                 }))
 
                 return (
