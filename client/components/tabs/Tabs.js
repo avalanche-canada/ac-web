@@ -10,6 +10,7 @@ export default class Tabs extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
+        defaultActiveTab: PropTypes.number,
         activeTab: PropTypes.number,
         onTabChange: PropTypes.func,
     }
@@ -18,7 +19,7 @@ export default class Tabs extends Component {
         onTabChange() {},
     }
     state = {
-        activeTab: this.props.activeTab || 0,
+        activeTab: this.props.activeTab || this.props.defaultActiveTab || 0,
     }
     handleTabChange = activeTab => {
         this.setState({ activeTab }, () => {

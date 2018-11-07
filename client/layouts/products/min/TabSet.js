@@ -51,7 +51,7 @@ class TabSetComponent extends Component {
     }
     render() {
         return (
-            <Tabs activeTab={this.activeTab}>
+            <Tabs defaultActiveTab={this.activeTab}>
                 <HeaderSet>{TYPES.map(this.renderHeader)}</HeaderSet>
                 <PanelSet>{TYPES.map(this.renderPanel)}</PanelSet>
             </Tabs>

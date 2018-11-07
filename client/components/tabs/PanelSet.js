@@ -11,7 +11,9 @@ PanelSet.propTypes = {
 }
 
 function PanelSet({ activeTab, children }) {
-    return Children.toArray(children)[activeTab] || null
+    children = Array.isArray(children) ? children : Children.toArray(children)
+
+    return children[activeTab] || null
 }
 
 export default memo(PanelSet)
