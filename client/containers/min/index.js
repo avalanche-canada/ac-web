@@ -52,23 +52,23 @@ export class Reports extends Component {
     static defaultProps = {
         days: 7,
     }
-    children({ data, ...props }) {
-        Object.assign(props, {
-            data: data
-                ? transformers
-                      .sanitizeMountainInformationNetworkSubmissions(data)
-                      .sort(sorter)
-                : data,
+    children(reports, report) {
+        return this.props.children({
+            data: transformers
+                .sanitizeMountainInformationNetworkSubmissions(
+                    [...(reports?.data || []), report.data].filter(Boolean)
+                )
+                .sort(sorter),
         })
-
-        return this.props.children(props)
     }
     render() {
-        const request = min.reports(this.props.days)
-
         return (
-            <Fetch cache={CACHE} request={request}>
-                {props => this.children(props)}
+            <Fetch cache={CACHE} request={min.reports(this.props.days)}>
+                {reports => (
+                    <Fetch cache={CACHE} request={min.report(BIJOUX)}>
+                        {report => this.children(reports, report)}
+                    </Fetch>
+                )}
             </Fetch>
         )
     }
@@ -80,3 +80,4 @@ export const CACHE = new Memory()
 function sorter(a, b) {
     return a.datetime < b.datetime
 }
+const BIJOUX = 'd0c724d5-224a-4c58-b5d6-b01736ba8cb9'

@@ -41,7 +41,43 @@ Measurements.propTypes = {
 }
 
 export function Measurements({ id, children }) {
-    return <Fetch request={measurements(id)}>{children}</Fetch>
+    function fakeMeasurements(props) {
+        if (Array.isArray(props.data)) {
+            let { snowHeight: initialSnowHeight } = props.data[
+                props.data.length - 1
+            ]
+
+            if (!initialSnowHeight) {
+                initialSnowHeight = 55
+            }
+
+            props.data = props.data.map(measurements => {
+                let {
+                    snowHeight,
+                    airTempAvg,
+                    measurementDateTime,
+                } = measurements
+
+                measurementDateTime = new Date(measurementDateTime)
+
+                measurementDateTime.setMonth(measurementDateTime.getMonth() - 9)
+
+                return {
+                    ...measurements,
+                    snowHeight:
+                        initialSnowHeight +
+                        (snowHeight || 1) +
+                        Math.random() * 10,
+                    airTempAvg: -1 * Math.abs(airTempAvg) - 5,
+                    measurementDateTime: measurementDateTime.toISOString(),
+                }
+            })
+        }
+
+        return children(props)
+    }
+
+    return <Fetch request={measurements(id)}>{fakeMeasurements}</Fetch>
 }
 
 const STATIONS = new Memory()
