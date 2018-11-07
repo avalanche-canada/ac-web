@@ -64,8 +64,9 @@ export default class ForecastLayout extends PureComponent {
                         <components.Footer />
                     </components.Forecast>
                 </Fulfilled.Found>
-                <Regions>{renderRegions}</Regions>
-                <Fulfilled.NotFound />
+                <Fulfilled.NotFound>
+                    <Regions>{renderRegions}</Regions>
+                </Fulfilled.NotFound>
             </Fragment>
         )
     }
