@@ -30,6 +30,8 @@ export default class Bundle extends Component {
             this.ref = window.location.href
 
             window.location.reload(true)
+
+            return null
         } else {
             throw error
         }
@@ -37,8 +39,10 @@ export default class Bundle extends Component {
     render() {
         const { fallback, children } = this.props
 
+        // TODO: Finish that!!!
+
         return (
-            <ErrorBoundary onError={this.handleError} fallback={<Error />}>
+            <ErrorBoundary fallback={<Error />}>
                 <Suspense fallback={fallback}>{children}</Suspense>
             </ErrorBoundary>
         )
@@ -47,3 +51,5 @@ export default class Bundle extends Component {
 
 const STORAGE = SessionStorage.create()
 const KEY = 'bundle.reloaded'
+
+function renderError({ error }) {}
