@@ -2,7 +2,7 @@ import React, { Component, Suspense } from 'react'
 import PropTypes from 'prop-types'
 import { SessionStorage } from 'services/storage'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Loading } from 'components/text'
+import { Loading, Error } from 'components/text'
 
 // TODO: HOOKS
 
@@ -38,7 +38,7 @@ export default class Bundle extends Component {
         const { fallback, children } = this.props
 
         return (
-            <ErrorBoundary onError={this.handleError}>
+            <ErrorBoundary onError={this.handleError} fallback={<Error />}>
                 <Suspense fallback={fallback}>{children}</Suspense>
             </ErrorBoundary>
         )
