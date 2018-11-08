@@ -10,6 +10,7 @@ var logger = require('../../logger.js');
 var multiparty = require('multiparty');
 var q = require('q');
 var sharp = require('sharp');
+var jwt = require('jsonwebtoken');
 
 var request = require('request');
 
@@ -20,6 +21,14 @@ var s3Stream = require('s3-upload-stream')(new AWS.S3());
 
 var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
 var UPLOADS_BUCKET = process.env.UPLOADS_BUCKET || 'ac-user-uploads';
+
+/*
+ * This key is added to the auth0 user profile in the "rules" section in the
+ * auth0 interface. It *should* be there for every single user profile and will
+ * be set either to the original "nickname" or the overridden
+ * "user_metadata.nickname" field if that that exists.
+ */
+var SUBMISSION_NICKNAME = 'https://avalanche.ca/submission_nickname';
 
 function itemsToSubmissions(items) {
     var subs = _.chain(items)
@@ -80,23 +89,6 @@ function itemsToObservations(items) {
         return [];
     }
 }
-
-var getAuth0Profile = function(token, cb) {
-    request.post(
-        {
-            url: 'https://avalancheca.auth0.com/tokeninfo',
-            json: true,
-            body: { id_token: token },
-        },
-        function callback(error, response, body) {
-            if (error) {
-                cb(error);
-            } else {
-                cb(null, body);
-            }
-        }
-    );
-};
 
 function itemToSubmission(item) {
     return itemsToSubmissions([item])[0];
@@ -215,39 +207,23 @@ exports.saveSubmission = function(token, form, callback) {
     });
 
     form.on('close', function(err) {
-        getAuth0Profile(token, function(err, profile) {
-            if (err) {
-                logger.info(
-                    'Error getting user profile : %s',
-                    JSON.stringify(err)
-                );
-                return res.send(500, {
-                    error: 'There was an error while saving your submission.',
-                });
-            }
-            item.userid = profile.user_id;
+        var profile = jwt.decode(token);
+        item.userid = profile.user_id;
 
-            var user = profile.nickname || 'unknown'
+        item.user = profile[SUBMISSION_NICKNAME] || profile.nickname || 'unknown';
 
-            if (profile.user_metadata && typeof profile.user_metadata.nickname === 'string') {
-                user = profile.user_metadata.nickname
-            }
-
-            item.user = user
-
-            if (_.isEmpty(tempObs)) {
-                saveOb(item).then(
-                    function(ob) {
-                        callback(null, ob);
-                    },
-                    function(err) {
-                        callback(err);
-                    }
-                );
-            } else {
-                saveAllObs(callback);
-            }
-        });
+        if (_.isEmpty(tempObs)) {
+            saveOb(item).then(
+                function(ob) {
+                    callback(null, ob);
+                },
+                function(err) {
+                    callback(err);
+                }
+            );
+        } else {
+            saveAllObs(callback);
+        }
 
         function saveOb(item) {
             var valid = validateItem(item);
