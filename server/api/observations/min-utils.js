@@ -158,6 +158,10 @@ exports.saveSubmission = function(token, form, callback) {
 
         var mimeType = part.headers['content-type'];
 
+        if (mimeType === 'image/x-avcan-unknown') {
+            mimeType = 'image/jpeg';
+        }
+
         logger.info('upload mime type is %s', mimeType);
 
         if (validMimeTypes.indexOf(mimeType) !== -1) {
