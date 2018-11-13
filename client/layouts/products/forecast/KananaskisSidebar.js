@@ -31,7 +31,7 @@ function KananaskisSidebar() {
                 />
             </Item>
             <Item>
-                <Phone phone="403-678-5508" ext="273" /> is the Public Safety
+                <Phone phone="403-679-3511" /> is the Public Safety
                 office phone number (weekdays)
             </Item>
             <Item>
