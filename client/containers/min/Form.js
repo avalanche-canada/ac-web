@@ -42,13 +42,15 @@ export default class SubmissionForm extends Component {
             await this.context.login()
         }
 
-        this.store = new FormStore()
-        await this.store.open()
-        const value = await this.store.get()
+        try {
+            this.store = new FormStore()
+            await this.store.open()
+            const value = await this.store.get()
 
-        this.setState({
-            value: value || null,
-        })
+            this.setState({
+                value: value || null,
+            })
+        } catch (e) {}
     }
     setActiveTab(activeTab) {
         if (typeof activeTab === 'string') {
@@ -114,7 +116,10 @@ export default class SubmissionForm extends Component {
     }
     handleChange = value => {
         this.setState({ value })
-        this.store.set(value)
+
+        try {
+            this.store.set(value)
+        } catch (e) {}
     }
     validate = () => {
         const result = this.form.current.validate()
@@ -156,7 +161,10 @@ export default class SubmissionForm extends Component {
 
                             // FIXME: Huge side effect hack, but it working for now
                             CACHE.reset()
-                            this.store.reset()
+
+                            try {
+                                this.store.reset()
+                            } catch (e) {}
 
                             navigate(links.mountainInformationNetwork(subid))
                         })
