@@ -1,5 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from '@reach/router'
+import isToday from 'date-fns/is_today'
+import startOfYesterday from 'date-fns/start_of_yesterday'
+import { formatDate } from 'utils/search'
 import { Document } from 'prismic/containers'
 import { Article } from 'components/page'
 import { Muted, Loading } from 'components/text'
@@ -51,10 +55,22 @@ export default class WeatherForecast extends Component {
                         ...
                     </Loading>
                 ) : document ? null : (
-                    <Muted>
-                        No weather forecast available for{' '}
-                        <DateElement value={date} />.
-                    </Muted>
+                    <Fragment>
+                        <Muted>
+                            No weather forecast available yet for{' '}
+                            <DateElement value={date} />.
+                        </Muted>
+                        {isToday(date) && (
+                            <Muted>
+                                Weather forecasts are usually published at 4:00
+                                PST, read yesterday's weather forecast{' '}
+                                <Link to={formatDate(startOfYesterday())}>
+                                    here
+                                </Link>
+                                .
+                            </Muted>
+                        )}
+                    </Fragment>
                 )}
                 {document && <Forecast forecast={document.data} />}
             </Fragment>

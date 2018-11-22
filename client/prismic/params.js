@@ -1,6 +1,5 @@
 import startOfTomorrow from 'date-fns/start_of_tomorrow'
 import formatDate from 'date-fns/format'
-import isToday from 'date-fns/is_today'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import startOfDay from 'date-fns/start_of_day'
@@ -36,24 +35,15 @@ export function ids(ids) {
 }
 
 export const mw = {
-    forecast(date) {
-        const type = types.WEATHER_FORECAST
-
-        if (date && !isToday(date)) {
-            return {
-                predicates: [
-                    Predicates.field(type, 'date', formatDate(date, DATE)),
-                ],
-            }
-        } else {
-            return {
-                predicates: [
-                    Predicates.type(type),
-                    Predicates.dateBefore(`my.${type}.date`, startOfTomorrow()),
-                ],
-                pageSize: 1,
-                orderings: [`my.${type}.date desc`],
-            }
+    forecast(date = new Date()) {
+        return {
+            predicates: [
+                Predicates.field(
+                    types.WEATHER_FORECAST,
+                    'date',
+                    formatDate(date, DATE)
+                ),
+            ],
         }
     },
     tutorial(id) {

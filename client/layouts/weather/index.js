@@ -18,6 +18,7 @@ export default function Weather() {
 // Subroutes
 const MountainWeather = lazy(() => import('./forecast/MountainWeather'))
 
+// TODO: Does not make sense to bundle...most of our users come here!!!
 function MountainWeatherForecast(props) {
     return (
         <Bundle>
