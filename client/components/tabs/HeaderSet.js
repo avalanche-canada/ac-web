@@ -22,8 +22,8 @@ export default class HeaderSet extends PureComponent {
     state = {
         expanded: false,
     }
-    cloneHeader = (header, index) =>
-        cloneElement(header, {
+    cloneHeader(header, index) {
+        return cloneElement(header, {
             isActive: index === this.props.activeTab,
             onActivate: () => {
                 const { disabled } = header.props
@@ -35,6 +35,7 @@ export default class HeaderSet extends PureComponent {
                 this.props.onTabChange(index)
             },
         })
+    }
     get expand() {
         return (
             <Button type="button" kind={INCOGNITO}>
@@ -56,7 +57,7 @@ export default class HeaderSet extends PureComponent {
         }))
     }
     render() {
-        const { theme, stacked } = this.props
+        const { theme, stacked, children } = this.props
         const { expanded } = this.state
         const className = classNames({
             HeaderSet: true,
@@ -68,7 +69,9 @@ export default class HeaderSet extends PureComponent {
 
         return (
             <div className={className} onClick={this.handleClick}>
-                {Children.map(this.props.children, this.cloneHeader)}
+                {Children.toArray(children)
+                    .filter(Boolean)
+                    .map(this.cloneHeader, this)}
                 {stacked && this.expand}
             </div>
         )
