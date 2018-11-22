@@ -23,17 +23,14 @@ export const { addDayToRange } = DateUtils
 
 export function startOfSeason(date = new Date()) {
     const year = date.getFullYear()
-    const octoberFirst = new Date(year, OCTOBER, 1)
+    const octoberFirst = new Date(year, 9, 1)
 
-    return date < octoberFirst ? new Date(year - 1, OCTOBER, 1) : octoberFirst
+    return date < octoberFirst ? new Date(year - 1, 9, 1) : octoberFirst
 }
 
 export function endOfSeason(date = new Date()) {
     const year = date.getFullYear()
-    const september30 = endOfDay(new Date(year, SEPTEMBER, 30))
+    const september30 = endOfDay(new Date(year, 8, 30))
 
-    return date > september30 ? new Date(year + 1, SEPTEMBER, 30) : september30
+    return date > september30 ? new Date(year + 1, 8, 30) : september30
 }
-
-const OCTOBER = 9
-const SEPTEMBER = 8
