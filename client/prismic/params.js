@@ -6,6 +6,7 @@ import addDays from 'date-fns/add_days'
 import startOfDay from 'date-fns/start_of_day'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
+import { startOfSeason, endOfSeason } from 'utils/date'
 import * as Predicates from 'prismic/predicates'
 import * as types from 'constants/prismic'
 
@@ -82,7 +83,21 @@ export const fatal = {
         return uid(types.FATAL_ACCIDENT, id)
     },
     accidents() {
-        return all(types.FATAL_ACCIDENT)
+        const field = `my.${types.FATAL_ACCIDENT}.dateOfAccident`
+
+        return {
+            predicates: [
+                Predicates.dateAfter(
+                    field,
+                    formatDate(addDays(startOfSeason(), -1), DATE)
+                ),
+                Predicates.dateBefore(
+                    field,
+                    formatDate(addDays(endOfSeason(), 1), DATE)
+                ),
+            ],
+            pageSize: MAX_PAGE_SIZE,
+        }
     },
 }
 
