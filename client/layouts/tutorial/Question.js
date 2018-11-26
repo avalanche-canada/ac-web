@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Submit, Reset } from 'components/button'
 import { StructuredText } from 'prismic/components/base'
@@ -16,19 +16,17 @@ export default class Question extends Component {
         hasErrors: false,
         userAnswer: null,
     }
+    userName = createRef()
     handleSubmit = event => {
         event.preventDefault()
 
-        const { target } = event
-        const isValid = target.checkValidity()
+        const isValid = event.target.checkValidity()
 
         this.setState({ hasErrors: !isValid })
 
         if (isValid) {
-            const form = new FormData(target)
-
             this.setState({
-                userAnswer: form.get('user-answer'),
+                userAnswer: this.userAnswer.current.value,
             })
         }
     }
@@ -70,7 +68,12 @@ export default class Question extends Component {
 
         return (
             <label>
-                {question} <textarea name="user-answer" autoFocus required />
+                <textarea
+                    ref={this.userName}
+                    hidden={!question}
+                    autoFocus
+                    required
+                />
                 <span data-error-message>
                     <Translate>Your answer is required.</Translate>
                 </span>
