@@ -16,7 +16,7 @@ export default class Question extends Component {
         hasErrors: false,
         userAnswer: null,
     }
-    userName = createRef()
+    userAnswer = createRef()
     handleSubmit = event => {
         event.preventDefault()
 
@@ -68,9 +68,10 @@ export default class Question extends Component {
 
         return (
             <label>
+                {question}{' '}
                 <textarea
-                    ref={this.userName}
-                    hidden={!question}
+                    name="user-answer"
+                    ref={this.userAnswer}
                     autoFocus
                     required
                 />
