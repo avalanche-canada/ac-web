@@ -7,7 +7,7 @@ SliceZone.propTypes = {
     components: PropTypes.instanceOf(Map),
 }
 
-function SliceZone({ value, components = SliceComponents, ...rest }) {
+function SliceZone({ value = [], components = SliceComponents, ...rest }) {
     function renderSlice({ type, ...props }, index) {
         return components.has(type)
             ? createElement(
