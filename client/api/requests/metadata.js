@@ -1,3 +1,5 @@
+import { get } from 'services/fetch/requests'
+
 export function metadata() {
-    return new Request('/api/features/metadata')
+    return get('/api/features/metadata')
 }

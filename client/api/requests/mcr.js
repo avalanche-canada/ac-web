@@ -1,9 +1,10 @@
+import { get } from 'services/fetch/requests'
 import { baseURL } from 'api/config.json'
 
 export function report(id) {
-    return new Request(`${baseURL}/mcr/${id}/`)
+    return get(`${baseURL}/mcr/${id}/`)
 }
 
 export function reports() {
-    return new Request(`${baseURL}/mcr/`)
+    return get(`${baseURL}/mcr/`)
 }

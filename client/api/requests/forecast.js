@@ -2,6 +2,7 @@ import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
 import parse from 'date-fns/parse'
+import { get } from 'services/fetch/requests'
 import { baseURL } from 'api/config.json'
 
 export function forecast(name, date) {
@@ -13,7 +14,7 @@ export function forecast(name, date) {
         path = `bulletin-archive/${data.toISOString()}`
     }
 
-    return new Request(`${baseURL}/${path}/${name}.json`)
+    return get(`${baseURL}/${path}/${name}.json`)
 }
 
 // Utils

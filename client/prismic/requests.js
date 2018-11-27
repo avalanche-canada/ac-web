@@ -1,8 +1,9 @@
+import { get } from 'services/fetch/requests'
 import * as Predicates from 'prismic/predicates'
 import { root, version } from './config.json'
 
 export function api() {
-    return new Request(`${root}/${version}`)
+    return get(`${root}/${version}`)
 }
 
 export function search(ref, predicates = [], options = {}) {
@@ -12,10 +13,11 @@ export function search(ref, predicates = [], options = {}) {
         q: `[${predicates.map(Predicates.toQuery).join('')}]`,
         ref,
     })
-    return new Request(`${root}/${version}/documents/search?${params}`)
+    return get(`${root}/${version}/documents/search?${params}`)
 }
 
 // Utils
+// TODO: Could potentally use URLSearchParams and leave get function taking care if everything
 function serializeParams(params) {
     return Object.entries(params)
         .filter(tuple => Boolean(tuple[1]))

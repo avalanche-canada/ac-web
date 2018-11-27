@@ -1,13 +1,14 @@
+import { get } from 'services/fetch/requests'
 import { weatherBaseUrl } from 'api/config.json'
 
 export function stations() {
-    return new Request(`${weatherBaseUrl}/stations/`)
+    return get(`${weatherBaseUrl}/stations/`)
 }
 
 export function station(id) {
-    return new Request(`${weatherBaseUrl}/stations/${id}/`)
+    return get(`${weatherBaseUrl}/stations/${id}/`)
 }
 
 export function measurements(id) {
-    return new Request(`${weatherBaseUrl}/stations/${id}/measurements/`)
+    return get(`${weatherBaseUrl}/stations/${id}/measurements/`)
 }
