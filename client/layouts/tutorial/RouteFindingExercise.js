@@ -1,14 +1,16 @@
-import React, { Component } from 'react'
+import React, { Component, memo } from 'react'
 import PropTypes from 'prop-types'
 import { select, event } from 'd3-selection'
 import { drag } from 'd3-drag'
 import { line } from 'd3-shape'
-import { polygonCentroid } from 'd3-polygon'
+import { polygonCentroid, polygonContains } from 'd3-polygon'
 import { Translate } from 'contexts/locale'
 import { Media, Caption } from 'components/media'
 import { Credit } from 'components/markup'
 import { StructuredText } from 'prismic/components/base'
 import Button from 'components/button'
+import Shim from 'components/Shim'
+import { memo as react } from 'utils/react'
 import * as COLORS from 'constants/colors'
 import styles from './RouteFindingExercise.css'
 
@@ -32,78 +34,35 @@ export default class RouteFindingExercise extends Component {
     }
     state = {
         touched: new Set(),
+        coordinates: [],
         drawing: false,
     }
-    get width() {
-        return this.props.nonRepeat.image.main.dimensions.width
-    }
-    get height() {
-        return this.props.nonRepeat.image.main.dimensions.height
-    }
-    handleMouseOver = index => {
-        if (!this.state.drawing) {
-            return
-        }
+    constructor(props) {
+        super(props)
 
-        this.setState(({ touched }) => ({
-            touched: new Set(touched.add(index)),
-        }))
+        this.zones = props.repeat.map(({ coordinates, ...rest }) => {
+            coordinates = coordinates
+                .split(' ')
+                .map(coords => coords.split(',').map(Number))
+
+            return Object.assign(rest, {
+                coordinates,
+                centroid: polygonCentroid(coordinates),
+            })
+        })
+    }
+    get dimensions() {
+        return this.props.nonRepeat.image.main.dimensions
     }
     handleResetClick = () => {
         this.reset()
     }
-    reset(callback) {
-        this.route.attr('d', null)
-
-        this.setState(
-            {
-                touched: new Set(),
-                drawing: false,
-            },
-            callback
-        )
-    }
-    createRoute = path => {
-        this.route = select(path)
-    }
-    draw() {
-        const { width, height } = this
-        const l = line()
-        let { x: x0, y: y0 } = event
-        const { subject } = event
-
-        this.route.datum(subject)
-
-        event.on('drag', () => {
-            const x1 = Math.max(0, Math.min(width, event.x))
-            const y1 = Math.max(0, Math.min(height, event.y))
-            const dx = x1 - x0
-            const dy = y1 - y0
-
-            if (dx * dx + dy * dy > 150) {
-                subject.push([x1, y1])
-                x0 = x1
-                y0 = y1
-            } else {
-                subject[subject.length - 1] = [x1, y1]
-            }
-
-            this.route.attr('d', l)
-        })
-
-        event.on('end', this.endDrawing)
-    }
-    startDrawing = () => {
-        this.reset(() => {
-            this.setState({ drawing: true }, () => {
-                this.svg.style('cursor', 'crosshair')
-                this.draw()
-            })
-        })
-    }
-    endDrawing = () => {
-        this.setState({ drawing: false }, () => {
-            this.svg.style('cursor', 'default')
+    reset(props = {}) {
+        this.setState({
+            coordinates: [],
+            touched: new Set(),
+            drawing: false,
+            ...props,
         })
     }
     initializeDrawing = g => {
@@ -112,42 +71,81 @@ export default class RouteFindingExercise extends Component {
         this.svg.call(
             drag()
                 .container(() => g)
-                .subject(() => {
+                .on('start', () => {
                     const { x, y } = event
-                    const p = [x, y]
 
-                    return [p, p]
+                    this.reset({ drawing: true })
+                    this.svg.style('cursor', 'crosshair')
+
+                    this.setState({
+                        coordinates: [[x, y]],
+                    })
                 })
-                .on('start', this.startDrawing)
+                .on('drag', () => {
+                    const { width, height } = this.dimensions
+                    const { coordinates } = this.state
+                    const { x, y } = event
+                    const [x0, y0] = coordinates[coordinates.length - 1]
+                    const x1 = Math.max(0, Math.min(width, x))
+                    const y1 = Math.max(0, Math.min(height, y))
+                    const dx = x1 - x0
+                    const dy = y1 - y0
+
+                    if (dx * dx + dy * dy < 50) {
+                        return
+                    }
+
+                    const point = [x1, y1]
+
+                    this.setState(state => {
+                        const touched = new Set(state.touched)
+
+                        this.zones.forEach(({ coordinates }, index) => {
+                            if (polygonContains(coordinates, point)) {
+                                touched.add(index)
+                            }
+                        })
+
+                        return {
+                            coordinates: [...state.coordinates, point],
+                            touched,
+                        }
+                    })
+                })
+                .on('end', () => {
+                    this.setState({ drawing: false })
+                    this.svg.style('cursor', 'default')
+                })
         )
     }
     renderDangerZone = ({ coordinates }, index) => {
+        const touched = this.state.touched.has(index)
+
         return (
             <DangerZone
                 key={index}
-                index={index}
-                touched={this.state.touched.has(index)}
+                touched={touched}
                 coordinates={coordinates}
-                onMouseOver={this.handleMouseOver}
             />
         )
     }
     renderDangerZoneLabel = (index, i) => {
-        const { coordinates } = this.props.repeat[index]
+        const { centroid } = this.zones[index]
+        const [x, y] = centroid
 
         return (
-            <DangerZone.Label key={index} coordinates={coordinates}>
+            <Label key={index} x={x} y={y}>
                 {i + 1}
-            </DangerZone.Label>
+            </Label>
         )
     }
     render() {
         const { from, to, image, credit } = this.props.nonRepeat
         const [{ text: heading }] = this.props.nonRepeat.heading
         const { url } = image.main
-        const { width, height } = this
-        const { touched } = this.state
-        const zones = this.props.repeat
+        const { width, height } = this.dimensions
+        const { touched, coordinates, drawing } = this.state
+        const { zones } = this
 
         return (
             <section>
@@ -165,15 +163,7 @@ export default class RouteFindingExercise extends Component {
                             <g>{zones.map(this.renderDangerZone)}</g>
                             <EndPoint coordinates={from} start />
                             <EndPoint coordinates={to} />
-                            <path
-                                ref={this.createRoute}
-                                fill="none"
-                                stroke={COLORS.PRIMARY}
-                                strokeWidth={3}
-                                pointerEvents="none"
-                                strokeLinejoin="none"
-                                strokeLinecap="none"
-                            />
+                            <Route coordinates={coordinates} />
                             <g>
                                 {Array.from(touched).map(
                                     this.renderDangerZoneLabel
@@ -207,13 +197,18 @@ export default class RouteFindingExercise extends Component {
                                 <Translate>Start again</Translate>
                             </Button>
                         </Caption>
-                    ) : this.route && this.route.attr('d') ? (
+                    ) : drawing === false && coordinates.length > 0 ? (
                         <Caption>
                             <div className={styles.GoodJob}>
                                 <Translate>
                                     Good job! You can try to find other routes.
                                 </Translate>
                             </div>
+                            <Shim top>
+                                <Button onClick={this.handleResetClick}>
+                                    <Translate>Find another route</Translate>
+                                </Button>
+                            </Shim>
                         </Caption>
                     ) : null}
                 </Media>
@@ -235,47 +230,43 @@ function EndPoint({ coordinates, start }) {
     return <circle cx={cx} cy={cy} r={10} fill={fill} cursor={cursor} />
 }
 
-class DangerZone extends Component {
-    static propTypes = {
-        index: PropTypes.number.isRequired,
-        coordinates: PropTypes.string.isRequired,
-        onMouseOver: PropTypes.func.isRequired,
-        touched: PropTypes.bool,
-    }
-    static Label({ coordinates, children }) {
-        const [cx, cy] = polygonCentroid(
-            coordinates.split(' ').map(coords => coords.split(',').map(Number))
-        )
-
-        return (
-            <text x={cx} y={cy} fill={COLORS.WHITE} dx={-5} dy={5}>
-                {children}
-            </text>
-        )
-    }
-    get d() {
-        const [[x0, y0], ...coords] = this.props.coordinates
-            .split(' ')
-            .map(coords => coords.split(','))
-
-        return `M${x0} ${y0} ${coords.map(([x, y]) => `L${x} ${y}`).join(' ')}`
-    }
-    get fill() {
-        return this.props.touched ? COLORS.DANGER : 'transparent'
-    }
-    handleMouseOver = () => {
-        const { index, onMouseOver } = this.props
-
-        onMouseOver(index)
-    }
-    render() {
-        return (
-            <path
-                d={this.d}
-                fill={this.fill}
-                opacity="0.5"
-                onMouseOver={this.handleMouseOver}
-            />
-        )
-    }
+function Route({ coordinates }) {
+    return (
+        <path
+            fill="none"
+            d={createLine(coordinates)}
+            stroke={COLORS.PRIMARY}
+            strokeWidth={3}
+            pointerEvents="none"
+            strokeLinejoin="none"
+            strokeLinecap="none"
+        />
+    )
 }
+
+DangerZone.propTypes = {
+    coordinates: PropTypes.arrayOf(PropTypes.number).isRequired,
+    touched: PropTypes.bool,
+}
+
+const DangerZone = memo(function DangerZone({ coordinates, touched }) {
+    const fill = touched ? COLORS.DANGER : 'transparent'
+
+    return <path d={createLine(coordinates)} fill={fill} opacity="0.5" />
+})
+
+Label.propTypes = {
+    x: PropTypes.number.isRequired,
+    y: PropTypes.number.isRequired,
+    children: PropTypes.element.isRequired,
+}
+
+const Label = react.static(function Label({ x, y, children }) {
+    return (
+        <text x={x} y={y} fill={COLORS.WHITE} dx={-5} dy={5}>
+            {children}
+        </text>
+    )
+})
+
+const createLine = line()

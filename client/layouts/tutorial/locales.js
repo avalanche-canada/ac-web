@@ -17,6 +17,7 @@ export default new Map([
             ['See answers', 'Voir les réponses'],
             ['Give another answer', 'Fournir une autre réponse'],
             ['Start again', 'Recommencer'],
+            ['Find another route', 'Trouver une autre route'],
             ['There is no document for', 'Aucun document trouvé pour'],
             [
                 'Well done — You’re right!',
