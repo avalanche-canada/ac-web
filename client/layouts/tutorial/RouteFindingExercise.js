@@ -222,13 +222,14 @@ EndPoint.propTypes = {
     coordinates: PropTypes.string.isRequired,
     start: PropTypes.bool,
 }
-function EndPoint({ coordinates, start }) {
+
+const EndPoint = react.static(function EndPoint({ coordinates, start }) {
     const [cx, cy] = coordinates.split(',').map(Number)
     const fill = start ? COLORS.SUCCESS : COLORS.DANGER
     const cursor = start ? 'crosshair' : null
 
     return <circle cx={cx} cy={cy} r={10} fill={fill} cursor={cursor} />
-}
+})
 
 function Route({ coordinates }) {
     return (
