@@ -26,7 +26,10 @@ const headers = new Headers({
     Accept: 'application/json',
 })
 function buildURL(input, params) {
-    params = clean(params)
+    if (!params instanceof URLSearchParams) {
+        // TODO: Not sure we need that clean function call
+        params = clean(params)
+    }
 
     const search = params ? new URLSearchParams(params) : null
 
