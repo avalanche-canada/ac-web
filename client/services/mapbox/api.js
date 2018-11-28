@@ -9,18 +9,8 @@ import * as requests from './requests'
 import { status } from 'services/fetch/utils'
 import { Revelstoke } from 'constants/map/locations'
 
-let signal = null
-let controller = null
-
 export function findPlaces(term) {
-    if (signal && !signal.aborted) {
-        controller.abort()
-    }
-
-    controller = new AbortController()
-    signal = controller.signal
-
-    return fetch(requests.place(term, { signal })).then(status)
+    return fetch(requests.place(term)).then(status)
 }
 
 export function fetchMapStyle(id) {

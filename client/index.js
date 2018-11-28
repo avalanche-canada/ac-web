@@ -2,7 +2,6 @@
 import 'raf/polyfill'
 import 'url-search-params-polyfill'
 import 'whatwg-fetch'
-import 'abortcontroller-polyfill/dist/polyfill-patch-fetch'
 import 'utils/polyfills/requestIdleCallback'
 
 import React, { StrictMode } from 'react'
