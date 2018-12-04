@@ -13,17 +13,17 @@ export class Provider extends Component {
     storage = LocalStorage.create()
     state = this.storage.get('sponsors', {
         About: 'rmr',
-        BlogIndex: 'toyotastacked',
+        BlogIndex: 'teck',
         BlogPage: 'mec',
         EventIndex: 'varda',
-        EventPage: 'scarpa',
+        EventPage: 'black-diamond',
         Forecast: 'acf',
-        Gear: 'toyotastacked',
+        Gear: 'garmin-inreach',
         MIN: 'rmr',
         NewsIndex: 'northface',
-        NewsPage: 'marmot',
+        NewsPage: 'outdoorresearch',
         Training: 'revelstoke-tourism',
-        Weather: 'toyotastacked',
+        Weather: 'cbt',
         Youth: 'cbt',
     })
     async fetch() {

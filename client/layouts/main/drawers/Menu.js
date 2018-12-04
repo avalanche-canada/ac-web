@@ -47,9 +47,6 @@ function Menu({ onCloseClick }) {
                         <Layer id={Layers.FATAL_ACCIDENT} />
                         <Layer id={Layers.MOUNTAIN_CONDITIONS_REPORTS} />
                     </components.LayerSet>
-                    <components.LayerSet title="Sponsor">
-                        <Layer id={Layers.TOYOTA_TRUCK_REPORTS} />
-                    </components.LayerSet>
                 </Content>
             </Body>
         </Container>
@@ -101,7 +98,6 @@ const ICONS = new Map([
     [Layers.WEATHER_STATION, <Icons.WeatherStation />],
     [Layers.SPECIAL_INFORMATION, <Icons.SpecialInformation />],
     [Layers.FATAL_ACCIDENT, <Icons.FatalAccident />],
-    [Layers.TOYOTA_TRUCK_REPORTS, <Icons.ToyotaTruck />],
 ])
 const TITLES = new Map([
     [Layers.FORECASTS, 'Forecasts'],
@@ -111,5 +107,4 @@ const TITLES = new Map([
     [Layers.WEATHER_STATION, 'Weather stations'],
     [Layers.SPECIAL_INFORMATION, 'Special information'],
     [Layers.FATAL_ACCIDENT, 'Fatal recreational accidents'],
-    [Layers.TOYOTA_TRUCK_REPORTS, 'Follow AvCan Toyota trucks'],
 ])

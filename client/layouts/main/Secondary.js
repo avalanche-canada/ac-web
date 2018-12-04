@@ -4,7 +4,6 @@ import { Location } from '@reach/router'
 import Drawer, { LEFT } from 'components/page/drawer'
 import MountainInformationNetwork from 'layouts/drawers/MountainInformationNetwork'
 import WeatherStation from 'layouts/drawers/WeatherStation'
-import ToyotaTruckReport from 'layouts/drawers/ToyotaTruckReport'
 import SpecialInformation from 'layouts/drawers/SpecialInformation'
 import FatalAccident from 'layouts/drawers/FatalAccident'
 import MountainConditionsReport from 'layouts/drawers/MountainConditionsReport'
@@ -54,7 +53,6 @@ export default class Secondary extends PureComponent {
 const Components = new Map([
     ['mountain-information-network-submissions', MountainInformationNetwork],
     ['weather-stations', WeatherStation],
-    ['toyota-truck-reports', ToyotaTruckReport],
     ['special-information', SpecialInformation],
     ['fatal-accidents', FatalAccident],
     ['mountain-conditions-reports', MountainConditionsReport],

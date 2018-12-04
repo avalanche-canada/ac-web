@@ -91,15 +91,6 @@ export const fatal = {
     },
 }
 
-export const toyota = {
-    truck(id) {
-        return uid(types.TOYOTA_TRUCK_REPORT, id)
-    },
-    trucks() {
-        return all(types.TOYOTA_TRUCK_REPORT)
-    },
-}
-
 export const special = {
     report(id) {
         return uid(types.SPECIAL_INFORMATION, id)

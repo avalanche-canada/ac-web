@@ -1,6 +1,5 @@
 import * as types from 'constants/drawers'
 import WeatherStations from './WeatherStations'
-import ToyotaTrucks from './ToyotaTrucks'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import FatalAccidents from './FatalAccidents'
 import SpecialInformation from './SpecialInformation'
@@ -10,7 +9,6 @@ import ForecastRegions from './ForecastRegions'
 
 export default new Map([
     [types.WEATHER_STATION, WeatherStations],
-    [types.TOYOTA_TRUCK_REPORTS, ToyotaTrucks],
     [types.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetwork],
     [types.FATAL_ACCIDENT, FatalAccidents],
     [types.SPECIAL_INFORMATION, SpecialInformation],

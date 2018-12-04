@@ -44,9 +44,6 @@ export class Provider extends Component {
         [LAYERS.FATAL_ACCIDENT]: {
             visible: getVisibility(LAYERS.FATAL_ACCIDENT, false),
         },
-        [LAYERS.TOYOTA_TRUCK_REPORTS]: {
-            visible: getVisibility(LAYERS.TOYOTA_TRUCK_REPORTS, true),
-        },
         [LAYERS.MOUNTAIN_CONDITIONS_REPORTS]: {
             visible: getVisibility(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true),
         },

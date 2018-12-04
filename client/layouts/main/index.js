@@ -311,5 +311,4 @@ const SEARCHS = new Map([
     [TYPES.FATAL_ACCIDENT, 'fatal-accidents'],
     [TYPES.SPECIAL_INFORMATION, 'special-information'],
     [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'mountain-conditions-reports'],
-    [TYPES.TOYOTA_TRUCK_REPORTS, 'toyota-truck-reports'],
 ])

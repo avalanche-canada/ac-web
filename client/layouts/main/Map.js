@@ -93,7 +93,6 @@ export default class Layout extends Component {
 // Constants
 const TITLES = new Map([
     [TYPES.WEATHER_STATION, 'weather stations'],
-    [TYPES.TOYOTA_TRUCK_REPORTS, 'Toyota Truck Report'],
     [
         TYPES.MOUNTAIN_INFORMATION_NETWORK,
         'Mountain Information Network reports',
