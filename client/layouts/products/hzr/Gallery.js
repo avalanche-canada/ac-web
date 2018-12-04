@@ -15,12 +15,12 @@ export default function Gallery() {
                     return null
                 }
 
-                const items = report.data.hotzoneImages.map(
-                    ({ hotzoneImage, caption }) => ({
-                        original: hotzoneImage.main.url,
-                        description: caption,
-                    })
-                )
+                const items = report.data.hotzoneImages
+                    .filter(image => image.hotzoneImage)
+                    .map(image => ({
+                        original: image.hotzoneImage.main.url,
+                        description: image.caption,
+                    }))
 
                 return (
                     <div className={styles.Gallery}>
