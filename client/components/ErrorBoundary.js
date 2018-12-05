@@ -9,9 +9,11 @@ export default class ErrorBoundary extends Component {
         fallback: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
             .isRequired,
         onError: PropTypes.func,
+        capture: PropTypes.bool,
     }
     static defaultProps = {
         onError() {},
+        capture: true,
     }
     static getDerivedStateFromError(error) {
         return { error }
@@ -22,10 +24,12 @@ export default class ErrorBoundary extends Component {
             throw error
         }
 
-        const { onError } = this.props
+        const { onError, capture } = this.props
 
-        // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
-        captureException(error, { extra })
+        if (capture) {
+            // https://blog.sentry.io/2017/09/28/react-16-error-boundaries
+            captureException(error, { extra })
+        }
 
         this.setState({ error, extra }, () => {
             onError(error, extra)
