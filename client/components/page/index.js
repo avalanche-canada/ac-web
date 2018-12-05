@@ -2,6 +2,7 @@ import React from 'react'
 import * as T from 'components/text'
 import Page from './Page'
 import Content from './Content'
+import Main from './Main'
 
 export Page from './Page'
 export Content from './Content'
@@ -21,13 +22,16 @@ export NotFound from './NotFound'
 
 export ContextMap from './ContextMap'
 
-export function Loading() {
+export function Loading({ title, children }) {
     return (
         <Page>
             <Content>
-                <h1>
-                    <T.Loading />
-                </h1>
+                <Main>
+                    <h1>
+                        <T.Loading>{title}</T.Loading>
+                    </h1>
+                    {children}
+                </Main>
             </Content>
         </Page>
     )
