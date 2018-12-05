@@ -43,35 +43,17 @@ Measurements.propTypes = {
 export function Measurements({ id, children }) {
     function fakeMeasurements(props) {
         if (Array.isArray(props.data)) {
-            let { snowHeight: initialSnowHeight } = props.data[
-                props.data.length - 1
-            ]
+            const [{ snowHeight: initialSnowHeight }] = props.data
+            const seven = new Date()
+            seven.setHours(6)
 
-            if (!initialSnowHeight) {
-                initialSnowHeight = 55
-            }
-
-            props.data = props.data.map(measurements => {
-                let {
-                    snowHeight,
-                    airTempAvg,
-                    measurementDateTime,
-                } = measurements
-
-                measurementDateTime = new Date(measurementDateTime)
-
-                measurementDateTime.setMonth(measurementDateTime.getMonth() - 9)
-
-                return {
-                    ...measurements,
-                    snowHeight:
-                        initialSnowHeight +
-                        (snowHeight || 1) +
-                        Math.random() * 10,
-                    airTempAvg: -1 * Math.abs(airTempAvg) - 5,
-                    measurementDateTime: measurementDateTime.toISOString(),
-                }
-            })
+            props.data = props.data
+                .filter(m => new Date(m.measurementDateTime) < seven)
+                .map(({ snowHeight, ...measurements }) =>
+                    Object.assign(measurements, {
+                        snowHeight: snowHeight - (initialSnowHeight % 15),
+                    })
+                )
         }
 
         return children(props)
