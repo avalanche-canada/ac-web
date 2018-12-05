@@ -51,10 +51,8 @@ export default class HotZoneReportLayout extends PureComponent {
                         <Hzr.Sidebar shareable>
                             <Item>
                                 <Link
-                                    to={`/map/hot-zone-reports/${
-                                        this.props.region
-                                    }`}>
-                                    See that report on the main map
+                                    to={`/map/advisories/${this.props.region}`}>
+                                    See that advisory on the main map
                                 </Link>
                             </Item>
                         </Hzr.Sidebar>

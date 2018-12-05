@@ -31,7 +31,9 @@ export default class HotZoneReportSidebar extends Component {
                     <Link to="/blogs">Visit our Blog</Link>
                 </Item>
                 <Item>
-                    <Link to="/hot-zone-reports/archives">HotZone Archive</Link>
+                    <Link to="/advisories/archives">
+                        Avalanche Advisory Archive
+                    </Link>
                 </Item>
                 <Follow />
                 {shareable && (

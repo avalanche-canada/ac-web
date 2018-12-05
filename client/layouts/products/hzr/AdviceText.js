@@ -14,7 +14,7 @@ function AdviceText() {
                 <li>Avoid terrain traps whenever possible.</li>
             </ul>
             <p>
-                And while this report is valid follow the travel advice below.
+                And while this advisory is valid follow the travel advice below.
             </p>
         </div>
     )

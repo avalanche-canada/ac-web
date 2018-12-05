@@ -15,7 +15,6 @@ import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
 import HotZoneReport from './HotZoneReport'
 import Incidents from './incidents'
-import HotZoneList from './HotZoneList'
 import Forecast from './Forecast'
 import TripPlanner from './TripPlanner'
 import * as Feed from './feed'
@@ -71,8 +70,12 @@ function AvalancheCanada() {
                                 <Glossary path="glossary/*" />
                                 <Tutorial path="tutorial/*" />
                                 <Tutorial path="tutoriel/*" />
-                                <HotZoneReport path="hot-zone-reports/*" />
-                                <HotZoneList path="hot-zones/*" />
+                                <Redirect
+                                    from="hot-zone-reports/*"
+                                    to="advisories"
+                                />
+                                <Redirect from="hot-zones/*" to="advisories" />
+                                <HotZoneReport path="advisories/*" />
                                 <Forecast path="forecasts/*" />
                                 <Redirect from={BLOG} to="/blogs" />
                                 <Blogs path="blogs/*" />
@@ -414,7 +417,7 @@ function News({ uri }) {
                 from="Vw6XMCkAAD9f09uB"
                 to={`${uri}/craig-kelly-scholarship-awarded`}
             />
-            <Redirect from="Vx-6kSkAAEG1OTEL" to={`${uri}/hot-zone-reports`} />
+            <Redirect from="Vx-6kSkAAEG1OTEL" to={`${uri}/advisories`} />
             <Redirect
                 from="Vk0CliEAAKIFhX3l"
                 to={`${uri}/2015-service-award`}

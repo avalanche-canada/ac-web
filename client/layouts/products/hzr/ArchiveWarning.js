@@ -12,13 +12,13 @@ export default function ArchiveWarning() {
                 }
 
                 const nowcast = {
-                    to: `/hot-zone-reports/${report.data.region}`,
-                    children: "Read today's report",
+                    to: `/advisories/${report.data.region}`,
+                    children: "Read today's advisory",
                 }
 
                 return (
                     <Base nowcast={nowcast}>
-                        This is an archived HotZone report
+                        This is an archived Avalanche Advisory
                     </Base>
                 )
             }}

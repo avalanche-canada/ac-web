@@ -7,8 +7,8 @@ import Page from 'layouts/Page'
 export default function HotZoneList() {
     return (
         <Page
-            title="Hot zones"
-            headline="Click on a link below to read the Hot Zone report.">
+            title="Avalanche Advisories"
+            headline="Click on a link below to read an Avalanche Advisory.">
             <HotZones>{renderer}</HotZones>
         </Page>
     )
@@ -23,7 +23,7 @@ function renderer({ loading, data }) {
         <List>
             {data.map(({ id, name }) => {
                 return (
-                    <ListItem key={id} to={`/hot-zone-reports/${id}`}>
+                    <ListItem key={id} to={`/advisories/${id}`}>
                         {name}
                     </ListItem>
                 )

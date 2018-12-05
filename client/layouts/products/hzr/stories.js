@@ -3,6 +3,6 @@ import { storiesOf, action } from '@storybook/react'
 import {Report} from './'
 import { storeDecorator } from '../../../../.storybook/decorators'
 
-storiesOf('Hot Zone Report', module)
+storiesOf('Avalanche Advisory', module)
     .addDecorator(storeDecorator)
-    .add('Hot Zone Report', () => <Report />)
+    .add('Avalanche Advisory', () => <Report />)

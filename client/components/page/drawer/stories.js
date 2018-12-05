@@ -152,7 +152,7 @@ storiesOf('Page Drawer', module)
                         />
                         <Layer
                             type={TYPES.HOT_ZONE_REPORTS}
-                            title="Hot Zone Reports"
+                            title="Avalanche Advisory"
                         />
                     </LayerSet>
                     <LayerSet title="Observations">

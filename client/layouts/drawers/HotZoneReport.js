@@ -27,7 +27,7 @@ export default class HotZoneReportDrawer extends PureComponent {
         const { name } = this.props
 
         return (
-            <Header subject="Hot Zone Report">
+            <Header subject="Avalanche Advisory">
                 <HotZone name={name}>
                     {({ data }) => {
                         this.zone = data
@@ -40,7 +40,7 @@ export default class HotZoneReportDrawer extends PureComponent {
                         return (
                             <h1>
                                 {document ? (
-                                    <Link to={`/hot-zone-reports/${name}`}>
+                                    <Link to={`/advisories/${name}`}>
                                         {title}
                                     </Link>
                                 ) : (

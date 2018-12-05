@@ -101,7 +101,7 @@ const ICONS = new Map([
 ])
 const TITLES = new Map([
     [Layers.FORECASTS, 'Forecasts'],
-    [Layers.HOT_ZONE_REPORTS, 'Hot zone reports'],
+    [Layers.HOT_ZONE_REPORTS, 'Avalanche Advisories'],
     [Layers.MOUNTAIN_INFORMATION_NETWORK, 'Mountain information network'],
     [Layers.MOUNTAIN_CONDITIONS_REPORTS, 'Mountain Conditions Reports'],
     [Layers.WEATHER_STATION, 'Weather stations'],

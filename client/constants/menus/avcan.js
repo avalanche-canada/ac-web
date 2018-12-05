@@ -137,8 +137,8 @@ module.exports = {
                         },
                         {
                             id: String(id++),
-                            label: 'HotZone Archive',
-                            to: '/hot-zone-reports/archives',
+                            label: 'Avalanche Advisory Archive',
+                            to: '/advisories/archives',
                         },
                         {
                             id: String(id++),

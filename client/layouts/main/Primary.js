@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Router, Match } from '@reach/router'
+import { Router, Match, Redirect } from '@reach/router'
 import Forecast from 'layouts/drawers/Forecast'
 import HotZoneReport from 'layouts/drawers/HotZoneReport'
 import NorthRockies from 'layouts/drawers/NorthRockies'
@@ -37,7 +37,11 @@ export default class Primary extends Component {
                 <Router className={styles.MatchParent}>
                     <NorthRockies path="forecasts/north-rockies" {...events} />
                     <Forecast path="forecasts/:name" {...events} />
-                    <HotZoneReport path="hot-zone-reports/:name" {...events} />
+                    <HotZoneReport path="advisories/:name" {...events} />
+                    <Redirect
+                        from="hot-zone-reports/:name"
+                        to="map/advisories/:name"
+                    />
                 </Router>
             </Drawer>
         )
@@ -48,4 +52,4 @@ export default class Primary extends Component {
 }
 
 // Constants
-const PATHS = new Set(['forecasts', 'hot-zone-reports'])
+const PATHS = new Set(['forecasts', 'advisories'])

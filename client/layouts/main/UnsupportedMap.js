@@ -22,7 +22,7 @@ export default class UnsupportedMap extends PureComponent {
         ),
         links: new Map([
             ['/forecasts', 'Forecast regions'],
-            ['/hot-zones', 'Hot zones'],
+            ['/advisory', 'Avalanche Advisories'],
             ['/weather/stations', 'Weather stations'],
         ]),
     }

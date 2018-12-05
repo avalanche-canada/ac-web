@@ -10,7 +10,7 @@ export function title({ report, loading, hotZone }) {
     return !loading
         ? report
             ? name
-            : `No ${name} report is currently available`
+            : `No ${name} advisory is currently available`
         : name || 'Loading...'
 }
 
@@ -19,7 +19,7 @@ export function geometry({ bbox }) {
 }
 
 export function shareUrl({ uid, data }) {
-    return `${document.location.origin}/hot-zone-reports/${data.region}/${uid}`
+    return `${document.location.origin}/advisories/${data.region}/${uid}`
 }
 
 export function isValid({ dateOfIssue, validUntil }) {

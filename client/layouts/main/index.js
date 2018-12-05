@@ -299,7 +299,7 @@ const ErrorIndicator = memo.static(function ErrorIndicator() {
 
 // Constants
 const PATHS = new Map([
-    [TYPES.HOT_ZONE_REPORTS, 'hot-zone-reports'],
+    [TYPES.HOT_ZONE_REPORTS, 'advisories'],
     [TYPES.FORECASTS, 'forecasts'],
 ])
 const SEARCHS = new Map([

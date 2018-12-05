@@ -30,7 +30,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
     navigate = () => {
         const { name, date } = this.state
         const paths = [
-            '/hot-zone-reports',
+            '/advisories',
             'archives',
             name,
             date && formatDate(date, 'YYYY-MM-DD'),
@@ -52,7 +52,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
                 value={this.state.name}
                 onChange={this.handleNameChange}
                 disabled
-                placeholder="Select a hot zone"
+                placeholder="Select an area"
             />
         ) : null
     dayPicker = ({ documents = [] }) => {
@@ -105,7 +105,7 @@ export default class ArchiveHotZoneReport extends PureComponent {
                     <Loading />
                 ) : document ? null : (
                     <Muted>
-                        {`No report available in ${name} for ${formatDate(
+                        {`No advisory available in ${name} for ${formatDate(
                             date,
                             DATE
                         )}.`}
@@ -127,17 +127,17 @@ export default class ArchiveHotZoneReport extends PureComponent {
         }
 
         if (!name) {
-            return <Muted>Select a hot zone.</Muted>
+            return <Muted>Select an area.</Muted>
         }
 
         if (!date) {
-            return <Muted>Select a date for the {name} hot zone.</Muted>
+            return <Muted>Select a date for the {name} area.</Muted>
         }
     }
     render() {
         return (
             <Page>
-                <Header title="HotZone Archive" />
+                <Header title="Avalanche Advisory Archive" />
                 <Content>
                     <Main>
                         {this.metadata}
