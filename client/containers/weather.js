@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import addHours from 'date-fns/add_hours'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import { station, stations, measurements } from 'api/requests/weather'
@@ -43,16 +44,16 @@ Measurements.propTypes = {
 const NEW = [
     0,
     0,
+    0,
+    0,
+    0,
+    0,
     1,
     2,
     2,
     2,
     1,
     1,
-    0,
-    0,
-    0,
-    0,
     0,
     0,
     0,
@@ -70,13 +71,25 @@ const NEW = [
 export function Measurements({ id, children }) {
     function fakeMeasurements(props) {
         if (Array.isArray(props.data)) {
-            let { snowHeight } = props.data[props.data.length - 1]
             const seven = new Date()
             seven.setHours(6)
+            const data = props.data.filter(
+                m => new Date(m.measurementDateTime) < seven
+            )
+            let { snowHeight } = props.data[props.data.length - 1]
 
-            props.data = props.data
+            props.data = data
                 .reverse()
-                .filter(m => new Date(m.measurementDateTime) < seven)
+                .map((measurements, index) => {
+                    return {
+                        ...measurements,
+                        measurementDateTime: addHours(
+                            seven,
+                            -1 * index
+                        ).toISOString(),
+                    }
+                })
+                .reverse()
                 .map((measurements, index) => {
                     snowHeight = snowHeight + NEW[index % 24]
 
@@ -85,7 +98,6 @@ export function Measurements({ id, children }) {
                         snowHeight,
                     }
                 })
-                .reverse()
         }
 
         return children(props)
