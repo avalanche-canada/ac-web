@@ -40,20 +40,52 @@ Measurements.propTypes = {
     children: PropTypes.func.isRequired,
 }
 
+const NEW = [
+    0,
+    0,
+    1,
+    2,
+    2,
+    2,
+    1,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+]
+
 export function Measurements({ id, children }) {
     function fakeMeasurements(props) {
         if (Array.isArray(props.data)) {
-            const [{ snowHeight: initialSnowHeight }] = props.data
+            let { snowHeight } = props.data[props.data.length - 1]
             const seven = new Date()
             seven.setHours(6)
 
             props.data = props.data
+                .reverse()
                 .filter(m => new Date(m.measurementDateTime) < seven)
-                .map(({ snowHeight, ...measurements }) =>
-                    Object.assign(measurements, {
-                        snowHeight: snowHeight - (initialSnowHeight % 15),
-                    })
-                )
+                .map((measurements, index) => {
+                    snowHeight = snowHeight + NEW[index % 24]
+
+                    return {
+                        ...measurements,
+                        snowHeight,
+                    }
+                })
+                .reverse()
         }
 
         return children(props)
