@@ -12,7 +12,7 @@ ProblemSet.propTypes = {
 
 export default function ProblemSet({ problems }) {
     if (problems.length === 0) {
-        return <h3>No problems identified</h3>
+        return <h3>No problems identified.</h3>
     }
 
     return <Fragment>{problems.map(renderProblem)}</Fragment>
