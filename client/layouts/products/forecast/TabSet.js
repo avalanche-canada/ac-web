@@ -17,9 +17,7 @@ export default function TabSet(props) {
                         {...props}>
                         <HeaderSet>
                             <Header>{HEADERS[0]}</Header>
-                            <Header disabled={forecast.problems.length === 0}>
-                                {HEADERS[1]}
-                            </Header>
+                            <Header>{HEADERS[1]}</Header>
                             <Header>{HEADERS[2]}</Header>
                         </HeaderSet>
                         <PanelSet>
