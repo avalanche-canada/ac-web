@@ -96,7 +96,14 @@ export const special = {
         return uid(types.SPECIAL_INFORMATION, id)
     },
     reports() {
-        return all(types.SPECIAL_INFORMATION)
+        const { SPECIAL_INFORMATION } = types
+
+        return {
+            predicates: rangePredicates(
+                `my.${SPECIAL_INFORMATION}.dateOfIssue`,
+                `my.${SPECIAL_INFORMATION}.validUntil`
+            ),
+        }
     },
 }
 
