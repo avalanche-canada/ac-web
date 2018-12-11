@@ -1,6 +1,8 @@
-import React, { createContext, Component } from 'react'
+import React, { Component, createContext } from 'react'
 import PropTypes from 'prop-types'
 import { SessionStorage } from 'services/storage'
+
+// TODO HOOKS
 
 const MapStateContext = createContext()
 
@@ -10,29 +12,29 @@ export class Provider extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
     }
-    storage = SessionStorage.create({ keyPrefix: 'map:state' })
-    state = {
-        zoom: this.storage.get('zoom', 4.3),
-        center: this.storage.get('center', [-125.15, 54.8]),
-    }
-    setZoom = zoom => {
-        this.setState({ zoom })
-        this.storage.set('zoom', zoom)
-    }
-    setCenter = center => {
-        this.setState({ center })
-        this.storage.set('center', center)
-    }
-    get value() {
-        return {
-            ...this.state,
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            zoom: STORAGE.get('zoom', ZOOM),
+            center: STORAGE.get('center', CENTER),
             setZoom: this.setZoom,
             setCenter: this.setCenter,
         }
     }
+    setZoom = zoom => {
+        this.setState({ zoom })
+
+        STORAGE.set('zoom', zoom)
+    }
+    setCenter = center => {
+        this.setState({ center })
+
+        STORAGE.set('center', center)
+    }
     render() {
         return (
-            <MapStateContext.Provider value={this.value}>
+            <MapStateContext.Provider value={this.state}>
                 {this.props.children}
             </MapStateContext.Provider>
         )
@@ -40,3 +42,7 @@ export class Provider extends Component {
 }
 
 export const Consumer = MapStateContext.Consumer
+
+const STORAGE = SessionStorage.create({ keyPrefix: 'map:state' })
+const CENTER = [-125.15, 54.8]
+const ZOOM = 4.3
