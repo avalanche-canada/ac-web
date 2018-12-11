@@ -1,26 +1,52 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title>Avalanche Canada</title>
-        <meta charset="utf-8">
-        <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
-        <meta name="description" content="Avalanche Canada">
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no"
+        />
+        <meta name="description" content="Avalanche Canada" />
     </head>
     <body>
         <!--[if lte IE 9]>
             <div>
-                <p>Avalanche Canada website is not supported on your browser.</p>
-                <p>Check what browser version you're currently using at <a href='http://whatbrowser.org/'>WhatBrowser.org</a>.</p>
+                <p>
+                    Avalanche Canada website is not supported on your browser.
+                </p>
+                <p>
+                    Check what browser version you're currently using at
+                    <a href="http://whatbrowser.org/">WhatBrowser.org</a>.
+                </p>
             </div>
         <![endif]-->
+        <noscript>
+            <h1>Avalanche Canada</h1>
+            <p>
+                For full functionality of this site, it is necessary to enable
+                JavaScript. Here are the
+                <a href="https://www.enable-javascript.com/">
+                    instructions how to enable JavaScript in your web browser</a
+                >.
+            </p>
+        </noscript>
         <div id="app"></div>
         <!-- Google Analytics -->
         <script>
-        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-        ga('create', '<%= googleAnalyticsId %>', 'auto');
+            window.ga =
+                window.ga ||
+                function() {
+                    ;(ga.q = ga.q || []).push(arguments)
+                }
+            ga.l = +new Date()
+            ga('create', '<%= googleAnalyticsId %>', 'auto')
         </script>
-        <script async src='https://www.google-analytics.com/<%= googleAnalyticsFilename %>'></script>
+        <script
+            async
+            src="https://www.google-analytics.com/<%= googleAnalyticsFilename %>"
+        ></script>
         <!-- End Google Analytics -->
     </body>
 </html>
