@@ -23,8 +23,11 @@ export class Provider extends Component {
         [LAYERS.HOT_ZONE_REPORTS]: {
             visible: true,
         },
-        [LAYERS.SPECIAL_INFORMATION]: {
-            visible: true,
+        [LAYERS.MOUNTAIN_CONDITIONS_REPORTS]: {
+            visible: getVisibility(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true),
+        },
+        [LAYERS.WEATHER_STATION]: {
+            visible: getVisibility(LAYERS.WEATHER_STATION, true),
         },
         [LAYERS.MOUNTAIN_INFORMATION_NETWORK]: {
             visible: true,
@@ -38,14 +41,11 @@ export class Provider extends Component {
                 types: new Set(),
             },
         },
-        [LAYERS.WEATHER_STATION]: {
-            visible: getVisibility(LAYERS.WEATHER_STATION, true),
-        },
         [LAYERS.FATAL_ACCIDENT]: {
             visible: getVisibility(LAYERS.FATAL_ACCIDENT, false),
         },
-        [LAYERS.MOUNTAIN_CONDITIONS_REPORTS]: {
-            visible: getVisibility(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true),
+        [LAYERS.SPECIAL_INFORMATION]: {
+            visible: true,
         },
     }
     get value() {
