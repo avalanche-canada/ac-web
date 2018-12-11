@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import isAfter from 'date-fns/is_after'
 import isBefore from 'date-fns/is_before'
@@ -7,7 +7,6 @@ import Base from 'components/loop'
 import { computeUrls, getNotes, isForecast } from 'services/msc/loop'
 import metadata from 'services/msc/loop/metadata.json'
 import { Loading, Error } from 'components/text'
-import Alert, { WARNING } from 'components/alert'
 
 // TODO: HOOKS
 
@@ -122,12 +121,7 @@ export default class Loop extends PureComponent {
         }
 
         return (
-            <Fragment>
-                <Alert type={WARNING} style={{ margin: 0 }}>
-                    {type === 'AC_HRDPS_BC_wms-1hr-precip'
-                        ? 'This resource is currently not working. We are working with our partners at the Meteorological Service of Canada to resolve the issue.\nThank you for your patience.'
-                        : 'We are aware of an intermittent problem resulting in missing images in some weather loops. We are working with our partners at the Meteorological Service of Canada to resolve the issue.\nThank you for your patience.'}
-                </Alert>
+            <div>
                 <Base
                     urls={this.state.urls}
                     startAt={this.state.startAt}
@@ -135,7 +129,7 @@ export default class Loop extends PureComponent {
                     interval={this.props.interval}
                 />
                 <NoteSet notes={notes} />
-            </Fragment>
+            </div>
         )
     }
 }
