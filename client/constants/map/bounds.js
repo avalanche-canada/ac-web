@@ -1,1 +1,1 @@
-export const Canadian = [[-174, 35], [-48, 90]]
+export const Canadian = [[-180, 35], [-35, 90]]
