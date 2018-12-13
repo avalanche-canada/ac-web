@@ -11,80 +11,108 @@ import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 
-export default class Post extends PureComponent {
-    static propTypes = {
-        type: PropTypes.oneOf([NEWS, BLOG, EVENT]).isRequired,
-        uid: PropTypes.string.isRequired,
-    }
-    renderHeader(post) {
-        return <Header title={post?.title || 'Loading...'} />
-    }
-    renderMetadata({ date, source, location, hostedBy, startDate, endDate }) {
-        const hasDateRange =
-            startDate && endDate && startDate.getTime() !== endDate.getTime()
+Post.propTypes = {
+    type: PropTypes.oneOf([NEWS, BLOG, EVENT]).isRequired,
+    uid: PropTypes.string.isRequired,
+}
 
-        return (
-            <Metadata>
-                {date && (
-                    <Entry term="Date">
-                        {hasDateRange ? (
-                            <Range
-                                from={startDate}
-                                to={endDate}
-                                format={dateTimeFormatGetter}
-                            />
-                        ) : (
-                            <DateElement value={date} />
-                        )}
-                    </Entry>
-                )}
-                {typeof location === 'string' && (
-                    <Entry term="Location">{location}</Entry>
-                )}
-                {source && <Entry term="Source">{source}</Entry>}
-                {hostedBy && <Entry term="Hosted by">{hostedBy}</Entry>}
-            </Metadata>
-        )
-    }
-    renderContent({ headline, content }) {
-        return (
-            <Fragment>
-                {headline && (
-                    <Headline>
-                        <StructuredText value={headline} />
-                    </Headline>
-                )}
-                <StructuredText value={content} />
-            </Fragment>
-        )
-    }
-    children = ({ pending, fulfilled, document }) => {
-        // Post not found, redirecting to feed
-        if (fulfilled && !document) {
-            return <Redirect to={`/${this.props.type}`} />
-        }
+export default function Post(props) {
+    return (
+        <Page>
+            <Document {...params.uid(props)}>{page.bind(null, props)}</Document>
+        </Page>
+    )
+}
 
-        return (
-            <Fragment>
-                {this.renderHeader(document)}
-                <Content>
-                    <Main>
-                        {document && this.renderMetadata(document)}
-                        {document && this.renderContent(document)}
-                        <Loading show={pending} />
-                    </Main>
-                    <Aside>
-                        <Sidebar {...this.props} />
-                    </Aside>
-                </Content>
-            </Fragment>
-        )
+export function NorthRockies() {
+    const category = 'north-rockies'
+    const pageSize = 1
+
+    return (
+        <Document {...params.feed.blog({ pageSize, category })}>
+            {minimal}
+        </Document>
+    )
+}
+
+// Utils
+function page(props, { pending, fulfilled, document }) {
+    // Post not found, redirecting to feed
+    if (fulfilled && !document) {
+        return <Redirect to={`/${this.props.type}`} />
     }
-    render() {
-        return (
-            <Page>
-                <Document {...params.uid(this.props)}>{this.children}</Document>
-            </Page>
-        )
-    }
+
+    return (
+        <Fragment>
+            <PostHeader post={document} />
+            <Content>
+                <Main>
+                    {document && <PostMetadata {...document} />}
+                    {document && <PostContent {...document} />}
+                    <Loading show={pending} />
+                </Main>
+                <Aside>
+                    <Sidebar {...props} />
+                </Aside>
+            </Content>
+        </Fragment>
+    )
+}
+function minimal({ pending, document }) {
+    return (
+        <Fragment>
+            {document && <PostMetadata {...document} />}
+            {document && <PostContent {...document} />}
+            <Loading show={pending} />
+        </Fragment>
+    )
+}
+function PostMetadata({
+    date,
+    source,
+    location,
+    hostedBy,
+    startDate,
+    endDate,
+}) {
+    const hasDateRange =
+        startDate && endDate && startDate.getTime() !== endDate.getTime()
+
+    return (
+        <Metadata>
+            {date && (
+                <Entry term="Date">
+                    {hasDateRange ? (
+                        <Range
+                            from={startDate}
+                            to={endDate}
+                            format={dateTimeFormatGetter}
+                        />
+                    ) : (
+                        <DateElement value={date} />
+                    )}
+                </Entry>
+            )}
+            {typeof location === 'string' && (
+                <Entry term="Location">{location}</Entry>
+            )}
+            {source && <Entry term="Source">{source}</Entry>}
+            {hostedBy && <Entry term="Hosted by">{hostedBy}</Entry>}
+        </Metadata>
+    )
+}
+function PostContent({ headline, content }) {
+    return (
+        <Fragment>
+            {headline && (
+                <Headline>
+                    <StructuredText value={headline} />
+                </Headline>
+            )}
+            <StructuredText value={content} />
+        </Fragment>
+    )
+}
+function PostHeader({ post }) {
+    return <Header title={post?.title || 'Loading...'} />
 }

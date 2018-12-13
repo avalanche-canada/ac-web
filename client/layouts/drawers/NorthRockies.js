@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Region } from 'containers/features'
-import { NorthRockiesBlogFeed } from 'layouts/feed'
+import { NorthRockies } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 import Sponsor from 'layouts/Sponsor'
@@ -17,7 +17,7 @@ import {
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/region'
 
-export default class NorthRockies extends PureComponent {
+export default class NorthRockiesLayout extends PureComponent {
     static propTypes = {
         onCloseClick: PropTypes.func.isRequired,
         onLocateClick: PropTypes.func.isRequired,
@@ -33,6 +33,7 @@ export default class NorthRockies extends PureComponent {
         }
 
         this.region = data
+
         return <DisplayOnMap onClick={this.handleLocateClick} />
     }
     renderSPAW = ({ link }) => {
@@ -60,7 +61,7 @@ export default class NorthRockies extends PureComponent {
                 </Header>
                 <Body>
                     <Content>
-                        <NorthRockiesBlogFeed />
+                        <NorthRockies />
                     </Content>
                 </Body>
             </Container>
