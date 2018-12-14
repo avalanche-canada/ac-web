@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 
 // TODO: HOOKS
@@ -6,10 +7,14 @@ Device.propTypes = {
     children: PropTypes.func.isRequired,
 }
 
-export default function Device({ children }) {
-    return children(STATE)
+function Device({ children }) {
+    return children({
+        isTouchable: 'ontouchstart' in window,
+    })
 }
 
-const STATE = {
-    isTouchable: 'ontouchstart' in window,
+export default memo(Device)
+
+export function touchable({ isTouchable }) {
+    return isTouchable ? 'Tap' : 'Click'
 }
