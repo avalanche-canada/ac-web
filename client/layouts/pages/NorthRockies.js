@@ -4,11 +4,11 @@ import { Sidebar } from 'layouts/products/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
-import { StructuredText } from 'prismic/components/base'
+import Device, { touchable } from 'components/Device'
 
 export default class NorthRockies extends PureComponent {
     renderSPAW = ({ document }) => {
-        const { link, description } = document
+        const { link, description } = document.data
         const style = {
             display: 'block',
             marginTop: '1em',
@@ -16,8 +16,10 @@ export default class NorthRockies extends PureComponent {
 
         return (
             <SPAWComponent link={link} style={style}>
-                <StructuredText value={description} />
-                {link && <p> Click for more information.</p>}
+                <p>
+                    {description[0].text} <Device>{touchable}</Device> for more
+                    information.
+                </p>
             </SPAWComponent>
         )
     }

@@ -10,6 +10,7 @@ import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 import { List, ListItem } from 'components/page'
+import Device, { touchable } from 'components/Device'
 
 export default class ForecastLayout extends PureComponent {
     static propTypes = {
@@ -25,7 +26,10 @@ export default class ForecastLayout extends PureComponent {
 
         return (
             <SPAWComponent link={link} style={style}>
-                <p>{description[0].text} Click for more information.</p>
+                <p>
+                    {description[0].text} <Device>{touchable}</Device> for more
+                    information.
+                </p>
             </SPAWComponent>
         )
     }
