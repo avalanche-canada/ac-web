@@ -6,7 +6,6 @@ import { Region, Regions } from 'containers/features'
 import { Page, Header, Content, Main, Aside } from 'components/page'
 import { Muted, Loading, Warning } from 'components/text'
 import { Pending, Fulfilled } from 'components/fetch'
-import { StructuredText } from 'prismic/components/base'
 import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
@@ -18,17 +17,15 @@ export default class ForecastLayout extends PureComponent {
         date: PropTypes.instanceOf(Date),
     }
     renderSPAW = ({ document }) => {
-        const { link, description } = document
+        const { link, description } = document.data
         const style = {
-            display: 'block',
             marginTop: '1em',
             padding: '1em',
         }
 
         return (
             <SPAWComponent link={link} style={style}>
-                <StructuredText value={description} />
-                {link && <p> Click for more information.</p>}
+                <p>{description[0].text} Click for more information.</p>
             </SPAWComponent>
         )
     }

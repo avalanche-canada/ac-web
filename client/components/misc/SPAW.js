@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import { Link } from 'prismic/components/base'
 import styles from './SPAW.css'
 
+// TODO Should use <Alert>
+
 SPAW.propTypes = {
     href: PropTypes.object,
     link: PropTypes.object,
