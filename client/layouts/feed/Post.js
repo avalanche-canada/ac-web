@@ -39,7 +39,7 @@ export function NorthRockies() {
 function page(props, { pending, fulfilled, document }) {
     // Post not found, redirecting to feed
     if (fulfilled && !document) {
-        return <Redirect to={`/${this.props.type}`} />
+        return <Redirect to={`/${props.type}`} />
     }
 
     return (
