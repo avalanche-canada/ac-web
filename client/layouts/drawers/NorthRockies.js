@@ -44,17 +44,19 @@ export default class NorthRockiesLayout extends PureComponent {
         return <SPAWComponent link={link} style={style} />
     }
     render() {
+        const name = 'north-rockies'
+
         return (
             <Container>
                 <Navbar>
-                    <SPAW name="north-rockies">{this.renderSPAW}</SPAW>
+                    <SPAW name={name}>{this.renderSPAW}</SPAW>
                     <Sponsor label={null} />
                     <Close onClick={this.props.onCloseClick} />
                 </Navbar>
                 <Header subject="Avalanche Forecast">
                     <h1>
-                        <Link to="/forecasts/north-rockies">North Rockies</Link>
-                        <Region name="north-rockies">
+                        <Link to={`/forecasts/${name}`}>North Rockies</Link>
+                        <Region name={name}>
                             {props => this.locate(props)}
                         </Region>
                     </h1>
