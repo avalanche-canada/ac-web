@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import Highlight, { DANGER } from 'components/highlight'
-import { Link, StructuredText } from 'prismic/components/base'
+import { Link } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { spaw } from 'prismic/params'
 import { Banner } from 'components/application'
@@ -24,7 +24,6 @@ export default class SPAW extends PureComponent {
         }
 
         const { link, description } = document.data
-        const content = <StructuredText value={description} />
 
         return (
             <Banner>
@@ -32,7 +31,9 @@ export default class SPAW extends PureComponent {
                     type={DANGER}
                     onDismiss={this.handleDismiss}
                     dismissable>
-                    {link ? <Link {...link}>{content}</Link> : content}
+                    <Link {...link}>
+                        <p>{description[0].text} Click for more information</p>
+                    </Link>
                 </Highlight>
             </Banner>
         )
