@@ -1,5 +1,5 @@
+import { Component } from 'react'
 import PropTypes from 'prop-types'
-import StaticComponent from 'components/StaticComponent'
 
 export const TOP_LEFT = 'top-left'
 export const TOP_RIGHT = 'top-right'
@@ -8,7 +8,7 @@ export const BOTTOM_RIGHT = 'bottom-right'
 
 // TODO: HOOKS
 
-export default class Control extends StaticComponent {
+export default class Control extends Component {
     static propTypes = {
         map: PropTypes.object,
         factory: PropTypes.func.isRequired,
