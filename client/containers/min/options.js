@@ -651,12 +651,12 @@ const Incident = {
             fields: {
                 groupSize: {
                     label: 'Total in the group? (optional)',
-                    error: 'Enter a number between 0 and 100',
+                    error: 'Enter a number between 1 and 100',
                     type: 'number',
                     attrs: {
                         onWheel: handleNumberInputWheel,
-                        placeholder: 'Number between 0 and 100',
-                        min: 0,
+                        placeholder: 'Number between 1 and 100',
+                        min: 1,
                         max: 100,
                     },
                 },
