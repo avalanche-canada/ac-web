@@ -6,6 +6,7 @@ import { captureException } from 'services/sentry'
 export default class ErrorBoundary extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
+        // TODO Should be only an element
         fallback: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
             .isRequired,
         onError: PropTypes.func,

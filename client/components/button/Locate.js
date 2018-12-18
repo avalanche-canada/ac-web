@@ -1,18 +1,16 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Button from './Button'
+import StaticComponent from 'components/StaticComponent'
 import { MyLocation } from 'components/icons'
 import { SUBTILE } from './kinds'
 
-// Needs to stay as Component because dof "ref"
+// Needs to stay as Component because of "ref"
 // TODO: Look at "forwardRef"
 
-export default class Locate extends PureComponent {
+export default class Locate extends StaticComponent {
     static propTypes = {
         ref: PropTypes.func.isRequired,
-    }
-    shouldComponentUpdate(nextProps, nextState) {
-        return false
     }
     render() {
         return (
