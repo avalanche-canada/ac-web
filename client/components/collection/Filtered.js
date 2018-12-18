@@ -1,20 +1,19 @@
-import { PureComponent } from 'react'
+import { memo } from 'react'
 import PropTypes from 'prop-types'
 import { renderChildren } from './utils'
 
-export default class FilteredCollection extends PureComponent {
-    static propTypes = {
-        values: PropTypes.array,
-        predicates: PropTypes.array.isRequired,
-        children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
-            .isRequired,
-    }
-    render() {
-        const { children, values, predicates } = this.props
-
-        return renderChildren(children, predicates.reduce(reducer, values))
-    }
+FilteredCollection.propTypes = {
+    values: PropTypes.array,
+    predicates: PropTypes.array.isRequired,
+    children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
+        .isRequired,
 }
+
+function FilteredCollection({ children, values, predicates }) {
+    return renderChildren(children, predicates.reduce(reducer, values))
+}
+
+export default memo(FilteredCollection)
 
 // Utils
 function reducer(collection, predicate) {
