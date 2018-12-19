@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import { Stations } from 'containers/weather'
 import ErrorBoundary from 'components/ErrorBoundary'
 import {
@@ -13,54 +13,55 @@ import {
 import { Fulfilled, Pending } from 'components/fetch'
 import { Error, Muted } from 'components/text'
 
-export default class WeatherStationList extends PureComponent {
-    renderData(data) {
-        return (
-            <Fragment>
-                <Headline>
-                    Click on a link below to see weather station data.
-                </Headline>
-                <List>
-                    {data.map(({ stationId, name }) => {
-                        return (
-                            <ListItem
-                                key={stationId}
-                                to={`/weather/stations/${stationId}`}>
-                                {name}
-                            </ListItem>
-                        )
-                    })}
-                </List>
-            </Fragment>
-        )
-    }
-    children = () => (
+export default function WeatherStationList() {
+    const error = (
+        <Error>
+            Oups!! An error happened while loading weather station data.
+        </Error>
+    )
+
+    return (
+        <Page>
+            <Header title="Weather stations" />
+            <Content>
+                <Main>
+                    <ErrorBoundary fallback={error}>
+                        <Stations>{children}</Stations>
+                    </ErrorBoundary>
+                </Main>
+            </Content>
+        </Page>
+    )
+}
+
+// Renderers
+function children() {
+    return (
         <Fragment>
             <Pending>
                 <Muted>Loading weather station data...</Muted>
             </Pending>
-            <Fulfilled>{this.renderData}</Fulfilled>
+            <Fulfilled>{renderData}</Fulfilled>
         </Fragment>
     )
-    renderError() {
-        return (
-            <Error>
-                Oups!! An error happened while loading weather station data.
-            </Error>
-        )
-    }
-    render() {
-        return (
-            <Page>
-                <Header title="Weather stations" />
-                <Content>
-                    <Main>
-                        <ErrorBoundary fallback={this.renderError}>
-                            <Stations>{this.children}</Stations>
-                        </ErrorBoundary>
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
+}
+function renderData(data) {
+    return (
+        <Fragment>
+            <Headline>
+                Click on a link below to see weather station data.
+            </Headline>
+            <List>
+                {data.map(({ stationId, name }) => {
+                    return (
+                        <ListItem
+                            key={stationId}
+                            to={`/weather/stations/${stationId}`}>
+                            {name}
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Fragment>
+    )
 }
