@@ -5,10 +5,11 @@ import PropTypes from 'prop-types'
 
 export default class Delay extends PureComponent {
     static propTypes = {
-        children: PropTypes.node.isRequired,
+        children: PropTypes.node,
         elapse: PropTypes.number,
     }
     static defaultProps = {
+        children: null,
         elapse: 0,
     }
     state = {
@@ -25,6 +26,6 @@ export default class Delay extends PureComponent {
         window.clearTimeout(this.timeoutId)
     }
     render() {
-        return this.state.visible ? this.props.children || null : null
+        return this.state.visible ? this.props.children : null
     }
 }
