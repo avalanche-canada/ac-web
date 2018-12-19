@@ -9,6 +9,8 @@ import {
     EXTREME,
 } from 'constants/forecast/rating'
 
+// TODO Can shave off a lot by removing/reusing
+
 AvaluatorChart.propTypes = {
     terrain: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX]).isRequired,
     danger: PropTypes.oneOf([LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME])
@@ -148,7 +150,6 @@ function AvaluatorChart({ terrain, danger }) {
                 d="M82.2 116.8H292m-209.7-32H292M82.2 53H292M82.2 21.1H292m-34.2-16v159.5M188.3 5.1v159.5M118.7 5.1v159.5"
                 opacity=".6"
             />
-
             <text
                 x="224"
                 y="40"
