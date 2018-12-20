@@ -98,6 +98,11 @@ function AvalancheCanada() {
                                     title="About"
                                 />
                                 <StaticPage
+                                    path="mobile"
+                                    uid="mobile"
+                                    title="Mobile"
+                                />
+                                <StaticPage
                                     path="early-season-conditions"
                                     uid="early-season-conditions"
                                     title="Early Season Conditions"
