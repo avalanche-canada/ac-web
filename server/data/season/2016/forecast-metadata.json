@@ -13,7 +13,7 @@
     ]
   },
   "banff-yoho-kootenay": {
-    "name": "Banff Yoho & Kootenay National Park",
+    "name": "Banff, Yoho and Kootenay National Parks",
     "type": "parks",
     "url": "http://avalanche.pc.gc.ca/CAAML-eng.aspx?r=1&d=TODAY",
     "externalUrl": "http://avalanche.pc.gc.ca/bulletin-eng.aspx?r=1&d=TODAY",
@@ -81,8 +81,8 @@
     "dangerIconUrl": "/api/forecasts/south-coast/danger-rating-icon.svg",
     "owner": "avalanche-canada",
     "centroid": [
-        -122.854766,
-        49.539782
+      -122.854766,
+      49.539782
     ]
   },
   "north-rockies": {
@@ -182,7 +182,7 @@
     ]
   },
   "vancouver-island": {
-    "name": "Vancouver Island, VIAC",
+    "name": "Vancouver Island, Vancouver Island Avalanche Centre",
     "type": "link",
     "url": "http://www.islandavalanchebulletin.com/",
     "forecastUrl": "/api/forecasts/vancouver-island.json",
@@ -232,7 +232,7 @@
     ]
   },
   "chic-chocs": {
-    "name": "Chic Chocs, CAHG",
+    "name": "Chic Chocs, Avalanche Québec",
     "type": "link",
     "url": "https://avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche",
     "forecastUrl": "/api/forecasts/chic-chocs.json",
