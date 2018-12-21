@@ -6,7 +6,6 @@ import Gallery from './Gallery'
 import MailChimp from './MailChimp'
 import FeedSplash from './FeedSplash'
 import Figure from './Figure'
-import MountainInformationNetworkFeatures from './MountainInformationNetworkFeatures'
 import MultiColumnLayout from './MultiColumnLayout'
 import QuestionAnswer from './QuestionAnswer'
 import Quote from './Quote'
@@ -31,10 +30,6 @@ export default new Map([
     ['mailChimp', MailChimp],
     ['feedSplash', FeedSplash],
     ['figure', Figure],
-    [
-        'mountain-information-network-features',
-        MountainInformationNetworkFeatures,
-    ],
     ['multiColumnLayout', MultiColumnLayout],
     ['question-answer', QuestionAnswer],
     ['quote', Quote],
