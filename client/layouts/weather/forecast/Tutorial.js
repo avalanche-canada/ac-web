@@ -10,18 +10,17 @@ Tutorial.propTypes = {
 }
 
 function Tutorial({ uid }) {
-    return (
-        <Document {...mw.tutorial(uid)}>
-            {({ loading, document }) => (
-                <Fragment>
-                    <Loading show={loading}>Loading tutorial...</Loading>
-                    {document && (
-                        <StructuredText value={document.data.tutorial} />
-                    )}
-                </Fragment>
-            )}
-        </Document>
-    )
+    return <Document {...mw.tutorial(uid)}>{children}</Document>
 }
 
 export default memo(Tutorial)
+
+// Utils
+function children({ loading, document }) {
+    return (
+        <Fragment>
+            <Loading show={loading}>Loading tutorial...</Loading>
+            {document && <StructuredText value={document.data.tutorial} />}
+        </Fragment>
+    )
+}
