@@ -18,10 +18,6 @@ import SidebarItemSet from './SidebarItemSet'
 import ContactForm from './ContactForm'
 import { Header } from 'components/sidebar'
 
-function SidebarHeader({ value }) {
-    return <Header>{value}</Header>
-}
-
 export default new Map([
     ['section', Section],
     ['ambassador', Ambassador],
@@ -42,3 +38,7 @@ export default new Map([
     ['items', SidebarItemSet],
     ['contact-form', ContactForm],
 ])
+
+function SidebarHeader({ value }) {
+    return <Header>{value}</Header>
+}
