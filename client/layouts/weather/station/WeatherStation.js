@@ -86,15 +86,10 @@ export default class WeatherStation extends PureComponent {
             </Content>
         </Fragment>
     )
-    renderError() {
-        return (
-            <Error>An error happened while loading weather station data.</Error>
-        )
-    }
     render() {
         return (
             <Page>
-                <ErrorBoundary fallback={this.renderError}>
+                <ErrorBoundary fallback={renderError}>
                     <containers.Station id={this.props.id}>
                         {this.children}
                     </containers.Station>
@@ -102,4 +97,9 @@ export default class WeatherStation extends PureComponent {
             </Page>
         )
     }
+}
+
+// Renderers
+function renderError() {
+    return <Error>An error happened while loading weather station data.</Error>
 }
