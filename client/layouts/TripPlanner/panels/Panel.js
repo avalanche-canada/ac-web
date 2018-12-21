@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import styles from '../TripPlanner.css'
 import Panel, { INVERSE } from 'components/panel'
 
+// TODO Use Hooks
+
 export default class TripPlannerPanel extends PureComponent {
     state = {
         expanded: this.props.expanded || false,

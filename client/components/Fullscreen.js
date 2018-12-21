@@ -59,6 +59,10 @@ export default class Fullscreen extends Component {
     exit = () => {
         this.fullscreen = false
 
+        if (!window.fullScreen) {
+            return
+        }
+
         if (document.exitFullscreen) {
             document.exitFullscreen()
         } else if (document.mozCancelFullScreen) {
