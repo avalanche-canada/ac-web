@@ -1,20 +1,18 @@
+import memoize from 'lodash/memoize'
 import parseDate from 'date-fns/parse'
 import addDays from 'date-fns/add_days'
 import isBefore from 'date-fns/is_before'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
-export function sanitizeMountainInformationNetworkSubmission({
-    latlng,
-    datetime,
-    ...submission
-}) {
-    return Object.assign(submission, {
-        latlng: latlng.map(Number),
-        lnglat: latlng.map(Number).reverse(),
-        datetime: new Date(datetime),
-    })
-}
+export const sanitizeMountainInformationNetworkSubmission = memoize(
+    ({ latlng, datetime, ...submission }) =>
+        Object.assign(submission, {
+            latlng: latlng.map(Number),
+            lnglat: latlng.map(Number).reverse(),
+            datetime: new Date(datetime),
+        })
+)
 
 export function sanitizeMountainInformationNetworkSubmissions(data) {
     if (Array.isArray(data)) {

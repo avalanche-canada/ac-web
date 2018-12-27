@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import memoize from 'lodash/memoize'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -53,13 +54,7 @@ export class Reports extends Component {
         days: 7,
     }
     children({ data, ...props }) {
-        Object.assign(props, {
-            data: data
-                ? transformers
-                      .sanitizeMountainInformationNetworkSubmissions(data)
-                      .sort(sorter)
-                : data,
-        })
+        Object.assign(props, { data: data ? createReports(data) : data })
 
         return this.props.children(props)
     }
@@ -80,3 +75,8 @@ export const CACHE = new Memory()
 function sorter(a, b) {
     return a.datetime < b.datetime
 }
+const createReports = memoize(reports =>
+    transformers
+        .sanitizeMountainInformationNetworkSubmissions(reports)
+        .sort(sorter)
+)

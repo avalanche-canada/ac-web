@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import memoize from 'lodash/memoize'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -45,9 +46,7 @@ export class Regions extends Component {
     }
     children = ({ data, ...props }) => {
         Object.assign(props, {
-            data: data
-                ? Object.values(data['forecast-regions']).sort(sorter)
-                : data,
+            data: data ? extractForecastRegions(data) : data,
         })
 
         return this.props.children(props)
@@ -96,16 +95,13 @@ export class HotZones extends Component {
         return <Error>An error happened while retrieving hot zones.</Error>
     }
     children = ({ data, ...props }) => {
-        const { all } = this.props
+        const { all, children } = this.props
+
         Object.assign(props, {
-            data: data
-                ? Object.values(data['hot-zones'])
-                      .filter(({ id }) => (all ? true : id === 'yukon'))
-                      .sort(sorter)
-                : data,
+            data: data ? extractHotZones(data)(all) : data,
         })
 
-        return this.props.children(props)
+        return children(props)
     }
     render() {
         return (
@@ -128,3 +124,13 @@ function Metadata({ children }) {
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
 }
+const extractHotZones = memoize(data =>
+    memoize(all =>
+        Object.values(data['hot-zones'])
+            .filter(({ id }) => (all ? true : id === 'yukon'))
+            .sort(sorter)
+    )
+)
+const extractForecastRegions = memoize(data =>
+    Object.values(data['forecast-regions']).sort(sorter)
+)

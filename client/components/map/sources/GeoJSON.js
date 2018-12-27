@@ -1,8 +1,8 @@
-import { PureComponent, Children, cloneElement } from 'react'
+import { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import Layer from '../Layer'
 
-export default class GeoJSONSource extends PureComponent {
+export default class GeoJSONSource extends Component {
     static propTypes = {
         map: PropTypes.object.isRequired,
         id: PropTypes.string.isRequired,

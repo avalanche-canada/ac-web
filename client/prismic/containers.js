@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import identity from 'lodash/identity'
+import memoize from 'lodash/memoize'
 import Fetch from 'components/fetch'
 import { Memory as Cache } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -88,7 +89,7 @@ export function Documents({ children = identity, ...props }) {
                     const { results, ...rest } = data
 
                     Object.assign(props, rest, {
-                        documents: results.map(d => parse(d)),
+                        documents: parseDocuments(results),
                     })
                 }
 
@@ -185,3 +186,6 @@ function renderError({ error }) {
         </Text.Error>
     )
 }
+const parseDocuments = memoize(documents =>
+    documents.map(document => parse(document))
+)

@@ -64,6 +64,9 @@ class ForecastRegionActivator extends PureComponent {
         id: PropTypes.string.isRequired,
         map: PropTypes.object.isRequired,
     }
+    get id() {
+        return this.props.id
+    }
     setActive(id, active) {
         const { map } = this.props
         const [feature] = map.querySourceFeatures(key, {
@@ -79,9 +82,6 @@ class ForecastRegionActivator extends PureComponent {
                 }
             })
         }
-    }
-    get id() {
-        return this.props.id
     }
     componentDidMount() {
         this.setActive(this.id, true)
