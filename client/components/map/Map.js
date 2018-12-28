@@ -11,7 +11,8 @@ import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
 import './Map.css'
 
-const { Provider, Consumer } = createContext()
+const MapContext = createContext()
+
 mapbox.accessToken = accessToken
 
 export default class MapComponent extends Component {
@@ -52,9 +53,10 @@ export default class MapComponent extends Component {
         onLoad() {},
     }
     static When = class When extends Component {
-        withContext = props => {
+        static contextType = MapContext
+        render() {
             const { loaded, children } = this.props
-            const { map } = props
+            const { map } = this.context
 
             if (loaded) {
                 return map && props.loaded ? children : null
@@ -62,22 +64,20 @@ export default class MapComponent extends Component {
                 return map ? children : null
             }
         }
-        render() {
-            return <Consumer>{this.withContext}</Consumer>
-        }
     }
     static With = class With extends Component {
+        static contextType = MapContext
         cloneChildren(map) {
             return Children.map(this.props.children, child =>
                 cloneElement(child, { map })
             )
         }
-        withContext = props => {
+        render() {
             const { loaded, children } = this.props
-            const { map } = props
+            const { map } = this.context
 
             if (loaded) {
-                if (map && props.loaded) {
+                if (map && this.context.loaded) {
                     return typeof children === 'function'
                         ? children(map)
                         : this.cloneChildren(map)
@@ -93,9 +93,6 @@ export default class MapComponent extends Component {
                     return null
                 }
             }
-        }
-        render() {
-            return <Consumer>{this.withContext}</Consumer>
         }
     }
     state = {
@@ -129,11 +126,11 @@ export default class MapComponent extends Component {
     }
     render() {
         return (
-            <Provider value={this.state}>
+            <MapContext.Provider value={this.state}>
                 <div ref={this.container} className={this.props.className}>
                     {this.props.children}
                 </div>
-            </Provider>
+            </MapContext.Provider>
         )
     }
 }

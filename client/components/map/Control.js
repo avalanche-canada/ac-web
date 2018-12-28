@@ -12,10 +12,12 @@ export default class Control extends Component {
     static propTypes = {
         map: PropTypes.object,
         factory: PropTypes.func.isRequired,
-        position: PropTypes.oneOf(
-            // actually isRequired
-            [TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT]
-        ),
+        position: PropTypes.oneOf([
+            TOP_LEFT,
+            TOP_RIGHT,
+            BOTTOM_LEFT,
+            BOTTOM_RIGHT,
+        ]),
     }
     static defaultProps = {
         position: BOTTOM_RIGHT,
