@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { Location } from '@reach/router'
 import AuthContext from 'contexts/auth'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'

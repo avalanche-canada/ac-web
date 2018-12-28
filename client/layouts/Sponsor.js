@@ -59,7 +59,6 @@ class SponsorRoute extends Component {
             </Sponsor>
         )
     }
-    withSponsors = metadata => {}
     render() {
         const { name } = this.props
         const uid = this.context[name] || name

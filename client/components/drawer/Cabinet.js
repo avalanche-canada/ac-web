@@ -15,11 +15,7 @@ Cabinet.propTypes = {
     ),
 }
 
-Cabinet.defaultProps = {
-    drawers: [],
-}
-
-function Cabinet({ drawers }) {
+function Cabinet({ drawers = [] }) {
     const styles = getStyles(drawers)
     const defaultStyles = getDefaultStyles(drawers)
     const motion = {

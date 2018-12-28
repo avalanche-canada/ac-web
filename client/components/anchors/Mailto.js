@@ -10,7 +10,7 @@ Mailto.propTypes = {
     cc: PropTypes.string,
     bcc: PropTypes.string,
     body: PropTypes.string,
-    children: PropTypes.node.isRequired,
+    children: PropTypes.element.isRequired,
 }
 
 export default function Mailto({

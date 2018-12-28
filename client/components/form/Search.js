@@ -18,10 +18,8 @@ export default class Search extends PureComponent {
     }
     input = createRef()
     handleReset = () => {
-        const value = ''
-
         this.focus()
-        this.props.onChange(value)
+        this.props.onChange('')
     }
     focus = () => {
         this.input.current.focus()

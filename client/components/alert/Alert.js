@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Alert.css'
 
+// Types
 export const DANGER = 'DANGER'
 export const INFO = 'INFO'
 export const WARNING = 'WARNING'

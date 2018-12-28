@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React, { memo, createElement } from 'react'
 import PropTypes from 'prop-types'
 import { SUBTILE } from './kinds'
 import Button from './Button'
@@ -12,7 +12,7 @@ Expand.propTypes = {
 function Expand({ chevron = false, expanded = false, ...props }) {
     return (
         <Button kind={SUBTILE} {...props}>
-            {ICONS.get(chevron).get(expanded)}
+            {createElement(ICONS.get(chevron).get(expanded))}
         </Button>
     )
 }
@@ -20,6 +20,6 @@ function Expand({ chevron = false, expanded = false, ...props }) {
 export default memo(Expand)
 
 const ICONS = new Map([
-    [true, new Map([[true, <ExpandLess />], [false, <ExpandMore />]])],
-    [false, new Map([[true, <Remove />], [false, <Add />]])],
+    [true, new Map([[true, ExpandLess], [false, ExpandMore]])],
+    [false, new Map([[true, Remove], [false, Add]])],
 ])

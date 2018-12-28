@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 Group.propTypes = {
@@ -9,12 +9,9 @@ Group.propTypes = {
 export default function Group({ value, Component, ...props }) {
     return (
         <div {...props}>
-            {value.map((item, index) =>
-                createElement(Component, {
-                    key: index,
-                    ...item,
-                })
-            )}
+            {value.map((item, index) => (
+                <Component key={index} {...item} />
+            ))}
         </div>
     )
 }

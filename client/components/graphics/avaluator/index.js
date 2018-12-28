@@ -71,78 +71,53 @@ function AvaluatorChart({ terrain, danger }) {
                 d="M82.2 145h209.5"
                 opacity=".6"
             />
-            <text
+            <Text
                 x="118.7"
                 y="178.2"
-                fill="#00aeef"
-                fontSize="10"
-                fontWeight={terrain === SIMPLE ? 'bold' : 'normal'}
+                fill={LIGHT_BLUE}
+                bold={terrain === SIMPLE}
                 textAnchor="middle">
                 Simple
-            </text>
-            <text
+            </Text>
+            <Text
                 x="188.5"
                 y="178.2"
-                fill="#00aeef"
-                fontSize="10"
-                fontWeight={terrain === CHALLENGING ? 'bold' : 'normal'}
+                fill={LIGHT_BLUE}
+                bold={terrain === CHALLENGING}
                 textAnchor="middle">
                 Challenging
-            </text>
-            <text
+            </Text>
+            <Text
                 x="257.6"
                 y="178.2"
-                fill="#00aeef"
-                fontSize="10"
-                fontWeight={terrain === COMPLEX ? 'bold' : 'normal'}
+                fill={LIGHT_BLUE}
+                bold={terrain === COMPLEX}
                 textAnchor="middle">
                 Complex
-            </text>
-            <text
-                x="58.4"
-                y="147.9"
-                fill="#245eac"
-                fontSize="10"
-                fontWeight={danger === LOW ? 'bold' : 'normal'}
-                textAnchor="left">
+            </Text>
+            <Text x="58.4" y="147.9" fill={DARK_BLUE} bold={danger === LOW}>
                 Low
-            </text>
-            <text
+            </Text>
+            <Text
                 x="35.2"
                 y="119.8"
-                fill="#245eac"
-                fontSize="10"
-                fontWeight={danger === MODERATE ? 'bold' : 'normal'}
-                textAnchor="left">
+                fill={DARK_BLUE}
+                bold={danger === MODERATE}>
                 Moderate
-            </text>
-            <text
+            </Text>
+            <Text
                 x="16.9"
                 y="87.8"
-                fill="#245eac"
-                fontSize="10"
-                fontWeight={danger === CONSIDERABLE ? 'bold' : 'normal'}
-                textAnchor="left">
+                fill={DARK_BLUE}
+                bold={danger === CONSIDERABLE}>
                 Considerable
-            </text>
-            <text
-                x="56.2"
-                y="55.2"
-                fill="#245eac"
-                fontSize="10"
-                fontWeight={danger === HIGH ? 'bold' : 'normal'}
-                textAnchor="left">
+            </Text>
+            <Text x="56.2" y="55.2" fill={DARK_BLUE} bold={danger === HIGH}>
                 High
-            </text>
-            <text
-                x="40.6"
-                y="24"
-                fill="#245eac"
-                fontSize="10"
-                fontWeight={danger === EXTREME ? 'bold' : 'normal'}
-                textAnchor="left">
+            </Text>
+            <Text x="40.6" y="24" fill={DARK_BLUE} bold={danger === EXTREME}>
                 Extreme
-            </text>
+            </Text>
             <path
                 fill="none"
                 stroke="#fff"
@@ -150,34 +125,16 @@ function AvaluatorChart({ terrain, danger }) {
                 d="M82.2 116.8H292m-209.7-32H292M82.2 53H292M82.2 21.1H292m-34.2-16v159.5M188.3 5.1v159.5M118.7 5.1v159.5"
                 opacity=".6"
             />
-            <text
-                x="224"
-                y="40"
-                fontSize="10"
-                fontWeight="bold"
-                textAnchor="middle"
-                fill="white">
+            <Text x="224" y="40" bold textAnchor="middle" fill="white">
                 Not recommended
-            </text>
-            <text
-                x="250"
-                y="106"
-                fontSize="10"
-                fontWeight="bold"
-                textAnchor="middle"
-                fill="black">
+            </Text>
+            <Text x="250" y="106" bold textAnchor="middle" fill="black">
                 <tspan>Extra</tspan>
                 <tspan dy="28">caution</tspan>
-            </text>
-            <text
-                x="156"
-                y="134"
-                fontSize="10"
-                fontWeight="bold"
-                textAnchor="middle"
-                fill="black">
+            </Text>
+            <Text x="156" y="134" bold textAnchor="middle" fill="black">
                 Caution
-            </text>
+            </Text>
             <circle
                 cx={X_COORDINATES.get(terrain)}
                 cy={Y_COORDINATES.get(danger)}
@@ -191,7 +148,7 @@ function AvaluatorChart({ terrain, danger }) {
 
 export const Chart = memo(AvaluatorChart)
 
-// Constants - Coordinates
+// Constants
 const X_COORDINATES = new Map([
     [SIMPLE, 119],
     [CHALLENGING, 188],
@@ -204,3 +161,18 @@ const Y_COORDINATES = new Map([
     [HIGH, 53],
     [EXTREME, 21],
 ])
+const LIGHT_BLUE = '#00aeef'
+const DARK_BLUE = '#245eac'
+
+// Utils
+function Text({ children, bold, textAnchor = 'left', ...props }) {
+    return (
+        <text
+            fontSize="10"
+            textAnchor={textAnchor}
+            fontWeight={bold ? 'bold' : 'normal'}
+            {...props}>
+            {children}
+        </text>
+    )
+}

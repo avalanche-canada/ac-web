@@ -29,36 +29,41 @@ export function StaticPage({ uid, title }) {
         ...params.uid(STATIC_PAGE, uid),
         fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
     }
-    function renderPage({ loading, document }) {
-        const data = document?.data
-        const headline = data?.headline
-        const content = data?.content
-        const banner = data?.banner
 
-        // classes are defined in prismic.css, kind of a hack to have full control
-        // styling pages.
+    return (
+        <Document {...props}>
+            {({ loading, document }) => {
+                const data = document?.data
+                const headline = data?.headline
+                const content = data?.content
+                const banner = data?.banner
 
-        return (
-            <Page className={`${STATIC_PAGE}-${uid}`}>
-                {banner && <Banner {...banner.main} />}
-                <Header title={data?.title || title} />
-                <Content>
-                    <Loading show={loading}>
-                        {title ? `Loading ${title} page...` : 'Loading page...'}
-                    </Loading>
-                    <Main>
-                        {headline && <Headline>{headline}</Headline>}
-                        {Array.isArray(content) && (
-                            <SliceZone value={content} />
-                        )}
-                    </Main>
-                    {data && renderAside(data)}
-                </Content>
-            </Page>
-        )
-    }
+                // classes are defined in prismic.css, kind of a hack to have full control
+                // styling pages.
 
-    return <Document {...props}>{renderPage}</Document>
+                return (
+                    <Page className={`${STATIC_PAGE}-${uid}`}>
+                        {banner && <Banner {...banner.main} />}
+                        <Header title={data?.title || title} />
+                        <Content>
+                            <Loading show={loading}>
+                                {title
+                                    ? `Loading ${title} page...`
+                                    : 'Loading page...'}
+                            </Loading>
+                            <Main>
+                                {headline && <Headline>{headline}</Headline>}
+                                {Array.isArray(content) && (
+                                    <SliceZone value={content} />
+                                )}
+                            </Main>
+                            {data && renderAside(data)}
+                        </Content>
+                    </Page>
+                )
+            }}
+        </Document>
+    )
 }
 
 GenericPage.propTypes = {
@@ -67,23 +72,25 @@ GenericPage.propTypes = {
 }
 
 export function GenericPage({ uid, title }) {
-    function renderPage({ document, loading }) {
-        return (
-            <Page>
-                <Header title={document?.data?.title || title} />
-                <Content>
-                    <Loading show={loading}>
-                        {title ? `Loading ${title} page...` : 'Loading page...'}
-                    </Loading>
-                    <Main>
-                        <StructuredText value={document?.data?.body} />
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
-
-    return <Document {...params.uid(GENERIC, uid)}>{renderPage}</Document>
+    return (
+        <Document {...params.uid(GENERIC, uid)}>
+            {({ document, loading }) => (
+                <Page>
+                    <Header title={document?.data?.title || title} />
+                    <Content>
+                        <Loading show={loading}>
+                            {title
+                                ? `Loading ${title} page...`
+                                : 'Loading page...'}
+                        </Loading>
+                        <Main>
+                            <StructuredText value={document?.data?.body} />
+                        </Main>
+                    </Content>
+                </Page>
+            )}
+        </Document>
+    )
 }
 
 Generic.propTypes = {
@@ -91,35 +98,19 @@ Generic.propTypes = {
     children: PropTypes.func,
 }
 
-Generic.renderers = {
-    bodyAndTitle({ loading, document }) {
-        return (
-            <Fragment>
-                <Loading show={loading} />
-                {document && (
-                    <Fragment>
-                        <h1>{document.data.title}</h1>
-                        <StructuredText value={document.data.body} />
-                    </Fragment>
-                )}
-            </Fragment>
-        )
-    },
-    body({ loading, document }) {
-        return (
-            <Fragment>
-                <Loading show={loading} />
-                {document && <StructuredText value={document.data.body} />}
-            </Fragment>
-        )
-    },
-}
-
-export function Generic({ uid, children = Generic.renderers.body }) {
+export function Generic({ uid, children = renderBody }) {
     return <Document {...params.generic(uid)}>{children}</Document>
 }
 
-// Constants & utils
+// Constants, utils & renderers
+function renderBody({ loading, document }) {
+    return (
+        <Fragment>
+            <Loading show={loading} />
+            {document && <StructuredText value={document.data.body} />}
+        </Fragment>
+    )
+}
 const ToBoolean = new Map([
     ['Yes', true],
     ['No', false],

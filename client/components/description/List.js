@@ -32,6 +32,6 @@ function List({
     )
 }
 
-const classNames = classnames.bind(styles)
-
 export default memo(List)
+
+const classNames = classnames.bind(styles)

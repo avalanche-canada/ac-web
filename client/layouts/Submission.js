@@ -15,53 +15,54 @@ import {
     Sidebar,
 } from 'layouts/products/min'
 
-export default class Layout extends PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-    }
-    renderHeader(data) {
-        const title = data ? data.title : 'Mountain Information Network'
-    }
-    children = ({ loading, data }) => {
-        const title = data ? data.title : 'Mountain Information Network'
+Layout.propTypes = {
+    id: PropTypes.string.isRequired,
+}
 
-        return (
-            <Fragment>
-                <Header title={title} />
-                <Content>
-                    <Main>
-                        {loading && (
-                            <Loading>
-                                Loading Mountain Information Network report...
-                            </Loading>
-                        )}
-                        <Submission value={data}>
-                            <Metadata />
-                            <Map />
-                            <TabSet />
-                            <Gallery />
-                        </Submission>
-                    </Main>
-                    <Aside>
-                        <Sidebar>
-                            {supported() && (
-                                <Item>
-                                    <Link id={this.props.id}>
-                                        See this submission on the main map
-                                    </Link>
-                                </Item>
-                            )}
-                        </Sidebar>
-                    </Aside>
-                </Content>
-            </Fragment>
-        )
-    }
-    render() {
-        return (
-            <Page>
-                <Report id={this.props.id}>{this.children}</Report>
-            </Page>
-        )
-    }
+export default function Layout({ id }) {
+    return (
+        <Page>
+            <Report id={id}>
+                {({ loading, data }) => {
+                    const title = data
+                        ? data.title
+                        : 'Mountain Information Network'
+
+                    return (
+                        <Fragment>
+                            <Header title={title} />
+                            <Content>
+                                <Main>
+                                    {loading && (
+                                        <Loading>
+                                            Loading Mountain Information Network
+                                            report...
+                                        </Loading>
+                                    )}
+                                    <Submission value={data}>
+                                        <Metadata />
+                                        <Map />
+                                        <TabSet />
+                                        <Gallery />
+                                    </Submission>
+                                </Main>
+                                <Aside>
+                                    <Sidebar>
+                                        {supported() && (
+                                            <Item>
+                                                <Link id={id}>
+                                                    See this submission on the
+                                                    main map
+                                                </Link>
+                                            </Item>
+                                        )}
+                                    </Sidebar>
+                                </Aside>
+                            </Content>
+                        </Fragment>
+                    )
+                }}
+            </Report>
+        </Page>
+    )
 }
