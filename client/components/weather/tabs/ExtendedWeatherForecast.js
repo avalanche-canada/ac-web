@@ -51,20 +51,12 @@ export default function ExtendedWeatherForecast({ date }) {
         <section>
             <Panel header="500 hPa Mean / Standard Deviation (N. American Ensemble)">
                 <div style={PANEL_PADDING}>
-                    <Loop
-                        openImageInNewTab
-                        urls={hpaUrls}
-                        titles={LOOP_TITLES}
-                    />
+                    <Loop urls={hpaUrls} titles={LOOP_TITLES} />
                 </div>
             </Panel>
             <Panel header="1000 – 500 hPa Thickness (N. American Ensemble)">
                 <div style={PANEL_PADDING}>
-                    <Loop
-                        openImageInNewTab
-                        urls={thicknessUrls}
-                        titles={LOOP_TITLES}
-                    />
+                    <Loop urls={thicknessUrls} titles={LOOP_TITLES} />
                 </div>
             </Panel>
             <Panel header="EPSgrams (N. American Ensemble)">
@@ -94,11 +86,7 @@ export default function ExtendedWeatherForecast({ date }) {
             </Panel>
             <Panel header="546 dam – 500 hPa Contour Line (Canadian Ensemble)">
                 <div style={PANEL_PADDING}>
-                    <Loop
-                        openImageInNewTab
-                        urls={spaghettiUrls}
-                        titles={LOOP_TITLES}
-                    />
+                    <Loop urls={spaghettiUrls} titles={LOOP_TITLES} />
                 </div>
             </Panel>
         </section>

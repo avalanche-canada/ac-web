@@ -121,15 +121,14 @@ export default class Loop extends PureComponent {
         }
 
         return (
-            <div>
+            <section>
                 <Base
                     urls={this.state.urls}
                     startAt={this.state.startAt}
-                    openImageInNewTab
                     interval={this.props.interval}
                 />
                 <NoteSet notes={notes} />
-            </div>
+            </section>
         )
     }
 }
@@ -144,13 +143,13 @@ function NoteSet({ notes = [] }) {
     }
 
     return (
-        <div>
+        <section>
             <p>Please note:</p>
             <ul>
                 {notes.map((note, index) => (
                     <li key={index}>{note}</li>
                 ))}
             </ul>
-        </div>
+        </section>
     )
 }

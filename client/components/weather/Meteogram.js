@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Image } from 'components/misc'
+import { Image, OpenInNewTab } from 'components/misc'
 import {
     format,
     POINT_LOCATIONS,
@@ -24,5 +24,9 @@ Meteogram.propTypes = {
 }
 
 export default function Meteogram(props) {
-    return <Image src={format(props)} openNewTab />
+    return (
+        <OpenInNewTab>
+            <Image src={format(props)} />
+        </OpenInNewTab>
+    )
 }

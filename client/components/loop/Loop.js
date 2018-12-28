@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
-import { Image, Delay, Ratio } from 'components/misc'
+import { Image, Delay, Ratio, OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import Fullscreen from 'components/Fullscreen'
 import ButtonSet from './ButtonSet'
@@ -18,14 +18,12 @@ export default class Loop extends Component {
         interval: PropTypes.number,
         dwell: PropTypes.number,
         startAt: PropTypes.number,
-        openImageInNewTab: PropTypes.bool,
     }
     static defaultProps = {
         urls: [],
         titles: [],
         interval: 1000,
         dwell: 2000,
-        openImageInNewTab: false,
     }
     state = {
         cursor:
@@ -161,12 +159,6 @@ export default class Loop extends Component {
             onPlay: this.play,
             onPause: this.pause,
         }
-        const image = {
-            src: this.url,
-            onError: this.handleImageError,
-            onLoad: this.handleImageLoad,
-            openNewTab: this.props.openImageInNewTab,
-        }
 
         return (
             <div ref={this.setTarget} className={styles.Container}>
@@ -188,12 +180,16 @@ export default class Loop extends Component {
                 <Ratio y={956} x={1124}>
                     {(ref, { width, height }) => (
                         <div ref={ref}>
-                            <Image
-                                width={width}
-                                height={height}
-                                {...image}
-                                style={{ backroundColor: '#eee' }}
-                            />
+                            <OpenInNewTab>
+                                <Image
+                                    src={this.url}
+                                    width={width}
+                                    height={height}
+                                    onError={this.handleImageError}
+                                    onLoad={this.handleImageLoad}
+                                    style={{ backroundColor: '#eee' }}
+                                />
+                            </OpenInNewTab>
                         </div>
                     )}
                 </Ratio>
