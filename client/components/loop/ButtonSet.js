@@ -12,6 +12,36 @@ import {
 import { WHITE } from 'constants/colors'
 import styles from './Loop.css'
 
+ButtonSet.propTypes = {
+    isPlaying: PropTypes.bool,
+    onNext: PropTypes.func,
+    onPrevious: PropTypes.func,
+    onFirst: PropTypes.func,
+    onLast: PropTypes.func,
+    onPause: PropTypes.func,
+    onPlay: PropTypes.func,
+}
+
+export default function ButtonSet({
+    isPlaying = true,
+    onNext,
+    onPrevious,
+    onFirst,
+    onLast,
+    onPause,
+    onPlay,
+}) {
+    return (
+        <div className={styles.ButtonSet}>
+            {onFirst && <First onClick={onFirst} />}
+            {onPrevious && <Previous onClick={onPrevious} />}
+            <AnimateButton {...{ onPause, onPlay, isPlaying }} />
+            {onNext && <Next onClick={onNext} />}
+            {onLast && <Last onClick={onLast} />}
+        </div>
+    )
+}
+
 AnimateButton.propTypes = {
     isPlaying: PropTypes.bool,
     onPause: PropTypes.func,
@@ -54,35 +84,5 @@ function Last(props) {
         <Button {...props} title="Mode to the last image">
             <LastPage inverse />
         </Button>
-    )
-}
-
-ButtonSet.propTypes = {
-    isPlaying: PropTypes.bool,
-    onNext: PropTypes.func,
-    onPrevious: PropTypes.func,
-    onFirst: PropTypes.func,
-    onLast: PropTypes.func,
-    onPause: PropTypes.func,
-    onPlay: PropTypes.func,
-}
-
-export default function ButtonSet({
-    isPlaying = true,
-    onNext,
-    onPrevious,
-    onFirst,
-    onLast,
-    onPause,
-    onPlay,
-}) {
-    return (
-        <div className={styles.ButtonSet}>
-            {onFirst && <First onClick={onFirst} />}
-            {onPrevious && <Previous onClick={onPrevious} />}
-            <AnimateButton {...{ onPause, onPlay, isPlaying }} />
-            {onNext && <Next onClick={onNext} />}
-            {onLast && <Last onClick={onLast} />}
-        </div>
     )
 }
