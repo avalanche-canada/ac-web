@@ -5,8 +5,6 @@ import Holder from '../Holder'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import styles from './Dropdown.css'
 
-const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
-
 export default class DropdownControl extends PureComponent {
     static propTypes = {
         children: PropTypes.arrayOf(Option).isRequired,
@@ -167,7 +165,8 @@ export default class DropdownControl extends PureComponent {
     }
 }
 
-// Utils
+// Utils & constants
+const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
 function toggle({ isOpen }) {
     return {
         isOpen: !isOpen,
