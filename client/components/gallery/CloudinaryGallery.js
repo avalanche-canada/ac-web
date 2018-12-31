@@ -24,12 +24,11 @@ export default class CloudinaryGallery extends PureComponent {
             next_cursor: this.state.cursor,
         }
 
-        cloudinary.getByTag(tag, options).then(this.handleSuccessResponse)
-    }
-    handleSuccessResponse = data => {
-        this.setState({
-            cursor: data.next_cursor,
-            items: data.resources.map(this.mapResource),
+        cloudinary.getByTag(tag, options).then(data => {
+            this.setState({
+                cursor: data.next_cursor,
+                items: data.resources.map(this.mapResource),
+            })
         })
     }
     render() {
