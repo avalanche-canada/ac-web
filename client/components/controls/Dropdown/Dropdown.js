@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Holder from '../Holder'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
-import * as react from 'utils/react'
 import styles from './Dropdown.css'
 
 const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
@@ -48,11 +47,10 @@ export default class DropdownControl extends PureComponent {
     get holder() {
         const { value } = this.props
         const children = Children.toArray(this.props.children)
-        const options = children.filter(
-            option =>
-                value instanceof Set
-                    ? value.has(option.props.value)
-                    : value == option.props.value
+        const options = children.filter(option =>
+            value instanceof Set
+                ? value.has(option.props.value)
+                : value == option.props.value
         )
 
         return options.length
