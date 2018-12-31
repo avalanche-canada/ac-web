@@ -36,7 +36,7 @@ export class Provider extends Component {
                     FILTERS.get(
                         `${LAYERS.MOUNTAIN_INFORMATION_NETWORK}-days`,
                         7
-                    )
+                    ) || 7
                 ),
                 types: new Set(),
             },

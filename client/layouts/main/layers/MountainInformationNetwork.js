@@ -32,6 +32,38 @@ export default class MountainInformationNetwork extends Component {
                   ]),
               ]
     }
+    createWithMap = ({ all }) => map => {
+        return (
+            <Match path="/">
+                {({ match }) => {
+                    if (!match) {
+                        return null
+                    }
+
+                    const params = new URLSearchParams(match.uri)
+
+                    if (params.has('panel')) {
+                        const [type, id] = params.get('panel').split('/')
+                        const hasReport = report => report.properties.id !== id
+                        const { onMouseEnter, onMouseLeave } = this.props
+
+                        if (type === TYPE && all.every(hasReport)) {
+                            return (
+                                <ActiveReport
+                                    id={id}
+                                    map={map}
+                                    onMouseEnter={onMouseEnter}
+                                    onMouseLeave={onMouseLeave}
+                                />
+                            )
+                        }
+                    }
+
+                    return null
+                }}
+            </Match>
+        )
+    }
     addReports = ({ data = [] }) => {
         const { filter } = this
         const { filters, ...props } = this.props
@@ -65,38 +97,6 @@ export default class MountainInformationNetwork extends Component {
                 </Map.With>
                 <Map.With loaded>{this.createWithMap(collections)}</Map.With>
             </Fragment>
-        )
-    }
-    createWithMap = ({ all }) => map => {
-        return (
-            <Match path="/">
-                {({ match }) => {
-                    if (!match) {
-                        return null
-                    }
-
-                    const params = new URLSearchParams(match.uri)
-
-                    if (params.has('panel')) {
-                        const [type, id] = params.get('panel').split('/')
-                        const hasReport = report => report.properties.id !== id
-                        const { onMouseEnter, onMouseLeave } = this.props
-
-                        if (type === TYPE && all.every(hasReport)) {
-                            return (
-                                <ActiveReport
-                                    id={id}
-                                    map={map}
-                                    onMouseEnter={onMouseEnter}
-                                    onMouseLeave={onMouseLeave}
-                                />
-                            )
-                        }
-                    }
-
-                    return null
-                }}
-            </Match>
         )
     }
     render() {
