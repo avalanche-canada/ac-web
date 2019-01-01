@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import { Match } from '@reach/router'
+import { Location } from '@reach/router'
 import { Source, Layer, Map } from 'components/map'
 import { Report, Reports } from 'containers/min'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
@@ -34,13 +34,9 @@ export default class MountainInformationNetwork extends Component {
     }
     createWithMap = ({ all }) => map => {
         return (
-            <Match path="/">
-                {({ match }) => {
-                    if (!match) {
-                        return null
-                    }
-
-                    const params = new URLSearchParams(match.uri)
+            <Location>
+                {props => {
+                    const params = new URLSearchParams(props.location.search)
 
                     if (params.has('panel')) {
                         const [type, id] = params.get('panel').split('/')
@@ -61,7 +57,7 @@ export default class MountainInformationNetwork extends Component {
 
                     return null
                 }}
-            </Match>
+            </Location>
         )
     }
     addReports = ({ data = [] }) => {
