@@ -12,7 +12,7 @@ Submitter.propTypes = {
 export default function Submitter({ name, image, groups }) {
     return (
         <div className={styles.Submitter}>
-            <img src={image} alt="ACMG Logo" />
+            <img src={image} title={name} alt={name} />
             <div>
                 <span>{name}</span>
                 <span>{groups.map(g => g.name).join(', ')}</span>

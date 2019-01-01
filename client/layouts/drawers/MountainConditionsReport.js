@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { point } from '@turf/helpers'
-import { Loading } from 'components/text'
+import { Loading, Muted } from 'components/text'
 import { InnerHTML } from 'components/misc'
 import {
     Header,
@@ -37,7 +37,8 @@ export default class MountainConditionsReport extends PureComponent {
     handleLocateClick = () => {
         this.props.onLocateClick(this.geometry)
     }
-    children = ({ data = {}, loading }) => {
+    children = ({ data, loading }) => {
+        const { id } = this.props
         const {
             locationDescription,
             permalink,
@@ -48,7 +49,7 @@ export default class MountainConditionsReport extends PureComponent {
             dates,
             groups,
             location,
-        } = data
+        } = data || {}
 
         if (Array.isArray(location)) {
             this.geometry = point(location)
@@ -81,6 +82,9 @@ export default class MountainConditionsReport extends PureComponent {
                         Loading Mountain Conditions Report...
                     </Loading>
                     {body && <InnerHTML>{body}</InnerHTML>}
+                    {!loading && !body && (
+                        <Muted>Report #{id} is not available anymore.</Muted>
+                    )}
                     <Footer />
                 </Content>
             </Fragment>
