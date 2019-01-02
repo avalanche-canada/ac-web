@@ -10,6 +10,7 @@ FeatureCollection.propTypes = {
     children: PropTypes.func.isRequired,
 }
 
+// TODO Remove CACHE if not used
 FeatureCollection.CACHE = new Memory()
 
 export function FeatureCollection({ id, children }) {
@@ -29,6 +30,7 @@ Style.propTypes = {
     children: PropTypes.func.isRequired,
 }
 
+// TODO Remove CACHE if not used
 Style.CACHE = new Memory()
 
 export function Style({ id = 'default', children }) {

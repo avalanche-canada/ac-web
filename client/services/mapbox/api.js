@@ -13,10 +13,6 @@ export function findPlaces(term) {
     return fetch(requests.place(term)).then(status)
 }
 
-export function fetchMapStyle(id) {
-    return fetch(requests.style(id)).then(status)
-}
-
 export function createStyleUrl({
     styleId = styleIds['2016'],
     overlay,
