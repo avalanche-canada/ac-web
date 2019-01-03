@@ -1,17 +1,10 @@
-import React, {
-    Component,
-    createRef,
-    createContext,
-    Children,
-    cloneElement,
-} from 'react'
+import React, { Component, createRef, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { styles, accessToken } from 'services/mapbox/config.json'
 import { Canadian } from 'constants/map/bounds'
+import MapContext from './context'
 import './Map.css'
-
-const MapContext = createContext()
 
 mapbox.accessToken = accessToken
 
@@ -52,20 +45,11 @@ export default class MapComponent extends Component {
         style: 'default',
         onLoad() {},
     }
-    static When = class When extends Component {
-        static contextType = MapContext
-        render() {
-            const { loaded, children } = this.props
-            const { map } = this.context
-
-            if (loaded) {
-                return map && props.loaded ? children : null
-            } else {
-                return map ? children : null
-            }
-        }
-    }
     static With = class With extends Component {
+        static propTypes = {
+            loaded: PropTypes.bool,
+            map: PropTypes.object,
+        }
         static contextType = MapContext
         cloneChildren(map) {
             return Children.map(this.props.children, child =>
