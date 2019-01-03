@@ -34,7 +34,7 @@ export default class GeoJSONSource extends Component {
     }
     componentDidUpdate({ data }) {
         if (data !== this.props.data) {
-            setData.call(this, this.props.data)
+            setData.call(this)
         }
     }
     componentWillUnmount() {
@@ -65,8 +65,8 @@ export default class GeoJSONSource extends Component {
 }
 
 // Utils
-function setData(data) {
-    const { map, id } = this.props
+function setData() {
+    const { map, id, data } = this.props
 
     map.getSource(id).setData(data)
 }
