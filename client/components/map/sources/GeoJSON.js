@@ -1,26 +1,35 @@
-import { Component, Children, cloneElement } from 'react'
+import React, { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import Layer from '../Layer'
+import { WithMap } from '../context'
 
-export default class GeoJSONSource extends Component {
-    static propTypes = {
-        map: PropTypes.object.isRequired,
-        id: PropTypes.string.isRequired,
-        data: PropTypes.object,
-        maxzoom: PropTypes.number,
-        attribution: PropTypes.string,
-        buffer: PropTypes.number,
-        tolerance: PropTypes.number,
-        cluster: PropTypes.bool,
-        clusterRadius: PropTypes.number,
-        clusterMaxZoom: PropTypes.number,
-        lineMetrics: PropTypes.bool,
-        children: PropTypes.oneOfType([
-            PropTypes.instanceOf(Layer),
-            PropTypes.arrayOf(PropTypes.instanceOf(Layer)),
-        ]),
-    }
+GeoJSONSource.propTypes = {
+    id: PropTypes.string.isRequired,
+    data: PropTypes.object,
+    maxzoom: PropTypes.number,
+    attribution: PropTypes.string,
+    buffer: PropTypes.number,
+    tolerance: PropTypes.number,
+    cluster: PropTypes.bool,
+    clusterRadius: PropTypes.number,
+    clusterMaxZoom: PropTypes.number,
+    lineMetrics: PropTypes.bool,
+    children: PropTypes.oneOfType([
+        PropTypes.instanceOf(Layer),
+        PropTypes.arrayOf(PropTypes.instanceOf(Layer)),
+    ]),
+}
+
+export default function Source(props) {
+    return (
+        <WithMap loaded>
+            <GeoJSONSource {...props} />
+        </WithMap>
+    )
+}
+
+class GeoJSONSource extends Component {
     static defaultProps = {
         data: turf.featureCollection([]),
     }

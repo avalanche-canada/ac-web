@@ -21,21 +21,15 @@ export default class ForecastRegions extends Component {
         })
 
         return (
-            <Map.With loaded>
-                <Source id={key} data={data}>
-                    <Layer.Fill id={key} {...props} {...styles.fill} />
-                    <Layer.Line
-                        id={`${key}-line`}
-                        {...props}
-                        {...styles.line}
-                    />
-                    <Layer.Symbol
-                        id={`${key}-labels`}
-                        {...props}
-                        {...styles.labels}
-                    />
-                </Source>
-            </Map.With>
+            <Source id={key} data={data}>
+                <Layer.Fill id={key} {...props} {...styles.fill} />
+                <Layer.Line id={`${key}-line`} {...props} {...styles.line} />
+                <Layer.Symbol
+                    id={`${key}-labels`}
+                    {...props}
+                    {...styles.labels}
+                />
+            </Source>
         )
     }
     renderForecastRegionActivator({ match }) {

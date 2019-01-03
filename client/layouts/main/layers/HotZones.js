@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import * as features from 'containers/features'
-import { Source, Layer, Map } from 'components/map'
+import { Source, Layer } from 'components/map'
 import { Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
 import { HOT_ZONE_REPORTS as key } from 'constants/drawers'
@@ -16,13 +16,9 @@ export default class HotZones extends Component {
     }
     renderSourceAndLayer({ data = [] }, { documents = [] }) {
         return (
-            <Map.With loaded>
-                <Source
-                    id={key}
-                    data={createFeatureCollection(data)(documents)}>
-                    <Layer.Circle id={key} {...this.props} {...styles} />
-                </Source>
-            </Map.With>
+            <Source id={key} data={createFeatureCollection(data)(documents)}>
+                <Layer.Circle id={key} {...this.props} {...styles} />
+            </Source>
         )
     }
     render() {

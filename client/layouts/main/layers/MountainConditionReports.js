@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import { Source, Layer, Map } from 'components/map'
+import { Source, Layer } from 'components/map'
 import * as Containers from 'containers/mcr'
 import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
 
@@ -23,17 +23,15 @@ export default class MountainConditionReports extends Component {
                 return (
                     <Containers.Report id={id}>
                         {({ data }) => (
-                            <Map.With loaded>
-                                <Source
+                            <Source
+                                id="mountain-conditions-report"
+                                data={createReportFeatureCollection(data)}>
+                                <Layer.Symbol
+                                    {...this.props}
                                     id="mountain-conditions-report"
-                                    data={createReportFeatureCollection(data)}>
-                                    <Layer.Symbol
-                                        {...this.props}
-                                        id="mountain-conditions-report"
-                                        {...styles}
-                                    />
-                                </Source>
-                            </Map.With>
+                                    {...styles}
+                                />
+                            </Source>
                         )}
                     </Containers.Report>
                 )
@@ -43,7 +41,7 @@ export default class MountainConditionReports extends Component {
         return null
     }
     addReports = ({ data = [] }) => (
-        <Map.With loaded>
+        <Fragment>
             <Source
                 id={key}
                 cluster
@@ -52,7 +50,7 @@ export default class MountainConditionReports extends Component {
                 <Layer.Symbol id={key} {...this.props} {...styles} />
             </Source>
             <Location>{this.withLocation(data)}</Location>
-        </Map.With>
+        </Fragment>
     )
 
     render() {

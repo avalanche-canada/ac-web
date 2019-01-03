@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import { Source, Layer, Map } from 'components/map'
+import { Source, Layer } from 'components/map'
 import { Stations } from 'containers/weather'
 import { WEATHER_STATION as key } from 'constants/drawers'
 
@@ -14,15 +14,13 @@ export default class WeatherStations extends Component {
     }
     withData = ({ data }) => {
         return (
-            <Map.With loaded>
-                <Source
-                    id={key}
-                    cluster
-                    clusterMaxZoom={14}
-                    data={createFeatureCollection(data)}>
-                    <Layer.Symbol id={key} {...this.props} {...styles} />
-                </Source>
-            </Map.With>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createFeatureCollection(data)}>
+                <Layer.Symbol id={key} {...this.props} {...styles} />
+            </Source>
         )
     }
     render() {

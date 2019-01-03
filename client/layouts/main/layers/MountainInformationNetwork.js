@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { Location } from '@reach/router'
-import { Source, Layer, Map } from 'components/map'
+import { Source, Layer } from 'components/map'
 import { Report, Reports } from 'containers/min'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
@@ -48,20 +48,18 @@ export default class MountainInformationNetwork extends Component {
                             return (
                                 <Report id={id}>
                                     {({ data }) => (
-                                        <Map.With loaded>
-                                            <Source
+                                        <Source
+                                            id={id}
+                                            data={createReportFeatureCollection(
+                                                data
+                                            )}>
+                                            <Layer.Symbol
                                                 id={id}
-                                                data={createReportFeatureCollection(
-                                                    data
-                                                )}>
-                                                <Layer.Symbol
-                                                    id={id}
-                                                    onMouseEnter={onMouseEnter}
-                                                    onMouseLeave={onMouseLeave}
-                                                    {...styles.reports}
-                                                />
-                                            </Source>
-                                        </Map.With>
+                                                onMouseEnter={onMouseEnter}
+                                                onMouseLeave={onMouseLeave}
+                                                {...styles.reports}
+                                            />
+                                        </Source>
                                     )}
                                 </Report>
                             )
@@ -80,30 +78,26 @@ export default class MountainInformationNetwork extends Component {
 
         return (
             <Fragment>
-                <Map.With loaded>
-                    <Source
+                <Source
+                    id={key}
+                    cluster
+                    clusterMaxZoom={14}
+                    data={collections.reports}>
+                    <Layer.Symbol
                         id={key}
-                        cluster
-                        clusterMaxZoom={14}
-                        data={collections.reports}>
-                        <Layer.Symbol
-                            id={key}
-                            filter={filter}
-                            {...props}
-                            {...styles.reports}
-                        />
-                    </Source>
-                    <Source
+                        filter={filter}
+                        {...props}
+                        {...styles.reports}
+                    />
+                </Source>
+                <Source id={`${key}-incidents`} data={collections.incidents}>
+                    <Layer.Symbol
                         id={`${key}-incidents`}
-                        data={collections.incidents}>
-                        <Layer.Symbol
-                            id={`${key}-incidents`}
-                            filter={filter}
-                            {...props}
-                            {...styles.incidents}
-                        />
-                    </Source>
-                </Map.With>
+                        filter={filter}
+                        {...props}
+                        {...styles.incidents}
+                    />
+                </Source>
                 {this.createWithMap(collections)}
             </Fragment>
         )
