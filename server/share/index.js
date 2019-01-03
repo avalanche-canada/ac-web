@@ -91,7 +91,7 @@ function prerenderGuard(fn) {
             return next();
         } else {
             console.log('Showing Prerender...');
-            fn(req, res, next);
+            return fn(req, res, next);
         }
     };
 }
