@@ -32,7 +32,7 @@ export default class MountainInformationNetwork extends Component {
                   ]),
               ]
     }
-    createWithMap = ({ all }) => map => {
+    createWithMap = ({ all }) => {
         return (
             <Location>
                 {props => {
@@ -41,16 +41,31 @@ export default class MountainInformationNetwork extends Component {
                     if (params.has('panel')) {
                         const [type, id] = params.get('panel').split('/')
                         const hasReport = report => report.properties.id !== id
-                        const { onMouseEnter, onMouseLeave } = this.props
 
                         if (type === TYPE && all.every(hasReport)) {
+                            const { onMouseEnter, onMouseLeave } = this.props
+
                             return (
-                                <ActiveReport
-                                    id={id}
-                                    map={map}
-                                    onMouseEnter={onMouseEnter}
-                                    onMouseLeave={onMouseLeave}
-                                />
+                                <Report id={id}>
+                                    {({ data }) => (
+                                        <Map.With loaded>
+                                            <Source
+                                                id={id}
+                                                data={turf.featureCollection(
+                                                    data
+                                                        ? [createFeature(data)]
+                                                        : []
+                                                )}>
+                                                <Layer.Symbol
+                                                    id={id}
+                                                    onMouseEnter={onMouseEnter}
+                                                    onMouseLeave={onMouseLeave}
+                                                    {...styles.reports}
+                                                />
+                                            </Source>
+                                        </Map.With>
+                                    )}
+                                </Report>
                             )
                         }
                     }
@@ -91,7 +106,7 @@ export default class MountainInformationNetwork extends Component {
                         />
                     </Source>
                 </Map.With>
-                <Map.With loaded>{this.createWithMap(collections)}</Map.With>
+                {this.createWithMap(collections)}
             </Fragment>
         )
     }
@@ -103,55 +118,6 @@ export default class MountainInformationNetwork extends Component {
 }
 
 // Utils
-class ActiveReport extends Component {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        map: PropTypes.object, // actually isRequired
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    withReport = ({ data }) => {
-        const { id, map } = this.props
-        const report = turf.featureCollection(data ? [createFeature(data)] : [])
-        const { onMouseEnter, onMouseLeave } = this.props
-
-        return (
-            <Source id={id} map={map} data={report}>
-                <Layer.Symbol
-                    id={id}
-                    onMouseEnter={onMouseEnter}
-                    onMouseLeave={onMouseLeave}
-                    {...styles.reports}
-                />
-            </Source>
-        )
-    }
-    clean(id) {
-        const { map } = this.props
-
-        if (!map.getStyle()) {
-            return
-        }
-
-        if (map.getLayer(id)) {
-            map.removeLayer(id)
-        }
-        if (map.getSource(id)) {
-            map.removeSource(id)
-        }
-    }
-    componentDidUpdate({ id }) {
-        if (this.props.id !== id) {
-            this.clean(id)
-        }
-    }
-    componentWillUnmount() {
-        this.clean(this.props.id)
-    }
-    render() {
-        return <Report id={this.props.id}>{this.withReport}</Report>
-    }
-}
 const TYPE = 'mountain-information-network-submissions'
 function isIncident({ properties }) {
     return INCIDENT in properties
