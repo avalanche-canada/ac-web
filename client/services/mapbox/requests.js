@@ -22,13 +22,13 @@ export function features(dataset) {
     return get(url, PARAMS)
 }
 
+// Constants
 const PLACE_PARAMS = new URLSearchParams({
     country: 'ca,us,au,jp',
     types: 'country,region,locality,place',
     autocomplete: true,
     access_token: accessToken,
 })
-
 const PARAMS = new URLSearchParams({
     access_token: accessToken,
 })

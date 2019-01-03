@@ -1,24 +1,20 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { Locate } from 'components/button'
-import styles from './MountainConditionsReport.css'
 import { InnerHTML } from 'components/misc'
+import styles from './MountainConditionsReport.css'
 
-export default class Location extends PureComponent {
-    static propTypes = {
-        onLocateClick: PropTypes.func.isRequired,
-        description: PropTypes.string.isRequired,
-    }
-    render() {
-        const { onLocateClick, description } = this.props
-
-        return (
-            <div className={styles.Location}>
-                <InnerHTML className={styles.LocationDescription}>
-                    {description}
-                </InnerHTML>
-                <Locate onClick={onLocateClick} />
-            </div>
-        )
-    }
+Location.propTypes = {
+    children: PropTypes.string.isRequired,
 }
+
+function Location({ children }) {
+    return children ? (
+        <div className={styles.Location}>
+            <InnerHTML className={styles.LocationDescription}>
+                {children}
+            </InnerHTML>
+        </div>
+    ) : null
+}
+
+export default memo(Location)

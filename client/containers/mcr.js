@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
-import { reports } from 'api/requests/mcr'
+import * as requests from 'api/requests/mcr'
 
 Report.propTypes = {
     id: PropTypes.number.isRequired,
@@ -10,18 +10,11 @@ Report.propTypes = {
 }
 
 export function Report({ id, children }) {
+    // FIXME Could use payload from <Reports> to reduce requests
     return (
-        <Reports>
-            {({ data, ...props }) => {
-                Object.assign(props, {
-                    data: Array.isArray(data)
-                        ? data.find(report => report.id === id)
-                        : false,
-                })
-
-                return children(props)
-            }}
-        </Reports>
+        <Fetch cache={CACHE} request={requests.report(id)}>
+            {children}
+        </Fetch>
     )
 }
 
@@ -31,7 +24,7 @@ Reports.propTypes = {
 
 export function Reports({ children }) {
     return (
-        <Fetch cache={CACHE} request={reports()}>
+        <Fetch cache={CACHE} request={requests.reports()}>
             {children}
         </Fetch>
     )

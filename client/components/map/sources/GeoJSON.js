@@ -1,5 +1,6 @@
 import { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
+import * as turf from '@turf/helpers'
 import Layer from '../Layer'
 
 export default class GeoJSONSource extends Component {
@@ -21,32 +22,51 @@ export default class GeoJSONSource extends Component {
         ]),
     }
     static defaultProps = {
-        data: {},
+        data: turf.featureCollection([]),
     }
     componentDidMount() {
         const { id, children, map, ...source } = this.props
 
-        Object.assign(source, {
-            type: 'geojson',
-        })
+        Object.assign(source, { type: 'geojson' })
 
         map.addSource(id, source)
         this.forceUpdate()
     }
     componentDidUpdate({ data }) {
         if (data !== this.props.data) {
-            const source = this.props.map.getSource(this.props.id)
-
-            source.setData(this.props.data)
+            setData.call(this, data)
         }
+    }
+    componentWillUnmount() {
+        const { map } = this.props
+
+        if (!map.getStyle()) {
+            return
+        }
+
+        Children.map(this.props.children, child => {
+            map.removeLayer(child.props.id)
+        })
+
+        map.removeSource(this.props.id)
     }
     render() {
         const { id, map } = this.props
 
         return map.getSource(id)
             ? Children.map(this.props.children, layer =>
-                  cloneElement(layer, { source: id, map })
+                  cloneElement(layer, {
+                      source: id,
+                      map,
+                  })
               )
             : null
     }
+}
+
+// Utils
+function setData(data) {
+    const { map, id } = this.props
+
+    map.getSource(id).setData(data)
 }

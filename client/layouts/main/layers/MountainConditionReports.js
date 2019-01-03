@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Location } from '@reach/router'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { Source, Layer, Map } from 'components/map'
-import { Reports } from 'containers/mcr'
+import * as Containers from 'containers/mcr'
 import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
 
 export default class MountainConditionReports extends Component {
@@ -12,30 +13,63 @@ export default class MountainConditionReports extends Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
     }
-    withData = ({ data }) => {
-        return (
-            <Map.With loaded>
-                <Source
-                    id={key}
-                    cluster
-                    clusterMaxZoom={14}
-                    data={createFeatureCollection(data)}>
-                    <Layer.Symbol id={key} {...this.props} {...styles} />
-                </Source>
-            </Map.With>
-        )
+    withLocation = data => props => {
+        const params = new URLSearchParams(props.location.search)
+
+        if (params.has('panel')) {
+            const [type, id] = params.get('panel').split('/')
+
+            if (type === TYPE && data.every(r => r.id != id)) {
+                return (
+                    <Containers.Report id={id}>
+                        {({ data }) => (
+                            <Map.With loaded>
+                                <Source
+                                    id="mountain-conditions-report"
+                                    data={createReportFeatureCollection(data)}>
+                                    <Layer.Symbol
+                                        {...this.props}
+                                        id="mountain-conditions-report"
+                                        {...styles}
+                                    />
+                                </Source>
+                            </Map.With>
+                        )}
+                    </Containers.Report>
+                )
+            }
+        }
+
+        return null
     }
+    addReports = ({ data = [] }) => (
+        <Map.With loaded>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createReportsFeatureCollection(data)}>
+                <Layer.Symbol id={key} {...this.props} {...styles} />
+            </Source>
+            <Location>{this.withLocation(data)}</Location>
+        </Map.With>
+    )
+
     render() {
-        return <Reports>{this.withData}</Reports>
+        return <Containers.Reports>{this.addReports}</Containers.Reports>
     }
 }
 
-// Utils
+// Utils & constants
+const TYPE = 'mountain-conditions-reports'
 function createFeature({ location, title, id }) {
     return turf.point(location, { title, id, type: key })
 }
-const createFeatureCollection = memoize((data = []) =>
+const createReportsFeatureCollection = memoize((data = []) =>
     turf.featureCollection(data.map(createFeature))
+)
+const createReportFeatureCollection = memoize(
+    report => report && turf.featureCollection([createFeature(report)])
 )
 
 // Styles

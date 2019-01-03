@@ -45,6 +45,9 @@ export default class Layer extends PureComponent {
         paint: {},
         layout: {},
     }
+    get map() {
+        return this.props.map
+    }
     componentDidMount() {
         const {
             map,
@@ -70,7 +73,7 @@ export default class Layer extends PureComponent {
     }
     componentDidUpdate({ visible, filter }) {
         if (visible !== this.props.visible) {
-            this.props.map.setLayoutProperty(
+            this.map.setLayoutProperty(
                 this.props.id,
                 'visibility',
                 this.props.visible === false ? 'none' : 'visible'
@@ -79,7 +82,7 @@ export default class Layer extends PureComponent {
         if (!isEqual(filter, this.props.filter)) {
             const { id, filter } = this.props
 
-            this.props.map.setFilter(id, filter)
+            this.map.setFilter(id, filter)
         }
     }
     render() {
