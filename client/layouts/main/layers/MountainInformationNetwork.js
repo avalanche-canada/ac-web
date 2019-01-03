@@ -51,10 +51,8 @@ export default class MountainInformationNetwork extends Component {
                                         <Map.With loaded>
                                             <Source
                                                 id={id}
-                                                data={turf.featureCollection(
+                                                data={createReportFeatureCollection(
                                                     data
-                                                        ? [createFeature(data)]
-                                                        : []
                                                 )}>
                                                 <Layer.Symbol
                                                     id={id}
@@ -146,6 +144,9 @@ const createFeatureCollections = memoize(data => {
         all: features,
     }
 })
+const createReportFeatureCollection = memoize(report =>
+    turf.featureCollection(report ? [createFeature(report)] : [])
+)
 
 // Styles
 const styles = {
