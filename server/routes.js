@@ -86,7 +86,7 @@ module.exports = function(app) {
             res.status(401).send('UnauthorizedError');
         } else {
             if (useRaven) {
-                Raven.captureException(err, {req: req});
+                Raven.captureException(err, {request: req});
             }
             logger.log(
                 'error',
