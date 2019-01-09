@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Router, Link } from '@reach/router'
 import memoize from 'lodash/memoize'
 import throttle from 'lodash/throttle'
+import escapeRegExp from 'lodash/escapeRegExp'
 import { memo } from 'utils/react'
 import { FragmentIdentifier } from 'router'
 import { Headline } from 'components/page'
@@ -395,7 +396,7 @@ function createDefinition(definition) {
     }
 }
 const filterSections = memoize((term, sections) => {
-    const regexp = new RegExp(term, 'gi')
+    const regexp = new RegExp(escapeRegExp(term), 'gi')
     function predicate(definition) {
         return regexp.test(definition.searchable)
     }
