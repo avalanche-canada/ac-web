@@ -98,6 +98,11 @@ function AvalancheCanada() {
                                     title="About"
                                 />
                                 <StaticPage
+                                    path="dangerator"
+                                    uid="dangerator"
+                                    title="Dangerator"
+                                />
+                                <StaticPage
                                     path="mobile"
                                     uid="mobile"
                                     title="Mobile"

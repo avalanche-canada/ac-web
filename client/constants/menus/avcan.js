@@ -10,6 +10,11 @@ const TripPlanner = {
     label: 'Trip Planner',
     to: '/planning/trip-planner',
 }
+const Dangerator = {
+    id: String(id++),
+    label: 'Dangerator',
+    to: '/dangerator',
+}
 const Forecasts = {
     id: String(id++),
     label: 'Forecast Regions',
@@ -106,6 +111,7 @@ const Planning = {
         MountainWeatherForecast,
         ForecasterBlog,
         TripPlanner,
+        Dangerator,
         Gear,
         Forecasts,
     ],
