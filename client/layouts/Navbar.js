@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { navigate } from '@reach/router'
 import AuthContext from 'contexts/auth'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
@@ -60,7 +61,9 @@ export default class AvalancheCanadaNavbar extends Component {
     handleLogoutClick = event => {
         event.preventDefault()
 
-        this.context.logout()
+        this.context.logout().then(() => {
+            navigate('/')
+        })
     }
     render() {
         const { isAuthenticated } = this.context

@@ -18,7 +18,7 @@ export default class Auth0Service {
 
                 this._lock = new Auth0Lock(clientId, domain, {
                     closable: true,
-                    autoclose: true,
+                    autoclose: false,
                     avatar: true,
                     auth: {
                         redirect: true,
@@ -65,7 +65,7 @@ export default class Auth0Service {
             })
         })
     }
-    async login() {
+    async login(events = new Map()) {
         const lock = await this.lock()
 
         return new Promise((fullfil, reject) => {
@@ -83,8 +83,10 @@ export default class Auth0Service {
                 fullfil(this.setAuthResult(authResult))
             })
             lock.on('unrecoverable_error', reject)
-            lock.on('authorization_error', reject)
-            lock.on('hide', reject)
+
+            for (const [event, callback] of events) {
+                lock.on(event, callback)
+            }
         })
     }
     logout() {

@@ -31,8 +31,8 @@ export class Provider extends Component {
             logout: this.logout,
         }
     }
-    login = async () => {
-        const { profile } = await this.service.login()
+    login = async events => {
+        const { profile } = await this.service.login(events)
 
         this.setState({
             isAuthenticated: true,

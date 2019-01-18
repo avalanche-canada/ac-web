@@ -39,11 +39,19 @@ export default class SubmissionForm extends Component {
     }
     async componentDidMount() {
         if (!this.context.isAuthenticated) {
-            try {
-                await this.context.login()
-            } catch (error) {
-                navigate('/')
-            }
+            await this.context.login(
+                new Map([
+                    [
+                        'hide',
+                        () => {
+                            // Forced to be logged in
+                            if (!this.context.isAuthenticated) {
+                                navigate('/')
+                            }
+                        },
+                    ],
+                ])
+            )
         }
 
         try {
