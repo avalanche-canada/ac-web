@@ -84,6 +84,7 @@ export default class Auth0Service {
             })
             lock.on('unrecoverable_error', reject)
             lock.on('authorization_error', reject)
+            lock.on('hide', reject)
         })
     }
     logout() {

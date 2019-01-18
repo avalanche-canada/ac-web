@@ -39,7 +39,11 @@ export default class SubmissionForm extends Component {
     }
     async componentDidMount() {
         if (!this.context.isAuthenticated) {
-            await this.context.login()
+            try {
+                await this.context.login()
+            } catch (error) {
+                navigate('/')
+            }
         }
 
         try {
@@ -50,7 +54,7 @@ export default class SubmissionForm extends Component {
             this.setState({
                 value: value || null,
             })
-        } catch (e) {}
+        } catch (error) {}
     }
     setActiveTab(activeTab) {
         if (typeof activeTab === 'string') {
