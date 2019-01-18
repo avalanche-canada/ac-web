@@ -19,11 +19,11 @@ Condition.propTypes = {
 }
 
 export default function Condition({ mode }) {
-    const text = Texts.get(mode)
-
     if (!HANDLED.has(mode)) {
         return null
     }
+
+    const text = Texts.get(mode)
 
     return (
         <div className={styles.Condition}>
