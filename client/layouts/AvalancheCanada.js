@@ -630,6 +630,8 @@ function Events({ uri }) {
 function Pages() {
     return (
         <Router>
+            <Redirect from="/definition/:uid" to="/glossary/terms/:uid" />
+            <Redirect from="/blog/:uid" to="/blogs/:uid" />
             <StaticPagePages path={`${STATIC_PAGE}/*`} />
             <GenericPages path={`${GENERIC}/*`} />
         </Router>
