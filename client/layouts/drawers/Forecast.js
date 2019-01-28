@@ -14,6 +14,7 @@ import { Fulfilled, Pending } from 'components/fetch'
 import { Region, Regions } from 'containers/features'
 import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
+import { handleForecastTabActivate } from 'services/analytics'
 
 export default class Layout extends PureComponent {
     static propTypes = {
@@ -84,7 +85,9 @@ export default class Layout extends PureComponent {
                                 <components.Metadata />
                                 <components.Headline />
                             </Shim>
-                            <components.TabSet />
+                            <components.TabSet
+                                onTabChange={handleForecastTabActivate}
+                            />
                             <components.Footer />
                         </components.Forecast>
                     </Fulfilled.Found>

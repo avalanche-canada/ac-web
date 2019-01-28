@@ -295,4 +295,4 @@ module.exports = {
             'Please add additional information, for example terrain, aspect, elevation etc. especially if describing many avalanches together.',
         order: 21,
     },
-};
+}

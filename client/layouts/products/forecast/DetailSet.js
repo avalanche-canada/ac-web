@@ -4,27 +4,6 @@ import { Link } from '@reach/router'
 import { InnerHTML } from 'components/misc'
 import Summary from './Summary'
 
-const HTML_REGEX = /<(?:.|\n)*?>/gm
-
-Section.propTypes = {
-    title: PropTypes.string.isRequired,
-    value: PropTypes.string,
-    children: PropTypes.node,
-}
-
-function Section({ title, value, children }) {
-    if (!value || value.replace(HTML_REGEX, '').trim() === '') {
-        return children || null
-    }
-
-    return (
-        <Summary title={title}>
-            <InnerHTML>{value}</InnerHTML>
-            {children}
-        </Summary>
-    )
-}
-
 DetailSet.propTypes = {
     avalanche: PropTypes.string,
     snowpack: PropTypes.string,
@@ -45,3 +24,26 @@ export default function DetailSet({ avalanche, snowpack, weather }) {
         </Fragment>
     )
 }
+
+// Components
+Section.propTypes = {
+    title: PropTypes.string.isRequired,
+    value: PropTypes.string,
+    children: PropTypes.node,
+}
+
+function Section({ title, value, children }) {
+    if (!value || value.replace(HTML_REGEX, '').trim() === '') {
+        return children || null
+    }
+
+    return (
+        <Summary title={title}>
+            <InnerHTML>{value}</InnerHTML>
+            {children}
+        </Summary>
+    )
+}
+
+// Constants
+const HTML_REGEX = /<(?:.|\n)*?>/gm

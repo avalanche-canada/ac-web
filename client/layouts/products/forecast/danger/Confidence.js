@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { memo } from 'utils/react'
 import Summary from '../Summary'
 
 Confidence.propTypes = {
@@ -8,7 +7,7 @@ Confidence.propTypes = {
     comment: PropTypes.string.isRequired,
 }
 
-function Confidence({ level, comment }) {
+export default function Confidence({ level, comment }) {
     return (
         <Summary title="Confidence">
             <dl>
@@ -18,5 +17,3 @@ function Confidence({ level, comment }) {
         </Summary>
     )
 }
-
-export default memo.static(Confidence)

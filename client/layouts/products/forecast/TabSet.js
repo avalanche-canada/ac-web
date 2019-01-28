@@ -2,7 +2,6 @@ import React from 'react'
 import { Consumer } from './Context'
 import { Table, Day, DaySet, Condition, Confidence } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
-import { handleForecastTabActivate } from 'services/analytics'
 import DetailSet from './DetailSet'
 import ProblemSet from './problem'
 
@@ -11,14 +10,11 @@ export default function TabSet(props) {
         <Consumer>
             {forecast =>
                 forecast ? (
-                    <Tabs
-                        theme="LOOSE"
-                        onTabChange={handleTabChange}
-                        {...props}>
+                    <Tabs theme="LOOSE" {...props}>
                         <HeaderSet>
-                            <Header>{HEADERS[0]}</Header>
-                            <Header>{HEADERS[1]}</Header>
-                            <Header>{HEADERS[2]}</Header>
+                            <Header>Danger ratings</Header>
+                            <Header>Problems</Header>
+                            <Header>Details</Header>
                         </HeaderSet>
                         <PanelSet>
                             <Panel>
@@ -54,12 +50,4 @@ export default function TabSet(props) {
             }
         </Consumer>
     )
-}
-
-// Constants
-const HEADERS = ['Danger ratings', 'Problems', 'Details']
-
-// Utils
-function handleTabChange(index) {
-    handleForecastTabActivate(HEADERS[index])
 }

@@ -11,6 +11,7 @@ import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 import { List, ListItem } from 'components/page'
 import Device, { touchable } from 'components/Device'
+import { handleForecastTabActivate } from 'services/analytics'
 
 export default class ForecastLayout extends PureComponent {
     static propTypes = {
@@ -61,7 +62,9 @@ export default class ForecastLayout extends PureComponent {
                         <components.Metadata />
                         <SPAW name={name}>{this.renderSPAW}</SPAW>
                         <components.Headline />
-                        <components.TabSet />
+                        <components.TabSet
+                            onTabChange={handleForecastTabActivate}
+                        />
                         <components.Footer />
                     </components.Forecast>
                 </Fulfilled.Found>

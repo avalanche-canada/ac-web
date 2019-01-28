@@ -41,6 +41,7 @@ export default function Condition({ mode }) {
     )
 }
 
+// Constants
 const ICONS = new Map([
     [EARLY_SEASON, `${domain}images/early_season_icon.svg`],
     [SPRING, `${domain}images/spring_situation_icon.svg`],

@@ -20,6 +20,7 @@ import {
     VANCOUVER_ISLAND,
     AVALANCHE_CANADA,
 } from 'constants/forecast/owners'
+import { handleForecastTabActivate } from 'services/analytics'
 
 // TODO: Could use <Router> to display warning intead of if statments
 
@@ -79,7 +80,7 @@ export default class ArchiveForecast extends PureComponent {
                 <components.Metadata />
                 <components.ArchiveWarning date={this.props.date} />
                 <components.Headline />
-                <components.TabSet />
+                <components.TabSet onTabChange={handleForecastTabActivate} />
                 <components.Footer>
                     <Footer.DangerRatings />
                     <Footer.Disclaimer />

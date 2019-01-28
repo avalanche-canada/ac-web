@@ -7,8 +7,10 @@ export function handleOutboundSponsorClick(event) {
     navigation('Outbound Sponsor', event.currentTarget.href)
 }
 
-export function handleForecastTabActivate(label) {
-    navigation('Forecast Tab activation', label)
+const HEADERS = ['Danger ratings', 'Problems', 'Details']
+
+export function handleForecastTabActivate(index) {
+    navigation('Forecast Tab activation', HEADERS[index])
 }
 
 export function notFound({ pathname }) {
