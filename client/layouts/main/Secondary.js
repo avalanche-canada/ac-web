@@ -22,7 +22,10 @@ export default class Secondary extends PureComponent {
         let children = null
 
         if (params.has('panel')) {
-            const [type, id] = params.get('panel').split('/')
+            const [type, id] = params
+                .get('panel')
+                .split('/')
+                .filter(Boolean)
 
             opened =
                 typeof type === 'string' &&
