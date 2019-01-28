@@ -6,6 +6,7 @@ import {
     STATIC_PAGE,
     DEFINITION,
     TUTORIAL_ARTICLE,
+    FATAL_ACCIDENT,
 } from 'constants/prismic'
 
 export function title(document = {}) {
@@ -26,7 +27,7 @@ export function title(document = {}) {
     }
 }
 
-export function pathname({ type, uid, slug, lang }) {
+export function pathname({ type, uid, lang }) {
     switch (type) {
         case EVENT:
             return `/events/${uid}`
@@ -41,10 +42,9 @@ export function pathname({ type, uid, slug, lang }) {
             return `/${lang === 'fr-ca' ? 'tutoriel' : 'tutorial'}?uid=${uid}`
         case DEFINITION:
             return `/glossary#${uid}`
+        case FATAL_ACCIDENT:
+            return `/map?panel=fatal-accidents/${uid}`
         default:
-            throw new Error(
-                `Can not compute a pathname from Prismic document or props "${type}" & "${uid ||
-                    slug}".`
-            )
+            return `/pages/${type}/${uid}`
     }
 }
