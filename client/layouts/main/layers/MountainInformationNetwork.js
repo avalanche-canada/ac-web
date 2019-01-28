@@ -39,10 +39,17 @@ export default class MountainInformationNetwork extends Component {
                     const params = new URLSearchParams(props.location.search)
 
                     if (params.has('panel')) {
-                        const [type, id] = params.get('panel').split('/')
+                        const [type, id] = params
+                            .get('panel')
+                            .split('/')
+                            .filter(Boolean)
                         const hasReport = report => report.properties.id !== id
 
-                        if (type === TYPE && all.every(hasReport)) {
+                        if (
+                            type === TYPE &&
+                            typeof id === 'string' &&
+                            all.every(hasReport)
+                        ) {
                             const { onMouseEnter, onMouseLeave } = this.props
 
                             return (
