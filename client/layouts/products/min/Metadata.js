@@ -22,7 +22,7 @@ export default function MountainInformationNetworkMetadata({ shareable }) {
                     <Metadata>
                         <Entry term="Submitted by">{report.user}</Entry>
                         <TimestampEntry
-                            term="Submitted on"
+                            term="Observations date"
                             value={report.datetime}
                         />
                         <LocationEntry
