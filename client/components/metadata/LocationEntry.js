@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Toggle } from 'react-powerplug'
 import { Position } from 'components/misc'
 import Entry from './Entry'
-
-// TODO: HOOKS
+import { useToggle } from 'utils/react'
 
 LocationEntry.propTypes = {
     longitude: PropTypes.number.isRequired,
@@ -19,19 +17,17 @@ export default function LocationEntry({
     latitude,
     precision,
 }) {
+    const [on, toggle] = useToggle()
+
     return (
-        <Toggle>
-            {({ on, toggle }) => (
-                <Entry term={term} onClick={toggle} style={STYLE}>
-                    <Position
-                        longitude={longitude}
-                        latitude={latitude}
-                        precision={precision}
-                        dms={on}
-                    />
-                </Entry>
-            )}
-        </Toggle>
+        <Entry term={term} onClick={toggle} style={STYLE}>
+            <Position
+                longitude={longitude}
+                latitude={latitude}
+                precision={precision}
+                dms={on}
+            />
+        </Entry>
     )
 }
 

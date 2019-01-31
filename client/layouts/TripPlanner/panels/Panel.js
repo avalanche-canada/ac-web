@@ -3,6 +3,7 @@ import styles from '../TripPlanner.css'
 import Panel, { INVERSE } from 'components/panel'
 
 // TODO Use Hooks
+// TODO Simplify that!!!
 
 export default class TripPlannerPanel extends PureComponent {
     state = {

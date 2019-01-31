@@ -1,4 +1,4 @@
-import React, { createContext, Component } from 'react'
+import React, { createContext, useContext, Component } from 'react'
 import PropTypes from 'prop-types'
 import * as LAYERS from 'constants/drawers'
 import { LocalStorage } from 'services/storage'
@@ -117,15 +117,15 @@ export class Layer extends Component {
     }
 }
 
-// TODO: Remove when HOOKS appear
-export class Layers extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    static contextType = LayersContext
-    render() {
-        return this.props.children(this.context.layers)
-    }
+// TODO: To remove when consumer of the component gets converted to a function component
+Layers.propTypes = {
+    children: PropTypes.func.isRequired,
+}
+
+export function Layers({ children }) {
+    const { layers } = useContext(LayersContext)
+
+    return children(layers)
 }
 
 // Utils

@@ -1,10 +1,9 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import inside from '@turf/inside'
 import * as turf from '@turf/helpers'
-import { Counter } from 'react-powerplug'
 import Button from 'components/button'
 import { Page, Header, Main, Content } from 'components/page'
 import { Muted, Error } from 'components/text'
@@ -35,6 +34,8 @@ import pin from 'components/icons/min/min-pin.svg'
 import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 
+// TODO use hooks, but needs to be convcerted in a functionnal component
+
 export default class SubmissionList extends Component {
     static propTypes = {
         days: PropTypes.number,
@@ -49,11 +50,16 @@ export default class SubmissionList extends Component {
         regions: new Set(),
         sorting: null,
     }
-    renderError = increment => ({ error }) => {
-        const { onParamsChange } = this.props
+    state = {
+        count: 0,
+    }
+    increment() {
+        this.setState(increment)
+    }
+    renderError = ({ error }) => {
         async function handleResetClick() {
-            await onParamsChange({ days: undefined })
-            increment()
+            await this.props.onParamsChange({ days: undefined })
+            this.increment()
         }
 
         return (
@@ -64,7 +70,7 @@ export default class SubmissionList extends Component {
                 </Error>
                 <Error>{error.message}</Error>
                 {error.name === 'RangeError' && (
-                    <Button onClick={handleResetClick}>
+                    <Button onClick={handleResetClick.bind(this)}>
                         Reset to the last {SubmissionList.defaultProps.days}{' '}
                         days
                     </Button>
@@ -84,7 +90,9 @@ export default class SubmissionList extends Component {
         this.props.onParamsChange({ regions })
     }
     handleSortingChange(name, order) {
-        this.props.onParamsChange({ sorting: [name, order] })
+        this.props.onParamsChange({
+            sorting: [name, order],
+        })
     }
     get from() {
         return subDays(new Date(), this.props.days)
@@ -162,10 +170,7 @@ export default class SubmissionList extends Component {
             return {}
         }
 
-        return {
-            sorter: SORTERS.get(name),
-            reverse: order === DESC,
-        }
+        return { sorter: SORTERS.get(name), reverse: order === DESC }
     }
     get predicates() {
         const { types, regions } = this.props
@@ -180,9 +185,8 @@ export default class SubmissionList extends Component {
         }
 
         if (regions.size > 0) {
-            predicates.push(
-                report =>
-                    'region' in report ? regions.has(report.region.id) : false
+            predicates.push(report =>
+                'region' in report ? regions.has(report.region.id) : false
             )
         }
 
@@ -216,6 +220,8 @@ export default class SubmissionList extends Component {
         )
     }
     render() {
+        const { count } = this.state
+
         return (
             <Page>
                 <Header title="Mountain Information Network — Submissions" />
@@ -223,32 +229,22 @@ export default class SubmissionList extends Component {
                     <Main>
                         <Regions>{props => this.renderForm(props)}</Regions>
                         <Br />
-                        <Counter>
-                            {({ count, inc }) => (
-                                <ErrorBoundary
-                                    key={count}
-                                    fallback={this.renderError(inc)}>
-                                    <Responsive>
-                                        <Table>
-                                            <THead>
-                                                <Row>
-                                                    {COLUMNS.map(
-                                                        this.renderHeader
-                                                    )}
-                                                </Row>
-                                            </THead>
-                                            <Reports days={this.props.days}>
-                                                {props =>
-                                                    this.renderTableContent(
-                                                        props
-                                                    )
-                                                }
-                                            </Reports>
-                                        </Table>
-                                    </Responsive>
-                                </ErrorBoundary>
-                            )}
-                        </Counter>
+                        <ErrorBoundary key={count} fallback={this.renderError}>
+                            <Responsive>
+                                <Table>
+                                    <THead>
+                                        <Row>
+                                            {COLUMNS.map(this.renderHeader)}
+                                        </Row>
+                                    </THead>
+                                    <Reports days={this.props.days}>
+                                        {props =>
+                                            this.renderTableContent(props)
+                                        }
+                                    </Reports>
+                                </Table>
+                            </Responsive>
+                        </ErrorBoundary>
                     </Main>
                 </Content>
             </Page>
@@ -417,4 +413,9 @@ function runSubmissionsSpatialAnalysis(reports, { features }) {
 
         return report
     })
+}
+function increment({ count }) {
+    return {
+        count: count + 1,
+    }
 }

@@ -1,6 +1,5 @@
-import React, { cloneElement, isValidElement } from 'react'
+import React, { cloneElement, isValidElement, useState } from 'react'
 import flatten from 'lodash/flatten'
-import isEqual from 'lodash/isEqual'
 
 const LINE_FEED_REGEX = /(\n)/
 function br(string, index) {
@@ -111,6 +110,17 @@ export const memo = {
     // },
 }
 
+export function useToggle(initialValue) {
+    const [on, set] = useState(initialValue)
+
+    return [
+        on,
+        () => {
+            set(!on)
+        },
+    ]
+}
+
 // Utils
 function addKey(child, index) {
     return isValidElement(child) ? cloneElement(child, { key: index }) : child
@@ -118,9 +128,3 @@ function addKey(child, index) {
 function t() {
     return true
 }
-// function arePropsEqual(
-//     { children: pc, ...prevProps },
-//     { children: np, ...nextProps }
-// ) {
-//     return isEqual(prevProps.nextProps)
-// }

@@ -1,7 +1,6 @@
-import React, { memo } from 'react'
+import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import { Toggle } from 'react-powerplug'
 import Collapse from 'components/collapse'
 import { Expand } from 'components/button'
 import styles from './Panel.css'
@@ -23,38 +22,39 @@ function Panel({
     theme = SIMPLE,
     expandable = false,
     expanded = false,
-    onExpandedChange,
+    onExpandedChange = () => {},
     children,
 }) {
+    const [on, set] = useState(expanded)
     const className = classNames({
         [`Container--${theme}--Expandable`]: expandable,
         [`Container--${theme}`]: !expandable,
     })
+    function toggle() {
+        set(!on)
+        onExpandedChange(!on)
+    }
 
     return (
-        <Toggle initial={expanded} onChange={onExpandedChange}>
-            {({ on, toggle }) => (
-                <div className={className}>
-                    <header
-                        className={styles.Header}
-                        onClick={expandable ? toggle : null}>
-                        {expandable && (
-                            <Expand className={styles.Expand} expanded={on} />
-                        )}
-                        <span className={styles.Title}>{header}</span>
-                    </header>
-                    <div className={styles.Content}>
-                        {expandable ? (
-                            <Collapse collapsed={!on}>
-                                <div style={STYLE_HACK}>{children}</div>
-                            </Collapse>
-                        ) : (
-                            children
-                        )}
-                    </div>
-                </div>
-            )}
-        </Toggle>
+        <div className={className}>
+            <header
+                className={styles.Header}
+                onClick={expandable ? toggle : null}>
+                {expandable && (
+                    <Expand className={styles.Expand} expanded={on} />
+                )}
+                <span className={styles.Title}>{header}</span>
+            </header>
+            <div className={styles.Content}>
+                {expandable ? (
+                    <Collapse collapsed={!on}>
+                        <div style={STYLE_HACK}>{children}</div>
+                    </Collapse>
+                ) : (
+                    children
+                )}
+            </div>
+        </div>
     )
 }
 

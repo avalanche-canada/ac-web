@@ -47,7 +47,6 @@ export default class Loop extends PureComponent {
             )
         }
     }
-
     componentDidUpdate(nextProps) {
         if (!isEqual(nextProps, this.props)) {
             this.computeUrls()

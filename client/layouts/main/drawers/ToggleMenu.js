@@ -1,21 +1,16 @@
-import React, { Component } from 'react'
+import React, { useContext } from 'react'
 import MenuContext from 'contexts/menu'
 import { Menu } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 
-// TODO: HOOKS
+export default function Toggle() {
+    const { toggle } = useContext(MenuContext)
 
-export default class Toggle extends Component {
-    static contextType = MenuContext
-    render() {
-        const { toggle } = this.context
-
-        return (
-            <Button style={STYLE} onClick={toggle} kind={SUBTILE}>
-                <Menu />
-            </Button>
-        )
-    }
+    return (
+        <Button style={STYLE} onClick={toggle} kind={SUBTILE}>
+            <Menu />
+        </Button>
+    )
 }
 
 // Style

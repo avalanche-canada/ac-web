@@ -1,8 +1,8 @@
 import React, { memo, createElement } from 'react'
 import PropTypes from 'prop-types'
-import { Toggle } from 'react-powerplug'
 import classnames from 'classnames/bind'
 import Dimensions from 'components/Dimensions'
+import { useToggle } from 'utils/react'
 import styles from './Credit.css'
 
 Credit.propTypes = {
@@ -12,26 +12,18 @@ Credit.propTypes = {
 }
 
 function Credit({ top, compact, children }) {
-    return (
-        <Toggle>
-            {({ on, toggle }) => {
-                const className = classNames({
-                    Credit: true,
-                    Compact: compact,
-                    Expanded: on,
-                    Top: top,
-                })
+    const [on, toggle] = useToggle(false)
+    const className = classNames({
+        Credit: true,
+        Compact: compact,
+        Expanded: on,
+        Top: top,
+    })
 
-                return (
-                    <span
-                        data-label="Credit"
-                        className={className}
-                        onClick={toggle}>
-                        {children}
-                    </span>
-                )
-            }}
-        </Toggle>
+    return (
+        <span data-label="Credit" className={className} onClick={toggle}>
+            {children}
+        </span>
     )
 }
 
