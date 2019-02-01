@@ -1,5 +1,6 @@
-import React, { cloneElement, isValidElement, useState } from 'react'
+import React, { cloneElement, isValidElement, useState, useEffect } from 'react'
 import flatten from 'lodash/flatten'
+import throttle from 'lodash/throttle'
 
 const LINE_FEED_REGEX = /(\n)/
 function br(string, index) {
@@ -121,10 +122,57 @@ export function useToggle(initialValue) {
     ]
 }
 
+export function useTimeout(elapse = 0) {
+    const [ready, setReady] = useState(false)
+
+    useEffect(
+        () => {
+            let timer = setTimeout(() => {
+                setReady(true)
+            }, elapse)
+
+            return () => {
+                clearTimeout(timer)
+            }
+        },
+        [elapse]
+    )
+
+    return ready
+}
+
+export function useWindowSize(wait = 250) {
+    const [size, setSize] = useState(getWindowSize())
+
+    useEffect(() => {
+        const handleResize = throttle(() => {
+            setSize(getWindowSize())
+        }, wait)
+
+        window.addEventListener('resize', handleResize)
+        window.addEventListener('orientationchange', handleResize)
+
+        return () => {
+            window.removeEventListener('resize', handleResize)
+            window.removeEventListener('orientationchange', handleResize)
+        }
+    }, [])
+
+    return size
+}
+
 // Utils
 function addKey(child, index) {
     return isValidElement(child) ? cloneElement(child, { key: index }) : child
 }
 function t() {
     return true
+}
+function getWindowSize() {
+    return {
+        innerHeight: window.innerHeight,
+        innerWidth: window.innerWidth,
+        outerHeight: window.outerHeight,
+        outerWidth: window.outerWidth,
+    }
 }

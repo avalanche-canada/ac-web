@@ -13,8 +13,6 @@ import parse from './parsers'
 import { FEED } from 'constants/prismic'
 import { FR, EN } from 'constants/locale'
 
-// TODO: HOOKS
-
 MasterRef.CACHE = new Cache(60 * 1000)
 
 function MasterRef({ children }) {
@@ -99,7 +97,7 @@ export function Documents({ children = identity, ...props }) {
     )
 }
 
-// TODO: HOOKS
+// TODO: HOOKS & SUSPENSE
 
 export class Tags extends Component {
     static propTypes = {

@@ -1,31 +1,13 @@
-import { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { useTimeout } from 'utils/react'
 
-// TODO: HOOKS
+// TODO Use Suspense instead of the component
 
-export default class Delay extends PureComponent {
-    static propTypes = {
-        children: PropTypes.node,
-        elapse: PropTypes.number,
-    }
-    static defaultProps = {
-        children: null,
-        elapse: 0,
-    }
-    state = {
-        visible: false,
-    }
-    componentDidMount() {
-        this.timeoutId = window.setTimeout(() => {
-            this.setState({
-                visible: true,
-            })
-        }, this.props.elapse)
-    }
-    componentWillUnmount() {
-        window.clearTimeout(this.timeoutId)
-    }
-    render() {
-        return this.state.visible ? this.props.children : null
-    }
+Delay.propTypes = {
+    children: PropTypes.node,
+    elapse: PropTypes.number,
+}
+
+export default function Delay({ children = null, elapse = 0 }) {
+    return useTimeout(elapse) ? children : null
 }

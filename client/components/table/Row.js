@@ -1,8 +1,9 @@
-import React, { Children, cloneElement, memo, PureComponent } from 'react'
+import React, { Children, cloneElement, memo, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Table.css'
 import { Expand } from 'components/button'
+import { useToggle } from 'utils/react'
 
 Row.propTypes = {
     children: PropTypes.node.isRequired,
@@ -26,54 +27,41 @@ function Row({ children, controlled, onClick }) {
 
 export default memo(Row)
 
-// TODO: HOOKS
+Expandable.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.instanceOf(Row)).isRequired,
+}
 
-export class Expandable extends PureComponent {
-    static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.instanceOf(Row)).isRequired,
-    }
-    state = {
-        expanded: false,
-    }
-    handleExpandedToggle = () => this.setState(toggleExpanded)
-    get children() {
-        const children = this.props.children[0]
-        const lastIndex = Children.count(children.props.children) - 1
-        const cells = Children.map(children.props.children, (child, index) => {
-            if (index !== lastIndex) {
-                return child
-            }
+export function Expandable({ children: [first, second] }) {
+    const [expanded, toggleExpanded] = useToggle(false)
+    const lastIndex = Children.count(first.props.children) - 1
+    const cells = Children.map(first.props.children, (child, index) => {
+        if (index !== lastIndex) {
+            return child
+        }
 
-            return cloneElement(child, TR_WITH_BUTTON_PROPS, [
-                child.props.children,
-                <Expand
-                    key="expand"
-                    expanded={this.state.expanded}
-                    onClick={this.handleExpandedToggle}
-                />,
-            ])
-        })
+        return cloneElement(child, TR_WITH_BUTTON_PROPS, [
+            child.props.children,
+            <Expand
+                key="expand"
+                expanded={expanded}
+                onClick={toggleExpanded}
+            />,
+        ])
+    })
 
-        return cloneElement(children, null, cells)
-    }
-    get controlled() {
-        return cloneElement(this.props.children[1], {
-            controlled: true,
-        })
-    }
-    render() {
-        return this.state.expanded
-            ? [this.children, this.controlled]
-            : this.children
-    }
+    const children = cloneElement(first, null, cells)
+
+    return expanded ? (
+        <Fragment>
+            {children}
+            {cloneElement(second, { controlled: true })}
+        </Fragment>
+    ) : (
+        children
+    )
 }
 
 // Utils
-function toggleExpanded({ expanded }) {
-    return {
-        expanded: !expanded,
-    }
-}
 const TR_WITH_BUTTON_PROPS = {
     style: {
         paddingRight: 36,

@@ -1,38 +1,51 @@
-import React, { createContext, Component } from 'react'
+import React, { createContext, useReducer } from 'react'
 import PropTypes from 'prop-types'
 
-export class Provider extends Component {
-    static propTypes = {
-        children: PropTypes.element.isRequired,
-    }
-    constructor(props) {
-        super(props)
+Provider.propTypes = {
+    children: PropTypes.element.isRequired,
+}
 
-        this.state = {
-            opened: false,
-            open: this.open,
-            close: this.close,
-            toggle: this.toggle,
-        }
-    }
-    open = () => {
-        this.setState({ opened: true })
-    }
-    close = () => {
-        this.setState({ opened: false })
-    }
-    toggle = () => {
-        this.setState(({ opened }) => ({ opened: !opened }))
-    }
-    render() {
-        return (
-            <MenuContext.Provider value={this.state}>
-                {this.props.children}
-            </MenuContext.Provider>
-        )
-    }
+export function Provider({ children }) {
+    const [state, dispatch] = useReducer(reducer, {
+        opened: false,
+        open() {
+            dispatch({ type: OPEN })
+        },
+        close() {
+            dispatch({ type: CLOSE })
+        },
+        toggle() {
+            const type = state.opened ? CLOSE : OPEN
+
+            dispatch({ type })
+        },
+    })
+
+    return <MenuContext.Provider value={state}>{children}</MenuContext.Provider>
 }
 
 const MenuContext = createContext()
 
 export default MenuContext
+
+// Constants
+const OPEN = 'OPEN'
+const CLOSE = 'CLOSE'
+
+// Utils
+function reducer(state, { type }) {
+    switch (type) {
+        case OPEN:
+            return {
+                ...state,
+                opened: true,
+            }
+        case CLOSE:
+            return {
+                ...state,
+                opened: false,
+            }
+        default:
+            return state
+    }
+}

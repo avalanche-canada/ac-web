@@ -1,69 +1,68 @@
-import React, { Component } from 'react'
+import React, { useRef, useLayoutEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
 
-// TODO: HOOKS
+// TODO Should eventually get rid of these components and only use the hooks
 
-export default class Dimensions extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    state = {
-        width: null,
-        height: null,
-    }
-    ref = node => (this.node = node)
-    set = () =>
-        this.node &&
-        this.setState({
-            width: this.node.offsetWidth,
-            height: this.node.offsetHeight,
-        })
-    update = throttle(this.set, 250)
-    componentDidMount() {
-        this.set()
-        window.addEventListener('resize', this.update, false)
-        window.addEventListener('orientationchange', this.update, false)
-    }
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.update)
-        window.removeEventListener('orientationchange', this.update)
-    }
-    render() {
-        const { children, ...props } = this.props
-
-        return (
-            <div {...props} ref={this.ref}>
-                {children(this.state)}
-            </div>
-        )
-    }
+Dimensions.propTypes = {
+    children: PropTypes.func.isRequired,
 }
 
-export class Window extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    state = {
+export default function Dimensions({ children, ...props }) {
+    const node = useRef()
+    const [dimensions, setDimensions] = useState({
+        width: null,
+        height: null,
+    })
+
+    useDimensions(() => {
+        setDimensions({
+            width: node.current.offsetWidth,
+            height: node.current.offsetHeight,
+        })
+    })
+
+    return (
+        <div {...props} ref={node}>
+            {children(dimensions)}
+        </div>
+    )
+}
+
+Window.propTypes = {
+    children: PropTypes.func.isRequired,
+}
+
+export function Window({ children }) {
+    const [dimensions, setDimensions] = useState(getWindowDimensions())
+
+    useDimensions(() => {
+        setDimensions(getWindowDimensions())
+    })
+
+    return children(dimensions)
+}
+
+// Hooks
+function useDimensions(listener) {
+    listener = throttle(listener, 250)
+
+    return useLayoutEffect(() => {
+        listener()
+        window.addEventListener('resize', listener, false)
+        window.addEventListener('orientationchange', listener, false)
+
+        return () => {
+            window.removeEventListener('resize', listener)
+            window.removeEventListener('orientationchange', listener)
+        }
+    }, [])
+}
+
+// Utils
+function getWindowDimensions() {
+    return {
         width: window.innerWidth,
         height: window.innerHeight,
-    }
-    set = () => {
-        this.setState({
-            width: window.innerWidth,
-            height: window.innerHeight,
-        })
-    }
-    update = throttle(this.set, 250)
-    componentDidMount() {
-        window.addEventListener('resize', this.update, false)
-        window.addEventListener('orientationchange', this.update, false)
-    }
-    componentWillUnmount() {
-        window.removeEventListener('resize', this.update)
-        window.removeEventListener('orientationchange', this.update)
-    }
-    render() {
-        return this.props.children(this.state)
     }
 }

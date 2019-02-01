@@ -1,28 +1,24 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import styles from '../TripPlanner.css'
 import Panel, { INVERSE } from 'components/panel'
 
-// TODO Use Hooks
-// TODO Simplify that!!!
+// TODO Not sure we need that component anymore
 
-export default class TripPlannerPanel extends PureComponent {
-    state = {
-        expanded: this.props.expanded || false,
-    }
-    handleExpandedChange = expanded => this.setState({ expanded })
-    render() {
-        const { children, ...props } = this.props
-        const { expanded } = this.state
+export default function TripPlannerPanel({
+    expanded = false,
+    children,
+    ...props
+}) {
+    const [managedExpanded, set] = useState(expanded)
 
-        return (
-            <Panel
-                {...props}
-                onExpandedChange={this.handleExpandedChange}
-                expanded={expanded}
-                expandable
-                theme={INVERSE}>
-                <div className={styles.Panel}>{children}</div>
-            </Panel>
-        )
-    }
+    return (
+        <Panel
+            {...props}
+            onExpandedChange={set}
+            expanded={managedExpanded}
+            expandable
+            theme={INVERSE}>
+            <div className={styles.Panel}>{children}</div>
+        </Panel>
+    )
 }
