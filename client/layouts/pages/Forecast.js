@@ -10,7 +10,7 @@ import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
 import { List, ListItem } from 'components/page'
-import Device, { touchable } from 'components/Device'
+import { isTouchable } from 'utils/device'
 import { handleForecastTabActivate } from 'services/analytics'
 
 export default class ForecastLayout extends PureComponent {
@@ -28,8 +28,8 @@ export default class ForecastLayout extends PureComponent {
         return (
             <SPAWComponent link={link} style={style}>
                 <p>
-                    {description[0].text} <Device>{touchable}</Device> for more
-                    information.
+                    {description[0].text} {isTouchable ? 'Tap' : 'Click'} for
+                    more information.
                 </p>
             </SPAWComponent>
         )

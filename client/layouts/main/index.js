@@ -8,7 +8,6 @@ import { memo } from 'utils/react'
 import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
-import Device from 'components/Device'
 import { captureException } from 'services/sentry'
 import { Warning } from 'components/icons'
 import Primary from './Primary'
@@ -18,6 +17,7 @@ import externals, { open } from 'router/externals'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
 import * as TYPES from 'constants/drawers'
+import { isTouchable } from 'utils/device'
 import styles from './Map.css'
 
 const MAX_DRAWER_WIDTH = 500
@@ -237,30 +237,23 @@ class LinkControlSet extends PureComponent {
             />,
         ]
     }
-    renderer = ({ isTouchable }) => {
-        if (isTouchable) {
-            return <Fragment>{this.links}</Fragment>
-        }
-
-        const { tooltips } = this
-
-        return (
-            <Fragment>
-                {this.links.map((link, index) => (
-                    <Wrapper
-                        key={index}
-                        tooltip={tooltips[index]}
-                        placement="right">
-                        {link}
-                    </Wrapper>
-                ))}
-            </Fragment>
-        )
-    }
     render() {
         return (
             <div className={styles.LinkControlSet}>
-                <Device>{this.renderer}</Device>
+                {isTouchable ? (
+                    <Fragment>{this.links}</Fragment>
+                ) : (
+                    <Fragment>
+                        {this.links.map((link, index) => (
+                            <Wrapper
+                                key={index}
+                                tooltip={this.tooltips[index]}
+                                placement="right">
+                                {link}
+                            </Wrapper>
+                        ))}
+                    </Fragment>
+                )}
                 {this.props.children}
             </div>
         )
@@ -280,11 +273,7 @@ const ErrorIndicator = memo.static(function ErrorIndicator() {
             An error happened while initializing the map. Therefore, some
             functionnalities might not be available.
             <br />
-            <Device>
-                {({ isTouchable }) =>
-                    `${isTouchable ? 'Tap' : 'Click'} to reload the map.`
-                }
-            </Device>
+            {isTouchable ? 'Tap' : 'Click'} to reload the map.
         </div>
     )
 

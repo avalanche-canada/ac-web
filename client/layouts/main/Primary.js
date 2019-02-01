@@ -9,6 +9,7 @@ import externals from 'router/externals'
 import styles from 'styles/components.css'
 
 // TODO: HOOKS
+// "opened" is used outside!!!
 
 export default class Primary extends Component {
     static propTypes = {

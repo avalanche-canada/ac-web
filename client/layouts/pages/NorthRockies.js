@@ -4,7 +4,7 @@ import { Sidebar } from 'layouts/products/forecast'
 import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
-import Device, { touchable } from 'components/Device'
+import { isTouchable } from 'utils/device'
 
 export default class NorthRockies extends PureComponent {
     renderSPAW = ({ document }) => {
@@ -17,8 +17,8 @@ export default class NorthRockies extends PureComponent {
         return (
             <SPAWComponent link={link} style={style}>
                 <p>
-                    {description[0].text} <Device>{touchable}</Device> for more
-                    information.
+                    {description[0].text} {isTouchable ? 'Tap' : 'Click'} for
+                    more information.
                 </p>
             </SPAWComponent>
         )

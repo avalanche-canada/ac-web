@@ -1,81 +1,67 @@
-import React, { PureComponent, cloneElement, Children, memo } from 'react'
+import React, { cloneElement, Children, memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import Button, { INCOGNITO } from 'components/button'
 import { ExpandMore, ExpandLess } from 'components/icons'
+import { useToggle } from 'utils/react'
 import styles from './Tabs.css'
 
-// TODO: HOOKS
+const COMPACT = 'COMPACT'
+const LOOSE = 'LOOSE'
 
-export default class HeaderSet extends PureComponent {
-    static propTypes = {
-        children: PropTypes.arrayOf(PropTypes.element).isRequired,
-        activeTab: PropTypes.number,
-        onTabChange: PropTypes.func,
-        theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
-        stacked: PropTypes.bool,
-    }
-    static defaultProps = {
-        theme: 'COMPACT',
-        stacked: false,
-    }
-    state = {
-        expanded: false,
-    }
-    cloneHeader(header, index) {
-        return cloneElement(header, {
-            isActive: index === this.props.activeTab,
-            onActivate: () => {
-                const { disabled } = header.props
+HeaderSet.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    activeTab: PropTypes.number,
+    onTabChange: PropTypes.func,
+    theme: PropTypes.oneOf([LOOSE, COMPACT]),
+    stacked: PropTypes.bool,
+}
 
-                if (disabled) {
-                    return
-                }
+// FIXME Tried to have defaults params and it does not work. Need to investigate.
+HeaderSet.defaultProps = {
+    theme: COMPACT,
+    stacked: false,
+}
 
-                this.props.onTabChange(index)
-            },
-        })
-    }
-    get expand() {
-        return (
-            <Button type="button" kind={INCOGNITO}>
-                {this.state.expanded ? (
-                    <ExpandLess inverse />
-                ) : (
-                    <ExpandMore inverse />
+export default function HeaderSet({
+    theme,
+    stacked,
+    children,
+    onTabChange,
+    activeTab,
+}) {
+    const [expanded, toggleExpanded] = useToggle(false)
+    const className = classNames({
+        HeaderSet: true,
+        'HeaderSet--Loose': theme === LOOSE,
+        'HeaderSet--Compact': theme === COMPACT,
+        'HeaderSet--Stacked': stacked,
+        'HeaderSet--Expanded': expanded,
+    })
+
+    return (
+        <div className={className} onClick={stacked && toggleExpanded}>
+            {Children.toArray(children)
+                .filter(Boolean)
+                .map((header, index) =>
+                    cloneElement(header, {
+                        isActive: index === activeTab,
+                        onActivate() {
+                            if (header.props.disabled) {
+                                return
+                            }
+
+                            onTabChange(index)
+                        },
+                    })
                 )}
-            </Button>
-        )
-    }
-    handleClick = () => {
-        if (!this.props.stacked) {
-            return
-        }
-
-        this.setState(state => ({
-            expanded: !state.expanded,
-        }))
-    }
-    render() {
-        const { theme, stacked, children } = this.props
-        const { expanded } = this.state
-        const className = classNames({
-            HeaderSet: true,
-            'HeaderSet--Loose': theme === 'LOOSE',
-            'HeaderSet--Compact': theme === 'COMPACT',
-            'HeaderSet--Stacked': stacked,
-            'HeaderSet--Expanded': expanded,
-        })
-
-        return (
-            <div className={className} onClick={this.handleClick}>
-                {Children.toArray(children)
-                    .filter(Boolean)
-                    .map(this.cloneHeader, this)}
-                {stacked && this.expand}
-            </div>
-        )
-    }
+            {stacked && (
+                <Button type="button" kind={INCOGNITO}>
+                    {expanded ? <ExpandLess inverse /> : <ExpandMore inverse />}
+                </Button>
+            )}
+        </div>
+    )
 }
 
 Header.propTypes = {

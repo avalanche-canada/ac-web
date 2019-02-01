@@ -7,7 +7,7 @@ import { Document } from 'prismic/containers'
 import { spaw } from 'prismic/params'
 import { Banner } from 'components/application'
 import { SessionStorage } from 'services/storage'
-import Device, { touchable } from 'components/Device'
+import { isTouchable } from 'utils/device'
 
 export default class SPAW extends PureComponent {
     storage = SessionStorage.create()
@@ -34,8 +34,8 @@ export default class SPAW extends PureComponent {
                     dismissable>
                     <Link {...link}>
                         <p>
-                            {description[0].text} <Device>{touchable}</Device>{' '}
-                            for more information
+                            {description[0].text}{' '}
+                            {isTouchable ? 'Tap' : 'Click'} for more information
                         </p>
                     </Link>
                 </Highlight>

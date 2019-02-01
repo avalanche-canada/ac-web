@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Locate } from 'components/button'
 import { Wrapper } from 'components/tooltip'
-import Device from 'components/Device'
+import { isTouchable } from 'utils/device'
 
 DisplayOnMap.propTypes = {
     onClick: PropTypes.func.isRequired,
@@ -11,18 +11,12 @@ DisplayOnMap.propTypes = {
 function DisplayOnMap({ onClick }) {
     const link = <Locate onClick={onClick} style={LOCATE_STYLE} />
 
-    return (
-        <Device>
-            {({ isTouchable }) =>
-                isTouchable ? (
-                    link
-                ) : (
-                    <Wrapper tooltip="Display on map" placement="left">
-                        {link}
-                    </Wrapper>
-                )
-            }
-        </Device>
+    return isTouchable ? (
+        link
+    ) : (
+        <Wrapper tooltip="Display on map" placement="left">
+            {link}
+        </Wrapper>
     )
 }
 

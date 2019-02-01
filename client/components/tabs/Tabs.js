@@ -1,62 +1,47 @@
-import React, { Component, Children, cloneElement } from 'react'
+import React, { Children, cloneElement, useState } from 'react'
 import PropTypes from 'prop-types'
 import HeaderSet from './HeaderSet'
 import PanelSet from './PanelSet'
 import styles from './Tabs.css'
 
-// TODO: HOOKS
+Tabs.propTypes = {
+    children: PropTypes.element.isRequired,
+    theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
+    activeTab: PropTypes.number,
+    onTabChange: PropTypes.func,
+}
 
-export default class Tabs extends Component {
-    static propTypes = {
-        children: PropTypes.element.isRequired,
-        theme: PropTypes.oneOf(['LOOSE', 'COMPACT']),
-        defaultActiveTab: PropTypes.number,
-        activeTab: PropTypes.number,
-        onTabChange: PropTypes.func,
-    }
-    static defaultProps = {
-        theme: 'COMPACT',
-        onTabChange() {},
-    }
-    state = {
-        activeTab: this.props.activeTab || this.props.defaultActiveTab || 0,
-    }
-    handleTabChange = activeTab => {
-        this.setState({ activeTab }, () => {
-            this.props.onTabChange(activeTab)
-        })
-    }
-    componentDidUpdate() {
-        const { activeTab } = this.props
+Tabs.defaultProps = {
+    theme: 'COMPACT',
+    onTabChange() {},
+}
 
-        if (
-            typeof activeTab === 'number' &&
-            activeTab !== this.state.activeTab
-        ) {
-            this.setState({ activeTab })
-        }
-    }
-    renderChild = child => {
-        const { activeTab } = this.state
+export default function Tabs({ onTabChange, children, theme, ...props }) {
+    const [activeTab, setActiveTab] = useState(props.activeTab || 0)
 
-        switch (child.type) {
-            case HeaderSet:
-                return cloneElement(child, {
-                    activeTab,
-                    onTabChange: this.handleTabChange,
-                    theme: child.props.theme || this.props.theme,
-                })
-            case PanelSet:
-                return cloneElement(child, { activeTab })
-            default:
-                throw new Error('Wrong child provided to Tabs components')
-        }
-    }
-    render() {
-        return (
-            <div className={styles.Tabs}>
-                {Children.map(this.props.children, this.renderChild)}
-            </div>
-        )
-    }
+    return (
+        <div className={styles.Tabs}>
+            {Children.map(children, child => {
+                switch (child.type) {
+                    case HeaderSet:
+                        return cloneElement(child, {
+                            activeTab,
+                            onTabChange(activeTab) {
+                                setActiveTab(activeTab)
+                                onTabChange(activeTab)
+                            },
+                            theme: child.props.theme || theme,
+                        })
+                    case PanelSet:
+                        return cloneElement(child, {
+                            activeTab,
+                        })
+                    default:
+                        throw new Error(
+                            'Wrong child provided to Tabs components'
+                        )
+                }
+            })}
+        </div>
+    )
 }

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 
 // TODO: HOOKS
+// Where the heck this ref is coming from?
 
 export default class Ratio extends Component {
     static propTypes = {

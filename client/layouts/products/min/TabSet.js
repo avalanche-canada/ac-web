@@ -51,7 +51,7 @@ class TabSetComponent extends Component {
     }
     render() {
         return (
-            <Tabs defaultActiveTab={this.activeTab}>
+            <Tabs activeTab={this.activeTab}>
                 <HeaderSet>{TYPES.map(this.renderHeader)}</HeaderSet>
                 <PanelSet>{TYPES.map(this.renderPanel)}</PanelSet>
             </Tabs>
@@ -64,7 +64,10 @@ export default function TabSet() {
         <Consumer>
             {report =>
                 report && Array.isArray(report.obs) ? (
-                    <TabSetComponent observations={report.obs} />
+                    <TabSetComponent
+                        key={report.subid}
+                        observations={report.obs}
+                    />
                 ) : null
             }
         </Consumer>

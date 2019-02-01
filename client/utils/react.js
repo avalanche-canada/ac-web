@@ -170,9 +170,7 @@ function t() {
 }
 function getWindowSize() {
     return {
-        innerHeight: window.innerHeight,
-        innerWidth: window.innerWidth,
-        outerHeight: window.outerHeight,
-        outerWidth: window.outerWidth,
+        height: window.innerHeight,
+        width: window.innerWidth,
     }
 }
