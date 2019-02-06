@@ -15,9 +15,7 @@ export function Provider({ children }) {
             dispatch({ type: CLOSE })
         },
         toggle() {
-            const type = state.opened ? CLOSE : OPEN
-
-            dispatch({ type })
+            dispatch({ type: state.opened ? CLOSE : OPEN })
         },
     })
 
