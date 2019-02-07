@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { memo, Fragment, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { Responsive, PageSizeSelector } from 'components/table'
 import {
@@ -19,36 +19,57 @@ import { StructuredText } from 'prismic/components/base'
 import { Documents } from 'prismic/containers'
 import * as Predicates from 'prismic/predicates'
 
-// TODO: HOOKS
+PrismicTable.propTypes = {
+    value: PropTypes.array.isRequired,
+}
 
-export default class PrismicTable extends PureComponent {
-    static propTypes = {
-        value: PropTypes.array.isRequired,
-    }
-    state = {
+function PrismicTable({ value }) {
+    const columns = value.map(createColumn)
+    const type = value?.[0]?.source
+    const [
+        {
+            sorting,
+            pageSize,
+            page,
+            onSortingChange,
+            onPageSizeChange,
+            onPageChange,
+        },
+        dispatch,
+    ] = useReducer(reducer, {
         sorting: [null, NONE],
         pageSize: 10,
         page: 1,
+        onSortingChange(...payload) {
+            dispatch({ type: SORTING, payload })
+        },
+        onPageSizeChange(pageSize) {
+            dispatch({ type: PAGE_SIZE, payload: pageSize })
+        },
+        onPageChange(page) {
+            dispatch({ type: PAGE, payload: page })
+        },
+    })
+    const orderings = []
+    const [name, order] = sorting
+
+    if (name && order !== NONE) {
+        orderings.push(
+            `my.${type}.${snakeCase(name)} ${
+                order === DESC ? 'desc' : ''
+            }`.trim()
+        )
     }
-    columns = this.props.value.map(createColumn)
-    handleSortingChange(name, order) {
-        this.setState({
-            sorting: [name, order],
-            page: 1,
-        })
+
+    const params = {
+        predicates: [Predicates.type(type)],
+        orderings,
+        pageSize,
+        page,
     }
-    handlePageSizeChange = pageSize => {
-        this.setState({
-            pageSize,
-            page: 1,
-        })
-    }
-    handlePageChange = page => {
-        this.setState({ page })
-    }
-    getSorting(column) {
+    function getSorting(column) {
         if (column.sortable) {
-            const [name, order] = this.state.sorting
+            const [name, order] = sorting
 
             if (column.name === name) {
                 return order
@@ -57,98 +78,96 @@ export default class PrismicTable extends PureComponent {
             return NONE
         }
     }
-    get type() {
-        return this.props?.value?.[0]?.source
-    }
-    get params() {
-        const { pageSize, page } = this.state
-        const [name, order] = this.state.sorting
-        const orderings = []
 
-        if (name && order !== NONE) {
-            orderings.push(
-                `my.${this.type}.${snakeCase(name)} ${
-                    order === DESC ? 'desc' : ''
-                }`.trim()
-            )
-        }
-
-        return {
-            predicates: [Predicates.type(this.type)],
-            orderings,
-            pageSize,
-            page,
-        }
-    }
-    renderRow = row => {
-        return (
-            <Row key={row.id}>
-                {this.columns.map(({ name, property }) => (
-                    <Cell key={name}>{property(row.data)}</Cell>
-                ))}
-            </Row>
-        )
-    }
-    renderContent({
-        documents = [],
-        loading,
-        total_pages,
-        total_results_size,
-    }) {
-        this.totalPages = total_pages || this.totalPages
-
-        return (
-            <Fragment>
-                <Br />
-                <Responsive>
-                    <Table bordered>
-                        <Header>
-                            <Row>
-                                {this.columns.map(column => (
-                                    <HeaderCell
-                                        key={column.name}
-                                        sorting={this.getSorting(column)}
-                                        onSortingChange={this.handleSortingChange.bind(
-                                            this,
-                                            column.name
-                                        )}>
-                                        {column.title}
-                                    </HeaderCell>
+    return (
+        <Documents {...params}>
+            {({ documents = [], loading, total_pages, total_results_size }) => (
+                <Fragment>
+                    <Br />
+                    <Responsive>
+                        <Table bordered>
+                            <Header>
+                                <Row>
+                                    {columns.map(column => (
+                                        <HeaderCell
+                                            key={column.name}
+                                            sorting={getSorting(column)}
+                                            onSortingChange={onSortingChange.bind(
+                                                null,
+                                                column.name
+                                            )}>
+                                            {column.title}
+                                        </HeaderCell>
+                                    ))}
+                                </Row>
+                            </Header>
+                            <TBody>
+                                {documents.map(row => (
+                                    <Row key={row.id}>
+                                        {columns.map(({ name, property }) => (
+                                            <Cell key={name}>
+                                                {property(row.data)}
+                                            </Cell>
+                                        ))}
+                                    </Row>
                                 ))}
-                            </Row>
-                        </Header>
-                        <TBody>{documents.map(this.renderRow)}</TBody>
-                        <Caption>
-                            {loading ? (
-                                <Loading>Loading documents...</Loading>
-                            ) : (
-                                <Muted>
-                                    {`Total of ${total_results_size} documents
+                            </TBody>
+                            <Caption>
+                                {loading ? (
+                                    <Loading>Loading documents...</Loading>
+                                ) : (
+                                    <Muted>
+                                        {`Total of ${total_results_size} documents
                                     found.`}
-                                </Muted>
-                            )}
-                        </Caption>
-                    </Table>
-                </Responsive>
-                <PageSizeSelector
-                    value={this.state.pageSize}
-                    onChange={this.handlePageSizeChange}
-                    suffix="documents par page"
-                />
-                <Pagination
-                    active={this.state.page}
-                    onChange={this.handlePageChange}
-                    total={this.totalPages}
-                />
-            </Fragment>
-        )
-    }
-    render() {
-        return (
-            <Documents {...this.params}>
-                {props => this.renderContent(props)}
-            </Documents>
-        )
+                                    </Muted>
+                                )}
+                            </Caption>
+                        </Table>
+                    </Responsive>
+                    <PageSizeSelector
+                        value={pageSize}
+                        onChange={onPageSizeChange}
+                        suffix="documents par page"
+                    />
+                    <Pagination
+                        active={page}
+                        onChange={onPageChange}
+                        total={total_pages}
+                    />
+                </Fragment>
+            )}
+        </Documents>
+    )
+}
+
+export default memo(PrismicTable)
+
+// Reducer
+const SORTING = 'SORTING'
+const PAGE_SIZE = 'PAGE_SIZE'
+const PAGE = 'PAGE'
+
+function reducer(state, { type, payload }) {
+    switch (type) {
+        case SORTING:
+            return {
+                ...state,
+                sorting: payload,
+                page: 1,
+            }
+        case PAGE_SIZE:
+            return {
+                ...state,
+                pageSize: payload,
+                page: 1,
+            }
+        case PAGE:
+            return {
+                ...state,
+                page: payload,
+            }
+        default:
+            return state
     }
 }
 
