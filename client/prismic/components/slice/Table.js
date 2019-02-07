@@ -26,17 +26,7 @@ PrismicTable.propTypes = {
 function PrismicTable({ value }) {
     const columns = value.map(createColumn)
     const type = value?.[0]?.source
-    const [
-        {
-            sorting,
-            pageSize,
-            page,
-            onSortingChange,
-            onPageSizeChange,
-            onPageChange,
-        },
-        dispatch,
-    ] = useReducer(reducer, {
+    const initial = {
         sorting: [null, NONE],
         pageSize: 10,
         page: 1,
@@ -49,9 +39,10 @@ function PrismicTable({ value }) {
         onPageChange(page) {
             dispatch({ type: PAGE, payload: page })
         },
-    })
+    }
+    const [state, dispatch] = useReducer(reducer, initial)
     const orderings = []
-    const [name, order] = sorting
+    const [name, order] = state.sorting
 
     if (name && order !== NONE) {
         orderings.push(
@@ -64,12 +55,13 @@ function PrismicTable({ value }) {
     const params = {
         predicates: [Predicates.type(type)],
         orderings,
-        pageSize,
-        page,
+        pageSize: state.pageSize,
+        page: state.page,
     }
+
     function getSorting(column) {
         if (column.sortable) {
-            const [name, order] = sorting
+            const [name, order] = state.sorting
 
             if (column.name === name) {
                 return order
@@ -92,7 +84,7 @@ function PrismicTable({ value }) {
                                         <HeaderCell
                                             key={column.name}
                                             sorting={getSorting(column)}
-                                            onSortingChange={onSortingChange.bind(
+                                            onSortingChange={state.onSortingChange.bind(
                                                 null,
                                                 column.name
                                             )}>
@@ -125,13 +117,13 @@ function PrismicTable({ value }) {
                         </Table>
                     </Responsive>
                     <PageSizeSelector
-                        value={pageSize}
-                        onChange={onPageSizeChange}
+                        value={state.pageSize}
+                        onChange={state.onPageSizeChange}
                         suffix="documents par page"
                     />
                     <Pagination
-                        active={page}
-                        onChange={onPageChange}
+                        active={state.page}
+                        onChange={state.onPageChange}
                         total={total_pages}
                     />
                 </Fragment>
@@ -142,7 +134,7 @@ function PrismicTable({ value }) {
 
 export default memo(PrismicTable)
 
-// Reducer
+// Reducer and actions
 const SORTING = 'SORTING'
 const PAGE_SIZE = 'PAGE_SIZE'
 const PAGE = 'PAGE'
