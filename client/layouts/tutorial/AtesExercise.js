@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Media, Caption } from 'components/media'
 import { Image, StructuredText } from 'prismic/components/base'
@@ -8,54 +8,48 @@ import styles from './ATESExercise.css'
 // Constants
 const VALUES = ['Simple', 'Challenging', 'Complex']
 
-export default class ATESExercise extends Component {
-    static propTypes = {
-        nonRepeat: PropTypes.shape({
-            answer: PropTypes.oneOf(VALUES).isRequired,
-            credit: PropTypes.string,
-            caption: PropTypes.array.isRequired,
-            image: PropTypes.shape({
-                main: PropTypes.shape({
-                    url: PropTypes.string.isRequired,
-                }).isRequired,
+ATESExercise.propTypes = {
+    nonRepeat: PropTypes.shape({
+        answer: PropTypes.oneOf(VALUES).isRequired,
+        credit: PropTypes.string,
+        caption: PropTypes.array.isRequired,
+        image: PropTypes.shape({
+            main: PropTypes.shape({
+                url: PropTypes.string.isRequired,
             }).isRequired,
         }).isRequired,
-    }
-    state = {
-        picked: null,
-    }
-    pickAnswer = event => {
-        this.setState({
-            picked: event.target.value,
-        })
-    }
-    render() {
-        const { image, credit, answer, caption } = this.props.nonRepeat
-        const { picked } = this.state
+    }).isRequired,
+}
 
-        return (
-            <div className={styles.Container}>
-                <Media>
-                    <Image url={image.main.url} copyright={credit} />
-                    <Caption>
-                        <StructuredText value={caption} />
-                        <div className={styles.Choices}>
-                            {VALUES.map(value => (
-                                <Input
-                                    key={value}
-                                    value={value}
-                                    onChange={this.pickAnswer}
-                                    picked={picked}>
-                                    <Translate>{value}</Translate>
-                                </Input>
-                            ))}
-                        </div>
-                        {picked && (picked === answer ? <Yep /> : <Nope />)}
-                    </Caption>
-                </Media>
-            </div>
-        )
+export default function ATESExercise({ nonRepeat }) {
+    const { image, credit, answer, caption } = nonRepeat
+    const [picked, pick] = useState(null)
+    function handleChange(event) {
+        pick(event.target.value)
     }
+
+    return (
+        <div className={styles.Container}>
+            <Media>
+                <Image url={image.main.url} copyright={credit} />
+                <Caption>
+                    <StructuredText value={caption} />
+                    <div className={styles.Choices}>
+                        {VALUES.map(value => (
+                            <Input
+                                key={value}
+                                value={value}
+                                onChange={handleChange}
+                                picked={picked}>
+                                <Translate>{value}</Translate>
+                            </Input>
+                        ))}
+                    </div>
+                    {picked && (picked === answer ? <Yep /> : <Nope />)}
+                </Caption>
+            </Media>
+        </div>
+    )
 }
 
 // Utils

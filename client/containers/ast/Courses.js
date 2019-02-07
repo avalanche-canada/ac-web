@@ -7,42 +7,41 @@ import { Memory } from 'components/fetch/Cache'
 import isAfter from 'date-fns/is_after'
 import * as ast from 'api/requests/ast'
 
-export default class CoursesContainer extends Component {
-    static propTypes = {
-        children: PropTypes.element.isRequired,
-        level: PropTypes.string,
-        from: PropTypes.instanceOf(Date),
-        to: PropTypes.instanceOf(Date),
-        tags: PropTypes.instanceOf(Set),
-    }
-    children = ({ data, loading }) => {
-        const props = { loading }
-        let results = data?.results
-
-        if (Array.isArray(results)) {
-            const now = new Date()
-
-            results = results.filter(course => isAfter(course.date_end, now))
-
-            props.courses = getFilters(this.props)
-                .reduce(filterReducer, results)
-                .sort(sorter)
-        }
-
-        return this.props.children(props)
-    }
-    render() {
-        return (
-            <Fetch cache={CACHE} request={ast.courses(PARAMS)}>
-                {this.children}
-            </Fetch>
-        )
-    }
+CoursesContainer.propTypes = {
+    children: PropTypes.func.isRequired,
+    level: PropTypes.string,
+    from: PropTypes.instanceOf(Date),
+    to: PropTypes.instanceOf(Date),
+    tags: PropTypes.instanceOf(Set),
 }
 
-const CACHE = new Memory()
+export default function CoursesContainer({ children, ...params }) {
+    return (
+        <Fetch cache={CACHE} request={ast.courses(PARAMS)}>
+            {({ data, loading }) => {
+                const props = { loading }
+                let results = data?.results
 
-// Utils
+                if (Array.isArray(results)) {
+                    const now = new Date()
+
+                    results = results.filter(course =>
+                        isAfter(course.date_end, now)
+                    )
+
+                    props.courses = getFilters(params)
+                        .reduce(filterReducer, results)
+                        .sort(sorter)
+                }
+
+                return children(props)
+            }}
+        </Fetch>
+    )
+}
+
+// Utils and constants
+const CACHE = new Memory()
 const PARAMS = {
     page_size: 1000,
 }

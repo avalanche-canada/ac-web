@@ -268,6 +268,7 @@ class Home extends Component {
         )
     }
 }
+
 class Tutorial extends Component {
     static propTypes = {
         ['*']: PropTypes.string.isRequired,
@@ -358,6 +359,7 @@ class Tutorial extends Component {
         )
     }
 }
+
 class NoDocument extends Component {
     static propTypes = {
         uid: PropTypes.string.isRequired,
