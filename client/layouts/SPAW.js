@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, memo } from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import Highlight, { DANGER } from 'components/highlight'
@@ -47,16 +47,21 @@ export default class SPAW extends PureComponent {
     }
 }
 
-export class Region extends PureComponent {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    children = ({ document }) =>
-        document && document.data[camelCase(this.props.name)] === 'Yes'
-            ? this.props.children({ document })
-            : null
-    render() {
-        return <Document {...spaw()}>{this.children}</Document>
-    }
+BaseRegion.propTypes = {
+    name: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired,
 }
+
+function BaseRegion({ name, children }) {
+    return (
+        <Document {...spaw()}>
+            {({ document }) =>
+                document && document.data[camelCase(name)] === 'Yes'
+                    ? children({ document })
+                    : null
+            }
+        </Document>
+    )
+}
+
+export const Region = memo(BaseRegion)

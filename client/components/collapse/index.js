@@ -1,61 +1,51 @@
-import React, { PureComponent, cloneElement, Children, createRef } from 'react'
+import React, { useRef, cloneElement, Children, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Motion, spring } from 'react-motion'
 
 export const HEIGHT = 'HEIGHT'
 export const WIDTH = 'WIDTH'
 
-export default class Collapse extends PureComponent {
-    static propTypes = {
-        collapsed: PropTypes.bool.isRequired,
-        dimension: PropTypes.oneOf([HEIGHT, WIDTH]),
-        children: PropTypes.node.isRequired,
-    }
-    static defaultProps = {
-        collapsed: true,
-        dimension: HEIGHT,
-    }
-    collapsable = createRef()
-    get computed() {
-        const collapsable = this.collapsable.current
+Collapse.propTypes = {
+    collapsed: PropTypes.bool.isRequired,
+    dimension: PropTypes.oneOf([HEIGHT, WIDTH]),
+    children: PropTypes.node.isRequired,
+}
+Collapse.defaultProps = {
+    collapsed: true,
+    dimension: HEIGHT,
+}
 
-        if (!collapsable) {
-            return null
-        }
+function Collapse({ collapsed, dimension, children }) {
+    const collapsable = useRef()
+    let computed = null
 
-        const { dimension } = this.props
+    if (collapsable.current) {
         const margins = MARGINS.get(dimension)
         const propertyName = `offset${TITLIZED.get(dimension)}`
 
-        return (
-            collapsable[propertyName] +
-            styleOf(collapsable, margins[0]) +
-            styleOf(collapsable, margins[1])
-        )
+        computed =
+            collapsable.current[propertyName] +
+            styleOf(collapsable.current, margins[0]) +
+            styleOf(collapsable.current, margins[1])
     }
-    render() {
-        const { collapsed, dimension, children } = this.props
-        const { computed } = this
-        const defaultStyle = {
-            value: collapsed ? 0 : computed,
-        }
-        const style = {
-            value: spring(collapsed ? 0 : computed),
-        }
 
-        return (
-            <Motion defaultStyle={defaultStyle} style={style}>
-                {style => (
-                    <div style={computeStyle(dimension, style.value, computed)}>
-                        {cloneElement(Children.only(children), {
-                            ref: this.collapsable,
-                        })}
-                    </div>
-                )}
-            </Motion>
-        )
-    }
+    const defaultStyle = { value: collapsed ? 0 : computed }
+    const style = { value: spring(collapsed ? 0 : computed) }
+
+    return (
+        <Motion defaultStyle={defaultStyle} style={style}>
+            {style => (
+                <div style={computeStyle(dimension, style.value, computed)}>
+                    {cloneElement(Children.only(children), {
+                        ref: collapsable,
+                    })}
+                </div>
+            )}
+        </Motion>
+    )
 }
+
+export default memo(Collapse)
 
 // Utils
 function styleOf({ style }, propertyName) {
