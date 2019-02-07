@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
 import { Motion, spring, presets } from 'react-motion'
 import Cabinet from './Cabinet'
@@ -6,42 +6,32 @@ import styles from './Drawer.css'
 import noop from 'lodash/noop'
 import { findNode, getPath, getParent } from 'utils/tree'
 
-export default class Layout extends Component {
-    static propTypes = {
-        menu: PropTypes.object,
-        show: PropTypes.bool.isRequired,
-        onClose: PropTypes.func.isRequired,
-        location: PropTypes.object.isRequired,
-    }
-    state = {
-        node: null,
-    }
-    setNode = node => this.setState({ node })
-    shouldComponentUpdate({ show, location }, { node }) {
-        return (
-            show !== this.props.show ||
-            location !== this.props.location ||
-            node !== this.state.node
-        )
-    }
-    componentDidUpdate({ location }) {
-        if (location !== this.props.location) {
-            this.props.onClose()
-        }
-    }
-    render() {
-        const { menu, location, ...props } = this.props
-
-        return (
-            <Animated
-                root={menu}
-                node={this.state.node}
-                {...props}
-                setNode={this.setNode}
-            />
-        )
-    }
+Layout.propTypes = {
+    menu: PropTypes.object,
+    show: PropTypes.bool.isRequired,
+    onClose: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
 }
+
+function Layout({ menu, location, ...props }) {
+    const [node, setNode] = useState(null)
+
+    useEffect(
+        () => {
+            props.onClose()
+        },
+        [location]
+    )
+
+    return <Animated root={menu} node={node} {...props} setNode={setNode} />
+}
+
+export default memo(
+    Layout,
+    (prevProps, nextProps) =>
+        prevProps.show === nextProps.show &&
+        prevProps.location === nextProps.location
+)
 
 const preset = presets.noWobble
 

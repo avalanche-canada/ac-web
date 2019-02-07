@@ -29,6 +29,8 @@ export default function Dimensions({ children, ...props }) {
     )
 }
 
+// TODO Remove that <Window> component
+
 Window.propTypes = {
     children: PropTypes.func.isRequired,
 }

@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { supported } from 'utils/mapbox'
 
@@ -17,29 +17,25 @@ export function notFound({ pathname }) {
     navigation('Not Found', pathname, { nonInteraction: true })
 }
 
-export default class Analytics extends Component {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        children: PropTypes.element.isRequired,
-    }
-    log() {
-        const { pathname } = this.props.location
+Analytics.propTypes = {
+    location: PropTypes.object.isRequired,
+    children: PropTypes.element.isRequired,
+}
 
-        ga('send', 'pageview', pathname)
-    }
-    componentDidMount() {
+export default function Analytics({ location, children }) {
+    useEffect(() => {
         ga('set', 'transport', 'beacon')
         ga('set', MAPBOXGL_SUPPORTED, supported().toString())
-        this.log()
-    }
-    componentDidUpdate({ location }) {
-        if (this.props.location.pathname !== location.pathname) {
-            this.log()
-        }
-    }
-    render() {
-        return this.props.children
-    }
+    }, [])
+
+    useEffect(
+        () => {
+            ga('send', 'pageview', location.pathname)
+        },
+        [location.pathname]
+    )
+
+    return children
 }
 
 // Utils and constants

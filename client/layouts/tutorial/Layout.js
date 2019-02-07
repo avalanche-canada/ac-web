@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect, Location } from '@reach/router'
 import { Document } from 'prismic/containers'
@@ -11,7 +11,6 @@ import * as LocaleContext from 'contexts/locale'
 import SliceComponents from 'prismic/components/slice/rework'
 import { Loading } from 'components/text'
 import Pager, { Previous, Next } from 'components/pager'
-import { Window } from 'components/Dimensions'
 import Shim from 'components/Shim'
 import Drawer, {
     Close,
@@ -28,6 +27,7 @@ import Quiz from './Quiz'
 import Question from './Question'
 import Button, { SUBTILE } from 'components/button'
 import dictionnaries from './locales'
+import { useWindowSize } from 'utils/react'
 import { FR, EN } from 'constants/locale'
 
 // TODO: Use Context to propagate the tutorial document
@@ -105,78 +105,59 @@ export default class Layout extends Component {
         )
     }
 }
-class Sidebar extends Component {
-    static propTypes = {
-        title: PropTypes.string.isRequired,
-        items: PropTypes.array.isRequired,
-        location: PropTypes.object.isRequired,
-    }
-    static defaultProps = {
-        items: [],
-    }
-    state = {
-        open: false,
-    }
-    componentDidUpdate({ location }) {
-        if (location !== this.props.location) {
-            this.closeDrawer()
-        }
-    }
-    toggleDrawer = () => this.setState(toggleDrawer)
-    closeDrawer = () => this.setState({ open: false })
-    get tree() {
-        const { path } = this.props
 
-        return (
-            <Tree>
-                {this.props.items
-                    .reduce(reduceTreeNode, [])
-                    .map(node => renderTreeNode(node, path))}
-            </Tree>
-        )
-    }
-    render() {
-        const { title } = this.props
+Sidebar.propTypes = {
+    title: PropTypes.string.isRequired,
+    path: PropTypes.string.isRequired,
+    items: PropTypes.array.isRequired,
+    location: PropTypes.object.isRequired,
+}
 
-        return (
-            <Window>
-                {({ width }) =>
-                    width > 860 ? (
-                        <Page.Aside style={ASIDE_STYLE}>
-                            <Shim vertical right>
-                                {this.tree}
-                            </Shim>
-                        </Page.Aside>
-                    ) : (
-                        <Fragment>
-                            <Button
-                                kind={SUBTILE}
-                                onClick={this.toggleDrawer}
-                                style={BUTTON_STYLE}>
-                                <Menu />
-                            </Button>
-                            <Drawer
-                                open={this.state.open}
-                                width={0.75 * width}
-                                backdrop
-                                onCloseClick={this.closeDrawer}>
-                                <Container>
-                                    <Navbar>
-                                        <Close onClick={this.closeDrawer} />
-                                    </Navbar>
-                                    <Header
-                                        subject={title}
-                                        style={HEADER_STYLE}
-                                    />
-                                    <Body>{this.tree}</Body>
-                                </Container>
-                            </Drawer>
-                        </Fragment>
-                    )
-                }
-            </Window>
-        )
+function Sidebar({ title, location, items = [], path }) {
+    const { width } = useWindowSize()
+    const [open, setOpen] = useState(false)
+    function toggle() {
+        setOpen(!open)
     }
+    function close() {
+        setOpen(false)
+    }
+    const tree = (
+        <Tree>
+            {items
+                .reduce(reduceTreeNode, [])
+                .map(node => renderTreeNode(node, path))}
+        </Tree>
+    )
+
+    useEffect(close, [location.pathname])
+
+    return width > 860 ? (
+        <Page.Aside style={ASIDE_STYLE}>
+            <Shim vertical right>
+                {tree}
+            </Shim>
+        </Page.Aside>
+    ) : (
+        <Fragment>
+            <Button kind={SUBTILE} onClick={toggle} style={BUTTON_STYLE}>
+                <Menu />
+            </Button>
+            <Drawer
+                open={open}
+                width={0.75 * width}
+                backdrop
+                onCloseClick={close}>
+                <Container>
+                    <Navbar>
+                        <Close onClick={close} />
+                    </Navbar>
+                    <Header subject={title} style={HEADER_STYLE} />
+                    <Body>{tree}</Body>
+                </Container>
+            </Drawer>
+        </Fragment>
+    )
 }
 
 class Content extends Component {
