@@ -1,35 +1,18 @@
-import { Component, Children, cloneElement } from 'react'
+import { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 
-export default class OptionSet extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        onChange: PropTypes.func,
-        value: PropTypes.oneOfType([
-            PropTypes.instanceOf(Set),
-            PropTypes.string,
-            PropTypes.number,
-        ]),
-    }
-    handleClick = option => {
-        const { onChange, value } = this.props
+OptionSet.propTypes = {
+    children: PropTypes.node.isRequired,
+    onChange: PropTypes.func,
+    value: PropTypes.oneOfType([
+        PropTypes.instanceOf(Set),
+        PropTypes.string,
+        PropTypes.number,
+    ]),
+}
 
-        if (value instanceof Set) {
-            const values = new Set(Array.from(value))
-
-            if (values.has(option)) {
-                values.delete(option)
-            } else {
-                values.add(option)
-            }
-
-            onChange(values)
-        } else {
-            onChange(option)
-        }
-    }
-    cloneOption = (option, index) => {
-        const { value } = this.props
+export default function OptionSet({ children, value, onChange }) {
+    return Children.map(children, (option, index) => {
         let active = false
 
         if (value instanceof Set) {
@@ -41,10 +24,21 @@ export default class OptionSet extends Component {
         return cloneElement(option, {
             key: index,
             active,
-            onClick: this.handleClick,
+            onClick(option) {
+                if (value instanceof Set) {
+                    const values = new Set(Array.from(value))
+
+                    if (values.has(option)) {
+                        values.delete(option)
+                    } else {
+                        values.add(option)
+                    }
+
+                    onChange(values)
+                } else {
+                    onChange(option)
+                }
+            },
         })
-    }
-    render() {
-        return Children.map(this.props.children, this.cloneOption)
-    }
+    })
 }

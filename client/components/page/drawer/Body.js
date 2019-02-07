@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
 import styles from './Drawer.css'
 
+// TODO Improve that component with the container
+
 export default class Body extends Component {
     static propTypes = {
         children: PropTypes.node,

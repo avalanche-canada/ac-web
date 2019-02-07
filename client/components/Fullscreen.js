@@ -13,7 +13,7 @@ if ('onfullscreenchange' in document) {
 }
 
 // TODO: Investigate to improve this component using refs
-// TODO Reword, target should be target.current
+// TODO Rework, target should be target.current
 
 export default class Fullscreen extends Component {
     static propTypes = {

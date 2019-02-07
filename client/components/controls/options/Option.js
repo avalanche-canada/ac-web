@@ -1,37 +1,32 @@
-import React, { Component, isValidElement } from 'react'
+import React, { isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import styles from './OptionSet.css'
 
-export default class Option extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-            .isRequired,
-        active: PropTypes.bool,
-        onClick: PropTypes.func,
-    }
-    static defaultProps = {
-        onClick() {},
-    }
-    handleMouseDown = () => {
-        this.props.onClick(this.props.value)
-    }
-    get className() {
-        const name = this.props.active ? 'Option--Active' : 'Option'
+Option.propTypes = {
+    children: PropTypes.node.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    active: PropTypes.bool,
+    onClick: PropTypes.func,
+}
 
-        return styles[name]
+export default function Option({
+    children,
+    value,
+    active,
+    onClick = () => {},
+}) {
+    const title = isValidElement(children) ? value : children
+    const name = active ? 'Option--Active' : 'Option'
+    function handleMouseDown() {
+        onClick(value)
     }
-    render() {
-        const { children, value } = this.props
-        const title = isValidElement(children) ? value : children
 
-        return (
-            <div
-                title={title}
-                className={this.className}
-                onMouseDown={this.handleMouseDown}>
-                {children}
-            </div>
-        )
-    }
+    return (
+        <div
+            title={title}
+            className={styles[name]}
+            onMouseDown={handleMouseDown}>
+            {children}
+        </div>
+    )
 }
