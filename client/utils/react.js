@@ -144,19 +144,22 @@ export function useTimeout(elapse = 0) {
 export function useWindowSize(wait = 250) {
     const [size, setSize] = useState(getWindowSize())
 
-    useEffect(() => {
-        const handleResize = throttle(() => {
-            setSize(getWindowSize())
-        }, wait)
+    useEffect(
+        () => {
+            const handleResize = throttle(() => {
+                setSize(getWindowSize())
+            }, wait)
 
-        window.addEventListener('resize', handleResize)
-        window.addEventListener('orientationchange', handleResize)
+            window.addEventListener('resize', handleResize)
+            window.addEventListener('orientationchange', handleResize)
 
-        return () => {
-            window.removeEventListener('resize', handleResize)
-            window.removeEventListener('orientationchange', handleResize)
-        }
-    }, [])
+            return () => {
+                window.removeEventListener('resize', handleResize)
+                window.removeEventListener('orientationchange', handleResize)
+            }
+        },
+        [wait]
+    )
 
     return size
 }
