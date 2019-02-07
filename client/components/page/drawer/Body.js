@@ -1,42 +1,39 @@
-import React, { Component, createRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
 import styles from './Drawer.css'
 
 // TODO Improve that component with the container
 
-export default class Body extends Component {
-    static propTypes = {
-        children: PropTypes.node,
-        onScroll: PropTypes.func,
-    }
-    static defaultProps = {
-        onScroll() {},
-    }
-    ref = createRef()
-    handleScroll = throttle(() => {
-        if (!this.ref?.current) {
-            return
-        }
+Body.propTypes = {
+    children: PropTypes.node,
+    onScroll: PropTypes.func,
+}
+Body.defaultProps = {
+    onScroll() {},
+}
 
-        const { scrollLeft, scrollTop } = this.ref.current
+export default function Body({ children, onScroll, ...props }) {
+    const ref = useRef()
+    const handleScroll = useMemo(() => {
+        return throttle(() => {
+            if (!ref?.current) {
+                return
+            }
 
-        this.props.onScroll({
-            left: scrollLeft,
-            top: scrollTop,
-        })
-    }, 250)
-    render() {
-        const { children, onScroll, ...props } = this.props
+            const { scrollLeft, scrollTop } = ref.current
 
-        return (
-            <div
-                {...props}
-                ref={this.ref}
-                onScroll={this.handleScroll}
-                className={styles.Body}>
-                {children}
-            </div>
-        )
-    }
+            onScroll({ left: scrollLeft, top: scrollTop })
+        }, 250)
+    })
+
+    return (
+        <div
+            {...props}
+            ref={ref}
+            onScroll={handleScroll}
+            className={styles.Body}>
+            {children}
+        </div>
+    )
 }
