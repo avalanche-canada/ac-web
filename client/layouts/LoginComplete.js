@@ -4,6 +4,9 @@ import AuthContext from 'contexts/auth'
 import { captureException } from 'services/sentry'
 import { Loading, Headline } from 'components/page'
 import { Muted, Error } from 'components/text'
+import { Generic } from 'prismic/layouts'
+
+// TODO Rework w/ <Suspense> & HOOKS
 
 export default class LoginComplete extends Component {
     static propTypes = {
@@ -64,28 +67,32 @@ export default class LoginComplete extends Component {
 
         return (
             <Loading title="Loggin in progress...">
-                <Headline>
-                    {error ? (
-                        <Fragment>
+                {error ? (
+                    <Fragment>
+                        <Headline>
                             <Error>
-                                An error happened while login you in. Please try
-                                another{' '}
+                                An error happened while login you in. You can
+                                try another{' '}
                                 <a href="#" onClick={this.login}>
                                     login
                                 </a>
                                 .
                             </Error>
-                            <a href="#" onClick={this.toggleMoreDetails}>
-                                {showMoreDetails ? 'Less' : 'More'} details...
-                            </a>
-                            {showMoreDetails && (
-                                <Error>{JSON.stringify(error, null, 4)}</Error>
-                            )}
-                        </Fragment>
-                    ) : (
+                        </Headline>
+                        <Generic uid="login-help" />
+                        <a href="#" onClick={this.toggleMoreDetails}>
+                            {showMoreDetails ? 'Less' : 'More'} details about
+                            the error...
+                        </a>
+                        {showMoreDetails && (
+                            <Error>{JSON.stringify(error, null, 4)}</Error>
+                        )}
+                    </Fragment>
+                ) : (
+                    <Headline>
                         <Muted>You will be redirected once we are done!</Muted>
-                    )}
-                </Headline>
+                    </Headline>
+                )}
             </Loading>
         )
     }
