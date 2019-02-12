@@ -61,7 +61,6 @@ function parseDocument(document, transformer = identity) {
         type,
         first_publication_date,
         last_publication_date,
-        tags,
         data,
         ...rest
     } = document
@@ -70,7 +69,6 @@ function parseDocument(document, transformer = identity) {
         type,
         firstPublicationDate: parseDate(first_publication_date),
         lastPublicationDate: parseDate(last_publication_date),
-        tags: normalizeTags(tags),
         data: parseData(data[type]),
     })
 
@@ -91,11 +89,4 @@ export function parseLocation(document) {
     const { location } = parse(document).data
 
     return location ? [location.longitude, location.latitude] : null
-}
-
-// TODO: Remove that function. We should not need that, after cleaning up the tags
-function normalizeTags(tags) {
-    if (Array.isArray(tags)) {
-        return Array.from(new Set(tags.map(tag => tag.trim().toLowerCase())))
-    }
 }
