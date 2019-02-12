@@ -252,12 +252,12 @@ module.exports = {
                         {
                             id: String(id++),
                             label: 'News',
-                            to: '/news?tags=Snowmobiler&tags=snowmobile',
+                            to: '/sled#news',
                         },
                         {
                             id: String(id++),
                             label: 'Events',
-                            to: '/events?tags=Snowmobiler&timeline=upcoming',
+                            to: '/sled#events',
                         },
                         {
                             id: String(id++),

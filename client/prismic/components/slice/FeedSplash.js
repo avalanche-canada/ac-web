@@ -1,9 +1,13 @@
 import React, { memo } from 'react'
 import { Splash } from 'layouts/feed'
 import { StructuredText } from 'prismic/components/base'
+import { FragmentIdentifier } from 'router'
+import Shim from 'components/Shim'
 
 function FeedSplash({ value }) {
-    let [{ type, tags, header }] = value
+    let [{ type, tags, header, hash }] = value
+
+    header = <StructuredText value={header} />
 
     tags =
         typeof tags === 'string'
@@ -12,7 +16,15 @@ function FeedSplash({ value }) {
 
     return (
         <Splash type={TYPES.get(type)} tags={tags}>
-            <StructuredText value={header} />
+            <Shim right>
+                {hash ? (
+                    <FragmentIdentifier hash={hash}>
+                        {header}
+                    </FragmentIdentifier>
+                ) : (
+                    { header }
+                )}
+            </Shim>
         </Splash>
     )
 }
