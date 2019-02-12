@@ -5,11 +5,11 @@ import { Documents } from 'prismic/containers'
 import { feed } from 'prismic/params'
 import Sidebar, { Header, Item } from 'components/sidebar'
 import { Loading } from 'components/text'
-import { EVENT, NEWS, BLOG } from 'constants/prismic'
+import { EVENT, NEWS, BLOG, FEED } from 'constants/prismic'
 import { pathname, title } from 'utils/prismic'
 
 FeedSidebar.propTypes = {
-    type: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(FEED).isRequired,
     uid: PropTypes.string.isRequired,
 }
 

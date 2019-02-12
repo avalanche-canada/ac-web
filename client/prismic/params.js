@@ -200,7 +200,7 @@ export const feed = {
         if (type === types.EVENT) {
             predicates.push(
                 Predicates.dateAfter(
-                    `my.${types.EVENT}.start_date`,
+                    `my.${type}.start_date`,
                     formatDate(new Date(), DATE)
                 )
             )
@@ -213,30 +213,13 @@ export const feed = {
         }
     },
     sidebar({ type, uid }) {
-        const predicates = [
-            Predicates.type(type),
-            Predicates.not(`my.${type}.uid`, uid),
-        ]
-        let ordering
+        const params = feed.splash({ type })
 
-        // TODO: Reuse a bit of the functions from FeedSplash container
-        if (type === types.EVENT) {
-            predicates.push(
-                Predicates.dateAfter(
-                    `my.${types.EVENT}.start_date`,
-                    formatDate(startOfTomorrow(), DATE)
-                )
-            )
-            ordering = `my.${types.EVENT}.start_date`
-        } else {
-            predicates.push(Predicates.tags('featured'))
-            ordering = `my.${type}.date desc`
-        }
+        params.predicates.push(Predicates.not(`my.${type}.uid`, uid))
 
         return {
-            predicates,
+            ...params,
             pageSize: 7,
-            orderings: [ordering],
         }
     },
     blog({ year, month, category, page = 1, pageSize = 10 }) {
