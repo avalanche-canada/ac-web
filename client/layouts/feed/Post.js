@@ -1,6 +1,6 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from '@reach/router'
+import { Redirect, Link } from '@reach/router'
 import { Loading } from 'components/text'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
@@ -9,10 +9,11 @@ import { Metadata, Entry } from 'components/metadata'
 import { DateElement, Range, dateTimeFormatGetter } from 'components/time'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
-import { NEWS, BLOG, EVENT } from 'constants/prismic'
+import { NEWS, BLOG, EVENT, FEED } from 'constants/prismic'
+import { TagSet, Tag } from 'components/tag'
 
 Post.propTypes = {
-    type: PropTypes.oneOf([NEWS, BLOG, EVENT]).isRequired,
+    type: PropTypes.oneOf(FEED).isRequired,
     uid: PropTypes.string.isRequired,
 }
 
@@ -74,6 +75,8 @@ function PostMetadata({
     hostedBy,
     startDate,
     endDate,
+    tags,
+    type,
 }) {
     const hasDateRange =
         startDate && endDate && startDate.getTime() !== endDate.getTime()
@@ -98,6 +101,19 @@ function PostMetadata({
             )}
             {source && <Entry term="Source">{source}</Entry>}
             {hostedBy && <Entry term="Hosted by">{hostedBy}</Entry>}
+            {tags.length && (
+                <Entry term="Tagged under">
+                    <TagSet>
+                        {tags.map(tag => (
+                            <Tag key={tag}>
+                                <Link to={`/${PATHS.get(type)}?tags=${tag}`}>
+                                    {tag}
+                                </Link>
+                            </Tag>
+                        ))}
+                    </TagSet>
+                </Entry>
+            )}
         </Metadata>
     )
 }
@@ -116,3 +132,5 @@ function PostContent({ headline, content }) {
 function PostHeader({ post }) {
     return <Header title={post?.title || 'Loading...'} />
 }
+
+const PATHS = new Map([[NEWS, 'news'], [BLOG, 'blogs'], [EVENT, 'events']])
