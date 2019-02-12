@@ -22,7 +22,7 @@ function FeedSplash({ value }) {
                         {header}
                     </FragmentIdentifier>
                 ) : (
-                    { header }
+                    header
                 )}
             </Shim>
         </Splash>
