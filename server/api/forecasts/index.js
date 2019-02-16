@@ -5,7 +5,6 @@ var router = express.Router();
 var avalx = require('./avalx');
 var WebCache = require('webcache');
 var WebCacheRedis = require('webcache-redis');
-var gm = require('gm');
 var moment = require('moment');
 var request = require('request');
 var logger = require('../../logger');
