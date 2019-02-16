@@ -9,7 +9,7 @@ var testObs = require('./test_data/test-obs.json');
 
 describe('json schema', function() {
     describe('MIN schema', function() {
-        //it('tv4 thinks it is a valid json schema', function(done) {
+        //test('tv4 thinks it is a valid json schema', function(done) {
         //   // var validateSchema = jsen({"$ref": "http://json-schema.org/draft-04/schema#"});
         //    var tv4 = require('tv4');
         //    var metaSchema = {"$ref": "http://json-schema.org/draft-04/schema#"};
@@ -22,7 +22,7 @@ describe('json schema', function() {
         //
         //    });
         //});
-        it('validates as valid jsonschema with ajv', function() {
+        test('validates as valid jsonschema with ajv', function() {
             // var validateSchema = jsen({"$ref": "http://json-schema.org/draft-04/schema#"});
             var ajv = new Ajv();
             var validate = ajv.compile({
@@ -33,7 +33,7 @@ describe('json schema', function() {
             //console.log(JSON.stringify(min.jsonSchema, null, ' '));
             assert(ajvValid, JSON.stringify(validate.errors, null, '  '));
         });
-        it('validiates a test object', function() {
+        test('validiates a test object', function() {
             var ajv = new Ajv();
             var validate = ajv.compile(min.jsonSchema);
             var isSchemaValid = validate(testObs);
@@ -46,7 +46,7 @@ describe('json schema', function() {
     });
 
     describe('HZR schema', function() {
-        it('validates as a valid jsonschema with ajv', function() {
+        test('validates as a valid jsonschema with ajv', function() {
             // var validateSchema = jsen({"$ref": "http://json-schema.org/draft-04/schema#"});
             var hzrSchema = require('./hzr/schema.json');
             var ajv = new Ajv();

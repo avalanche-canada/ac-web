@@ -23,7 +23,7 @@ var assertNotMatch = (pattern, input) => {
 
 describe('schema converter', function() {
     describe('date time', function() {
-        it('time pattern should match 12h', function() {
+        test('time pattern should match 12h', function() {
             var json = min.converters.datetime({
                 type: 'datetime',
                 showOnlyTime: true,
@@ -33,7 +33,7 @@ describe('schema converter', function() {
             assertMatch(json.pattern, '2:00 AM');
             assertMatch(json.pattern, '2:11 PM');
         });
-        it('time pattern should only match valid 12h times', function() {
+        test('time pattern should only match valid 12h times', function() {
             var json = min.converters.datetime({
                 type: 'datetime',
                 showOnlyTime: true,
@@ -43,7 +43,7 @@ describe('schema converter', function() {
             assertNotMatch(json.pattern, '2:00 AM XXXX');
             assertNotMatch(json.pattern, '2:00 rM');
         });
-        it('date pattern should only match valid dates', function() {
+        test('date pattern should only match valid dates', function() {
             var json = min.converters.datetime({
                 type: 'datetime',
                 showOnlyDate: true,
@@ -51,7 +51,7 @@ describe('schema converter', function() {
             assertMatch(json.pattern, '2016-01-01');
             assertMatch(json.pattern, '0000-00-00');
         });
-        it('date pattern should match only dates (no time)', function() {
+        test('date pattern should match only dates (no time)', function() {
             var json = min.converters.datetime({
                 type: 'datetime',
                 showOnlyDate: true,
@@ -60,7 +60,7 @@ describe('schema converter', function() {
         });
     });
 
-    it('disallows whitespace in strings', function() {
+    test('disallows whitespace in strings', function() {
         var form = testutils.loadValidMin();
         form.snowpackReport.snowpackObsComment = '  \t\t  ';
 

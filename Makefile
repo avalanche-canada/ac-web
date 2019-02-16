@@ -92,5 +92,4 @@ test-swagger:
 .PHONY: build prod webpack clean zip clean push-dev server-copy test purge-dev-builds server-dev test-swagger
 
 test:
-	find server -name '*_test.js' | xargs npm run mocha
 	npm run test -- -u

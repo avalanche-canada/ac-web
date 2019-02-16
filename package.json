@@ -134,7 +134,6 @@
         "jshint-stylish": "~0.1.5",
         "mapbox-gl": "0.52.0",
         "mini-css-extract-plugin": "^0.4.3",
-        "mocha": "^3.0.2",
         "nodemon": "^1.11.0",
         "optimize-css-assets-webpack-plugin": "^5.0.1",
         "postcss-cli": "^5.0.1",
