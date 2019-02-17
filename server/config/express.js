@@ -17,6 +17,20 @@ var cors = require('cors');
 
 var ROOT = path.normalize(__dirname + '/../..');
 
+var logger = require('../logger')
+
+/*
+ * Log when the method override header is used. We have middleware that makes
+ * this work and I want to remove it. Lets see if anyone is actually using this
+ * feature first
+ */
+function logMethodOverrideHeaders(req, res, next) {
+    if (req.headers['x-http-method-override']) {
+        logger.warn('METHOD_OVERRIDE: ' + JSON.stringify(req.headers))
+    }
+    next();
+}
+
 module.exports = function(app) {
     var env = app.get('env');
 
@@ -24,6 +38,7 @@ module.exports = function(app) {
     app.set('views', ROOT + '/server/views');
     app.set('view engine', 'jade');
     app.use(compression());
+    app.use(logMethodOverrideHeaders);
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(methodOverride());
