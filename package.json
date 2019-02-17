@@ -24,7 +24,7 @@
         "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
         "errorhandler": "~1.0.0",
         "es6-promise": "^3.1.2",
-        "express": "~4.8.0",
+        "express": "^4.16.4",
         "express-http-proxy": "^0.6.0",
         "express-jwt": "5.3.0",
         "express-session": "~1.0.2",
