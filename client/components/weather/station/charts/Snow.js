@@ -8,14 +8,14 @@ import {
     VictoryAxis,
     VictoryContainer,
 } from 'victory'
+import range from 'lodash/range'
+import isFinite from 'lodash/isFinite'
 import { PRIMARY as SECONDARY_BLUE } from 'constants/colors'
 import { formatHours, barEvents, scatterEvents } from '../utils'
 import format from 'date-fns/format'
 import { setUTCOffset } from 'utils/date'
 import theme from './theme'
-import range from 'lodash/range'
 import { filterDataset, shouldShowGraph } from './filters'
-import isFinite from 'lodash/isFinite'
 
 const PRIMARY_BLUE = 'rgb(150, 186, 233)'
 
@@ -116,11 +116,17 @@ const STYLE = {
 }
 
 function getNewSnowLabels({ x, y, utcOffset }) {
-    return `New snow: ${y} cm\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
+    return `New snow: ${y} cm\n${format(
+        setUTCOffset(x, utcOffset),
+        'dddd, MMMM D, HH[h]'
+    )}`
 }
 
 function getSnowHeightLabels({ x, y, utcOffset }) {
-    return `Snow height: ${Math.round(y)} cm\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
+    return `Snow height: ${Math.round(y)} cm\n${format(
+        setUTCOffset(x, utcOffset),
+        'dddd, MMMM D, HH[h]'
+    )}`
 }
 
 function computeSnowHeightDomain(data) {
@@ -215,7 +221,7 @@ export default function SnowHeight({ data, min, max, width, height }) {
                     />
                 </g>
                 <g style={STYLE.group}>
-                    {showNewSnow &&
+                    {showNewSnow && (
                         <VictoryBar
                             standalone={false}
                             width={width}
@@ -237,9 +243,10 @@ export default function SnowHeight({ data, min, max, width, height }) {
                                     style={theme.tooltip.style}
                                 />
                             }
-                        />}
+                        />
+                    )}
 
-                    {showSnowHeight &&
+                    {showSnowHeight && (
                         <VictoryLine
                             standalone={false}
                             width={width}
@@ -253,8 +260,9 @@ export default function SnowHeight({ data, min, max, width, height }) {
                             }}
                             domainPadding={DOMAIN_PADDING}
                             style={STYLE.line}
-                        />}
-                    {showSnowHeight &&
+                        />
+                    )}
+                    {showSnowHeight && (
                         <VictoryScatter
                             standalone={false}
                             width={width}
@@ -276,7 +284,8 @@ export default function SnowHeight({ data, min, max, width, height }) {
                                     style={STYLE.tooltip}
                                 />
                             }
-                        />}
+                        />
+                    )}
                 </g>
             </VictoryContainer>
         </div>
