@@ -1,6 +1,7 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const common = require('./webpack.common.config')
 
 module.exports = Object.assign({}, common, {
@@ -10,18 +11,25 @@ module.exports = Object.assign({}, common, {
         filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].chunk.js',
     }),
-    plugins: common.plugins.concat(
+    plugins: common.plugins.concat([
+        new LodashModuleReplacementPlugin(),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].[contenthash].css',
-        })
-    ),
+        }),
+    ]),
     module: {
         rules: [
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: ['babel-loader'],
+                // options: {
+                //     plugins: ['lodash'],
+                //     presets: [
+                //         ['env', { modules: false, targets: { node: 4 } }],
+                //     ],
+                // },
             },
             {
                 test: /\.css$/,
