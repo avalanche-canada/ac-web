@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { storiesOf, action } from '@storybook/react'
 import Drawer, { LEFT, RIGHT, Header, Content } from './'
 import { LayerSet, Layer } from './layers'
-import { compose, withState } from 'recompose'
 import Button from 'components/button'
 import * as TYPES from 'constants/drawers'
 
@@ -31,7 +30,8 @@ Controlled.propTypes = {
     setOpen: PropTypes.func.isRequired,
 }
 
-function Controlled({ open, setOpen, ...rest }) {
+function Controlled(props) {
+    const [open, setOpen] = useState(false)
     const header = (
         <Header onCloseClick={() => setOpen(false)}>
             <h1>Title</h1>
@@ -41,18 +41,17 @@ function Controlled({ open, setOpen, ...rest }) {
     return (
         <div style={background}>
             <Button onClick={() => setOpen(!open)}>Toggle</Button>
-            <Drawer open={open} side={RIGHT} {...rest} header={header}>
-                <Content>
-                    {content}
-                </Content>
+            <Drawer open={open} side={RIGHT} {...props} header={header}>
+                <Content>{content}</Content>
             </Drawer>
         </div>
     )
 }
 
-Controlled = withState('open', 'setOpen', false)(Controlled)
+function TwoDrawers() {
+    const [open, setOpen] = useState(false)
+    const [width, setWidth] = useState(500)
 
-function TwoDrawers({ open, setOpen, width, setWidth, ...rest }) {
     const header = (
         <Header onCloseClick={e => setOpen(!open)}>
             <h1>Title</h1>
@@ -86,39 +85,26 @@ function TwoDrawers({ open, setOpen, width, setWidth, ...rest }) {
                 header={header}
                 onClose={action('onClose Right')}
                 onOpen={action('onOpen Right')}>
-                <Content>
-                    {content}
-                </Content>
+                <Content>{content}</Content>
             </Drawer>
         </div>
     )
 }
 
-TwoDrawers = compose(
-    withState('open', 'setOpen', false),
-    withState('width', 'setWidth', 500)
-)(TwoDrawers)
-
 storiesOf('Page Drawer', module)
     .add('Default and opened', () => (
         <Drawer open>
-            <Content>
-                The drawer content on the left
-            </Content>
+            <Content>The drawer content on the left</Content>
         </Drawer>
     ))
     .add('Opened with a header', () => (
         <Drawer open header={header}>
-            <Content>
-                The drawer content on the left
-            </Content>
+            <Content>The drawer content on the left</Content>
         </Drawer>
     ))
     .add('Opened on the right', () => (
         <Drawer open side={RIGHT} header={header}>
-            <Content>
-                {content}
-            </Content>
+            <Content>{content}</Content>
         </Drawer>
     ))
     .add('Controlled', () => <Controlled />)

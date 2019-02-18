@@ -155,7 +155,6 @@
         "react-motion": "^0.5.2",
         "react-overlays": "^0.8.3",
         "react-test-renderer": "^16.8.1",
-        "recompose": "^0.26.0",
         "requirejs": "~2.1.11",
         "should": "~3.3.1",
         "style-loader": "^0.19.0",

@@ -1,12 +1,13 @@
-import React from 'react'
-import { withState } from 'recompose'
+import React, { useState } from 'react'
 import { storiesOf, action } from '@storybook/react'
 import { withKnobs, number } from '@storybook/addon-knobs'
 import Pagination from './index'
 
-const Controlled = withState('active', 'onSelect', props => props.active || 0)(
-    Pagination
-)
+function Controlled(props) {
+    const [active, onSelect] = useState(props.active || 0)
+
+    return <Pagination {...props} active={active} onSelect={onSelect} />
+}
 
 const stories = storiesOf('Pagination', module)
 
