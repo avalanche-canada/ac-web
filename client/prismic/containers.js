@@ -98,7 +98,7 @@ export function Documents({ children = identity, ...props }) {
 }
 
 // TODO: HOOKS & SUSPENSE
-// Couls implement a "useFetch" but it is preferable to wait for <Suspense>
+// Could implement a "useFetch" but it is preferable to wait for <Suspense>
 
 export class Tags extends Component {
     static propTypes = {
