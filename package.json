@@ -40,7 +40,6 @@
         "jwt-decode": "^2.1.0",
         "keycode": "^2.1.1",
         "lodash": "^4.17.11",
-        "lodash-webpack-plugin": "^0.11.5",
         "method-override": "~1.0.0",
         "moment": "^2.14.1",
         "moment-timezone": "^0.5.4",
