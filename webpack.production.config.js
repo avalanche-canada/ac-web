@@ -12,7 +12,9 @@ module.exports = Object.assign({}, common, {
         chunkFilename: '[name].[contenthash].chunk.js',
     }),
     plugins: common.plugins.concat([
-        new LodashModuleReplacementPlugin(),
+        new LodashModuleReplacementPlugin({
+            memoizing: true,
+        }),
         new MiniCssExtractPlugin({
             filename: '[name].[contenthash].css',
             chunkFilename: '[id].[contenthash].css',
@@ -24,12 +26,6 @@ module.exports = Object.assign({}, common, {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: ['babel-loader'],
-                // options: {
-                //     plugins: ['lodash'],
-                //     presets: [
-                //         ['env', { modules: false, targets: { node: 4 } }],
-                //     ],
-                // },
             },
             {
                 test: /\.css$/,
