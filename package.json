@@ -148,7 +148,7 @@
         "random-words": "0.0.1",
         "react": "^16.8.1",
         "react-addons-shallow-compare": "^15.3.1",
-        "react-day-picker": "^6.2.0",
+        "react-day-picker": "^7.2.4",
         "react-dom": "^16.8.1",
         "react-image-gallery": "0.8.0",
         "react-jsonschema-form": "^0.40.0",
