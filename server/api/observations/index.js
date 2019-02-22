@@ -264,7 +264,7 @@ router.get('/uploads/:year/:month/:day/:uploadid', function(req, res) {
         if (err.code === 'NoSuchKey') {
             res.status(404).send('Image not found');
         } else {
-            logger.log('ERROR reading from s3', JSON.stringify(err));
+            logger.error('ERROR reading from s3', JSON.stringify(err));
             res.status(500).json({ error: 'ERROR reading from s3' });
         }
         return;
