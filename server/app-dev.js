@@ -4,6 +4,7 @@
 
 const path = require('path');
 const express = require('express');
+const logger = require('./logger');
 const port = process.env.PORT || 9000;
 const app = express();
 
@@ -11,8 +12,6 @@ const isDeveloping = process.env.NODE_ENV !== 'production';
 
 require('./config/express')(app);
 require('./routes')(app);
-
-console.log(__dirname);
 
 const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
@@ -43,11 +42,8 @@ app.get('*', function response(req, res) {
 
 app.listen(port, '0.0.0.0', function onStart(err) {
     if (err) {
-        console.log(err);
+        logger.error('listen:', err);
     }
-    console.info(
-        '==> Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.',
-        port,
-        port
-    );
+    logger.info("STARTING_APP");
+    logger.info('listening on port:', port);
 });

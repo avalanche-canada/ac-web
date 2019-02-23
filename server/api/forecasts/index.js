@@ -18,6 +18,7 @@ var regions = require('../../data/season').forecast_regions;
 // When upgrading to a new version of node this may not be required
 // (currently required on nodejs v0.10.26)
 require('es6-promise');
+
 var cacheManager = require('cache-manager');
 var redisStore = require('cache-manager-redis');
 
@@ -67,8 +68,7 @@ router.param('region', function(req, res, next) {
 
     // Bail out if there is no region with that ID
     if (!req.region) {
-        logger.log(
-            'info',
+        logger.info(
             'forecast region not found url="' + req.originalUrl + '"'
         );
         return res.status(404).end('Not Found');
@@ -81,7 +81,7 @@ router.param('region', function(req, res, next) {
             return next();
         })
         .catch(function(e) {
-            logger.log('error', e);
+            logger.error('loading region data:', e);
             res.send(500);
         })
         .done();
@@ -249,7 +249,7 @@ router.get('/:region/nowcast.svg', function(req, res) {
                 res.send(svg);
             })
             .catch(function(err) {
-                console.log('Error generating nowcast:', err);
+                logger.error('generating nowcast svg:', err);
                 res.send(500);
             });
         //.done();
@@ -296,7 +296,6 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
 
     // TODO(wnh): Remove this giant hack
     if (req.region.id === 'north-rockies') {
-        console.log('Sending static conditions-report icon');
         res.sendFile(
             config.root + '/server/views/forecasts/conditions-report-icon.svg'
         );
@@ -348,7 +347,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
                 res.send(svg);
             })
             .catch(function(err) {
-                console.log('Error rendering danger rating:', err);
+                logger.error('rendering danger rating:', err);
                 res.status(500).send(err);
             });
     } else if (req.forecast.json.dangerMode === 'Off season') {
@@ -377,17 +376,14 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
             )
             .pipe(res);
     } else {
-        console.log(
-            'ERROR: unknown danger mode: ',
-            req.forecast.json.dangerMode
-        );
+        logger.error('unknown danger mode: ', req.forecast.json.dangerMode);
         res.send(500);
     }
 });
 
 function getDangerModes() {
     return fragmentCache.wrap('danger-modes', function() {
-        console.log('BUILDING danger-modes');
+        logger.info('building danger-modes');
         /*
          * Use Q.Promise because the promise handleing in the Prismic library
          * wasnt working as expected

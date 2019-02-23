@@ -4,6 +4,7 @@ var express = require('express');
 var moment = require('moment');
 var prerender = require('prerender-node');
 var minutils = require('../api/observations/min-utils');
+var logger = require('../logger');
 
 var getForecastData = require('../api/forecasts').getForecastData;
 var forecastRegions = require('../data/season').forecast_regions;
@@ -90,7 +91,7 @@ function prerenderGuard(fn) {
         if (!prerender.shouldShowPrerenderedPage(req)) {
             return next();
         } else {
-            console.log('Showing Prerender...');
+            logger.info('showing prerender');
             return fn(req, res, next);
         }
     };

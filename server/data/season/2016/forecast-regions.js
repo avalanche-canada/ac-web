@@ -4,8 +4,9 @@ var path = require('path');
 var regionsMeta = require('./forecast-metadata.json');
 var hotzones = require('./hotzones.json');
 var avalxMapping = require('./avalxMapping.json');
+var logger = require('../../../logger');
 
-console.log('*** USING 2016 SEASON ***');
+logger.info('season: 2016');
 
 var AVALX_HOST = process.env.AVALX_HOST || 'http://avalx2016.avalanche.ca';
 

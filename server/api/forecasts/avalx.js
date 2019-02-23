@@ -629,13 +629,12 @@ function parseForecast(caaml, region, dangerModes) {
 }
 
 function parseCaamlForecast(caaml, region, callback) {
-    //logger.debug('parseCaamlForecast', {caaml: caaml});
     parseString(caaml, function(err, caamlJson) {
         if (!err && caamlJson) {
             var forecast = parseForecast(caamlJson, region);
             callback(null, forecast);
         } else {
-            console.log(err);
+            logger.error('parseCaamlForecast:', err);
             callback('parsed data invalid');
         }
     });

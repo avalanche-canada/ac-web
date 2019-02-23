@@ -30,7 +30,6 @@ describe('json schema', function() {
             });
             var ajvValid = validate(min.jsonSchema);
 
-            //console.log(JSON.stringify(min.jsonSchema, null, ' '));
             assert(ajvValid, JSON.stringify(validate.errors, null, '  '));
         });
         test('validiates a test object', function() {
@@ -55,7 +54,6 @@ describe('json schema', function() {
             });
             var ajvValid = validate(hzrSchema);
 
-            //console.log(JSON.stringify(min.jsonSchema, null, ' '));
             assert(ajvValid, JSON.stringify(validate.errors, null, '  '));
         });
     });

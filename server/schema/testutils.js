@@ -24,7 +24,6 @@ module.exports.assertNotValidMin = (json, name) => {
     var validate = ajv.compile(minSchema.jsonSchema);
     var ajvValid = validate(json);
     assert(!ajvValid, '"' + name + '" validated. expected failure');
-    //console.log(JSON.stringify(validate.errors, null, '  '))
 };
 module.exports.assertValid = (json, name) => {
     var ajv = new Ajv();
@@ -38,5 +37,4 @@ module.exports.assertNotValid = (json, name) => {
     var validate = ajv.compile(hzrSchema);
     var ajvValid = validate(json);
     assert(!ajvValid, '"' + name + '" validated. expected failure');
-    //console.log(JSON.stringify(validate.errors, null, '  '))
 };

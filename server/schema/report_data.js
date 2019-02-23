@@ -67,7 +67,6 @@ function toJsonSchema(fields) {
     Object.keys(fields).forEach(key => {
         var field = fields[key];
         var xx = {};
-        //console.log(field.type);
         var fn = converters[field.type];
         xx = fn(field);
         out.properties[key] = xx;

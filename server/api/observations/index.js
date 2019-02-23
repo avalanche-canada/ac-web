@@ -8,18 +8,14 @@ var changeCase = require('change-case');
 var logger = require('../../logger.js');
 
 router.post('/submissions', function(req, res) {
-    logger.log(req.get('content-type'));
+    logger.info('submissions content-type', req.get('content-type'));
     var form = new multiparty.Form();
     form.parse(req);
 
     var tok = req.get('Authorization').replace(/^Bearer /, '');
     minUtils.saveSubmission(tok, form, function(err, obs) {
         if (err) {
-            logger.log(
-                'info',
-                'Error saving MIN submission : %s',
-                JSON.stringify(err)
-            );
+            logger.error('saving MIN:', err);
             res.send(500, {
                 error: 'There was an error while saving your submission.',
             });
@@ -31,9 +27,8 @@ router.post('/submissions', function(req, res) {
 
 router.get('/submissions', function(req, res) {
     var filters = req.query;
-    logger.log(
-        'info',
-        'fetching submissions with fiters: %s',
+    logger.info(
+        'fetching submissions with fiters:',
         JSON.stringify(filters)
     );
 
@@ -65,8 +60,7 @@ router.get('/submissions/:subid', function(req, res) {
 
 router.get('/observations', function(req, res) {
     var filters = req.query;
-    logger.log(
-        'info',
+    logger.info(
         'fetching submissions with fiters: %s',
         JSON.stringify(filters)
     );
@@ -77,9 +71,9 @@ router.get('/observations', function(req, res) {
                 message: 'error retreiving observations',
                 error: err,
             });
-            logger.log('ERROR', 'error retreiving observations:', err);
+            logger.error('retreiving observations:', err);
         } else {
-            logger.log('info', 'returning %s obs', obs.length);
+            logger.info('returning %s obs', obs.length);
             if (filters && filters.client) {
                 obs = mapWebObsResponse(obs, req);
             }

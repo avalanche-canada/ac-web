@@ -26,12 +26,13 @@ const OLD_SECRET=new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
 
 function secretProvider(req, header, payload, cb) {
     if(header.alg === 'RS256') {
-        console.log("got RS256")
+        logger.info('secretProfider', 'got RS256');
         return jwksSecret(req, header, payload, cb);
     } else if (header.alg === 'HS256') {
-        console.log("got HS256")
-        return cb(null, OLD_SECRET)
+        logger.info('secretProfider', 'got HS256');
+        return cb(null, OLD_SECRET);
     } else {
+        logger.error('unknown jwt algorithm:', header.alg);
         cb(new Error("UNABLE TO DO ANYTHING WITH algorithm: " + header.alg))
     }
 }
@@ -88,19 +89,10 @@ module.exports = function(app) {
             if (useRaven) {
                 Raven.captureException(err, {request: req});
             }
-            logger.log(
-                'error',
-                'Unhandled Error occured in request [' + req.path + ']:',
-                err
-            );
             if (typeof err.stack !== 'undefined') {
-                logger.log(
-                    'error',
-                    'Unhandled Error occured in request [' +
-                        req.path +
-                        '] STACK:',
-                    JSON.stringify(err.stack)
-                );
+                logger.error('UNHANDLED path="%s"', req.path, JSON.stringify(err.stack));
+            } else {
+                logger.error('UNHANDLED path="%s"', req.path, err);
             }
             res.status(500).send('An Error occured on the server.');
         }

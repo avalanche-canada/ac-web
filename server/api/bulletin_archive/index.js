@@ -217,8 +217,9 @@ function newAvalx(req, res) {
         },
         (error, resp, xmlbody) => {
             if (error) {
-                console.log(
-                    'Error retreiving forcast from 2016 AvalX Server:',
+                logger.error(
+                    'avalx xml fetch: server=%s',
+                    AVALX2016_ENDPOINT,
                     error,
                     error.stack
                 );
@@ -279,8 +280,8 @@ function oldAvalx(req, res) {
             if (err.message === BULLETIN_NOT_FOUND) {
                 res.status(404).json({ error: 'Bulletin not found' });
             } else {
+                logger.error('pg_query old_avalx:', err);
                 res.status(500).json({ error: err.message });
-                console.log('CONNECTION ERR:', err);
             }
         });
 }
