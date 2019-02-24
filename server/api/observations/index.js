@@ -34,6 +34,7 @@ router.get('/submissions', function(req, res) {
 
     minUtils.getSubmissions(filters, function(err, subs) {
         if (err) {
+            logger.error('retreiving submissions', err);
             res.send(500, { error: 'error retreiving submissions' });
         } else {
             res.json(subs);
@@ -46,6 +47,7 @@ router.get('/submissions/:subid', function(req, res) {
 
     minUtils.getSubmission(subid, req.query.client, function(err, sub) {
         if (err) {
+            logger.error('retreiving submission', error);
             res.send(500, { error: 'error retreiving submission' });
         } else if (sub === null) {
             res.send(404, { error: 'No submission found' });
@@ -61,12 +63,13 @@ router.get('/submissions/:subid', function(req, res) {
 router.get('/observations', function(req, res) {
     var filters = req.query;
     logger.info(
-        'fetching submissions with fiters: %s',
-        JSON.stringify(filters)
+        'fetching submissions with fiters:',
+        filters
     );
 
     minUtils.getObservations(filters, function(err, obs) {
         if (err) {
+            logger.error('retreiving observations', err)
             res.send(500, {
                 message: 'error retreiving observations',
                 error: err,
@@ -165,6 +168,7 @@ function formatDate(datetimeString) {
 router.get('/observations/:obid.:format?', function(req, res) {
     minUtils.getObservation(req.params.obid, function(err, ob) {
         if (err) {
+            logger.error('retreiving observation obid=%s', req.params.obid, err)
             res.send(500, { error: 'error retreiving observation' });
         } else {
             if (req.params.format === 'html') {
@@ -258,7 +262,7 @@ router.get('/uploads/:year/:month/:day/:uploadid', function(req, res) {
         if (err.code === 'NoSuchKey') {
             res.status(404).send('Image not found');
         } else {
-            logger.error('ERROR reading from s3', JSON.stringify(err));
+            logger.error('reading from s3: path=%s', uploadKey, JSON.stringify(err));
             res.status(500).json({ error: 'ERROR reading from s3' });
         }
         return;
