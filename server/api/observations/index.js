@@ -28,7 +28,7 @@ router.post('/submissions', function(req, res) {
 router.get('/submissions', function(req, res) {
     var filters = req.query;
     logger.info(
-        'fetching submissions with fiters:',
+        'fetching submissions with filters:',
         JSON.stringify(filters)
     );
 
@@ -47,7 +47,7 @@ router.get('/submissions/:subid', function(req, res) {
 
     minUtils.getSubmission(subid, req.query.client, function(err, sub) {
         if (err) {
-            logger.error('retreiving submission', error);
+            logger.error('retreiving submission', err);
             res.send(500, { error: 'error retreiving submission' });
         } else if (sub === null) {
             res.send(404, { error: 'No submission found' });
