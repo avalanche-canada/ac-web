@@ -214,6 +214,10 @@ exports.saveSubmission = function(token, form, callback) {
         var profile = jwt.decode(token);
         item.userid = profile.user_id;
 
+        if (!profile.user_id) {
+            logger.warn('mising user_id token=%s', token);
+        }
+
         item.user = profile[SUBMISSION_NICKNAME] || profile.nickname || 'unknown';
 
         if (_.isEmpty(tempObs)) {
