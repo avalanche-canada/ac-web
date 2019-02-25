@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+
+var jwt = require('jsonwebtoken');
+
+var args = process.argv.slice(2);
+
+args.forEach(function(token){
+    var profile = jwt.decode(token);
+    console.log(profile);
+})
+
