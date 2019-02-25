@@ -212,10 +212,11 @@ exports.saveSubmission = function(token, form, callback) {
 
     form.on('close', function(err) {
         var profile = jwt.decode(token);
-        item.userid = profile.user_id;
+        // TODO(wnh): Should this be the other way around?
+        item.userid = profile.user_id || profile.sub;
 
-        if (!profile.user_id) {
-            logger.warn('mising user_id token=%s', token);
+        if (!item.userid) {
+            logger.error('MIN unable to set user_id token=%s', token);
         }
 
         item.user = profile[SUBMISSION_NICKNAME] || profile.nickname || 'unknown';
