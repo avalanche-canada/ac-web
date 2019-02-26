@@ -62,8 +62,9 @@ get(
     ])
 );
 
+get('/weather/forecast/:date(\\d\\d\\d\\d+\\d\\d+\\d\\d)', weatherForecast);
 get('/weather/forecast', latestForecast);
-get('/weather/forecast/:date', weatherForecast);
+get('/weather/forecast/*', latestForecast);
 
 get('/blogs/:uid', blogPost);
 get('/news/:uid', newsPost);
@@ -152,13 +153,17 @@ function cleanHTML(txt) {
 }
 
 function prismicQuery(query, options, cb) {
-    Prismic.api('https://avalancheca.prismic.io/api', function(err, api) {
-        if (err) {
-            cb(err);
+    Prismic.api('https://avalancheca.prismic.io/api', function(err1, api) {
+        if (err1) {
+            logger.error("share prismic_query get_api", {error: err2});
+            cb(err1);
+            return;
         }
-        api.query(query, options, function(err, docs) {
-            if (err) {
-                cb(err);
+        api.query(query, options, function(err2, docs) {
+            if (err2) {
+                logger.error("share prismic_query api_query", {error: err2});
+                cb(err2);
+                return;
             }
             cb(null, docs);
         });
@@ -194,12 +199,12 @@ function staticPage(uid) {
 function singleItem(res, query, opts, cb) {
     prismicQuery(query, opts, function(err, data) {
         if (err) {
-            console.error(err);
             return res.status(500).send('<html><body>Error</body></html>');
-        } else if (data.results_size !== 1) {
+        } else if (!data || data.results_size !== 1) {
             return res.status(404).send('<html><body>Not Found</body></html>');
+        } else {
+            cb(data.results[0]);
         }
-        cb(data.results[0]);
     });
 }
 function newsPost(req, res) {
