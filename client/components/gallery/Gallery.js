@@ -9,6 +9,7 @@ import {
 } from 'components/icons'
 import { WHITE } from 'constants/colors'
 import 'react-image-gallery/styles/css/image-gallery-no-icon.css'
+import './Gallery.css'
 
 export default function Gallery(props) {
     return <Base {...props} {...buttons} />

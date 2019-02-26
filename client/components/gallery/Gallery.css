@@ -1,0 +1,13 @@
+:global(.image-gallery-content.fullscreen) {
+    & :global(.image-gallery-image) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & > img {
+            max-width: 100vw;
+            max-height: 100vh;
+            width: unset;
+        }
+    }
+}
