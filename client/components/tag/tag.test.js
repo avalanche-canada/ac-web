@@ -1,7 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import TagSet from './TagSet'
-import Tag from './Tag'
+import { TagSet, Tag } from './'
 
 test('tag component', () => {
     const tags = Renderer.create(
