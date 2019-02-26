@@ -6,26 +6,6 @@ import { pluralize } from 'utils/string'
 import Description from './Description'
 import styles from './File.css'
 
-function read(file, index) {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            Object.assign(new FileReader(), {
-                onload(event) {
-                    return resolve({
-                        url: event.target.result,
-                        name: file.name,
-                    })
-                },
-                onerror(event) {
-                    return reject(
-                        `Error reading ${file.name}: ${event.target.result}`
-                    )
-                },
-            }).readAsDataURL(file)
-        }, index + 10)
-    })
-}
-
 const STATE = {
     images: null,
     hasError: false,
@@ -100,4 +80,30 @@ export default class ImageGallery extends Component {
             </div>
         )
     }
+}
+
+// Utils
+function read(file, index) {
+    console.warn(file)
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            Object.assign(new FileReader(), {
+                onload(event) {
+                    console.warn('it loads')
+                    return resolve({
+                        url: event.target.result,
+                        name: file.name,
+                    })
+                },
+                onerror(event) {
+                    console.warn('it rejects')
+                    return reject(
+                        new Error(
+                            `Error reading ${file.name}: ${event.target.result}`
+                        )
+                    )
+                },
+            }).readAsDataURL(file)
+        }, index + 10)
+    })
 }
