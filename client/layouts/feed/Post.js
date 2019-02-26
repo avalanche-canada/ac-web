@@ -101,7 +101,7 @@ function PostMetadata({
             )}
             {source && <Entry term="Source">{source}</Entry>}
             {hostedBy && <Entry term="Hosted by">{hostedBy}</Entry>}
-            {tags.length && (
+            {tags.length > 0 && (
                 <Entry term="Tagged under">
                     <TagSet>
                         {tags.map(tag => (
