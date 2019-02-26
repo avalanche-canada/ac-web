@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { memo } from 'utils/react'
 import { DateElement } from 'components/time'
-import { TagSet, Tag } from 'components/tag'
 import { StructuredText, Image } from 'prismic/components/base'
+import { TagSet, Tag } from 'components/tag'
+import TagTitle from './TagTitle'
 import styles from './Feed.css'
 
 Entry.propTypes = {
@@ -58,7 +59,9 @@ function Entry({
                 {Array.isArray(tags) && (
                     <TagSet>
                         {tags.sort().map(tag => (
-                            <Tag key={tag}>{tag}</Tag>
+                            <Tag key={tag}>
+                                <TagTitle value={tag} />
+                            </Tag>
                         ))}
                     </TagSet>
                 )}

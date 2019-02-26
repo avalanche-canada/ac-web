@@ -6,7 +6,7 @@ import { stringify } from 'utils/search'
 import { Loading, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import Pagination from 'components/pagination'
-import { EntrySet, Entry } from 'components/feed'
+import { EntrySet, Entry, TagTitle } from 'components/feed'
 import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
@@ -358,7 +358,7 @@ function renderContent(type, { loading, documents, page, total_pages }) {
     )
 }
 function convertTagsToOptions(tags) {
-    return new Map(Array.from(tags).map(tag => [tag, tag]))
+    return new Map(Array.from(tags).map(tag => [tag, <TagTitle value={tag} />]))
 }
 function isFeaturedPost({ featured }) {
     return featured

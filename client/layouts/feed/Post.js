@@ -7,6 +7,7 @@ import * as params from 'prismic/params'
 import { Page, Content, Header, Main, Headline, Aside } from 'components/page'
 import { Metadata, Entry } from 'components/metadata'
 import { DateElement, Range, dateTimeFormatGetter } from 'components/time'
+import { TagTitle } from 'components/feed'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
 import { NEWS, BLOG, EVENT, FEED } from 'constants/prismic'
@@ -107,7 +108,7 @@ function PostMetadata({
                         {tags.map(tag => (
                             <Tag key={tag}>
                                 <Link to={`/${PATHS.get(type)}?tags=${tag}`}>
-                                    {tag}
+                                    <TagTitle value={tag} />
                                 </Link>
                             </Tag>
                         ))}
