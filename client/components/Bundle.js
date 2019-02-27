@@ -1,4 +1,4 @@
-import React, { Suspense, Fragment } from 'react'
+import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
 import ErrorBoundary from 'components/ErrorBoundary'
 import * as Text from 'components/text'
@@ -8,7 +8,7 @@ import styles from 'components/page/Page.css'
 
 Bundle.propTypes = {
     children: PropTypes.element.isRequired,
-    fallback: PropTypes.element.isRequired,
+    fallback: PropTypes.element,
 }
 
 export default function Bundle({ children, fallback = <Text.Loading /> }) {
@@ -40,7 +40,7 @@ function renderError({ error }) {
 function ErrorPage({
     title = 'Uh oh! We never thought that would happen...',
     headline = 'An error happened while loading this page.',
-    error = new Error(),
+    error,
 }) {
     function reload() {
         window.location.reload(true)
