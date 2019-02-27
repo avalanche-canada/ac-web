@@ -3,8 +3,6 @@ import 'raf/polyfill'
 import 'url-search-params-polyfill'
 import 'whatwg-fetch'
 import 'utils/polyfills/requestIdleCallback'
-// https://github.com/babel/babel/issues/8449
-import 'core-js/fn/symbol/iterator'
 
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
