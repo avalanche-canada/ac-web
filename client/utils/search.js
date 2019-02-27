@@ -8,7 +8,8 @@ export function parse(search) {
     const params = new URLSearchParams(search)
     const query = {}
 
-    for (const [key, value] of params.entries()) {
+    // Fix for IE11
+    Array.from(params.entries()).forEach(([key, value]) => {
         if (key in query) {
             if (Array.isArray(query[key])) {
                 query[key].push(value)
@@ -18,7 +19,7 @@ export function parse(search) {
         } else {
             query[key] = value
         }
-    }
+    })
 
     return query
 }
