@@ -293,7 +293,6 @@ exports.getSubmissions = function(filters, callback) {
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
-    logger.info('dates = %s', filters.dates);
     //todo: validate temporal query string values
 
     if (filters.last) {
@@ -301,7 +300,9 @@ exports.getSubmissions = function(filters, callback) {
             filters.last.split(':')[0],
             filters.last.split(':')[1]
         );
+        logger.info('getSubmissions', {last: filters.last});
     } else if (filters.dates) {
+        logger.info('getSubmissions', {dates: filters.dates});
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
@@ -321,9 +322,9 @@ function getSubmissionsRecursive(
     };
 
     logger.info(
-        'getting obs between start = %s and end = %s',
-        startDate.format('YYYY-MM-DD'),
-        endDate.format('YYYY-MM-DD')
+        'getSubmissionsRecursive',
+        { start: startDate.format('YYYY-MM-DD'),
+        end:   endDate.format('YYYY-MM-DD') }
     );
 
     params.KeyConditionExpression =
@@ -345,10 +346,10 @@ function getSubmissionsRecursive(
         }
 
         var items = prevItems.concat(res.Items);
-        logger.info('getSubmissionsRecursive: return count =', res.Count);
+        logger.info('getSubmissionsRecursive', {return_count: res.Count});
 
         if (typeof res.LastEvaluatedKey !== 'undefined') {
-            logger.info('getSubmissionsRecursive: Running recursive');
+            logger.info('getSubmissionsRecursive recursing');
             getSubmissionsRecursive(
                 startDate,
                 endDate,
@@ -357,10 +358,7 @@ function getSubmissionsRecursive(
                 callback
             );
         } else {
-            logger.info(
-                'getSubmissionsRecursive: final length -',
-                items.length
-            );
+            logger.info('getSubmissionsRecursive', {final_length: items.length});
             var subs = mapWebSubResults(items)
             callback(null, subs);
         }
@@ -403,7 +401,7 @@ exports.getObservations = function(filters, callback) {
         var unit = filters.last.split(':')[1];
         startDate = moment().subtract(number, unit);
     } else if (filters.dates) {
-        logger.info('dates = %s', filters.dates);
+        logger.info('getObservations', {dates:filters.dates});
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
