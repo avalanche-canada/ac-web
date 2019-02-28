@@ -43,18 +43,4 @@ describe('json schema', function() {
             );
         });
     });
-
-    describe('HZR schema', function() {
-        test('validates as a valid jsonschema with ajv', function() {
-            // var validateSchema = jsen({"$ref": "http://json-schema.org/draft-04/schema#"});
-            var hzrSchema = require('./hzr/schema.json');
-            var ajv = new Ajv();
-            var validate = ajv.compile({
-                $ref: 'http://json-schema.org/draft-04/schema#',
-            });
-            var ajvValid = validate(hzrSchema);
-
-            assert(ajvValid, JSON.stringify(validate.errors, null, '  '));
-        });
-    });
 });

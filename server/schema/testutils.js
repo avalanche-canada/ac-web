@@ -1,6 +1,5 @@
 var fs = require('fs');
 var Ajv = require('ajv');
-var hzrSchema = require('./hzr/schema.json');
 var minSchema = require('./report_data');
 var assert = require('assert');
 
@@ -22,19 +21,6 @@ module.exports.assertValidMin = (json, name) => {
 module.exports.assertNotValidMin = (json, name) => {
     var ajv = new Ajv();
     var validate = ajv.compile(minSchema.jsonSchema);
-    var ajvValid = validate(json);
-    assert(!ajvValid, '"' + name + '" validated. expected failure');
-};
-module.exports.assertValid = (json, name) => {
-    var ajv = new Ajv();
-    var validate = ajv.compile(hzrSchema);
-    var ajvValid = validate(json);
-    assert(ajvValid, JSON.stringify(validate.errors, null, '  '));
-};
-
-module.exports.assertNotValid = (json, name) => {
-    var ajv = new Ajv();
-    var validate = ajv.compile(hzrSchema);
     var ajvValid = validate(json);
     assert(!ajvValid, '"' + name + '" validated. expected failure');
 };
