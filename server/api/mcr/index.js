@@ -40,6 +40,7 @@ router.get('/', function(req, res) {
         },
         function(err, data) {
             if (err) {
+                logger.error("MCR getting report list", {error: err});
                 return error(res, err);
             }
             return res
@@ -66,10 +67,12 @@ router.get('/:report_id', function(req, res) {
     var report_id = Number.parseInt(req.params.report_id);
     return getReport(report_id, function(err, report) {
         if (err) {
+            logger.error("MCR getting report by id", {error: err});
             return error(res, err);
         }
         return getUser(report.uid, function(err, user) {
             if (err) {
+                logger.error("MCR getting user", {error: err});
                 return error(res, err);
             }
             return res
@@ -127,7 +130,7 @@ function getJSON(path, qs, cb) {
         body
     ) {
         if (err) {
-            logger.debug('MCR::getJSON', { path: path, qs: qs });
+            logger.error('MCR::getJSON', { path: path, qs: qs, error:err });
             return cb(err);
         }
         logger.debug('MCR::getJSON', {
@@ -148,9 +151,10 @@ function getJSON(path, qs, cb) {
         try {
             cb(null, JSON.parse(body));
         } catch (err2) {
-            logger.warn('MCR::getJSON', {
+            logger.error('MCR::getJSON', {
                 msg: 'unable to parse JSON',
                 req_path: path,
+                error: err2,
             });
             return cb(err2);
         }
