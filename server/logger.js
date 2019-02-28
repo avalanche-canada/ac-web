@@ -72,8 +72,7 @@ var logger = new winston.Logger({
         warn: 2,
         error: 3,
     },
-    //transports: [ptTransport, consoleLogger],
-    transports: [consoleLogger],
+    transports: [ptTransport, consoleLogger],
 });
 
 
