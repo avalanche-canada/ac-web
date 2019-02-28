@@ -4,7 +4,10 @@
 
 const path = require('path');
 const express = require('express');
+const webpack = require('webpack');
+const webpackMiddleware = require('webpack-dev-middleware');
 const logger = require('./logger');
+
 const port = process.env.PORT || 9000;
 const app = express();
 
@@ -13,8 +16,6 @@ const isDeveloping = process.env.NODE_ENV !== 'production';
 require('./config/express')(app);
 require('./routes')(app);
 
-const webpack = require('webpack');
-const webpackMiddleware = require('webpack-dev-middleware');
 const config = require(path.resolve(__dirname, '../webpack.development.config.js'));
 const compiler = webpack(config);
 const middleware = webpackMiddleware(compiler, {
@@ -32,12 +33,12 @@ const middleware = webpackMiddleware(compiler, {
 
 app.use(middleware);
 
-app.get('*', function response(req, res) {
-    const filename = path.join(compiler.outputPath,'index.html')
-    //path.resolve(__dirname, '../dist/public/index.html');
-
-    res.write(middleware.fileSystem.readFileSync(filename));
-    res.end();
+app.get('*', function response(req, res, next) {
+    middleware.waitUntilValid(function() {
+        const filename = path.join(compiler.outputPath,'index.html')
+        res.write(middleware.fileSystem.readFileSync(filename));
+        return res.end();
+    });
 });
 
 app.listen(port, '0.0.0.0', function onStart(err) {

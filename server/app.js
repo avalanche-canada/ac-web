@@ -14,7 +14,9 @@ const isDeveloping = process.env.NODE_ENV !== 'production';
 require('./config/express')(app);
 require('./routes')(app);
 
-app.use(express.static(path.resolve(__dirname, '../public')));
+app.use('/public', express.static(path.resolve(__dirname, '../public'), {fallthrough: false}));
+
+app.use('/api/*', function(req, resp){ return resp.status(404).send('Not Found'); });
 
 app.get('*', function response(req, res) {
     res.sendFile(path.resolve(__dirname, '../public/index.html'));

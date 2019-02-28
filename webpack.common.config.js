@@ -8,7 +8,7 @@ module.exports = {
     output: {
         filename: '[name].js',
         path: path.resolve(__dirname, 'dist/public'),
-        publicPath: '/',
+        publicPath: '/public/',
     },
     resolve: {
         modules: ['node_modules', path.resolve(__dirname, 'client')],
