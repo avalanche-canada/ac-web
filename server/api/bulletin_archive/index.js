@@ -176,7 +176,7 @@ var DANGER_QUERY =
     '  WHERE bulletin_id = $1   ' +
     '  ORDER BY sort_order ASC  ';
 
-router.get('/:date/:region.json', (req, res) => {
+router.get('/:date/:region.:format(json|html)', (req, res) => {
     var date = moment(req.params.date, moment.ISO_8601);
     if (!date.isValid()) {
         return res.status(404).end();
@@ -192,24 +192,51 @@ router.get('/:date/:region.json', (req, res) => {
             return res.status(404).end('No archive for that region');
         }
     }
+    var avalxFn = undefined;
     if (date.isBefore(NEW_AVALX_START_DATE)) {
         logger.debug('BULLETIN_ARCHIVE - Using OLD avalx');
-        return oldAvalx(req, res);
+        avalxFn = oldAvalx;
     } else {
         logger.debug('BULLETIN_ARCHIVE - Using NEW avalx');
-        return newAvalx(req, res);
+        avalxFn = newAvalx;
     }
+    return avalxFn(req.params.region, req.params.date, function(err, data){
+        logger.debug("running from the unified callback!")
+        if(err) {
+            return res.status(500).json(err);
+        }
+        if(!data) {
+            return res.status(404).end();
+        }
+
+        //send the json
+        if (req.params.format == 'json')  {
+            return res.status(200).json(data);
+        } else if (req.params.format == 'html')  {
+            //send the html
+            var locals = avalx.getTableLocals(data);
+            locals.AC_API_ROOT_URL = config.AC_API_ROOT_URL;
+            res.render('forecasts/forecast-html', locals, function(render_err, html) {
+                if (render_err) {
+                    logger.error('bulletin_archive rendering forecast html', {error: err});
+                    return res.status(500).end();
+                } else {
+                    return res.send(html);
+                }
+            });
+        } else {
+            return res.status(404).end();
+        }
+
+    });
 });
 
-function newAvalx(req, res) {
-    var region = req.params.region;
+function newAvalx(region, date, callback) {
     var region_id = avalxMapping[region];
-    var date = moment(req.params.date, moment.ISO_8601);
+    var date = moment(date, moment.ISO_8601);
     if (typeof region_id === 'undefined') {
-        res.status(404).end();
-        return;
+        return callback(null, null);
     }
-
     request(
         {
             url: AVALX2016_ENDPOINT,
@@ -223,39 +250,36 @@ function newAvalx(req, res) {
                     error,
                     error.stack
                 );
-                return res.status(500).json({
+                return callback({
                     error: error,
                     msg: 'Error retreiving forcast from 2016 AvalX Server',
-                });
+                }, null);
             }
             xml2js.parseString(xmlbody, function(xmlErr, caamlJson) {
                 if (xmlErr) {
-                    return res.status(500).json({
+                    return callback({
                         error: xmlErr,
                         msg: 'Error parsing CAAML forecast',
-                    });
+                    }, null);
                 }
-                return res.status(200).json(avalx.parksForecast(caamlJson, region));
+                return callback(null, avalx.parksForecast(caamlJson, region));
             });
         }
     );
 }
 
-function oldAvalx(req, res) {
+function oldAvalx(regionId, date, callback) {
     // Validate :region is something we know about
     // TODO(wnh): Maybe not since its all old stuff and regions are in flux?
-    var regionId = req.params.region;
     if (regionNames.indexOf(regionId) === -1) {
-        res.status(404).end();
-        return;
+        return callback(null, null);
     }
 
     // Parse time and validete it is full ISO_8601 date-time with timezone info
     // TODO(wnh): force the TIMEZONE on tis date
-    var date = moment(req.params.date, moment.ISO_8601);
+    var date = moment(date, moment.ISO_8601);
     if (!date.isValid()) {
-        res.status(404).end();
-        return;
+        return callback(null, null);
     }
     var mapping = REGION_MAPPINGS[regionId];
     pg_query(BULLETIN_QUERY, [mapping, date.utc().format()])
@@ -266,11 +290,8 @@ function oldAvalx(req, res) {
         .then(res => {
             return generateJsonBulletin(regionId, res[0], res[1], res[2]);
         })
-        .then(j => {
-            res
-                .status(200)
-                .send(j)
-                .end();
+        .then(json_data => {
+            return callback(null, json_data);
         })
         .catch(err => {
             logger.error(
@@ -278,10 +299,10 @@ function oldAvalx(req, res) {
                 err.message
             );
             if (err.message === BULLETIN_NOT_FOUND) {
-                res.status(404).json({ error: 'Bulletin not found' });
+                return callback(null, null);
             } else {
                 logger.error('pg_query old_avalx:', err);
-                res.status(500).json({ error: err.message });
+                return callback({ error: err.message }, null);
             }
         });
 }
