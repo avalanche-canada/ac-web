@@ -302,7 +302,7 @@ exports.getSubmissions = function(filters, callback) {
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
-    logger.info('dates = %s', filters.dates);
+    logger.info('getSubmissions dates=%s', filters.dates);
     //todo: validate temporal query string values
 
     if (filters.last) {
@@ -349,15 +349,16 @@ function getSubmissionsRecursive(
 
     dynamodb.query(params, function(err, res) {
         if (err) {
+            logger.error('getSubmissionsRecursive: error=%s', err);
             callback({ message: 'error fetching observations', error: err });
             return;
         }
 
         var items = prevItems.concat(res.Items);
-        logger.info('getSubmissionsRecursive: return count =', res.Count);
+        logger.info('getSubmissionsRecursive: return_count=%d', res.Count);
 
         if (typeof res.LastEvaluatedKey !== 'undefined') {
-            logger.info('getSubmissionsRecursive: Running recursive');
+            logger.info('getSubmissionsRecursive: recursing');
             getSubmissionsRecursive(
                 startDate,
                 endDate,
@@ -367,7 +368,7 @@ function getSubmissionsRecursive(
             );
         } else {
             logger.info(
-                'getSubmissionsRecursive: final length -',
+                'getSubmissionsRecursive: final_count=%d',
                 items.length
             );
             var subs = mapWebSubResults(items)

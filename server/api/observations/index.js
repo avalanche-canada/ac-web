@@ -28,7 +28,7 @@ router.post('/submissions', function(req, res) {
 router.get('/submissions', function(req, res) {
     var filters = req.query;
     logger.info(
-        'fetching submissions with filters:',
+        'fetching submissions with filters: %s',
         JSON.stringify(filters)
     );
 
@@ -262,7 +262,7 @@ router.get('/uploads/:year/:month/:day/:uploadid', function(req, res) {
         if (err.code === 'NoSuchKey') {
             res.status(404).send('Image not found');
         } else {
-            logger.error('reading from s3: path=%s', uploadKey, JSON.stringify(err));
+            logger.error('reading from s3: path=%s s3code=%s', uploadKey, err.code);
             res.status(500).json({ error: 'ERROR reading from s3' });
         }
         return;
