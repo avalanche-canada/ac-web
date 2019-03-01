@@ -99,11 +99,12 @@ function validateItem(item) {
 }
 
 exports.saveSubmission = function(token, form, callback) {
-    logger.info('Saving submission');
     var keyPrefix = moment().format('YYYY/MM/DD/');
+    var submission_id = uuid.v4();
+    logger.info('Saving submission subid=%s', submission_id);
     var item = {
         obid: uuid.v4(),
-        subid: uuid.v4(),
+        subid: submission_id,
         userid: null, //these are now set later with the auth0 profile
         user: null,
         acl: 'public',
@@ -117,7 +118,8 @@ exports.saveSubmission = function(token, form, callback) {
     form.on('field', function(name, value) {
         value = value.trim();
         logger.info(
-            'Saving field: %s for MIN submission with value: %s',
+            'Saving field: subid=%s name=%s value=%s',
+            submission_id,
             name,
             value
         );
@@ -158,6 +160,8 @@ exports.saveSubmission = function(token, form, callback) {
 
         var mimeType = part.headers['content-type'];
 
+        logger.info('Received upload subid=%s key=%s mime=%s', submission_id, key, mimeType);
+
         if (mimeType === 'image/x-avcan-unknown') {
             mimeType = 'image/jpeg';
         }
@@ -168,7 +172,7 @@ exports.saveSubmission = function(token, form, callback) {
             key += '.' + mimeType.split('/')[1];
             item.ob.uploads.push(key);
 
-            logger.info('Uploading %s to S3.', key);
+            logger.info('s3_upload start: subid=%s key=%s', submission_id, key);
 
             var isDone = q.defer();
             imageUploadPromises.push(isDone.promise);
@@ -185,19 +189,20 @@ exports.saveSubmission = function(token, form, callback) {
             part.pipe(orienter).pipe(upload);
 
             upload.on('error', function(error) {
-                logger.info('Error uploading object to S3 : %s', error);
+                logger.error('s3_upload error: subid=%s key=%s error=%s', 
+                    submission_id, key, error);
                 callback('Error uploading object to S3 ' + error);
                 isDone.resolve();
             });
 
             upload.on('uploaded', function(details) {
-                logger.info(
-                    'Uploaded object to S3 : %s',
-                    JSON.stringify(details)
-                );
+                logger.info('s3_upload success: subid=%s key=%s',
+                    submission_id, key);
                 isDone.resolve();
             });
         } else {
+            logger.warn("s3_uplaod rejected subid=%s key=%s mime=%s",
+                submission_id, key, mimeType);
             callback({
                 error:
                     'Invalid file extention. Valid file extentions are ' +
@@ -207,6 +212,7 @@ exports.saveSubmission = function(token, form, callback) {
     });
 
     form.on('error', function(err) {
+        logger.error("MIN upload form error=%s", err)
         callback('error accepting obs form: ' + err);
     });
 
@@ -246,18 +252,21 @@ exports.saveSubmission = function(token, form, callback) {
                     },
                     function(err, data) {
                         if (err) {
-                            logger.info(JSON.stringify(err));
+                            logger.error("dyamo save subid=%s error=%s",
+                                submission_id, err);
                             defer.reject({
                                 error: 'error saving you submission: saving',
                             });
                         } else {
-                            logger.info('successfully saved item');
+                            logger.info('successfully saved dynamo_doc subid=%s obid=%s',
+                                submission_id, item.obid);
                             var sub = itemToSubmission(item);
                             defer.resolve(sub);
                         }
                     }
                 );
             } else {
+                logger.error("invalid submission subid=%s", submission_id);
                 defer.reject({ error: 'error saving you submission: invalid' });
             }
             return defer.promise;
@@ -281,6 +290,7 @@ exports.saveSubmission = function(token, form, callback) {
                     callback(null, results[0]);
                 },
                 function(err) {
+                    logger.error("upload promises subid=%s", submission_id);
                     callback(err);
                 }
             );

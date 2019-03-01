@@ -15,7 +15,7 @@ router.post('/submissions', function(req, res) {
     var tok = req.get('Authorization').replace(/^Bearer /, '');
     minUtils.saveSubmission(tok, form, function(err, obs) {
         if (err) {
-            logger.error('saving MIN:', err);
+            logger.error('saving MIN error=%s', err);
             res.send(500, {
                 error: 'There was an error while saving your submission.',
             });
