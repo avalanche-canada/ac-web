@@ -6,7 +6,7 @@ var path = require('path');
 var geohash = require('ngeohash');
 var moment = require('moment');
 var changeCase = require('change-case');
-var baseLogger = require('../../module_logger');
+var logger = require('../../logger.js');
 var multiparty = require('multiparty');
 var q = require('q');
 var sharp = require('sharp');
@@ -18,9 +18,6 @@ var AWS = require('aws-sdk');
 AWS.config.update({ region: 'us-west-2' });
 var dynamodb = new AWS.DynamoDB.DocumentClient();
 var s3Stream = require('s3-upload-stream')(new AWS.S3());
-
-
-var logger = baseLogger.extend({module:"observations/min-utils"});
 
 var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
 var UPLOADS_BUCKET = process.env.UPLOADS_BUCKET || 'ac-user-uploads';
@@ -102,13 +99,11 @@ function validateItem(item) {
 }
 
 exports.saveSubmission = function(token, form, callback) {
+    logger.info('Saving submission');
     var keyPrefix = moment().format('YYYY/MM/DD/');
-    var subid = uuid.v4();
-    var sub_logger = logger.extend({subid: subid});  
-    sub_logger.info('Saving submission');
     var item = {
         obid: uuid.v4(),
-        subid: subid,
+        subid: uuid.v4(),
         userid: null, //these are now set later with the auth0 profile
         user: null,
         acl: 'public',
@@ -121,7 +116,11 @@ exports.saveSubmission = function(token, form, callback) {
 
     form.on('field', function(name, value) {
         value = value.trim();
-        sub_logger.info('Saving field', {name:name, value:value});
+        logger.info(
+            'Saving field: %s for MIN submission with value: %s',
+            name,
+            value
+        );
         try {
             switch (name) {
                 case 'latlng':
@@ -156,21 +155,20 @@ exports.saveSubmission = function(token, form, callback) {
         var validMimeTypes = ['image/png', 'image/jpeg'];
         var uploadId = uuid.v4();
         var key = keyPrefix + uploadId;
-        
-        var upload_logger = sub_logger.extend({img_key:key, action:'s3_upload'});
+
         var mimeType = part.headers['content-type'];
 
         if (mimeType === 'image/x-avcan-unknown') {
             mimeType = 'image/jpeg';
         }
 
-        upload_logger.info('upload', {mime:mimeType});
+        logger.info('upload mime type is %s', mimeType);
 
         if (validMimeTypes.indexOf(mimeType) !== -1) {
             key += '.' + mimeType.split('/')[1];
             item.ob.uploads.push(key);
 
-            upload_logger.info('starting upload');
+            logger.info('Uploading %s to S3.', key);
 
             var isDone = q.defer();
             imageUploadPromises.push(isDone.promise);
@@ -187,17 +185,19 @@ exports.saveSubmission = function(token, form, callback) {
             part.pipe(orienter).pipe(upload);
 
             upload.on('error', function(error) {
-                upload_logger.error('', {error:error});
+                logger.info('Error uploading object to S3 : %s', error);
                 callback('Error uploading object to S3 ' + error);
                 isDone.resolve();
             });
 
             upload.on('uploaded', function(details) {
-                logger.info('upload succeded', {details: JSON.stringify(details)});
+                logger.info(
+                    'Uploaded object to S3 : %s',
+                    JSON.stringify(details)
+                );
                 isDone.resolve();
             });
         } else {
-            upload_logger.warn("rejected: invalid mime");
             callback({
                 error:
                     'Invalid file extention. Valid file extentions are ' +
@@ -207,7 +207,6 @@ exports.saveSubmission = function(token, form, callback) {
     });
 
     form.on('error', function(err) {
-        sub_logger.error("accepting form", {error:err})
         callback('error accepting obs form: ' + err);
     });
 
@@ -247,12 +246,12 @@ exports.saveSubmission = function(token, form, callback) {
                     },
                     function(err, data) {
                         if (err) {
-                            sub_logger.info(JSON.stringify(err));
+                            logger.info(JSON.stringify(err));
                             defer.reject({
                                 error: 'error saving you submission: saving',
                             });
                         } else {
-                            sub_logger.info('successfully saved item');
+                            logger.info('successfully saved item');
                             var sub = itemToSubmission(item);
                             defer.resolve(sub);
                         }
@@ -293,6 +292,7 @@ exports.getSubmissions = function(filters, callback) {
     var startDate = moment().subtract('2', 'days');
     var endDate = moment();
 
+    logger.info('dates = %s', filters.dates);
     //todo: validate temporal query string values
 
     if (filters.last) {
@@ -300,9 +300,7 @@ exports.getSubmissions = function(filters, callback) {
             filters.last.split(':')[0],
             filters.last.split(':')[1]
         );
-        logger.info('getSubmissions', {last: filters.last});
     } else if (filters.dates) {
-        logger.info('getSubmissions', {dates: filters.dates});
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
@@ -322,9 +320,9 @@ function getSubmissionsRecursive(
     };
 
     logger.info(
-        'getSubmissionsRecursive',
-        { start: startDate.format('YYYY-MM-DD'),
-        end:   endDate.format('YYYY-MM-DD') }
+        'getting obs between start = %s and end = %s',
+        startDate.format('YYYY-MM-DD'),
+        endDate.format('YYYY-MM-DD')
     );
 
     params.KeyConditionExpression =
@@ -346,10 +344,10 @@ function getSubmissionsRecursive(
         }
 
         var items = prevItems.concat(res.Items);
-        logger.info('getSubmissionsRecursive', {return_count: res.Count});
+        logger.info('getSubmissionsRecursive: return count =', res.Count);
 
         if (typeof res.LastEvaluatedKey !== 'undefined') {
-            logger.info('getSubmissionsRecursive recursing');
+            logger.info('getSubmissionsRecursive: Running recursive');
             getSubmissionsRecursive(
                 startDate,
                 endDate,
@@ -358,7 +356,10 @@ function getSubmissionsRecursive(
                 callback
             );
         } else {
-            logger.info('getSubmissionsRecursive', {final_length: items.length});
+            logger.info(
+                'getSubmissionsRecursive: final length -',
+                items.length
+            );
             var subs = mapWebSubResults(items)
             callback(null, subs);
         }
@@ -401,7 +402,7 @@ exports.getObservations = function(filters, callback) {
         var unit = filters.last.split(':')[1];
         startDate = moment().subtract(number, unit);
     } else if (filters.dates) {
-        logger.info('getObservations', {dates:filters.dates});
+        logger.info('dates = %s', filters.dates);
         startDate = moment(filters.dates.split(',')[0]);
         endDate = moment(filters.dates.split(',')[1]);
     }
