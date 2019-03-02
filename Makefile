@@ -32,6 +32,9 @@ clean:
 webpack:
 	NODE_ENV=production ./node_modules/.bin/webpack --config ./webpack.production.config.js --progress --profile --colors --bail
 
+webpack-dev:
+	NODE_ENV=production ./node_modules/.bin/webpack --config ./webpack.development.config.js --progress --profile --colors --bail
+
 zip: build
 	cd dist && zip -r ../$(ZIPNAME) *
 	cd dist && zip -r ../$(ZIPNAME) .ebextensions
@@ -89,7 +92,7 @@ purge-all-builds:
 test-swagger:
 	./node_modules/.bin/swagger-cli validate server/api/docs/swagger.yaml
 
-.PHONY: build prod webpack clean zip clean push-dev server-copy test purge-dev-builds server-dev test-swagger
+.PHONY: build prod webpack webpack-dev clean zip clean push-dev server-copy test purge-dev-builds server-dev test-swagger
 
 test:
 	npm run test -- -u
