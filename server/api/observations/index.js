@@ -28,13 +28,13 @@ router.post('/submissions', function(req, res) {
 router.get('/submissions', function(req, res) {
     var filters = req.query;
     logger.info(
-        'fetching submissions with filters: %s',
+        'fetching submissions filters=%s',
         JSON.stringify(filters)
     );
 
     minUtils.getSubmissions(filters, function(err, subs) {
         if (err) {
-            logger.error('retreiving submissions', err);
+            logger.error('retreiving submissions error=%s', err);
             res.send(500, { error: 'error retreiving submissions' });
         } else {
             res.json(subs);
@@ -47,7 +47,7 @@ router.get('/submissions/:subid', function(req, res) {
 
     minUtils.getSubmission(subid, req.query.client, function(err, sub) {
         if (err) {
-            logger.error('retreiving submission', err);
+            logger.error('retreiving submission error=%s', err);
             res.send(500, { error: 'error retreiving submission' });
         } else if (sub === null) {
             res.send(404, { error: 'No submission found' });
@@ -63,20 +63,19 @@ router.get('/submissions/:subid', function(req, res) {
 router.get('/observations', function(req, res) {
     var filters = req.query;
     logger.info(
-        'fetching submissions with fiters:',
-        filters
+        'fetching observations fiters=%s',
+        JSON.stringify(filters)
     );
 
     minUtils.getObservations(filters, function(err, obs) {
         if (err) {
-            logger.error('retreiving observations', err)
+            logger.error('retreiving observations error=%s', err)
             res.send(500, {
                 message: 'error retreiving observations',
                 error: err,
             });
-            logger.error('retreiving observations:', err);
         } else {
-            logger.info('returning %s obs', obs.length);
+            logger.info('returning obs count=%d', obs.length);
             if (filters && filters.client) {
                 obs = mapWebObsResponse(obs, req);
             }
