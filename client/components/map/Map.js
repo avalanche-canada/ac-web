@@ -1,8 +1,7 @@
-import React, { Component, createRef, Children, cloneElement } from 'react'
+import React, { Component, createRef } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { styles, accessToken } from 'services/mapbox/config.json'
-import { Canadian } from 'constants/map/bounds'
 import MapContext, { WithMap } from './context'
 import './Map.css'
 
@@ -41,7 +40,6 @@ export default class MapComponent extends Component {
         onLoad: PropTypes.func,
     }
     static defaultProps = {
-        maxBounds: Canadian,
         style: 'default',
         onLoad() {},
     }
