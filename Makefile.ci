@@ -12,4 +12,4 @@ build:
 
 test:
 	@echo "Testing..."
-	npm run test -- -u --testPathIgnorePatterns=dist
+	. ~/.nvm/nvm.sh && nvm use 8.4.0 && npm run test
