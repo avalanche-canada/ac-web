@@ -12,4 +12,4 @@ build:
 
 test:
 	@echo "Testing..."
-	$(MAKE) -f Makefile test
+	npm run test -- -u --testPathIgnorePatterns=dist
