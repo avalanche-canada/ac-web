@@ -232,18 +232,24 @@ exports.saveSubmission = function(token, form, callback) {
 
         item.user = profile[SUBMISSION_NICKNAME] || profile.nickname || 'unknown';
 
-        if (_.isEmpty(tempObs)) {
-            saveOb(item).then(
-                function(ob) {
-                    callback(null, ob);
-                },
-                function(err) {
-                    callback(err);
-                }
-            );
-        } else {
-            saveAllObs(callback);
-        }
+        q.all(imageUploadPromises).then(function(){
+            if (_.isEmpty(tempObs)) {
+                saveOb(item).then(
+                    function(ob) {
+                        callback(null, ob);
+                    },
+                    function(err) {
+                        callback(err);
+                    }
+                );
+            } else {
+                saveAllObs(callback);
+            }
+        }).catch(function(err){
+            logger.info('skipping document insert subid=%s', 
+                submission_id, {error: err});
+            callback(error, null);
+        })
 
         function saveOb(item) {
             var valid = validateItem(item);
@@ -290,7 +296,7 @@ exports.saveSubmission = function(token, form, callback) {
                 obsPromises.push(p);
             });
 
-            q.all(obsPromises.concat(imageUploadPromises)).then(
+            q.all(obsPromises).then(
                 function(results) {
                     callback(null, results[0]);
                 },
