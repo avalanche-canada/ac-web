@@ -12,4 +12,4 @@ build:
 
 test:
 	@echo "Testing..."
-	. ~/.nvm/nvm.sh && nvm use 8.4.0 && npm run test
+	. ~/.nvm/nvm.sh && nvm use 8.4.0 && ./node_modules/.bin/jest --ci
