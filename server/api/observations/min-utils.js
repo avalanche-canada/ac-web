@@ -101,6 +101,7 @@ function validateItem(item) {
 exports.saveSubmission = function(token, form, callback) {
     var keyPrefix = moment().format('YYYY/MM/DD/');
     var submission_id = uuid.v4();
+    var submitted_on = (new Date()).toISOString();
     logger.info('Saving submission subid=%s', submission_id);
     var item = {
         obid: uuid.v4(),
@@ -109,6 +110,7 @@ exports.saveSubmission = function(token, form, callback) {
         user: null,
         acl: 'public',
         obtype: 'quick',
+        submitted_on: submitted_on,
         ob: {
             uploads: [],
         },
@@ -289,6 +291,7 @@ exports.saveSubmission = function(token, form, callback) {
                 var itemClone = _.cloneDeep(item);
                 itemClone.obid = uuid.v4();
                 itemClone.obtype = key.replace('Report', '');
+                itemClone.submitted_on = submitted_on;
                 _.assign(itemClone.ob, ob);
 
                 var p = saveOb(itemClone);
