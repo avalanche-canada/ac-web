@@ -186,6 +186,11 @@ exports.saveSubmission = function(token, form, callback) {
                 ACL: 'private',
             });
 
+            orienter.on('error', function(error){
+                logger.error('image processing failed error=%s', JSON.stringify(error.message));
+                isDone.reject(error)
+            });
+
             part.pipe(orienter).pipe(upload);
 
             upload.on('error', function(error) {
