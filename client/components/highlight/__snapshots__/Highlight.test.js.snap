@@ -3,7 +3,6 @@
 exports[`highlight component 1`] = `
 <div
   className="Danger"
-  style={undefined}
 >
   Content
 </div>
@@ -12,7 +11,6 @@ exports[`highlight component 1`] = `
 exports[`highlight component 2`] = `
 <div
   className="Warning"
-  style={undefined}
 >
   Content
 </div>
@@ -21,7 +19,6 @@ exports[`highlight component 2`] = `
 exports[`highlight component 3`] = `
 <div
   className="Info"
-  style={undefined}
 >
   Content
 </div>
@@ -30,7 +27,6 @@ exports[`highlight component 3`] = `
 exports[`highlight component 4`] = `
 <div
   className="Success"
-  style={undefined}
 >
   Content
 </div>

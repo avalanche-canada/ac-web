@@ -100,7 +100,6 @@ exports[`panel component 5`] = `
       className="Expand Subtile"
     >
       <svg
-        className={undefined}
         fill="none"
         height={24}
         viewBox="0 0 24 24"
@@ -162,7 +161,6 @@ exports[`panel component 6`] = `
       className="Expand Subtile"
     >
       <svg
-        className={undefined}
         fill="none"
         height={24}
         viewBox="0 0 24 24"
