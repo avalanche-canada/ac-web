@@ -84,19 +84,16 @@ export default class ImageGallery extends Component {
 
 // Utils
 function read(file, index) {
-    console.warn(file)
     return new Promise((resolve, reject) => {
         setTimeout(() => {
             Object.assign(new FileReader(), {
                 onload(event) {
-                    console.warn('it loads')
                     return resolve({
                         url: event.target.result,
                         name: file.name,
                     })
                 },
                 onerror(event) {
-                    console.warn('it rejects')
                     return reject(
                         new Error(
                             `Error reading ${file.name}: ${event.target.result}`
