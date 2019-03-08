@@ -295,7 +295,9 @@ function oldAvalx(regionId, date, callback) {
         })
         .catch(err => {
             logger.error(
-                'BULLETIN_ARCHIVE - error getting bulletin',
+                'BULLETIN_ARCHIVE - error getting bulletin region_id=%s date=%s',
+                regionId, 
+                date, 
                 err.message
             );
             if (err.message === BULLETIN_NOT_FOUND) {
