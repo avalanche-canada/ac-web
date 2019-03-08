@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -7,22 +7,22 @@ import { Documents } from 'prismic/containers'
 import { special } from 'prismic/params'
 import { SPECIAL_INFORMATION as key } from 'constants/drawers'
 
-export default class SpecialInformation extends Component {
-    static propTypes = {
-        visible: PropTypes.bool,
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    add = ({ documents }) => {
-        return (
-            <Source id={key} data={createFeatureCollection(documents)}>
-                <Layer.Symbol id={key} {...this.props} layout={layout} />
-            </Source>
-        )
-    }
-    render() {
-        return <Documents {...special.reports()}>{this.add}</Documents>
-    }
+SpecialInformation.propTypes = {
+    visible: PropTypes.bool,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+}
+
+export default function SpecialInformation(props) {
+    return (
+        <Documents {...special.reports()}>
+            {({ documents }) => (
+                <Source id={key} data={createFeatureCollection(documents)}>
+                    <Layer.Symbol id={key} {...props} layout={layout} />
+                </Source>
+            )}
+        </Documents>
+    )
 }
 
 // Utils

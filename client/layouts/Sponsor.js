@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import { Sponsor } from 'components/misc'
@@ -37,33 +37,29 @@ export default function SponsorRoutes() {
 }
 
 // Utils
-class SponsorRoute extends Component {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        label: PropTypes.string,
-    }
-    static contextType = SponsorsContext
-    shouldComponentUpdate({ name }) {
-        return name !== this.props.name
-    }
-    renderComponent = ({ loading, document = {} }) => {
-        const { name, image229, url } = document.data || {}
+SponsorRoute.propTypes = {
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string,
+}
+function SponsorRoute({ name, label }) {
+    const uid = useContext(SponsorsContext)[name] || name
+    const props = params.sponsor(uid)
 
-        return (
-            <Sponsor
-                label={this.props.label}
-                name={name}
-                logo={image229}
-                url={url}>
-                <Loading show={loading} />
-            </Sponsor>
-        )
-    }
-    render() {
-        const { name } = this.props
-        const uid = this.context[name] || name
-        const props = params.sponsor(uid)
+    return (
+        <Document {...props}>
+            {({ loading, document = {} }) => {
+                const { name, image229, url } = document.data || {}
 
-        return <Document {...props}>{this.renderComponent}</Document>
-    }
+                return (
+                    <Sponsor
+                        label={label}
+                        name={name}
+                        logo={image229}
+                        url={url}>
+                        <Loading show={loading} />
+                    </Sponsor>
+                )
+            }}
+        </Document>
+    )
 }

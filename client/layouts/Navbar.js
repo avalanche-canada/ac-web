@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useContext } from 'react'
 import { navigate } from '@reach/router'
 import AuthContext from 'contexts/auth'
 import { Document } from 'prismic/containers'
@@ -18,77 +18,71 @@ import Avatar from 'components/avatar'
 import menu from /* preval */ '../constants/menus/avcan'
 import logo from 'styles/AvalancheCanada.svg'
 
-// Utils
-class Ambassadors extends Component {
-    renderLink({ fullName }) {
-        var { to } = this.props
-        var hash = fullName.toLowerCase().replace(/\s/, '-', 'g')
-
-        return (
-            <Link key={hash} to={`${to}#${hash}`}>
-                {fullName}
-            </Link>
-        )
-    }
-    renderContent = ({ loading, document }) => (
-        <Fragment>
-            <Loading show={loading} />
-            {document && (
-                <ColumnSet>
-                    {document.data.content[0].value.map(this.renderLink, this)}
-                </ColumnSet>
-            )}
-        </Fragment>
-    )
-    render() {
-        return (
-            <Document {...params.uid(STATIC_PAGE, 'ambassadors')}>
-                {this.renderContent}
-            </Document>
-        )
-    }
-}
-
+// FIXME
 menu.children[4].children[1].children = Ambassadors
 
-export default class AvalancheCanadaNavbar extends Component {
-    static contextType = AuthContext
-    handleLoginClick = event => {
+export default function AvalancheCanadaNavbar() {
+    const { isAuthenticated, profile, login, logout } = useContext(AuthContext)
+    const { name, picture } = profile || {}
+    function handleLoginClick(event) {
         event.preventDefault()
 
-        this.context.login()
+        login()
     }
-    handleLogoutClick = event => {
+    function handleLogoutClick(event) {
         event.preventDefault()
 
-        this.context.logout().then(() => {
+        logout().then(() => {
             navigate('/')
         })
     }
-    render() {
-        const { isAuthenticated } = this.context
-        const { name, picture } = this.context.profile || {}
 
-        return (
-            <Navbar logo={logo} donate="/foundation" menu={menu}>
-                {isAuthenticated ? (
-                    <Item
-                        title={<Avatar name={name} url={picture} size={30} />}>
-                        <Menu>
-                            <Section>
-                                <UserProfile name={name} avatar={picture} />
-                                <Header>
-                                    <Link onClick={this.handleLogoutClick}>
-                                        Logout
-                                    </Link>
-                                </Header>
-                            </Section>
-                        </Menu>
-                    </Item>
-                ) : (
-                    <Item title="Login" onClick={this.handleLoginClick} />
-                )}
-            </Navbar>
-        )
-    }
+    return (
+        <Navbar logo={logo} donate="/foundation" menu={menu}>
+            {isAuthenticated ? (
+                <Item title={<Avatar name={name} url={picture} size={30} />}>
+                    <Menu>
+                        <Section>
+                            <UserProfile name={name} avatar={picture} />
+                            <Header>
+                                <Link onClick={handleLogoutClick}>Logout</Link>
+                            </Header>
+                        </Section>
+                    </Menu>
+                </Item>
+            ) : (
+                <Item title="Login" onClick={handleLoginClick} />
+            )}
+        </Navbar>
+    )
+}
+
+// Utils
+function Ambassadors({ to }) {
+    return (
+        <Document {...params.uid(STATIC_PAGE, 'ambassadors')}>
+            {({ loading, document }) => (
+                <Fragment>
+                    <Loading show={loading} />
+                    {document && (
+                        <ColumnSet>
+                            {document.data.content[0].value.map(
+                                ({ fullName }) => {
+                                    var hash = fullName
+                                        .toLowerCase()
+                                        .replace(/\s/, '-', 'g')
+
+                                    return (
+                                        <Link key={hash} to={`${to}#${hash}`}>
+                                            {fullName}
+                                        </Link>
+                                    )
+                                }
+                            )}
+                        </ColumnSet>
+                    )}
+                </Fragment>
+            )}
+        </Document>
+    )
 }

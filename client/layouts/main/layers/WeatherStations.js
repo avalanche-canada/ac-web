@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -6,26 +6,26 @@ import { Source, Layer } from 'components/map'
 import { Stations } from 'containers/weather'
 import { WEATHER_STATION as key } from 'constants/drawers'
 
-export default class WeatherStations extends Component {
-    static propTypes = {
-        visible: PropTypes.bool,
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    withData = ({ data }) => {
-        return (
-            <Source
-                id={key}
-                cluster
-                clusterMaxZoom={14}
-                data={createFeatureCollection(data)}>
-                <Layer.Symbol id={key} {...this.props} {...styles} />
-            </Source>
-        )
-    }
-    render() {
-        return <Stations>{this.withData}</Stations>
-    }
+WeatherStations.propTypes = {
+    visible: PropTypes.bool,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+}
+
+export default function WeatherStations(props) {
+    return (
+        <Stations>
+            {({ data }) => (
+                <Source
+                    id={key}
+                    cluster
+                    clusterMaxZoom={14}
+                    data={createFeatureCollection(data)}>
+                    <Layer.Symbol id={key} {...props} {...styles} />
+                </Source>
+            )}
+        </Stations>
+    )
 }
 
 // Utils

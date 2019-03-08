@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import * as turf from '@turf/helpers'
@@ -7,55 +7,61 @@ import { Source, Layer } from 'components/map'
 import * as Containers from 'containers/mcr'
 import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
 
-export default class MountainConditionReports extends Component {
-    static propTypes = {
-        visible: PropTypes.bool,
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    withLocation = data => props => {
-        const params = new URLSearchParams(props.location.search)
+MountainConditionReports.propTypes = {
+    visible: PropTypes.bool,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+}
 
-        if (params.has('panel')) {
-            const [type, id] = params.get('panel').split('/')
+export default function MountainConditionReports(props) {
+    return (
+        <Containers.Reports>
+            {({ data = [] }) => (
+                <Fragment>
+                    <Source
+                        id={key}
+                        cluster
+                        clusterMaxZoom={14}
+                        data={createReportsFeatureCollection(data)}>
+                        <Layer.Symbol id={key} {...props} {...styles} />
+                    </Source>
+                    <Location>
+                        {({ location }) => {
+                            const params = new URLSearchParams(location.search)
 
-            if (type === TYPE && data.every(r => r.id != id)) {
-                return (
-                    <Containers.Report id={id}>
-                        {({ data }) => (
-                            <Source
-                                id="mountain-conditions-report"
-                                data={createReportFeatureCollection(data)}>
-                                <Layer.Symbol
-                                    {...this.props}
-                                    id="mountain-conditions-report"
-                                    {...styles}
-                                />
-                            </Source>
-                        )}
-                    </Containers.Report>
-                )
-            }
-        }
+                            if (!params.has('panel')) {
+                                return null
+                            }
 
-        return null
-    }
-    addReports = ({ data = [] }) => (
-        <Fragment>
-            <Source
-                id={key}
-                cluster
-                clusterMaxZoom={14}
-                data={createReportsFeatureCollection(data)}>
-                <Layer.Symbol id={key} {...this.props} {...styles} />
-            </Source>
-            <Location>{this.withLocation(data)}</Location>
-        </Fragment>
+                            const [type, id] = params.get('panel').split('/')
+
+                            if (type !== TYPE || data.some(r => r.id == id)) {
+                                return null
+                            }
+
+                            return (
+                                <Containers.Report id={id}>
+                                    {({ data }) => (
+                                        <Source
+                                            id="mountain-conditions-report"
+                                            data={createReportFeatureCollection(
+                                                data
+                                            )}>
+                                            <Layer.Symbol
+                                                {...props}
+                                                id="mountain-conditions-report"
+                                                {...styles}
+                                            />
+                                        </Source>
+                                    )}
+                                </Containers.Report>
+                            )
+                        }}
+                    </Location>
+                </Fragment>
+            )}
+        </Containers.Reports>
     )
-
-    render() {
-        return <Containers.Reports>{this.addReports}</Containers.Reports>
-    }
 }
 
 // Utils & constants

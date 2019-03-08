@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -8,30 +8,28 @@ import { Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
 import { HOT_ZONE_REPORTS as key } from 'constants/drawers'
 
-export default class HotZones extends Component {
-    static propTypes = {
-        visible: PropTypes.bool,
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    renderSourceAndLayer({ data = [] }, { documents = [] }) {
-        return (
-            <Source id={key} data={createFeatureCollection(data)(documents)}>
-                <Layer.Circle id={key} {...this.props} {...styles} />
-            </Source>
-        )
-    }
-    render() {
-        return (
-            <features.HotZones>
-                {zones => (
-                    <Documents {...hotZone.reports()}>
-                        {reports => this.renderSourceAndLayer(zones, reports)}
-                    </Documents>
-                )}
-            </features.HotZones>
-        )
-    }
+HotZones.propTypes = {
+    visible: PropTypes.bool,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+}
+
+export default function HotZones(props) {
+    return (
+        <features.HotZones>
+            {({ data = [] }) => (
+                <Documents {...hotZone.reports()}>
+                    {({ documents = [] }) => (
+                        <Source
+                            id={key}
+                            data={createFeatureCollection(data)(documents)}>
+                            <Layer.Circle id={key} {...props} {...styles} />
+                        </Source>
+                    )}
+                </Documents>
+            )}
+        </features.HotZones>
+    )
 }
 
 // Utils
