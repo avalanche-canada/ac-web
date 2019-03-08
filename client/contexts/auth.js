@@ -85,13 +85,3 @@ export class Provider extends Component {
         )
     }
 }
-
-export class IsAuthenticated extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-    }
-    static contextType = AuthContext
-    render() {
-        return this.props.children(this.context.isAuthenticated)
-    }
-}
