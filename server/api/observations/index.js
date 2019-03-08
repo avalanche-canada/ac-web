@@ -260,6 +260,9 @@ router.get('/uploads/:year/:month/:day/:uploadid', function(req, res) {
     stream.on('error', function(err) {
         if (err.code === 'NoSuchKey') {
             res.status(404).send('Image not found');
+        } else if (err.code === 'AccessDenied') {
+            logger.warn('s3 read failed: path=%s s3code=%s', uploadKey, err.code);
+            res.status(404).send('Image not found');
         } else {
             logger.error('reading from s3: path=%s s3code=%s', uploadKey, err.code);
             res.status(500).json({ error: 'ERROR reading from s3' });
