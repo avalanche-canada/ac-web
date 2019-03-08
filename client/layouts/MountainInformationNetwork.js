@@ -1,4 +1,4 @@
-import React, { Component, lazy } from 'react'
+import React, { lazy } from 'react'
 import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import Bundle from 'components/Bundle'
@@ -43,13 +43,21 @@ function Submit(props) {
     )
 }
 
-class Submissions extends Component {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        navigate: PropTypes.func.isRequired,
+Submissions.propTypes = {
+    location: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
+}
+
+function Submissions({ location, navigate }) {
+    const { days, types, regions, sorting } = utils.parse(location.search)
+    const params = {
+        days: utils.toNumber(days),
+        types: utils.toSet(types),
+        regions: utils.toSet(regions),
+        sorting: utils.parseSorting(sorting),
     }
-    handleParamsChange = async params => {
-        const search = Object.assign({}, this.params, params)
+    async function handleParamsChange(moreParams) {
+        const search = Object.assign({}, params, moreParams)
         const to = utils.stringify({
             ...search,
             sorting: search.sorting
@@ -57,25 +65,8 @@ class Submissions extends Component {
                 : undefined,
         })
 
-        await this.props.navigate(to)
+        await navigate(to)
     }
-    get params() {
-        const { search } = this.props.location
-        const { days, types, regions, sorting } = utils.parse(search)
 
-        return {
-            days: utils.toNumber(days),
-            types: utils.toSet(types),
-            regions: utils.toSet(regions),
-            sorting: utils.parseSorting(sorting),
-        }
-    }
-    render() {
-        return (
-            <SubmissionList
-                {...this.params}
-                onParamsChange={this.handleParamsChange}
-            />
-        )
-    }
+    return <SubmissionList {...params} onParamsChange={handleParamsChange} />
 }

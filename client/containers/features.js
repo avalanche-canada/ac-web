@@ -1,136 +1,113 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import memoize from 'lodash/memoize'
+import get from 'lodash/get'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
 import { metadata } from 'api/requests/metadata'
 import { Error } from 'components/text'
 
-export class Region extends Component {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    renderError() {
-        return (
-            <Error>An error happened while retrieving forecast region.</Error>
-        )
-    }
-    children = ({ data, ...props }) => {
-        const { name } = this.props
-
-        Object.assign(props, {
-            data: data ? data['forecast-regions'][name] : null,
-        })
-
-        return this.props.children(props)
-    }
-    render() {
-        return (
-            <ErrorBoundary fallback={this.renderError}>
-                <Metadata>{this.children}</Metadata>
-            </ErrorBoundary>
-        )
-    }
+Region.propTypes = {
+    name: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired,
 }
 
-export class Regions extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
+export function Region({ name, children }) {
+    const fallback = 'An error happened while retrieving forecast region.'
+    function transform(data) {
+        return get(data, [FORECAST_REGIONS, name], null)
     }
-    renderError() {
-        return (
-            <Error>An error happened while retrieving forecast regions.</Error>
-        )
-    }
-    children = ({ data, ...props }) => {
-        Object.assign(props, {
-            data: data ? extractForecastRegions(data) : data,
-        })
 
-        return this.props.children(props)
-    }
-    render() {
-        return (
-            <ErrorBoundary fallback={this.renderError}>
-                <Metadata>{this.children}</Metadata>
-            </ErrorBoundary>
-        )
-    }
+    return (
+        <Features fallback={fallback} transform={transform}>
+            {children}
+        </Features>
+    )
 }
 
-export class HotZone extends Component {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    renderError() {
-        return <Error>An error happened while retrieving hot zone.</Error>
-    }
-    children = ({ data, ...props }) => {
-        const { name } = this.props
-
-        Object.assign(props, {
-            data: data ? data['hot-zones'][name] : null,
-        })
-
-        return this.props.children(props)
-    }
-    render() {
-        return (
-            <ErrorBoundary fallback={this.renderError}>
-                <Metadata>{this.children}</Metadata>
-            </ErrorBoundary>
-        )
-    }
+Regions.propTypes = {
+    children: PropTypes.func.isRequired,
 }
 
-export class HotZones extends Component {
-    static propTypes = {
-        children: PropTypes.func.isRequired,
-        all: PropTypes.bool,
+export function Regions({ children }) {
+    const fallback = 'An error happened while retrieving forecast regions.'
+    function transform(data) {
+        return data ? extractForecastRegions(data) : data
     }
-    renderError() {
-        return <Error>An error happened while retrieving hot zones.</Error>
-    }
-    children = ({ data, ...props }) => {
-        const { all, children } = this.props
 
-        Object.assign(props, {
-            data: data ? extractHotZones(data)(all) : data,
-        })
+    return (
+        <Features fallback={fallback} transform={transform}>
+            {children}
+        </Features>
+    )
+}
 
-        return children(props)
+HotZone.propTypes = {
+    name: PropTypes.string.isRequired,
+    children: PropTypes.func.isRequired,
+}
+
+export function HotZone({ name, children }) {
+    const fallback = 'An error happened while retrieving hot zone.'
+    function transform(data) {
+        return get(data, [HOT_ZONES, name], null)
     }
-    render() {
-        return (
-            <ErrorBoundary fallback={this.renderError}>
-                <Metadata>{this.children}</Metadata>
-            </ErrorBoundary>
-        )
+
+    return (
+        <Features fallback={fallback} transform={transform}>
+            {children}
+        </Features>
+    )
+}
+
+HotZones.propTypes = {
+    children: PropTypes.func.isRequired,
+    all: PropTypes.bool,
+}
+
+export function HotZones({ all, children }) {
+    const fallback = 'An error happened while retrieving hot zones.'
+    function transform(data) {
+        return data ? extractHotZones(data)(all) : data
     }
+
+    return (
+        <Features fallback={fallback} transform={transform}>
+            {children}
+        </Features>
+    )
 }
 
 // Utils
-const CACHE = new Memory()
-function Metadata({ children }) {
+function Features({ fallback, children, transform }) {
     return (
-        <Fetch cache={CACHE} request={metadata()}>
-            {children}
-        </Fetch>
+        <ErrorBoundary fallback={<Error>{fallback}</Error>}>
+            <Fetch cache={CACHE} request={metadata()}>
+                {({ data, ...props }) =>
+                    children(
+                        Object.assign(props, {
+                            data: data ? transform(data) : data,
+                        })
+                    )
+                }
+            </Fetch>
+        </ErrorBoundary>
     )
 }
+const CACHE = new Memory()
+const FORECAST_REGIONS = 'forecast-regions'
+const HOT_ZONES = 'hot-zones'
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
 }
 const extractHotZones = memoize(data =>
     memoize(all =>
-        Object.values(data['hot-zones'])
+        Object.values(data[HOT_ZONES])
             .filter(({ id }) => (all ? true : id === 'yukon'))
             .sort(sorter)
     )
 )
 const extractForecastRegions = memoize(data =>
-    Object.values(data['forecast-regions']).sort(sorter)
+    Object.values(data[FORECAST_REGIONS]).sort(sorter)
 )

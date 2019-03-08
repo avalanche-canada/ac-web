@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState } from 'react'
+import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
@@ -252,34 +252,31 @@ export default class SubmissionList extends Component {
     }
 }
 
-class Reports extends Component {
-    static propTypes = {
-        days: PropTypes.number.isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    render() {
-        const { days, children } = this.props
+Reports.propTypes = {
+    days: PropTypes.number.isRequired,
+    children: PropTypes.func.isRequired,
+}
 
-        return (
-            <FeatureCollection id="regions">
-                {features => (
-                    <containers.Reports days={days}>
-                        {reports =>
-                            features.data && reports.data
-                                ? children({
-                                      pending: false,
-                                      data: runSubmissionsSpatialAnalysis(
-                                          reports.data,
-                                          features.data
-                                      ),
-                                  })
-                                : children({ pending: true })
-                        }
-                    </containers.Reports>
-                )}
-            </FeatureCollection>
-        )
-    }
+function Reports({ days, children }) {
+    return (
+        <FeatureCollection id="regions">
+            {features => (
+                <containers.Reports days={days}>
+                    {reports =>
+                        features.data && reports.data
+                            ? children({
+                                  pending: false,
+                                  data: runSubmissionsSpatialAnalysis(
+                                      reports.data,
+                                      features.data
+                                  ),
+                              })
+                            : children({ pending: true })
+                    }
+                </containers.Reports>
+            )}
+        </FeatureCollection>
+    )
 }
 
 // Constants
