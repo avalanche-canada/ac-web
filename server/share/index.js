@@ -23,6 +23,9 @@ get('/forecasts/:region/archives/:date', forecastPage);
 
 get('/hot-zone-reports/:area', hotZoneReport);
 get('/hot-zone-reports/:area/:uid', hotZoneReportDetail);
+get('/advisories/:area', hotZoneReport);
+get('/map/advisories/:area', hotZoneReport);
+get('/advisories/:area/:uid', hotZoneReportDetail);
 
 get('/mountain-information-network/submissions/:id', minSubmission);
 
@@ -385,13 +388,22 @@ function hotZoneReport(req, res) {
         {},
         function(doc) {
             var img = getHotZoneReportImage(doc);
+            var img_tag = [];
+            if (img) {
+                img_tag = ['og:image', img];
+            }
+
+            var title = 'Hotzone Report for ' + capitalize(area);
+            if (doc['data']['hotzone-report.headline']) {
+                title = doc['data']['hotzone-report.headline']['value'];
+            }
             res
                 .status(200)
                 .send(
                     renderTags([
                         [
                             'og:title',
-                            doc['data']['hotzone-report.headline']['value'],
+                            title
                         ],
                         [
                             'og:url',
@@ -413,7 +425,7 @@ function hotZoneReport(req, res) {
                                 ],
                             ].join(' '),
                         ],
-                        ['og:image', img],
+                        img_tag,
                     ])
                 );
         }
@@ -475,7 +487,11 @@ function getHotZoneReportImage(doc) {
         return;
     }
     var img = imgs['value'][0];
-    return img['hotzoneImage']['value']['main']['url'];
+    if (img['hotzoneImage']) {
+        return img['hotzoneImage']['value']['main']['url'];
+    } else {
+        return undefined;
+    }
 }
 
 module.exports = prerenderRouter;
