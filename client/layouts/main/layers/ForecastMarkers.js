@@ -6,6 +6,8 @@ import { Layer } from 'contexts/layers'
 import { Marker } from 'components/map'
 import { FORECASTS } from 'constants/drawers'
 
+// FIXME Some issues here. Why pointer-events: none and click handler does not work...no navigation happening!
+
 export default class ForecastMarkers extends Component {
     static propTypes = {
         map: PropTypes.object, // actually isRequired

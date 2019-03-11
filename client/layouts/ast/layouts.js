@@ -1,7 +1,7 @@
-import React, { Component, cloneElement } from 'react'
+import React, { cloneElement, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match, Router } from '@reach/router'
-import { Page, Content, Banner, Main, Header, Article } from 'components/page'
+import { Page, Content, Banner, Main } from 'components/page'
 import classnames from 'classnames'
 import { Container, PillSet, Pill } from 'components/pill'
 import * as forms from './forms'
@@ -9,166 +9,160 @@ import * as tables from './tables'
 import * as utils from 'utils/search'
 import styles from 'styles/components.css'
 
-export default class AstLayout extends Component {
-    renderNavbar(props) {
-        return (
-            <PillSet activeIndex={Number(props.match?.type === 'providers')}>
-                <Pill>
-                    <Link to="courses">Courses</Link>
-                </Pill>
-                <Pill>
-                    <Link to="providers">Providers</Link>
-                </Pill>
-            </PillSet>
-        )
-    }
-    render() {
-        return (
-            <Page>
-                <Banner url={BANNER}>
-                    <Container>
-                        <Match path=":type">{this.renderNavbar}</Match>
-                    </Container>
-                    <Router
-                        primary={false}
-                        className={classnames(styles.MatchParent, styles.Flex)}>
-                        <Providers.Form path="providers" />
-                        <Courses.Form path="courses" />
+export default function Layout() {
+    return (
+        <Page>
+            <Banner url={BANNER}>
+                <Container>
+                    <Match path=":type">
+                        {props => (
+                            <PillSet
+                                activeIndex={Number(
+                                    props.match?.type === 'providers'
+                                )}>
+                                <Pill>
+                                    <Link to="courses">Courses</Link>
+                                </Pill>
+                                <Pill>
+                                    <Link to="providers">Providers</Link>
+                                </Pill>
+                            </PillSet>
+                        )}
+                    </Match>
+                </Container>
+                <Router
+                    primary={false}
+                    className={classnames(styles.MatchParent, styles.Flex)}>
+                    <ProvidersForm path="providers" />
+                    <CoursesForm path="courses" />
+                </Router>
+            </Banner>
+            <Main>
+                <Content>
+                    <Router className={styles.FullWidth}>
+                        <ProvidersTable path="providers" />
+                        <CoursesTable path="courses" />
                     </Router>
-                </Banner>
-                <Main>
-                    <Content>
-                        <Router className={styles.FullWidth}>
-                            <Providers.Table path="providers" />
-                            <Courses.Table path="courses" />
-                        </Router>
-                    </Content>
-                </Main>
-            </Page>
-        )
-    }
+                </Content>
+            </Main>
+        </Page>
+    )
 }
 
-class Courses extends Component {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        navigate: PropTypes.func.isRequired,
-        children: PropTypes.element,
-    }
-    static Table(props) {
-        return (
-            <Courses {...props}>
-                <tables.Courses />
-            </Courses>
-        )
-    }
-    static Form(props) {
-        return (
-            <Courses {...props}>
-                <forms.Courses {...props} />
-            </Courses>
-        )
-    }
-    shouldComponentUpdate({ location }) {
-        return location !== this.props.location
-    }
-    get params() {
-        const { location } = this.props
-        const place = location?.state?.place
-        const params = utils.parse(location.search)
-        const { level, from, to, tags, sorting } = params
+Courses.propTypes = {
+    location: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
+    children: PropTypes.element,
+}
 
-        return {
+function Courses({ children, location, navigate }) {
+    const props = useMemo(() => {
+        const place = location?.state?.place
+        let { level, from, to, tags, sorting } = utils.parse(location.search)
+        from = typeof from === 'string' ? utils.parseDate(from) : from
+        to = typeof to === 'string' ? utils.parseDate(to) : to
+        tags = utils.toSet(tags)
+        sorting =
+            typeof sorting === 'string' ? utils.parseSorting(sorting) : sorting
+        const params = {
             level,
-            from: typeof from === 'string' ? utils.parseDate(from) : from,
-            to: typeof to === 'string' ? utils.parseDate(to) : to,
-            tags: utils.toSet(tags),
-            sorting:
-                typeof sorting === 'string'
-                    ? utils.parseSorting(sorting)
-                    : sorting,
+            from,
+            to,
+            tags,
+            sorting,
             place,
         }
-    }
-    handleParamsChange = params => {
-        const { sorting, place, ...rest } = Object.assign(this.params, params)
 
-        rest.sorting = utils.formatSorting(sorting)
-
-        this.props.navigate(utils.stringify(rest), {
-            state: { place },
-            replace: true,
-        })
-    }
-    get value() {
         return {
-            ...this.params,
-            onParamsChange: this.handleParamsChange,
+            ...params,
+            onParamsChange(newParams) {
+                const { place, ...rest } = Object.assign(params, newParams)
+
+                rest.sorting = utils.formatSorting(rest.sorting)
+
+                navigate(utils.stringify(rest), {
+                    state: { place },
+                    replace: true,
+                })
+            },
         }
-    }
-    render() {
-        return cloneElement(this.props.children, this.value)
-    }
+    }, [location])
+
+    return cloneElement(children, props)
 }
 
-class Providers extends Component {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-        navigate: PropTypes.func.isRequired,
-        children: PropTypes.element,
-    }
-    static Table(props) {
-        return (
-            <Providers {...props}>
-                <tables.Providers />
-            </Providers>
-        )
-    }
-    static Form(props) {
-        return (
-            <Providers {...props}>
-                <forms.Providers />
-            </Providers>
-        )
-    }
-    shouldComponentUpdate({ location }) {
-        return location !== this.props.location
-    }
-    get params() {
-        const { location } = this.props
-        const { tags, sorting } = utils.parse(location.search)
-        const place = location?.state?.place
+function CoursesTable(props) {
+    return (
+        <Courses {...props}>
+            <tables.Courses />
+        </Courses>
+    )
+}
 
-        return {
-            tags: utils.toSet(tags),
-            sorting:
-                typeof sorting === 'string'
-                    ? utils.parseSorting(sorting)
-                    : sorting,
+function CoursesForm(props) {
+    return (
+        <Courses {...props}>
+            <forms.Courses {...props} />
+        </Courses>
+    )
+}
+
+Providers.propTypes = {
+    location: PropTypes.object.isRequired,
+    navigate: PropTypes.func.isRequired,
+    children: PropTypes.element,
+}
+
+function Providers({ children, location, navigate }) {
+    const props = useMemo(() => {
+        const place = location?.state?.place
+        let { tags, sorting } = utils.parse(location.search)
+        tags = utils.toSet(tags)
+        sorting =
+            typeof sorting === 'string' ? utils.parseSorting(sorting) : sorting
+        const params = {
+            tags,
+            sorting,
             place,
         }
-    }
-    handleParamsChange = params => {
-        const { sorting, place, ...rest } = Object.assign(this.params, params)
-        const search = utils.stringify({
-            ...rest,
-            sorting: utils.formatSorting(sorting),
-        })
 
-        this.props.navigate(search, {
-            state: { place },
-            replace: true,
-        })
-    }
-    get value() {
         return {
-            ...this.params,
-            onParamsChange: this.handleParamsChange,
+            ...params,
+            onParamsChange(newParams) {
+                const { sorting, place, ...rest } = Object.assign(
+                    params,
+                    newParams
+                )
+                const search = utils.stringify({
+                    ...rest,
+                    sorting: utils.formatSorting(sorting),
+                })
+
+                navigate(search, {
+                    state: { place },
+                    replace: true,
+                })
+            },
         }
-    }
-    render() {
-        return cloneElement(this.props.children, this.value)
-    }
+    }, [location])
+
+    return cloneElement(children, props)
+}
+
+function ProvidersTable(props) {
+    return (
+        <Providers {...props}>
+            <tables.Providers />
+        </Providers>
+    )
+}
+
+function ProvidersForm(props) {
+    return (
+        <Providers {...props}>
+            <forms.Providers />
+        </Providers>
+    )
 }
 
 // Constants

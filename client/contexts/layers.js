@@ -93,31 +93,26 @@ export class Provider extends Component {
     }
 }
 
-export class Layer extends Component {
-    static propTypes = {
-        id: PropTypes.oneOf(LAYERS.default).isRequired,
-        children: PropTypes.func.isRequired,
-    }
-    static contextType = LayersContext
-    toggle = () => {
-        this.context.toggle(this.props.id)
-    }
-    setFilterValue = (name, value) => {
-        this.context.setFilterValue(this.props.id, name, value)
-    }
-    render() {
-        const { children, id } = this.props
-        const { toggle, setFilterValue } = this
-
-        return children({
-            ...this.context.layers[id],
-            toggle,
-            setFilterValue,
-        })
-    }
+Layer.propTypes = {
+    id: PropTypes.oneOf(LAYERS.default).isRequired,
+    children: PropTypes.func.isRequired,
 }
 
-// TODO: To remove when consumer of the component gets converted to a function component
+export function Layer({ id, children }) {
+    const { layers, toggle, setFilterValue } = useContext(LayersContext)
+
+    return children({
+        ...layers[id],
+        toggle() {
+            toggle(id)
+        },
+        setFilterValue(name, value) {
+            setFilterValue(id, name, value)
+        },
+    })
+}
+
+// TODO: To remove when consumer of <Layers> component gets converted to a function component
 Layers.propTypes = {
     children: PropTypes.func.isRequired,
 }

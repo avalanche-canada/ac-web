@@ -1,4 +1,4 @@
-import React, { Component, PureComponent, Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Match } from '@reach/router'
 import * as turf from '@turf/helpers'
@@ -6,63 +6,60 @@ import { FeatureCollection } from 'containers/mapbox'
 import { Source, Layer, Map } from 'components/map'
 import { FORECASTS as key } from 'constants/drawers'
 
-export default class ForecastRegions extends Component {
-    static propTypes = {
-        visible: PropTypes.bool,
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    renderLayers = ({ data = EMPTY }) => {
-        const { props } = this
-        // https://github.com/mapbox/mapbox-gl-js/issues/2716
-        data.features.forEach((feature, index) => {
-            feature.id = index + 1
-            feature.properties.type = key
-        })
-
-        return (
-            <Source id={key} data={data}>
-                <Layer.Fill id={key} {...props} {...styles.fill} />
-                <Layer.Line id={`${key}-line`} {...props} {...styles.line} />
-                <Layer.Symbol
-                    id={`${key}-labels`}
-                    {...props}
-                    {...styles.labels}
-                />
-            </Source>
-        )
-    }
-    renderForecastRegionActivator({ match }) {
-        return match ? (
-            <Map.With loaded>
-                <ForecastRegionActivator id={match.id} />
-            </Map.With>
-        ) : null
-    }
-    render() {
-        return (
-            <Fragment>
-                <FeatureCollection id="regions">
-                    {this.renderLayers}
-                </FeatureCollection>
-                <Match path="forecasts/:id">
-                    {this.renderForecastRegionActivator}
-                </Match>
-            </Fragment>
-        )
-    }
+ForecastRegions.propTypes = {
+    visible: PropTypes.bool,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
 }
 
-class ForecastRegionActivator extends PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        map: PropTypes.object.isRequired,
-    }
-    get id() {
-        return this.props.id
-    }
-    setActive(id, active) {
-        const { map } = this.props
+export default function ForecastRegions(props) {
+    return (
+        <Fragment>
+            <FeatureCollection id="regions">
+                {({ data = EMPTY }) => {
+                    // https://github.com/mapbox/mapbox-gl-js/issues/2716
+                    data.features.forEach((feature, index) => {
+                        feature.id = index + 1
+                        feature.properties.type = key
+                    })
+
+                    return (
+                        <Source id={key} data={data}>
+                            <Layer.Fill id={key} {...props} {...styles.fill} />
+                            <Layer.Line
+                                id={`${key}-line`}
+                                {...props}
+                                {...styles.line}
+                            />
+                            <Layer.Symbol
+                                id={`${key}-labels`}
+                                {...props}
+                                {...styles.labels}
+                            />
+                        </Source>
+                    )
+                }}
+            </FeatureCollection>
+            <Match path="forecasts/:id">
+                {({ match }) =>
+                    match ? (
+                        <Map.With loaded>
+                            <ForecastRegionActivator id={match.id} />
+                        </Map.With>
+                    ) : null
+                }
+            </Match>
+        </Fragment>
+    )
+}
+
+ForecastRegionActivator.propTypes = {
+    id: PropTypes.string.isRequired,
+    map: PropTypes.object.isRequired,
+}
+
+function ForecastRegionActivator({ id, map }) {
+    function setActive(id, active) {
         const [feature] = map.querySourceFeatures(key, {
             filter: ['==', 'id', id],
         })
@@ -72,26 +69,23 @@ class ForecastRegionActivator extends PureComponent {
         } else {
             map.on('sourcedata', event => {
                 if (event.sourceId === key) {
-                    this.setActive(id, active)
+                    setActive(id, active)
                 }
             })
         }
     }
-    componentDidMount() {
-        this.setActive(this.id, true)
-    }
-    componentDidUpdate({ id }) {
-        this.setActive(id, false)
-        this.setActive(this.id, true)
-    }
-    componentWillUnmount() {
-        if (this.props.map.isStyleLoaded()) {
-            this.setActive(this.id, false)
+
+    useEffect(() => {
+        setActive(id, true)
+
+        return () => {
+            if (map.isStyleLoaded()) {
+                setActive(id, false)
+            }
         }
-    }
-    render() {
-        return null
-    }
+    }, [id])
+
+    return null
 }
 
 // Constants

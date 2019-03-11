@@ -1,13 +1,23 @@
-import React, { Component, Fragment, useState, useEffect } from 'react'
+import React, {
+    Fragment,
+    useMemo,
+    useState,
+    useEffect,
+    useContext,
+} from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect, Location } from '@reach/router'
+import get from 'lodash/get'
 import { Document } from 'prismic/containers'
 import { tutorial } from 'prismic/params'
 import * as Page from 'components/page'
 import Alert from 'components/highlight'
 import Tree, { Node } from 'components/tree'
 import { SliceZone } from 'prismic/components/base'
-import * as LocaleContext from 'contexts/locale'
+import LocaleContext, {
+    Provider as LocaleProvider,
+    Translate,
+} from 'contexts/locale'
 import SliceComponents from 'prismic/components/slice/rework'
 import { Loading } from 'components/text'
 import Pager, { Previous, Next } from 'components/pager'
@@ -31,79 +41,75 @@ import { useWindowSize } from 'utils/react'
 import { FR, EN } from 'constants/locale'
 
 // TODO: Use Context to propagate the tutorial document
-// TODO: Brings LocaleContext.Provider out of this layout...should be bring in the index file
+// TODO: Brings LocaleProvider out of this layout...should be bring in the index file
 
-export default class Layout extends Component {
-    static propTypes = {
-        location: PropTypes.object.isRequired,
-    }
-    state = {
-        locale: getLocaleFromProps(this.props),
-        dictionnaries,
-    }
-    componentDidUpdate(nextProps) {
-        if (nextProps['*'] !== this.props['*']) {
-            this.setState({
-                locale: getLocaleFromProps(this.props),
-            })
-        }
-    }
-    renderContent = ({ document }) => {
-        const { path, uri } = this.props
-        const isExact = path === uri
-        const title = document?.data?.title[0]?.text
+Layout.propTypes = {
+    location: PropTypes.object.isRequired,
+    path: PropTypes.string.isRequired,
+    uri: PropTypes.string.isRequired,
+}
 
-        return (
-            <Fragment>
-                <Sidebar
-                    location={this.props.location}
-                    items={document?.data?.items}
-                    title={title}
-                />
-                <Content>
-                    <h1>
-                        {title ? (
-                            isExact ? (
-                                title
-                            ) : (
-                                <Link to={uri}>{title}</Link>
-                            )
-                        ) : (
-                            <Loading />
-                        )}
-                    </h1>
-                </Content>
-            </Fragment>
-        )
-    }
-    render() {
-        const { locale } = this.state
+export default function Layout({ location, uri, path }) {
+    const context = useMemo(
+        () => ({
+            locale: getLocaleFromProps(uri),
+            dictionnaries,
+        }),
+        [uri]
+    )
+    const { locale } = context
 
-        return (
-            <Fragment>
-                {locale === FR && (
-                    <Alert style={ALERT_STYLE}>
-                        Quelques sections de notre tutoriel ne sont pas à jour.
-                        Revenez regulièrement pour consulter les améliorations
-                        que nous y apportons.
-                        <br />
-                        Some sections of the French tutorial are outdated. We
-                        are currently working on improvements so stay tuned for
-                        updates!
-                    </Alert>
-                )}
-                <Page.Page>
-                    <Page.Content>
-                        <LocaleContext.Provider value={this.state}>
-                            <Document {...tutorial.home()} locale={locale}>
-                                {this.renderContent}
-                            </Document>
-                        </LocaleContext.Provider>
-                    </Page.Content>
-                </Page.Page>
-            </Fragment>
-        )
-    }
+    return (
+        <Fragment>
+            {locale === FR && (
+                <Alert style={ALERT_STYLE}>
+                    Quelques sections de notre tutoriel ne sont pas à jour.
+                    Revenez regulièrement pour consulter les améliorations que
+                    nous y apportons.
+                    <br />
+                    Some sections of the French tutorial are outdated. We are
+                    currently working on improvements so stay tuned for updates!
+                </Alert>
+            )}
+            <Page.Page>
+                <Page.Content>
+                    <LocaleProvider value={context}>
+                        <Document {...tutorial.home()} locale={locale}>
+                            {({ document }) => {
+                                const isExact = path === uri
+                                const title = document?.data?.title[0]?.text
+
+                                return (
+                                    <Fragment>
+                                        <Sidebar
+                                            location={location}
+                                            items={document?.data?.items}
+                                            title={title}
+                                        />
+                                        <Content>
+                                            <h1>
+                                                {title ? (
+                                                    isExact ? (
+                                                        title
+                                                    ) : (
+                                                        <Link to={uri}>
+                                                            {title}
+                                                        </Link>
+                                                    )
+                                                ) : (
+                                                    <Loading />
+                                                )}
+                                            </h1>
+                                        </Content>
+                                    </Fragment>
+                                )
+                            }}
+                        </Document>
+                    </LocaleProvider>
+                </Page.Content>
+            </Page.Page>
+        </Fragment>
+    )
 }
 
 Sidebar.propTypes = {
@@ -160,138 +166,129 @@ function Sidebar({ title, location, items = [], path }) {
     )
 }
 
-class Content extends Component {
-    redirect = ({ location }) => {
-        const params = new URLSearchParams(location.search)
+function Content({ children }) {
+    const { locale } = useContext(LocaleContext)
 
-        return params.has('uid') ? (
-            <LocaleContext.Locale>
-                {locale => (
-                    <Document {...tutorial.home()} locale={locale}>
-                        {({ document }) => {
-                            if (!document) {
-                                return null
-                            }
+    return (
+        <Page.Main style={CONTENT_STYLE}>
+            {children}
+            <Router>
+                <Home path="/" />
+                <Tutorial path="/*" />
+            </Router>
+            <Location>
+                {({ location }) => {
+                    const params = new URLSearchParams(location.search)
 
-                            const uid = params.get('uid')
-                            const { items } = document.data
-                            function findByUID(item) {
-                                return item.link.value.document.uid == uid
-                            }
+                    if (!params.has('uid')) {
+                        return null
+                    }
 
-                            if (!items.some(findByUID)) {
-                                return null
-                            }
+                    return (
+                        <Document {...tutorial.home()} locale={locale}>
+                            {({ document }) => {
+                                if (!document) {
+                                    return null
+                                }
 
-                            const index = items.findIndex(findByUID)
-                            const paths = []
-                            let level = Number(items[index].level)
-                            function finder(item) {
-                                return item.level == level
-                            }
-                            const usefullItems = items
-                                .slice(0, index + 1)
-                                .reverse()
+                                const uid = params.get('uid')
+                                const { items } = document.data
+                                function findByUID(item) {
+                                    return item.link.value.document.uid == uid
+                                }
 
-                            do {
-                                const item = usefullItems.find(finder)
-                                const { uid } = item.link.value.document
+                                if (!items.some(findByUID)) {
+                                    return null
+                                }
 
-                                paths.push(uid)
+                                const index = items.findIndex(findByUID)
+                                const paths = []
+                                let level = Number(items[index].level)
+                                function finder(item) {
+                                    return item.level == level
+                                }
+                                const usefullItems = items
+                                    .slice(0, index + 1)
+                                    .reverse()
 
-                                level = level - 1
-                            } while (level > 0)
+                                do {
+                                    const item = usefullItems.find(finder)
+                                    const { uid } = item.link.value.document
 
-                            paths.push(location.pathname)
+                                    paths.push(uid)
 
-                            return (
-                                <Redirect
-                                    noThrow
-                                    to={paths.reverse().join('/')}
-                                />
-                            )
-                        }}
-                    </Document>
-                )}
-            </LocaleContext.Locale>
-        ) : null
-    }
-    render() {
-        const { children } = this.props
+                                    level = level - 1
+                                } while (level > 0)
 
-        return (
-            <Page.Main style={CONTENT_STYLE}>
-                {children}
-                <Router>
-                    <Home path="/" />
-                    <Tutorial path="/*" />
-                </Router>
-                <Location>{this.redirect}</Location>
-            </Page.Main>
-        )
-    }
+                                paths.push(location.pathname)
+
+                                return (
+                                    <Redirect
+                                        noThrow
+                                        to={paths.reverse().join('/')}
+                                    />
+                                )
+                            }}
+                        </Document>
+                    )
+                }}
+            </Location>
+        </Page.Main>
+    )
 }
 
-class Home extends Component {
-    renderContent = ({ document }) => {
-        if (!document) {
-            return null
-        }
+function Home() {
+    const { locale } = useContext(LocaleContext)
 
-        const [first] = document.data.items
+    return (
+        <Document {...tutorial.home()} locale={locale}>
+            {({ document }) => {
+                if (!document) {
+                    return null
+                }
 
-        return (
-            <Fragment>
-                <SliceZone
-                    components={TutorialSliceComponents}
-                    value={document.data.content}
-                />
-                <Pager>
-                    <Next
-                        to={`${getUIDFromMenuItem(first)}`}
-                        subtitle={<Translate>Start with</Translate>}>
-                        {first.title}
-                    </Next>
-                </Pager>
-            </Fragment>
-        )
-    }
-    render() {
-        return (
-            <LocaleContext.Locale>
-                {locale => (
-                    <Document {...tutorial.home()} locale={locale}>
-                        {this.renderContent}
-                    </Document>
-                )}
-            </LocaleContext.Locale>
-        )
-    }
+                const [first] = document.data.items
+
+                return (
+                    <Fragment>
+                        <SliceZone
+                            components={TutorialSliceComponents}
+                            value={document.data.content}
+                        />
+                        <Pager>
+                            <Next
+                                to={getUIDFromMenuItem(first)}
+                                subtitle={<Translate>Start with</Translate>}>
+                                {first.title}
+                            </Next>
+                        </Pager>
+                    </Fragment>
+                )
+            }}
+        </Document>
+    )
 }
 
-class Tutorial extends Component {
-    static propTypes = {
-        ['*']: PropTypes.string.isRequired,
-        uri: PropTypes.string.isRequired,
-    }
-    get uid() {
-        const parts = this.props['*'].split('/')
+Tutorial.propTypes = {
+    ['*']: PropTypes.string.isRequired,
+    uri: PropTypes.string.isRequired,
+}
 
-        return parts[parts.length - 1]
-    }
-    renderPager = ({ document }) => {
+function Tutorial(props) {
+    const { uri } = props
+    const [uid] = props['*'].split('/').reverse()
+    const { locale } = useContext(LocaleContext)
+    function renderPager({ document }) {
         if (!document) {
             return null
         }
 
         const { items, title } = document.data
-        const { uid } = this
         const item = items.find(item => getUIDFromMenuItem(item) === uid)
         const index = items.indexOf(item)
         const previous = items[index - 1]
         const next = items[index + 1]
         const previousSubtitle = previous ? 'Previous' : 'Back to'
-        const { uri } = this.props
 
         return (
             <Pager>
@@ -310,67 +307,49 @@ class Tutorial extends Component {
             </Pager>
         )
     }
-    renderTutorial({ data }) {
-        return (
-            <Fragment>
-                <h2>{data.title[0].text}</h2>
-                <SliceZone
-                    components={TutorialSliceComponents}
-                    value={data.content}
-                />
-                <LocaleContext.Locale>
-                    {locale => (
-                        <Document {...tutorial.home()} locale={locale}>
-                            {this.renderPager}
-                        </Document>
-                    )}
-                </LocaleContext.Locale>
-            </Fragment>
-        )
-    }
-    renderContent = ({ pending, fulfilled, document }) => {
-        if (pending) {
-            return (
-                <h2>
-                    <Loading />
-                </h2>
-            )
-        }
 
-        if (fulfilled) {
-            return document ? (
-                this.renderTutorial(document)
-            ) : (
-                <NoDocument uid={this.uid} uri={this.props.uri} />
-            )
-        }
+    return (
+        <Document {...tutorial.article(uid)} locale={locale}>
+            {({ pending, fulfilled, document }) => {
+                if (pending) {
+                    return (
+                        <h2>
+                            <Loading />
+                        </h2>
+                    )
+                }
 
-        return null
-    }
-    render() {
-        return (
-            <LocaleContext.Locale>
-                {locale => (
-                    <Document {...tutorial.article(this.uid)} locale={locale}>
-                        {this.renderContent}
-                    </Document>
-                )}
-            </LocaleContext.Locale>
-        )
-    }
+                if (fulfilled) {
+                    return document ? (
+                        <Fragment>
+                            <h2>{document.data.title[0].text}</h2>
+                            <SliceZone
+                                components={TutorialSliceComponents}
+                                value={document.data.content}
+                            />
+                            <Document {...tutorial.home()} locale={locale}>
+                                {renderPager}
+                            </Document>
+                        </Fragment>
+                    ) : (
+                        <NoDocument uid={uid} uri={uri} />
+                    )
+                }
+
+                return null
+            }}
+        </Document>
+    )
 }
 
-class NoDocument extends Component {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-        uri: PropTypes.string.isRequired,
-    }
-    getTitle(document) {
-        return document ? document.data.title[0].text : null
-    }
-    getItemTitle(document) {
-        const { uid } = this.props
+NoDocument.propTypes = {
+    uid: PropTypes.string.isRequired,
+    uri: PropTypes.string.isRequired,
+}
 
+function NoDocument({ uid, uri }) {
+    const { locale } = useContext(LocaleContext)
+    function getItemTitle(document) {
         if (!document) {
             return uid
         }
@@ -381,34 +360,26 @@ class NoDocument extends Component {
 
         return item ? item.title : uid
     }
-    renderContent = ({ document }) => {
-        return (
-            <Fragment>
-                <Warning>
-                    <Translate>There is no document for</Translate>{' '}
-                    {this.getItemTitle(document)}.
-                </Warning>
-                <Pager>
-                    <Next
-                        to={this.props.uri}
-                        subtitle={<Translate>Visit the</Translate>}>
-                        {this.getTitle(document)}
-                    </Next>
-                </Pager>
-            </Fragment>
-        )
-    }
-    render() {
-        return (
-            <LocaleContext.Locale>
-                {locale => (
-                    <Document {...tutorial.home()} locale={locale}>
-                        {this.renderContent}
-                    </Document>
-                )}
-            </LocaleContext.Locale>
-        )
-    }
+
+    return (
+        <Document {...tutorial.home()} locale={locale}>
+            {({ document }) => (
+                <Fragment>
+                    <Warning>
+                        <Translate>There is no document for</Translate>{' '}
+                        {getItemTitle(document)}.
+                    </Warning>
+                    <Pager>
+                        <Next
+                            to={uri}
+                            subtitle={<Translate>Visit the</Translate>}>
+                            {get(document, 'data.title[0].text', null)}
+                        </Next>
+                    </Pager>
+                </Fragment>
+            )}
+        </Document>
+    )
 }
 
 // Utils
@@ -468,12 +439,7 @@ function buildNodeLink(node, nodes, root) {
 
     return [root, ...uids].join('/')
 }
-function toggleDrawer({ open }) {
-    return {
-        open: !open,
-    }
-}
-function getLocaleFromProps({ uri }) {
+function getLocaleFromProps(uri) {
     return uri === '/tutoriel' ? FR : EN
 }
 
@@ -500,7 +466,6 @@ const ALERT_STYLE = {
 }
 
 // Components
-const { Translate } = LocaleContext
 const TutorialSliceComponents = new Map([
     ...SliceComponents,
     ['atesExercise', ATESExercise],

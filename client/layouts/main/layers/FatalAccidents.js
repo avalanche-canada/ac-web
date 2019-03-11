@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -7,26 +7,26 @@ import { Documents } from 'prismic/containers'
 import { fatal } from 'prismic/params'
 import { FATAL_ACCIDENT as key } from 'constants/drawers'
 
-export default class FatalAccidents extends Component {
-    static propTypes = {
-        visible: PropTypes.bool,
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    withData = ({ documents }) => {
-        return (
-            <Source
-                id={key}
-                cluster
-                clusterMaxZoom={14}
-                data={createFeatureCollection(documents)}>
-                <Layer.Symbol id={key} {...this.props} {...styles} />
-            </Source>
-        )
-    }
-    render() {
-        return <Documents {...fatal.accidents()}>{this.withData}</Documents>
-    }
+FatalAccidents.propTypes = {
+    visible: PropTypes.bool,
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+}
+
+export default function FatalAccidents(props) {
+    return (
+        <Documents {...fatal.accidents()}>
+            {({ documents }) => (
+                <Source
+                    id={key}
+                    cluster
+                    clusterMaxZoom={14}
+                    data={createFeatureCollection(documents)}>
+                    <Layer.Symbol id={key} {...props} {...styles} />
+                </Source>
+            )}
+        </Documents>
+    )
 }
 
 // Utils

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
@@ -8,112 +8,98 @@ import { Report, Reports } from 'containers/min'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
 
-export default class MountainInformationNetwork extends Component {
-    static propTypes = {
-        visible: PropTypes.bool,
-        filters: PropTypes.shape({
-            days: PropTypes.number,
-            types: PropTypes.instanceOf(Set),
-        }),
-        onMouseEnter: PropTypes.func,
-        onMouseLeave: PropTypes.func,
-    }
-    get filter() {
-        const { types } = this.props.filters
+MountainInformationNetwork.propTypes = {
+    visible: PropTypes.bool,
+    filters: PropTypes.shape({
+        days: PropTypes.number,
+        types: PropTypes.instanceOf(Set),
+    }),
+    onMouseEnter: PropTypes.func,
+    onMouseLeave: PropTypes.func,
+}
 
-        return types.size === 0
-            ? ['boolean', true]
-            : [
-                  'any',
-                  ...Array.from(types).map(type => [
-                      'boolean',
-                      ['get', type],
-                      false,
-                  ]),
-              ]
-    }
-    createWithMap = ({ all }) => {
-        return (
-            <Location>
-                {props => {
-                    const params = new URLSearchParams(props.location.search)
+export default function MountainInformationNetwork({ filters, ...props }) {
+    const { days, types } = filters
+    const filter = useMemo(
+        () =>
+            types.size === 0
+                ? ['boolean', true]
+                : [
+                      'any',
+                      ...Array.from(types).map(type => [
+                          'boolean',
+                          ['get', type],
+                          false,
+                      ]),
+                  ],
+        [types]
+    )
+    const withLocation = all => ({ location }) => {
+        const params = new URLSearchParams(location.search)
 
-                    if (params.has('panel')) {
-                        const [type, id] = params
-                            .get('panel')
-                            .split('/')
-                            .filter(Boolean)
-                        const hasReport = report => report.properties.id !== id
+        if (!params.has('panel')) {
+            return null
+        }
 
-                        if (
-                            type === TYPE &&
-                            typeof id === 'string' &&
-                            all.every(hasReport)
-                        ) {
-                            const { onMouseEnter, onMouseLeave } = this.props
+        const [type, id] = params
+            .get('panel')
+            .split('/')
+            .filter(Boolean)
 
-                            return (
-                                <Report id={id}>
-                                    {({ data }) => (
-                                        <Source
-                                            id={id}
-                                            data={createReportFeatureCollection(
-                                                data
-                                            )}>
-                                            <Layer.Symbol
-                                                id={id}
-                                                onMouseEnter={onMouseEnter}
-                                                onMouseLeave={onMouseLeave}
-                                                {...styles.reports}
-                                            />
-                                        </Source>
-                                    )}
-                                </Report>
-                            )
-                        }
-                    }
-
-                    return null
-                }}
-            </Location>
-        )
-    }
-    addReports = ({ data = [] }) => {
-        const { filter } = this
-        const { filters, ...props } = this.props
-        const collections = createFeatureCollections(data)
+        if (
+            type !== TYPE ||
+            typeof id !== 'string' ||
+            all.some(({ properties }) => properties.id === id)
+        ) {
+            return null
+        }
 
         return (
-            <Fragment>
-                <Source
-                    id={key}
-                    cluster
-                    clusterMaxZoom={14}
-                    data={collections.reports}>
-                    <Layer.Symbol
-                        id={key}
-                        filter={filter}
-                        {...props}
-                        {...styles.reports}
-                    />
-                </Source>
-                <Source id={`${key}-incidents`} data={collections.incidents}>
-                    <Layer.Symbol
-                        id={`${key}-incidents`}
-                        filter={filter}
-                        {...props}
-                        {...styles.incidents}
-                    />
-                </Source>
-                {this.createWithMap(collections)}
-            </Fragment>
+            <Report id={id}>
+                {({ data }) => (
+                    <Source id={id} data={createReportFeatureCollection(data)}>
+                        <Layer.Symbol id={id} {...props} {...styles.reports} />
+                    </Source>
+                )}
+            </Report>
         )
     }
-    render() {
-        const { days } = this.props.filters
 
-        return <Reports days={days}>{this.addReports}</Reports>
-    }
+    return (
+        <Reports days={days}>
+            {({ data = [] }) => {
+                const { reports, incidents, all } = createFeatureCollections(
+                    data
+                )
+
+                return (
+                    <Fragment>
+                        <Source
+                            id={key}
+                            cluster
+                            clusterMaxZoom={14}
+                            data={reports}>
+                            <Layer.Symbol
+                                id={key}
+                                filter={filter}
+                                {...props}
+                                {...styles.reports}
+                            />
+                        </Source>
+                        <Source id={`${key}-incidents`} data={incidents}>
+                            <Layer.Symbol
+                                id={`${key}-incidents`}
+                                filter={filter}
+                                {...props}
+                                {...styles.incidents}
+                            />
+                        </Source>
+                        <Location>{withLocation(all)}</Location>
+                    </Fragment>
+                )
+            }}
+        </Reports>
+    )
 }
 
 // Utils

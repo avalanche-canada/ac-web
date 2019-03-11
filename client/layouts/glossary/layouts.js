@@ -62,43 +62,37 @@ const GlossarySidebar = memo.static(function GlossarySidebar() {
     )
 })
 
-class Glossary extends Component {
-    renderContent = ({ document, loading }) => {
-        return (
-            <Fragment>
-                <Loading show={loading} />
-                {document && (
-                    <GlossaryContent {...this.props} {...document.data} />
-                )}
-            </Fragment>
-        )
-    }
-    render() {
-        return (
-            <Document {...glossary.glossary()}>{this.renderContent}</Document>
-        )
-    }
+function Glossary() {
+    return (
+        <Document {...glossary.glossary()}>
+            {({ document, loading }) => (
+                <Fragment>
+                    <Loading show={loading} />
+                    {document && (
+                        <GlossaryContent {...this.props} {...document.data} />
+                    )}
+                </Fragment>
+            )}
+        </Document>
+    )
 }
 
-class Definition extends Component {
-    static propTypes = {
-        uid: PropTypes.string.isRequired,
-    }
-    renderContent = ({ loading, document }) => {
-        return (
-            <Fragment>
-                <Loading show={loading} />
-                {document && <DefinitionLayout linkToExternal {...document} />}
-            </Fragment>
-        )
-    }
-    render() {
-        return (
-            <Document {...glossary.definition(this.props.uid)}>
-                {this.renderContent}
-            </Document>
-        )
-    }
+Definition.propTypes = {
+    uid: PropTypes.string.isRequired,
+}
+function Definition({ uid }) {
+    return (
+        <Document {...glossary.definition(uid)}>
+            {({ loading, document }) => (
+                <Fragment>
+                    <Loading show={loading} />
+                    {document && (
+                        <DefinitionLayout linkToExternal {...document} />
+                    )}
+                </Fragment>
+            )}
+        </Document>
+    )
 }
 
 // Util layouts
@@ -144,44 +138,39 @@ function DefinitionLayout({ uid, tags, data, linkToExternal }) {
     )
 }
 
-class Related extends Component {
-    static propTypes = {
-        items: PropTypes.arrayOf(PropTypes.object).isRequired,
-        linkToExternal: PropTypes.bool,
-    }
-    renderItem({ definition }) {
-        if (definition.value.isBroken) {
-            return null
-        }
+Related.propTypes = {
+    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    linkToExternal: PropTypes.bool,
+}
 
-        const { linkToExternal } = this.props
-        const { uid, data } = definition.value.document
-        const title = data.definition.title.value
+function Related({ items, linkToExternal }) {
+    items = items.filter(hasDefinition)
 
-        return (
-            <li key={uid}>
-                {linkToExternal ? (
-                    <Link to={`../${uid}`} title={title}>
-                        {title}
-                    </Link>
-                ) : (
-                    <a href={`#${uid}`} title={title}>
-                        {title}
-                    </a>
-                )}
-            </li>
-        )
-    }
-    render() {
-        const items = this.props.items.filter(hasDefinition)
+    return items.length === 0 ? null : (
+        <div>
+            <Muted>See also: </Muted>
+            <ul>
+                {items.filter(isNotBroken).map(({ definition }) => {
+                    const { uid, data } = definition.value.document
+                    const title = data.definition.title.value
 
-        return items.length === 0 ? null : (
-            <div>
-                <Muted>See also: </Muted>
-                <ul>{items.map(this.renderItem, this)}</ul>
-            </div>
-        )
-    }
+                    return (
+                        <li key={uid}>
+                            {linkToExternal ? (
+                                <Link to={`../${uid}`} title={title}>
+                                    {title}
+                                </Link>
+                            ) : (
+                                <a href={`#${uid}`} title={title}>
+                                    {title}
+                                </a>
+                            )}
+                        </li>
+                    )
+                })}
+            </ul>
+        </div>
+    )
 }
 
 LetterTag.propTypes = {
@@ -306,31 +295,28 @@ class GlossaryContent extends Component {
     }
 }
 
-class Section extends Component {
-    static propTypes = {
-        letter: PropTypes.string.isRequired,
-        definitions: PropTypes.array.isRequired,
-    }
-    render() {
-        const { letter, definitions } = this.props
+Section.propTypes = {
+    letter: PropTypes.string.isRequired,
+    definitions: PropTypes.array.isRequired,
+}
 
-        if (definitions.length === 0) {
-            return null
-        }
-
-        return (
-            <section key={letter} className={styles.Section}>
-                <h1>
-                    <FragmentIdentifier hash={letter.toLowerCase()}>
-                        {letter}
-                    </FragmentIdentifier>
-                </h1>
-                {definitions.map(definition => (
-                    <DefinitionLayout key={definition.uid} {...definition} />
-                ))}
-            </section>
-        )
+function Section({ letter, definitions }) {
+    if (definitions.length === 0) {
+        return null
     }
+
+    return (
+        <section key={letter} className={styles.Section}>
+            <h1>
+                <FragmentIdentifier hash={letter.toLowerCase()}>
+                    {letter}
+                </FragmentIdentifier>
+            </h1>
+            {definitions.map(definition => (
+                <DefinitionLayout key={definition.uid} {...definition} />
+            ))}
+        </section>
+    )
 }
 
 // Constants
@@ -339,6 +325,9 @@ const LETTERS = Array.from('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
 // Utils
 function hasDefinition({ definition }) {
     return Boolean(definition)
+}
+function isNotBroken({ definition }) {
+    return !definition.value.isBroken
 }
 function isText({ type }) {
     return type === 'text'
