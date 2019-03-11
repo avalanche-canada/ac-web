@@ -172,6 +172,7 @@ router.get('/observations/:obid.:format?', function(req, res) {
         } else if (typeof ob === 'undefined') {
             return res.send(404, { error: 'Observation not found' });
         } else {
+            logger.info('getObservation obtype=%s obid=%s', ob.obtype, req.params.obid);
             if (req.params.format === 'html') {
                 var ridingCond = {};
                 if (typeof ob.ridingConditions !== 'undefined') {
