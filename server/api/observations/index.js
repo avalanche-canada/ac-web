@@ -168,7 +168,9 @@ router.get('/observations/:obid.:format?', function(req, res) {
     minUtils.getObservation(req.params.obid, function(err, ob) {
         if (err) {
             logger.error('retreiving observation obid=%s', req.params.obid, err)
-            res.send(500, { error: 'error retreiving observation' });
+            return res.send(500, { error: 'error retreiving observation' });
+        } else if (typeof ob === 'undefined') {
+            return res.send(404, { error: 'Observation not found' });
         } else {
             if (req.params.format === 'html') {
                 var ridingCond = {};
