@@ -62,14 +62,14 @@ const GlossarySidebar = memo.static(function GlossarySidebar() {
     )
 })
 
-function Glossary() {
+function Glossary(props) {
     return (
         <Document {...glossary.glossary()}>
             {({ document, loading }) => (
                 <Fragment>
                     <Loading show={loading} />
                     {document && (
-                        <GlossaryContent {...this.props} {...document.data} />
+                        <GlossaryContent {...props} {...document.data} />
                     )}
                 </Fragment>
             )}
