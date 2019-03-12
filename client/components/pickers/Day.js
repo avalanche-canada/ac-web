@@ -60,13 +60,13 @@ function Navbar({
     )
 }
 
-const Navbar = memo(Navbar)
+const OptimizedNavbar = memo(Navbar)
 
 export default function DayPicker(props) {
     return (
         <Base
             weekdayElement={Weekday}
-            navbarElement={Navbar}
+            navbarElement={OptimizedNavbar}
             classNames={styles}
             {...props}
         />

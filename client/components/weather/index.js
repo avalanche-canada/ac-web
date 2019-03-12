@@ -4,7 +4,7 @@ import Forecast from './Forecast'
 import Legacy from './Legacy'
 import styles from './Forecast.css'
 
-export Loop, { Warning } from './Loop'
+export Loop from './Loop'
 export Image from 'components/loop'
 
 Index.propTypes = {

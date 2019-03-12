@@ -27,14 +27,14 @@ function Credit({ top, compact, children }) {
     )
 }
 
-const Credit = memo(Credit)
+const OptimizedCredit = memo(Credit)
 
-export default Object.assign(Credit, {
+export default Object.assign(OptimizedCredit, {
     Managed(props) {
         return (
             <Dimensions>
                 {({ width }) =>
-                    createElement(Credit, {
+                    createElement(OptimizedCredit, {
                         ...props,
                         compact: width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT,
                     })

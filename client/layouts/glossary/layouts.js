@@ -187,7 +187,7 @@ function LetterTag({ letter }) {
     )
 }
 
-const LetterTag = memo.static(LetterTag)
+const OptimizedLetterTag = memo.static(LetterTag)
 
 class GlossaryContent extends Component {
     static propTypes = {
@@ -262,7 +262,7 @@ class GlossaryContent extends Component {
                 {fulfilled && (
                     <TagSet>
                         {sections.map(({ letter }) => (
-                            <LetterTag key={letter} letter={letter} />
+                            <OptimizedLetterTag key={letter} letter={letter} />
                         ))}
                     </TagSet>
                 )}

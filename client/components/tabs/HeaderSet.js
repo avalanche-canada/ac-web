@@ -66,7 +66,7 @@ export default function HeaderSet({
     )
 }
 
-Header.propTypes = {
+BaseHeader.propTypes = {
     isActive: PropTypes.bool,
     disabled: PropTypes.bool,
     arrow: PropTypes.bool,
@@ -75,7 +75,14 @@ Header.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function Header({ isActive, disabled, arrow, onActivate, children, style }) {
+function BaseHeader({
+    isActive,
+    disabled,
+    arrow,
+    onActivate,
+    children,
+    style,
+}) {
     const className = classNames({
         Header: true,
         'Header--Arrow': arrow,
@@ -94,7 +101,7 @@ function Header({ isActive, disabled, arrow, onActivate, children, style }) {
     )
 }
 
-export const Header = memo(Header)
+export const Header = memo(BaseHeader)
 
 ColoredHeader.propTypes = {
     color: PropTypes.string,

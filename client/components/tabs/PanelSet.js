@@ -25,12 +25,12 @@ const EAGER_STYLES = new Map([
 
 // TODO: Remove once MIN form moved to Formik
 
-EagerPanelSet.propTypes = {
+BaseEagerPanelSet.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
     activeTab: PropTypes.number,
 }
 
-function EagerPanelSet({ activeTab, children }) {
+function BaseEagerPanelSet({ activeTab, children }) {
     return Children.map(children, (panel, index) =>
         cloneElement(panel, {
             style: EAGER_STYLES.get(index === activeTab),
@@ -38,7 +38,7 @@ function EagerPanelSet({ activeTab, children }) {
     )
 }
 
-export const EagerPanelSet = memo(EagerPanelSet)
+export const EagerPanelSet = memo(BaseEagerPanelSet)
 
 Panel.propTypes = {
     style: PropTypes.object,

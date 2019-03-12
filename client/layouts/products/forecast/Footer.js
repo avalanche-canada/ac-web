@@ -13,7 +13,7 @@ export default function Footer() {
         <Consumer>
             {forecast =>
                 forecast ? (
-                    <FooterComponent
+                    <OptimizedFooterComponent
                         region={forecast.region}
                         date={forecast.date}
                     />
@@ -93,4 +93,4 @@ function FooterComponent({ children, region }) {
     )
 }
 
-const FooterComponent = memo.static(FooterComponent)
+const OptimizedFooterComponent = memo.static(FooterComponent)

@@ -113,7 +113,10 @@ export function not(fragment, value) {
  * @returns {Array} an array corresponding to the predicate
  */
 // Because function in() {} causes conflicts as "in" is a reserved word!
-module.exports.in = (fragment, values) => ['in', fragment, values]
+function _in(fragment, values) {
+    return ['in', fragment, values]
+}
+export { _in as in }
 
 /**
  * Build a "fulltext" predicate: fulltext search in a fragment.
