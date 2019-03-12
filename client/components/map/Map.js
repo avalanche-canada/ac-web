@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react'
+import React, { useReducer, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { styles, accessToken } from 'services/mapbox/config.json'
@@ -7,79 +7,100 @@ import './Map.css'
 
 mapbox.accessToken = accessToken
 
-export default class MapComponent extends Component {
-    static propTypes = {
-        className: PropTypes.string,
-        children: PropTypes.node,
-        style: PropTypes.oneOfType([
-            PropTypes.oneOf(Object.keys(styles)),
-            PropTypes.object,
-        ]),
-        center: PropTypes.arrayOf(PropTypes.number),
-        zoom: PropTypes.number,
-        bearing: PropTypes.number,
-        pitch: PropTypes.number,
-        minZoom: PropTypes.number,
-        maxZoom: PropTypes.number,
-        interactive: PropTypes.bool,
-        bearingSnap: PropTypes.number,
-        classes: PropTypes.arrayOf(PropTypes.string),
-        attributionControl: PropTypes.bool,
-        failIfMajorPerformanceCaveat: PropTypes.bool,
-        preserveDrawingBuffer: PropTypes.bool,
-        maxBounds: PropTypes.instanceOf(mapbox.LngLatBounds),
-        scrollZoom: PropTypes.bool,
-        boxZoom: PropTypes.bool,
-        dragRotate: PropTypes.bool,
-        dragPan: PropTypes.bool,
-        keyboard: PropTypes.bool,
-        doubleClickZoom: PropTypes.bool,
-        touchZoomRotate: PropTypes.bool,
-        trackResize: PropTypes.bool,
-        workerCount: PropTypes.number,
-        onLoad: PropTypes.func,
-    }
-    static defaultProps = {
-        style: 'default',
-        onLoad() {},
-    }
-    static With = WithMap
-    state = {
-        map: undefined,
-        loaded: false,
-    }
-    container = createRef()
-    handleLoad = event => {
-        this.setState({ loaded: true }, () => {
-            this.props.onLoad(event)
-        })
-    }
-    componentDidMount() {
-        const { style } = this.props
-        const map = new mapbox.Map({
-            ...this.props,
+MapComponent.propTypes = {
+    className: PropTypes.string,
+    children: PropTypes.node,
+    style: PropTypes.oneOfType([
+        PropTypes.oneOf(Object.keys(styles)),
+        PropTypes.object,
+    ]),
+    center: PropTypes.arrayOf(PropTypes.number),
+    zoom: PropTypes.number,
+    bearing: PropTypes.number,
+    pitch: PropTypes.number,
+    minZoom: PropTypes.number,
+    maxZoom: PropTypes.number,
+    interactive: PropTypes.bool,
+    bearingSnap: PropTypes.number,
+    classes: PropTypes.arrayOf(PropTypes.string),
+    attributionControl: PropTypes.bool,
+    failIfMajorPerformanceCaveat: PropTypes.bool,
+    preserveDrawingBuffer: PropTypes.bool,
+    maxBounds: PropTypes.instanceOf(mapbox.LngLatBounds),
+    scrollZoom: PropTypes.bool,
+    boxZoom: PropTypes.bool,
+    dragRotate: PropTypes.bool,
+    dragPan: PropTypes.bool,
+    keyboard: PropTypes.bool,
+    doubleClickZoom: PropTypes.bool,
+    touchZoomRotate: PropTypes.bool,
+    trackResize: PropTypes.bool,
+    workerCount: PropTypes.number,
+    onLoad: PropTypes.func,
+}
+MapComponent.With = WithMap
+
+export default function MapComponent({
+    className,
+    style = 'default',
+    onLoad = () => {},
+    children,
+    ...props
+}) {
+    const container = useRef()
+    const [state, dispatch] = useReducer(reducer, STATE)
+
+    useEffect(() => {
+        Object.assign(props, {
             style: typeof style === 'string' ? styles[style] : style,
-            container: this.container.current,
+            container: container.current,
         })
 
-        this.setState({ map })
+        const map = new mapbox.Map(props)
 
-        map.on('load', this.handleLoad)
-    }
-    componentWillUnmount() {
-        const { map } = this.state
+        map.on('load', event => {
+            dispatch({ type: 'LOADED' })
+            onLoad(event)
+        })
 
-        if (map) {
-            map.remove()
+        dispatch({ type: 'CREATED', payload: map })
+
+        return () => {
+            if (state.map) {
+                state.map.remove()
+            }
         }
+    }, [])
+
+    return (
+        <MapContext.Provider value={state}>
+            <div ref={container} className={className}>
+                {children}
+            </div>
+        </MapContext.Provider>
+    )
+}
+
+// Reducer and state
+function reducer(state, action) {
+    switch (action.type) {
+        case 'CREATED':
+            console.warn(action)
+            return {
+                ...state,
+                map: action.payload,
+            }
+        case 'LOADED':
+            console.warn(action)
+            return {
+                ...state,
+                loaded: true,
+            }
+        default:
+            return state
     }
-    render() {
-        return (
-            <MapContext.Provider value={this.state}>
-                <div ref={this.container} className={this.props.className}>
-                    {this.props.children}
-                </div>
-            </MapContext.Provider>
-        )
-    }
+}
+const STATE = {
+    map: undefined,
+    loaded: false,
 }

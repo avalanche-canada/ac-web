@@ -1,87 +1,69 @@
-import React, { Component, cloneElement, Children } from 'react'
+import React, { cloneElement, Children, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import keycode from 'keycode'
 import Backdrop from '../misc/Backdrop'
 import styles from './Navbar.css'
 
-export default class ItemSet extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-        location: PropTypes.object.isRequired,
+ItemSet.propTypes = {
+    children: PropTypes.node.isRequired,
+    location: PropTypes.object.isRequired,
+}
+
+export default function ItemSet({ children, location }) {
+    const [activeIndex, setActiveIndex] = useState(null)
+    const opened = activeIndex !== null
+    function close() {
+        setActiveIndex(null)
     }
-    state = {
-        activeIndex: null,
-    }
-    set activeIndex(activeIndex) {
-        this.setState({ activeIndex })
-    }
-    get activeIndex() {
-        return this.state.activeIndex
-    }
-    get opened() {
-        return this.activeIndex !== null
-    }
-    handleClick(index) {
-        if (this.activeIndex === index) {
-            this.close()
-        } else {
-            this.open(index)
-        }
-    }
-    handleKeyUp = ({ keyCode }) => {
-        if (keycode.codes.esc !== keyCode) {
-            return
+
+    useEffect(() => {
+        function handleKeyUp({ keyCode }) {
+            if (keycode.codes.esc !== keyCode) {
+                return
+            }
+
+            close()
         }
 
-        this.close()
-    }
-    open(index) {
-        this.activeIndex = index
-    }
-    close = () => {
-        this.activeIndex = null
-    }
-    componentDidMount() {
-        window.addEventListener('keyup', this.handleKeyUp)
-    }
-    componentWillUnmount() {
-        window.removeEventListener('keyup', this.handleKeyUp)
-    }
-    componentDidUpdate({ location }) {
-        if (location !== this.props.location) {
-            this.close()
-        }
-    }
-    get children() {
-        return Children.toArray(this.props.children).filter(Boolean)
-    }
-    renderItem = (item, index) => {
-        if (Children.count(item.props.children) === 0) {
-            return item
-        }
+        window.addEventListener('keyup', handleKeyUp)
 
-        const isActive = this.activeIndex === index
-        const props = {
-            isActive,
-            onClick: event => {
-                event.preventDefault()
-                this.handleClick(index)
-            },
+        return () => {
+            window.removeEventListener('keyup', handleKeyUp)
         }
-        const children = cloneElement(item.props.children, {
-            isOpened: isActive,
-        })
+    }, [])
+    useEffect(close, [location])
 
-        return cloneElement(item, props, children)
-    }
-    render() {
-        return (
-            <div className={styles['ItemSet--Container']}>
-                <ul className={styles.ItemSet}>
-                    {this.children.map(this.renderItem)}
-                </ul>
-                {this.opened && <Backdrop onClick={this.close} />}
-            </div>
-        )
-    }
+    return (
+        <div className={styles['ItemSet--Container']}>
+            <ul className={styles.ItemSet}>
+                {Children.toArray(children)
+                    .filter(Boolean)
+                    .map((item, index) => {
+                        if (Children.count(item.props.children) === 0) {
+                            return item
+                        }
+
+                        const isActive = activeIndex === index
+                        const props = {
+                            isActive,
+                            onClick(event) {
+                                event.preventDefault()
+
+                                if (activeIndex === index) {
+                                    close()
+                                } else {
+                                    setActiveIndex(index)
+                                }
+                            },
+                        }
+                        const children = cloneElement(item.props.children, {
+                            isOpened: isActive,
+                        })
+
+                        return cloneElement(item, props, children)
+                    })}
+            </ul>
+            {opened && <Backdrop onClick={close} />}
+        </div>
+    )
 }
