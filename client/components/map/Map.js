@@ -85,13 +85,11 @@ export default function MapComponent({
 function reducer(state, action) {
     switch (action.type) {
         case 'CREATED':
-            console.warn(action)
             return {
                 ...state,
                 map: action.payload,
             }
         case 'LOADED':
-            console.warn(action)
             return {
                 ...state,
                 loaded: true,
