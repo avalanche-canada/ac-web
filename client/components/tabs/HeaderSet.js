@@ -40,7 +40,9 @@ export default function HeaderSet({
     })
 
     return (
-        <div className={className} onClick={stacked && toggleExpanded}>
+        <div
+            className={className}
+            onClick={stacked ? toggleExpanded : undefined}>
             {Children.toArray(children)
                 .filter(Boolean)
                 .map((header, index) =>
