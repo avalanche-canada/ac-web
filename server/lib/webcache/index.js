@@ -2,6 +2,7 @@ var Q = require('q');
 var rp = require('request-promise');
 var _ = require('lodash');
 var events = require('events');
+var logger = require('../../logger');
 
 var WebCacheMem = function () {
     this.client = {};
@@ -36,6 +37,7 @@ var WebCache = function (options) {
 WebCache.prototype.__proto__ = events.EventEmitter.prototype;
 
 WebCache.prototype.seed = function (seedUrls) {
+    logger.info('webcache seed urls=%s', JSON.stringify(seedUrls));
     this.urls = seedUrls;
     this.refresh();
 };
@@ -50,7 +52,7 @@ WebCache.prototype.refresh = function () {
                 'cache-control': 'no-cache'
             },
             transform: function (body, response) {
-                console.log(url);
+                logger.debug('webcache transform url=%s', url);
                 return {
                     url: url,
                     data: body
@@ -59,11 +61,11 @@ WebCache.prototype.refresh = function () {
             timeout: 300000
         };
 
-        console.log('cache getting: %s', url);
-        return rp(options).catch(function (e) { console.log(e); });
+        logger.debug('webcache get url=%s', url);
+        return rp(options).catch(function (e) { logger.error('webcache request_error', e); });
     });
 
-    console.log('cache started and seeding %s items.', requests.length);
+    logger.info('webcache started seeding item_count=%d', requests.length);
 
     return Q.allSettled(requests).then(function (results) {
         results = _.groupBy(results, 'state');
@@ -76,15 +78,15 @@ WebCache.prototype.refresh = function () {
             var duration = (end-start);
 
             if(!self.isready) {
-                console.log('cache seeded with %s successes and %s timeouts in %s milliseconds', results.fulfilled.length, results.rejected.length, duration);
+                logger.info('webcache seeded success_count=%d timeout_count=%d time_ms=%s', results.fulfilled.length, results.rejected.length, duration);
                 self.isready = true;
                 self.emit('seeded');
             } else {
-                console.log('cache refreshed with %s successes and %s timeouts in %s milliseconds', results.fulfilled.length, results.rejected.length, duration);
+                logger.info('webcache seeded success_count=%d timeout_count=%d time_ms=%s', results.fulfilled.length, results.rejected.length, duration);
                 self.emit('refreshed');
             }
         });
-    }, function (e) { console.log('error:' + e); });
+    }, function (e) { logger.error('webcache requests', e); });
 };
 
 WebCache.prototype.get = function (url) {
