@@ -35,6 +35,7 @@ import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 
 // TODO use hooks, but needs to be convcerted in a functionnal component
+// TODO Split that component
 
 export default class SubmissionList extends Component {
     static propTypes = {
