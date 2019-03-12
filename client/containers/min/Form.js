@@ -14,7 +14,6 @@ import transform from './transform'
 import { status } from 'services/fetch/utils'
 import * as min from 'api/requests/min'
 import { CACHE } from './index'
-import { SessionStorage } from 'services/storage'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
@@ -53,16 +52,6 @@ export default class SubmissionForm extends Component {
                 ])
             )
         }
-
-        try {
-            this.store = new FormStore()
-            await this.store.open()
-            const value = await this.store.get()
-
-            this.setState({
-                value: value || null,
-            })
-        } catch (error) {}
     }
     setActiveTab(activeTab) {
         if (typeof activeTab === 'string') {
@@ -128,10 +117,6 @@ export default class SubmissionForm extends Component {
     }
     handleChange = value => {
         this.setState({ value })
-
-        try {
-            this.store.set(value)
-        } catch (e) {}
     }
     validate = () => {
         const result = this.form.current.validate()
@@ -173,10 +158,6 @@ export default class SubmissionForm extends Component {
 
                             // FIXME: Huge side effect hack, but it working for now
                             CACHE.reset()
-
-                            try {
-                                this.store.reset()
-                            } catch (e) {}
 
                             navigate(links.mountainInformationNetwork(subid))
                         })
@@ -227,138 +208,4 @@ export default class SubmissionForm extends Component {
 // Utils
 function isObservationError(error) {
     return error.path[0] === 'observations'
-}
-
-//
-class FormStore {
-    storage = new SessionStorage.create({ keyPrefix: 'min:form' })
-    constructor() {
-        const key = this.storage.get('key', String(Math.random() * 1e16))
-
-        this.storage.set('key', key)
-    }
-    get key() {
-        return this.storage.get('key')
-    }
-    open() {
-        if (this.db) {
-            return Promise.resolve()
-        }
-
-        return new Promise((resolve, reject) => {
-            const indexedDB =
-                window.indexedDB ||
-                window.mozIndexedDB ||
-                window.webkitIndexedDB ||
-                window.msIndexedDB
-
-            if (!indexedDB) {
-                reject(new Error('indexedDB not supported'))
-                return
-            }
-
-            const request = indexedDB.open('avcan', 1)
-
-            request.onupgradeneeded = event => {
-                this.db = event.target.result
-
-                if (this.db.objectStoreNames.contains('min')) {
-                    resolve()
-                } else {
-                    this.db.createObjectStore('min')
-
-                    event.target.transaction.oncomplete = () => {
-                        resolve()
-                    }
-                }
-            }
-
-            request.onsuccess = () => {
-                this.db = request.result
-
-                resolve()
-            }
-
-            request.onerror = event => {
-                reject(event.error)
-            }
-        })
-    }
-    async get() {
-        return new Promise((resolve, reject) => {
-            if (!this.db) {
-                reject('indexedDB not opened')
-                return
-            }
-
-            const transaction = this.db.transaction('min', 'readonly')
-            const object = transaction.objectStore('min')
-            const get = object.get(this.key)
-
-            get.onsuccess = () => {
-                resolve(get.result)
-            }
-            get.onerror = () => {
-                reject(event.error)
-            }
-        })
-    }
-    async set(value) {
-        return new Promise((resolve, reject) => {
-            if (!this.db) {
-                reject('indexedDB not opened')
-                return
-            }
-
-            const transaction = this.db.transaction('min', 'readwrite')
-            const object = transaction.objectStore('min')
-            const get = object.get(this.key)
-
-            get.onsuccess = () => {
-                if (get.result) {
-                    Object.assign(get.result, value)
-
-                    const update = object.put(value, this.key)
-
-                    update.onsuccess = () => {
-                        resolve()
-                    }
-                    update.onerror = event => {
-                        reject(event.error)
-                    }
-                } else {
-                    const add = object.add(value, this.key)
-
-                    add.onsuccess = () => {
-                        resolve()
-                    }
-                    add.onerror = event => {
-                        reject(event.error)
-                    }
-                }
-            }
-
-            get.onerror = event => {
-                reject(event.error)
-            }
-        })
-    }
-    async reset() {
-        return new Promise(resolve => {
-            const transaction = this.db.transaction('min', 'readwrite')
-            const object = transaction.objectStore('min')
-
-            object.openCursor().onsuccess = event => {
-                const cursor = event.target.result
-
-                if (cursor) {
-                    object.delete(cursor.key).onsuccess = () => {
-                        cursor.continue()
-                    }
-                } else {
-                    resolve()
-                }
-            }
-        })
-    }
 }
