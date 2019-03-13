@@ -1,6 +1,6 @@
 @import '../../styles/colors.css';
 
-.AllAnswers {
+.Answers {
     margin: 0.5em 0;
 
     & > header {
