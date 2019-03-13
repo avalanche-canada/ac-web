@@ -1,4 +1,4 @@
-import React, { createContext, Component } from 'react'
+import React, { createContext, useReducer, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Service from 'services/auth/auth0'
 import Accessor from 'services/auth/accessor'
@@ -8,80 +8,73 @@ const AuthContext = createContext()
 
 export default AuthContext
 
-export class Provider extends Component {
-    static propTypes = {
-        children: PropTypes.node.isRequired,
-    }
-    service = Service.create()
-    constructor(props) {
-        super(props)
+Provider.propTypes = {
+    children: PropTypes.node.isRequired,
+}
 
-        const { isAuthenticated, profile } = Accessor.create()
+export function Provider({ children }) {
+    const [value, dispatch] = useReducer(reducer, {
+        isAuthenticated: ACCESSOR.isAuthenticated,
+        profile: ACCESSOR.profile,
+        async login(events) {
+            const { profile } = await SERVICE.login(events)
 
-        this.state = {
-            isAuthenticated,
-            profile,
-        }
-    }
-    get value() {
-        return {
-            ...this.state,
-            login: this.login,
-            resume: this.resume,
-            logout: this.logout,
-        }
-    }
-    login = async events => {
-        const { profile } = await this.service.login(events)
+            dispatch({
+                type: 'LOGIN',
+                payload: profile,
+            })
+        },
+        async resume(hash) {
+            const data = await SERVICE.resume(hash)
 
-        this.setState({
-            isAuthenticated: true,
-            profile,
-        })
-    }
-    resume = async hash => {
-        const data = await this.service.resume(hash)
+            dispatch({
+                type: 'RESUME',
+                payload: data.profile,
+            })
 
-        this.setState({
-            isAuthenticated: true,
-            profile: data.profile,
-        })
+            return data
+        },
+        async logout() {
+            await SERVICE.logout()
 
-        return data
-    }
-    logout = async () => {
-        await this.service.logout()
-
-        return new Promise(fullfil => {
-            fullfil()
-
-            // FIXME: So ugly that setTimeout, but required to redirect (leaving protected route) before updating the state.
-            setTimeout(() => {
-                this.setState({
-                    isAuthenticated: false,
-                    profile: null,
+            return Promise.resolve().then(() => {
+                dispatch({
+                    type: 'LOGOUT',
                 })
             })
-        })
-    }
-    setUserContext() {
-        const { profile } = this.state
+        },
+    })
 
-        if (profile) {
-            setUserContext(profile)
+    useEffect(() => {
+        if (value.profile) {
+            setUserContext(value.profile)
         }
-    }
-    componentDidMount() {
-        this.setUserContext()
-    }
-    componentDidUpdate() {
-        this.setUserContext()
-    }
-    render() {
-        return (
-            <AuthContext.Provider value={this.value}>
-                {this.props.children}
-            </AuthContext.Provider>
-        )
+    }, [value.profile])
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+// Services
+const SERVICE = Service.create()
+const ACCESSOR = Accessor.create()
+
+// Reducer
+function reducer(state, { type, payload }) {
+    switch (type) {
+        case 'LOGIN':
+        case 'RESUME':
+            return {
+                ...state,
+                isAuthenticated: true,
+                profile: payload,
+            }
+        case 'LOGOUT':
+            return {
+                ...state,
+                isAuthenticated: false,
+                profile: null,
+            }
+        default:
+            return state
     }
 }
