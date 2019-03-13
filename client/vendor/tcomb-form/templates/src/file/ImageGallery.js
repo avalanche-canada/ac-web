@@ -6,6 +6,8 @@ import { pluralize } from 'utils/string'
 import Description from './Description'
 import styles from './File.css'
 
+// Could be converted but that code might throw away once using Formik
+
 const STATE = {
     images: null,
     hasError: false,

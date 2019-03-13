@@ -9,7 +9,6 @@ import AuthContext from 'contexts/auth'
 import { Submit } from 'components/button'
 import { TYPES } from 'constants/min'
 import ObservationSetError from './ObservationSetError'
-import { scrollIntoView } from 'utils/dom'
 import transform from './transform'
 import { status } from 'services/fetch/utils'
 import * as min from 'api/requests/min'
@@ -145,7 +144,7 @@ export default class SubmissionForm extends Component {
 
         this.setObservationErrors(result.errors.filter(isObservationError))
 
-        scrollIntoView(`.fieldset-${root}`)
+        document.querySelector(`.fieldset-${root}`).scrollIntoView()
     }
     submit(value) {
         this.setState({ isSubmitting: true }, () => {
