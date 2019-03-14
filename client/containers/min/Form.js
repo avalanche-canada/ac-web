@@ -144,7 +144,7 @@ export default class SubmissionForm extends Component {
 
         this.setObservationErrors(result.errors.filter(isObservationError))
 
-        document.querySelector(`.fieldset-${root}`).scrollIntoView()
+        document.querySelector(`.fieldset-${root}`).scrollIntoView(true)
     }
     submit(value) {
         this.setState({ isSubmitting: true }, () => {

@@ -26,7 +26,15 @@ function FragmentIdentifierWithLocation(props) {
     const anchor = useRef()
     function scroll() {
         if (window.location.hash === href) {
-            anchor.current.scrollIntoView()
+            anchor.current.scrollIntoView(true)
+
+            const { scrollY } = window
+
+            if (scrollY) {
+                setTimeout(() => {
+                    window.scroll(0, scrollY - 90)
+                })
+            }
         }
     }
 
