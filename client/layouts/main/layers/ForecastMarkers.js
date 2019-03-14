@@ -1,6 +1,5 @@
-import React, { Component } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import memoize from 'lodash/memoize'
 import { Regions } from 'containers/features'
 import { Layer } from 'contexts/layers'
 import { Marker } from 'components/map'
@@ -8,49 +7,55 @@ import { FORECASTS } from 'constants/drawers'
 
 // FIXME Some issues here. Why pointer-events: none and click handler does not work...no navigation happening!
 
-export default class ForecastMarkers extends Component {
-    static propTypes = {
-        map: PropTypes.object, // actually isRequired
-        onMarkerClick: PropTypes.func.isRequired,
-    }
-    createMarker(props) {
-        return <Marker {...props} map={this.props.map} />
-    }
-    createMarkersProps = memoize(data => data.map(createMarkerProps, this))
-    withData = ({ data = [] }) => {
-        const markers = this.createMarkersProps(data)
+ForecastMarkers.propTypes = {
+    map: PropTypes.object, // actually isRequired
+    onMarkerClick: PropTypes.func.isRequired,
+}
 
-        return markers.map(this.createMarker, this)
-    }
-    withContext = ({ visible }) =>
-        visible ? <Regions>{this.withData}</Regions> : null
-    render() {
-        return <Layer id={FORECASTS}>{this.withContext}</Layer>
-    }
+export default function ForecastMarkers(props) {
+    return (
+        <Layer id={FORECASTS}>
+            {layer =>
+                layer.visible ? (
+                    <Regions>
+                        {({ data }) => (
+                            <MarkersRenderer {...props} data={data} />
+                        )}
+                    </Regions>
+                ) : null
+            }
+        </Layer>
+    )
 }
 
 // Utils
-function createMarkerProps({ id, name, dangerIconUrl, centroid }) {
-    const { onMarkerClick } = this.props
-    const element = document.createElement('img')
+const MarkersRenderer = memo(MarkersRendererBase)
 
-    element.classList.add('map-marker')
+function MarkersRendererBase({ data = [], map, onMarkerClick }) {
+    return data.map(({ id, name, dangerIconUrl, centroid }) => {
+        const element = document.createElement('img')
 
-    Object.assign(element, {
-        src: dangerIconUrl,
-        width: 50,
-        height: 50,
-        alt: name,
-        title: name,
+        element.classList.add('map-marker')
+
+        Object.assign(element, {
+            src: dangerIconUrl,
+            width: 50,
+            height: 50,
+            alt: name,
+            title: name,
+        })
+
+        return (
+            <Marker
+                key={id}
+                id={id}
+                map={map}
+                lngLat={centroid}
+                element={element}
+                onClick={() => {
+                    onMarkerClick(id)
+                }}
+            />
+        )
     })
-
-    return {
-        id,
-        key: id,
-        lngLat: centroid,
-        element,
-        onClick() {
-            onMarkerClick(id)
-        },
-    }
 }
