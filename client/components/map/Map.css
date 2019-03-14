@@ -1,6 +1,5 @@
 :global(.map-marker) {
     cursor: pointer;
-    pointer-events: none;
 }
 
 :global(.hidden-map-marker) {

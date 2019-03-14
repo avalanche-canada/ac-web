@@ -43,6 +43,14 @@ function MarkersRendererBase({ data = [], map, onMarkerClick }) {
             height: 50,
             alt: name,
             title: name,
+            onclick(event) {
+                event.stopPropagation()
+
+                onMarkerClick(id)
+            },
+            ondragstart(event) {
+                event.preventDefault()
+            },
         })
 
         return (
@@ -52,9 +60,6 @@ function MarkersRendererBase({ data = [], map, onMarkerClick }) {
                 map={map}
                 lngLat={centroid}
                 element={element}
-                onClick={() => {
-                    onMarkerClick(id)
-                }}
             />
         )
     })
