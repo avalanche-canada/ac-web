@@ -43,6 +43,9 @@ export default class GeoPosition extends Component {
 
         Object.assign(this.element, {
             src: place,
+            ondragstart(event) {
+                event.preventDefault()
+            },
         })
     }
     handleLoad = event => {
