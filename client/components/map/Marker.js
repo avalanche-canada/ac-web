@@ -6,11 +6,10 @@ Marker.propTypes = {
     map: PropTypes.object.isRequired,
     lngLat: PropTypes.arrayOf(PropTypes.number).isRequired,
     element: PropTypes.object.isRequired,
-    options: PropTypes.object,
 }
 
 export default function Marker(props) {
-    const { element, lngLat, options, map } = props
+    const { element, lngLat, map, ...options } = props
 
     useEffect(() => {
         const marker = new mapbox.Marker(element, options)
