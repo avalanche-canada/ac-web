@@ -319,6 +319,15 @@ function minSubmission(req, res) {
     var subId = req.params.id;
 
     minutils.getSubmission(subId, 'web', function(err, data) {
+        if (err) {
+            logger.error('share retreiving submission subid=%s', subId);
+            return res.status(500).send('Error retreiving submission');
+        }
+
+        if (!data) {
+            return res.status(404).send('Submission not found');
+        }
+
         var sub = data[0];
         var imgKey = sub.uploads.length > 0 && sub.uploads[0];
 
