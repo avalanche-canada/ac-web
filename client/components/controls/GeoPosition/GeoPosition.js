@@ -13,6 +13,7 @@ import styles from './GeoPosition.css'
 import place from 'components/icons/place.svg'
 
 // TODO: Simplify implementation. Make it stateless. And smarter when it gets new coordinates.
+// Better to wait until we redesign the MIN form
 
 export default class GeoPosition extends Component {
     static propTypes = {
