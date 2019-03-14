@@ -1,4 +1,4 @@
-import React, { useRef, useState, cloneElement } from 'react'
+import React, { useRef, useState, useMemo, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import Overlay from 'react-overlays/lib/Overlay'
 import Tooltip from './Tooltip'
@@ -20,25 +20,28 @@ export default function Wrapper({
 }) {
     const [visible, setVisible] = useState(false)
     const ref = useRef()
-    const events =
-        trigger === 'hover'
-            ? {
-                  onMouseOver() {
-                      setVisible(true)
+    const events = useMemo(
+        () =>
+            trigger === 'hover'
+                ? {
+                      onMouseOver() {
+                          setVisible(true)
+                      },
+                      onMouseOut() {
+                          setVisible(false)
+                      },
+                  }
+                : {
+                      onClick() {
+                          setVisible(!visible)
+                      },
                   },
-                  onMouseOut() {
-                      setVisible(false)
-                  },
-              }
-            : {
-                  onClick() {
-                      setVisible(!visible)
-                  },
-              }
+        [trigger]
+    )
 
     return (
-        <div className={styles.Wrapper}>
-            {cloneElement(children, { ref, ...events })}
+        <div ref={ref} className={styles.Wrapper}>
+            {cloneElement(children, events)}
             <Overlay
                 show={visible}
                 container={document.body}
