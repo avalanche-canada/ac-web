@@ -154,8 +154,8 @@ export class Fulfilled extends Component {
         return typeof children === 'function'
             ? children(data)
             : data
-                ? Children.map(children, child => cloneElement(child, { data }))
-                : children
+            ? Children.map(children, child => cloneElement(child, { data }))
+            : children
     }
     children = ({ fulfilled, data }) => {
         if (!fulfilled) {

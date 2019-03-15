@@ -13,11 +13,9 @@ import parse from './parsers'
 import { FEED } from 'constants/prismic'
 import { FR, EN } from 'constants/locale'
 
-MasterRef.CACHE = new Cache(60 * 1000)
-
 function MasterRef({ children }) {
     return (
-        <Fetch cache={MasterRef.CACHE} request={requests.api()}>
+        <Fetch cache={REFCACHE} request={requests.api()}>
             {({ data }) =>
                 data ? children(data.refs.find(isMasterRef).ref) : null
             }
@@ -25,7 +23,6 @@ function MasterRef({ children }) {
     )
 }
 
-Search.CACHE = new Cache()
 Search.propTypes = {
     children: PropTypes.func.isRequired,
     predicates: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -33,18 +30,19 @@ Search.propTypes = {
 }
 
 function Search({ children, predicates, locale, ...options }) {
+    // TODO We should not render <ErrorBoundary> here, it should be done outside the container.
     return (
         <ErrorBoundary fallback={renderError}>
             <MasterRef>
                 {ref => {
-                    if (locale === FR) {
-                        Object.assign(options, { lang: 'fr-ca' })
+                    if (LANGUAGES.has(locale)) {
+                        Object.assign(options, LANGUAGES.get(locale))
                     }
 
                     const request = requests.search(ref, predicates, options)
 
                     return (
-                        <Fetch cache={Search.CACHE} request={request}>
+                        <Fetch cache={CACHE} request={request}>
                             {children}
                         </Fetch>
                     )
@@ -188,3 +186,8 @@ function renderError({ error }) {
 const parseDocuments = memoize(documents =>
     documents.map(document => parse(document))
 )
+
+// Constants
+const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
+const REFCACHE = new Cache(60 * 1000)
+const CACHE = new Cache()
