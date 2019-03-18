@@ -84,6 +84,9 @@ module.exports = function(app) {
             }
 
             res.status(401).send('UnauthorizedError');
+        } else if (err.name === 'URIError') {
+            //TODO(wnh): Make this a 404? Not sure why utf-8 fails to decode
+            res.status(err.status).send('Bad URI');
         } else {
             if (useRaven) {
                 Raven.captureException(err, {request: req});
