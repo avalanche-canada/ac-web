@@ -1,6 +1,6 @@
 import React, { cloneElement, Children, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import keycode from 'keycode'
+import keycodes from 'constants/keycodes'
 import Backdrop from '../misc/Backdrop'
 import styles from './Navbar.css'
 
@@ -18,7 +18,7 @@ export default function ItemSet({ children, location }) {
 
     useEffect(() => {
         function handleKeyUp({ keyCode }) {
-            if (keycode.codes.esc !== keyCode) {
+            if (keycodes.esc !== keyCode) {
                 return
             }
 

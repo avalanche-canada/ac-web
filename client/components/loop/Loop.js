@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import keycode from 'keycode'
+import keycodes from 'constants/keycodes'
 import { Image, Delay, Ratio, OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import Fullscreen from 'components/Fullscreen'
@@ -130,13 +130,11 @@ export default class Loop extends Component {
         this.clearTimeout()
     }
     handleKeyDown = ({ keyCode }) => {
-        const { left, right } = keycode.codes
-
         switch (keyCode) {
-            case left:
+            case keycodes.left:
                 this.previous()
                 break
-            case right:
+            case keycodes.right:
                 this.next()
                 break
         }

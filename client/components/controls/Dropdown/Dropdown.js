@@ -1,6 +1,6 @@
 import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
-import keycode from 'keycode'
+import keycodes from 'constants/keycodes'
 import Holder from '../Holder'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import styles from './Dropdown.css'
@@ -88,28 +88,28 @@ export default class DropdownControl extends PureComponent {
     }
     handleKeyUp = event => {
         switch (event.keyCode) {
-            case keycode.codes.esc:
+            case keycodes.esc:
                 this.close()
                 break
-            case keycode.codes.down:
+            case keycodes.down:
                 if (this.isOpen) {
                     this.active = this.active + 1
                 } else {
                     this.open()
                 }
                 break
-            case keycode.codes.up:
+            case keycodes.up:
                 if (this.isOpen) {
                     this.active = this.active - 1
                 } else {
                     this.open()
                 }
                 break
-            case keycode.codes.enter:
+            case keycodes.enter:
                 this.close()
                 this.props.onChange(this.valueAt(this.active))
                 break
-            case keycode.codes.space:
+            case keycodes.space:
                 this.toggle()
                 break
         }
@@ -166,7 +166,7 @@ export default class DropdownControl extends PureComponent {
 }
 
 // Utils & constants
-const scrollStopperKeyCodes = new Set([keycode.codes.up, keycode.codes.down])
+const scrollStopperKeyCodes = new Set([keycodes.up, keycodes.down])
 function toggle({ isOpen }) {
     return {
         isOpen: !isOpen,
