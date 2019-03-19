@@ -13,6 +13,7 @@ import * as types from 'constants/prismic'
 export function uid(type, uid) {
     return {
         predicates: [
+            // TODO Remove object test, strings should the only valid inputs
             typeof type === 'object'
                 ? Predicates.uid(type.type, type.uid)
                 : Predicates.uid(type, uid),
@@ -40,7 +41,7 @@ export const mw = {
                 Predicates.field(
                     types.WEATHER_FORECAST,
                     'date',
-                    formatDate(date, DATE)
+                    formatDateForQuery(date)
                 ),
             ],
         }
@@ -72,17 +73,17 @@ export const fatal = {
         return uid(types.FATAL_ACCIDENT, id)
     },
     accidents() {
-        const field = `my.${types.FATAL_ACCIDENT}.dateOfAccident`
+        const field = my(types.FATAL_ACCIDENT, 'dateOfAccident')
 
         return {
             predicates: [
                 Predicates.dateAfter(
                     field,
-                    formatDate(addDays(startOfSeason(), -1), DATE)
+                    formatDateForQuery(addDays(startOfSeason(), -1))
                 ),
                 Predicates.dateBefore(
                     field,
-                    formatDate(addDays(endOfSeason(), 1), DATE)
+                    formatDateForQuery(addDays(endOfSeason(), 1))
                 ),
             ],
             pageSize: MAX_PAGE_SIZE,
@@ -99,8 +100,8 @@ export const special = {
 
         return {
             predicates: rangePredicates(
-                `my.${SPECIAL_INFORMATION}.dateOfIssue`,
-                `my.${SPECIAL_INFORMATION}.validUntil`
+                my(SPECIAL_INFORMATION, 'dateOfIssue'),
+                my(SPECIAL_INFORMATION, 'validUntil')
             ),
         }
     },
@@ -109,19 +110,15 @@ export const special = {
 export const hotZone = {
     report(name, date) {
         const { HOTZONE_REPORT } = types
+        const { predicates } = hotZone.reports(date)
+
+        predicates.push(Predicates.field(HOTZONE_REPORT, 'region', name))
 
         return {
-            predicates: [
-                Predicates.field(HOTZONE_REPORT, 'region', name),
-                ...rangePredicates(
-                    `my.${HOTZONE_REPORT}.dateOfIssue`,
-                    `my.${HOTZONE_REPORT}.validUntil`,
-                    date
-                ),
-            ],
+            predicates,
             options: {
                 pageSize: 1,
-                orderings: [`my.${HOTZONE_REPORT}.dateOfIssue desc`],
+                orderings: [`${my(HOTZONE_REPORT, 'dateOfIssue')} desc`],
             },
         }
     },
@@ -134,8 +131,8 @@ export const hotZone = {
         return {
             predicates: [
                 ...rangePredicates(
-                    `my.${HOTZONE_REPORT}.dateOfIssue`,
-                    `my.${HOTZONE_REPORT}.validUntil`,
+                    my(HOTZONE_REPORT, 'dateOfIssue'),
+                    my(HOTZONE_REPORT, 'validUntil'),
                     date
                 ),
             ],
@@ -146,25 +143,25 @@ export const hotZone = {
 Object.assign(hotZone.reports, {
     monthly(region, date) {
         const { HOTZONE_REPORT } = types
-        const start = formatDate(startOfMonth(date), DATE)
-        const end = formatDate(endOfMonth(date), DATE)
+        const start = formatDateForQuery(startOfMonth(date))
+        const end = formatDateForQuery(endOfMonth(date))
 
         return {
             predicates: [
                 Predicates.field(HOTZONE_REPORT, 'region', region),
-                Predicates.dateBefore(`my.${HOTZONE_REPORT}.dateOfIssue`, end),
-                Predicates.dateAfter(`my.${HOTZONE_REPORT}.validUntil`, start),
+                Predicates.dateBefore(my(HOTZONE_REPORT, 'dateOfIssue'), end),
+                Predicates.dateAfter(my(HOTZONE_REPORT, 'validUntil'), start),
             ],
         }
     },
 })
 
 export function highlight() {
-    return range(types.HIGHLIGHT)
+    return rangeForType(types.HIGHLIGHT)
 }
 
 export function spaw() {
-    return range(types.SPAW)
+    return rangeForType(types.SPAW)
 }
 
 export const glossary = {
@@ -190,7 +187,7 @@ export const glossary = {
 
 export const feed = {
     splash({ type, tags }) {
-        const predicates = [Predicates.type(type)]
+        const { predicates } = all(type)
 
         if (Array.isArray(tags) && tags.length > 0) {
             predicates.push(Predicates.tags(Array.from(tags)))
@@ -199,8 +196,8 @@ export const feed = {
         if (type === types.EVENT) {
             predicates.push(
                 Predicates.dateAfter(
-                    `my.${type}.start_date`,
-                    formatDate(new Date(), DATE)
+                    my(type, 'start_date'),
+                    formatDateForQuery()
                 )
             )
         }
@@ -214,7 +211,7 @@ export const feed = {
     sidebar({ type, uid }) {
         const params = feed.splash({ type })
 
-        params.predicates.push(Predicates.not(`my.${type}.uid`, uid))
+        params.predicates.push(Predicates.not(my(type, 'uid'), uid))
 
         return {
             ...params,
@@ -222,38 +219,38 @@ export const feed = {
         }
     },
     blog({ year, month, category, page = 1, pageSize = 10 }) {
-        const type = types.BLOG
-        const predicates = [Predicates.type(type)]
+        const { BLOG } = types
+        const { predicates } = all(BLOG)
 
         if (year) {
-            predicates.push(Predicates.year(`my.${type}.date`, year))
+            predicates.push(Predicates.year(my(BLOG, 'date'), year))
         }
 
         if (month) {
-            predicates.push(Predicates.month(`my.${type}.date`, month))
+            predicates.push(Predicates.month(my(BLOG, 'date'), month))
         }
 
         if (category) {
-            predicates.push(Predicates.at(`my.${type}.category`, category))
+            predicates.push(Predicates.at(my(BLOG, 'category'), category))
         }
 
         return {
             page,
             pageSize,
             predicates,
-            orderings: [FEED_ORDERINGS.get(type)],
+            orderings: [FEED_ORDERINGS.get(BLOG)],
         }
     },
     news({ year, month, tags, page = 1, pageSize = 10 }) {
-        const type = types.NEWS
-        const predicates = [Predicates.type(type)]
+        const { NEWS } = types
+        const predicates = [Predicates.type(NEWS)]
 
         if (year) {
-            predicates.push(Predicates.year(`my.${type}.date`, year))
+            predicates.push(Predicates.year(my(NEWS, 'date'), year))
         }
 
         if (month) {
-            predicates.push(Predicates.month(`my.${type}.date`, month))
+            predicates.push(Predicates.month(my(NEWS, 'date'), month))
         }
 
         if (tags.size) {
@@ -264,19 +261,19 @@ export const feed = {
             page,
             pageSize,
             predicates,
-            orderings: [FEED_ORDERINGS.get(type)],
+            orderings: [FEED_ORDERINGS.get(NEWS)],
         }
     },
     events({ past = false, tags = new Set(), page = 1, pageSize = 10 }) {
-        const type = types.EVENT
+        const { EVENT } = types
         const ordering = past
-            ? `${FEED_ORDERINGS.get(type)} desc`
-            : FEED_ORDERINGS.get(type)
+            ? `${FEED_ORDERINGS.get(EVENT)} desc`
+            : FEED_ORDERINGS.get(EVENT)
         const predicate = past ? Predicates.dateBefore : Predicates.dateAfter
         const timestamp = startOfDay(new Date()).getTime()
         const predicates = []
 
-        predicates.push(predicate(`my.${type}.end_date`, timestamp))
+        predicates.push(predicate(my(EVENT, 'end_date'), timestamp))
 
         if (tags.size) {
             predicates.push(Predicates.tags(Array.from(tags)))
@@ -293,7 +290,7 @@ export const feed = {
 
 export function tags({ type, page = 1 }) {
     return {
-        predicates: [Predicates.type(type)],
+        ...all(type),
         fetch: 'document.tags',
         pageSize: MAX_PAGE_SIZE,
         page,
@@ -302,27 +299,32 @@ export function tags({ type, page = 1 }) {
 
 // Contants and utils
 const MAX_PAGE_SIZE = 100
-const DATE = 'YYYY-MM-DD'
 const FETCH_DEFINITION_TITLE_OPTIONS = {
     fetchLinks: 'definition.title',
     pageSize: MAX_PAGE_SIZE,
 }
 function rangePredicates(start, end, date = new Date()) {
     return [
-        Predicates.dateBefore(start, formatDate(addDays(date, 1), DATE)),
-        Predicates.dateAfter(end, formatDate(subDays(date, 1), DATE)),
+        Predicates.dateBefore(start, formatDateForQuery(addDays(date, 1))),
+        Predicates.dateAfter(end, formatDateForQuery(subDays(date, 1))),
     ]
 }
-function range(type) {
+function rangeForType(type) {
     return {
         predicates: [
             Predicates.type(type),
-            ...rangePredicates(`my.${type}.start`, `my.${type}.end`),
+            ...rangePredicates(my(type, 'start'), my(type, 'end')),
         ],
     }
 }
 const FEED_ORDERINGS = new Map([
-    [types.NEWS, `my.${types.NEWS}.date desc`],
-    [types.BLOG, `my.${types.BLOG}.date desc`],
-    [types.EVENT, `my.${types.EVENT}.start_date`],
+    [types.NEWS, `${my(types.NEWS, 'date')} desc`],
+    [types.BLOG, `${my(types.BLOG, 'date')} desc`],
+    [types.EVENT, my(types.EVENT, 'start_date')],
 ])
+function formatDateForQuery(date = new Date()) {
+    return formatDate(date, 'YYYY-MM-DD')
+}
+function my(type, field) {
+    return `my.${type}.${field}`
+}
