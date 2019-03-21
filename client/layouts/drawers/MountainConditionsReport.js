@@ -66,9 +66,12 @@ export default class MountainConditionsReport extends PureComponent {
                 <Header subject="Arc'Teryx Mountain Conditions Report">
                     {title && (
                         <h1>
-                            <a href={permalink} target={permalink}>
+                            <InnerHTML
+                                component="a"
+                                href={permalink}
+                                target={permalink}>
                                 {title}
-                            </a>
+                            </InnerHTML>
                             <Locate onClick={this.handleLocateClick} />
                         </h1>
                     )}
