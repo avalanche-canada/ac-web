@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { useCallback, memo, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
@@ -16,96 +16,78 @@ import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 import { handleForecastTabActivate } from 'services/analytics'
 
-export default class Layout extends PureComponent {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        onCloseClick: PropTypes.func.isRequired,
-        onLocateClick: PropTypes.func.isRequired,
-    }
-    get link() {
-        return `/forecasts/${this.props.name}`
-    }
-    get shareUrl() {
-        return `${window.location.origin}${this.link}`
-    }
-    renderSPAW = ({ link }) => {
-        const style = {
-            flex: 1,
-        }
+Layout.propTypes = {
+    name: PropTypes.string.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
+}
 
-        return <SPAWComponent link={link} style={style} />
-    }
-    handleLocateClick = () => {
-        this.props.onLocateClick(utils.geometry(this.region))
-    }
-    renderHeader({ pending, fulfilled, data }) {
-        this.region = data
-
-        return (
+function Layout({ name, onCloseClick, onLocateClick }) {
+    const renderHeader = useCallback(
+        ({ pending, fulfilled, data }) => (
             <h1>
                 {pending && <Loading component="span" />}
                 {fulfilled &&
                     (data ? (
                         <Fragment>
-                            <Link to={this.link}>{data.name}</Link>
-                            <DisplayOnMap onClick={this.handleLocateClick} />
+                            <Link to={`/forecasts/${name}`}>{data.name}</Link>
+                            <DisplayOnMap
+                                onClick={() =>
+                                    onLocateClick(utils.geometry(data))
+                                }
+                            />
                         </Fragment>
                     ) : (
                         <Warning component="span">
-                            Forecast {this.props.name} not found
+                            Forecast {name} not found
                         </Warning>
                     ))}
             </h1>
-        )
-    }
-    children({ data }) {
-        const { name, onCloseClick } = this.props
+        ),
+        [name]
+    )
 
-        return (
-            <Container>
-                <Navbar>
-                    <SPAW name={name}>{this.renderSPAW}</SPAW>
-                    <Sponsor label={null} />
-                    <Close onClick={onCloseClick} />
-                </Navbar>
-                <Header subject="Avalanche Forecast">
-                    <Region name={name}>
-                        {props => this.renderHeader(props)}
-                    </Region>
-                </Header>
-                <Body>
-                    <Pending>
-                        <Shim all>
-                            <Muted>Loading avalanche forecast...</Muted>
-                        </Shim>
-                    </Pending>
-                    <Fulfilled.Found>
-                        <components.Forecast value={data}>
-                            <Shim horizontal>
-                                <components.Metadata />
-                                <components.Headline />
+    return (
+        <Forecast name={name}>
+            {({ data }) => (
+                <Container>
+                    <Navbar>
+                        <SPAW name={name}>{renderSPAW}</SPAW>
+                        <Sponsor label={null} />
+                        <Close onClick={onCloseClick} />
+                    </Navbar>
+                    <Header subject="Avalanche Forecast">
+                        <Region name={name}>{renderHeader}</Region>
+                    </Header>
+                    <Body>
+                        <Pending>
+                            <Shim all>
+                                <Muted>Loading avalanche forecast...</Muted>
                             </Shim>
-                            <components.TabSet
-                                onTabChange={handleForecastTabActivate}
-                            />
-                            <components.Footer />
-                        </components.Forecast>
-                    </Fulfilled.Found>
-                    <Fulfilled.NotFound>
-                        <Regions>{renderRegions}</Regions>
-                    </Fulfilled.NotFound>
-                </Body>
-            </Container>
-        )
-    }
-    render() {
-        return (
-            <Forecast name={this.props.name}>
-                {props => this.children(props)}
-            </Forecast>
-        )
-    }
+                        </Pending>
+                        <Fulfilled.Found>
+                            <components.Forecast value={data}>
+                                <Shim horizontal>
+                                    <components.Metadata />
+                                    <components.Headline />
+                                </Shim>
+                                <components.TabSet
+                                    onTabChange={handleForecastTabActivate}
+                                />
+                                <components.Footer />
+                            </components.Forecast>
+                        </Fulfilled.Found>
+                        <Fulfilled.NotFound>
+                            <Regions>{renderRegions}</Regions>
+                        </Fulfilled.NotFound>
+                    </Body>
+                </Container>
+            )}
+        </Forecast>
+    )
 }
+
+export default memo(Layout, (prev, next) => prev.name === next.name)
 
 function renderRegions({ fulfilled, data }) {
     return fulfilled ? (
@@ -127,4 +109,10 @@ function renderRegions({ fulfilled, data }) {
             )}
         </Location>
     ) : null
+}
+function renderSPAW({ link }) {
+    return <SPAWComponent link={link} style={SPAW_STYLE} />
+}
+const SPAW_STYLE = {
+    flex: 1,
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Region } from 'containers/features'
@@ -16,57 +16,53 @@ import {
 } from 'components/page/drawer'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/region'
+import { memo } from 'utils/react'
 
-export default class NorthRockiesLayout extends PureComponent {
-    static propTypes = {
-        onCloseClick: PropTypes.func.isRequired,
-        onLocateClick: PropTypes.func.isRequired,
-    }
-    handleLocateClick = () => {
-        const { onLocateClick } = this.props
+NorthRockiesLayout.propTypes = {
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
+}
 
-        onLocateClick(utils.geometry(this.region))
-    }
-    locate({ data }) {
-        if (!data) {
-            return null
-        }
+function NorthRockiesLayout({ onCloseClick, onLocateClick }) {
+    const name = 'north-rockies'
 
-        this.region = data
+    return (
+        <Container>
+            <Navbar>
+                <SPAW name={name}>{renderSPAW}</SPAW>
+                <Sponsor label={null} />
+                <Close onClick={onCloseClick} />
+            </Navbar>
+            <Header subject="Avalanche Forecast">
+                <h1>
+                    <Link to={`/forecasts/${name}`}>North Rockies</Link>
+                    <Region name={name}>
+                        {({ data }) =>
+                            data ? (
+                                <DisplayOnMap
+                                    onClick={() => {
+                                        onLocateClick(utils.geometry(data))
+                                    }}
+                                />
+                            ) : null
+                        }
+                    </Region>
+                </h1>
+            </Header>
+            <Body>
+                <Content>
+                    <NorthRockies />
+                </Content>
+            </Body>
+        </Container>
+    )
+}
 
-        return <DisplayOnMap onClick={this.handleLocateClick} />
-    }
-    renderSPAW = ({ link }) => {
-        const style = {
-            flex: 1,
-        }
+export default memo.static(NorthRockiesLayout)
 
-        return <SPAWComponent link={link} style={style} />
-    }
-    render() {
-        const name = 'north-rockies'
-
-        return (
-            <Container>
-                <Navbar>
-                    <SPAW name={name}>{this.renderSPAW}</SPAW>
-                    <Sponsor label={null} />
-                    <Close onClick={this.props.onCloseClick} />
-                </Navbar>
-                <Header subject="Avalanche Forecast">
-                    <h1>
-                        <Link to={`/forecasts/${name}`}>North Rockies</Link>
-                        <Region name={name}>
-                            {props => this.locate(props)}
-                        </Region>
-                    </h1>
-                </Header>
-                <Body>
-                    <Content>
-                        <NorthRockies />
-                    </Content>
-                </Body>
-            </Container>
-        )
-    }
+const SPAW_STYLE = {
+    flex: 1,
+}
+function renderSPAW({ link }) {
+    return <SPAWComponent link={link} style={SPAW_STYLE} />
 }

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import * as Hzr from 'layouts/products/hzr'
@@ -12,83 +12,77 @@ import { HotZone } from 'containers/features'
 import { hotZone } from 'prismic/params'
 import * as utils from 'utils/hzr'
 
-export default class HotZoneReportDrawer extends PureComponent {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        onCloseClick: PropTypes.func.isRequired,
-        onLocateClick: PropTypes.func.isRequired,
-    }
-    handleLocateClick = () => {
-        const { onLocateClick } = this.props
-
-        onLocateClick(utils.geometry(this.zone))
-    }
-    renderHeader({ document, loading }) {
-        const { name } = this.props
-
-        return (
-            <Header subject="Avalanche Advisory">
-                <HotZone name={name}>
-                    {({ data }) => {
-                        this.zone = data
-                        const title = utils.title({
-                            loading,
-                            report: document,
-                            hotZone: data,
-                        })
-
-                        return (
-                            <h1>
-                                {document ? (
-                                    <Link to={`/advisories/${name}`}>
-                                        {title}
-                                    </Link>
-                                ) : (
-                                    <span>{title}</span>
-                                )}
-                                <DisplayOnMap
-                                    onClick={this.handleLocateClick}
-                                />
-                            </h1>
-                        )
-                    }}
-                </HotZone>
-            </Header>
-        )
-    }
-    renderReport = ({ document, loading }) => (
-        <Container>
-            <Navbar>
-                <Sponsor label={null} />
-                <Close onClick={this.props.onCloseClick} />
-            </Navbar>
-            {this.renderHeader({ document, loading })}
-            <Body>
-                {loading ? (
-                    <Shim horizontal>
-                        <Loading />
-                    </Shim>
-                ) : (
-                    <Hzr.Report value={document}>
-                        <Shim horizontal>
-                            <Hzr.Metadata shareable />
-                            <Hzr.Header />
-                        </Shim>
-                        <Hzr.Gallery />
-                        <Hzr.CriticalFactors />
-                        <Hzr.TerrainAndTravelAdvice />
-                        <Hzr.TerrainAdviceSet />
-                        <Hzr.Footer />
-                    </Hzr.Report>
-                )}
-            </Body>
-        </Container>
-    )
-    render() {
-        return (
-            <Document {...hotZone.report(this.props.name)}>
-                {this.renderReport}
-            </Document>
-        )
-    }
+HotZoneReportDrawer.propTypes = {
+    name: PropTypes.string.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
 }
+
+function HotZoneReportDrawer({ name, onCloseClick, onLocateClick }) {
+    return (
+        <Document {...hotZone.report(name)}>
+            {({ document, loading }) => (
+                <Container>
+                    <Navbar>
+                        <Sponsor label={null} />
+                        <Close onClick={onCloseClick} />
+                    </Navbar>
+                    <Header subject="Avalanche Advisory">
+                        <HotZone name={name}>
+                            {({ data }) => {
+                                const title = utils.title({
+                                    loading,
+                                    report: document,
+                                    hotZone: data,
+                                })
+
+                                return (
+                                    <h1>
+                                        {document ? (
+                                            <Link to={`/advisories/${name}`}>
+                                                {title}
+                                            </Link>
+                                        ) : (
+                                            <span>{title}</span>
+                                        )}
+                                        <DisplayOnMap
+                                            onClick={() =>
+                                                onLocateClick(
+                                                    utils.geometry(data)
+                                                )
+                                            }
+                                        />
+                                    </h1>
+                                )
+                            }}
+                        </HotZone>
+                    </Header>
+                    <Body>
+                        {loading ? (
+                            <Shim horizontal>
+                                <Loading />
+                            </Shim>
+                        ) : (
+                            <Hzr.Report value={document}>
+                                <Shim horizontal>
+                                    <Hzr.Metadata shareable />
+                                    <Hzr.Header />
+                                </Shim>
+                                <Hzr.Gallery />
+                                <Hzr.CriticalFactors />
+                                <Hzr.TerrainAndTravelAdvice />
+                                <Hzr.TerrainAdviceSet />
+                                <Hzr.Footer />
+                            </Hzr.Report>
+                        )}
+                    </Body>
+                </Container>
+            )}
+        </Document>
+    )
+}
+
+export default memo(
+    HotZoneReportDrawer,
+    (prev, next) => prev.name === next.name
+)

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, memo } from 'react'
 import PropTypes from 'prop-types'
 import {
     Header,
@@ -23,7 +23,7 @@ FatalAccident.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
+function FatalAccident({ id, onCloseClick, onLocateClick }) {
     return (
         <Document {...fatal.accident(id)}>
             {({ document, loading }) => (
@@ -84,3 +84,5 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
         </Document>
     )
 }
+
+export default memo(FatalAccident, (prev, next) => prev.id === next.id)

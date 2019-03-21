@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
 import { NotFound } from 'services/fetch/utils'
@@ -20,93 +20,95 @@ import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/station'
 
-export default class WeatherStation extends PureComponent {
-    static propTypes = {
-        id: PropTypes.string.isRequired,
-        onCloseClick: PropTypes.func.isRequired,
-        onLocateClick: PropTypes.func.isRequired,
-    }
-    handleLocateClick = () => {
-        this.props.onLocateClick(utils.geometry(this.station.data))
-    }
-    renderHeader(props) {
-        const { id } = this.props
-        this.station = props
+WeatherStation.propTypes = {
+    id: PropTypes.string.isRequired,
+    onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
+}
 
-        return (
-            <h1>
-                <Pending>
-                    <Loading component="span" />
-                </Pending>
-                <Fulfilled.NotFound>
-                    <Warning component="span">
-                        Weather station #{id} not found
-                    </Warning>
-                </Fulfilled.NotFound>
-                <Fulfilled.Found>
-                    <Link to={`/weather/stations/${id}`}>
-                        {props?.data?.name}
-                    </Link>
-                    <DisplayOnMap onClick={this.handleLocateClick} />
-                </Fulfilled.Found>
-            </h1>
-        )
-    }
-    renderMeasurements({ utcOffset }, { data, loading }) {
-        return loading || !data ? (
-            <Muted>Loading weather station measurements...</Muted>
-        ) : (
-            <Station utcOffset={utcOffset} measurements={data} />
-        )
-    }
-    children = props => (
-        <Container>
-            <Navbar>
-                <Sponsor label={null} />
-                <Close onClick={this.props.onCloseClick} />
-            </Navbar>
-            <Header subject="Weather station">
-                {this.renderHeader(props)}
-            </Header>
-            <Body>
-                <Content>
-                    <Fulfilled.Found>
-                        <Metadata {...props.data} />
-                        <containers.Measurements id={this.props.id}>
-                            {this.renderMeasurements.bind(this, props.data)}
-                        </containers.Measurements>
-                        <Footer />
-                    </Fulfilled.Found>
-                    <Fulfilled.NotFound>
-                        <containers.Stations>
-                            {renderStations}
-                        </containers.Stations>
-                    </Fulfilled.NotFound>
-                    <Pending>
-                        <Loading />
-                    </Pending>
-                </Content>
-            </Body>
-        </Container>
+function WeatherStation({ id, onCloseClick, onLocateClick }) {
+    return (
+        <ErrorBoundary fallback={renderError}>
+            <containers.Station id={id}>
+                {station => (
+                    <Container>
+                        <Navbar>
+                            <Sponsor label={null} />
+                            <Close onClick={onCloseClick} />
+                        </Navbar>
+                        <Header subject="Weather station">
+                            <h1>
+                                <Pending>
+                                    <Loading component="span" />
+                                </Pending>
+                                <Fulfilled.NotFound>
+                                    <Warning component="span">
+                                        Weather station #{id} not found
+                                    </Warning>
+                                </Fulfilled.NotFound>
+                                <Fulfilled.Found>
+                                    <Link to={`/weather/stations/${id}`}>
+                                        {station.data?.name}
+                                    </Link>
+                                    <DisplayOnMap
+                                        onClick={() => {
+                                            onLocateClick(
+                                                utils.geometry(station.data)
+                                            )
+                                        }}
+                                    />
+                                </Fulfilled.Found>
+                            </h1>
+                        </Header>
+                        <Body>
+                            <Content>
+                                <Fulfilled.Found>
+                                    <Metadata {...station.data} />
+                                    <containers.Measurements id={id}>
+                                        {({ data, loading }) =>
+                                            loading || !data ? (
+                                                <Muted>
+                                                    Loading weather station
+                                                    measurements...
+                                                </Muted>
+                                            ) : (
+                                                <Station
+                                                    utcOffset={
+                                                        station.data.utcOffset
+                                                    }
+                                                    measurements={data}
+                                                />
+                                            )
+                                        }
+                                    </containers.Measurements>
+                                    <Footer />
+                                </Fulfilled.Found>
+                                <Fulfilled.NotFound>
+                                    <containers.Stations>
+                                        {renderStations}
+                                    </containers.Stations>
+                                </Fulfilled.NotFound>
+                                <Pending>
+                                    <Loading />
+                                </Pending>
+                            </Content>
+                        </Body>
+                    </Container>
+                )}
+            </containers.Station>
+        </ErrorBoundary>
     )
-    renderError({ error }) {
-        if (error instanceof NotFound) {
-            return <Error>Weather station not found.</Error>
-        }
+}
 
-        return (
-            <Error>An error happened while loading weather station data.</Error>
-        )
+export default memo(WeatherStation, (prev, next) => prev.id === next.id)
+
+// Utils
+function renderError({ error }) {
+    if (error instanceof NotFound) {
+        return <Error>Weather station not found.</Error>
     }
-    render() {
-        return (
-            <ErrorBoundary fallback={this.renderError}>
-                <containers.Station id={this.props.id}>
-                    {this.children}
-                </containers.Station>
-            </ErrorBoundary>
-        )
-    }
+
+    return <Error>An error happened while loading weather station data.</Error>
 }
 
 function renderStations() {
