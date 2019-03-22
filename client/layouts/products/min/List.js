@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { PureComponent, Fragment, Children } from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
 import { List as Base, Term, Definition } from 'components/description'
@@ -10,8 +10,13 @@ List.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 }
 
-export default function List({ title = 'Information', children = [] }) {
-    if (children.length === 0) {
+export default function List({ title = 'Information', children }) {
+    children = Children.toArray(children)
+
+    if (
+        children.length === 0 ||
+        children.every(entry => entry.props.children === null)
+    ) {
         return null
     }
 
