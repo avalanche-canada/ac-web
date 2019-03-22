@@ -20,3 +20,4 @@ client/.DS_Store
 tests/screenshots
 tests/failures
 stats.json
+.config.mk
