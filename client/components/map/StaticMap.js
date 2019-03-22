@@ -20,7 +20,7 @@ StaticMap.propTypes = {
     retina: PropTypes.bool,
 }
 
-StaticMap.Managed = function Managed({ children, center, ...props }) {
+export function Managed({ children, center, ...props }) {
     return (
         <StaticMap
             {...props}

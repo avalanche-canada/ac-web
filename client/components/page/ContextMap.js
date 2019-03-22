@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { supported } from 'utils/mapbox'
-import { Map, NavigationControl, StaticMap } from 'components/map'
+import { Map, NavigationControl, ManagedStaticMap } from 'components/map'
 import styles from './Page.css'
 
 ContextMap.propTypes = {
@@ -19,9 +19,9 @@ export default function ContextMap({ children, ...props }) {
                     <NavigationControl />
                 </Map>
             ) : (
-                <StaticMap.Managed retina tracked {...props}>
+                <ManagedStaticMap retina tracked {...props}>
                     {children}
-                </StaticMap.Managed>
+                </ManagedStaticMap>
             )}
         </div>
     )

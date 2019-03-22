@@ -3,7 +3,7 @@ import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import Control from './Control'
 
 export Map from './Map'
-export StaticMap from './StaticMap'
+export StaticMap, { Managed as ManagedStaticMap } from './StaticMap'
 export Marker from './Marker'
 export Layer from './Layer'
 export Source from './sources/GeoJSON'
