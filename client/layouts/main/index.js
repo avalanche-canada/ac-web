@@ -1,10 +1,10 @@
-import React, { Component, PureComponent, Fragment, createRef } from 'react'
+import React, { Component, memo, Fragment, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match } from '@reach/router'
 import { supported } from 'utils/mapbox'
 import bbox from '@turf/bbox'
 import * as turf from '@turf/helpers'
-import { memo } from 'utils/react'
+import * as react from 'utils/react'
 import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Wrapper } from 'components/tooltip'
@@ -212,55 +212,49 @@ export default class Main extends Component {
     }
 }
 
-class LinkControlSet extends PureComponent {
-    get tooltips() {
-        const style = {
-            maxWidth: 175,
-            padding: '0.25em',
-        }
-
-        return [
-            <div style={style}>
-                Create a Mountain Information Network (MIN) report
-            </div>,
-            <div style={{ ...style, maxWidth: 125 }}>
-                Visit the Mountain Weather Forecast
-            </div>,
-        ]
-    }
-    get links() {
-        return [
-            <Link className={styles['LinkControlSet--MIN']} to="/submit" />,
-            <Link
-                className={styles['LinkControlSet--Weather']}
-                to="/weather"
-            />,
-        ]
-    }
-    render() {
+const LinkControlSet = memo(
+    function LinkControlSet({ children }) {
         return (
             <div className={styles.LinkControlSet}>
                 {isTouchable ? (
-                    <Fragment>{this.links}</Fragment>
+                    <Fragment>{LINKS}</Fragment>
                 ) : (
                     <Fragment>
-                        {this.links.map((link, index) => (
+                        {LINKS.map((link, index) => (
                             <Wrapper
                                 key={index}
-                                tooltip={this.tooltips[index]}
+                                tooltip={TOOLTIPS[index]}
                                 placement="right">
                                 {link}
                             </Wrapper>
                         ))}
                     </Fragment>
                 )}
-                {this.props.children}
+                {children}
             </div>
         )
-    }
-}
+    },
+    (prev, next) => prev.children === next.children
+)
 
-const ErrorIndicator = memo.static(function ErrorIndicator() {
+const TOOLTIP_STYLE = {
+    maxWidth: 175,
+    padding: '0.25em',
+}
+const TOOLTIPS = [
+    <div style={TOOLTIP_STYLE}>
+        Create a Mountain Information Network (MIN) report
+    </div>,
+    <div style={{ ...TOOLTIP_STYLE, maxWidth: 125 }}>
+        Visit the Mountain Weather Forecast
+    </div>,
+]
+const LINKS = [
+    <Link className={styles['LinkControlSet--MIN']} to="/submit" />,
+    <Link className={styles['LinkControlSet--Weather']} to="/weather" />,
+]
+
+const ErrorIndicator = react.memo.static(function ErrorIndicator() {
     function reload() {
         window.location.reload(true)
     }
