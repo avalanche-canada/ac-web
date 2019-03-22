@@ -28,12 +28,9 @@ export default function Analytics({ location, children }) {
         ga('set', MAPBOXGL_SUPPORTED, supported().toString())
     }, [])
 
-    useEffect(
-        () => {
-            ga('send', 'pageview', location.pathname)
-        },
-        [location.pathname]
-    )
+    useEffect(() => {
+        ga('send', 'pageview', location.pathname)
+    }, [location.pathname])
 
     return children
 }
