@@ -40,7 +40,7 @@ zip: build
 	cd dist && zip -r ../$(ZIPNAME) .ebextensions
 
 push-dev: zip
-	aws s3 cp $(ZIPNAME) s3://$(S3_BUCKET)/$(ZIPNAME)
+	aws --profile=$(AWS_PROFILE) s3 cp $(ZIPNAME) s3://$(S3_BUCKET)/$(ZIPNAME)
 
 	aws elasticbeanstalk create-application-version \
 	  --profile $(AWS_PROFILE) \
