@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useMemo } from 'react'
 import { Link } from '@reach/router'
 import format from 'date-fns/format'
 import * as t from 'components/table'
@@ -8,59 +8,48 @@ import { List, Entry } from 'components/description'
 import { incidentsBaseUrl } from 'api/config'
 import styles from './incidents.css'
 
-export class IncidentTable extends PureComponent {
-    renderRow({
-        date,
-        location,
-        location_province,
-        group_activity,
-        num_involved,
-        num_injured,
-        num_fatal,
-        id,
-    }) {
-        return (
-            <t.Row key={id}>
-                <t.Cell>
-                    <span className={styles.DateCell}>{date}</span>
-                </t.Cell>
-                <t.Cell>{location}</t.Cell>
-                <Cell>{location_province}</Cell>
-                <t.Cell>{group_activity}</t.Cell>
-                <Cell>{num_involved}</Cell>
-                <Cell>{num_injured}</Cell>
-                <Cell>{num_fatal}</Cell>
-                <t.Cell>
-                    <Link to={id}>view</Link>
-                </t.Cell>
-            </t.Row>
-        )
-    }
-    render() {
-        return (
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Date</t.HeaderCell>
-                        <t.HeaderCell>Location</t.HeaderCell>
-                        <t.HeaderCell>Province</t.HeaderCell>
-                        <t.HeaderCell>Activity</t.HeaderCell>
-                        <t.HeaderCell>Involvement</t.HeaderCell>
-                        <t.HeaderCell>Injury</t.HeaderCell>
-                        <t.HeaderCell>Fatal</t.HeaderCell>
-                        <t.HeaderCell />
+export function IncidentTable({ data }) {
+    return (
+        <t.Table>
+            <t.Header>
+                <t.Row>
+                    <t.HeaderCell>Date</t.HeaderCell>
+                    <t.HeaderCell>Location</t.HeaderCell>
+                    <t.HeaderCell>Province</t.HeaderCell>
+                    <t.HeaderCell>Activity</t.HeaderCell>
+                    <t.HeaderCell>Involvement</t.HeaderCell>
+                    <t.HeaderCell>Injury</t.HeaderCell>
+                    <t.HeaderCell>Fatal</t.HeaderCell>
+                    <t.HeaderCell />
+                </t.Row>
+            </t.Header>
+            <t.TBody>
+                {data.results.map(props => (
+                    <t.Row key={props.id}>
+                        <t.Cell>
+                            <span className={styles.DateCell}>
+                                {props.date}
+                            </span>
+                        </t.Cell>
+                        <t.Cell>{props.location}</t.Cell>
+                        <Cell>{props.location_province}</Cell>
+                        <t.Cell>{props.group_activity}</t.Cell>
+                        <Cell>{props.num_involved}</Cell>
+                        <Cell>{props.num_injured}</Cell>
+                        <Cell>{props.num_fatal}</Cell>
+                        <t.Cell>
+                            <Link to={props.id}>view</Link>
+                        </t.Cell>
                     </t.Row>
-                </t.Header>
-                <t.TBody>{this.props.data.results.map(this.renderRow)}</t.TBody>
-            </t.Table>
-        )
-    }
+                ))}
+            </t.TBody>
+        </t.Table>
+    )
 }
 
-export class IncidentFilters extends PureComponent {
-    get froms() {
-        const { to } = this.props.values
-
+export function IncidentFilters({ onChange, values }) {
+    const { from, to } = values
+    const froms = useMemo(() => {
         // Remove last filter year ( most recent ) as it results in an empty "TO" list and no elements
         // Validate this works when there are entries for this year
         const f = FILTERS.slice(0, FILTERS.length - 1)
@@ -68,47 +57,47 @@ export class IncidentFilters extends PureComponent {
         return new Map(
             f.filter(f => startsBefore(f, to)).map(f => [f.season, f.title])
         )
-    }
-    get tos() {
-        const { from } = this.props.values
+    }, [to])
+    const tos = useMemo(
+        () =>
+            new Map(
+                FILTERS.filter(f => startsAfter(f, from)).map(f => [
+                    f.season,
+                    f.title,
+                ])
+            ),
 
-        return new Map(
-            FILTERS.filter(f => startsAfter(f, from)).map(f => [
-                f.season,
-                f.title,
-            ])
-        )
+        [from]
+    )
+    function handleChangeFrom(from) {
+        onChange({ from, to })
     }
-    handleChangeFrom = fromSeason =>
-        this.props.onChange({ from: fromSeason, to: this.props.values.to })
-    handleChangeTo = toSeason =>
-        this.props.onChange({ from: this.props.values.from, to: toSeason })
-    render() {
-        const { from, to } = this.props.values
+    function handleChangeTo(to) {
+        onChange({ from, to })
+    }
 
-        return (
-            <div className={styles.Filters}>
-                <div>
-                    <label>From:</label>
-                    <DropdownFromOptions
-                        onChange={this.handleChangeFrom}
-                        value={from}
-                        placeholder="From"
-                        options={this.froms}
-                    />
-                </div>
-                <div>
-                    <label>To:</label>
-                    <DropdownFromOptions
-                        onChange={this.handleChangeTo}
-                        value={to}
-                        placeholder="To"
-                        options={this.tos}
-                    />
-                </div>
+    return (
+        <div className={styles.Filters}>
+            <div>
+                <label>From:</label>
+                <DropdownFromOptions
+                    onChange={handleChangeFrom}
+                    value={from}
+                    placeholder="From"
+                    options={froms}
+                />
             </div>
-        )
-    }
+            <div>
+                <label>To:</label>
+                <DropdownFromOptions
+                    onChange={handleChangeTo}
+                    value={to}
+                    placeholder="To"
+                    options={tos}
+                />
+            </div>
+        </div>
+    )
 }
 
 export function IncidentDetails({ data }) {
