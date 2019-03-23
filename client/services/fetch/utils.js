@@ -14,7 +14,7 @@ export function status(response) {
 export function clean(params) {
     return params
         ? Object.entries(params).reduce((params, [key, value]) => {
-              if (value !== undefined && value !== null) {
+              if (value != null) {
                   params[key] = value
               }
 
