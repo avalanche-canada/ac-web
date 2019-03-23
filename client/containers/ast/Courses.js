@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import addDays from 'date-fns/add_days'
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
