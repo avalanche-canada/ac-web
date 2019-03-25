@@ -167,6 +167,10 @@ function __getNodeList(cb) {
         if (err) {
             cb(err);
         }
+        if (!body_5) {
+            logger.warn('MCR::getNodeList missing body err=%s, body=%s', err, body_5);
+            body_5 = [];
+        }
         logger.debug('MCR::getNodeList', { report_type: 3 });
         return getJSON('/node.json', { report_type: 3 }, function(err, body_3) {
             if (err) {
