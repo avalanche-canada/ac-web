@@ -22,6 +22,7 @@
         "dedent": "^0.6.0",
         "dotenv": "~0.4.0",
         "dynamodb-doc": "awslabs/dynamodb-document-js-sdk",
+        "entities": "^1.1.2",
         "errorhandler": "~1.0.0",
         "es6-promise": "^3.1.2",
         "express": "^4.16.4",

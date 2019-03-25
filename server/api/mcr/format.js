@@ -1,5 +1,7 @@
-var moment = require('moment-timezone');
-var logger = require('../../logger');
+var moment   = require('moment-timezone');
+var entities = require('entities');
+
+var logger   = require('../../logger');
 
 var AC_MCR_HOST = process.env.AC_MCR_HOST;
 
@@ -44,7 +46,7 @@ function formatReport(r) {
             Number.parseFloat(r.field_location.und[0].lon),
             Number.parseFloat(r.field_location.und[0].lat),
         ],
-        title: f1(r, 'title_field', safeval),
+        title: f1(r, 'title_field', no_entities),
         body: f1(r, 'body', safeval),
         permalink: r.path,
         dates: fall(r, 'field_date', getDate),
@@ -70,6 +72,11 @@ function f1(r, key, trans) {
     return all[0];
 }
 
+function no_entities(x) {
+    var value = entities.decodeHTML(x.safe_value);
+    logger.debug('decoding entities before="%s" after="%s"', x.safe_value, value);
+    return value;
+}
 function safeval(x) {
     return x.safe_value;
 }
