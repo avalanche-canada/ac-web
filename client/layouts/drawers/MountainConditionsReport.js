@@ -28,10 +28,6 @@ MountainConditionsReport.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-// InnerHTML is used so HTML entities do not get escaped
-// It is risky for XSS, but it is kind of a trusted source
-// More details: https://shripadk.github.io/react/docs/jsx-gotchas.html (old react docs)
-
 function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
     id = Number(id)
 
@@ -63,12 +59,11 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
                                 <Header subject="Arc'Teryx Mountain Conditions Report">
                                     {title && (
                                         <h1>
-                                            <InnerHTML
-                                                component="a"
+                                            <a
                                                 href={permalink}
                                                 target={permalink}>
                                                 {title}
-                                            </InnerHTML>
+                                            </a>
                                             {Array.isArray(location) && (
                                                 <Locate
                                                     onClick={() =>
