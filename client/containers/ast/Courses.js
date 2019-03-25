@@ -17,7 +17,7 @@ CoursesContainer.propTypes = {
 
 export default function CoursesContainer({ children, ...params }) {
     return (
-        <Fetch cache={CACHE} request={ast.courses(PARAMS)}>
+        <Fetch cache={CACHE} request={ast.courses()}>
             {({ data, loading }) => {
                 const props = { loading }
                 let results = data?.results
@@ -42,9 +42,6 @@ export default function CoursesContainer({ children, ...params }) {
 
 // Utils and constants
 const CACHE = new Memory()
-const PARAMS = {
-    page_size: 1000,
-}
 function sorter({ date_start, date_end }) {
     return date_start - date_end
 }

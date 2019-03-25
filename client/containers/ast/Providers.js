@@ -11,7 +11,7 @@ ProviderContainer.propTypes = {
 
 export default function ProviderContainer({ children, tags }) {
     return (
-        <Fetch cache={CACHE} request={ast.providers(PARAMS)}>
+        <Fetch cache={CACHE} request={ast.providers()}>
             {({ data, loading }) => {
                 let results = data?.results
 
@@ -34,6 +34,3 @@ export default function ProviderContainer({ children, tags }) {
 
 // Constants and utils
 const CACHE = new Memory()
-const PARAMS = {
-    page_size: 1000,
-}

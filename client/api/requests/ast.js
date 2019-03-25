@@ -1,10 +1,14 @@
 import { astBaseUrl } from 'api/config.json'
 import { get } from 'services/fetch/requests'
 
-export function providers(params) {
-    return get(`${astBaseUrl}/providers`, params)
+export function providers() {
+    return get(`${astBaseUrl}/providers`, PARAMS)
 }
 
-export function courses(params) {
-    return get(`${astBaseUrl}/courses`, params)
+export function courses() {
+    return get(`${astBaseUrl}/courses`, PARAMS)
+}
+
+const PARAMS = {
+    page_size: 1000,
 }
