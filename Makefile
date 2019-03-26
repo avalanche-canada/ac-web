@@ -72,9 +72,10 @@ purge-dev-builds:
 	aws --profile=$(AWS_PROFILE)                       \
 	    elasticbeanstalk describe-application-versions \
 	    --application-name avalanche-canada            \
+	    --query='ApplicationVersions[].[VersionLabel, to_string(to_array(Description))]' \
 	    --output text                                  \
 	 | grep 'custom git build'    \
-	 | cut -f7                    \
+	 | cut -f1                    \
 	 | tail -n $(DEV_PURGE_COUNT) \
 	 | xargs -t -n1 -I{} aws elasticbeanstalk delete-application-version --profile $(AWS_PROFILE) --application-name avalanche-canada --version-label {}
 
@@ -82,9 +83,9 @@ purge-all-builds:
 	aws --profile=$(AWS_PROFILE)                       \
 	    elasticbeanstalk describe-application-versions \
 	    --application-name avalanche-canada            \
+	    --query='ApplicationVersions[].[VersionLabel, to_string(to_array(Description))]' \
 	    --output text                                  \
-	| grep APPLICATIONVERSIONS \
-	| cut -f7                  \
+	| cut -f1                  \
 	| tail -n 10               \
 	| xargs -t -n1 -I{} aws elasticbeanstalk delete-application-version --profile $(AWS_PROFILE) --application-name avalanche-canada --version-label {}
 
