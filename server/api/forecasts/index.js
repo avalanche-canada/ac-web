@@ -142,10 +142,6 @@ router.get('/', function(req, res) {
     res.json(regions);
 });
 
-router.get('/areas', function(req, res) {
-    res.json(areas);
-});
-
 function isForecastRegion(r) {
     return (
         r.properties.type === 'parks' ||
