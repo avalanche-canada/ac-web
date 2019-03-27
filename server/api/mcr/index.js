@@ -6,14 +6,13 @@ var express = require('express');
 var request = require('request');
 
 var logger = require('../../logger');
+var config = require('../../config/environment');
 var mcr_cache = require('./cache');
 var mcr_format = require('./format');
 
 var router = express.Router();
 
-var AC_MCR_HOST = process.env.AC_MCR_HOST;
-var AC_MCR_URL = AC_MCR_HOST + '/sapi/public';
-var MCR_LIMIT_DAYS = process.env.MCR_LIMIT_DAYS || 7;
+var AC_MCR_URL = config.AC_MCR_HOST + '/sapi/public';
 
 router.get('/', function(req, res) {
     //TODO(wnh): Clean this up a bit
@@ -56,7 +55,7 @@ function filterToSevenDays(report) {
         return false;
     }
     var diff = differenceInDays(new Date(), report.dates[0]);
-    return diff <= MCR_LIMIT_DAYS;
+    return diff <= config.MCR_LIMIT_DAYS;
 }
 
 function notUndefined(x) {

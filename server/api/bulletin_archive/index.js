@@ -9,6 +9,7 @@ var xml2js = require('xml2js');
 var url = require('url');
 var querystring = require('querystring');
 
+var config = require('../../config/environment');
 var metadata = require('../features/metadata');
 var regionData = require('../../data/season').forecast_regions;
 var avalxMapping = require('../../data/season/2016/avalxMapping.json');
@@ -17,9 +18,8 @@ var logger = require('../../logger');
 
 var BULLETIN_NOT_FOUND = 'BULLETIN_NOT_FOUND';
 var NEW_AVALX_START_DATE = '2016-10-01';
-var AVALX2016_ENDPOINT = process.env.AVALX2016_ENDPOINT || 'http://avalx2016.avalanche.ca/public/CAAML-eng.aspx';
 
-const db_params = url.parse(process.env.BULLETIN_ARCHIVE_DB);
+const db_params = url.parse(config.BULLETIN_ARCHIVE_DB);
 const db_auth = db_params.auth.split(':');
 
 var db_use_ssl = true;
@@ -30,7 +30,7 @@ if (db_params.search) {
     }
 }
 
-const config = {
+const db_config = {
     user: db_auth[0],
     password: db_auth[1],
     host: db_params.hostname,
@@ -39,7 +39,7 @@ const config = {
     ssl: db_use_ssl,
 };
 
-var pg_pool = new pg.Pool(config);
+var pg_pool = new pg.Pool(db_config);
 
 function pg_query(text, values) {
     var p = new Promise(function(resolve, reject) {
@@ -125,7 +125,7 @@ var regionNames = regionData.features
 
 var router = express.Router();
 
-var ARCHIVE_DBURL = process.env.ARCHIVE_DBURL;
+var ARCHIVE_DBURL = config.ARCHIVE_DBURL;
 
 var BULLETIN_QUERY =
     ' SELECT                              ' +
@@ -239,14 +239,14 @@ function newAvalx(region, date, callback) {
     }
     request(
         {
-            url: AVALX2016_ENDPOINT,
+            url: config.AVALX2016_ENDPOINT,
             qs: { r: region_id, d: date.format('YYYY-MM-DD') },
         },
         (error, resp, xmlbody) => {
             if (error) {
                 logger.error(
                     'avalx xml fetch: server=%s',
-                    AVALX2016_ENDPOINT,
+                    config.AVALX2016_ENDPOINT,
                     error,
                     error.stack
                 );

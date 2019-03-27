@@ -2,7 +2,9 @@ var winston = require('winston');
 var Papertrail = require('winston-papertrail').Papertrail;
 var os = require('os');
 
-var ptHostname = process.env.LOG_PREFIX + '-' + os.hostname();
+var config = require('./config/environment');
+
+var ptHostname = config.LOG_PREFIX + '-' + os.hostname();
 
 console.log('Logging to papertrail with hostname:', ptHostname);
 

@@ -37,9 +37,9 @@ var acAvalxUrls = _.chain(regions.features)
 var avalxWebcache = null;
 var fragmentCache = null;
 
-if (process.env.REDIS_HOST) {
+if (config.REDIS_HOST) {
     var webcacheOptions = {
-        store: new WebCacheRedis(6379, process.env.REDIS_HOST),
+        store: new WebCacheRedis(6379, config.REDIS_HOST),
     };
     if (!process.env.NO_CACHE_REFRESH)
         webcacheOptions.refreshInterval = 300000 /*milliseconds*/;
@@ -47,7 +47,7 @@ if (process.env.REDIS_HOST) {
 
     fragmentCache = cacheManager.caching({
         store: redisStore,
-        host: process.env.REDIS_HOST, // default value
+        host: config.REDIS_HOST, // default value
         port: 6379, // default value
         db: 1,
         ttl: 60 * 5 /*seconds*/,

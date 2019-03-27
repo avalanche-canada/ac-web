@@ -2,12 +2,11 @@ var moment   = require('moment-timezone');
 var entities = require('entities');
 
 var logger   = require('../../logger');
-
-var AC_MCR_HOST = process.env.AC_MCR_HOST;
+var config   = require('../../config/environment');
 
 var IMAGE_PREFIX_USER =
-    AC_MCR_HOST + '/content/styles/guide_view_guide_picture/public/';
-var IMAGE_PREFIX_REPORT = AC_MCR_HOST + '/content/';
+    config.AC_MCR_HOST + '/content/styles/guide_view_guide_picture/public/';
+var IMAGE_PREFIX_REPORT = config.AC_MCR_HOST + '/content/';
 
 module.exports = {
     formatReportFull: formatReportFull,

@@ -8,18 +8,17 @@ const webpack = require('webpack');
 const webpackMiddleware = require('webpack-dev-middleware');
 const logger = require('./logger');
 
-const port = process.env.PORT || 9000;
-const app = express();
+const config = require('./config/environment');
 
-const isDeveloping = process.env.NODE_ENV !== 'production';
+const app = express();
 
 require('./config/express')(app);
 require('./routes')(app);
 
-const config = require(path.resolve(__dirname, '../webpack.development.config.js'));
-const compiler = webpack(config);
+const webpack_config = require(path.resolve(__dirname, '../webpack.development.config.js'));
+const compiler = webpack(webpack_config);
 const middleware = webpackMiddleware(compiler, {
-    publicPath: config.output.publicPath,
+    publicPath: webpack_config.output.publicPath,
     contentBase: 'src',
     stats: {
         colors: true,
@@ -41,10 +40,10 @@ app.get('*', function response(req, res, next) {
     });
 });
 
-app.listen(port, '0.0.0.0', function onStart(err) {
+app.listen(config.PORT, '0.0.0.0', function onStart(err) {
     if (err) {
         logger.error('listen:', err);
     }
     logger.info("STARTING_APP");
-    logger.info('listening on port:', port);
+    logger.info('listening on port:', config.PORT);
 });

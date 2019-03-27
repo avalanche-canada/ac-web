@@ -5,8 +5,7 @@ var Q = require('q');
 var moment = require('moment-timezone');
 var parseString = require('xml2js').parseString;
 var logger = require('../../logger');
-
-var AC_SEASON = process.env.AC_SEASON || '2015';
+var config = require('../../config/environment');
 
 var ratings = {
     Low: '1',
@@ -618,7 +617,7 @@ function parseForecast(caaml, region, dangerModes) {
         return parksForecast(caaml, region.id);
     } else if (region.properties.owner === 'avalanche-canada') {
         //TODO(wnh): REMOVE ME WHEN WERE ROLLIGN IN 2016 (maybe 2017)
-        if (AC_SEASON === '2016') {
+        if (config.AC_SEASON === '2016') {
             return parksForecast(caaml, region.id);
         } else {
             return avalancheCaForecast(caaml, region.id);
