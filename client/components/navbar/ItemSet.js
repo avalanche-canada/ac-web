@@ -1,6 +1,7 @@
 import React, { cloneElement, Children, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import keycodes from 'constants/keycodes'
+import { useEventListener } from 'utils/react'
 import Backdrop from '../misc/Backdrop'
 import styles from './Navbar.css'
 
@@ -15,22 +16,15 @@ export default function ItemSet({ children, location }) {
     function close() {
         setActiveIndex(null)
     }
-
-    useEffect(() => {
-        function handleKeyUp({ keyCode }) {
-            if (keycodes.esc !== keyCode) {
-                return
-            }
-
-            close()
+    function handleKeyUp({ keyCode }) {
+        if (keycodes.esc !== keyCode) {
+            return
         }
 
-        window.addEventListener('keyup', handleKeyUp)
+        close()
+    }
 
-        return () => {
-            window.removeEventListener('keyup', handleKeyUp)
-        }
-    }, [])
+    useEventListener('keyup', handleKeyUp)
     useEffect(close, [location])
 
     return (

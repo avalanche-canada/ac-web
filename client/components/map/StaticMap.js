@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce'
 import { createStyleUrl } from 'services/mapbox/api'
 import { PRIMARY } from 'constants/colors'
 import Marker from './Marker'
+import { useEventListener } from 'utils/react'
 
 StaticMap.propTypes = {
     tracked: PropTypes.bool,
@@ -34,28 +35,20 @@ export function Managed({ children, center, ...props }) {
 export default function StaticMap({ tracked, ...props }) {
     const ref = useRef(null)
     const [url, setUrl] = useState(null)
+    function resizeHandler() {
+        setUrl(
+            createStyleUrl({
+                ...props,
+                width: ref.current.clientWidth,
+            })
+        )
+    }
 
-    useEffect(() => {
-        function resizeHandler() {
-            setUrl(
-                createStyleUrl({
-                    ...props,
-                    width: ref.current.clientWidth,
-                })
-            )
-        }
-        const handleResize = debounce(resizeHandler, 500)
-
-        if (tracked) {
-            window.addEventListener('resize', handleResize)
-        }
-
-        resizeHandler()
-
-        return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    }, [tracked])
+    useEffect(resizeHandler, [tracked])
+    useEventListener(
+        'resize',
+        tracked ? debounce(resizeHandler, 500) : () => {}
+    )
 
     return <div ref={ref}>{url && <img src={url} />}</div>
 }

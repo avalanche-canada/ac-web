@@ -8,7 +8,6 @@ import Map from './Map'
 import TripPlanning from './TripPlanning'
 import Forecast from './Forecast'
 import { Home } from 'components/links'
-import { Window } from 'components/Dimensions'
 import Welcome from './panels/Welcome'
 import Drawer, {
     Header,
@@ -22,6 +21,7 @@ import Drawer, {
 } from 'components/page/drawer'
 import * as utils from 'utils/region'
 import styles from './TripPlanner.css'
+import { useWindowSize } from 'utils/react'
 
 // TODO: Could use Context to simplify implementation
 // TODO: Could use state machine to simplify implementation
@@ -242,7 +242,11 @@ export default class TripPlannerLayout extends PureComponent {
     }
 }
 
-// Constants
+// Constants & utils
+// TODO Remove that <Window> component
+function Window({ children }) {
+    return children(useWindowSize())
+}
 const NAVBAR_STYLE = {
     justifyContent: 'space-between',
 }

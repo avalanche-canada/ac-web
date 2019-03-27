@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
+import { useEventListener } from 'utils/react'
 
 FragmentIdentifier.propTypes = {
     hash: PropTypes.string.isRequired,
@@ -38,16 +39,7 @@ function FragmentIdentifierWithLocation(props) {
         }
     }
 
-    useEffect(() => {
-        window.addEventListener('hashchange', scroll)
-
-        scroll()
-
-        return () => {
-            window.removeEventListener('hashchange', scroll)
-        }
-    }, [])
-
+    useEventListener('hashchange', scroll)
     useEffect(scroll, [location.hash])
 
     return (

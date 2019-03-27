@@ -1,8 +1,9 @@
-import React, { useRef, useLayoutEffect, useState } from 'react'
+import React, { useRef, useLayoutEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
+import { useEventListener } from 'utils/react'
 
-// TODO Should eventually get rid of these components and only use the hooks
+// TODO Should eventually get rid of these components and only use the hooks + ResizeObserver
 
 Dimensions.propTypes = {
     children: PropTypes.func.isRequired,
@@ -14,57 +15,21 @@ export default function Dimensions({ children, ...props }) {
         width: null,
         height: null,
     })
-
-    useDimensions(() => {
+    function updateDimensions() {
         setDimensions({
             width: node.current.offsetWidth,
             height: node.current.offsetHeight,
         })
-    })
+    }
+    const listener = useCallback(throttle(updateDimensions, 250), [])
+
+    useEventListener('resize', listener)
+    useEventListener('orientationchange', listener)
+    useLayoutEffect(updateDimensions, [])
 
     return (
         <div {...props} ref={node}>
             {children(dimensions)}
         </div>
     )
-}
-
-// TODO Remove that <Window> component
-
-Window.propTypes = {
-    children: PropTypes.func.isRequired,
-}
-
-export function Window({ children }) {
-    const [dimensions, setDimensions] = useState(getWindowDimensions())
-
-    useDimensions(() => {
-        setDimensions(getWindowDimensions())
-    })
-
-    return children(dimensions)
-}
-
-// Hooks
-function useDimensions(listener) {
-    listener = throttle(listener, 250)
-
-    return useLayoutEffect(() => {
-        listener()
-        window.addEventListener('resize', listener, false)
-        window.addEventListener('orientationchange', listener, false)
-
-        return () => {
-            window.removeEventListener('resize', listener)
-            window.removeEventListener('orientationchange', listener)
-        }
-    }, [])
-}
-
-// Utils
-function getWindowDimensions() {
-    return {
-        width: window.innerWidth,
-        height: window.innerHeight,
-    }
 }

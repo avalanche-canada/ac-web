@@ -1,4 +1,11 @@
-import React, { cloneElement, isValidElement, useState, useEffect } from 'react'
+import React, {
+    cloneElement,
+    isValidElement,
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+} from 'react'
 import flatten from 'lodash/flatten'
 import throttle from 'lodash/throttle'
 
@@ -125,43 +132,56 @@ export function useToggle(initialValue) {
 export function useTimeout(elapse = 0) {
     const [ready, setReady] = useState(false)
 
-    useEffect(
-        () => {
-            let timer = setTimeout(() => {
-                setReady(true)
-            }, elapse)
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            setReady(true)
+        }, elapse)
 
-            return () => {
-                clearTimeout(timer)
-            }
-        },
-        [elapse]
-    )
+        return () => {
+            clearTimeout(timer)
+        }
+    }, [elapse])
 
     return ready
 }
 
 export function useWindowSize(wait = 250) {
     const [size, setSize] = useState(getWindowSize())
-
-    useEffect(
-        () => {
-            const handleResize = throttle(() => {
-                setSize(getWindowSize())
-            }, wait)
-
-            window.addEventListener('resize', handleResize)
-            window.addEventListener('orientationchange', handleResize)
-
-            return () => {
-                window.removeEventListener('resize', handleResize)
-                window.removeEventListener('orientationchange', handleResize)
-            }
-        },
+    const handleResize = useCallback(
+        throttle(() => {
+            setSize(getWindowSize())
+        }, wait),
         [wait]
     )
 
+    useEventListener('resize', handleResize)
+    useEventListener('orientationchange', handleResize)
+
     return size
+}
+
+export function useEventListener(eventName, handler, element = window) {
+    const savedHandler = useRef()
+
+    useEffect(() => {
+        savedHandler.current = handler
+    }, [handler])
+
+    useEffect(() => {
+        if (!element.addEventListener) {
+            return
+        }
+
+        function listener(event) {
+            return savedHandler.current(event)
+        }
+
+        element.addEventListener(eventName, listener)
+
+        return () => {
+            element.removeEventListener(eventName, listener)
+        }
+    }, [eventName, element])
 }
 
 // Utils
