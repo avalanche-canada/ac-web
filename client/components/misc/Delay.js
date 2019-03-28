@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useTimeout } from 'utils/react'
+import { useTimeout } from 'utils/react/hooks'
 
 // TODO Use Suspense instead of the component
 

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Position } from 'components/misc'
 import Entry from './Entry'
-import { useToggle } from 'utils/react'
+import { useToggle } from 'utils/react/hooks'
 
 LocationEntry.propTypes = {
     longitude: PropTypes.number.isRequired,

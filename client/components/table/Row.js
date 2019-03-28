@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Table.css'
 import { Expand } from 'components/button'
-import { useToggle } from 'utils/react'
+import { useToggle } from 'utils/react/hooks'
 
 Row.propTypes = {
     children: PropTypes.node.isRequired,

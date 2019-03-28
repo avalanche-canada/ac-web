@@ -9,7 +9,7 @@ import Burger from './Burger'
 import ItemSet from './ItemSet'
 import Brand from './Brand'
 import Donate from './Donate'
-import { useWindowSize } from 'utils/react'
+import { useWindowSize } from 'utils/react/hooks'
 
 Layout.propTypes = {
     menu: PropTypes.object.isRequired,

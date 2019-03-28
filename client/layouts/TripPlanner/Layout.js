@@ -21,7 +21,7 @@ import Drawer, {
 } from 'components/page/drawer'
 import * as utils from 'utils/region'
 import styles from './TripPlanner.css'
-import { useWindowSize } from 'utils/react'
+import { useWindowSize } from 'utils/react/hooks'
 
 // TODO: Could use Context to simplify implementation
 // TODO: Could use state machine to simplify implementation

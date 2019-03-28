@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
-import { useEventListener } from 'utils/react'
+import { useEventListener } from 'utils/react/hooks'
 
 FragmentIdentifier.propTypes = {
     hash: PropTypes.string.isRequired,

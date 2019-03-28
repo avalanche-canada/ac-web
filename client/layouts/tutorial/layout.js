@@ -37,7 +37,7 @@ import Quiz from './Quiz'
 import Question from './Question'
 import Button, { SUBTILE } from 'components/button'
 import dictionnaries from './locales'
-import { useWindowSize } from 'utils/react'
+import { useWindowSize } from 'utils/react/hooks'
 import { FR, EN } from 'constants/locale'
 
 // TODO: Use Context to propagate the tutorial document

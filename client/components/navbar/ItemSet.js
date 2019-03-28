@@ -1,7 +1,7 @@
 import React, { cloneElement, Children, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import keycodes from 'constants/keycodes'
-import { useEventListener } from 'utils/react'
+import { useEventListener } from 'utils/react/hooks'
 import Backdrop from '../misc/Backdrop'
 import styles from './Navbar.css'
 

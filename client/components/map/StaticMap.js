@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce'
 import { createStyleUrl } from 'services/mapbox/api'
 import { PRIMARY } from 'constants/colors'
 import Marker from './Marker'
-import { useEventListener } from 'utils/react'
+import { useEventListener } from 'utils/react/hooks'
 
 StaticMap.propTypes = {
     tracked: PropTypes.bool,

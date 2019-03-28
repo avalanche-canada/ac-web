@@ -1,7 +1,7 @@
 import React, { useRef, useLayoutEffect, useState, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import throttle from 'lodash/throttle'
-import { useEventListener } from 'utils/react'
+import { useEventListener } from 'utils/react/hooks'
 
 // TODO Should eventually get rid of these components and only use the hooks + ResizeObserver
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import Button, { INCOGNITO } from 'components/button'
 import { ExpandMore, ExpandLess } from 'components/icons'
-import { useToggle } from 'utils/react'
+import { useToggle } from 'utils/react/hooks'
 import styles from './Tabs.css'
 
 const COMPACT = 'COMPACT'

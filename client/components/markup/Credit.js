@@ -2,7 +2,7 @@ import React, { memo, createElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import Dimensions from 'components/Dimensions'
-import { useToggle } from 'utils/react'
+import { useToggle } from 'utils/react/hooks'
 import styles from './Credit.css'
 
 Credit.propTypes = {
