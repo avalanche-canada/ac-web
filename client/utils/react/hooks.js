@@ -123,9 +123,9 @@ function useStorage(
 ) {
     const [value, setValue] = useState(() => {
         try {
-            const value = decode(storage.getItem(key))
+            const value = storage.getItem(key)
 
-            return value === null ? defaultValue : value
+            return value === null ? defaultValue : decode(value)
         } catch (error) {
             return defaultValue
         }
