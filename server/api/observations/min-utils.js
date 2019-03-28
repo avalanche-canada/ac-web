@@ -1,24 +1,28 @@
 'use strict';
-var _ = require('lodash');
-var moment = require('moment');
-var uuid = require('node-uuid');
 var path = require('path');
-var geohash = require('ngeohash');
-var moment = require('moment');
-var changeCase = require('change-case');
-var logger = require('../../logger.js');
-var multiparty = require('multiparty');
-var q = require('q');
-var sharp = require('sharp');
-var jwt = require('jsonwebtoken');
 
-var request = require('request');
+var AWS              = require('aws-sdk');
+var _                = require('lodash');
+var changeCase       = require('change-case');
+var geohash          = require('ngeohash');
+var jwt              = require('jsonwebtoken');
+var moment           = require('moment');
+var moment           = require('moment');
+var multiparty       = require('multiparty');
+var q                = require('q');
+var request          = require('request');
+var s3_upload_stream = require('s3-upload-stream');
+var sharp            = require('sharp');
+var uuid             = require('node-uuid');
+
+var logger = require('../../logger.js');
 var config = require('../../config/environment');
 
-var AWS = require('aws-sdk');
+
+
 AWS.config.update({ region: 'us-west-2' });
 var dynamodb = new AWS.DynamoDB.DocumentClient();
-var s3Stream = require('s3-upload-stream')(new AWS.S3());
+var s3Stream = s3_upload_stream(new AWS.S3());
 
 /*
  * This key is added to the auth0 user profile in the "rules" section in the
