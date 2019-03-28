@@ -2,8 +2,8 @@ var path = require('path');
 
 module.exports = {
     AC_API_ROOT_URL:      'https://avalanche.ca',
-    root:                 path.normalize(__dirname + '/../..'),
-    env:                  process.env.NODE_ENV,
+    ROOT:                 path.normalize(__dirname + '/../..'),
+    ENV:                  process.env.NODE_ENV,
     LOG_PREFIX:           process.env.LOG_PREFIX,
     PORT:                 process.env.PORT || 9000,
     AC_MCR_HOST:          process.env.AC_MCR_HOST,

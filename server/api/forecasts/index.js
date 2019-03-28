@@ -293,7 +293,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     // TODO(wnh): Remove this giant hack
     if (req.region.id === 'north-rockies') {
         res.sendFile(
-            config.root + '/server/views/forecasts/conditions-report-icon.svg'
+            config.ROOT + '/server/views/forecasts/conditions-report-icon.svg'
         );
         return;
     }
@@ -351,7 +351,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         res.header('content-type', 'image/svg+xml');
         fs
             .createReadStream(
-                config.root + '/server/views/forecasts/no_rating_icon.svg'
+                config.ROOT + '/server/views/forecasts/no_rating_icon.svg'
             )
             .pipe(res);
     } else if (req.forecast.json.dangerMode === 'Early season') {
@@ -359,7 +359,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         res.header('content-type', 'image/svg+xml');
         fs
             .createReadStream(
-                config.root + '/server/views/forecasts/early_season_icon.svg'
+                config.ROOT + '/server/views/forecasts/early_season_icon.svg'
             )
             .pipe(res);
     } else if (req.forecast.json.dangerMode === 'Spring situation') {
@@ -367,7 +367,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         res.header('content-type', 'image/svg+xml');
         fs
             .createReadStream(
-                config.root +
+                config.ROOT +
                     '/server/views/forecasts/spring_situation_icon_map.svg'
             )
             .pipe(res);
