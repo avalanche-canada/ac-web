@@ -1,6 +1,7 @@
+var os = require('os');
+
 var winston = require('winston');
 var Papertrail = require('winston-papertrail').Papertrail;
-var os = require('os');
 
 var config = require('./config/environment');
 
@@ -8,23 +9,24 @@ var ptHostname = config.LOG_PREFIX + '-' + os.hostname();
 
 console.log('Logging to papertrail with hostname:', ptHostname);
 
-var logger,
-    consoleLogger = new winston.transports.Console({
-        level: 'debug',
-        timestamp: function() {
-            return new Date().toISOString();
-        },
-        colorize: true,
-    }),
-    ptTransport = new Papertrail({
-        host: 'logs2.papertrailapp.com',
-        port: 49854,
-        hostname: ptHostname,
-        level: 'debug',
-        logFormat: function(level, message) {
-            return '[' + level + '] ' + message;
-        },
-    });
+var logger;
+var consoleLogger = new winston.transports.Console({
+    level: 'debug',
+    timestamp: function() {
+        return new Date().toISOString();
+    },
+    colorize: true,
+});
+
+var ptTransport = new Papertrail({
+    host: 'logs2.papertrailapp.com',
+    port: 49854,
+    hostname: ptHostname,
+    level: 'debug',
+    logFormat: function(level, message) {
+        return '[' + level + '] ' + message;
+    },
+});
 
 ptTransport.on('error', function(err) {
     console.log('ERROR Logging to papertrail: ' + err);
