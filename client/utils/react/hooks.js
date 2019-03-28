@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import throttle from 'lodash/throttle'
+import identity from 'lodash/identity'
 import { status } from 'services/fetch/utils'
 
 export function useToggle(initialValue) {
@@ -111,6 +112,54 @@ export function useFetch(request) {
     }, [url])
 
     return [data, loading]
+}
+
+function useStorage(
+    storage,
+    key,
+    defaultValue = null,
+    decode = identity,
+    encode = identity
+) {
+    const [value, setValue] = useState(() => {
+        try {
+            const value = decode(storage.getItem(key))
+
+            return value === null ? defaultValue : value
+        } catch (error) {
+            return defaultValue
+        }
+    })
+    function listen(event) {
+        if (event.storageArea === storage && event.key === key) {
+            setValue(event.newValue)
+        }
+    }
+    function set(value) {
+        try {
+            setValue(value)
+            storage.setItem(key, encode(value))
+        } catch (error) {}
+    }
+    function remove() {
+        try {
+            setValue(null)
+            storage.removeItem(key)
+        } catch (error) {}
+    }
+
+    // listening to changes
+    useEventListener('storage', useCallback(listen, []))
+
+    return [value, set, remove]
+}
+
+export function useLocalStorage(...args) {
+    return useStorage(window.localStorage, ...args)
+}
+
+export function useSessionStorage(...args) {
+    return useStorage(window.sessionStorage, ...args)
 }
 
 // Utils
