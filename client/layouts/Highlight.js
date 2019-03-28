@@ -1,44 +1,43 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import Component from 'components/highlight'
 import { Banner } from 'components/application'
 import { Link, StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { highlight } from 'prismic/params'
-import { SessionStorage } from 'services/storage'
+import { useSessionStorage } from 'utils/react/hooks'
 
-// Constants
-const STORAGE_KEY = 'highlight-hidden'
+export default function Highlight() {
+    const [hidden, setHidden] = useSessionStorage(
+        'highlight-hidden',
+        false,
+        Boolean,
+        String
+    )
+    function handleDismiss() {
+        setHidden(true)
+    }
 
-export default class Highlight extends PureComponent {
-    storage = SessionStorage.create()
-    state = {
-        hidden: this.storage.get(STORAGE_KEY, false),
-    }
-    handleDismiss = () => {
-        this.setState({ hidden: true }, () => {
-            this.storage.set(STORAGE_KEY, true)
-        })
-    }
-    children = ({ document }) => {
-        if (!document || this.state.hidden) {
-            return null
-        }
+    return (
+        <Document {...highlight()}>
+            {({ document }) => {
+                if (!document || hidden) {
+                    return null
+                }
 
-        const { link, description, style } = document.data
-        const content = <StructuredText value={description} />
+                const { link, description, style } = document.data
+                const content = <StructuredText value={description} />
 
-        return (
-            <Banner>
-                <Component
-                    type={style}
-                    onDismiss={this.handleDismiss}
-                    dismissable>
-                    {link ? <Link {...link}>{content}</Link> : content}
-                </Component>
-            </Banner>
-        )
-    }
-    render() {
-        return <Document {...highlight()}>{this.children}</Document>
-    }
+                return (
+                    <Banner>
+                        <Component
+                            type={style}
+                            onDismiss={handleDismiss}
+                            dismissable>
+                            {link ? <Link {...link}>{content}</Link> : content}
+                        </Component>
+                    </Banner>
+                )
+            }}
+        </Document>
+    )
 }
