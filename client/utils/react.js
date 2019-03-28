@@ -8,6 +8,7 @@ import React, {
 } from 'react'
 import flatten from 'lodash/flatten'
 import throttle from 'lodash/throttle'
+import { status } from 'services/fetch/utils'
 
 const LINE_FEED_REGEX = /(\n)/
 function br(string, index) {
@@ -182,6 +183,51 @@ export function useEventListener(eventName, handler, element = window) {
             element.removeEventListener(eventName, listener)
         }
     }, [eventName, element])
+}
+
+export function useFetch(request) {
+    const { url } = request || {}
+    const [data, setData] = useState(null)
+    const [loading, setLoading] = useState(false)
+    const controller = useRef(null)
+
+    useEffect(() => {
+        if (!request) {
+            return
+        }
+
+        try {
+            controller.current = new AbortController()
+        } catch (error) {
+            controller.current = {
+                abort() {},
+            }
+        }
+
+        const { signal } = controller.current
+
+        setLoading(true)
+        fetch(request, { signal })
+            .then(status)
+            .then(
+                data => {
+                    setLoading(false)
+                    setData(data)
+                },
+                error => {
+                    setLoading(false)
+                    throw error
+                }
+            )
+
+        return () => {
+            if (loading) {
+                controller.current.abort()
+            }
+        }
+    }, [url])
+
+    return [data, loading]
 }
 
 // Utils
