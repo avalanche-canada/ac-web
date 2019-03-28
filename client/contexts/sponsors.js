@@ -1,59 +1,50 @@
-import React, { Component, createContext } from 'react'
+import React, { createContext } from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
 import { resource } from 'api/requests/static'
-import { status } from 'services/fetch/utils'
-import { LocalStorage } from 'services/storage'
-import { captureException } from 'services/sentry'
+import { useLocalStorage, useFetch, useTimeout } from 'utils/react/hooks'
 
-export class Provider extends Component {
-    static propTypes = {
-        children: PropTypes.element,
-    }
-    storage = LocalStorage.create()
-    state = this.storage.get('sponsors', {
-        About: 'rmr',
-        BlogIndex: 'teck',
-        BlogPage: 'mec',
-        EventIndex: 'varda',
-        EventPage: 'black-diamond',
-        Forecast: 'acf',
-        Gear: 'garmin-inreach',
-        MIN: 'rmr',
-        NewsIndex: 'northface',
-        NewsPage: 'outdoorresearch',
-        Training: 'revelstoke-tourism',
-        Weather: 'cbt',
-        Youth: 'cbt',
-    })
-    async fetch() {
-        try {
-            const response = await fetch(resource('sponsors'))
-            const data = await status(response)
-            const date = formatDate(new Date(), 'YYYY-MM-DD')
-            const sponsors = Object.assign({}, data.default, data[date])
+Provider.propTypes = {
+    children: PropTypes.element,
+}
 
-            this.setState(sponsors, () => {
-                this.storage.set('sponsors', sponsors)
-            })
-        } catch (error) {
-            captureException(error)
-        }
+export function Provider({ children }) {
+    const ready = useTimeout(999)
+    const [data] = useFetch(ready ? resource('sponsors') : null)
+    const [sponsors, setSponsors] = useLocalStorage(
+        'sponsors',
+        SPONSORS,
+        JSON.parse,
+        JSON.stringify
+    )
+
+    if (data) {
+        const date = formatDate(new Date(), 'YYYY-MM-DD')
+
+        setSponsors(Object.assign({}, data.default, data[date]))
     }
-    componentDidMount() {
-        // TODO Could also use requestIdleCallback
-        this.timeoutId = setTimeout(this.fetch.bind(this), 9999)
-    }
-    componentWillUnmount() {
-        clearTimeout(this.timeoutId)
-    }
-    render() {
-        return (
-            <SponsorsContext.Provider value={this.state}>
-                {this.props.children}
-            </SponsorsContext.Provider>
-        )
-    }
+
+    return (
+        <SponsorsContext.Provider value={sponsors}>
+            {children}
+        </SponsorsContext.Provider>
+    )
+}
+
+const SPONSORS = {
+    About: 'rmr',
+    BlogIndex: 'teck',
+    BlogPage: 'mec',
+    EventIndex: 'varda',
+    EventPage: 'black-diamond',
+    Forecast: 'acf',
+    Gear: 'garmin-inreach',
+    MIN: 'rmr',
+    NewsIndex: 'northface',
+    NewsPage: 'outdoorresearch',
+    Training: 'revelstoke-tourism',
+    Weather: 'cbt',
+    Youth: 'cbt',
 }
 
 const SponsorsContext = createContext()
