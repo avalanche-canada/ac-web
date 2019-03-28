@@ -154,12 +154,12 @@ function useStorage(
     return [value, set, remove]
 }
 
-export function useLocalStorage(...args) {
-    return useStorage(window.localStorage, ...args)
+export function useLocalStorage(key, defaultValue, decode, encode) {
+    return useStorage(window.localStorage, key, defaultValue, decode, encode)
 }
 
-export function useSessionStorage(...args) {
-    return useStorage(window.sessionStorage, ...args)
+export function useSessionStorage(key, defaultValue, decode, encode) {
+    return useStorage(window.sessionStorage, key, defaultValue, decode, encode)
 }
 
 // Utils
