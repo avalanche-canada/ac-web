@@ -5,7 +5,7 @@ var config = require('../../config/environment');
 var proxy = require('express-http-proxy'),
     url = require('url'),
     avCanPrefix = '/v1_1/avalanche-ca',
-    cloudinary_auth = Buffer.from(config.CLOUDINARY_AUTH, 'utf8').toString(
+    cloudinary_auth = new Buffer(config.CLOUDINARY_AUTH).toString(
         'base64'
     );
 
