@@ -7,7 +7,7 @@ module.exports = {
     LOG_PREFIX:           process.env.LOG_PREFIX,
     PORT:                 process.env.PORT || 9000,
     AC_MCR_HOST:          process.env.AC_MCR_HOST,
-    AC_SEASON:            process.env.AC_SEASON || '2015',
+    AC_SEASON:            process.env.AC_SEASON || '2016',
     ARCHIVE_DBURL:        process.env.ARCHIVE_DBURL,
     AUTH0_CLIENT_SECRET:  process.env.AUTH0_CLIENT_SECRET,
     AVALX2016_ENDPOINT:   process.env.AVALX2016_ENDPOINT || 'http://avalx2016.avalanche.ca/public/CAAML-eng.aspx',
