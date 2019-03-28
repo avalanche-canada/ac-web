@@ -24,7 +24,7 @@ const jwksSecret = jwksRsa.expressJwtSecret({
   jwksUri: 'https://avalancheca.auth0.com/.well-known/jwks.json'
 });
 
-const OLD_SECRET = Buffer.from(config.AUTH0_CLIENT_SECRET, 'base64');
+const OLD_SECRET=new Buffer(config.AUTH0_CLIENT_SECRET, 'base64');
 
 function secretProvider(req, header, payload, cb) {
     if(header.alg === 'RS256') {
