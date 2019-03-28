@@ -5,13 +5,7 @@ import {
     hostname,
     styleIds,
 } from './config.json'
-import * as requests from './requests'
-import { status } from 'services/fetch/utils'
 import { Revelstoke } from 'constants/map/locations'
-
-export function findPlaces(term) {
-    return fetch(requests.place(term)).then(status)
-}
 
 export function createStyleUrl({
     styleId = styleIds['2016'],

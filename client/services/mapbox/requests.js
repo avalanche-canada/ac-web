@@ -2,6 +2,10 @@ import { get } from 'services/fetch/requests'
 import { accessToken, username, api, styleIds } from './config.json'
 
 export function place(term, options) {
+    if (!term) {
+        return null
+    }
+
     term = encodeURIComponent(term.trim())
 
     const url = `${api}/geocoding/v5/mapbox.places/${term}.json`
