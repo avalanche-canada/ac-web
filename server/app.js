@@ -5,11 +5,9 @@
 const express = require('express');
 const path = require('path');
 const logger = require('./logger');
+const config = require('./config/environment');
 
-const port = process.env.PORT || 9000;
 const app = express();
-
-const isDeveloping = process.env.NODE_ENV !== 'production';
 
 require('./config/express')(app);
 require('./routes')(app);
@@ -22,10 +20,10 @@ app.get('*', function response(req, res) {
     res.sendFile(path.resolve(__dirname, '../public/index.html'));
 });
 
-app.listen(port, '0.0.0.0', function onStart(err) {
+app.listen(config.PORT, '0.0.0.0', function onStart(err) {
     if (err) {
         logger.error('listen', err);
     }
     logger.info("STARTING_APP");
-    logger.info('listening on port:', port);
+    logger.info('listening on port:', config.PORT);
 });

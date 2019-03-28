@@ -37,9 +37,9 @@ var acAvalxUrls = _.chain(regions.features)
 var avalxWebcache = null;
 var fragmentCache = null;
 
-if (process.env.REDIS_HOST) {
+if (config.REDIS_HOST) {
     var webcacheOptions = {
-        store: new WebCacheRedis(6379, process.env.REDIS_HOST),
+        store: new WebCacheRedis(6379, config.REDIS_HOST),
     };
     if (!process.env.NO_CACHE_REFRESH)
         webcacheOptions.refreshInterval = 300000 /*milliseconds*/;
@@ -47,7 +47,7 @@ if (process.env.REDIS_HOST) {
 
     fragmentCache = cacheManager.caching({
         store: redisStore,
-        host: process.env.REDIS_HOST, // default value
+        host: config.REDIS_HOST, // default value
         port: 6379, // default value
         db: 1,
         ttl: 60 * 5 /*seconds*/,
@@ -293,7 +293,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     // TODO(wnh): Remove this giant hack
     if (req.region.id === 'north-rockies') {
         res.sendFile(
-            config.root + '/server/views/forecasts/conditions-report-icon.svg'
+            config.ROOT + '/server/views/forecasts/conditions-report-icon.svg'
         );
         return;
     }
@@ -351,7 +351,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         res.header('content-type', 'image/svg+xml');
         fs
             .createReadStream(
-                config.root + '/server/views/forecasts/no_rating_icon.svg'
+                config.ROOT + '/server/views/forecasts/no_rating_icon.svg'
             )
             .pipe(res);
     } else if (req.forecast.json.dangerMode === 'Early season') {
@@ -359,7 +359,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         res.header('content-type', 'image/svg+xml');
         fs
             .createReadStream(
-                config.root + '/server/views/forecasts/early_season_icon.svg'
+                config.ROOT + '/server/views/forecasts/early_season_icon.svg'
             )
             .pipe(res);
     } else if (req.forecast.json.dangerMode === 'Spring situation') {
@@ -367,7 +367,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         res.header('content-type', 'image/svg+xml');
         fs
             .createReadStream(
-                config.root +
+                config.ROOT +
                     '/server/views/forecasts/spring_situation_icon_map.svg'
             )
             .pipe(res);

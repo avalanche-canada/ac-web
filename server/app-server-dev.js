@@ -5,11 +5,9 @@
 const path = require('path');
 const express = require('express');
 const logger = require('./logger');
+const config = require('./config/environment');
 
-const port = process.env.PORT || 9000;
 const app = express();
-
-const isDeveloping = process.env.NODE_ENV !== 'production';
 
 require('./config/express')(app);
 require('./routes')(app);
@@ -26,11 +24,11 @@ app.on('error', function(err){
     logger.error('FATAL', {app:'ac-web', error: err});
 });
 
-app.listen(port, '0.0.0.0', function onStart(err) {
+app.listen(config.PORT, '0.0.0.0', function onStart(err) {
     if (err) {
         logger.error('listen:', err);
     }
     logger.info("STARTING", {app:'ac-web'});
-    logger.info('listening on port:', port);
+    logger.info('listening on port:', config.PORT);
 });
 

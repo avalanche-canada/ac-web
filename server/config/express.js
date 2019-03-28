@@ -12,7 +12,6 @@ var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var errorHandler = require('errorhandler');
 var path = require('path');
-var config = require('./environment');
 var cors = require('cors');
 
 var ROOT = path.normalize(__dirname + '/../..');

@@ -1,11 +1,14 @@
-var express = require('express');
-var router = express.Router();
-var _ = require('lodash');
-var multiparty = require('multiparty');
-var minUtils = require('./min-utils');
-var moment = require('moment');
+var _          = require('lodash');
 var changeCase = require('change-case');
-var logger = require('../../logger.js');
+var express    = require('express');
+var moment     = require('moment');
+var multiparty = require('multiparty');
+
+var logger   = require('../../logger.js');
+var minUtils = require('./min-utils');
+
+
+var router = express.Router();
 
 router.post('/submissions', function(req, res) {
     logger.info('submissions content-type', req.get('content-type'));

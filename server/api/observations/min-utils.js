@@ -1,26 +1,28 @@
 'use strict';
-var _ = require('lodash');
-var moment = require('moment');
-var uuid = require('node-uuid');
 var path = require('path');
-var geohash = require('ngeohash');
-var moment = require('moment');
-var changeCase = require('change-case');
+
+var AWS              = require('aws-sdk');
+var _                = require('lodash');
+var changeCase       = require('change-case');
+var geohash          = require('ngeohash');
+var jwt              = require('jsonwebtoken');
+var moment           = require('moment');
+var moment           = require('moment');
+var multiparty       = require('multiparty');
+var q                = require('q');
+var request          = require('request');
+var s3_upload_stream = require('s3-upload-stream');
+var sharp            = require('sharp');
+var uuid             = require('node-uuid');
+
 var logger = require('../../logger.js');
-var multiparty = require('multiparty');
-var q = require('q');
-var sharp = require('sharp');
-var jwt = require('jsonwebtoken');
+var config = require('../../config/environment');
 
-var request = require('request');
 
-var AWS = require('aws-sdk');
+
 AWS.config.update({ region: 'us-west-2' });
 var dynamodb = new AWS.DynamoDB.DocumentClient();
-var s3Stream = require('s3-upload-stream')(new AWS.S3());
-
-var OBS_TABLE = process.env.MINSUB_DYNAMODB_TABLE;
-var UPLOADS_BUCKET = process.env.UPLOADS_BUCKET || 'ac-user-uploads';
+var s3Stream = s3_upload_stream(new AWS.S3());
 
 /*
  * This key is added to the auth0 user profile in the "rules" section in the
@@ -182,7 +184,7 @@ exports.saveSubmission = function(token, form, callback) {
             var orienter = sharp().rotate();
 
             var upload = s3Stream.upload({
-                Bucket: UPLOADS_BUCKET,
+                Bucket: config.UPLOADS_BUCKET,
                 Key: key,
                 ContentType: part.type,
                 ACL: 'private',
@@ -260,7 +262,7 @@ exports.saveSubmission = function(token, form, callback) {
             if (valid) {
                 dynamodb.put(
                     {
-                        TableName: OBS_TABLE,
+                        TableName: config.OBS_TABLE,
                         Item: item,
                     },
                     function(err, data) {
@@ -339,7 +341,7 @@ function getSubmissionsRecursive(
     callback
 ) {
     var params = {
-        TableName: OBS_TABLE,
+        TableName: config.OBS_TABLE,
         IndexName: 'acl-epoch-index',
     };
 
@@ -393,7 +395,7 @@ function getSubmissionsRecursive(
 
 exports.getSubmission = function(subid, client, callback) {
     var params = {
-        TableName: OBS_TABLE,
+        TableName: config.OBS_TABLE,
         IndexName: 'subid-index',
         KeyConditionExpression: 'subid = :subid',
         ExpressionAttributeValues: { ':subid': subid },
@@ -415,7 +417,7 @@ exports.getSubmission = function(subid, client, callback) {
 
 exports.getObservations = function(filters, callback) {
     var params = {
-        TableName: OBS_TABLE,
+        TableName: config.OBS_TABLE,
         IndexName: 'acl-epoch-index',
     };
     var startDate = moment().subtract('2', 'days');
@@ -464,7 +466,7 @@ exports.getObservations = function(filters, callback) {
 
 exports.getObservation = function(obid, callback) {
     var params = {
-        TableName: OBS_TABLE,
+        TableName: config.OBS_TABLE,
         KeyConditionExpression: 'obid = :obid',
         ExpressionAttributeValues: { ':obid': obid },
     };
@@ -485,7 +487,7 @@ exports.getObservation = function(obid, callback) {
 exports.getUploadAsStream = function(key, size) {
     var s3 = new AWS.S3();
     var params = {
-        Bucket: UPLOADS_BUCKET,
+        Bucket: config.UPLOADS_BUCKET,
         Key: key,
     };
 

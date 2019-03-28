@@ -5,11 +5,13 @@ const logger = require('./logger.js');
 const expressJwt = require('express-jwt');
 const jwt = require('jsonwebtoken');
 const jwksRsa = require('jwks-rsa');
-
 const Raven = require('raven');
+
+const config = require('./config/environment');
+
 var useRaven = false;
-if (typeof process.env.SENTRY_DSN !== 'undefined') {
-    Raven.config(process.env.SENTRY_DSN).install();
+if (config.SENTRY_DSN) {
+    Raven.config(config.SENTRY_DSN).install();
     useRaven = true;
 }
 
@@ -22,7 +24,7 @@ const jwksSecret = jwksRsa.expressJwtSecret({
   jwksUri: 'https://avalancheca.auth0.com/.well-known/jwks.json'
 });
 
-const OLD_SECRET=new Buffer(process.env.AUTH0_CLIENT_SECRET, 'base64');
+const OLD_SECRET = Buffer.from(config.AUTH0_CLIENT_SECRET, 'base64');
 
 function secretProvider(req, header, payload, cb) {
     if(header.alg === 'RS256') {
