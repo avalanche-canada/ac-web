@@ -1,6 +1,6 @@
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { SessionStorage } from 'services/storage'
+import { useSessionStorage } from 'utils/react/hooks'
 
 const MapStateContext = createContext()
 
@@ -11,49 +11,27 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [state, dispatch] = useReducer(reducer, {
-        zoom: STORAGE.get('zoom', ZOOM),
-        center: STORAGE.get('center', CENTER),
-        setZoom(zoom) {
-            dispatch(set({ zoom }))
-            STORAGE.set('zoom', zoom)
+    const [zoom, setZoom] = useSessionStorage('zoom', 4.3, Number, String)
+    const [center, setCenter] = useSessionStorage(
+        'center',
+        {
+            lng: -125.15,
+            lat: 54.8,
         },
-        setCenter(center) {
-            dispatch(set({ center }))
-            STORAGE.set('center', center)
-        },
-    })
+        JSON.parse,
+        JSON.stringify
+    )
+    const value = useMemo(() => ({ zoom, setZoom, center, setCenter }), [
+        zoom,
+        center.lng,
+        center.lat,
+    ])
 
     return (
-        <MapStateContext.Provider value={state}>
+        <MapStateContext.Provider value={value}>
             {children}
         </MapStateContext.Provider>
     )
 }
 
 export const Consumer = MapStateContext.Consumer
-
-// Constants
-const SET = 'set'
-const STORAGE = SessionStorage.create({ keyPrefix: 'map:state' })
-const CENTER = [-125.15, 54.8]
-const ZOOM = 4.3
-
-// Utils
-function set(payload) {
-    return {
-        type: SET,
-        payload,
-    }
-}
-function reducer(state, { type, payload }) {
-    switch (type) {
-        case SET:
-            return {
-                ...state,
-                ...payload,
-            }
-        default:
-            return state
-    }
-}
