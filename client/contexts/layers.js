@@ -1,100 +1,57 @@
-import React, { createContext, useContext, Component } from 'react'
+import React, { createContext, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import * as LAYERS from 'constants/drawers'
-import { LocalStorage } from 'services/storage'
+import * as LAYER_IDS from 'constants/drawers'
+import { useLocalStorage } from 'utils/react/hooks'
 
-const LayersContext = createContext(LAYERS)
+Provider.propTypes = {
+    children: PropTypes.element,
+}
 
-const VISIBILITY = LocalStorage.create({
-    keyPrefix: 'layers-visibility',
-})
-const FILTERS = LocalStorage.create({
-    keyPrefix: 'layers-filters',
-})
+export function Provider({ children }) {
+    const [layers, setLayers] = useLocalStorage(
+        'layers',
+        LAYERS,
+        decode,
+        JSON.stringify
+    )
 
-export class Provider extends Component {
-    static propTypes = {
-        children: PropTypes.element,
-    }
-    state = {
-        [LAYERS.FORECASTS]: {
-            visible: true,
-        },
-        [LAYERS.HOT_ZONE_REPORTS]: {
-            visible: true,
-        },
-        [LAYERS.MOUNTAIN_CONDITIONS_REPORTS]: {
-            visible: getVisibility(LAYERS.MOUNTAIN_CONDITIONS_REPORTS, true),
-        },
-        [LAYERS.WEATHER_STATION]: {
-            visible: getVisibility(LAYERS.WEATHER_STATION, true),
-        },
-        [LAYERS.MOUNTAIN_INFORMATION_NETWORK]: {
-            visible: true,
-            filters: {
-                days: Number(
-                    FILTERS.get(
-                        `${LAYERS.MOUNTAIN_INFORMATION_NETWORK}-days`,
-                        7
-                    ) || 7
-                ),
-                types: new Set(),
-            },
-        },
-        [LAYERS.FATAL_ACCIDENT]: {
-            visible: getVisibility(LAYERS.FATAL_ACCIDENT, false),
-        },
-        [LAYERS.SPECIAL_INFORMATION]: {
-            visible: true,
-        },
-    }
-    get value() {
-        return {
-            layers: this.state,
-            toggle: this.toggle,
-            setFilterValue: this.setFilterValue,
-        }
-    }
-    toggle = id => {
-        this.setState(
-            state => ({
-                [id]: {
-                    ...state[id],
-                    visible: !state[id].visible,
-                },
-            }),
-            () => {
-                VISIBILITY.set(id, this.state[id].visible)
-            }
-        )
-    }
-    setFilterValue = (id, name, value) => {
-        this.setState(
-            state => ({
-                [id]: {
-                    ...state[id],
-                    filters: {
-                        ...state[id].filters,
-                        [name]: value,
+    const value = useMemo(
+        () => ({
+            layers,
+            toggle(id) {
+                setLayers({
+                    ...layers,
+                    [id]: {
+                        ...layers[id],
+                        visible: !layers[id].visible,
                     },
-                },
-            }),
-            () => {
-                FILTERS.set(`${id}-${name}`, value)
-            }
-        )
-    }
-    render() {
-        return (
-            <LayersContext.Provider value={this.value}>
-                {this.props.children}
-            </LayersContext.Provider>
-        )
-    }
+                })
+            },
+            setFilterValue(id, name, value) {
+                setLayers({
+                    ...layers,
+                    [id]: {
+                        ...layers[id],
+                        filters: {
+                            ...layers[id].filters,
+                            [name]: value,
+                        },
+                    },
+                })
+            },
+        }),
+        [layers]
+    )
+
+    return (
+        <LayersContext.Provider value={value}>
+            {children}
+        </LayersContext.Provider>
+    )
 }
 
 Layer.propTypes = {
-    id: PropTypes.oneOf(LAYERS.default).isRequired,
+    id: PropTypes.oneOf(LAYER_IDS.default).isRequired,
     children: PropTypes.func.isRequired,
 }
 
@@ -123,7 +80,60 @@ export function Layers({ children }) {
     return children(layers)
 }
 
-// Utils
-function getVisibility(key, defaultValue = false) {
-    return Boolean(VISIBILITY.get(key, defaultValue))
+// Utils & constants
+function decode(string) {
+    const data = JSON.parse(string)
+
+    // TODO Simplify the implementation. It was easier with the LocaleStorage class.
+
+    return {
+        ...LAYERS,
+        [LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS]: {
+            ...LAYERS[LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS],
+            visible: data[LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS].visible,
+        },
+        [LAYER_IDS.WEATHER_STATION]: {
+            ...LAYERS[LAYER_IDS.WEATHER_STATION],
+            visible: data[LAYER_IDS.WEATHER_STATION].visible,
+        },
+        [LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK]: {
+            ...LAYERS[LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK],
+            filters: {
+                ...LAYERS[LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK].filters,
+                days: data[LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK].filters.days,
+            },
+        },
+        [LAYER_IDS.FATAL_ACCIDENT]: {
+            ...LAYERS[LAYER_IDS.FATAL_ACCIDENT],
+            visible: data[LAYER_IDS.FATAL_ACCIDENT].visible,
+        },
+    }
 }
+const LAYERS = {
+    [LAYER_IDS.FORECASTS]: {
+        visible: true,
+    },
+    [LAYER_IDS.HOT_ZONE_REPORTS]: {
+        visible: true,
+    },
+    [LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS]: {
+        visible: true,
+    },
+    [LAYER_IDS.WEATHER_STATION]: {
+        visible: true,
+    },
+    [LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK]: {
+        visible: true,
+        filters: {
+            days: 7,
+            types: new Set(),
+        },
+    },
+    [LAYER_IDS.FATAL_ACCIDENT]: {
+        visible: false,
+    },
+    [LAYER_IDS.SPECIAL_INFORMATION]: {
+        visible: true,
+    },
+}
+const LayersContext = createContext(LAYER_IDS)
