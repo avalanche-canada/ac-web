@@ -10,40 +10,42 @@ import styles from './incidents.css'
 
 export function IncidentTable({ data }) {
     return (
-        <t.Table>
-            <t.Header>
-                <t.Row>
-                    <t.HeaderCell>Date</t.HeaderCell>
-                    <t.HeaderCell>Location</t.HeaderCell>
-                    <t.HeaderCell>Province</t.HeaderCell>
-                    <t.HeaderCell>Activity</t.HeaderCell>
-                    <t.HeaderCell>Involvement</t.HeaderCell>
-                    <t.HeaderCell>Injury</t.HeaderCell>
-                    <t.HeaderCell>Fatal</t.HeaderCell>
-                    <t.HeaderCell />
-                </t.Row>
-            </t.Header>
-            <t.TBody>
-                {data.results.map(props => (
-                    <t.Row key={props.id}>
-                        <t.Cell>
-                            <span className={styles.DateCell}>
-                                {props.date}
-                            </span>
-                        </t.Cell>
-                        <t.Cell>{props.location}</t.Cell>
-                        <Cell>{props.location_province}</Cell>
-                        <t.Cell>{props.group_activity}</t.Cell>
-                        <Cell>{props.num_involved}</Cell>
-                        <Cell>{props.num_injured}</Cell>
-                        <Cell>{props.num_fatal}</Cell>
-                        <t.Cell>
-                            <Link to={props.id}>view</Link>
-                        </t.Cell>
+        <t.Responsive>
+            <t.Table>
+                <t.Header>
+                    <t.Row>
+                        <t.HeaderCell>Date</t.HeaderCell>
+                        <t.HeaderCell>Location</t.HeaderCell>
+                        <t.HeaderCell>Province</t.HeaderCell>
+                        <t.HeaderCell>Activity</t.HeaderCell>
+                        <t.HeaderCell>Involvement</t.HeaderCell>
+                        <t.HeaderCell>Injury</t.HeaderCell>
+                        <t.HeaderCell>Fatal</t.HeaderCell>
+                        <t.HeaderCell />
                     </t.Row>
-                ))}
-            </t.TBody>
-        </t.Table>
+                </t.Header>
+                <t.TBody>
+                    {data.results.map(props => (
+                        <t.Row key={props.id}>
+                            <t.Cell>
+                                <span className={styles.DateCell}>
+                                    {props.date}
+                                </span>
+                            </t.Cell>
+                            <t.Cell>{props.location}</t.Cell>
+                            <Cell>{props.location_province}</Cell>
+                            <t.Cell>{props.group_activity}</t.Cell>
+                            <Cell>{props.num_involved}</Cell>
+                            <Cell>{props.num_injured}</Cell>
+                            <Cell>{props.num_fatal}</Cell>
+                            <t.Cell>
+                                <Link to={props.id}>view</Link>
+                            </t.Cell>
+                        </t.Row>
+                    ))}
+                </t.TBody>
+            </t.Table>
+        </t.Responsive>
     )
 }
 
