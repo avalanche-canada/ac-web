@@ -1,10 +1,10 @@
 import Storage from './Storage'
 
 export default class SessionStorage extends Storage {
-    static create(options) {
-        return new SessionStorage(options)
+    static create() {
+        return new SessionStorage()
     }
-    constructor(options = {}) {
-        super(window.sessionStorage, options)
+    constructor() {
+        super(window.sessionStorage)
     }
 }

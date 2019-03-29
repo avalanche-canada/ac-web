@@ -1,10 +1,10 @@
 import Storage from './Storage'
 
 export default class LocalStorage extends Storage {
-    static create(options) {
-        return new LocalStorage(options)
+    static create() {
+        return new LocalStorage()
     }
-    constructor(options = {}) {
-        super(window.localStorage, options)
+    constructor() {
+        super(window.localStorage)
     }
 }

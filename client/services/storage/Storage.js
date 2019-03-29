@@ -1,12 +1,10 @@
 import Memory from './Memory'
 
 export default class Storage {
-    static create(/* options */) {
+    static create() {
         throw new Error('Not implemented.')
     }
-    constructor(storage = new Memory(), options = {}) {
-        this.options = options
-
+    constructor(storage = new Memory()) {
         try {
             storage.setItem('local-storage-test', 1)
             storage.removeItem('local-storage-test')
@@ -16,11 +14,7 @@ export default class Storage {
             this.storage = new Memory()
         }
     }
-    generateKey(name) {
-        return [this.options.keyPrefix, name].filter(Boolean).join(':')
-    }
-    get(name, defaultValue) {
-        const key = this.generateKey(name)
+    get(key, defaultValue) {
         const value = this.storage.getItem(key)
 
         try {
@@ -29,20 +23,15 @@ export default class Storage {
             return value || defaultValue
         }
     }
-    set(name, value) {
-        const key = this.generateKey(name)
+    set(key, value) {
         value = typeof value === 'object' ? stringify(value) : value
 
         return this.storage.setItem(key, value)
     }
-    has(name) {
-        const key = this.generateKey(name)
-
+    has(key) {
         return this.storage.hasOwnProperty(key)
     }
-    remove(name) {
-        const key = this.generateKey(name)
-
+    remove(key) {
         return this.storage.removeItem(key)
     }
 }
