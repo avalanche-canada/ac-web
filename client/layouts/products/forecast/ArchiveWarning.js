@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Consumer } from './Context'
 import { ArchiveWarning as Base } from 'components/misc'
@@ -8,13 +8,13 @@ import addDays from 'date-fns/add_days'
 import format from 'date-fns/format'
 import isToday from 'date-fns/is_today'
 
-class ArchiveWarningComponent extends PureComponent {
-    static propTypes = {
-        region: PropTypes.string.isRequired,
-        date: PropTypes.instanceOf(Date).isRequired,
-    }
-    createLink(date = new Date()) {
-        const { region } = this.props
+ArchiveWarningComponent.propTypes = {
+    region: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+}
+
+function ArchiveWarningComponent({ region, date }) {
+    function createLink(date = new Date()) {
         const paths = ['/forecasts']
 
         if (isToday(date)) {
@@ -27,27 +27,25 @@ class ArchiveWarningComponent extends PureComponent {
 
         return paths.join('/')
     }
-    render() {
-        const { date } = this.props
-        const previous = subDays(date, 1)
-        const next = addDays(date, 1)
-        const props = {
-            nowcast: {
-                to: this.createLink(),
-                children: "Read today's bulletin",
-            },
-            previous: {
-                to: this.createLink(previous),
-                children: <DateElement value={previous} />,
-            },
-            next: {
-                to: this.createLink(next),
-                children: <DateElement value={next} />,
-            },
-        }
 
-        return <Base {...props}>This is an archived avalanche bulletin</Base>
+    const previous = subDays(date, 1)
+    const next = addDays(date, 1)
+    const props = {
+        nowcast: {
+            to: createLink(),
+            children: "Read today's bulletin",
+        },
+        previous: {
+            to: createLink(previous),
+            children: <DateElement value={previous} />,
+        },
+        next: {
+            to: createLink(next),
+            children: <DateElement value={next} />,
+        },
     }
+
+    return <Base {...props}>This is an archived avalanche bulletin</Base>
 }
 
 ArchiveWarning.propTypes = {
