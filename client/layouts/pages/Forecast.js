@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Forecast } from 'containers/forecast'
@@ -13,91 +13,71 @@ import { List, ListItem } from 'components/page'
 import { isTouchable } from 'utils/device'
 import { handleForecastTabActivate } from 'services/analytics'
 
-export default class ForecastLayout extends PureComponent {
-    static propTypes = {
-        name: PropTypes.string.isRequired,
-        date: PropTypes.instanceOf(Date),
-    }
-    renderSPAW = ({ document }) => {
-        const { link, description } = document.data
-        const style = {
-            marginTop: '1em',
-            padding: '1em',
-        }
+ForecastLayout.propTypes = {
+    name: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date),
+}
 
-        return (
-            <SPAWComponent link={link} style={style}>
-                <p>
-                    {description[0].text} {isTouchable ? 'Tap' : 'Click'} for
-                    more information.
-                </p>
-            </SPAWComponent>
-        )
-    }
-    renderHeader = ({ pending, data }) => (
-        <Header
-            title={
-                pending ? (
-                    <Loading component="span" />
-                ) : (
-                    data?.name || (
-                        <Warning component="span">
-                            {this.props.name} forecast not found
-                        </Warning>
-                    )
-                )
-            }
-        />
-    )
-    renderForecast = props => {
-        const { name } = this.props
+export default function ForecastLayout({ name, date }) {
+    const isPrintable = !date || isToday(date)
 
-        return (
-            <Fragment>
-                <Pending>
-                    <Muted>Loading forecast data...</Muted>
-                </Pending>
-                <Fulfilled.Found>
-                    <components.Forecast value={props.data}>
-                        <components.Metadata />
-                        <SPAW name={name}>{this.renderSPAW}</SPAW>
-                        <components.Headline />
-                        <components.TabSet
-                            onTabChange={handleForecastTabActivate}
-                        />
-                        <components.Footer />
-                    </components.Forecast>
-                </Fulfilled.Found>
-                <Fulfilled.NotFound>
-                    <Regions>{renderRegions}</Regions>
-                </Fulfilled.NotFound>
-            </Fragment>
-        )
-    }
-    render() {
-        const { name, date } = this.props
-        const isPrintable = !date || isToday(date)
-
-        return (
-            <Page>
-                <Region name={name}>{this.renderHeader}</Region>
-                <Content>
-                    <Main>
-                        <Forecast name={name} date={date}>
-                            {this.renderForecast}
-                        </Forecast>
-                    </Main>
-                    <Aside>
-                        {name === 'kananaskis' ? (
-                            <components.KananaskisSidebar />
-                        ) : (
-                            <components.Sidebar isPrintable={isPrintable} />
+    return (
+        <Page>
+            <Region name={name}>
+                {({ pending, data }) => (
+                    <Header
+                        title={
+                            pending ? (
+                                <Loading component="span" />
+                            ) : (
+                                data?.name || (
+                                    <Warning component="span">
+                                        {name} forecast not found
+                                    </Warning>
+                                )
+                            )
+                        }
+                    />
+                )}
+            </Region>
+            <Content>
+                <Main>
+                    <Forecast name={name} date={date}>
+                        {props => (
+                            <Fragment>
+                                <Pending>
+                                    <Muted>Loading forecast data...</Muted>
+                                </Pending>
+                                <Fulfilled.Found>
+                                    <components.Forecast value={props.data}>
+                                        <components.Metadata />
+                                        <SPAW name={name}>{renderSPAW}</SPAW>
+                                        <components.Headline />
+                                        <components.TabSet
+                                            onTabChange={
+                                                handleForecastTabActivate
+                                            }
+                                        />
+                                        <components.Footer />
+                                    </components.Forecast>
+                                </Fulfilled.Found>
+                                <Fulfilled.NotFound>
+                                    <Regions>{renderRegions}</Regions>
+                                </Fulfilled.NotFound>
+                            </Fragment>
                         )}
-                    </Aside>
-                </Content>
-            </Page>
-        )
-    }
+                    </Forecast>
+                </Main>
+                <Aside>
+                    {name === 'kananaskis' ? (
+                        <components.KananaskisSidebar />
+                    ) : (
+                        <components.Sidebar isPrintable={isPrintable} />
+                    )}
+                </Aside>
+            </Content>
+        </Page>
+    )
 }
 
 // Utils
@@ -114,4 +94,20 @@ function renderRegions({ fulfilled, data }) {
             </List>
         </Fragment>
     ) : null
+}
+function renderSPAW({ document }) {
+    const { link, description } = document.data
+    const style = {
+        marginTop: '1em',
+        padding: '1em',
+    }
+
+    return (
+        <SPAWComponent link={link} style={style}>
+            <p>
+                {description[0].text} {isTouchable ? 'Tap' : 'Click'} for more
+                information.
+            </p>
+        </SPAWComponent>
+    )
 }

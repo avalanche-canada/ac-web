@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import { Link } from '@reach/router'
@@ -8,35 +8,30 @@ import styles from './ArchiveDatePicker.css'
 
 // TODO: Move to another location, so it can be used between components.
 
-export default class ArchiveDatePicker extends PureComponent {
-    static propTypes = {
-        region: PropTypes.string.isRequired,
-        date: PropTypes.instanceOf(Date),
-    }
-    state = {
-        date: this.props.date,
-    }
-    setDate = date => this.setState({ date })
-    render() {
-        const { region } = this.props
-        const { date } = this.state
+ArchiveDatePicker.propTypes = {
+    region: PropTypes.string.isRequired,
+    date: PropTypes.instanceOf(Date),
+}
 
-        return (
-            <div className={styles.Container}>
-                <DayPicker date={date} onChange={this.setDate}>
-                    {date ? <DateElement value={date} /> : 'Select a date'}
-                </DayPicker>
-                {date && (
-                    <Link
-                        className={styles.Link}
-                        to={`/forecasts/archives/${region}/${format(
-                            date,
-                            'YYYY-MM-DD'
-                        )}`}>
-                        Read avalanche bulletin
-                    </Link>
-                )}
-            </div>
-        )
-    }
+export default function ArchiveDatePicker(props) {
+    const { region } = props
+    const [date, setDate] = useState(props.date)
+
+    return (
+        <div className={styles.Container}>
+            <DayPicker date={date} onChange={setDate}>
+                {date ? <DateElement value={date} /> : 'Select a date'}
+            </DayPicker>
+            {date && (
+                <Link
+                    className={styles.Link}
+                    to={`/forecasts/archives/${region}/${format(
+                        date,
+                        'YYYY-MM-DD'
+                    )}`}>
+                    Read avalanche bulletin
+                </Link>
+            )}
+        </div>
+    )
 }

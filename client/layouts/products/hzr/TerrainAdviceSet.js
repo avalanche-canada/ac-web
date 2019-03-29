@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Consumer } from './Context'
 import Comment from 'layouts/products/min/Comment'
@@ -40,92 +40,64 @@ function AdviceSection({ header, advices }) {
     )
 }
 
-class TerrainAdviceSetComponent extends PureComponent {
-    static propTypes = {
-        terrainAdviceComment: PropTypes.array,
-        terrainToAvoid: PropTypes.array,
-        terrainToAvoidComment: PropTypes.array,
-        terrainToWatch: PropTypes.array,
-        terrainToWatchComment: PropTypes.array,
-        goodTerrainChoices: PropTypes.array,
-        goodTerrainChoicesComment: PropTypes.array,
-    }
-    get comments() {
-        // Legacy comments structure
-        // Previously, every advice sets had its own comment, now only
-        // the travel advice has a comment.
-        const {
-            terrainAdviceComment,
-            terrainToAvoidComment,
-            terrainToWatchComment,
-            goodTerrainChoicesComment,
-        } = this.props
+TerrainAdviceSetComponent.propTypes = {
+    terrainAdviceComment: PropTypes.array,
+    terrainToAvoid: PropTypes.array,
+    terrainToAvoidComment: PropTypes.array,
+    terrainToWatch: PropTypes.array,
+    terrainToWatchComment: PropTypes.array,
+    goodTerrainChoices: PropTypes.array,
+    goodTerrainChoicesComment: PropTypes.array,
+}
 
-        const comments = [
-            terrainAdviceComment,
-            terrainToAvoidComment,
-            terrainToWatchComment,
-            goodTerrainChoicesComment,
-        ].filter(Boolean)
+function TerrainAdviceSetComponent({
+    terrainAdviceComment,
+    terrainToAvoid,
+    terrainToAvoidComment,
+    terrainToWatch,
+    terrainToWatchComment,
+    goodTerrainChoices,
+    goodTerrainChoicesComment,
+}) {
+    // Legacy comments structure
+    // Previously, every advice sets had its own comment, now only
+    // the travel advice has a comment.
+    const allComments = [
+        terrainAdviceComment,
+        terrainToAvoidComment,
+        terrainToWatchComment,
+        goodTerrainChoicesComment,
+    ].filter(Boolean)
+    const comments =
+        allComments.length > 0 ? (
+            <div className={styles['Advice--Comment']}>
+                <Comment>
+                    {allComments.map((comment, index) => (
+                        <StructuredText key={index} value={comment} />
+                    ))}
+                </Comment>
+            </div>
+        ) : null
 
-        if (comments.length > 0) {
-            return (
-                <div className={styles['Advice--Comment']}>
-                    <Comment>
-                        {comments.map((comment, index) => (
-                            <StructuredText key={index} value={comment} />
-                        ))}
-                    </Comment>
-                </div>
-            )
-        } else {
-            return null
-        }
-    }
-    get advices() {
-        const {
-            terrainToAvoid,
-            terrainToWatch,
-            goodTerrainChoices,
-        } = this.props
-        const advices = [terrainToAvoid, terrainToWatch, goodTerrainChoices]
+    const allAdvices = [terrainToAvoid, terrainToWatch, goodTerrainChoices]
+    const advices = allAdvices.some(Boolean) ? (
+        <Fragment>
+            <AdviceSection header="Terrain to Avoid" advices={terrainToAvoid} />
+            <AdviceSection header="Terrain to Watch" advices={terrainToWatch} />
+            <AdviceSection
+                header="Good Terrain Choices"
+                advices={goodTerrainChoices}
+            />
+        </Fragment>
+    ) : null
 
-        if (!advices.some(Boolean)) {
-            return null
-        }
-
-        return (
-            <Fragment>
-                <AdviceSection
-                    header="Terrain to Avoid"
-                    advices={terrainToAvoid}
-                />
-                <AdviceSection
-                    header="Terrain to Watch"
-                    advices={terrainToWatch}
-                />
-                <AdviceSection
-                    header="Good Terrain Choices"
-                    advices={goodTerrainChoices}
-                />
-            </Fragment>
-        )
-    }
-    render() {
-        const { advices, comments } = this
-
-        if (comments === null && advices === null) {
-            return null
-        }
-
-        return (
-            <Panel header="Terrain Advice" expanded>
-                <AdviceText />
-                {advices}
-                {comments}
-            </Panel>
-        )
-    }
+    return comments === null && advices === null ? null : (
+        <Panel header="Terrain Advice" expanded>
+            <AdviceText />
+            {advices}
+            {comments}
+        </Panel>
+    )
 }
 
 export default function TerrainAdviceSet() {
