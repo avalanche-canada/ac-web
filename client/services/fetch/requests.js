@@ -26,8 +26,8 @@ const headers = new Headers({
     Accept: 'application/json',
 })
 function buildURL(input, params) {
-    if (!params instanceof URLSearchParams) {
-        // TODO: Not sure we need that clean function call
+    if (!(params instanceof URLSearchParams)) {
+        // TODO: Not sure we need that clean function call. Yes, for the incidents! So important to leave it there
         params = clean(params)
     }
 
