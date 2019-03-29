@@ -7,7 +7,6 @@ export default class Auth0Service {
     static create() {
         return new Auth0Service()
     }
-    accessor = Accessor.create()
     lock() {
         if (this._lock) {
             return Promise.resolve(this._lock)
@@ -48,7 +47,7 @@ export default class Auth0Service {
             profile: idTokenPayload,
         }
 
-        Object.assign(this.accessor, data)
+        Object.assign(ACCESSOR, data)
 
         return Object.assign(rest, data)
     }
@@ -90,8 +89,10 @@ export default class Auth0Service {
         })
     }
     logout() {
-        this.accessor.clear()
+        ACCESSOR.clear()
 
         return Promise.resolve()
     }
 }
+
+const ACCESSOR = Accessor.create()

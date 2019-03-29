@@ -5,26 +5,23 @@ export default class AuthService {
     static create() {
         return new AuthService()
     }
-    constructor() {
-        this.storage = LocalStorage.create()
-    }
     get profile() {
-        return this.storage.get('profile', null)
+        return STORAGE.get('profile', null)
     }
     set profile(profile) {
-        this.storage.set('profile', profile)
+        STORAGE.set('profile', profile)
     }
     get accessToken() {
-        return this.storage.get('accessToken', null)
+        return STORAGE.get('accessToken', null)
     }
     set accessToken(accessToken) {
-        this.storage.set('accessToken', accessToken)
+        STORAGE.set('accessToken', accessToken)
     }
     get idToken() {
-        return this.storage.get('idToken', null)
+        return STORAGE.get('idToken', null)
     }
     set idToken(idToken) {
-        this.storage.set('idToken', idToken)
+        STORAGE.set('idToken', idToken)
     }
     get isAuthenticated() {
         if (!this.idToken) {
@@ -41,8 +38,10 @@ export default class AuthService {
         return new Date() < expiryDate
     }
     clear() {
-        this.storage.remove('accessToken')
-        this.storage.remove('idToken')
-        this.storage.remove('profile')
+        STORAGE.remove('accessToken')
+        STORAGE.remove('idToken')
+        STORAGE.remove('profile')
     }
 }
+
+const STORAGE = LocalStorage.create()
