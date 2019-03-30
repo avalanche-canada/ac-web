@@ -55,37 +55,13 @@ export default function ArchiveHotZoneReport(props) {
                         </Entry>
                         {name && (
                             <Entry>
-                                <Documents
-                                    {...hotZone.reports.monthly(name, month)}>
-                                    {({ documents = [] }) => {
-                                        const days = documents.reduce(
-                                            monthReducer,
-                                            new Set()
-                                        )
-
-                                        return (
-                                            <DayPicker
-                                                date={date}
-                                                onChange={handleDateChange}
-                                                onMonthChange={
-                                                    handleMonthChange
-                                                }
-                                                disabledDays={day =>
-                                                    !days.has(
-                                                        startOfDay(
-                                                            day
-                                                        ).getTime()
-                                                    )
-                                                }>
-                                                {date ? (
-                                                    <DateElement value={date} />
-                                                ) : (
-                                                    'Select a date'
-                                                )}
-                                            </DayPicker>
-                                        )
-                                    }}
-                                </Documents>
+                                <AdvisoryDayPicker
+                                    name={name}
+                                    date={date}
+                                    month={month}
+                                    onDateChange={handleDateChange}
+                                    onMonthChange={handleMonthChange}
+                                />
                             </Entry>
                         )}
                     </Metadata>
@@ -97,6 +73,27 @@ export default function ArchiveHotZoneReport(props) {
 }
 
 // Utils
+function AdvisoryDayPicker({ name, date, month, onDateChange, onMonthChange }) {
+    return (
+        <Documents {...hotZone.reports.monthly(name, month)}>
+            {({ documents = [] }) => {
+                const days = documents.reduce(monthReducer, new Set())
+
+                return (
+                    <DayPicker
+                        date={date}
+                        onChange={onDateChange}
+                        onMonthChange={onMonthChange}
+                        disabledDays={day =>
+                            !days.has(startOfDay(day).getTime())
+                        }>
+                        {date ? <DateElement value={date} /> : 'Select a date'}
+                    </DayPicker>
+                )
+            }}
+        </Documents>
+    )
+}
 function navigateToAdvisory(name, date) {
     const paths = [
         '/advisories',
@@ -132,7 +129,9 @@ function HotZonesDropdown({ value, onChange }) {
                         disabled
                         placeholder="Select an area"
                     />
-                ) : null
+                ) : (
+                    'Loading...'
+                )
             }
         </HotZones>
     )
