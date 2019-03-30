@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Router } from '@reach/router'
 import format from 'date-fns/format'
 import { Pending, Fulfilled } from 'components/fetch'
@@ -16,62 +16,43 @@ export default function Layout() {
     )
 }
 
-class IncidentsList extends PureComponent {
-    state = {
-        filters: {},
-        page: 1,
+function IncidentsList() {
+    const [page, setPage] = useState(1)
+    const [filters, setFilters] = useState({})
+    const { from, to } = filters
+    function handlerFiltersChange(filters) {
+        setFilters(filters)
+        setPage(1)
     }
-    get params() {
-        const { filters, ...params } = this.state
-        const { from, to } = filters
 
-        if (from) {
-            params.from = seasonToFrom(from)
-        }
-
-        if (to) {
-            params.to = seasonToTo(to)
-        }
-
-        return params
-    }
-    handlePageChange = page => {
-        this.setState({ page })
-    }
-    handlerFiltersChange = filters => {
-        this.setState({
-            filters,
-            page: 1,
-        })
-    }
-    renderPagination = ({ count }) => (
-        <Pagination
-            total={count / 50}
-            active={this.state.page}
-            onChange={this.handlePageChange}
-        />
+    return (
+        <Fragment>
+            <components.IncidentFilters
+                values={filters}
+                onChange={handlerFiltersChange}
+            />
+            <containers.Incidents
+                page={page}
+                from={from ? seasonToFrom(from) : undefined}
+                to={to ? seasonToTo(to) : undefined}>
+                <Pending>
+                    <Loading />
+                </Pending>
+                <Fulfilled>
+                    <components.IncidentTable />
+                </Fulfilled>
+                <Fulfilled>
+                    {({ count }) => (
+                        <Pagination
+                            total={count / 50}
+                            active={page}
+                            onChange={setPage}
+                        />
+                    )}
+                </Fulfilled>
+            </containers.Incidents>
+        </Fragment>
     )
-    render() {
-        const { filters } = this.state
-
-        return (
-            <Fragment>
-                <components.IncidentFilters
-                    values={filters}
-                    onChange={this.handlerFiltersChange}
-                />
-                <containers.Incidents {...this.params}>
-                    <Pending>
-                        <Loading />
-                    </Pending>
-                    <Fulfilled>
-                        <components.IncidentTable />
-                    </Fulfilled>
-                    <Fulfilled>{this.renderPagination}</Fulfilled>
-                </containers.Incidents>
-            </Fragment>
-        )
-    }
 }
 
 function IncidentDetails({ id }) {

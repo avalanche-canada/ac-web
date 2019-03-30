@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
@@ -24,44 +24,83 @@ import { handleForecastTabActivate } from 'services/analytics'
 
 // TODO: Could use <Router> to display warning intead of if statments
 
-export default class ArchiveForecast extends PureComponent {
-    static propTypes = {
-        name: PropTypes.string,
-        date: PropTypes.instanceOf(Date),
-        onParamsChange: PropTypes.func.isRequired,
+ArchiveForecast.propTypes = {
+    name: PropTypes.string,
+    date: PropTypes.instanceOf(Date),
+    onParamsChange: PropTypes.func.isRequired,
+}
+
+export default function ArchiveForecast({ name, date, onParamsChange }) {
+    function handleNameChange(name) {
+        onParamsChange({ date, name })
     }
-    disabledDays = {
-        after: endOfYesterday(),
+    function handleDateChange(date) {
+        onParamsChange({ name, date })
     }
-    handleNameChange = name =>
-        this.props.onParamsChange({
-            date: this.props.date,
-            name,
-        })
-    handleDateChange = date =>
-        this.props.onParamsChange({
-            name: this.props.name,
-            date,
-        })
-    regionsDropdown = ({ data }) => {
-        return data ? (
-            <Dropdown
-                options={new Map(data.map(createRegionOption))}
-                value={this.props.name}
-                onChange={this.handleNameChange}
-                disabled
-                placeholder="Select a region"
-            />
-        ) : (
-            'Loading...'
-        )
-    }
-    renderWarning = ({ data }) => {
+
+    return (
+        <Page>
+            <Header title="Forecast Archive" />
+            <Content>
+                <Main>
+                    <Metadata>
+                        <Entry>
+                            <RegionDropdown
+                                name={name}
+                                onChange={handleNameChange}
+                            />
+                        </Entry>
+                        {name && (
+                            <Entry>
+                                <DayPicker
+                                    date={date}
+                                    onChange={handleDateChange}
+                                    disabledDays={{
+                                        after: endOfYesterday(),
+                                    }}>
+                                    {date ? (
+                                        <DateElement value={date} />
+                                    ) : (
+                                        'Select a date'
+                                    )}
+                                </DayPicker>
+                            </Entry>
+                        )}
+                    </Metadata>
+                    <ForecastContent name={name} date={date} />
+                </Main>
+            </Content>
+        </Page>
+    )
+}
+
+// Utils
+function RegionDropdown({ value, onChange }) {
+    return (
+        <Regions>
+            {({ data }) =>
+                data ? (
+                    <Dropdown
+                        options={new Map(data.map(createRegionOption))}
+                        value={value}
+                        onChange={onChange}
+                        disabled
+                        placeholder="Select a region"
+                    />
+                ) : (
+                    'Loading...'
+                )
+            }
+        </Regions>
+    )
+}
+function ForecastContent({ name, date }) {
+    function renderWarning({ data }) {
         if (!data) {
             return null
         }
 
-        const to = getWarningUrl(data, this.props.date)
+        const to = getWarningUrl(data, date)
 
         return to ? (
             <a href={to} target={data.id}>
@@ -69,90 +108,42 @@ export default class ArchiveForecast extends PureComponent {
             </a>
         ) : null
     }
-    forecast = ({ data }) => {
-        const { name } = this.props
-
-        return (
-            <components.Forecast value={data}>
-                <Pending>
-                    <Loading>Loading forecast...</Loading>
-                </Pending>
-                <components.Metadata />
-                <components.ArchiveWarning date={this.props.date} />
-                <components.Headline />
-                <components.TabSet onTabChange={handleForecastTabActivate} />
-                <components.Footer>
-                    <Footer.DangerRatings />
-                    <Footer.Disclaimer />
-                </components.Footer>
-                <Region name={name}>{this.renderWarning}</Region>
-            </components.Forecast>
-        )
+    if (!name) {
+        return <Muted>Select a forecast region.</Muted>
     }
-    get container() {
-        const { name, date } = this.props
 
-        if (!name) {
-            return <Muted>Select a forecast region.</Muted>
-        }
-
-        if (!date) {
-            return <Muted>Select a forecast date.</Muted>
-        }
-
-        return externals.has(name) || name === NORTH_ROCKIES ? (
-            <Region name={name}>{this.renderWarning}</Region>
-        ) : (
-            <Forecast name={name} date={date}>
-                {this.forecast}
-            </Forecast>
-        )
+    if (!date) {
+        return <Muted>Select a forecast date.</Muted>
     }
-    get metadata() {
-        const { name, date } = this.props
 
-        return (
-            <Metadata>
-                <Entry>
-                    <Regions>{this.regionsDropdown}</Regions>
-                </Entry>
-                {name && (
-                    <Entry>
-                        <DayPicker
-                            date={date}
-                            onChange={this.handleDateChange}
-                            disabledDays={this.disabledDays}>
-                            {date ? (
-                                <DateElement value={date} />
-                            ) : (
-                                'Select a date'
-                            )}
-                        </DayPicker>
-                    </Entry>
-                )}
-            </Metadata>
-        )
-    }
-    render() {
-        return (
-            <Page>
-                <Header title="Forecast Archive" />
-                <Content>
-                    <Main>
-                        {this.metadata}
-                        {this.container}
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
+    return externals.has(name) || name === NORTH_ROCKIES ? (
+        <Region name={name}>{renderWarning}</Region>
+    ) : (
+        <Forecast name={name} date={date}>
+            {({ data }) => (
+                <components.Forecast value={data}>
+                    <Pending>
+                        <Loading>Loading forecast...</Loading>
+                    </Pending>
+                    <components.Metadata />
+                    <components.ArchiveWarning date={date} />
+                    <components.Headline />
+                    <components.TabSet
+                        onTabChange={handleForecastTabActivate}
+                    />
+                    <components.Footer>
+                        <Footer.DangerRatings />
+                        <Footer.Disclaimer />
+                    </components.Footer>
+                    <Region name={name}>{renderWarning}</Region>
+                </components.Forecast>
+            )}
+        </Forecast>
+    )
 }
-
-// Utils
 function createRegionOption({ id, name }) {
     return [id, name]
 }
-
 function getWarningText({ name, owner, id }) {
     switch (owner) {
         case PARKS_CANADA:
@@ -168,7 +159,6 @@ function getWarningText({ name, owner, id }) {
             return null
     }
 }
-
 function getWarningUrl({ type, url, externalUrl }, date) {
     switch (type) {
         case 'parks': {

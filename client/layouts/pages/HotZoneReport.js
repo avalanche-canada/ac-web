@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Page, Header, Main, Content, Aside } from 'components/page'
@@ -10,65 +10,64 @@ import { hotZone } from 'prismic/params'
 import { HotZone } from 'containers/features'
 import * as utils from 'utils/hzr'
 
-export default class HotZoneReportLayout extends PureComponent {
-    static propTypes = {
-        region: PropTypes.string.isRequired,
-        uid: PropTypes.string,
-    }
-    renderHeader = (report, loading) => {
-        return (
-            <HotZone name={this.props.region}>
-                {({ data }) => (
-                    <Header
-                        title={utils.title({ report, loading, hotZone: data })}
-                    />
-                )}
-            </HotZone>
-        )
-    }
-    renderReport = ({ document, loading }) => (
-        <Fragment>
-            {this.renderHeader(document, loading)}
-            <Content>
-                <Main>
-                    {loading ? (
-                        <Loading />
-                    ) : (
-                        <Hzr.Report value={document}>
-                            <Hzr.Metadata shareable />
-                            <Hzr.ArchiveWarning />
-                            <Hzr.Header />
-                            <Hzr.Gallery />
-                            <Hzr.CriticalFactors />
-                            <Hzr.TerrainAndTravelAdvice />
-                            <Hzr.TerrainAdviceSet />
-                            <Hzr.Footer />
-                        </Hzr.Report>
-                    )}
-                </Main>
-                <Aside>
-                    <Hzr.Report value={document}>
-                        <Hzr.Sidebar shareable>
-                            <Item>
-                                <Link
-                                    to={`/map/advisories/${this.props.region}`}>
-                                    See that advisory on the main map
-                                </Link>
-                            </Item>
-                        </Hzr.Sidebar>
-                    </Hzr.Report>
-                </Aside>
-            </Content>
-        </Fragment>
-    )
-    render() {
-        const { uid, region } = this.props
-        const params = uid ? hotZone.uid(uid) : hotZone.report(region)
+HotZoneReportLayout.propTypes = {
+    region: PropTypes.string.isRequired,
+    uid: PropTypes.string,
+}
 
-        return (
-            <Page>
-                <Document {...params}>{this.renderReport}</Document>
-            </Page>
-        )
-    }
+export default function HotZoneReportLayout({ region, uid }) {
+    const params = uid ? hotZone.uid(uid) : hotZone.report(region)
+
+    return (
+        <Page>
+            <Document {...params}>
+                {({ document, loading }) => (
+                    <Fragment>
+                        <HotZone name={region}>
+                            {({ data }) => (
+                                <Header
+                                    title={utils.title({
+                                        report: document,
+                                        loading,
+                                        hotZone: data,
+                                    })}
+                                />
+                            )}
+                        </HotZone>
+                        <Content>
+                            <Main>
+                                {loading ? (
+                                    <Loading />
+                                ) : (
+                                    <Hzr.Report value={document}>
+                                        <Hzr.Metadata shareable />
+                                        <Hzr.ArchiveWarning />
+                                        <Hzr.Header />
+                                        <Hzr.Gallery />
+                                        <Hzr.CriticalFactors />
+                                        <Hzr.TerrainAndTravelAdvice />
+                                        <Hzr.TerrainAdviceSet />
+                                        <Hzr.Footer />
+                                    </Hzr.Report>
+                                )}
+                            </Main>
+                            <Aside>
+                                <Hzr.Report value={document}>
+                                    <Hzr.Sidebar shareable>
+                                        <Item>
+                                            <Link
+                                                to={`/map/advisories/${region}`}>
+                                                See that advisory on the main
+                                                map
+                                            </Link>
+                                        </Item>
+                                    </Hzr.Sidebar>
+                                </Hzr.Report>
+                            </Aside>
+                        </Content>
+                    </Fragment>
+                )}
+            </Document>
+        </Page>
+    )
 }

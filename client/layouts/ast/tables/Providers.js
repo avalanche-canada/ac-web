@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import distance from '@turf/distance'
@@ -18,85 +18,22 @@ import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
 import { Error, Muted } from 'components/text'
 
-export default class Providers extends PureComponent {
-    static propTypes = {
-        tags: PropTypes.instanceOf(Set),
-        sorting: PropTypes.arrayOf(PropTypes.string),
-        place: PropTypes.object,
-        onParamsChange: PropTypes.func.isRequired,
-    }
-    state = {
-        page: 1,
-    }
-    handleSortingChange = (name, order) => {
-        this.props.onParamsChange({
-            sorting: order === NONE ? null : [name, order],
-        })
-    }
-    handlePageChange = page => {
-        this.setState({ page })
-    }
-    componentDidUpdate({ tags, place, sorting }) {
-        if (
-            this.props.tags !== tags ||
-            this.props.place !== place ||
-            this.props.sorting !== sorting
-        ) {
-            this.setState({ page: 1 })
-        }
-    }
-    getTitle(providers) {
-        return Array.isArray(providers)
-            ? `All providers (${providers.length})`
-            : 'All providers'
-    }
-    renderEmptyMessage({ length }) {
-        return length === 0 ? (
-            <div>
-                No providers match your criteria, consider finding a course on
-                the <Link to="/training/courses">courses page</Link>.
-            </div>
-        ) : null
-    }
-    renderRow(row) {
-        return (
-            <Row key={row.id}>
-                {COLUMNS.map(({ property, name }) => (
-                    <Cell key={name}>{property(row)}</Cell>
-                ))}
-            </Row>
-        )
-    }
-    renderRows = providers => providers.map(this.renderRow)
-    renderFeatured(providers) {
-        return (
-            <TBody featured title="Our sponsors">
-                {this.renderRows(providers.filter(isSponsor))}
-            </TBody>
-        )
-    }
-    renderBody(providers) {
-        const rows = providers.filter(isNotSponsor)
-        const { page } = this.state
-        const [name, order] = this.props.sorting || []
+Providers.propTypes = {
+    tags: PropTypes.instanceOf(Set),
+    sorting: PropTypes.arrayOf(PropTypes.string),
+    place: PropTypes.object,
+    onParamsChange: PropTypes.func.isRequired,
+}
 
-        return (
-            <TBody>
-                <Sorted
-                    values={rows}
-                    sorter={SORTERS.get(name)}
-                    reverse={order === DESC}>
-                    <Paginated page={page}>{this.renderRows}</Paginated>
-                </Sorted>
-            </TBody>
-        )
-    }
-    renderBodies(providers) {
+export default function Providers({ tags, sorting, place, onParamsChange }) {
+    const fallback = <Error>An error happened while loading providers.</Error>
+    const [page, setPage] = useState(1)
+    function renderBodies(providers) {
         if (providers.length === 0) {
             return null
         }
 
-        const { place } = this.props
+        const [name, order] = sorting || []
 
         if (place) {
             providers = providers.map(provider => ({
@@ -107,55 +44,66 @@ export default class Providers extends PureComponent {
 
         return (
             <Fragment>
-                {this.renderFeatured(providers)}
-                {this.renderBody(providers)}
+                <TBody featured title="Our sponsors">
+                    {renderRows(providers.filter(isSponsor))}
+                </TBody>
+                <TBody>
+                    <Sorted
+                        values={providers.filter(isNotSponsor)}
+                        sorter={SORTERS.get(name)}
+                        reverse={order === DESC}>
+                        <Paginated page={page}>{renderRows}</Paginated>
+                    </Sorted>
+                </TBody>
             </Fragment>
         )
     }
-    renderContent = ({ providers }) => {
-        return (
-            <Layout title={this.getTitle(providers)}>
-                <Responsive>
-                    <Table>
-                        <Header
-                            columns={COLUMNS}
-                            onSortingChange={this.handleSortingChange}
-                            sorting={this.props.sorting}
-                            place={this.props.place}
-                        />
-                        {Array.isArray(providers) &&
-                            this.renderBodies(providers)}
-                        <Caption>
-                            <Pending>
-                                <Muted>Loading providers...</Muted>
-                            </Pending>
-                            {Array.isArray(providers) &&
-                                this.renderEmptyMessage(providers)}
-                        </Caption>
-                    </Table>
-                </Responsive>
-                {Array.isArray(providers) && (
-                    <Pagination
-                        count={providers.length}
-                        page={this.state.page}
-                        onChange={this.handlePageChange}
-                    />
+    function handleSortingChange(name, order) {
+        onParamsChange({
+            sorting: order === NONE ? null : [name, order],
+        })
+    }
+
+    useEffect(() => {
+        setPage(1)
+    }, [tags, place, sorting])
+
+    return (
+        <ErrorBoundary fallback={fallback}>
+            <Container tags={tags}>
+                {({ providers }) => (
+                    <Layout title={getTitle(providers)}>
+                        <Responsive>
+                            <Table>
+                                <Header
+                                    columns={COLUMNS}
+                                    onSortingChange={handleSortingChange}
+                                    sorting={sorting}
+                                    place={place}
+                                />
+                                {Array.isArray(providers) &&
+                                    renderBodies(providers)}
+                                <Caption>
+                                    <Pending>
+                                        <Muted>Loading providers...</Muted>
+                                    </Pending>
+                                    {Array.isArray(providers) &&
+                                        renderEmptyMessage(providers)}
+                                </Caption>
+                            </Table>
+                        </Responsive>
+                        {Array.isArray(providers) && (
+                            <Pagination
+                                count={providers.length}
+                                page={page}
+                                onChange={setPage}
+                            />
+                        )}
+                    </Layout>
                 )}
-            </Layout>
-        )
-    }
-    renderError() {
-        return <Error>An error happened while loading providers.</Error>
-    }
-    render() {
-        return (
-            <ErrorBoundary fallback={this.renderError}>
-                <Container tags={this.props.tags}>
-                    {this.renderContent}
-                </Container>
-            </ErrorBoundary>
-        )
-    }
+            </Container>
+        </ErrorBoundary>
+    )
 }
 
 const COLUMNS = [
@@ -228,6 +176,32 @@ const COLUMNS = [
 ]
 
 // Utils
+function renderEmptyMessage({ length }) {
+    return length === 0 ? (
+        <div>
+            No providers match your criteria, consider finding a course on the{' '}
+            <Link to="/training/courses">courses page</Link>.
+        </div>
+    ) : null
+}
+function renderRows(providers) {
+    return providers.map(renderRow)
+}
+function renderRow(row) {
+    return (
+        <Row key={row.id}>
+            {COLUMNS.map(({ property, name }) => (
+                <Cell key={name}>{property(row)}</Cell>
+            ))}
+        </Row>
+    )
+}
+function getTitle(providers) {
+    return Array.isArray(providers)
+        ? `All providers (${providers.length})`
+        : 'All providers'
+}
+
 const TERM_STYLE = {
     // minWidth: 75,
     flex: '0 1 25%',
