@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useBoolean } from 'utils/react/hooks'
 
 Picker.propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -7,26 +7,20 @@ Picker.propTypes = {
 }
 
 export default function Picker(props) {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, open, close, toggle, reset] = useBoolean(false)
 
     return props.template({
         ...props,
         isOpen,
-        open() {
-            setIsOpen(true)
-        },
-        close() {
-            setIsOpen(false)
-        },
-        toggle() {
-            setIsOpen(!isOpen)
-        },
+        open,
+        close,
+        toggle,
         onReset() {
-            setIsOpen(false)
+            reset()
             props.onChange(null)
         },
         onSelect(event, value) {
-            setIsOpen(false)
+            close()
             props.onChange(value)
         },
     })

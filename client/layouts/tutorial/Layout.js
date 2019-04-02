@@ -1,10 +1,4 @@
-import React, {
-    Fragment,
-    useMemo,
-    useState,
-    useEffect,
-    useContext,
-} from 'react'
+import React, { Fragment, useMemo, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect, Location } from '@reach/router'
 import get from 'lodash/get'
@@ -37,7 +31,7 @@ import Quiz from './Quiz'
 import Question from './Question'
 import Button, { SUBTILE } from 'components/button'
 import dictionnaries from './locales'
-import { useWindowSize } from 'utils/react/hooks'
+import { useWindowSize, useBoolean } from 'utils/react/hooks'
 import { FR, EN } from 'constants/locale'
 
 // TODO: Use Context to propagate the tutorial document
@@ -121,13 +115,7 @@ Sidebar.propTypes = {
 
 function Sidebar({ title, location, items = [], path }) {
     const { width } = useWindowSize()
-    const [open, setOpen] = useState(false)
-    function toggle() {
-        setOpen(!open)
-    }
-    function close() {
-        setOpen(false)
-    }
+    const [opened, open, close, toggle] = useBoolean(false)
     const tree = (
         <Tree>
             {items
@@ -150,7 +138,7 @@ function Sidebar({ title, location, items = [], path }) {
                 <Menu />
             </Button>
             <Drawer
-                open={open}
+                open={opened}
                 width={0.75 * width}
                 backdrop
                 onCloseClick={close}>

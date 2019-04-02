@@ -1,8 +1,9 @@
-import React, { useRef, useState, useMemo, cloneElement } from 'react'
+import React, { useRef, useMemo, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import Overlay from 'react-overlays/lib/Overlay'
 import Tooltip from './Tooltip'
 import styles from './Tooltip.css'
+import { useBoolean } from 'utils/react/hooks'
 
 Wrapper.propTypes = {
     placement: PropTypes.oneOf(['left', 'top', 'right', 'bottom']),
@@ -18,23 +19,17 @@ export default function Wrapper({
     trigger = 'hover',
     ...props
 }) {
-    const [visible, setVisible] = useState(false)
+    const [visible, show, hide, toggle] = useBoolean(false)
     const ref = useRef()
     const events = useMemo(
         () =>
             trigger === 'hover'
                 ? {
-                      onMouseOver() {
-                          setVisible(true)
-                      },
-                      onMouseOut() {
-                          setVisible(false)
-                      },
+                      onMouseOver: show,
+                      onMouseOut: hide,
                   }
                 : {
-                      onClick() {
-                          setVisible(!visible)
-                      },
+                      onClick: toggle,
                   },
         [trigger]
     )

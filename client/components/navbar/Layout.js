@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import Navbar from './Navbar'
@@ -9,7 +9,7 @@ import Burger from './Burger'
 import ItemSet from './ItemSet'
 import Brand from './Brand'
 import Donate from './Donate'
-import { useWindowSize } from 'utils/react/hooks'
+import { useWindowSize, useBoolean } from 'utils/react/hooks'
 
 Layout.propTypes = {
     menu: PropTypes.object.isRequired,
@@ -19,7 +19,7 @@ Layout.propTypes = {
 }
 
 export default function Layout({ menu, logo, donate, children }) {
-    const [isCabinetOpened, setCabinetOpened] = useState(false)
+    const [isCabinetOpened, showCabinet, hideCabinet] = useBoolean(false)
     const { width } = useWindowSize()
     const fullNavbar = width > 768
     const { to, label } = menu
@@ -37,13 +37,7 @@ export default function Layout({ menu, logo, donate, children }) {
                                 {children}
                             </ItemSet>
                         )}
-                        {fullNavbar || (
-                            <Burger
-                                onClick={() => {
-                                    setCabinetOpened(true)
-                                }}
-                            />
-                        )}
+                        {fullNavbar || <Burger onClick={showCabinet} />}
                         <Donate to={donate} />
                     </Navbar>
                     {fullNavbar || (
@@ -51,9 +45,7 @@ export default function Layout({ menu, logo, donate, children }) {
                             location={location}
                             menu={menu}
                             show={isCabinetOpened}
-                            onClose={() => {
-                                setCabinetOpened(false)
-                            }}
+                            onClose={hideCabinet}
                         />
                     )}
                 </div>

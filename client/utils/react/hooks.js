@@ -3,22 +3,35 @@ import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
 import { status } from 'services/fetch/utils'
 
-export function useToggle(initialValue) {
-    const [on, set] = useState(initialValue)
+export function useBoolean(initialValue) {
+    const [value, set] = useState(initialValue)
+    const activate = useCallback(() => {
+        set(true)
+    }, [])
+    const deactivate = useCallback(() => {
+        set(false)
+    }, [])
+    const reset = useCallback(() => {
+        set(initialValue)
+    }, [])
     function toggle() {
-        set(!on)
+        set(!value)
     }
 
-    return [on, toggle, set]
+    return [value, activate, deactivate, toggle, reset, set]
+}
+
+export function useToggle(initialValue) {
+    const state = useBoolean(initialValue)
+
+    return [state[0], state[3]]
 }
 
 export function useTimeout(elapse = 0) {
-    const [ready, setReady] = useState(false)
+    const [ready, setReady] = useBoolean(false)
 
     useEffect(() => {
-        let timer = setTimeout(() => {
-            setReady(true)
-        }, elapse)
+        let timer = setTimeout(setReady, elapse)
 
         return () => {
             clearTimeout(timer)
@@ -70,7 +83,7 @@ export function useEventListener(eventName, handler, element = window) {
 export function useFetch(request) {
     const { url } = request || {}
     const [data, setData] = useState(null)
-    const [loading, setLoading] = useState(false)
+    const [loading, loaded, unloaded] = useBoolean(false)
     const controller = useRef(null)
 
     useEffect(() => {
@@ -88,16 +101,16 @@ export function useFetch(request) {
 
         const { signal } = controller.current
 
-        setLoading(true)
+        loaded()
         fetch(request, { signal })
             .then(status)
             .then(
                 data => {
-                    setLoading(false)
+                    unloaded()
                     setData(data)
                 },
                 error => {
-                    setLoading(false)
+                    unloaded()
                     throw error
                 }
             )

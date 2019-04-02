@@ -5,6 +5,7 @@ import Drawer, { LEFT, RIGHT, Header, Content } from './'
 import { LayerSet, Layer } from './layers'
 import Button from 'components/button'
 import * as TYPES from 'constants/drawers'
+import { useBoolean } from 'utils/react/hooks'
 
 const background = {
     backgroundColor: '#7EC0EE',
@@ -31,17 +32,17 @@ Controlled.propTypes = {
 }
 
 function Controlled(props) {
-    const [open, setOpen] = useState(false)
+    const [opened, open, close, toggle] = useBoolean(false)
     const header = (
-        <Header onCloseClick={() => setOpen(false)}>
+        <Header onCloseClick={close}>
             <h1>Title</h1>
         </Header>
     )
 
     return (
         <div style={background}>
-            <Button onClick={() => setOpen(!open)}>Toggle</Button>
-            <Drawer open={open} side={RIGHT} {...props} header={header}>
+            <Button onClick={toggle}>Toggle</Button>
+            <Drawer open={opened} side={RIGHT} {...props} header={header}>
                 <Content>{content}</Content>
             </Drawer>
         </div>
@@ -49,11 +50,11 @@ function Controlled(props) {
 }
 
 function TwoDrawers() {
-    const [open, setOpen] = useState(false)
+    const [opened, open, close, toggle] = useBoolean(false)
     const [width, setWidth] = useState(500)
 
     const header = (
-        <Header onCloseClick={e => setOpen(!open)}>
+        <Header onCloseClick={toggle}>
             <h1>Title</h1>
         </Header>
     )
@@ -61,7 +62,7 @@ function TwoDrawers() {
     return (
         <div style={background}>
             <Drawer
-                open={open}
+                open={opened}
                 side={LEFT}
                 width={width}
                 header={header}
@@ -80,7 +81,7 @@ function TwoDrawers() {
                 </Content>
             </Drawer>
             <Drawer
-                open={!open}
+                open={!opened}
                 side={RIGHT}
                 header={header}
                 onClose={action('onClose Right')}

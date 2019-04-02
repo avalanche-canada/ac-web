@@ -7,7 +7,7 @@ import * as requests from 'services/mapbox/requests'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import Button, { INCOGNITO } from 'components/button'
 import { PRIMARY } from 'constants/colors'
-import { useFetch } from 'utils/react/hooks'
+import { useFetch, useBoolean } from 'utils/react/hooks'
 import styles from './Geocoder.css'
 
 Geocoder.propTypes = {
@@ -21,7 +21,7 @@ export default function Geocoder({
     placeholder = 'Search',
     value = '',
 }) {
-    const [active, setActive] = useState(false)
+    const [active, activate, deactivate] = useBoolean(false)
     const [term, setTerm] = useState(value || '')
     const [places, loading] = useFetch(requests.place(term))
     const showClear = !loading && term
@@ -29,22 +29,16 @@ export default function Geocoder({
     function handleChange(event) {
         const { value } = event.target
 
-        setActive(true)
+        activate()
         setTerm(value)
     }
-    function handleFocus() {
-        setActive(true)
-    }
-    function handleBlur() {
-        setActive(false)
-    }
     function handleOptionClick(place) {
-        setActive(false)
+        deactivate()
         setTerm(place.text)
         onChange(place)
     }
     function handleClearClick() {
-        setActive(false)
+        deactivate()
         setTerm('')
         onChange(null)
     }
@@ -58,8 +52,8 @@ export default function Geocoder({
                 className={styles.Input}
                 value={term}
                 onChange={handleChange}
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+                onFocus={activate}
+                onBlur={deactivate}
             />
             {showClear && (
                 <Button onClick={handleClearClick} kind={INCOGNITO}>
