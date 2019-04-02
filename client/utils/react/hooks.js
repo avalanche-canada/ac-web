@@ -5,13 +5,11 @@ import { status } from 'services/fetch/utils'
 
 export function useToggle(initialValue) {
     const [on, set] = useState(initialValue)
+    function toggle() {
+        set(!on)
+    }
 
-    return [
-        on,
-        () => {
-            set(!on)
-        },
-    ]
+    return [on, toggle]
 }
 
 export function useTimeout(elapse = 0) {
