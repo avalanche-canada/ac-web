@@ -9,6 +9,7 @@ import { PRIMARY } from 'constants/colors'
 import styles from './Image.css'
 
 // TODO: HOOKS
+// Need to rework <Fuillscreen>
 
 export default class Image extends PureComponent {
     static propTypes = {
