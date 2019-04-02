@@ -23,7 +23,9 @@ export default function Layout({ menu, logo, donate, children }) {
     const { width } = useWindowSize()
     const fullNavbar = width > 768
     const { to, label } = menu
-    const style = { backgroundImage: `url("${logo}")` }
+    const style = {
+        backgroundImage: `url("${logo}")`,
+    }
 
     return (
         <Location>
