@@ -51,7 +51,7 @@ export function useEventListener(eventName, handler, element = window) {
     }, [handler])
 
     useEffect(() => {
-        if (!element.addEventListener) {
+        if (element === null || !element.addEventListener) {
             return
         }
 
@@ -59,10 +59,10 @@ export function useEventListener(eventName, handler, element = window) {
             return savedHandler.current(event)
         }
 
-        element.addEventListener(eventName, listener)
+        element.addEventListener(eventName, listener, false)
 
         return () => {
-            element.removeEventListener(eventName, listener)
+            element.removeEventListener(eventName, listener, false)
         }
     }, [eventName, element])
 }
