@@ -9,7 +9,7 @@ export function useToggle(initialValue) {
         set(!on)
     }
 
-    return [on, toggle]
+    return [on, toggle, set]
 }
 
 export function useTimeout(elapse = 0) {
