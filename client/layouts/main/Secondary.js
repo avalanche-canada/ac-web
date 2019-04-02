@@ -14,6 +14,7 @@ export default class Secondary extends PureComponent {
         onLocateClick: PropTypes.func.isRequired,
         onCloseClick: PropTypes.func.isRequired,
     }
+    // TODO Create Context, so this.opened can be gone!!! It is used in other components
     opened = false
     renderContent = ({ location }) => {
         const { width, ...props } = this.props
