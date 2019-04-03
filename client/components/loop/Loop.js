@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useCounter, useBoolean, useEventListener } from 'utils/react/hooks'
-import { Image, Delay, Ratio, OpenInNewTab } from 'components/misc'
+import { Image, Delay, OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import Fullscreen from 'components/Fullscreen'
 import ButtonSet from './ButtonSet'
@@ -122,26 +122,22 @@ export default function Loop({
                             <Icon color={WHITE} />
                         </Button>
                     </div>
-                    <Ratio y={956} x={1124}>
-                        {(ref, { width, height }) => (
-                            <div ref={ref}>
-                                <OpenInNewTab>
-                                    <Image
-                                        src={url}
-                                        width={width}
-                                        height={height}
-                                        onError={unload}
-                                        onLoad={unload}
-                                        style={{
-                                            backroundColor: '#eee',
-                                        }}
-                                    />
-                                </OpenInNewTab>
-                            </div>
-                        )}
-                    </Ratio>
+                    <OpenInNewTab>
+                        <Image
+                            src={url}
+                            onError={unload}
+                            onLoad={unload}
+                            style={IMAGE_STYLE}
+                        />
+                    </OpenInNewTab>
                 </div>
             )}
         </Fullscreen>
     )
+}
+
+// Constants
+const IMAGE_STYLE = {
+    backroundColor: '#eee',
+    margin: '0 auto',
 }
