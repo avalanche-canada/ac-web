@@ -1,202 +1,147 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import keycodes from 'constants/keycodes'
+import { useCounter, useBoolean, useEventListener } from 'utils/react/hooks'
 import { Image, Delay, Ratio, OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import Fullscreen from 'components/Fullscreen'
 import ButtonSet from './ButtonSet'
 import Button from 'components/button'
+import keycodes from 'constants/keycodes'
 import { WHITE } from 'constants/colors'
 import styles from './Loop.css'
 
-// TODO: Rewrite using a state machine
+Loop.propTypes = {
+    urls: PropTypes.arrayOf(PropTypes.string).isRequired,
+    titles: PropTypes.arrayOf(PropTypes.string),
+    interval: PropTypes.number,
+    dwell: PropTypes.number,
+    startAt: PropTypes.number,
+}
 
-export default class Loop extends Component {
-    static propTypes = {
-        urls: PropTypes.arrayOf(PropTypes.string).isRequired,
-        titles: PropTypes.arrayOf(PropTypes.string),
-        interval: PropTypes.number,
-        dwell: PropTypes.number,
-        startAt: PropTypes.number,
+export default function Loop({
+    urls = [],
+    titles = [],
+    interval = 1000,
+    dwell = 2000,
+    startAt,
+}) {
+    const [target, setTarget] = useState(null)
+    const [loading, load, unload] = useBoolean(false)
+    const [playing, play, pause, toggle] = useBoolean(false)
+    const max = urls.length - 1
+    const [cursor, next, previous, first, last] = useCounter(
+        typeof startAt === 'number' ? Math.min(startAt, max) : 0,
+        0,
+        max,
+        true
+    )
+    const title = titles[cursor]
+    const url = urls[cursor]
+    const toolbar = {
+        isPlaying: playing,
+        onNext,
+        onPrevious,
+        onFirst() {
+            pause()
+            first()
+        },
+        onLast() {
+            pause()
+            last()
+        },
+        onPlay() {
+            play()
+        },
+        onPause() {
+            pause()
+        },
     }
-    static defaultProps = {
-        urls: [],
-        titles: [],
-        interval: 1000,
-        dwell: 2000,
-    }
-    state = {
-        cursor:
-            typeof this.props.startAt === 'number'
-                ? Math.min(this.props.startAt, this.props.urls.length - 1)
-                : 0,
-        isPlaying: false,
-        isLoading: false,
-        target: null,
-    }
-    get cursor() {
-        return this.state.cursor
-    }
-    set cursor(cursor) {
-        this.setState(
-            {
-                cursor,
-                isLoading: true,
-            },
-            () => {
-                if (this.isPlaying && !this.isLoading) {
-                    this.setTimeout()
-                }
-            }
-        )
-    }
-    get isPlaying() {
-        return this.state.isPlaying
-    }
-    set isPlaying(isPlaying) {
-        this.clearTimeout()
 
-        this.setState({ isPlaying }, () => {
-            if (isPlaying) {
-                this.setTimeout(false)
-            }
-        })
+    function onNext() {
+        pause()
+        next()
     }
-    get isLoading() {
-        return this.state.isLoading
+    function onPrevious() {
+        pause()
+        previous()
     }
-    set isLoading(isLoading) {
-        this.setState({ isLoading }, () => {
-            if (!isLoading && this.isPlaying) {
-                this.setTimeout()
-            }
-        })
-    }
-    get maxCursor() {
-        return this.props.urls.length - 1
-    }
-    get url() {
-        return this.props.urls[this.cursor]
-    }
-    get title() {
-        return this.props.titles[this.cursor]
-    }
-    clearTimeout() {
-        window.clearTimeout(this.timeoutId)
-    }
-    setTimeout(waitForDwellTime = true) {
-        let { interval } = this.props
 
-        if (waitForDwellTime && this.cursor === this.maxCursor) {
-            interval = interval + this.props.dwell
+    useEffect(() => {
+        if (!playing) {
+            return
         }
 
-        this.clearTimeout()
-        this.timeoutId = window.setTimeout(this.next, interval)
-    }
-    next = () => {
-        if (this.maxCursor === this.cursor) {
-            this.cursor = 0
-        } else {
-            this.cursor = this.cursor + 1
+        const timeout = max === cursor ? interval + dwell : interval
+        const timer = setTimeout(() => {
+            next()
+        }, timeout)
+
+        return () => {
+            clearTimeout(timer)
         }
-    }
-    previous = () => {
-        if (this.cursor === 0) {
-            this.cursor = this.maxCursor
-        } else {
-            this.cursor = this.cursor - 1
-        }
-    }
-    first = () => {
-        this.pause()
-        this.cursor = 0
-    }
-    last = () => {
-        this.pause()
-        this.cursor = this.maxCursor
-    }
-    play = () => {
-        this.isPlaying = true
-    }
-    pause = () => {
-        this.isPlaying = false
-    }
-    componentDidMount() {
-        window.addEventListener('keydown', this.handleKeyDown)
-    }
-    componentWillUnmount() {
-        window.removeEventListener('keydown', this.handleKeyDown)
-        this.clearTimeout()
-    }
-    handleKeyDown = ({ keyCode }) => {
-        switch (keyCode) {
+    }, [playing, cursor])
+
+    useEffect(load, [url])
+
+    function handleKeyDown(event) {
+        switch (event.keyCode) {
             case keycodes.left:
-                this.previous()
+                event.preventDefault()
+                onPrevious()
                 break
             case keycodes.right:
-                this.next()
+                event.preventDefault()
+                onNext()
+                break
+            case keycodes.space:
+            case keycodes.enter:
+                event.preventDefault()
+                toggle()
                 break
         }
     }
-    handleImageLoad = () => {
-        this.isLoading = false
-    }
-    handleImageError = () => {
-        this.isLoading = false
-    }
-    setTarget = target => this.setState({ target })
-    renderer = ({ toggle }) => {
-        const { interval } = this.props
-        const toolbar = {
-            isPlaying: this.isPlaying,
-            onNext: this.next,
-            onPrevious: this.previous,
-            onFirst: this.first,
-            onLast: this.last,
-            onPlay: this.play,
-            onPause: this.pause,
-        }
 
-        return (
-            <div ref={this.setTarget} className={styles.Container}>
-                {this.title && <div className={styles.Title}>{this.title}</div>}
-                <div className={styles.Toolbar}>
-                    <ButtonSet {...toolbar} />
-                    <div className={styles.Info}>
-                        {this.isLoading && (
-                            <Delay elapse={interval + 50}>
-                                <span>Loading</span>
-                            </Delay>
-                        )}
-                        {this.cursor + 1} of {this.maxCursor + 1}
-                    </div>
-                    <Button onClick={toggle}>
-                        <Icon color={WHITE} />
-                    </Button>
-                </div>
-                <Ratio y={956} x={1124}>
-                    {(ref, { width, height }) => (
-                        <div ref={ref}>
-                            <OpenInNewTab>
-                                <Image
-                                    src={this.url}
-                                    width={width}
-                                    height={height}
-                                    onError={this.handleImageError}
-                                    onLoad={this.handleImageLoad}
-                                    style={{ backroundColor: '#eee' }}
-                                />
-                            </OpenInNewTab>
+    useEventListener('keydown', handleKeyDown)
+
+    return (
+        <Fullscreen target={target}>
+            {({ toggle }) => (
+                <div ref={setTarget} className={styles.Container}>
+                    {title && <div className={styles.Title}>{title}</div>}
+                    <div className={styles.Toolbar}>
+                        <ButtonSet {...toolbar} />
+                        <div className={styles.Info}>
+                            {loading && (
+                                <Delay elapse={interval + 50}>
+                                    <span>Loading</span>
+                                </Delay>
+                            )}
+                            {cursor + 1} of {max + 1}
                         </div>
-                    )}
-                </Ratio>
-            </div>
-        )
-    }
-    render() {
-        return (
-            <Fullscreen target={this.state.target}>{this.renderer}</Fullscreen>
-        )
-    }
+                        <Button onClick={toggle}>
+                            <Icon color={WHITE} />
+                        </Button>
+                    </div>
+                    <Ratio y={956} x={1124}>
+                        {(ref, { width, height }) => (
+                            <div ref={ref}>
+                                <OpenInNewTab>
+                                    <Image
+                                        src={url}
+                                        width={width}
+                                        height={height}
+                                        onError={unload}
+                                        onLoad={unload}
+                                        style={{
+                                            backroundColor: '#eee',
+                                        }}
+                                    />
+                                </OpenInNewTab>
+                            </div>
+                        )}
+                    </Ratio>
+                </div>
+            )}
+        </Fullscreen>
+    )
 }
