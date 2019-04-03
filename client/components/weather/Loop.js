@@ -29,7 +29,7 @@ export default class Loop extends PureComponent {
     state = {
         urls: [],
         notes: null,
-        startAt: undefined,
+        startsAt: undefined,
         isLoading: false,
         isError: false,
     }
@@ -72,11 +72,11 @@ export default class Loop extends PureComponent {
     }
     handleFulfilled = urls => {
         const { type, withNotes } = this.props
-        let startAt
+        let startsAt
 
         if (metadata.hasOwnProperty(type)) {
             // runs means it a forecast product, not real time
-            startAt = 'runs' in metadata[type] ? 0 : urls.length - 1
+            startsAt = 'runs' in metadata[type] ? 0 : urls.length - 1
         }
 
         this.setState({
@@ -84,7 +84,7 @@ export default class Loop extends PureComponent {
             isError: false,
             urls,
             notes: withNotes ? getNotes(type) : null,
-            startAt,
+            startsAt,
         })
     }
     handleRejected = () => {
@@ -123,7 +123,7 @@ export default class Loop extends PureComponent {
             <section>
                 <Base
                     urls={this.state.urls}
-                    startAt={this.state.startAt}
+                    startsAt={this.state.startsAt}
                     interval={this.props.interval}
                 />
                 <NoteSet notes={notes} />

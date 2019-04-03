@@ -15,7 +15,7 @@ Loop.propTypes = {
     titles: PropTypes.arrayOf(PropTypes.string),
     interval: PropTypes.number,
     dwell: PropTypes.number,
-    startAt: PropTypes.number,
+    startsAt: PropTypes.number,
 }
 
 export default function Loop({
@@ -23,14 +23,14 @@ export default function Loop({
     titles = [],
     interval = 1000,
     dwell = 2000,
-    startAt,
+    startsAt,
 }) {
     const [target, setTarget] = useState(null)
     const [loading, load, unload] = useBoolean(false)
     const [playing, play, pause, toggle] = useBoolean(false)
     const max = urls.length - 1
     const [cursor, next, previous, first, last] = useCounter(
-        typeof startAt === 'number' ? Math.min(startAt, max) : 0,
+        typeof startsAt === 'number' ? Math.min(startsAt, max) : 0,
         0,
         max,
         true
