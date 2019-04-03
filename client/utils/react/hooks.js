@@ -173,6 +173,33 @@ export function useSessionStorage(key, defaultValue, decode, encode) {
     return useStorage(window.sessionStorage, key, defaultValue, decode, encode)
 }
 
+export function useCounter(
+    initialCounter = 0,
+    min = Number.MIN_SAFE_INTEGER,
+    max = Number.MAX_SAFE_INTEGER,
+    cycle = false
+) {
+    const [counter, setCounter] = useState(initialCounter)
+    function increment(step = 1) {
+        const value = counter + step
+
+        setCounter(value > max && cycle ? min : value)
+    }
+    function decrement(step = 1) {
+        const value = counter - step
+
+        setCounter(value < min && cycle ? max : value)
+    }
+    function first() {
+        setCounter(min)
+    }
+    function last() {
+        setCounter(max)
+    }
+
+    return [counter, increment, decrement, first, last]
+}
+
 // Utils
 function getWindowSize() {
     return {
