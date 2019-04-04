@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
 import { status } from 'services/fetch/utils'
@@ -198,6 +198,44 @@ export function useCounter(
     }
 
     return [counter, increment, decrement, first, last]
+}
+
+export function useClientRect() {
+    const [rect, setRect] = useState(null)
+    const node = useRef(null)
+    const ref = useCallback(current => {
+        if (current) {
+            setRect(current.getBoundingClientRect())
+            node.current = current
+        }
+    }, [])
+
+    // FIXME Use ResizeObserver instead, but it requires a polyfill!
+    useEffect(() => {
+        if (node.current) {
+            setRect(node.current.getBoundingClientRect())
+        }
+    }, [useWindowSize()])
+
+    return [rect, ref]
+}
+
+export function useRatio(x = 16, y = 9) {
+    const [rect, ref] = useClientRect()
+    const dimensions = useMemo(() => {
+        if (!rect) {
+            const { width } = rect
+
+            return {
+                width: Math.round(width),
+                height: Math.round(width * (y / x)),
+            }
+        }
+
+        return null
+    }, [rect])
+
+    return [dimensions, ref]
 }
 
 // Utils
