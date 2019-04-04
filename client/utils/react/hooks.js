@@ -31,7 +31,7 @@ export function useTimeout(elapse = 0) {
     const [ready, setReady] = useBoolean(false)
 
     useEffect(() => {
-        let timer = setTimeout(setReady, elapse)
+        const timer = setTimeout(setReady, elapse)
 
         return () => {
             clearTimeout(timer)
