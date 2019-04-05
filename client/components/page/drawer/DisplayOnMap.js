@@ -1,27 +1,24 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import { Locate } from 'components/button'
-import { Wrapper } from 'components/tooltip'
-import { isTouchable } from 'utils/device'
 
 DisplayOnMap.propTypes = {
     onClick: PropTypes.func.isRequired,
 }
 
 function DisplayOnMap({ onClick }) {
-    const link = <Locate onClick={onClick} style={LOCATE_STYLE} />
+    const LOCATE_STYLE = {
+        display: 'flex',
+    }
 
-    return isTouchable ? (
-        link
-    ) : (
-        <Wrapper tooltip="Display on map" placement="left">
-            {link}
-        </Wrapper>
+    return (
+        <Locate
+            onClick={onClick}
+            style={LOCATE_STYLE}
+            data-tooltip="Display on map"
+            data-tooltip-placement="left"
+        />
     )
 }
 
 export default memo(DisplayOnMap)
-
-const LOCATE_STYLE = {
-    padding: '0.15em',
-}

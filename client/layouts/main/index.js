@@ -1,4 +1,4 @@
-import React, { Component, memo, Fragment, createRef } from 'react'
+import React, { Component, memo, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match } from '@reach/router'
 import { supported } from 'utils/mapbox'
@@ -7,7 +7,6 @@ import * as turf from '@turf/helpers'
 import * as react from 'utils/react'
 import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
-import { Wrapper } from 'components/tooltip'
 import { captureException } from 'services/sentry'
 import { Warning } from 'components/icons'
 import Primary from './Primary'
@@ -212,47 +211,25 @@ export default class Main extends Component {
     }
 }
 
-const LinkControlSet = memo(
-    function LinkControlSet({ children }) {
-        return (
-            <div className={styles.LinkControlSet}>
-                {isTouchable ? (
-                    <Fragment>{LINKS}</Fragment>
-                ) : (
-                    <Fragment>
-                        {LINKS.map((link, index) => (
-                            <Wrapper
-                                key={index}
-                                tooltip={TOOLTIPS[index]}
-                                placement="right">
-                                {link}
-                            </Wrapper>
-                        ))}
-                    </Fragment>
-                )}
-                {children}
-            </div>
-        )
-    },
-    (prev, next) => prev.children === next.children
-)
-
-const TOOLTIP_STYLE = {
-    maxWidth: 175,
-    padding: '0.25em',
-}
-const TOOLTIPS = [
-    <div style={TOOLTIP_STYLE}>
-        Create a Mountain Information Network (MIN) report
-    </div>,
-    <div style={{ ...TOOLTIP_STYLE, maxWidth: 125 }}>
-        Visit the Mountain Weather Forecast
-    </div>,
-]
-const LINKS = [
-    <Link className={styles['LinkControlSet--MIN']} to="/submit" />,
-    <Link className={styles['LinkControlSet--Weather']} to="/weather" />,
-]
+const LinkControlSet = memo(function LinkControlSet({ children }) {
+    return (
+        <div className={styles.LinkControlSet}>
+            <Link
+                className={styles['LinkControlSet--MIN']}
+                to="/submit"
+                data-tooltip="Create a Mountain Information&#xa;Network (MIN) report"
+                data-tooltip-placement="right"
+            />
+            <Link
+                className={styles['LinkControlSet--Weather']}
+                to="/weather"
+                data-tooltip="Visit the Mountain&#xa;Weather Forecast"
+                data-tooltip-placement="right"
+            />
+            {children}
+        </div>
+    )
+})
 
 const ErrorIndicator = react.memo.static(function ErrorIndicator() {
     function reload() {
