@@ -235,25 +235,18 @@ const ErrorIndicator = react.memo.static(function ErrorIndicator() {
     function reload() {
         window.location.reload(true)
     }
-    const style = {
-        padding: '0.25em',
-        maxWidth: 225,
-    }
-    const tooltip = (
-        <div style={style}>
-            An error happened while initializing the map. Therefore, some
-            functionnalities might not be available.
-            <br />
-            {isTouchable ? 'Tap' : 'Click'} to reload the map.
-        </div>
-    )
 
     return (
-        <Wrapper tooltip={tooltip}>
-            <button onClick={reload} className={styles.Error}>
-                <Warning inverse />
-            </button>
-        </Wrapper>
+        <button
+            onClick={reload}
+            className={styles.Error}
+            data-tooltip={`An error happened while initializing the map.&#xa;Therefore, some
+            functionnalities might not be available.&#xa;${
+                isTouchable ? 'Tap' : 'Click'
+            } to reload the map.`}
+            data-tooltip-placement="right">
+            <Warning inverse />
+        </button>
     )
 })
 
