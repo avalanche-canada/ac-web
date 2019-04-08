@@ -1,0 +1,26 @@
+@custom-media --side-by-side (width > 800px);
+
+.DayPickerSelectable {
+    &
+        :global(.DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside)) {
+        background-color: #f0f8ff !important;
+        color: #4a90e2;
+    }
+    & :global(.DayPicker-Day) {
+        border-radius: 0 !important;
+    }
+    & :global(.DayPicker-Day--start) {
+        border-top-left-radius: 50% !important;
+        border-bottom-left-radius: 50% !important;
+    }
+    & :global(.DayPicker-Day--end) {
+        border-top-right-radius: 50% !important;
+        border-bottom-right-radius: 50% !important;
+    }
+
+    & :global(.DayPicker-Months) {
+        @media (--side-by-side) {
+            flex-wrap: inherit;
+        }
+    }
+}

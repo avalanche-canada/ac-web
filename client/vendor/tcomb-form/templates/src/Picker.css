@@ -1,8 +1,0 @@
-.Container {
-    display: flex;
-    flex-direction: column;
-}
-
-.Button {
-    border-radius: 0 0 5px 5px;
-}

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
+import { endOfYesterday } from 'date-fns'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
 import inside from '@turf/inside'
 import * as turf from '@turf/helpers'
@@ -104,9 +105,11 @@ export default class SubmissionList extends Component {
         return (
             <Metadata>
                 <Entry term="From" sideBySide>
-                    <DayPicker date={from} onChange={this.handleFromDateChange}>
-                        <DateElement value={from} />
-                    </DayPicker>
+                    <DayPicker
+                        date={from}
+                        onChange={this.handleFromDateChange}
+                        disabledDays={{ after: endOfYesterday() }}
+                    />
                 </Entry>
                 <Entry term="To" sideBySide>
                     <DateElement />

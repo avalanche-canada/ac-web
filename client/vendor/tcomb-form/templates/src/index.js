@@ -1,7 +1,5 @@
 import React from 'react'
-import { DayPicker } from 'components/pickers'
-import { TimePicker } from 'components/controls'
-import styles from './Picker.css'
+import { TimePicker, DayPicker } from 'components/controls'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
@@ -17,6 +15,8 @@ import radio from './radio'
 import select from './select'
 import struct from './struct'
 import textbox from './textbox'
+import { DATETIME } from 'utils/date'
+import { GRAY_LIGHTER } from 'constants/colors'
 
 export default {
     checkbox,
@@ -33,56 +33,18 @@ export const pickers = {
         getFormat() {
             return value => (value ? value.toISOString().substring(0, 10) : '')
         },
-        renderButton() {
-            return null
-        },
         renderContent(locals) {
             const {
                 value,
-                renderDay,
-                locale,
-                localeUtils,
                 onChange,
                 attrs: { min, max },
             } = locals
-            const props = {
-                initialMonth: value || undefined,
-                disabledDays: disabledDaysFactory(min, max),
-                modifiers: {
-                    selected: value,
-                },
-                onDayClick(date, { disabled }) {
-                    if (disabled) {
-                        return
-                    }
-
-                    onChange(date)
-                },
-                value,
-                localeUtils,
-                locale,
-                renderDay,
-            }
-
-            return <DayPicker {...props} />
-        },
-    }),
-    time: picker.clone({
-        renderContent(locals) {
-            const { value, onChange, close } = locals
-            function handleKeyDown(event) {
-                if (event.keyCode === 13) {
-                    onChange(value)
-                    close()
-                }
-            }
 
             return (
-                <TimePicker
-                    value={value}
+                <DayPicker
                     onChange={onChange}
-                    onKeyDown={handleKeyDown}
-                    autoFocus
+                    date={value}
+                    disabledDays={disabledDaysFactory(min, max)}
                 />
             )
         },
@@ -94,57 +56,68 @@ export const pickers = {
         },
         renderContent(locals) {
             const value = locals.value || new Date()
-            const time = format(value, 'HH:mm')
             const {
-                renderDay,
-                locale,
-                localeUtils,
                 onChange,
                 attrs: { min, max },
             } = locals
 
-            const props = {
-                initialMonth: value || undefined,
-                disabledDays: disabledDaysFactory(min, max),
-                modifiers: {
-                    selected: value,
-                },
-                onDayClick(day, { disabled }) {
-                    if (disabled) {
-                        return
-                    }
+            function handleChange(date) {
+                date.setHours(value.getHours())
+                date.setMinutes(value.getMinutes())
 
-                    day.setHours(value.getHours())
-                    day.setMinutes(value.getMinutes())
-
-                    onChange(day)
-                },
-                value,
-                localeUtils,
-                locale,
-                renderDay,
-            }
-
-            function handleTimeChange(time) {
-                const [hours, minutes] = time.split(':').map(Number)
-
-                value.setHours(hours)
-                value.setMinutes(minutes)
-
-                onChange(new Date(value.getTime()))
+                onChange(date)
             }
 
             return (
-                <div className={styles.DateTime}>
-                    <DayPicker {...props} />
-                    <TimePicker value={time} onChange={handleTimeChange} />
-                </div>
+                <DayPicker
+                    date={value}
+                    placeholder="Select a date/time"
+                    hideOnDayClick={false}
+                    onChange={handleChange}
+                    keepFocus={false}
+                    disabledDays={disabledDaysFactory(min, max)}
+                    formatDate={formatDate}
+                    overlayComponent={OverlayComponent}
+                    style={STYLE}
+                />
             )
         },
     }),
 }
 
 // Utils
+function formatDate(date) {
+    return format(date, DATETIME)
+}
+function OverlayComponent({
+    classNames,
+    children,
+    selectedDay,
+    input,
+    month,
+    ...props
+}) {
+    const [date] = selectedDay
+    const time = format(date, 'HH:mm')
+
+    function handleTimeChange(time) {
+        const [hours, minutes] = time.split(':').map(Number)
+
+        date.setHours(hours)
+        date.setMinutes(minutes)
+
+        children.props.onDayClick(new Date(date.getTime()), {})
+    }
+
+    return (
+        <div className={classNames.overlayWrapper} {...props}>
+            <div className={classNames.overlay}>
+                {children}
+                <TimePicker value={time} onChange={handleTimeChange} />
+            </div>
+        </div>
+    )
+}
 function disabledDaysFactory(min, max) {
     return function disabledDays(day) {
         if (min && max) {
@@ -161,4 +134,7 @@ function disabledDaysFactory(min, max) {
 
         return false
     }
+}
+const STYLE = {
+    border: '1px solid ' + GRAY_LIGHTER,
 }

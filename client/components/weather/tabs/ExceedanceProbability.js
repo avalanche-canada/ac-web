@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Container, PillSet, Pill } from 'components/pill'
 import { DropdownFromOptions, DayPicker } from 'components/controls'
-import { DateElement } from 'components/time'
 import styles from './ExceedanceProbability.css'
 import differenceInHours from 'date-fns/difference_in_hours'
 import startOfDay from 'date-fns/start_of_day'
@@ -122,20 +121,6 @@ const DEFAULT_PARAMETERS = new Map([
     [ACCUMULATED_PRECIPITATION, 'GT0.025'],
 ])
 
-// Needs to be a class...
-// TODO: HOOKS
-class DayPickerContainer extends Component {
-    render() {
-        const { children, ...props } = this.props
-
-        return (
-            <DayPicker container={this} {...props}>
-                {children}
-            </DayPicker>
-        )
-    }
-}
-
 // TODO: HOOKS
 export default class ExceedanceProbability extends Component {
     static propTypes = {
@@ -203,19 +188,17 @@ export default class ExceedanceProbability extends Component {
                             onChange={this.handleParamChange}
                         />
                         <div>between</div>
-                        <DayPickerContainer
+                        <DayPicker
                             date={from}
+                            onChange={this.handleFromChange}
                             disabledDays={fromDisabledDays}
-                            onChange={this.handleFromChange}>
-                            <DateElement value={from} />
-                        </DayPickerContainer>
+                        />
                         <div>and</div>
-                        <DayPickerContainer
+                        <DayPicker
                             date={to}
+                            onChange={this.handleToChange}
                             disabledDays={toDisabledDays}
-                            onChange={this.handleToChange}>
-                            <DateElement value={to} />
-                        </DayPickerContainer>
+                        />
                     </Title>
                     <Image
                         {...this.state}

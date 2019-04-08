@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import { Link } from '@reach/router'
-import { DateElement } from 'components/time'
 import { DayPicker } from 'components/controls'
 import styles from './ArchiveDatePicker.css'
+import { endOfYesterday } from 'date-fns'
 
 // TODO: Move to another location, so it can be used between components.
 
@@ -19,9 +19,12 @@ export default function ArchiveDatePicker(props) {
 
     return (
         <div className={styles.Container}>
-            <DayPicker date={date} onChange={setDate}>
-                {date ? <DateElement value={date} /> : 'Select a date'}
-            </DayPicker>
+            <DayPicker
+                date={date}
+                placeholder="Select a date"
+                onChange={setDate}
+                disabledDays={{ after: endOfYesterday() }}
+            />
             {date && (
                 <Link
                     className={styles.Link}
@@ -29,7 +32,7 @@ export default function ArchiveDatePicker(props) {
                         date,
                         'YYYY-MM-DD'
                     )}`}>
-                    Read avalanche bulletin
+                    Read the avalanche bulletin
                 </Link>
             )}
         </div>

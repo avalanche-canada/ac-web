@@ -4,7 +4,6 @@ import { navigate } from '@reach/router'
 import { HotZones } from 'containers/features'
 import { Report } from 'layouts/products/hzr'
 import { Page, Content, Header, Main } from 'components/page'
-import { DateElement } from 'components/time'
 import { Muted } from 'components/text'
 import { Loading } from 'components/text'
 import { Metadata, Entry } from 'components/metadata'
@@ -82,13 +81,13 @@ function AdvisoryDayPicker({ name, date, month, onDateChange, onMonthChange }) {
                 return (
                     <DayPicker
                         date={date}
+                        placeholder="Select a date"
                         onChange={onDateChange}
                         onMonthChange={onMonthChange}
                         disabledDays={day =>
                             !days.has(startOfDay(day).getTime())
-                        }>
-                        {date ? <DateElement value={date} /> : 'Select a date'}
-                    </DayPicker>
+                        }
+                    />
                 )
             }}
         </Documents>

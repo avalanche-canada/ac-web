@@ -1,17 +1,20 @@
 .Container {
-    position: relative;
-    cursor: pointer;
-    user-select: none;
-    font-weight: 700;
+    display: flex;
+
+    & :global(.DayPickerInput) {
+        flex: 1;
+    }
+
+    & :global(.DayPickerInput-OverlayWrapper) {
+        z-index: 1000;
+    }
 }
 
 .Input {
-    composes: import Common from "../Controls.css";
-    composes: import CloseState from "../Controls.css";
-}
+    composes: import Input from '../Controls.css';
 
-.Input--Open {
-    composes: Input;
-
-    background-image: url("../../icons/expand-less.svg");
+    cursor: pointer;
+    font-weight: inherit;
+    text-transform: inherit;
+    color: inherit;
 }

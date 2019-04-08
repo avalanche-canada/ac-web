@@ -9,7 +9,6 @@ import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
 import { Pending } from 'components/fetch'
 import { Muted, Loading } from 'components/text'
-import { DateElement } from 'components/time'
 import Alert, { WARNING } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
@@ -54,16 +53,12 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
                             <Entry>
                                 <DayPicker
                                     date={date}
+                                    placeholder="Select a date"
                                     onChange={handleDateChange}
                                     disabledDays={{
                                         after: endOfYesterday(),
-                                    }}>
-                                    {date ? (
-                                        <DateElement value={date} />
-                                    ) : (
-                                        'Select a date'
-                                    )}
-                                </DayPicker>
+                                    }}
+                                />
                             </Entry>
                         )}
                     </Metadata>

@@ -1,22 +1,10 @@
 import React from 'react'
-import Overlay from 'react-overlays/lib/Overlay'
 import { Close } from 'components/button'
 import controls from 'components/controls/Controls.css'
-import Callout from 'components/callout'
-import Button from 'components/button'
-import styles from './Picker.css'
 import noop from 'lodash/noop'
-
-const CONTAINER_STYLE = {
-    position: 'relative',
-}
 
 function defaultFormat(value) {
     return value
-}
-
-function stopImmediatePropagation({ nativeEvent }) {
-    nativeEvent.stopImmediatePropagation()
 }
 
 function create(overrides = {}) {
@@ -33,35 +21,7 @@ function create(overrides = {}) {
     template.renderContainer =
         overrides.renderContainer ||
         function renderContainer(locals) {
-            const { id } = locals.attrs
-            const { isOpen, close } = locals
-
-            return (
-                <div
-                    id={`container-${id}`}
-                    style={CONTAINER_STYLE}
-                    onClick={stopImmediatePropagation}>
-                    {template.renderInput(locals)}
-                    <Overlay
-                        show={isOpen}
-                        onHide={close}
-                        onEscapeKeyUp={close}
-                        placement="bottom"
-                        container={document.querySelector(`#container-${id}`)}
-                        target={document.querySelector(
-                            `#container-${id} input`
-                        )}
-                        rootClose
-                        shouldUpdatePosition>
-                        <Callout>
-                            <div className={styles.Container}>
-                                {template.renderContent(locals)}
-                                {template.renderButton(locals)}
-                            </div>
-                        </Callout>
-                    </Overlay>
-                </div>
-            )
+            return template.renderContent(locals)
         }
 
     template.renderResetButton =
@@ -121,23 +81,6 @@ function create(overrides = {}) {
                     onChange={noop}
                     value={format(value)}
                 />
-            )
-        }
-
-    template.renderButton =
-        overrides.renderButton ||
-        function renderButton(locals) {
-            const { value, close, onChange } = locals
-            function handleClick() {
-                // TODO: Send the default value
-                onChange(value)
-                close()
-            }
-
-            return (
-                <Button className={styles.Button} onClick={handleClick}>
-                    Done
-                </Button>
             )
         }
 
