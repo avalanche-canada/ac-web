@@ -62,7 +62,8 @@ WebCache.prototype.refresh = function () {
         };
 
         logger.debug('webcache get url=%s', url);
-        return rp(options).catch(function (e) { logger.error('webcache request_error', e); });
+        return rp(options)
+            .catch(function (e) { logger.error('webcache request_error url=%s responseCode=%d', url, e.statusCode); });
     });
 
     logger.info('webcache started seeding item_count=%d', requests.length);
