@@ -45,7 +45,7 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
                     <Metadata>
                         <Entry>
                             <RegionDropdown
-                                name={name}
+                                value={name}
                                 onChange={handleNameChange}
                             />
                         </Entry>
