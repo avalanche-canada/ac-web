@@ -3,12 +3,8 @@
     max-width: 500px;
 }
 
-.Submit {
-    composes: import ChevronRight from "../../components/button/Button.css";
-}
-
 .Input {
-    composes: import WithBorder from "../../components/controls/Controls.css";
+    composes: import WithBorder from '../../components/controls/Controls.css';
 
     flex: 1;
 }
