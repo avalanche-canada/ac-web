@@ -74,15 +74,3 @@
         border: none;
     }
 }
-
-.Submit {
-    composes: import Primary from '../button/Button.css';
-
-    line-height: 40px;
-
-    & > svg {
-        float: right;
-        position: relative;
-        top: 7px;
-    }
-}
