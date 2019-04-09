@@ -157,8 +157,7 @@ Object.assign(hotZone.reports, {
 })
 
 export function highlight() {
-    return ids(['XKO8JhQAACAAvoMI'])
-    // return rangeForType(types.HIGHLIGHT)
+    return rangeForType(types.HIGHLIGHT)
 }
 
 export function spaw() {
