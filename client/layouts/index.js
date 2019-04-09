@@ -6,6 +6,7 @@ const LazyAvalancheCanadaFoundation = lazy(() =>
 )
 
 export AvalancheCanada from './AvalancheCanada'
+
 export function AvalancheCanadaFoundation() {
     return (
         <Bundle>

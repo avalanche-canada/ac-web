@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
 import { resource } from 'api/requests/static'
@@ -18,11 +18,15 @@ export function Provider({ children }) {
         JSON.stringify
     )
 
-    if (data) {
+    useEffect(() => {
+        if (!data) {
+            return
+        }
+
         const date = formatDate(new Date(), 'YYYY-MM-DD')
 
         setSponsors(Object.assign({}, data.default, data[date]))
-    }
+    }, [data])
 
     return (
         <SponsorsContext.Provider value={sponsors}>
