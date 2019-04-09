@@ -10,12 +10,8 @@ Collapse.propTypes = {
     dimension: PropTypes.oneOf([HEIGHT, WIDTH]),
     children: PropTypes.node.isRequired,
 }
-Collapse.defaultProps = {
-    collapsed: true,
-    dimension: HEIGHT,
-}
 
-function Collapse({ collapsed, dimension, children }) {
+function Collapse({ collapsed = true, dimension = HEIGHT, children }) {
     const collapsable = useRef()
     let computed = null
 

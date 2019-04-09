@@ -1,5 +1,6 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
+import noop from 'lodash/noop'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
 import styles from './Drawer.css'
@@ -8,18 +9,13 @@ Drawer.propTypes = {
     label: PropTypes.string.isRequired,
     home: Toolbar.propTypes.home,
     to: PropTypes.string,
-    onClose: PropTypes.func,
+    onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func,
     style: PropTypes.object,
     children: PropTypes.node.isRequired,
 }
-Drawer.defaultProps = {
-    onClose() {},
-    onClick() {},
-    style: null,
-}
 
-function Drawer({ label, to, onClose, onClick, style, children, home }) {
+function Drawer({ label, to, onClose, onClick = noop, style, children, home }) {
     function handleClick(event) {
         const { target, currentTarget } = event
 
