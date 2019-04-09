@@ -3,26 +3,21 @@ import PropTypes from 'prop-types'
 import { Motion, spring } from 'react-motion'
 
 export const HEIGHT = 'HEIGHT'
-export const WIDTH = 'WIDTH'
 
 Collapse.propTypes = {
     collapsed: PropTypes.bool.isRequired,
-    dimension: PropTypes.oneOf([HEIGHT, WIDTH]),
     children: PropTypes.node.isRequired,
 }
 
-function Collapse({ collapsed = true, dimension = HEIGHT, children }) {
+function Collapse({ collapsed = true, children }) {
     const collapsable = useRef()
     let computed = null
 
     if (collapsable.current) {
-        const margins = MARGINS.get(dimension)
-        const propertyName = `offset${TITLIZED.get(dimension)}`
-
         computed =
-            collapsable.current[propertyName] +
-            styleOf(collapsable.current, margins[0]) +
-            styleOf(collapsable.current, margins[1])
+            collapsable.current.offsetHeight +
+            styleOf(collapsable.current, 'marginTop') +
+            styleOf(collapsable.current, 'marginBottom')
     }
 
     const defaultStyle = { value: collapsed ? 0 : computed }
@@ -31,7 +26,7 @@ function Collapse({ collapsed = true, dimension = HEIGHT, children }) {
     return (
         <Motion defaultStyle={defaultStyle} style={style}>
             {style => (
-                <div style={computeStyle(dimension, style.value, computed)}>
+                <div style={computeStyle('height', style.value, computed)}>
                     {cloneElement(Children.only(children), {
                         ref: collapsable,
                     })}
@@ -51,20 +46,12 @@ function styleOf({ style }, propertyName) {
 function computeStyle(dimension, value, computed) {
     if (value === computed) {
         return {
-            [DIMENSIONS.get(dimension)]: '100%',
+            height: '100%',
         }
     }
 
     return {
-        [DIMENSIONS.get(dimension)]: `${value}px`,
+        height: `${value}px`,
         overflow: 'hidden',
     }
 }
-
-// Constants
-const DIMENSIONS = new Map([[HEIGHT, 'height'], [WIDTH, 'width']])
-const TITLIZED = new Map([[HEIGHT, 'Height'], [WIDTH, 'Width']])
-const MARGINS = new Map([
-    [HEIGHT, ['marginTop', 'marginBottom']],
-    [WIDTH, ['marginLeft', 'marginRight']],
-])
