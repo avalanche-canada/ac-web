@@ -99,7 +99,7 @@ const TITLES = new Map([
     ],
     [TYPES.FATAL_ACCIDENT, 'fatal recretional accidents'],
     [TYPES.SPECIAL_INFORMATION, 'special information'],
-    [TYPES.HOT_ZONE_REPORTS, 'hot zones'],
+    [TYPES.HOT_ZONE_REPORTS, 'advisories'],
     [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'Mountain Condition reports'],
     [TYPES.FORECASTS, 'forecast'],
 ])

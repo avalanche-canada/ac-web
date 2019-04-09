@@ -57,7 +57,7 @@ export default function UnsupportedMap({ headline = HEADLINE, links = LINKS }) {
 }
 
 const HEADLINE =
-    'It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, hot zones and other avalanche - related information on our map.'
+    'It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche - related information on our map.'
 
 const LINKS = new Map([
     ['/forecasts', 'Forecast regions'],

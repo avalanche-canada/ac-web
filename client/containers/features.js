@@ -49,7 +49,7 @@ HotZone.propTypes = {
 }
 
 export function HotZone({ name, children }) {
-    const fallback = 'An error happened while retrieving hot zone.'
+    const fallback = 'An error happened while retrieving advisory.'
     function transform(data) {
         return get(data, [HOT_ZONES, name], null)
     }
@@ -67,7 +67,7 @@ HotZones.propTypes = {
 }
 
 export function HotZones({ all, children }) {
-    const fallback = 'An error happened while retrieving hot zones.'
+    const fallback = 'An error happened while retrieving advisories.'
     function transform(data) {
         return data ? extractHotZones(data)(all) : data
     }
