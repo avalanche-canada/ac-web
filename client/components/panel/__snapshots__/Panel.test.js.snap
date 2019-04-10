@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`panel component 1`] = `
-<div
+<section
   className="Container--Simple"
 >
   <header
@@ -15,15 +15,15 @@ exports[`panel component 1`] = `
     </span>
   </header>
   <div
-    className="Content"
+    className="Container"
   >
     Content
   </div>
-</div>
+</section>
 `;
 
 exports[`panel component 2`] = `
-<div
+<section
   className="Container--Inverse"
 >
   <header
@@ -37,15 +37,15 @@ exports[`panel component 2`] = `
     </span>
   </header>
   <div
-    className="Content"
+    className="Container"
   >
     Content
   </div>
-</div>
+</section>
 `;
 
 exports[`panel component 3`] = `
-<div
+<section
   className="Container--Simple"
 >
   <header
@@ -59,15 +59,15 @@ exports[`panel component 3`] = `
     </span>
   </header>
   <div
-    className="Content"
+    className="Container"
   >
     Content
   </div>
-</div>
+</section>
 `;
 
 exports[`panel component 4`] = `
-<div
+<section
   className="Container--Inverse"
 >
   <header
@@ -81,15 +81,15 @@ exports[`panel component 4`] = `
     </span>
   </header>
   <div
-    className="Content"
+    className="Container"
   >
     Content
   </div>
-</div>
+</section>
 `;
 
 exports[`panel component 5`] = `
-<div
+<section
   className="Container--Simple--Expandable"
 >
   <header
@@ -122,35 +122,15 @@ exports[`panel component 5`] = `
     </span>
   </header>
   <div
-    className="Content"
+    className="Container"
   >
-    <div
-      style={
-        Object {
-          "height": "0px",
-          "overflow": "hidden",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "marginBottom": -1,
-            "marginTop": -1,
-            "paddingBottom": 1,
-            "paddingTop": 1,
-          }
-        }
-      >
-        Content
-      </div>
-    </div>
+    Content
   </div>
-</div>
+</section>
 `;
 
 exports[`panel component 6`] = `
-<div
+<section
   className="Container--Inverse--Expandable"
 >
   <header
@@ -183,29 +163,9 @@ exports[`panel component 6`] = `
     </span>
   </header>
   <div
-    className="Content"
+    className="Container"
   >
-    <div
-      style={
-        Object {
-          "height": "0px",
-          "overflow": "hidden",
-        }
-      }
-    >
-      <div
-        style={
-          Object {
-            "marginBottom": -1,
-            "marginTop": -1,
-            "paddingBottom": 1,
-            "paddingTop": 1,
-          }
-        }
-      >
-        Content
-      </div>
-    </div>
+    Content
   </div>
-</div>
+</section>
 `;
