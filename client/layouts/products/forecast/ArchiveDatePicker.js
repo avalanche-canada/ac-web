@@ -7,8 +7,6 @@ import styles from './ArchiveDatePicker.css'
 import { endOfYesterday } from 'date-fns'
 import { DATE } from 'utils/date'
 
-// TODO: Move to another location, so it can be used between components.
-
 ArchiveDatePicker.propTypes = {
     region: PropTypes.string.isRequired,
     date: PropTypes.instanceOf(Date),
