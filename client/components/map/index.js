@@ -11,9 +11,9 @@ export Source from './sources/GeoJSON'
 export function NavigationControl(props) {
     return (
         <Control
+            showCompass={false}
             {...props}
             controlClass={mapbox.NavigationControl}
-            showCompass={false}
         />
     )
 }
