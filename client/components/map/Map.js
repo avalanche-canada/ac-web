@@ -34,11 +34,17 @@ MapComponent.propTypes = {
     keyboard: PropTypes.bool,
     doubleClickZoom: PropTypes.bool,
     touchZoomRotate: PropTypes.bool,
+    pitchWithRotate: PropTypes.bool,
     trackResize: PropTypes.bool,
     workerCount: PropTypes.number,
     onLoad: PropTypes.func,
 }
 MapComponent.With = WithMap
+
+MapComponent.defaultProps = {
+    touchZoomRotate: false,
+    pitchWithRotate: false,
+}
 
 export default function MapComponent({
     className,

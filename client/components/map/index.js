@@ -9,7 +9,13 @@ export Layer from './Layer'
 export Source from './sources/GeoJSON'
 
 export function NavigationControl(props) {
-    return <Control {...props} controlClass={mapbox.NavigationControl} />
+    return (
+        <Control
+            {...props}
+            controlClass={mapbox.NavigationControl}
+            showCompass={false}
+        />
+    )
 }
 export function FullscreenControl(props) {
     return <Control {...props} controlClass={mapbox.FullscreenControl} />
