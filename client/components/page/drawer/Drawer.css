@@ -13,23 +13,23 @@
     box-sizing: border-box;
 }
 
-.Drawer--Left {
+.Left {
     composes: Drawer;
 
-    left: 0;
     right: auto;
+    transition: left 0.5s ease-out;
 
     &.Open {
         box-shadow: 4px 0 8px color-mod(black alpha(25%));
     }
 }
 
-.Drawer--Right {
+.Right {
     composes: Drawer;
 
     left: auto;
-    right: 0;
     z-index: 11;
+    transition: right 0.5s ease-out;
 
     &.Open {
         box-shadow: -4px 0 8px color-mod(black alpha(25%));
