@@ -224,15 +224,15 @@ export function useRatio(x = 16, y = 9) {
     const [rect, ref] = useClientRect()
     const dimensions = useMemo(() => {
         if (!rect) {
-            const { width } = rect
-
-            return {
-                width: Math.round(width),
-                height: Math.round(width * (y / x)),
-            }
+            return null
         }
 
-        return null
+        const { width } = rect
+
+        return {
+            width: Math.round(width),
+            height: Math.round(width * (y / x)),
+        }
     }, [rect])
 
     return [dimensions, ref]
