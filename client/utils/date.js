@@ -1,6 +1,5 @@
 import parse from 'date-fns/parse'
 import endOfDay from 'date-fns/end_of_day'
-import { DateUtils } from 'react-day-picker'
 
 // http://www.bt-tb.tpsgc-pwgsc.gc.ca/btb.php?lang=eng&cont=867
 export const DATE = 'dddd, MMMM D, YYYY'
@@ -18,8 +17,6 @@ export function setUTCOffset(date, offset) {
 export function lazyParse(date, ...rest) {
     return date ? parse(date, ...rest) : date
 }
-
-export const { addDayToRange } = DateUtils
 
 export function startOfSeason(date = new Date()) {
     const year = date.getFullYear()
