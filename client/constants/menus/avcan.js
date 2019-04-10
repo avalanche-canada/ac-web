@@ -207,7 +207,7 @@ module.exports = {
                         {
                             id: String(id++),
                             label: 'Our Programs',
-                            to: '/youth#our-programs',
+                            to: '/youth#programs',
                         },
                         {
                             id: String(id++),
