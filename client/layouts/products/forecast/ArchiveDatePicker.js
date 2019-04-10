@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import { Link } from '@reach/router'
-import { DayPicker } from 'components/controls'
+import DayPicker from 'react-day-picker'
 import styles from './ArchiveDatePicker.css'
 import { endOfYesterday } from 'date-fns'
+import { DATE } from 'utils/date'
 
 // TODO: Move to another location, so it can be used between components.
 
@@ -15,26 +16,31 @@ ArchiveDatePicker.propTypes = {
 
 export default function ArchiveDatePicker(props) {
     const { region } = props
-    const [date, setDate] = useState(props.date)
+    const [date, setDate] = useState(props.date || endOfYesterday())
+    function handleDayClick(day, { disabled }) {
+        if (disabled) {
+            return
+        }
+        setDate(day)
+    }
 
     return (
         <div className={styles.Container}>
+            <h3>Select a date</h3>
             <DayPicker
-                date={date}
-                placeholder="Select a date"
-                onChange={setDate}
+                selectedDays={date}
+                onDayClick={handleDayClick}
+                fixedWeeks
                 disabledDays={{ after: endOfYesterday() }}
             />
-            {date && (
-                <Link
-                    className={styles.Link}
-                    to={`/forecasts/archives/${region}/${format(
-                        date,
-                        'YYYY-MM-DD'
-                    )}`}>
-                    Read the avalanche bulletin
-                </Link>
-            )}
+            <Link
+                className={styles.Link}
+                to={`/forecasts/archives/${region}/${format(
+                    date,
+                    'YYYY-MM-DD'
+                )}`}>
+                Read the {format(date, DATE)} bulletin
+            </Link>
         </div>
     )
 }

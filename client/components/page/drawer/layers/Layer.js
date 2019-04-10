@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import Collapse from 'components/collapse'
+import { useToggle } from 'utils/react/hooks'
+import Collapsible from 'components/collapsible'
 import { Expand } from 'components/button'
 import styles from './Layer.css'
-import { useToggle } from 'utils/react/hooks'
 
 Layer.propTypes = {
     title: PropTypes.string.isRequired,
@@ -39,23 +39,9 @@ export default function Layer({ title, visible, icon, onClick, children }) {
                     />
                 )}
             </div>
-            {children && (
-                <Collapse collapsed={!expanded}>
-                    <div style={STYLE_HACK}>{children}</div>
-                </Collapse>
-            )}
+            <Collapsible expanded={expanded}>{children}</Collapsible>
         </div>
     )
 }
 
 const classNames = classnames.bind(styles)
-
-// Little hack to allow accurate mesuring even when chlidren have
-// margins (first and last children)
-// http://stackoverflow.com/questions/9770248/div-height-with-child-margin
-const STYLE_HACK = {
-    paddingTop: 1,
-    marginTop: -1,
-    paddingBottom: 1,
-    marginBottom: -1,
-}

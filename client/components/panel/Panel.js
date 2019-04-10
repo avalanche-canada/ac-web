@@ -1,8 +1,9 @@
-import React, { memo, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import Collapse from 'components/collapse'
+import noop from 'lodash/noop'
 import { Expand } from 'components/button'
+import Collapsible from 'components/collapsible'
 import styles from './Panel.css'
 
 export const SIMPLE = 'Simple'
@@ -17,12 +18,12 @@ Panel.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
-function Panel({
+export default function Panel({
     header,
     theme = SIMPLE,
     expandable = false,
     expanded = false,
-    onExpandedChange = () => {},
+    onExpandedChange = noop,
     children,
 }) {
     const [on, set] = useState(expanded)
@@ -36,7 +37,7 @@ function Panel({
     }
 
     return (
-        <div className={className}>
+        <section className={className}>
             <header
                 className={styles.Header}
                 onClick={expandable ? toggle : null}>
@@ -45,28 +46,9 @@ function Panel({
                 )}
                 <span className={styles.Title}>{header}</span>
             </header>
-            <div className={styles.Content}>
-                {expandable ? (
-                    <Collapse collapsed={!on}>
-                        <div style={STYLE_HACK}>{children}</div>
-                    </Collapse>
-                ) : (
-                    children
-                )}
-            </div>
-        </div>
+            <Collapsible expanded={on}>{children}</Collapsible>
+        </section>
     )
 }
 
-export default memo(Panel)
-
-// Little hack to allow accurate mesuring even when chlidren have
-// margins (first and last children)
-// http://stackoverflow.com/questions/9770248/div-height-with-child-margin
 const classNames = classnames.bind(styles)
-const STYLE_HACK = {
-    paddingTop: 1,
-    marginTop: -1,
-    paddingBottom: 1,
-    marginBottom: -1,
-}
