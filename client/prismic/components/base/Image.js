@@ -30,10 +30,13 @@ export default function Image({
     children,
 }) {
     const [ref, setRef] = useState(null)
-    const [loading, unload, load] = useBoolean(true)
+    const [loading, unload, load] = useBoolean(false)
 
-    useEventListener('load', load, ref)
-    useEffect(unload, [url])
+    useEventListener('loadend', load, ref)
+    useEventListener('loadstart', unload, ref)
+    useEventListener('error', unload, ref)
+
+    // useEffect(unload, [url])
 
     const image = (
         <img ref={setRef} src={url} alt={alt} className={styles.Image} />
