@@ -42,7 +42,6 @@ MapComponent.propTypes = {
 MapComponent.With = WithMap
 
 MapComponent.defaultProps = {
-    touchZoomRotate: false,
     pitchWithRotate: false,
 }
 
