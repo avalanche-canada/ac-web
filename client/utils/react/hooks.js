@@ -200,8 +200,8 @@ export function useCounter(
     return [counter, increment, decrement, first, last]
 }
 
-export function useClientRect() {
-    const [rect, setRect] = useState(null)
+export function useClientRect(initialRect) {
+    const [rect, setRect] = useState(initialRect)
     const node = useRef(null)
     const ref = useCallback(current => {
         if (current) {
