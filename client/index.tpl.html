@@ -40,6 +40,23 @@
             </p>
         </noscript>
         <div id="app"></div>
+        <script>
+            if (!window.requestAnimationFrame) {
+                document.write(
+                    '<script crossorigin src="https://cdn.jsdelivr.net/npm/raf@3.4.1/index.min.js"><\/script>'
+                )
+            }
+            if (!window.URLSearchParams) {
+                document.write(
+                    '<script crossorigin src="https://cdn.jsdelivr.net/npm/url-search-params-polyfill@5.1.0/index.min.js"><\/script>'
+                )
+            }
+            if (!window.fetch) {
+                document.write(
+                    '<script crossorigin src="https://cdn.jsdelivr.net/npm/whatwg-fetch@3.0.0/dist/fetch.umd.min.js"><\/script>'
+                )
+            }
+        </script>
         <!-- Google Analytics -->
         <script>
             window.ga =
