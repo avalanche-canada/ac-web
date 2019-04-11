@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dimensions from 'components/Dimensions'
 import { Day as DayElement } from 'components/time'
 import styles from './Danger.css'
 import Elevations, {
@@ -17,6 +16,7 @@ import Ratings, {
 } from 'constants/forecast/rating'
 import { WHITE, BLACK } from 'constants/forecast/palette'
 import DangerCard from 'components/graphics/danger'
+import { useClientRect } from 'utils/react/hooks'
 
 Row.propTypes = {
     rating: PropTypes.oneOf(Array.from(Ratings)).isRequired,
@@ -82,50 +82,28 @@ FirstDay.propTypes = {
 }
 
 export function FirstDay(props) {
+    const [{ width }, ref] = useClientRect({ width: window.innerWidth })
     const { date, ...ratings } = props
+    const children = [<Title key="title" date={date} />]
+
+    if (width < 400) {
+        children.push(<Row key="alp" rating={ratings.alp} elevation={ALP} />)
+        children.push(<Row key="tln" rating={ratings.tln} elevation={TLN} />)
+        children.push(<Row key="btl" rating={ratings.btl} elevation={BTL} />)
+    } else {
+        children.push(
+            <DangerCard
+                key="card"
+                {...ratings}
+                showTravelAdvice={width > 600}
+                showExtraInformation={width > 650}
+            />
+        )
+    }
 
     return (
-        <div className={styles.FirstDay}>
-            <Dimensions>
-                {({ width }) => {
-                    const children = [<Title key="title" date={date} />]
-
-                    if (width < 400) {
-                        children.push(
-                            <Row
-                                key="alp"
-                                rating={ratings.alp}
-                                elevation={ALP}
-                            />
-                        )
-                        children.push(
-                            <Row
-                                key="tln"
-                                rating={ratings.tln}
-                                elevation={TLN}
-                            />
-                        )
-                        children.push(
-                            <Row
-                                key="btl"
-                                rating={ratings.btl}
-                                elevation={BTL}
-                            />
-                        )
-                    } else {
-                        const props = {
-                            key: 'card',
-                            ...ratings,
-                            showTravelAdvice: width > 600,
-                            showExtraInformation: width > 650,
-                        }
-
-                        children.push(<DangerCard {...props} />)
-                    }
-
-                    return children
-                }}
-            </Dimensions>
+        <div ref={ref} className={styles.FirstDay}>
+            {children}
         </div>
     )
 }

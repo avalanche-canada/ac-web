@@ -1,8 +1,7 @@
-import React, { memo, createElement } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import Dimensions from 'components/Dimensions'
-import { useToggle } from 'utils/react/hooks'
+import { useToggle, useClientRect } from 'utils/react/hooks'
 import styles from './Credit.css'
 
 Credit.propTypes = {
@@ -31,15 +30,15 @@ const OptimizedCredit = memo(Credit)
 
 export default Object.assign(OptimizedCredit, {
     Managed(props) {
+        const [{ width }, ref] = useClientRect({ width: window.innerWidth })
+
         return (
-            <Dimensions>
-                {({ width }) =>
-                    createElement(OptimizedCredit, {
-                        ...props,
-                        compact: width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT,
-                    })
-                }
-            </Dimensions>
+            <div ref={ref}>
+                <OptimizedCredit
+                    {...props}
+                    compact={width < MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT}
+                />
+            </div>
         )
     },
 })
