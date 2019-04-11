@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Shim.css'
@@ -14,10 +14,8 @@ Shim.propTypes = {
     all: PropTypes.bool,
 }
 
-function Shim({ children, ...values }) {
+export default function Shim({ children, ...values }) {
     return <div className={classNames(values)}>{children}</div>
 }
-
-export default memo(Shim)
 
 const classNames = classnames.bind(styles)
