@@ -4,6 +4,7 @@ import classnames from 'classnames/bind'
 import Button, { INCOGNITO } from 'components/button'
 import { ExpandMore, ExpandLess } from 'components/icons'
 import { useToggle } from 'utils/react/hooks'
+import { WHITE } from 'constants/colors'
 import styles from './Tabs.css'
 
 const COMPACT = 'COMPACT'
@@ -59,12 +60,18 @@ export default function HeaderSet({
                 )}
             {stacked && (
                 <Button type="button" kind={INCOGNITO}>
-                    {expanded ? <ExpandLess inverse /> : <ExpandMore inverse />}
+                    {expanded ? (
+                        <ExpandLess color={WHITE} />
+                    ) : (
+                        <ExpandMore color={WHITE} />
+                    )}
                 </Button>
             )}
         </div>
     )
 }
+
+// <Button type="button" kind={INCOGNITO}> could be the <Expand> button!
 
 BaseHeader.propTypes = {
     isActive: PropTypes.bool,
