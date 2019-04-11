@@ -14,7 +14,7 @@ let Sentry = {
 }
 
 if (process.env.NODE_ENV === 'production') {
-    requestIdleCallback(() => {
+    setTimeout(() => {
         import('@sentry/browser').then(mod => {
             mod.init({ dsn: `https://${key}@sentry.io/${project}` })
 
@@ -32,7 +32,7 @@ if (process.env.NODE_ENV === 'production') {
 
             Sentry = mod
         })
-    })
+    }, 1)
 }
 
 export function captureException(error, context) {
