@@ -339,7 +339,6 @@ module.exports = {
                     label: 'Ambassadors',
                     header: true,
                     to: '/ambassadors',
-                    // children: 'Ambassadors',
                 },
                 {
                     id: String(id++),

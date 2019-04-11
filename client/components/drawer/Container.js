@@ -1,10 +1,9 @@
 import React, { useState, useEffect, memo } from 'react'
 import PropTypes from 'prop-types'
-import { Motion, spring, presets } from 'react-motion'
-import Cabinet from './Cabinet'
-import styles from './Drawer.css'
-import noop from 'lodash/noop'
 import { findNode, getPath, getParent } from 'utils/tree'
+import Drawer from './Drawer'
+import styles from './Drawer.css'
+import { useWindowSize } from 'utils/react/hooks'
 
 Layout.propTypes = {
     menu: PropTypes.object,
@@ -16,14 +15,11 @@ Layout.propTypes = {
 function Layout({ menu, location, ...props }) {
     const [node, setNode] = useState(null)
 
-    useEffect(
-        () => {
-            props.onClose()
-        },
-        [location]
-    )
+    useEffect(() => {
+        props.onClose()
+    }, [location])
 
-    return <Animated root={menu} node={node} {...props} setNode={setNode} />
+    return <Container root={menu} node={node} {...props} setNode={setNode} />
 }
 
 export default memo(
@@ -33,76 +29,7 @@ export default memo(
         prevProps.location === nextProps.location
 )
 
-const preset = presets.noWobble
-
-// Handlers
-function handleClick(id, event) {
-    event.preventDefault()
-    const node = findNode(this.root, id)
-
-    this.setNode(node)
-}
-
-function handleContainerClick(event) {
-    const { target, currentTarget } = event
-
-    if (target !== currentTarget) {
-        return
-    }
-
-    this.onClose()
-}
-
-function handleClose(id, event) {
-    event.preventDefault()
-
-    if (id === this.root.id) {
-        this.onClose(id)
-    } else {
-        this.setNode(getParent(this.root, id))
-    }
-}
-
-function handleCloseChildren(id, event) {
-    event.preventDefault()
-    const node = findNode(this.root, id)
-
-    this.setNode(node)
-}
-
-function createDrawer({ id, children, ...drawer }) {
-    return {
-        key: id,
-        data: {
-            ...drawer,
-            home: {
-                to: this.root.to,
-                label: this.root.label,
-            },
-            onClose: handleClose.bind(this, id),
-            onClick: handleCloseChildren.bind(this, id),
-            children: children.map(item => ({
-                ...item,
-                onClick: handleClick.bind(this, item.id),
-            })),
-        },
-    }
-}
-
-function getStyle({ x }) {
-    const transform = `translateX(${x * 100}%)`
-
-    return {
-        transform,
-        WebkitTransform: transform,
-    }
-}
-
-const defaultStyle = {
-    x: -1,
-}
-
-Animated.propTypes = {
+Container.propTypes = {
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     root: PropTypes.object.isRequired,
@@ -110,41 +37,74 @@ Animated.propTypes = {
     setNode: PropTypes.func.isRequired,
 }
 
-function Animated({ show = false, onClose = noop, root, node, setNode }) {
+function Container({ show = false, node, onClose, root, setNode }) {
+    const { width } = useWindowSize()
     const path = getPath(root, node)
-    const onRest = show ? noop : onClose
-    const context = { node, setNode, root, onClose }
+    const context = { setNode, root, onClose }
     const drawers = path.reverse().map(createDrawer, context)
-    const onClick = handleContainerClick.bind(context)
+    const transform = `translateX(${show ? 0 : -width}px)`
     const style = {
-        x: spring(show ? 0 : -1, preset),
+        transform,
+        WebkitTransform: transform,
+    }
+    function handleContainerClick(event) {
+        const { target, currentTarget } = event
+
+        if (target !== currentTarget) {
+            return
+        }
+
+        onClose()
     }
 
     return (
-        <Motion defaultStyle={defaultStyle} style={style} onRest={onRest}>
-            {value => (
-                <Container
-                    style={getStyle(value)}
-                    onClick={onClick}
-                    drawers={drawers}
-                />
-            )}
-        </Motion>
-    )
-}
-
-Container.propTypes = {
-    style: PropTypes.object,
-    drawers: PropTypes.arrayOf(PropTypes.object).isRequired,
-    onClick: PropTypes.func.isRequired,
-}
-
-function Container({ style = null, drawers, onClick }) {
-    return (
-        <div style={style} className={styles.Container} onClick={onClick}>
-            <Cabinet drawers={drawers} />
+        <div
+            style={style}
+            className={styles.Container}
+            onClick={handleContainerClick}>
+            {drawers.map(drawer => (
+                <Drawer key={drawer.id} {...drawer} />
+            ))}
         </div>
     )
 }
 
-// TODO: Remove the need for that function, which function?
+// Utils
+function createDrawer(drawer) {
+    const { root, setNode, onClose } = this
+    const { id, children } = drawer
+
+    return {
+        ...drawer,
+        home: {
+            to: root.to,
+            label: root.label,
+        },
+        onClose(event) {
+            event.preventDefault()
+
+            if (id === root.id) {
+                onClose(id)
+            } else {
+                setNode(getParent(root, id))
+            }
+        },
+        onClick(event) {
+            event.preventDefault()
+            const node = findNode(root, id)
+
+            setNode(node)
+        },
+        children: Array.isArray(children)
+            ? children.map(item => ({
+                  ...item,
+                  onClick(event) {
+                      event.preventDefault()
+                      const node = findNode(root, item.id)
+
+                      setNode(node)
+                  },
+              }))
+            : children,
+    }
+}

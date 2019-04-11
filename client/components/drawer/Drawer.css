@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 :root {
     --toolbar: 4em;
@@ -12,6 +12,7 @@
     bottom: 0;
     left: 0;
     overflow: hidden;
+    transition: transform 0.5s ease-in-out;
 }
 
 .Drawer {
@@ -19,7 +20,6 @@
     left: 0;
     right: 0;
 
-    transform: translateX(0);
     background-color: var(--gray-lighter);
     height: 100%;
 

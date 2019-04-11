@@ -5,12 +5,13 @@ import Link from 'components/navbar/Link'
 import styles from './Drawer.css'
 
 ItemSet.propTypes = {
-    items: PropTypes.arrayOf(PropTypes.object).isRequired,
+    items: PropTypes.arrayOf(PropTypes.object),
     label: PropTypes.string.isRequired,
     to: PropTypes.string,
+    children: PropTypes.node,
 }
 
-function ItemSet({ items, label, to }) {
+function ItemSet({ items = [], label, to, children }) {
     return (
         <div className={styles['ItemSet--Container']}>
             <ul className={styles.ItemSet}>
@@ -25,6 +26,7 @@ function ItemSet({ items, label, to }) {
                 </Item>
                 {items.map(renderItem)}
             </ul>
+            {children}
         </div>
     )
 }

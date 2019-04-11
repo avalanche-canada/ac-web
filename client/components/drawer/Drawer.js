@@ -1,6 +1,5 @@
-import React, { memo } from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/noop'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
 import styles from './Drawer.css'
@@ -11,11 +10,17 @@ Drawer.propTypes = {
     to: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func,
-    style: PropTypes.object,
     children: PropTypes.node.isRequired,
 }
 
-function Drawer({ label, to, onClose, onClick = noop, style, children, home }) {
+export default function Drawer({
+    label,
+    to,
+    onClose,
+    onClick,
+    children,
+    home,
+}) {
     function handleClick(event) {
         const { target, currentTarget } = event
 
@@ -27,11 +32,15 @@ function Drawer({ label, to, onClose, onClick = noop, style, children, home }) {
     }
 
     return (
-        <nav style={style} className={styles.Drawer} onClick={handleClick}>
+        <nav className={styles.Drawer} onClick={handleClick}>
             <Toolbar home={home} onClose={onClose} />
-            <ItemSet label={label} to={to} items={children} />
+            {Array.isArray(children) ? (
+                <ItemSet label={label} to={to} items={children} />
+            ) : (
+                <ItemSet label={label} to={to}>
+                    {createElement(children, { to })}
+                </ItemSet>
+            )}
         </nav>
     )
 }
-
-export default memo(Drawer, (prev, next) => prev.style === next.style)
