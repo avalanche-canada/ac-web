@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import QuestionAnswer from './QuestionAnswer'
+import QuestionAnswer from './'
 
 test('question & answer component', () => {
     const qa = Renderer.create(
