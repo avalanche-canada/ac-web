@@ -34,10 +34,10 @@ export default function ExtendedWeatherForecast({ date }) {
     return (
         <Fragment>
             <Section header="500 hPa Mean / Standard Deviation (N. American Ensemble)">
-                <Loop urls={hpaUrls} subtitles={LOOP_SUBTITLES} />
+                <Loop urls={hpaUrls} titles={LOOP_ITLES} />
             </Section>
             <Section header="1000 – 500 hPa Thickness (N. American Ensemble)">
-                <Loop urls={thicknessUrls} subtitles={LOOP_SUBTITLES} />
+                <Loop urls={thicknessUrls} titles={LOOP_ITLES} />
             </Section>
             <Section header="EPSgrams (N. American Ensemble)">
                 <GramSet>
@@ -63,7 +63,7 @@ export default function ExtendedWeatherForecast({ date }) {
                 <ExceedanceProbability date={date} />
             </Section>
             <Section header="546 dam – 500 hPa Contour Line (Canadian Ensemble)">
-                <Loop urls={spaghettiUrls} subtitles={LOOP_SUBTITLES} />
+                <Loop urls={spaghettiUrls} titles={LOOP_ITLES} />
             </Section>
         </Fragment>
     )
@@ -81,4 +81,4 @@ function Section({ children, header }) {
 
 // Constants
 const SEQUENCE = [5, 6, 7, 8, 9, 10]
-const LOOP_SUBTITLES = SEQUENCE.map(value => `Day ${value}`)
+const LOOP_ITLES = SEQUENCE.map(value => `Day ${value}`)
