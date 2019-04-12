@@ -22,10 +22,7 @@ export default class Loop extends PureComponent {
         interval: PropTypes.number,
         withNotes: PropTypes.bool,
     }
-    static defaultProps = {
-        withNotes: false,
-    }
-    // TODO: Way should not use state here. Should be stateless and meomize
+    // TODO: We should not use state here. Should be stateless and meomize
     state = {
         urls: [],
         notes: null,
