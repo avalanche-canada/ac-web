@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { initials } from 'utils/string'
+import { useBoolean } from 'utils/react/hooks'
 import styles from './Avatar.css'
 
 Avatar.propTypes = {
@@ -11,7 +12,7 @@ Avatar.propTypes = {
 }
 
 export default function Avatar({ size = 60, url, name }) {
-    const [on, set] = useState(Boolean(url))
+    const [on, , unset] = useBoolean(Boolean(url))
     const style = {
         height: size,
         width: size,
@@ -29,8 +30,8 @@ export default function Avatar({ size = 60, url, name }) {
                     src={url}
                     alt={initials(name)}
                     title={name}
-                    onLoad={() => set(false)}
-                    onError={() => set(false)}
+                    onLoad={unset}
+                    onError={unset}
                 />
             )}
         </div>
