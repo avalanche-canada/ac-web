@@ -13,9 +13,7 @@ export default function Description({ index, total, onRemoveClick }) {
     return (
         <div className={styles.Description}>
             {index + 1} / {total}
-            <Button type="button" onClick={onRemoveClick}>
-                Remove
-            </Button>
+            <Button onClick={onRemoveClick}>Remove</Button>
         </div>
     )
 }

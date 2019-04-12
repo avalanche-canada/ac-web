@@ -55,7 +55,6 @@ export default function DayPicker({
                 }}
             />
             <Expand
-                type="button"
                 expanded={opened}
                 chevron
                 onClick={() => {

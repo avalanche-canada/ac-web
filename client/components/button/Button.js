@@ -40,7 +40,7 @@ function Button({
     })
 
     return (
-        <button {...props} className={className}>
+        <button type="button" {...props} className={className}>
             {children}
         </button>
     )

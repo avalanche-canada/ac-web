@@ -192,7 +192,6 @@ function DateRangeControl({ from, to, onChange }) {
                 </Button>
             ) : (
                 <Expand
-                    type="button"
                     chevron
                     expanded={opened}
                     onClick={() => {
