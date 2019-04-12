@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
-import Biography from './index'
+import Biography from './'
 
 const Karl = {
     firstName: 'Karl',
@@ -14,8 +14,4 @@ const Karl = {
 
 const stories = storiesOf('Biography', module)
 
-stories.add('Biography', () => (
-    <Biography {...Karl}>
-        His biography.
-    </Biography>
-))
+stories.add('Biography', () => <Biography {...Karl}>His biography.</Biography>)

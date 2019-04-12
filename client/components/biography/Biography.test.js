@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Biography from './Biography'
+import Biography from './'
 
 const Karl = {
     firstName: 'Karl',

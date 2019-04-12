@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Avatar from './Avatar'
+import Avatar from './'
 
 test('avatar component', () => {
     let avatar = Renderer.create(<Avatar name="Karl Guillotte" />)
