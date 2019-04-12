@@ -7,9 +7,10 @@ import { Loading, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import Pagination from 'components/pagination'
 import { EntrySet, Entry, TagTitle } from 'components/feed'
-import { FilterSet, FilterEntry } from 'components/filter'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
+import { ControlSet, Control } from 'components/form'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
+import { GRAY_LIGHTEST } from 'constants/colors'
 
 // FIXME: Do not parse params, just use them from this.props.location.search
 
@@ -58,32 +59,32 @@ export class BlogPostFeed extends PureComponent {
 
         return (
             <FeedLayout title="Blogs">
-                <FilterSet>
-                    <FilterEntry>
+                <ControlSet horizontal>
+                    <Control style={CONTROL_STYLE}>
                         <Dropdown
                             value={category}
                             onChange={this.handleCategoryChange}
                             options={CategoryOptions}
                             placeholder={CategoryOptions.get()}
                         />
-                    </FilterEntry>
-                    <FilterEntry>
+                    </Control>
+                    <Control style={CONTROL_STYLE}>
                         <Dropdown
                             value={year}
                             onChange={this.handleYearChange}
                             options={YearOptions}
                             placeholder={YearOptions.get()}
                         />
-                    </FilterEntry>
-                    <FilterEntry>
+                    </Control>
+                    <Control style={CONTROL_STYLE}>
                         <Dropdown
                             value={month}
                             onChange={this.handleMonthChange}
                             options={MonthsOptions}
                             placeholder={MonthsOptions.get()}
                         />
-                    </FilterEntry>
-                </FilterSet>
+                    </Control>
+                </ControlSet>
                 <Documents {...feed.blog(this.state)}>
                     {this.renderContent}
                 </Documents>
@@ -121,24 +122,24 @@ export class NewsFeed extends PureComponent {
 
         return (
             <FeedLayout title="Recent news">
-                <FilterSet>
-                    <FilterEntry>
+                <ControlSet horizontal>
+                    <Control style={CONTROL_STYLE}>
                         <Dropdown
                             value={year}
                             onChange={this.handleYearChange}
                             options={YearOptions}
                             placeholder={YearOptions.get()}
                         />
-                    </FilterEntry>
-                    <FilterEntry>
+                    </Control>
+                    <Control style={CONTROL_STYLE}>
                         <Dropdown
                             value={month}
                             onChange={this.handleMonthChange}
                             options={MonthsOptions}
                             placeholder={MonthsOptions.get()}
                         />
-                    </FilterEntry>
-                    <FilterEntry>
+                    </Control>
+                    <Control style={CONTROL_STYLE}>
                         <Tags type={NEWS}>
                             {props => (
                                 <Dropdown
@@ -149,8 +150,8 @@ export class NewsFeed extends PureComponent {
                                 />
                             )}
                         </Tags>
-                    </FilterEntry>
-                </FilterSet>
+                    </Control>
+                </ControlSet>
                 <Documents {...feed.news(this.state)}>
                     {this.renderContent}
                 </Documents>
@@ -190,16 +191,16 @@ export class EventFeed extends PureComponent {
 
         return (
             <FeedLayout title="Events">
-                <FilterSet>
-                    <FilterEntry>
+                <ControlSet horizontal>
+                    <Control style={CONTROL_STYLE}>
                         <Dropdown
                             value={timeline}
                             onChange={this.handleTimelineChange}
                             options={TimelineOptions}
                             placeholder={TimelineOptions.get()}
                         />
-                    </FilterEntry>
-                    <FilterEntry>
+                    </Control>
+                    <Control style={CONTROL_STYLE}>
                         <Tags type={EVENT}>
                             {props => (
                                 <Dropdown
@@ -210,8 +211,8 @@ export class EventFeed extends PureComponent {
                                 />
                             )}
                         </Tags>
-                    </FilterEntry>
-                </FilterSet>
+                    </Control>
+                </ControlSet>
                 <Documents
                     {...feed.events({ tags, past: timeline === PAST, page })}>
                     {this.renderContent}
@@ -362,4 +363,11 @@ function convertTagsToOptions(tags) {
 }
 function isFeaturedPost({ featured }) {
     return featured
+}
+
+// Styles
+const CONTROL_STYLE = {
+    borderBottom: '2px solid ' + GRAY_LIGHTEST,
+    margin: 0,
+    padding: '0.5em',
 }
