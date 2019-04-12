@@ -7,12 +7,13 @@ import { Remove, Add, ExpandMore, ExpandLess } from 'components/icons'
 Expand.propTypes = {
     expanded: PropTypes.bool.isRequired,
     chevron: PropTypes.bool,
+    iconProps: PropTypes.object,
 }
 
-function Expand({ chevron = false, expanded = false, ...props }) {
+function Expand({ chevron = false, expanded = false, iconProps, ...props }) {
     return (
         <Button kind={SUBTILE} {...props}>
-            {createElement(ICONS.get(chevron).get(expanded))}
+            {createElement(ICONS.get(chevron).get(expanded), iconProps)}
         </Button>
     )
 }
