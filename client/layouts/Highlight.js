@@ -29,10 +29,7 @@ export default function Highlight() {
 
                 return (
                     <Banner>
-                        <Component
-                            type={style}
-                            onDismiss={handleDismiss}
-                            dismissable>
+                        <Component type={style} onDismiss={handleDismiss}>
                             {link ? <Link {...link}>{content}</Link> : content}
                         </Component>
                     </Banner>

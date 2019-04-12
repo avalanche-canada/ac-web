@@ -31,10 +31,7 @@ export default function SPAW() {
 
                 return (
                     <Banner>
-                        <Highlight
-                            type={DANGER}
-                            onDismiss={handleDismiss}
-                            dismissable>
+                        <Highlight type={DANGER} onDismiss={handleDismiss}>
                             <Link {...link}>
                                 <p>
                                     {description[0].text}{' '}

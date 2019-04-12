@@ -12,7 +12,6 @@ export const SUCCESS = 'success'
 Highlight.propTypes = {
     children: PropTypes.node.isRequired,
     type: PropTypes.oneOf([DANGER, WARNING, INFO, SUCCESS]).isRequired,
-    dismissable: PropTypes.bool,
     onDismiss: PropTypes.func,
     className: PropTypes.string,
     style: PropTypes.object,
@@ -20,7 +19,6 @@ Highlight.propTypes = {
 
 export default function Highlight({
     type = WARNING,
-    dismissable,
     onDismiss,
     children,
     className,
@@ -31,7 +29,7 @@ export default function Highlight({
             className={classnames(CLASS_NAMES.get(type), className)}
             style={style}>
             {children}
-            {dismissable && (
+            {typeof onDismiss === 'function' && (
                 <Close
                     transparent
                     className={styles.Close}
