@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Pagination.css'
 
@@ -10,7 +10,13 @@ Segment.propTypes = {
     children: PropTypes.node,
 }
 
-function Segment({ page, isActive, children, style, onActivate }) {
+export default function Segment({
+    page,
+    isActive,
+    children,
+    style,
+    onActivate,
+}) {
     const className = isActive ? 'Segment--Active' : 'Segment'
     function handleClick(event) {
         event.preventDefault()
@@ -28,8 +34,6 @@ function Segment({ page, isActive, children, style, onActivate }) {
         </a>
     )
 }
-
-export default memo(Segment)
 
 export function Disabled({ children }) {
     return <span className={styles.Disabled}>{children}</span>
