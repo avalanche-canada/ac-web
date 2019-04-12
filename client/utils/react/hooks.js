@@ -238,10 +238,55 @@ export function useRatio(x = 16, y = 9) {
     return [dimensions, ref]
 }
 
+export function useFullscreen() {
+    const ref = useRef(null)
+    const enter = useCallback(() => {
+        const { current } = ref
+
+        if (current.requestFullscreen) {
+            current.requestFullscreen()
+        } else if (current.mozRequestFullScreen) {
+            current.mozRequestFullScreen()
+        } else if (current.webkitRequestFullscreen) {
+            current.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+        } else if (current.msRequestFullscreen) {
+            current.msRequestFullscreen()
+        }
+    }, [ref.current])
+    const exit = useCallback(() => {
+        if (!getFullscreenElement()) {
+            return
+        }
+
+        if (document.exitFullscreen) {
+            document.exitFullscreen()
+        } else if (document.mozCancelFullScreen) {
+            document.mozCancelFullScreen()
+        } else if (document.webkitCancelFullScreen) {
+            document.webkitCancelFullScreen()
+        } else if (document.msExitFullscreen) {
+            document.msExitFullscreen()
+        }
+    }, [])
+    const toggle = useCallback(() => {
+        getFullscreenElement() ? exit() : enter()
+    }, [enter])
+
+    return [ref, enter, exit, toggle]
+}
+
 // Utils
 function getWindowSize() {
     return {
         height: window.innerHeight,
         width: window.innerWidth,
     }
+}
+function getFullscreenElement() {
+    return (
+        document.fullscreenElement ||
+        document.mozFullScreenElement ||
+        document.webkitFullscreenElement ||
+        document.msFullscreenElement
+    )
 }

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
     useCounter,
     useBoolean,
     useEventListener,
     useTimeout,
+    useFullscreen,
 } from 'utils/react/hooks'
 import { Image, OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
-import Fullscreen from 'components/Fullscreen'
 import ButtonSet from './ButtonSet'
 import Button from 'components/button'
 import keycodes from 'constants/keycodes'
@@ -30,8 +30,8 @@ export default function Loop({
     dwell = 2000,
     startsAt,
 }) {
+    const [fullscreen, , , toggleFullscreen] = useFullscreen()
     const max = urls.length - 1
-    const [target, setTarget] = useState(null)
     const [loading, load, unload] = useBoolean(false)
     const [playing, play, pause, toggle] = useBoolean(false)
     const [cursor, next, previous, first, last] = useCounter(
@@ -109,35 +109,31 @@ export default function Loop({
     useEventListener('keydown', handleKeyDown)
 
     return (
-        <Fullscreen target={target}>
-            {({ toggle }) => (
-                <div ref={setTarget} className={styles.Container}>
-                    {title && <div className={styles.Title}>{title}</div>}
-                    <div className={styles.Toolbar}>
-                        <ButtonSet {...toolbar} />
-                        <div className={styles.Info}>
-                            {loading && (
-                                <Delay elapse={interval + 150}>
-                                    <span>Loading</span>
-                                </Delay>
-                            )}
-                            {cursor + 1} of {max + 1}
-                        </div>
-                        <Button onClick={toggle}>
-                            <Icon color={WHITE} />
-                        </Button>
-                    </div>
-                    <OpenInNewTab>
-                        <Image
-                            src={url}
-                            onError={unload}
-                            onLoad={unload}
-                            style={IMAGE_STYLE}
-                        />
-                    </OpenInNewTab>
+        <div ref={fullscreen} className={styles.Container}>
+            {title && <div className={styles.Title}>{title}</div>}
+            <div className={styles.Toolbar}>
+                <ButtonSet {...toolbar} />
+                <div className={styles.Info}>
+                    {loading && (
+                        <Delay elapse={interval + 150}>
+                            <span>Loading</span>
+                        </Delay>
+                    )}
+                    {cursor + 1} of {max + 1}
                 </div>
-            )}
-        </Fullscreen>
+                <Button onClick={toggleFullscreen}>
+                    <Icon color={WHITE} />
+                </Button>
+            </div>
+            <OpenInNewTab>
+                <Image
+                    src={url}
+                    onError={unload}
+                    onLoad={unload}
+                    style={IMAGE_STYLE}
+                />
+            </OpenInNewTab>
+        </div>
     )
 }
 

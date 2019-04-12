@@ -1,28 +1,20 @@
-import React, { cloneElement, useState } from 'react'
+import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import Fullscreen from 'components/Fullscreen'
 import styles from './Gram.css'
+import { useFullscreen } from 'utils/react/hooks'
 
 Location.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 }
 
 export default function Location({ children }) {
-    // TODO Use forwardRef
-    const [target, setTarget] = useState(null)
+    const [header, image] = children
+    const [ref, enter] = useFullscreen()
 
     return (
-        <Fullscreen target={target}>
-            {({ enter }) => {
-                const [header, image] = children
-
-                return (
-                    <section className={styles.Location} onClick={enter}>
-                        {header}
-                        {cloneElement(image, { ref: setTarget })}
-                    </section>
-                )
-            }}
-        </Fullscreen>
+        <section className={styles.Location} onClick={enter}>
+            {header}
+            {cloneElement(image, { ref })}
+        </section>
     )
 }

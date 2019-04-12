@@ -1,4 +1,4 @@
-import React, { Children, useState, useEffect } from 'react'
+import React, { Children, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { Credit } from 'components/markup'
@@ -18,6 +18,12 @@ Image.propTypes = {
     label: PropTypes.string,
     linkTo: PropTypes.object,
     children: PropTypes.element,
+    imageRef: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.shape({
+            current: PropTypes.any,
+        }),
+    ]),
 }
 
 export default function Image({
@@ -28,18 +34,26 @@ export default function Image({
     linkTo,
     label,
     children,
+    imageRef,
 }) {
-    const [ref, setRef] = useState(null)
+    const [ref, setRef] = useState(imageRef)
     const [loading, unload, load] = useBoolean(false)
 
-    useEventListener('loadend', load, ref)
     useEventListener('loadstart', unload, ref)
+    useEventListener('loadend', load, ref)
     useEventListener('error', unload, ref)
 
-    // useEffect(unload, [url])
+    function handleRef(ref) {
+        setRef(ref)
+        if (typeof imageRef === 'function') {
+            imageRef(ref)
+        } else {
+            imageRef.current = ref
+        }
+    }
 
     const image = (
-        <img ref={setRef} src={url} alt={alt} className={styles.Image} />
+        <img ref={handleRef} src={url} alt={alt} className={styles.Image} />
     )
     const className = classNames(label, {
         Figure: !loading,
