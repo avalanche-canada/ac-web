@@ -47,7 +47,7 @@ export default function Image({
         setRef(ref)
         if (typeof imageRef === 'function') {
             imageRef(ref)
-        } else {
+        } else if (imageRef && 'current' in imageRef) {
             imageRef.current = ref
         }
     }
