@@ -1,7 +1,6 @@
 import React from 'react'
-import { storiesOf, action } from '@storybook/react'
-import Blockquote from './Blockquote'
-import Footer from './Footer'
+import { storiesOf } from '@storybook/react'
+import { Blockquote, Footer } from './'
 
 const stories = storiesOf('Blockquote', module)
 
