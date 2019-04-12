@@ -191,6 +191,11 @@ module.exports = {
                             label: 'Land of Thundering Snow',
                             to: 'http://www.landofthunderingsnow.ca',
                         },
+                        {
+                            id: String(id++),
+                            label: 'Videos',
+                            to: 'https://vimeo.com/avalanchecanada',
+                        },
                     ],
                 },
                 {
