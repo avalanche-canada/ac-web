@@ -1,7 +1,7 @@
 import React, { cloneElement, Children, memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import Button, { INCOGNITO } from 'components/button'
+import { Expand } from 'components/button'
 import { ExpandMore, ExpandLess } from 'components/icons'
 import { useToggle } from 'utils/react/hooks'
 import { WHITE } from 'constants/colors'
@@ -59,19 +59,15 @@ export default function HeaderSet({
                     })
                 )}
             {stacked && (
-                <Button type="button" kind={INCOGNITO}>
-                    {expanded ? (
-                        <ExpandLess color={WHITE} />
-                    ) : (
-                        <ExpandMore color={WHITE} />
-                    )}
-                </Button>
+                <Expand
+                    chevron
+                    expanded={expanded}
+                    iconProps={{ color: WHITE }}
+                />
             )}
         </div>
     )
 }
-
-// <Button type="button" kind={INCOGNITO}> could be the <Expand> button!
 
 BaseHeader.propTypes = {
     isActive: PropTypes.bool,
