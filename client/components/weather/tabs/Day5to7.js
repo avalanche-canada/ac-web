@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { DateElement } from 'components/time'
 import Section from './Section'
@@ -19,9 +19,9 @@ function Title({ date }) {
     const to = addDays(date, 7)
 
     return (
-        <div>
+        <Fragment>
             <DateElement value={from} /> to <DateElement value={to} />
-        </div>
+        </Fragment>
     )
 }
 
