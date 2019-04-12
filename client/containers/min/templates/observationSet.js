@@ -1,6 +1,7 @@
-import React, { Children, Fragment } from 'react'
+import React, { Children, Fragment, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import t from 'vendor/tcomb-form'
-import { HeaderSet, ColoredHeader, EagerPanelSet, Panel } from 'components/tabs'
+import { HeaderSet, ColoredHeader, Panel } from 'components/tabs'
 import { Reset } from 'components/button'
 import { NAMES, COLORS, TYPES } from 'constants/min'
 import { useClientRect } from 'utils/react/hooks'
@@ -74,5 +75,22 @@ function MINHeaderSet({ activeTab, onTabActivate, children }) {
                 })}
             </HeaderSet>
         </div>
+    )
+}
+const EAGER_STYLES = new Map([
+    [true, { display: 'inherit' }],
+    [false, { display: 'none' }],
+])
+
+EagerPanelSet.propTypes = {
+    children: PropTypes.arrayOf(PropTypes.element).isRequired,
+    activeTab: PropTypes.number,
+}
+
+function EagerPanelSet({ activeTab, children }) {
+    return Children.map(children, (panel, index) =>
+        cloneElement(panel, {
+            style: EAGER_STYLES.get(index === activeTab),
+        })
     )
 }

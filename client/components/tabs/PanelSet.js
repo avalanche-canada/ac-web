@@ -1,4 +1,4 @@
-import React, { memo, Children, cloneElement } from 'react'
+import React, { memo, Children } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Tabs.css'
 
@@ -17,28 +17,6 @@ function PanelSet({ activeTab, children }) {
 }
 
 export default memo(PanelSet)
-
-const EAGER_STYLES = new Map([
-    [true, { display: 'inherit' }],
-    [false, { display: 'none' }],
-])
-
-// TODO: Remove once MIN form moved to Formik
-
-BaseEagerPanelSet.propTypes = {
-    children: PropTypes.arrayOf(PropTypes.element).isRequired,
-    activeTab: PropTypes.number,
-}
-
-function BaseEagerPanelSet({ activeTab, children }) {
-    return Children.map(children, (panel, index) =>
-        cloneElement(panel, {
-            style: EAGER_STYLES.get(index === activeTab),
-        })
-    )
-}
-
-export const EagerPanelSet = memo(BaseEagerPanelSet)
 
 Panel.propTypes = {
     style: PropTypes.object,
