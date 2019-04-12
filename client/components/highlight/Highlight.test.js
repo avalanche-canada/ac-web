@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Highlight, { DANGER, WARNING, INFO, SUCCESS } from './Highlight'
+import Highlight, { DANGER, WARNING, INFO, SUCCESS } from './'
 
 const TYPES = [DANGER, WARNING, INFO, SUCCESS]
 
