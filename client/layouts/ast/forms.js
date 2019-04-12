@@ -187,7 +187,7 @@ function DateRangeControl({ from, to, onChange }) {
                 }}
             />
             {showClear ? (
-                <Button kind={INCOGNITO} type="button" onClick={reset}>
+                <Button kind={INCOGNITO} onClick={reset}>
                     <Close />
                 </Button>
             ) : (
