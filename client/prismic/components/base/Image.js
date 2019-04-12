@@ -37,9 +37,11 @@ export default function Image({
     imageRef,
 }) {
     const [ref, setRef] = useState(imageRef)
-    const [loading, unload, load] = useBoolean(false)
+    const [loading, unload, load] = useBoolean(
+        'onloadend' in HTMLImageElement.prototype // Only put it to "loading" if we can eventually get notified when it ends
+    )
 
-    useEventListener('loadstart', unload, ref)
+    // useEventListener('loadstart', unload, ref)
     useEventListener('loadend', load, ref)
     useEventListener('error', unload, ref)
 
