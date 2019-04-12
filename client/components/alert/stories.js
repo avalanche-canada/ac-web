@@ -1,12 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
-import {
-    withKnobs,
-    number,
-    boolean,
-    text,
-    select,
-} from '@storybook/addon-knobs'
+import { withKnobs, select } from '@storybook/addon-knobs'
 import Alert, { DANGER, INFO, WARNING, SUCCESS } from './index'
 
 const stories = storiesOf('Alert', module)
