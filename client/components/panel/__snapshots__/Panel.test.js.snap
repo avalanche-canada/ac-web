@@ -98,6 +98,7 @@ exports[`panel component 5`] = `
   >
     <button
       className="Expand Subtile"
+      type="button"
     >
       <svg
         fill="none"
@@ -139,6 +140,7 @@ exports[`panel component 6`] = `
   >
     <button
       className="Expand Subtile"
+      type="button"
     >
       <svg
         fill="none"
