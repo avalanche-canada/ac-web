@@ -9,14 +9,11 @@ ScrollTo.propTypes = {
 }
 
 export default function ScrollTo({ location, children, x = 0, y = 0 }) {
-    useEffect(
-        () => {
-            requestAnimationFrame(() => {
-                window.scrollTo(x, y)
-            })
-        },
-        [location.pathname]
-    )
+    useEffect(() => {
+        requestAnimationFrame(() => {
+            window.scrollTo(x, y)
+        })
+    }, [location.href])
 
     return children
 }
