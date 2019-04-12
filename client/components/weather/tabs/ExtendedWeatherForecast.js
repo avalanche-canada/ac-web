@@ -5,25 +5,11 @@ import ExceedanceProbability from './ExceedanceProbability'
 import BasePanel, { INVERSE } from 'components/panel'
 import { carte, epsgram, spaghetti } from 'services/msc/naefs'
 import Loop from 'components/loop'
-
-const PANEL_PADDING = {
-    padding: '2em 1em',
-}
-
-function Panel({ children, ...props }) {
-    return (
-        <BasePanel expandable expanded theme={INVERSE} {...props}>
-            {children}
-        </BasePanel>
-    )
-}
+import Shim from 'components/Shim'
 
 ExtendedWeatherForecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
-
-const SEQUENCE = [5, 6, 7, 8, 9, 10]
-const LOOP_TITLES = SEQUENCE.map(value => `Day ${value}`)
 
 export default function ExtendedWeatherForecast({ date }) {
     const hpaUrls = SEQUENCE.map(factor =>
@@ -50,17 +36,17 @@ export default function ExtendedWeatherForecast({ date }) {
     return (
         <section>
             <Panel header="500 hPa Mean / Standard Deviation (N. American Ensemble)">
-                <div style={PANEL_PADDING}>
+                <Shim all>
                     <Loop urls={hpaUrls} titles={LOOP_TITLES} />
-                </div>
+                </Shim>
             </Panel>
             <Panel header="1000 – 500 hPa Thickness (N. American Ensemble)">
-                <div style={PANEL_PADDING}>
+                <Shim all>
                     <Loop urls={thicknessUrls} titles={LOOP_TITLES} />
-                </div>
+                </Shim>
             </Panel>
             <Panel header="EPSgrams (N. American Ensemble)">
-                <div style={PANEL_PADDING}>
+                <Shim all>
                     <GramSet>
                         <Location>
                             <header>Terrace</header>
@@ -79,16 +65,29 @@ export default function ExtendedWeatherForecast({ date }) {
                             <img src={epsgram({ code: 'yrv', date })} />
                         </Location>
                     </GramSet>
-                </div>
+                </Shim>
             </Panel>
             <Panel header="Exceedance Probability (N. American Ensemble)">
                 <ExceedanceProbability date={date} />
             </Panel>
             <Panel header="546 dam – 500 hPa Contour Line (Canadian Ensemble)">
-                <div style={PANEL_PADDING}>
+                <Shim all>
                     <Loop urls={spaghettiUrls} titles={LOOP_TITLES} />
-                </div>
+                </Shim>
             </Panel>
         </section>
     )
 }
+
+// Utils
+function Panel({ children, ...props }) {
+    return (
+        <BasePanel expandable expanded theme={INVERSE} {...props}>
+            {children}
+        </BasePanel>
+    )
+}
+
+// Constants
+const SEQUENCE = [5, 6, 7, 8, 9, 10]
+const LOOP_TITLES = SEQUENCE.map(value => `Day ${value}`)
