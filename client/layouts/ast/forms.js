@@ -8,11 +8,11 @@ import { Form, Legend, ControlSet, Control } from 'components/form'
 import { DropdownFromOptions, Geocoder } from 'components/controls'
 import { LEVELS, TAGS } from './constants'
 import { ASC } from 'constants/sortings'
-import 'react-day-picker/lib/style.css'
 import { useBoolean } from 'utils/react/hooks'
 import controls from 'components/controls/Controls.css'
 import Button, { INCOGNITO, Expand } from 'components/button'
 import { WHITE } from 'constants/colors'
+import 'react-day-picker/lib/style.css'
 import styles from './Forms.css'
 
 Courses.propTypes = {
@@ -128,6 +128,8 @@ function DateRangeControl({ from, to, onChange }) {
         <Control style={DATE_RANGE_STYLE}>
             <DayPickerInput
                 ref={ref}
+                style={{ flex: 1 }}
+                className={styles.DayPickerInput}
                 value={formatDateRange(from, to)}
                 showOverlay={opened}
                 formatDate={formatDate}
