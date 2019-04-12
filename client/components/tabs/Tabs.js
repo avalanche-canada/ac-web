@@ -1,5 +1,6 @@
 import React, { Children, cloneElement, useState } from 'react'
 import PropTypes from 'prop-types'
+import noop from 'lodash/noop'
 import HeaderSet from './HeaderSet'
 import PanelSet from './PanelSet'
 import styles from './Tabs.css'
@@ -11,12 +12,12 @@ Tabs.propTypes = {
     onTabChange: PropTypes.func,
 }
 
-Tabs.defaultProps = {
-    theme: 'COMPACT',
-    onTabChange() {},
-}
-
-export default function Tabs({ onTabChange, children, theme, ...props }) {
+export default function Tabs({
+    onTabChange = noop,
+    children,
+    theme = 'COMPACT',
+    ...props
+}) {
     const [activeTab, setActiveTab] = useState(props.activeTab || 0)
 
     return (
