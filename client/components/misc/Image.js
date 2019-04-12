@@ -7,6 +7,7 @@ Image.propTypes = {
 }
 
 export default function Image(props) {
+    // FIXME Well this component does not do much!!!
     return <img {...props} />
 }
 
