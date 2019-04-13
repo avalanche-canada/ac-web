@@ -38,7 +38,8 @@ exports[`button component 4`] = `
 
 exports[`button component 5`] = `
 <button
-  className="Primary Transparent"
+  className="Primary"
+  transparent={true}
   type="button"
 >
   Content
