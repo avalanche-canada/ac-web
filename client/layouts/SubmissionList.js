@@ -32,6 +32,7 @@ import { NONE, DESC } from 'constants/sortings'
 import ErrorBoundary from 'components/ErrorBoundary'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
 import pin from 'components/icons/min/min-pin.svg'
+import Shim from 'components/Shim'
 import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 
@@ -112,7 +113,9 @@ export default class SubmissionList extends Component {
                     />
                 </Entry>
                 <Entry term="To" sideBySide>
-                    <DateElement />
+                    <Shim left>
+                        <DateElement />
+                    </Shim>
                 </Entry>
                 <Entry term="Reports" sideBySide>
                     <Dropdown
