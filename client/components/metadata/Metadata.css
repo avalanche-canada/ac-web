@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 :root {
     --border-color: var(--gray-lightest);
@@ -24,10 +24,6 @@
     padding: 0.25em;
     border-bottom: 2px solid var(--border-color);
     text-transform: uppercase;
-}
-.Entry--Full {
-    composes: Entry;
-    flex: 100%;
 }
 
 .Entry--SideBySide {

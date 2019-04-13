@@ -1,6 +1,6 @@
 import React from 'react'
-import { memo } from 'utils/react'
 import PropTypes from 'prop-types'
+import { memo } from 'utils/react'
 import styles from './Br.css'
 
 Br.propTypes = {

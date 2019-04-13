@@ -7,22 +7,13 @@ Entry.propTypes = {
     children: PropTypes.node.isRequired,
     // TODO: Review the need of this property
     sideBySide: PropTypes.bool,
-    fullWidth: PropTypes.bool,
 }
 
-export default function Entry({
-    term,
-    children,
-    sideBySide,
-    fullWidth,
-    ...props
-}) {
+export default function Entry({ term, children, sideBySide, ...props }) {
     let className = 'Entry'
 
     if (sideBySide) {
         className = 'Entry--SideBySide'
-    } else if (fullWidth) {
-        className = 'Entry--Full'
     }
 
     return (
