@@ -13,7 +13,6 @@ Button.propTypes = {
     active: PropTypes.bool,
     shadow: PropTypes.bool,
     large: PropTypes.bool,
-    transparent: PropTypes.bool,
     kind: PropTypes.oneOf(Array.from(KINDS)),
     chevron: PropTypes.oneOf([LEFT, RIGHT, true]),
     className: PropTypes.string,
@@ -24,7 +23,6 @@ function Button({
     active = false,
     shadow = false,
     large = false,
-    transparent = false,
     chevron,
     children,
     ...props
@@ -33,7 +31,6 @@ function Button({
         Active: active,
         Shadow: shadow,
         Large: large,
-        Transparent: transparent,
         ChevronLeft: chevron === LEFT,
         ChevronRight: chevron === RIGHT,
         Chevron: chevron === true,

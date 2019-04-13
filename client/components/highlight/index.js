@@ -30,11 +30,7 @@ export default function Highlight({
             style={style}>
             {children}
             {typeof onDismiss === 'function' && (
-                <Close
-                    transparent
-                    className={styles.Close}
-                    onClick={onDismiss}
-                />
+                <Close className={styles.Close} onClick={onDismiss} />
             )}
         </div>
     )

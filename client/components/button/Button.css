@@ -131,7 +131,6 @@
     font-size: 1.25rem;
     font-weight: normal;
     padding: 0.25em 0.5em;
-    background-color: white;
 }
 
 .Set {
@@ -147,8 +146,4 @@
 
 .Shadow {
     box-shadow: 3px 3px 3px color-mod(black alpha(25%));
-}
-
-.Transparent {
-    background-color: transparent;
 }
