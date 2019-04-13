@@ -1,7 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from 'components/button'
-import * as Icons from 'components/icons'
+import {
+    Play,
+    Pause,
+    ChevronRight,
+    ChevronLeft,
+    FirstPage,
+    LastPage,
+} from 'components/icons'
 import { WHITE } from 'constants/colors'
 import styles from './Loop.css'
 
@@ -26,59 +33,37 @@ export default function ButtonSet({
 }) {
     return (
         <div className={styles.ButtonSet}>
-            {onFirst && <First onClick={onFirst} />}
-            {onPrevious && <Previous onClick={onPrevious} />}
+            {onFirst && <FirstButton onClick={onFirst} />}
+            {onPrevious && <PreviousButton onClick={onPrevious} />}
             {isPlaying ? (
-                <Pause onClick={onPause} />
+                <PauseButton onClick={onPause} />
             ) : (
-                <Play onClick={onPlay} />
+                <PlayButton onClick={onPlay} />
             )}
-            {onNext && <Next onClick={onNext} />}
-            {onLast && <Last onClick={onLast} />}
+            {onNext && <NextButton onClick={onNext} />}
+            {onLast && <LastButton onClick={onLast} />}
         </div>
     )
 }
 
 // Buttons
-function Play(props) {
-    return (
-        <Button {...props} title="Play the animation">
-            <Icons.Play inverse />
-        </Button>
-    )
-}
-function Pause(props) {
-    return (
-        <Button {...props} title="Pause the animation">
-            <Icons.Pause inverse />
-        </Button>
-    )
-}
-function Next(props) {
-    return (
-        <Button {...props} title="Move to the next image">
-            <Icons.ChevronRight color={WHITE} />
-        </Button>
-    )
-}
-function Previous(props) {
-    return (
-        <Button {...props} title="Move to the previous image">
-            <Icons.ChevronLeft color={WHITE} />
-        </Button>
-    )
-}
-function First(props) {
-    return (
-        <Button {...props} title="Move to the first image">
-            <Icons.FirstPage inverse />
-        </Button>
-    )
-}
-function Last(props) {
-    return (
-        <Button {...props} title="Mode to the last image">
-            <Icons.LastPage inverse />
+const PlayButton = button('Play the animation', <Play inverse />)
+const PauseButton = button('Pause the animation', <Pause inverse />)
+const NextButton = button(
+    'Move to the next image',
+    <ChevronRight color={WHITE} />
+)
+const PreviousButton = button(
+    'Move to the previous image',
+    <ChevronLeft color={WHITE} />
+)
+const FirstButton = button('Move to the first image', <FirstPage inverse />)
+const LastButton = button('Move to the last image', <LastPage inverse />)
+
+function button(title, icon) {
+    return props => (
+        <Button {...props} title={title}>
+            {icon}
         </Button>
     )
 }
