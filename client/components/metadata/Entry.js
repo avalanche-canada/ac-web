@@ -10,11 +10,7 @@ Entry.propTypes = {
 }
 
 export default function Entry({ term, children, sideBySide, ...props }) {
-    let className = 'Entry'
-
-    if (sideBySide) {
-        className = 'Entry--SideBySide'
-    }
+    const className = sideBySide ? 'Entry--SideBySide' : 'Entry'
 
     return (
         <dl {...props} className={styles[className]}>
