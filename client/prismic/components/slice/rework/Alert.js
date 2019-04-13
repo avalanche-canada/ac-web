@@ -1,6 +1,6 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import Base, { DANGER, INFO, WARNING, SUCCESS } from 'components/alert'
+import { Danger, Info, Warning, Success } from 'components/alert'
 import { StructuredText } from 'prismic/components/base'
 
 Alert.propTypes = {
@@ -10,22 +10,21 @@ Alert.propTypes = {
     }).isRequired,
 }
 
-function Alert({ nonRepeat }) {
+export default function Alert({ nonRepeat }) {
     const { type, content } = nonRepeat
+    const Component = Components.get(type)
 
     return (
-        <Base type={TYPES.get(type)}>
+        <Component>
             <StructuredText value={content} />
-        </Base>
+        </Component>
     )
 }
 
-export default memo(Alert)
-
 // Constants
-const TYPES = new Map([
-    ['Warning', WARNING],
-    ['Information', INFO],
-    ['Danger', DANGER],
-    ['Success', SUCCESS],
+const Components = new Map([
+    ['Warning', Warning],
+    ['Information', Info],
+    ['Danger', Danger],
+    ['Success', Success],
 ])

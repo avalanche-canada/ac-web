@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import Alert, { WARNING } from 'components/alert'
+import { Warning } from 'components/alert'
 import styles from './ArchiveWarning.css'
 
 ArchiveWarning.propTypes = {
@@ -22,13 +22,13 @@ ArchiveWarning.propTypes = {
 
 export default function ArchiveWarning({ nowcast, previous, next, children }) {
     return (
-        <Alert type={WARNING}>
+        <Warning>
             {children}
             <Link className={styles.Today} {...nowcast} />
             <div className={styles.Links}>
                 {previous && <Link {...previous} className={styles.Previous} />}
                 {next && <Link {...next} className={styles.Next} />}
             </div>
-        </Alert>
+        </Warning>
     )
 }

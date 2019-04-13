@@ -9,7 +9,7 @@ import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
 import { Pending } from 'components/fetch'
 import { Muted, Loading } from 'components/text'
-import Alert, { WARNING } from 'components/alert'
+import { Warning } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import externals from 'router/externals'
@@ -99,7 +99,7 @@ function ForecastContent({ name, date }) {
 
         return to ? (
             <a href={to} target={data.id}>
-                <Alert type={WARNING}>{getWarningText(data)}</Alert>
+                <Warning>{getWarningText(data)}</Warning>
             </a>
         ) : null
     }

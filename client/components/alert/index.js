@@ -3,17 +3,23 @@ import PropTypes from 'prop-types'
 import styles from './Alert.css'
 
 // Types
-export const DANGER = 'DANGER'
-export const INFO = 'INFO'
-export const WARNING = 'WARNING'
-export const SUCCESS = 'SUCCESS'
+const DANGER = 'DANGER'
+const INFO = 'INFO'
+const WARNING = 'WARNING'
+const SUCCESS = 'SUCCESS'
 
+export const Danger = alert(DANGER)
+export const Info = alert(INFO)
+export const Warning = alert(WARNING)
+export const Success = alert(SUCCESS)
+
+// Component
 Alert.propTypes = {
     type: PropTypes.oneOf([DANGER, INFO, WARNING, SUCCESS]).isRequired,
     children: PropTypes.node.isRequired,
 }
 
-export default function Alert({ type = DANGER, children, ...props }) {
+function Alert({ type, children, ...props }) {
     return (
         <div className={classNames.get(type)} {...props}>
             {children}
@@ -21,6 +27,12 @@ export default function Alert({ type = DANGER, children, ...props }) {
     )
 }
 
+// HOC
+function alert(type) {
+    return props => <Alert {...props} type={type} />
+}
+
+// Styles
 const classNames = new Map([
     [DANGER, styles.Danger],
     [INFO, styles.Info],
