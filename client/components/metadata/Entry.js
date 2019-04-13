@@ -5,7 +5,6 @@ import styles from './Metadata.css'
 Entry.propTypes = {
     term: PropTypes.string,
     children: PropTypes.node.isRequired,
-    // TODO: Review the need of this property
     sideBySide: PropTypes.bool,
 }
 
