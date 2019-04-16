@@ -1,7 +1,6 @@
 import React from 'react'
-import { memo } from 'utils/react'
 
-function ContactForm() {
+export default function ContactForm() {
     return (
         <iframe
             src="https://avalanchecanada.supportbee.com/web_tickets/new?embed=true&locale=en"
@@ -9,5 +8,3 @@ function ContactForm() {
         />
     )
 }
-
-export default memo.static(ContactForm)
