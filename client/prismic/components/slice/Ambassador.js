@@ -9,7 +9,7 @@ AmbassadorSet.propTypes = {
 }
 
 export default function AmbassadorSet({ value = [] }) {
-    return <Fragment>{value.map(createAmbassador)}</Fragment>
+    return value.map(createAmbassador)
 }
 
 // Utils
