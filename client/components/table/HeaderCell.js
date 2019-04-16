@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Table.css'
-import Sorting from 'components/button/Sorting'
 import noop from 'lodash/noop'
+import { Sorting } from 'components/button'
 import { ASC, DESC, NONE } from 'constants/sortings'
+import styles from './Table.css'
 
 HeaderCell.propTypes = {
     children: PropTypes.node.isRequired,
+    // TODO Remove these props!!! Just passing children is enough!
     sorting: PropTypes.oneOf([ASC, DESC, NONE]),
     onSortingChange: PropTypes.func,
 }
