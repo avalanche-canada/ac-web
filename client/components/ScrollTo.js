@@ -13,7 +13,8 @@ export default function ScrollTo({ location, children, x = 0, y = 0 }) {
         requestAnimationFrame(() => {
             window.scrollTo(x, y)
         })
-    }, [location.href])
+        // Needs to change on "pathname" and not on "href" change. Example: glossary links between terms will not work!
+    }, [location.pathname])
 
     return children
 }
