@@ -10,7 +10,7 @@ Section.propTypes = {
     }).isRequired,
 }
 
-function Section() {
+function Section({ nonRepeat }) {
     const { content, header } = nonRepeat
 
     return (
