@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { useToggle } from 'utils/react/hooks'
-import Collapsible from 'components/collapsible'
 import { Expand } from 'components/button'
 import styles from './Layer.css'
 
@@ -39,7 +38,7 @@ export default function Layer({ title, visible, icon, onClick, children }) {
                     />
                 )}
             </div>
-            <Collapsible expanded={expanded}>{children}</Collapsible>
+            {expanded && children}
         </div>
     )
 }
