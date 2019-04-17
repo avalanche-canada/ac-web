@@ -9,8 +9,7 @@ Table.propTypes = {
 }
 
 export default function Table({ condensed, children }) {
-    const className = classNames({
-        Table: true,
+    const className = classNames(styles.Table, {
         Condensed: condensed,
     })
 
