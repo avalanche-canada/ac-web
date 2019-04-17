@@ -6,15 +6,7 @@
     position: relative;
 }
 
-.Hoverable {
-    & .TBody > .Row:hover {
-        background-color: var(--gray-lightest);
-    }
-}
-
-.Table--Condensed {
-    composes: Table;
-
+.Condensed {
     & .Cell {
         padding: 0.35em;
     }
