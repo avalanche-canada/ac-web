@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Danger, Info, Warning, Success } from 'components/alert'
+import { forType } from 'components/alert'
 import { StructuredText } from 'prismic/components/base'
+import Shim from 'components/Shim'
 
 Alert.propTypes = {
     nonRepeat: PropTypes.shape({
@@ -12,19 +13,13 @@ Alert.propTypes = {
 
 export default function Alert({ nonRepeat }) {
     const { type, content } = nonRepeat
-    const Component = Components.get(type)
+    const Alert = forType(type)
 
     return (
-        <Component>
-            <StructuredText value={content} />
-        </Component>
+        <Shim vertical>
+            <Alert>
+                <StructuredText value={content} />
+            </Alert>
+        </Shim>
     )
 }
-
-// Constants
-const Components = new Map([
-    ['Warning', Warning],
-    ['Information', Info],
-    ['Danger', Danger],
-    ['Success', Success],
-])

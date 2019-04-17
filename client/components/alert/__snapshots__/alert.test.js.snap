@@ -4,7 +4,11 @@ exports[`alert component 1`] = `
 <div
   className="Danger"
 >
-  Content
+  <div
+    className="Content"
+  >
+    Content
+  </div>
 </div>
 `;
 
@@ -12,7 +16,11 @@ exports[`alert component 2`] = `
 <div
   className="Info"
 >
-  Content
+  <div
+    className="Content"
+  >
+    Content
+  </div>
 </div>
 `;
 
@@ -20,7 +28,11 @@ exports[`alert component 3`] = `
 <div
   className="Warning"
 >
-  Content
+  <div
+    className="Content"
+  >
+    Content
+  </div>
 </div>
 `;
 
@@ -28,6 +40,10 @@ exports[`alert component 4`] = `
 <div
   className="Success"
 >
-  Content
+  <div
+    className="Content"
+  >
+    Content
+  </div>
 </div>
 `;

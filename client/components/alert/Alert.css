@@ -1,29 +1,46 @@
 @import '../../styles/colors.css';
 
 .Alert {
-    display: block;
-    padding: 1em;
-    margin: 1em 0;
-    font-weight: 700;
-    font-size: 1.15em;
+    display: flex;
+    flex-direction: row;
     color: white;
+}
+
+.Content {
+    flex: 1;
+
+    padding: 1em;
+    font-weight: 700;
     text-align: center;
     white-space: pre-wrap;
 
     & a[href] {
         color: white;
-        text-decoration: underline;
+        /* text-decoration: underline; */
     }
 }
 
+.OneLiner {
+    &,
+    & * {
+        margin: 0;
+        display: inline;
+    }
+}
+
+.Close {
+    padding: 0 1em;
+    color: white;
+}
+
 a[href] {
-    & > .Alert {
+    & .Content {
         &:after {
             content: '\A0\203A';
         }
-        &:hover {
+        /* &:hover {
             text-decoration: underline;
-        }
+        } */
     }
 }
 
@@ -45,7 +62,8 @@ a[href] {
     background-color: var(--warning);
 
     &,
-    & a[href] {
+    & a,
+    & button {
         color: var(--gray-darker);
     }
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Consumer } from './Context'
 import { ArchiveWarning as Base } from 'components/misc'
+import Shim from 'components/Shim'
 import { isValid } from 'utils/hzr'
 
 export default function ArchiveWarning() {
@@ -17,9 +18,11 @@ export default function ArchiveWarning() {
                 }
 
                 return (
-                    <Base nowcast={nowcast}>
-                        This is an archived Avalanche Advisory
-                    </Base>
+                    <Shim vertical>
+                        <Base nowcast={nowcast}>
+                            This is an archived Avalanche Advisory
+                        </Base>
+                    </Shim>
                 )
             }}
         </Consumer>

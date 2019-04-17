@@ -1,53 +1,7 @@
-@import '../../styles/colors.css';
-
 .Highlight {
-    position: fixed 85px 50px auto 50px;
-    display: flex;
-    text-align: center;
-    margin: 0 auto;
+    position: fixed;
+    top: 75px;
+    right: 0;
+    left: 0;
     z-index: 2;
-    font-weight: 700;
-    background-color: var(--brand-secondary);
-
-    & > *:first-child {
-        flex: 1 0;
-    }
-
-    &,
-    & a,
-    & button {
-        color: white;
-    }
-
-    & .Close {
-        padding: 0 1em;
-    }
-}
-
-.Danger {
-    composes: Highlight;
-}
-
-.Warning {
-    composes: Highlight;
-
-    background-color: var(--warning);
-
-    &,
-    & a,
-    & button {
-        color: var(--gray-darker);
-    }
-}
-
-.Info {
-    composes: Highlight;
-
-    background-color: var(--info);
-}
-
-.Success {
-    composes: Highlight;
-
-    background-color: var(--success);
 }

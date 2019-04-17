@@ -1,11 +1,11 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
-import Highlight, { DANGER } from 'components/highlight'
-import { Link } from 'prismic/components/base'
+import Highlight from 'components/highlight'
+import { Danger } from 'components/alert'
+import { Link, StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { spaw } from 'prismic/params'
-import { Banner } from 'components/application'
 import { isTouchable } from 'utils/device'
 import { useSessionStorage } from 'utils/react/hooks'
 
@@ -30,29 +30,29 @@ export default function SPAW() {
                 const { link, description } = document.data
 
                 return (
-                    <Banner>
-                        <Highlight type={DANGER} onDismiss={handleDismiss}>
+                    <Highlight>
+                        <Danger onDismiss={handleDismiss}>
                             <Link {...link}>
-                                <p>
-                                    {description[0].text}{' '}
+                                <StructuredText value={description} />
+                                <span>
                                     {isTouchable ? 'Tap' : 'Click'} for more
                                     information
-                                </p>
+                                </span>
                             </Link>
-                        </Highlight>
-                    </Banner>
+                        </Danger>
+                    </Highlight>
                 )
             }}
         </Document>
     )
 }
 
-BaseRegion.propTypes = {
+Region.propTypes = {
     name: PropTypes.string.isRequired,
     children: PropTypes.func.isRequired,
 }
 
-function BaseRegion({ name, children }) {
+export function Region({ name, children }) {
     return (
         <Document {...spaw()}>
             {({ document }) =>
@@ -63,5 +63,3 @@ function BaseRegion({ name, children }) {
         </Document>
     )
 }
-
-export const Region = memo(BaseRegion)

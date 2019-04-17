@@ -11,6 +11,7 @@ import { Pending } from 'components/fetch'
 import { Muted, Loading } from 'components/text'
 import { Warning } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
+import Shim from 'components/Shim'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import externals from 'router/externals'
 import {
@@ -98,9 +99,11 @@ function ForecastContent({ name, date }) {
         const to = getWarningUrl(data, date)
 
         return to ? (
-            <a href={to} target={data.id}>
-                <Warning>{getWarningText(data)}</Warning>
-            </a>
+            <Shim vertical>
+                <a href={to} target={data.id}>
+                    <Warning>{getWarningText(data)}</Warning>
+                </a>
+            </Shim>
         ) : null
     }
     if (!name) {
@@ -121,7 +124,9 @@ function ForecastContent({ name, date }) {
                         <Loading>Loading forecast...</Loading>
                     </Pending>
                     <components.Metadata />
-                    <components.ArchiveWarning date={date} />
+                    <Shim vertical>
+                        <components.ArchiveWarning date={date} />
+                    </Shim>
                     <components.Headline />
                     <components.TabSet
                         onTabChange={handleForecastTabActivate}

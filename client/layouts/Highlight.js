@@ -1,12 +1,12 @@
 import React from 'react'
-import Component from 'components/highlight'
-import { Banner } from 'components/application'
+import Highlight from 'components/highlight'
+import { forType, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { highlight } from 'prismic/params'
 import { useSessionStorage } from 'utils/react/hooks'
 
-export default function Highlight() {
+export default function HighlightLayout() {
     const [hidden, setHidden] = useSessionStorage(
         'highlight-hidden',
         false,
@@ -25,14 +25,19 @@ export default function Highlight() {
                 }
 
                 const { link, description, style } = document.data
-                const content = <StructuredText value={description} />
+                const Alert = forType(style)
+                const content = (
+                    <Alert onDismiss={handleDismiss}>
+                        <OneLiner>
+                            <StructuredText value={description} />
+                        </OneLiner>
+                    </Alert>
+                )
 
                 return (
-                    <Banner>
-                        <Component type={style} onDismiss={handleDismiss}>
-                            {link ? <Link {...link}>{content}</Link> : content}
-                        </Component>
-                    </Banner>
+                    <Highlight>
+                        {link ? <Link {...link}>{content}</Link> : content}
+                    </Highlight>
                 )
             }}
         </Document>
