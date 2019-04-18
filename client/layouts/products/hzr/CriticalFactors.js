@@ -56,7 +56,7 @@ function CriticalFactorsComponent({
     criticalFactorsComments,
 }) {
     return (
-        <Panel header="Critical Factors Summary" expanded expandable>
+        <Panel header="Critical Factors Summary" expanded>
             <Shim horizontal>
                 <p>
                     <strong>

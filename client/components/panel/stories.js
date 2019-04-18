@@ -4,14 +4,14 @@ import Panel, { SIMPLE, INVERSE } from './index'
 
 storiesOf('Panel', module)
     .add('Panel', () => (
-        <Panel header="A panel">
+        <Panel header="A panel" collapsible={false}>
             <p>some content.</p>
             <p>some content.</p>
         </Panel>
     ))
-    .add('Expandable Panel', () => (
+    .add('Collapsible Panel', () => (
         <div>
-            <Panel header="A panel" expandable>
+            <Panel header="A panel">
                 <p>some content.</p>
                 <p>some content.</p>
                 <p>some content.</p>
@@ -22,21 +22,21 @@ storiesOf('Panel', module)
                 <p>some content.</p>
                 <p>some content.</p>
             </Panel>
-            <Panel header="A panel with a looooooooooooooong title" expandable>
+            <Panel header="A panel with a looooooooooooooong title">
                 <p>some content.</p>
                 <p>some content.</p>
                 <p>some content.</p>
             </Panel>
-            <Panel header="A panel" expandable expanded>
+            <Panel header="A panel" expanded>
                 <p>some content.</p>
                 <p>some content.</p>
                 <p>some content.</p>
             </Panel>
         </div>
     ))
-    .add('Expandable Panel Inverse', () => (
+    .add('Collapsible Panel Inverse', () => (
         <div>
-            <Panel header="A panel" expandable theme={INVERSE}>
+            <Panel header="A panel" theme={INVERSE}>
                 <p>some content.</p>
                 <p>some content.</p>
                 <p>some content.</p>
@@ -49,13 +49,12 @@ storiesOf('Panel', module)
             </Panel>
             <Panel
                 header="A panel with a looooooooooooooong title"
-                expandable
                 theme={INVERSE}>
                 <p>some content.</p>
                 <p>some content.</p>
                 <p>some content.</p>
             </Panel>
-            <Panel header="A panel" expandable expanded theme={INVERSE}>
+            <Panel header="A panel" expanded theme={INVERSE}>
                 <p>some content.</p>
                 <p>some content.</p>
                 <p>some content.</p>

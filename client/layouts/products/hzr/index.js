@@ -44,12 +44,12 @@ export function Report({ children, value }) {
 export function Footer() {
     return (
         <Fragment>
-            <Panel expandable header="More information">
+            <Panel header="More information">
                 <Shim horizontal>
                     <Generic uid="hot-zone-report-more-information" />
                 </Shim>
             </Panel>
-            <Panel expandable header="About">
+            <Panel header="About">
                 <Shim horizontal>
                     <Generic uid="hot-zone-report-about" />
                 </Shim>

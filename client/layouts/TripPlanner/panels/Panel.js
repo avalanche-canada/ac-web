@@ -10,7 +10,7 @@ export default function TripPlannerPanel({
     ...props
 }) {
     return (
-        <Panel {...props} expanded={expanded} expandable>
+        <Panel {...props} expanded={expanded}>
             <div className={styles.Panel}>{children}</div>
         </Panel>
     )

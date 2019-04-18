@@ -13,20 +13,18 @@ import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
 import * as Modes from 'constants/forecast/mode'
 
 function Forecast({ children }) {
-    return (
-        <section className={styles.Forecast}>
-            {children}
-        </section>
-    )
+    return <section className={styles.Forecast}>{children}</section>
 }
 
 const ICONS = {
-    elevations: 'http://www.avalanche.ca/assets/images/Elevation/Elevation-1-1-1_EN.png',
-    aspects: 'http://www.avalanche.ca/assets/images/Compass/compass-0-0-0-1-1-1-0-0_EN.png',
-    likelihood: 'http://www.avalanche.ca/assets/images/Likelihood/Likelihood-5_EN.png',
+    elevations:
+        'http://www.avalanche.ca/assets/images/Elevation/Elevation-1-1-1_EN.png',
+    aspects:
+        'http://www.avalanche.ca/assets/images/Compass/compass-0-0-0-1-1-1-0-0_EN.png',
+    likelihood:
+        'http://www.avalanche.ca/assets/images/Likelihood/Likelihood-5_EN.png',
     expectedSize: 'http://www.avalanche.ca/assets/images/size/Size-0-15_EN.png',
 }
-
 
 storiesOf('Forecast', module)
     .add('Weather table', () => (
@@ -49,9 +47,21 @@ storiesOf('Forecast', module)
                     </tr>
                     <tr>
                         <td>Tuesday</td>
-                        <td>Freezing level<br />AM: 400m PM: 1800m</td>
-                        <td>Freezing level<br />AM: 600m PM: 1800m</td>
-                        <td>Freezing level<br />1700m</td>
+                        <td>
+                            Freezing level
+                            <br />
+                            AM: 400m PM: 1800m
+                        </td>
+                        <td>
+                            Freezing level
+                            <br />
+                            AM: 600m PM: 1800m
+                        </td>
+                        <td>
+                            Freezing level
+                            <br />
+                            1700m
+                        </td>
                     </tr>
                     <tr>
                         <td>Wednesday</td>
@@ -90,12 +100,8 @@ storiesOf('Forecast', module)
             <Topic title="Which Slopes?" src={ICONS.aspects} />
             <Topic title="Chances of Avalanches?" src={ICONS.likelihood} />
             <Topic title="Expected Size?" src={ICONS.expectedSize} />
-            <Comment>
-                {'<span>A paragraph as comment.</span>'}
-            </Comment>
-            <Advice>
-                {'<span>A paragraph as advice.</span>'}
-            </Advice>
+            <Comment>{'<span>A paragraph as comment.</span>'}</Comment>
+            <Advice>{'<span>A paragraph as advice.</span>'}</Advice>
         </Problem>
     ))
     .add('Footer', () => <Footer author="Karl Guillotte" />)
@@ -114,13 +120,13 @@ storiesOf('Forecast', module)
     .add('Spring Condition', () => <Condition mode={Modes.SPRING} />)
     .add('Panels', () => (
         <div>
-            <Panel header="Danger Ratings Explained" expandable>
+            <Panel header="Danger Ratings Explained">
                 <RatingExplanation />
             </Panel>
-            <Panel header="Avalanche Forecasts in your Inbox" expandable>
+            <Panel header="Avalanche Forecasts in your Inbox">
                 <RatingExplanation />
             </Panel>
-            <Panel header="Forecast Disclaimer" expandable>
+            <Panel header="Forecast Disclaimer">
                 <RatingExplanation />
             </Panel>
         </div>

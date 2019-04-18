@@ -26,7 +26,7 @@ export default function Footer() {
 
 export const ArchivedBulletins = memo.static(function ArchivedBulletins(props) {
     return (
-        <Panel expandable header="Archived bulletins">
+        <Panel header="Archived bulletins">
             <ArchiveDatePicker region={props.region} />
         </Panel>
     )
@@ -34,7 +34,7 @@ export const ArchivedBulletins = memo.static(function ArchivedBulletins(props) {
 
 export const Inbox = memo.static(function Inbox() {
     return (
-        <Panel expandable header="Avalanche Forecasts in your Inbox">
+        <Panel header="Avalanche Forecasts in your Inbox">
             <div className={styles.PanelContent}>
                 <Generic uid="forecast-rss-message" />
             </div>
@@ -44,7 +44,7 @@ export const Inbox = memo.static(function Inbox() {
 
 export const Disclaimer = memo.static(function Disclaimer() {
     return (
-        <Panel expandable header="Forecast Disclaimer">
+        <Panel header="Forecast Disclaimer">
             <div className={styles.PanelContent}>
                 <Generic uid="forecast-disclaimer" />
             </div>
@@ -54,7 +54,7 @@ export const Disclaimer = memo.static(function Disclaimer() {
 
 export const DangerRatings = memo.static(function DangerRatings() {
     return (
-        <Panel expandable header="Danger Ratings Explained">
+        <Panel header="Danger Ratings Explained">
             <RatingExplanation />
         </Panel>
     )

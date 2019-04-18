@@ -93,7 +93,7 @@ function TerrainAdviceSetComponent({
     ) : null
 
     return comments === null && advices === null ? null : (
-        <Panel header="Terrain Advice" expanded expandable>
+        <Panel header="Terrain Advice" expanded>
             <Shim horizontal>
                 <AdviceText />
                 {advices}

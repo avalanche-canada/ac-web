@@ -8,7 +8,7 @@ import { WHITE } from 'constants/colors'
 import styles from './Panel.css'
 
 Panel.propTypes = {
-    expandable: PropTypes.bool,
+    collapsible: PropTypes.bool,
     expanded: PropTypes.bool,
     header: PropTypes.node.isRequired,
     children: PropTypes.string.isRequired,
@@ -16,21 +16,21 @@ Panel.propTypes = {
 
 export default function Panel({
     header,
-    expandable = false,
+    collapsible = true,
     expanded = false,
     children,
 }) {
     const [on, , , toggle] = useBoolean(expanded)
     const className = classNames(styles.Container, {
-        Expandable: expandable,
+        Collapsible: collapsible,
     })
 
     return (
         <section className={className}>
             <header
                 className={styles.Header}
-                onClick={expandable ? toggle : null}>
-                {expandable && (
+                onClick={collapsible ? toggle : null}>
+                {collapsible && (
                     <Expand
                         className={styles.Expand}
                         expanded={on}

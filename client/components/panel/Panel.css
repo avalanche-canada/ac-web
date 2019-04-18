@@ -12,7 +12,7 @@
     }
 }
 
-.Expandable {
+.Collapsible {
     & .Header {
         cursor: pointer;
 

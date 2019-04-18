@@ -27,7 +27,7 @@ function TerrainAndTravelAdviceComponent({ report }) {
     }
 
     return (
-        <Panel header="Terrain and Travel Advice" expanded expandable>
+        <Panel header="Terrain and Travel Advice" expanded>
             <Shim horizontal>
                 <AdviceText />
                 <TerrainSummary
