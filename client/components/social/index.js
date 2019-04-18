@@ -8,7 +8,6 @@ const FACEBOOK = 'FACEBOOK'
 const TWITTER = 'TWITTER'
 const INSTAGRAM = 'INSTAGRAM'
 const VIMEO = 'VIMEO'
-const GOOGLE_PLUS = 'GOOGLE_PLUS'
 
 Item.propTypes = {
     link: PropTypes.string.isRequired,
@@ -70,25 +69,21 @@ const PROVIDER_REGEXES = new Map([
     [TWITTER, /twitter.com/],
     [INSTAGRAM, /instagram.com/],
     [VIMEO, /vimeo.com/],
-    [GOOGLE_PLUS, /plus.google.com/],
 ])
 const PROVIDER_NAMES = new Map([
     [FACEBOOK, 'Facebook'],
     [TWITTER, 'Twitter'],
     [INSTAGRAM, 'Instagram'],
     [VIMEO, 'Vimeo'],
-    [GOOGLE_PLUS, 'Google Plus'],
 ])
 const PROVIDER_ICONS = new Map([
     [FACEBOOK, <Icons.Facebook />],
     [TWITTER, <Icons.Twitter />],
     [INSTAGRAM, <Icons.Instagram />],
     [VIMEO, <Icons.Vimeo />],
-    [GOOGLE_PLUS, <Icons.GooglePlus />],
     [null, <Icons.Website />],
 ])
 const SHARE_URL_CREATORS = new Map([
     [FACEBOOK, url => `https://www.facebook.com/sharer.php?u=${url}`],
     [TWITTER, url => `https://twitter.com/intent/tweet?url=${url}`],
-    [GOOGLE_PLUS, url => `https://plus.google.com/share?url=${url}`],
 ])
