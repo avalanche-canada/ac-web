@@ -26,6 +26,7 @@ import ErrorBoundary from 'components/ErrorBoundary'
 import { Pending } from 'components/fetch'
 import { Paginated, Sorted } from 'components/collection'
 import { Error, Muted } from 'components/text'
+import Shim from 'components/Shim'
 import { Distance, Tags } from './cells'
 import { LEVELS } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
@@ -99,11 +100,13 @@ export default class Courses extends Component {
 
         return (
             <div className={styles.Controlled}>
-                <List theme="Inline">
-                    <Entry term="Description">
-                        <Markup>{description}</Markup>
-                    </Entry>
-                </List>
+                <Shim right>
+                    <List inline>
+                        <Entry term="Description">
+                            <Markup>{description}</Markup>
+                        </Entry>
+                    </List>
+                </Shim>
                 <List>
                     <Entry term="Name">{name}</Entry>
                     <Entry term="Website">

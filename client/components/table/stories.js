@@ -10,7 +10,7 @@ import HeaderCell from './HeaderCell'
 import { ASC, DESC, NONE } from 'constants/sortings'
 
 const description = (
-    <List columns={2}>
+    <List>
         <Term>Telephone</Term>
         <Definition>(250) 123-4567</Definition>
         <Term>Email</Term>

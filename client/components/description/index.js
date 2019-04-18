@@ -57,31 +57,19 @@ export function Entry({ term, children }) {
 
 BaseList.propTypes = {
     children: PropTypes.node.isRequired,
-    columns: PropTypes.oneOf([1, 2, 3]),
-    theme: PropTypes.oneOf(['Simple', 'Inverse']),
+    inline: PropTypes.bool,
     condensed: PropTypes.bool,
     bordered: PropTypes.bool,
-    style: PropTypes.object,
 }
 
-function BaseList({
-    columns = 1,
-    theme = 'Simple',
-    condensed = false,
-    bordered = false,
-    style,
-    children,
-}) {
-    const className = classNames(`List--${theme}--${columns}Columns`, {
+function BaseList({ inline, condensed, bordered, children }) {
+    const className = classNames(styles.List, {
         Condensed: condensed,
         Bordered: bordered,
+        Inline: inline,
     })
 
-    return (
-        <dl style={style} className={className}>
-            {children}
-        </dl>
-    )
+    return <dl className={className}>{children}</dl>
 }
 
 // Styles
