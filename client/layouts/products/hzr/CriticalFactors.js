@@ -5,7 +5,8 @@ import Comment from 'layouts/products/min/Comment'
 import List from 'layouts/products/min/List'
 import { Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
-import Panel from './Panel'
+import Panel from 'components/panel'
+import Shim from 'components/Shim'
 import { RED, ORANGE } from 'constants/forecast/palette'
 import styles from './HotZoneReport.css'
 
@@ -55,47 +56,50 @@ function CriticalFactorsComponent({
     criticalFactorsComments,
 }) {
     return (
-        <Panel header="Critical Factors Summary" expanded>
-            <p>
-                <strong>
-                    Critical factors influence avalanche hazard. The more
-                    critical factors, the greater the potential for avalanches.
-                </strong>
-            </p>
-            <List>
-                <CriticalFactor value={criticalFactorsInstability}>
-                    Signs of instability
-                </CriticalFactor>
-                <CriticalFactor
-                    value={criticalFactorsPersistentAvalancheProblem}>
-                    Persistent avalanche problem
-                </CriticalFactor>
-                <CriticalFactor value={criticalFactorsRecentRainfall}>
-                    Recent rainfall
-                </CriticalFactor>
-                <CriticalFactor value={criticalFactorsRecentSnowfall}>
-                    Recent snowfall > 30cm
-                </CriticalFactor>
-                <CriticalFactor value={criticalFactorsRecentWindLoading}>
-                    Recent wind loading
-                </CriticalFactor>
-                <CriticalFactor value={criticalFactorsSignificantWarming}>
-                    Significant warming
-                </CriticalFactor>
-                <CriticalFactor value={criticalFactorsSlabAvalanches}>
-                    Slab avalanches in the last 48 hours
-                </CriticalFactor>
-            </List>
-            {criticalFactorsQuestions && (
-                <Comment title="Information to collect while traveling">
-                    <StructuredText value={criticalFactorsQuestions} />
-                </Comment>
-            )}
-            {criticalFactorsComments && (
-                <Comment>
-                    <StructuredText value={criticalFactorsComments} />
-                </Comment>
-            )}
+        <Panel header="Critical Factors Summary" expanded expandable>
+            <Shim horizontal>
+                <p>
+                    <strong>
+                        Critical factors influence avalanche hazard. The more
+                        critical factors, the greater the potential for
+                        avalanches.
+                    </strong>
+                </p>
+                <List>
+                    <CriticalFactor value={criticalFactorsInstability}>
+                        Signs of instability
+                    </CriticalFactor>
+                    <CriticalFactor
+                        value={criticalFactorsPersistentAvalancheProblem}>
+                        Persistent avalanche problem
+                    </CriticalFactor>
+                    <CriticalFactor value={criticalFactorsRecentRainfall}>
+                        Recent rainfall
+                    </CriticalFactor>
+                    <CriticalFactor value={criticalFactorsRecentSnowfall}>
+                        Recent snowfall > 30cm
+                    </CriticalFactor>
+                    <CriticalFactor value={criticalFactorsRecentWindLoading}>
+                        Recent wind loading
+                    </CriticalFactor>
+                    <CriticalFactor value={criticalFactorsSignificantWarming}>
+                        Significant warming
+                    </CriticalFactor>
+                    <CriticalFactor value={criticalFactorsSlabAvalanches}>
+                        Slab avalanches in the last 48 hours
+                    </CriticalFactor>
+                </List>
+                {criticalFactorsQuestions && (
+                    <Comment title="Information to collect while traveling">
+                        <StructuredText value={criticalFactorsQuestions} />
+                    </Comment>
+                )}
+                {criticalFactorsComments && (
+                    <Comment>
+                        <StructuredText value={criticalFactorsComments} />
+                    </Comment>
+                )}
+            </Shim>
         </Panel>
     )
 }

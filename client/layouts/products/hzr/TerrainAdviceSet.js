@@ -5,7 +5,8 @@ import Comment from 'layouts/products/min/Comment'
 import Section from 'layouts/products/min/Section'
 import { StructuredText } from 'prismic/components/base'
 import AdviceText from './AdviceText'
-import Panel from './Panel'
+import Panel from 'components/panel'
+import Shim from 'components/Shim'
 import styles from './HotZoneReport.css'
 
 function createAdvice({ feature, where, elevation }) {
@@ -92,10 +93,12 @@ function TerrainAdviceSetComponent({
     ) : null
 
     return comments === null && advices === null ? null : (
-        <Panel header="Terrain Advice" expanded>
-            <AdviceText />
-            {advices}
-            {comments}
+        <Panel header="Terrain Advice" expanded expandable>
+            <Shim horizontal>
+                <AdviceText />
+                {advices}
+                {comments}
+            </Shim>
         </Panel>
     )
 }

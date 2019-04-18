@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
-import Panel from './Panel'
+import Panel from 'components/panel'
+import Shim from 'components/Shim'
 import { Generic } from 'prismic/layouts'
 import { Provider } from './Context'
 
@@ -43,11 +44,15 @@ export function Report({ children, value }) {
 export function Footer() {
     return (
         <Fragment>
-            <Panel header="More information">
-                <Generic uid="hot-zone-report-more-information" />
+            <Panel expandable header="More information">
+                <Shim horizontal>
+                    <Generic uid="hot-zone-report-more-information" />
+                </Shim>
             </Panel>
-            <Panel header="About">
-                <Generic uid="hot-zone-report-about" />
+            <Panel expandable header="About">
+                <Shim horizontal>
+                    <Generic uid="hot-zone-report-about" />
+                </Shim>
             </Panel>
         </Fragment>
     )

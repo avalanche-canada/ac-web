@@ -1,40 +1,29 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import noop from 'lodash/noop'
+import { useBoolean } from 'utils/react/hooks'
 import { Expand } from 'components/button'
 import Collapsible from 'components/collapsible'
+import { WHITE } from 'constants/colors'
 import styles from './Panel.css'
-
-export const SIMPLE = 'Simple'
-export const INVERSE = 'Inverse'
 
 Panel.propTypes = {
     expandable: PropTypes.bool,
     expanded: PropTypes.bool,
-    onExpandedChange: PropTypes.func,
     header: PropTypes.node.isRequired,
-    theme: PropTypes.oneOf([INVERSE, SIMPLE]),
     children: PropTypes.string.isRequired,
 }
 
 export default function Panel({
     header,
-    theme = SIMPLE,
     expandable = false,
     expanded = false,
-    onExpandedChange = noop,
     children,
 }) {
-    const [on, set] = useState(expanded)
-    const className = classNames({
-        [`Container--${theme}--Expandable`]: expandable,
-        [`Container--${theme}`]: !expandable,
+    const [on, , , toggle] = useBoolean(expanded)
+    const className = classNames(styles.Container, {
+        Expandable: expandable,
     })
-    function toggle() {
-        set(!on)
-        onExpandedChange(!on)
-    }
 
     return (
         <section className={className}>
@@ -42,7 +31,11 @@ export default function Panel({
                 className={styles.Header}
                 onClick={expandable ? toggle : null}>
                 {expandable && (
-                    <Expand className={styles.Expand} expanded={on} />
+                    <Expand
+                        className={styles.Expand}
+                        expanded={on}
+                        iconProps={ICON_PROPS}
+                    />
                 )}
                 <span className={styles.Title}>{header}</span>
             </header>
@@ -52,3 +45,6 @@ export default function Panel({
 }
 
 const classNames = classnames.bind(styles)
+const ICON_PROPS = {
+    color: WHITE,
+}

@@ -16,12 +16,6 @@
     & .Header {
         cursor: pointer;
 
-        & svg {
-            & path:not([fill='none']) {
-                fill: var(--primary);
-            }
-        }
-
         @media print {
             & svg {
                 display: none;
@@ -30,22 +24,10 @@
     }
 }
 
-.Inverse {
-    & .Header {
-        background-color: var(--black);
-        color: white;
-
-        & .Expand {
-            & path:not([fill='none']) {
-                fill: white;
-            }
-        }
-    }
-}
-
 .Header {
     position: relative;
-    color: var(--primary);
+    background-color: var(--black);
+    color: white;
     font-weight: 700;
     line-height: 3em;
     white-space: nowrap;
@@ -69,24 +51,4 @@
     &:focus {
         outline: none;
     }
-}
-
-.Container--Simple {
-    composes: Container;
-}
-
-.Container--Inverse {
-    composes: Container;
-    composes: Inverse;
-}
-
-.Container--Simple--Expandable {
-    composes: Container;
-    composes: Expandable;
-}
-
-.Container--Inverse--Expandable {
-    composes: Container;
-    composes: Expandable;
-    composes: Inverse;
 }

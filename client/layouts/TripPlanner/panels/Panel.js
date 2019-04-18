@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
+import Panel from 'components/panel'
 import styles from '../TripPlanner.css'
-import Panel, { INVERSE } from 'components/panel'
 
 // TODO Not sure we need that component anymore
 
@@ -9,15 +9,8 @@ export default function TripPlannerPanel({
     children,
     ...props
 }) {
-    const [managedExpanded, set] = useState(expanded)
-
     return (
-        <Panel
-            {...props}
-            onExpandedChange={set}
-            expanded={managedExpanded}
-            expandable
-            theme={INVERSE}>
+        <Panel {...props} expanded={expanded} expandable>
             <div className={styles.Panel}>{children}</div>
         </Panel>
     )

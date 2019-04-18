@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Panel from 'components/panel'
+import Shim from 'components/Shim'
 import { Consumer } from './Context'
 import TerrainSummary from './TerrainSummary'
 import AdviceText from './AdviceText'
-import Panel from './Panel'
 
 TerrainAndTravelAdviceComponent.propTypes = {
     report: PropTypes.object.isRequired,
@@ -26,23 +27,25 @@ function TerrainAndTravelAdviceComponent({ report }) {
     }
 
     return (
-        <Panel header="Terrain and Travel Advice" expanded>
-            <AdviceText />
-            <TerrainSummary
-                prefix="alpineTerrainAvoidance"
-                title="Alpine"
-                report={report}
-            />
-            <TerrainSummary
-                prefix="treelineTerrainAvoidance"
-                title="Treeline"
-                report={report}
-            />
-            <TerrainSummary
-                prefix="belowTreelineTerrainAvoidance"
-                title="Below treeline"
-                report={report}
-            />
+        <Panel header="Terrain and Travel Advice" expanded expandable>
+            <Shim horizontal>
+                <AdviceText />
+                <TerrainSummary
+                    prefix="alpineTerrainAvoidance"
+                    title="Alpine"
+                    report={report}
+                />
+                <TerrainSummary
+                    prefix="treelineTerrainAvoidance"
+                    title="Treeline"
+                    report={report}
+                />
+                <TerrainSummary
+                    prefix="belowTreelineTerrainAvoidance"
+                    title="Below treeline"
+                    report={report}
+                />
+            </Shim>
         </Panel>
     )
 }
