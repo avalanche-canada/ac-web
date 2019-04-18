@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { WithMap } from './context'
 
-export const TOP_LEFT = 'top-left'
-export const TOP_RIGHT = 'top-right'
-export const BOTTOM_LEFT = 'bottom-left'
-export const BOTTOM_RIGHT = 'bottom-right'
+const TOP_LEFT = 'top-left'
+const TOP_RIGHT = 'top-right'
+const BOTTOM_LEFT = 'bottom-left'
+const BOTTOM_RIGHT = 'bottom-right'
 
 Control.propTypes = {
     controlClass: PropTypes.func.isRequired,
