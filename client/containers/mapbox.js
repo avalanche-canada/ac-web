@@ -10,15 +10,12 @@ FeatureCollection.propTypes = {
     children: PropTypes.func.isRequired,
 }
 
-// TODO Remove CACHE if not used
-FeatureCollection.CACHE = new Memory()
-
 export function FeatureCollection({ id, children }) {
     const dataset = datasets[id]
 
     return (
         <Fetch
-            cache={FeatureCollection.CACHE}
+            cache={FEATURE_COLLECTION_CACHE}
             request={mapbox.features(dataset)}>
             {children}
         </Fetch>
@@ -30,15 +27,16 @@ Style.propTypes = {
     children: PropTypes.func.isRequired,
 }
 
-// TODO Remove CACHE if not used
-Style.CACHE = new Memory()
-
 export function Style({ id = 'default', children }) {
     const request = mapbox.style(id)
 
     return (
-        <Fetch cache={Style.CACHE} request={request}>
+        <Fetch cache={STYLE_CACHE} request={request}>
             {children}
         </Fetch>
     )
 }
+
+// Caches
+const FEATURE_COLLECTION_CACHE = new Memory()
+const STYLE_CACHE = new Memory()
