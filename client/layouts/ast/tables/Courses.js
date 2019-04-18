@@ -99,12 +99,12 @@ export default class Courses extends Component {
 
         return (
             <div className={styles.Controlled}>
-                <List columns={1} theme="Inline" horizontal>
+                <List theme="Inline">
                     <Entry term="Description">
                         <Markup>{description}</Markup>
                     </Entry>
                 </List>
-                <List columns={1} horizontal>
+                <List>
                     <Entry term="Name">{name}</Entry>
                     <Entry term="Website">
                         <a href={website} target={name}>

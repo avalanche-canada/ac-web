@@ -10,7 +10,7 @@ import HeaderCell from './HeaderCell'
 import { ASC, DESC, NONE } from 'constants/sortings'
 
 const description = (
-    <List columns={2} horizontal>
+    <List columns={2}>
         <Term>Telephone</Term>
         <Definition>(250) 123-4567</Definition>
         <Term>Email</Term>
@@ -44,7 +44,10 @@ const header = (
 function row(expanded) {
     return (
         <Row expanded={expanded}>
-            <Cell>Jan 00, 0000 to <br />Jan 00, 0000</Cell>
+            <Cell>
+                Jan 00, 0000 to <br />
+                Jan 00, 0000
+            </Cell>
             <Cell>
                 <a href="#">AST 1</a>
             </Cell>
