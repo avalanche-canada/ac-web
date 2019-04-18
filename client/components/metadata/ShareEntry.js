@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Entry from './Entry'
-import { SocialSet, SocialItem } from 'components/social'
-import { createShareUrls } from 'components/social/utils'
+import { Set, Item, createShareUrls } from 'components/social'
 
 ShareEntry.propTypes = {
     term: PropTypes.string,
@@ -15,16 +14,16 @@ export default function ShareEntry({
 }) {
     return (
         <Entry term={term}>
-            <SocialSet>
+            <Set>
                 {createShareUrls(url).map(url => (
-                    <SocialItem
+                    <Item
                         key={url}
                         link={url}
                         title={createTitle}
                         style={ITEM_STYLE}
                     />
                 ))}
-            </SocialSet>
+            </Set>
         </Entry>
     )
 }

@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import SocialItem from './SocialItem'
-import { SocialItem as Item } from 'components/social'
-import { createShareUrls } from 'components/social/utils'
+import { Item, createShareUrls } from 'components/social'
 
 Share.propTypes = {
     url: PropTypes.string.isRequired,
@@ -18,7 +17,9 @@ export default function Share({
 
     return (
         <SocialItem label={label}>
-            {urls.map(url => <Item key={url} link={url} title={title} />)}
+            {urls.map(url => (
+                <Item key={url} link={url} title={title} />
+            ))}
         </SocialItem>
     )
 }

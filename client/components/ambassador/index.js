@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Image } from 'prismic/components/base'
-import { SocialSet, SocialItem } from 'components/social'
+import { Set, Item } from 'components/social'
 import { FragmentIdentifier } from 'router'
 import styles from './Ambassador.css'
 
@@ -31,11 +31,11 @@ export default function Ambassador({
             <div className={styles.Biography}>
                 <div className={styles.Avatar}>
                     {avatar && <Image {...avatar.main} />}
-                    <SocialSet>
+                    <Set>
                         {socials.map(link => (
-                            <SocialItem key={link} link={link} title={title} />
+                            <Item key={link} link={link} title={title} />
                         ))}
-                    </SocialSet>
+                    </Set>
                 </div>
                 <div className={styles.Content}>
                     <h2>
