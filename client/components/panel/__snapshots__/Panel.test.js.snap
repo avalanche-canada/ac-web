@@ -2,7 +2,7 @@
 
 exports[`panel component 1`] = `
 <section
-  className="Container--Simple"
+  className="Container"
 >
   <header
     className="Header"
@@ -24,7 +24,7 @@ exports[`panel component 1`] = `
 
 exports[`panel component 2`] = `
 <section
-  className="Container--Inverse"
+  className="Container"
 >
   <header
     className="Header"
@@ -46,7 +46,7 @@ exports[`panel component 2`] = `
 
 exports[`panel component 3`] = `
 <section
-  className="Container--Simple"
+  className="Container"
 >
   <header
     className="Header"
@@ -68,7 +68,7 @@ exports[`panel component 3`] = `
 
 exports[`panel component 4`] = `
 <section
-  className="Container--Inverse"
+  className="Container"
 >
   <header
     className="Header"
@@ -90,7 +90,7 @@ exports[`panel component 4`] = `
 
 exports[`panel component 5`] = `
 <section
-  className="Container--Simple--Expandable"
+  className="Container Collapsible"
 >
   <header
     className="Header"
@@ -108,7 +108,7 @@ exports[`panel component 5`] = `
       >
         <path
           d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-          fill="#245EAC"
+          fill="#FFFFFF"
         />
         <path
           d="M0 0h24v24H0z"
@@ -132,7 +132,7 @@ exports[`panel component 5`] = `
 
 exports[`panel component 6`] = `
 <section
-  className="Container--Inverse--Expandable"
+  className="Container Collapsible"
 >
   <header
     className="Header"
@@ -150,7 +150,7 @@ exports[`panel component 6`] = `
       >
         <path
           d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-          fill="#245EAC"
+          fill="#FFFFFF"
         />
         <path
           d="M0 0h24v24H0z"
