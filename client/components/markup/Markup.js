@@ -6,10 +6,6 @@ Markup.propTypes = {
 }
 
 export default function Markup({ children }) {
-    if (!children) {
-        return null
-    }
-
     if (typeof children === 'string') {
         const parts = children.replace(/\r/g, '').split(/\n/)
 
@@ -18,5 +14,5 @@ export default function Markup({ children }) {
         )
     }
 
-    return children
+    return children || null
 }
