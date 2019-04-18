@@ -9,10 +9,6 @@
         padding: 0 6px;
         pointer-events: none;
     }
-
-    & > button {
-        padding: 0;
-    }
 }
 
 .Input {

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Input } from 'components/controls'
-import { Place, Close, Spinner } from 'components/icons'
+import { Place, Spinner } from 'components/icons'
 import noop from 'lodash/noop'
 import * as requests from 'services/mapbox/requests'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
-import Button, { INCOGNITO } from 'components/button'
+import { Close } from 'components/button'
 import { PRIMARY } from 'constants/colors'
 import { useFetch, useBoolean } from 'utils/react/hooks'
 import styles from './Geocoder.css'
@@ -55,11 +55,7 @@ export default function Geocoder({
                 onFocus={activate}
                 onBlur={deactivate}
             />
-            {showClear && (
-                <Button onClick={handleClearClick} kind={INCOGNITO}>
-                    <Close />
-                </Button>
-            )}
+            {showClear && <Close onClick={handleClearClick} />}
             {loading && <Spinner />}
             {opened && (
                 <Dropdown>
