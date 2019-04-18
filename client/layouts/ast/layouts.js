@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, Match, Router } from '@reach/router'
 import { Page, Content, Banner, Main } from 'components/page'
 import classnames from 'classnames'
-import { Container, PillSet, Pill } from 'components/pill'
+import { Container, Set, Item } from 'components/pill'
 import * as forms from './forms'
 import * as tables from './tables'
 import * as utils from 'utils/search'
@@ -16,17 +16,17 @@ export default function Layout() {
                 <Container>
                     <Match path=":type">
                         {props => (
-                            <PillSet
+                            <Set
                                 activeIndex={Number(
                                     props.match?.type === 'providers'
                                 )}>
-                                <Pill>
+                                <Item>
                                     <Link to="courses">Courses</Link>
-                                </Pill>
-                                <Pill>
+                                </Item>
+                                <Item>
                                     <Link to="providers">Providers</Link>
-                                </Pill>
-                            </PillSet>
+                                </Item>
+                            </Set>
                         )}
                     </Match>
                 </Container>

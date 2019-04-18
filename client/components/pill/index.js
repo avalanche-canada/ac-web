@@ -1,31 +1,32 @@
 import React, { Children, cloneElement, useState } from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
+import classnames from 'classnames'
 import styles from './Pill.css'
 
-Pill.propTypes = {
+Item.propTypes = {
     children: PropTypes.node.isRequired,
-    active: PropTypes.bool,
     onClick: PropTypes.func.isRequired,
+    active: PropTypes.bool,
 }
 
-export function Pill({ active = false, onClick, children }) {
-    const className = active ? 'Item--Active' : 'Item'
+export function Item({ active, children, ...props }) {
+    const className = classnames(styles.Item, active && styles.Active)
 
     return (
-        <li className={styles[className]} onClick={onClick}>
+        <li {...props} className={className}>
             {children}
         </li>
     )
 }
 
-PillSet.propTypes = {
+Set.propTypes = {
     children: PropTypes.node.isRequired,
     activeIndex: PropTypes.number,
     onActivate: PropTypes.func,
 }
 
-export function PillSet({ activeIndex, onActivate = noop, children }) {
+export function Set({ activeIndex, onActivate = noop, children }) {
     const [value, set] = useState(activeIndex)
 
     return (

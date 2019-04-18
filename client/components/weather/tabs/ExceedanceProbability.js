@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Container, PillSet, Pill } from 'components/pill'
+import { Container, Set, Item } from 'components/pill'
 import { DropdownFromOptions, DayPicker } from 'components/controls'
 import styles from './ExceedanceProbability.css'
 import differenceInHours from 'date-fns/difference_in_hours'
@@ -172,13 +172,13 @@ export default class ExceedanceProbability extends Component {
         return (
             <section>
                 <Container>
-                    <PillSet
+                    <Set
                         onActivate={this.handleActivateType}
                         activeIndex={activeIndex}>
                         {Array.from(TITLES).map(([product, title]) => (
-                            <Pill key={product}>{title}</Pill>
+                            <Item key={product}>{title}</Item>
                         ))}
-                    </PillSet>
+                    </Set>
                 </Container>
                 <div style={CONTENT_PADDING}>
                     <Title product={product}>

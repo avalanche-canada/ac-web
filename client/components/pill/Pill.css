@@ -1,4 +1,4 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 :root {
     --primary-dark: color-mod(var(--primary) blackness(50%));
@@ -37,7 +37,7 @@
     }
 
     &:not(:last-child):after {
-        content: "";
+        content: '';
         position: absolute;
         top: 10px;
         right: 0;
@@ -47,9 +47,8 @@
     }
 }
 
-.Item--Active {
-    composes: Item;
-    composes: import ArrowDown from "../../styles/shapes.css";
+.Active {
+    composes: import ArrowDown from '../../styles/shapes.css';
 
     position: relative;
     color: white;

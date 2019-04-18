@@ -1,29 +1,29 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
-import { PillSet, Pill, Container } from './index'
+import { Set, Item, Container } from './index'
 
 storiesOf('Pill', module)
     .add('Pill', () => (
         <Container>
-            <PillSet onActivate={action('onActivate')}>
-                <Pill>Courses</Pill>
-                <Pill>Providers</Pill>
-            </PillSet>
+            <Set onActivate={action('onActivate')}>
+                <Item>Courses</Item>
+                <Item>Providers</Item>
+            </Set>
         </Container>
     ))
     .add('Pill second item activated', () => (
         <Container>
-            <PillSet activeIndex={1} onActivate={action('onActivate')}>
-                <Pill>Courses</Pill>
-                <Pill>Providers</Pill>
-            </PillSet>
+            <Set activeIndex={1} onActivate={action('onActivate')}>
+                <Item>Courses</Item>
+                <Item>Providers</Item>
+            </Set>
         </Container>
     ))
     .add('Pill none activated', () => (
         <Container>
-            <PillSet activeIndex={null} onActivate={action('onActivate')}>
-                <Pill>Courses</Pill>
-                <Pill>Providers</Pill>
-            </PillSet>
+            <Set activeIndex={null} onActivate={action('onActivate')}>
+                <Item>Courses</Item>
+                <Item>Providers</Item>
+            </Set>
         </Container>
     ))
