@@ -1,5 +1,3 @@
-export default from './Icon'
-
 export FirstPage from './First'
 export LastPage from './Last'
 export Pause from './Pause'
