@@ -3,14 +3,13 @@ import PropTypes from 'prop-types'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { DateUtils } from 'react-day-picker'
 import format from 'date-fns/format'
-import { Close } from 'components/icons'
 import { Form, Legend, ControlSet, Control } from 'components/form'
 import { DropdownFromOptions, Geocoder } from 'components/controls'
 import { LEVELS, TAGS } from './constants'
 import { ASC } from 'constants/sortings'
 import { useBoolean } from 'utils/react/hooks'
 import controls from 'components/controls/Controls.css'
-import Button, { INCOGNITO, Expand } from 'components/button'
+import { Close, Expand } from 'components/button'
 import { WHITE } from 'constants/colors'
 import 'react-day-picker/lib/style.css'
 import styles from './Forms.css'
@@ -189,9 +188,7 @@ function DateRangeControl({ from, to, onChange }) {
                 }}
             />
             {showClear ? (
-                <Button kind={INCOGNITO} onClick={reset}>
-                    <Close />
-                </Button>
+                <Close onClick={reset} />
             ) : (
                 <Expand
                     chevron
