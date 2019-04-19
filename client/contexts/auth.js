@@ -1,6 +1,6 @@
 import React, { createContext, useReducer, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Service from 'services/auth/auth0'
+import * as auth from 'services/auth/auth0'
 import Accessor from 'services/auth/accessor'
 import { setUserContext } from 'services/sentry'
 
@@ -17,7 +17,7 @@ export function Provider({ children }) {
         isAuthenticated: Accessor.isAuthenticated,
         profile: Accessor.profile,
         async login(events) {
-            const { profile } = await SERVICE.login(events)
+            const { profile } = await auth.login(events)
 
             dispatch({
                 type: 'LOGIN',
@@ -25,7 +25,7 @@ export function Provider({ children }) {
             })
         },
         async resume(hash) {
-            const data = await SERVICE.resume(hash)
+            const data = await auth.resume(hash)
 
             dispatch({
                 type: 'RESUME',
@@ -35,7 +35,7 @@ export function Provider({ children }) {
             return data
         },
         async logout() {
-            await SERVICE.logout()
+            await auth.logout()
 
             return Promise.resolve().then(() => {
                 dispatch({
@@ -53,9 +53,6 @@ export function Provider({ children }) {
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
-
-// Services
-const SERVICE = Service.create()
 
 // Reducer
 function reducer(state, { type, payload }) {
