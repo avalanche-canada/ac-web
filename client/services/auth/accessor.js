@@ -1,9 +1,9 @@
 import decode from 'jwt-decode'
 import { LocalStorage } from 'services/storage'
 
-export default class AuthService {
+export default class AuthAccessor {
     static create() {
-        return new AuthService()
+        return new AuthAccessor()
     }
     get profile() {
         return STORAGE.get('profile', null)
