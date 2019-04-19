@@ -1,4 +1,4 @@
-import React, { PureComponent, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { supported } from 'utils/mapbox'
 import { Page, Header, Main, Content, Aside } from 'components/page'
