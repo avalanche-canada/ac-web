@@ -9,13 +9,8 @@ List.propTypes = {
 }
 
 export default function List({ children, column }) {
-    let style = null
+    const style = typeof column === 'number' ? { columnCount: column } : null
 
-    if (typeof column === 'number') {
-        style = {
-            columnCount: column,
-        }
-    }
     return (
         <ul style={style} className={styles.List}>
             {children}
