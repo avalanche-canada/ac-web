@@ -3,13 +3,20 @@ import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Forecast } from 'containers/forecast'
 import { Region, Regions } from 'containers/features'
-import { Page, Header, Content, Main, Aside } from 'components/page'
+import {
+    Page,
+    Header,
+    Content,
+    Main,
+    Aside,
+    List,
+    ListItem,
+} from 'components/page'
 import { Muted, Loading, Warning } from 'components/text'
 import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'layouts/products/forecast'
 import { SPAW as SPAWComponent } from 'components/misc'
 import { Region as SPAW } from 'layouts/SPAW'
-import { List, ListItem } from 'components/page'
 import { isTouchable } from 'utils/device'
 import { handleForecastTabActivate } from 'services/analytics'
 
