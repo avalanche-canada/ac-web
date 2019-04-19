@@ -1,3 +1,5 @@
+import * as object from 'utils/object'
+
 export function status(response) {
     const { status, ok } = response
 
@@ -12,15 +14,7 @@ export function status(response) {
 }
 
 export function clean(params) {
-    return params
-        ? Object.entries(params).reduce((params, [key, value]) => {
-              if (value != null) {
-                  params[key] = value
-              }
-
-              return params
-          }, {})
-        : undefined
+    return params ? object.clean(params) : undefined
 }
 
 export class NotFound extends Error {
