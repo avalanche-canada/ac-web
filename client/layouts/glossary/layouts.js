@@ -6,12 +6,11 @@ import throttle from 'lodash/throttle'
 import escapeRegExp from 'lodash/escapeRegExp'
 import { memo } from 'utils/react'
 import { FragmentIdentifier } from 'router'
-import { Headline } from 'components/page'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
-import { Main, Content, Aside } from 'components/page'
+import { Main, Content, Aside, Headline } from 'components/page'
 import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
