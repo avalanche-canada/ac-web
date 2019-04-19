@@ -1,10 +1,7 @@
 import decode from 'jwt-decode'
 import { LocalStorage } from 'services/storage'
 
-export default class AuthAccessor {
-    static create() {
-        return new AuthAccessor()
-    }
+class AuthAccessor {
     get profile() {
         return STORAGE.get('profile', null)
     }
@@ -45,3 +42,5 @@ export default class AuthAccessor {
 }
 
 const STORAGE = LocalStorage.create()
+
+export default new AuthAccessor()

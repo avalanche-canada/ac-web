@@ -14,8 +14,8 @@ Provider.propTypes = {
 
 export function Provider({ children }) {
     const [value, dispatch] = useReducer(reducer, {
-        isAuthenticated: ACCESSOR.isAuthenticated,
-        profile: ACCESSOR.profile,
+        isAuthenticated: Accessor.isAuthenticated,
+        profile: Accessor.profile,
         async login(events) {
             const { profile } = await SERVICE.login(events)
 
@@ -56,7 +56,6 @@ export function Provider({ children }) {
 
 // Services
 const SERVICE = Service.create()
-const ACCESSOR = Accessor.create()
 
 // Reducer
 function reducer(state, { type, payload }) {

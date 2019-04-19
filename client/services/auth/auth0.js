@@ -47,7 +47,7 @@ export default class Auth0Service {
             profile: idTokenPayload,
         }
 
-        Object.assign(ACCESSOR, data)
+        Object.assign(Accessor, data)
 
         return Object.assign(rest, data)
     }
@@ -89,10 +89,8 @@ export default class Auth0Service {
         })
     }
     logout() {
-        ACCESSOR.clear()
+        Accessor.clear()
 
         return Promise.resolve()
     }
 }
-
-const ACCESSOR = Accessor.create()

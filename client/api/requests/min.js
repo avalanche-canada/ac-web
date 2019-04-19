@@ -1,5 +1,5 @@
 import * as requests from 'services/fetch/requests'
-import AuthAccessor from 'services/auth/accessor'
+import Accessor from 'services/auth/accessor'
 import { baseURL } from 'api/config.json'
 
 export function report(id) {
@@ -15,11 +15,10 @@ export function reports(days = 7) {
 }
 
 export function post(data) {
-    const { idToken } = AuthAccessor.create()
     const config = {
         body: data,
         headers: new Headers({
-            Authorization: `Bearer ${idToken}`,
+            Authorization: `Bearer ${Accessor.idToken}`,
         }),
     }
 
