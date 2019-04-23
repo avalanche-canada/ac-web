@@ -35,21 +35,24 @@ export default class SubmissionForm extends Component {
             isSubmitting: false,
         }
     }
+    async login() {
+        await this.context.login(
+            new Map([
+                [
+                    'hide',
+                    () => {
+                        // Forced to be logged in
+                        if (!this.context.isAuthenticated) {
+                            navigate('/')
+                        }
+                    },
+                ],
+            ])
+        )
+    }
     async componentDidMount() {
         if (!this.context.isAuthenticated) {
-            await this.context.login(
-                new Map([
-                    [
-                        'hide',
-                        () => {
-                            // Forced to be logged in
-                            if (!this.context.isAuthenticated) {
-                                navigate('/')
-                            }
-                        },
-                    ],
-                ])
-            )
+            this.login()
         }
     }
     setActiveTab(activeTab) {
@@ -129,9 +132,17 @@ export default class SubmissionForm extends Component {
 
         const result = this.validate()
 
-        if (result.isValid()) {
-            this.submit(result.value)
+        if (!result.isValid()) {
+            return
         }
+
+        if (!this.context.isAuthenticated) {
+            this.login().then(() => {
+                this.submit(result.value)
+            })
+        }
+
+        this.submit(result.value)
     }
     showErrorState(result) {
         if (result.isValid()) {
