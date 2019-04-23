@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { AVALANCHECANADA } from 'constants/emails'
+import { INFO } from 'constants/emails'
 import { clean } from 'utils/object'
 
 Mailto.propTypes = {
@@ -14,7 +14,7 @@ Mailto.propTypes = {
 }
 
 export default function Mailto({
-    email = AVALANCHECANADA,
+    email = INFO,
     title = email,
     subject,
     cc,
