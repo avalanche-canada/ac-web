@@ -7,12 +7,15 @@ import OPTIONS from './options'
 import Submission from './types'
 import AuthContext from 'contexts/auth'
 import { Submit } from 'components/button'
+import { Error } from 'components/text'
 import { TYPES } from 'constants/min'
+import { Mailto } from 'components/anchors'
 import ObservationSetError from './ObservationSetError'
 import transform from './transform'
 import { status } from 'services/fetch/utils'
 import * as min from 'api/requests/min'
 import { CACHE } from './index'
+import { SUPPORT } from 'constants/emails'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
@@ -33,6 +36,7 @@ export default class SubmissionForm extends Component {
             options,
             type: Submission,
             isSubmitting: false,
+            error: null,
         }
     }
     async login() {
@@ -158,7 +162,7 @@ export default class SubmissionForm extends Component {
         document.querySelector(`.fieldset-${root}`).scrollIntoView(true)
     }
     submit(value) {
-        this.setState({ isSubmitting: true }, () => {
+        this.setState({ isSubmitting: true, error: null }, () => {
             fetch(min.post(transform(value)))
                 .then(status)
                 .then(
@@ -172,18 +176,19 @@ export default class SubmissionForm extends Component {
                             navigate(links.mountainInformationNetwork(subid))
                         })
                     },
-                    err => {
+                    error => {
                         this.setState({
                             isSubmitting: false,
+                            error,
                         })
 
-                        throw err
+                        throw error
                     }
                 )
         })
     }
     render() {
-        const { options, type, value, isSubmitting } = this.state
+        const { options, type, value, isSubmitting, error } = this.state
 
         return (
             <Page>
@@ -202,6 +207,31 @@ export default class SubmissionForm extends Component {
                                 disabled={isSubmitting}
                                 onChange={this.handleChange}
                             />
+                            {error && (
+                                <Error component="details">
+                                    <summary>
+                                        An error happened while submitting your
+                                        report.
+                                    </summary>
+                                    <p>
+                                        An error happened while submitting and
+                                        saving your report to our servers. Do
+                                        not hesitate to contact us to get more
+                                        details so you can have your report
+                                        submitted. Thanks for your understanding
+                                        and cooperation!{' '}
+                                        <Mailto
+                                            email={SUPPORT}
+                                            subject={`Problem submitting report: ${
+                                                value.required.title
+                                            }`}
+                                        />
+                                    </p>
+                                    <p>
+                                        {error.name}: {error.message}
+                                    </p>
+                                </Error>
+                            )}
                             <Submit large disabled={isSubmitting}>
                                 {isSubmitting
                                     ? 'Submitting your report...'
