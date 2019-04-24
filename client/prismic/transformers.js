@@ -1,6 +1,6 @@
 import { EVENT, BLOG, NEWS } from 'constants/prismic'
 
-// TODO: Review if we need all these transformers
+// TODO: Review if we need all these transformers, yes we need but it should be done at the components!
 
 export default new Map([
     [BLOG, transformBlog],
