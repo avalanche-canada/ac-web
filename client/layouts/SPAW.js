@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import Highlight from 'components/highlight'
-import { SPAW as Alert } from 'components/alert'
+import { Danger, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { spaw } from 'prismic/params'
@@ -57,4 +57,23 @@ export function Region({ name, children }) {
             }
         </Document>
     )
+}
+
+Alert.propTypes = {
+    link: PropTypes.object,
+    children: PropTypes.node,
+}
+
+export function Alert({
+    children = 'Special Public Avalanche Warning',
+    link,
+    ...rest
+}) {
+    const content = (
+        <Danger {...rest}>
+            <OneLiner>{children}</OneLiner>
+        </Danger>
+    )
+
+    return link ? <Link {...link}>{content}</Link> : content
 }
