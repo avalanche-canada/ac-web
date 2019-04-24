@@ -1,14 +1,15 @@
-import React, { Fragment, useMemo, useEffect, useContext } from 'react'
+import React, { Fragment, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect, Location } from '@reach/router'
 import get from 'lodash/get'
 import { Document } from 'prismic/containers'
 import { tutorial } from 'prismic/params'
 import * as Page from 'components/page'
-import Alert from 'components/highlight'
+import { Warning as Alert } from 'components/alert'
 import Tree, { Node } from 'components/tree'
 import { SliceZone } from 'prismic/components/base'
-import LocaleContext, {
+import {
+    useLocale,
     Provider as LocaleProvider,
     Translate,
 } from 'contexts/locale'
@@ -56,7 +57,7 @@ export default function Layout({ location, uri, path }) {
     return (
         <Fragment>
             {locale === FR && (
-                <Alert style={ALERT_STYLE}>
+                <Alert>
                     Quelques sections de notre tutoriel ne sont pas à jour.
                     Revenez regulièrement pour consulter les améliorations que
                     nous y apportons.
@@ -155,7 +156,7 @@ function Sidebar({ title, location, items = [], path }) {
 }
 
 function Content({ children }) {
-    const { locale } = useContext(LocaleContext)
+    const { locale } = useLocale()
 
     return (
         <Page.Main style={CONTENT_STYLE}>
@@ -226,7 +227,7 @@ function Content({ children }) {
 }
 
 function Home() {
-    const { locale } = useContext(LocaleContext)
+    const { locale } = useLocale()
 
     return (
         <Document {...tutorial.home()} locale={locale}>
@@ -265,7 +266,7 @@ Tutorial.propTypes = {
 function Tutorial(props) {
     const { uri } = props
     const [uid] = props['*'].split('/').reverse()
-    const { locale } = useContext(LocaleContext)
+    const { locale } = useLocale()
     function renderPager({ document }) {
         if (!document) {
             return null
@@ -336,7 +337,7 @@ NoDocument.propTypes = {
 }
 
 function NoDocument({ uid, uri }) {
-    const { locale } = useContext(LocaleContext)
+    const { locale } = useLocale()
     function getItemTitle(document) {
         if (!document) {
             return uid
@@ -447,10 +448,6 @@ const BUTTON_STYLE = {
     padding: '1em',
     position: 'relative',
     top: '-0.75em',
-}
-const ALERT_STYLE = {
-    justifyContent: 'center',
-    padding: '1em',
 }
 
 // Components

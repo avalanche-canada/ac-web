@@ -34,4 +34,4 @@ export function Provider({ children }) {
     )
 }
 
-export const Consumer = MapStateContext.Consumer
+export const { Consumer } = MapStateContext

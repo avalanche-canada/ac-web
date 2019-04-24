@@ -9,7 +9,9 @@ const LocaleContext = createContext({
     ),
 })
 
-export default LocaleContext
+export function useLocale() {
+    return useContext(LocaleContext)
+}
 export const { Provider } = LocaleContext
 
 Translate.propTypes = {
@@ -18,7 +20,7 @@ Translate.propTypes = {
 }
 
 export function Translate({ id, children }) {
-    const { locale, dictionnaries } = useContext(LocaleContext)
+    const { locale, dictionnaries } = useLocale()
     const dictionnary = dictionnaries.get(locale)
 
     const value =
