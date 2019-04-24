@@ -10,10 +10,10 @@ const INFO = 'INFO'
 const WARNING = 'WARNING'
 const SUCCESS = 'SUCCESS'
 
-export const Danger = alert(DANGER)
-export const Info = alert(INFO)
-export const Warning = alert(WARNING)
-export const Success = alert(SUCCESS)
+export const Danger = createAlertForType(DANGER)
+export const Info = createAlertForType(INFO)
+export const Warning = createAlertForType(WARNING)
+export const Success = createAlertForType(SUCCESS)
 
 export function forType(type) {
     return Components.get(type.toUpperCase())
@@ -75,7 +75,7 @@ function Alert({ type, children, onDismiss, ...props }) {
 }
 
 // HOC
-function alert(type) {
+function createAlertForType(type) {
     return props => <Alert {...props} type={type} />
 }
 
