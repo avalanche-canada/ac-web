@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Router, Match, Redirect } from '@reach/router'
 import Forecast from 'layouts/drawers/Forecast'
 import HotZoneReport from 'layouts/drawers/HotZoneReport'
-import NorthRockies from 'layouts/drawers/NorthRockies'
 import Drawer, { RIGHT } from 'components/page/drawer'
 import externals from 'router/externals'
 import styles from 'styles/components.css'
@@ -36,7 +35,6 @@ export default class Primary extends Component {
         return (
             <Drawer side={RIGHT} open={opened} width={width}>
                 <Router className={styles.MatchParent}>
-                    <NorthRockies path="forecasts/north-rockies" {...events} />
                     <Forecast path="forecasts/:name" {...events} />
                     <HotZoneReport path="advisories/:name" {...events} />
                     <Redirect
