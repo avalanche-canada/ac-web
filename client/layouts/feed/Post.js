@@ -19,9 +19,13 @@ Post.propTypes = {
 }
 
 export default function Post(props) {
+    const { type, uid } = props
+
     return (
         <Page>
-            <Document {...params.uid(props)}>{page.bind(null, props)}</Document>
+            <Document {...params.uid(type, uid)}>
+                {page.bind(null, props)}
+            </Document>
         </Page>
     )
 }

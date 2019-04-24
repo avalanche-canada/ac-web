@@ -12,12 +12,7 @@ import * as types from 'constants/prismic'
 
 export function uid(type, uid) {
     return {
-        predicates: [
-            // TODO Remove object test, strings should the only valid inputs
-            typeof type === 'object'
-                ? Predicates.uid(type.type, type.uid)
-                : Predicates.uid(type, uid),
-        ],
+        predicates: [Predicates.uid(type, uid)],
     }
 }
 
