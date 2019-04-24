@@ -1,4 +1,5 @@
-import { status, clean } from 'services/fetch/utils'
+import { status } from 'services/fetch/utils'
+import { clean } from 'utils/object'
 
 export function mapToSizeFactory(
     width = THUMBNAIL_SIZE,

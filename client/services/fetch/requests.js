@@ -1,5 +1,3 @@
-import { clean } from './utils'
-
 export function get(input, params, init) {
     return new Request(
         buildURL(input, params),
@@ -26,12 +24,11 @@ const headers = new Headers({
     Accept: 'application/json',
 })
 function buildURL(input, params) {
-    if (!(params instanceof URLSearchParams)) {
-        // TODO: Not sure we need that clean function call. Yes, for the incidents! So important to leave it there
-        params = clean(params)
+    if (!params) {
+        return input
     }
 
-    const search = params ? new URLSearchParams(params) : null
+    const search = new URLSearchParams(params)
 
-    return search ? `${input}?${search.toString()}` : input
+    return `${input}?${search.toString()}`
 }

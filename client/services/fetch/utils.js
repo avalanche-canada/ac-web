@@ -1,5 +1,3 @@
-import * as object from 'utils/object'
-
 export function status(response) {
     const { status, ok } = response
 
@@ -11,10 +9,6 @@ export function status(response) {
     }
 
     return Promise.reject(new Error(response.statusText))
-}
-
-export function clean(params) {
-    return params ? object.clean(params) : undefined
 }
 
 export class NotFound extends Error {
