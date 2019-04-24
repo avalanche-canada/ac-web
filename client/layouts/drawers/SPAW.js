@@ -10,11 +10,7 @@ SPAW.propTypes = {
 export default function SPAW({ name }) {
     return (
         <Container name={name}>
-            {({ link }) => <Component link={link} style={STYLE} />}
+            {({ link }) => <Component link={link} style={{ flex: 1 }} />}
         </Container>
     )
-}
-
-const STYLE = {
-    flex: 1,
 }
