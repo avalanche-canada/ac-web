@@ -9,7 +9,7 @@ DrawerClose.propTypes = {
 
 export default function DrawerClose({ children, ...rest }) {
     return (
-        <Close className={styles['Button--Close']} {...rest}>
+        <Close className={styles.Close} {...rest}>
             {children}
         </Close>
     )
