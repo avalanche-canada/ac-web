@@ -2,6 +2,15 @@ import React from 'react'
 import * as Ratings from 'constants/forecast/rating'
 import * as Palette from 'constants/forecast/palette'
 
+// TODO Ask Brent to help simplifying these shapes!
+// TODO Splitting these drawings into smaller reusable shapes.
+// Frame
+// Summits
+// Mountains
+// Exclamation
+// Check
+// ...
+
 export default new Map([
     [Ratings.LOW, Low],
     [Ratings.MODERATE, Moderate],
