@@ -2,11 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import camelCase from 'lodash/camelCase'
 import Highlight from 'components/highlight'
-import { Danger } from 'components/alert'
+import { SPAW as Alert } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { spaw } from 'prismic/params'
-import { isTouchable } from 'utils/device'
 import { useSessionStorage } from 'utils/react/hooks'
 
 export default function SPAW() {
@@ -31,15 +30,11 @@ export default function SPAW() {
 
                 return (
                     <Highlight>
-                        <Danger onDismiss={handleDismiss}>
-                            <Link {...link}>
+                        <Link {...link}>
+                            <Alert onDismiss={handleDismiss}>
                                 <StructuredText value={description} />
-                                <span>
-                                    {isTouchable ? 'Tap' : 'Click'} for more
-                                    information
-                                </span>
-                            </Link>
-                        </Danger>
+                            </Alert>
+                        </Link>
                     </Highlight>
                 )
             }}

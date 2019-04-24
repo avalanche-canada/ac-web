@@ -13,7 +13,13 @@ export const Danger = alert(DANGER)
 export const Info = alert(INFO)
 export const Warning = alert(WARNING)
 export const Success = alert(SUCCESS)
-export const SPAW = Danger
+export function SPAW({ children, ...rest }) {
+    return (
+        <Danger {...rest}>
+            <OneLiner>{children}</OneLiner>
+        </Danger>
+    )
+}
 
 export function forType(type) {
     return Components.get(type.toUpperCase())

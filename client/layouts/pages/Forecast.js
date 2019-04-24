@@ -15,10 +15,8 @@ import {
 import { Muted, Loading, Warning } from 'components/text'
 import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'layouts/products/forecast'
-import { SPAW as SPAWComponent } from 'components/misc'
-import { Region as SPAW } from 'layouts/SPAW'
-import { isTouchable } from 'utils/device'
 import { handleForecastTabActivate } from 'services/analytics'
+import SPAW from './SPAW'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -58,7 +56,7 @@ export default function ForecastLayout({ name, date }) {
                                 <Fulfilled.Found>
                                     <components.Forecast value={props.data}>
                                         <components.Metadata />
-                                        <SPAW name={name}>{renderSPAW}</SPAW>
+                                        <SPAW name={name} />
                                         <components.Headline />
                                         <components.TabSet
                                             onTabChange={
@@ -101,20 +99,4 @@ function renderRegions({ fulfilled, data }) {
             </List>
         </Fragment>
     ) : null
-}
-function renderSPAW({ document }) {
-    const { link, description } = document.data
-    const style = {
-        marginTop: '1em',
-        padding: '1em',
-    }
-
-    return (
-        <SPAWComponent link={link} style={style}>
-            <p>
-                {description[0].text} {isTouchable ? 'Tap' : 'Click'} for more
-                information.
-            </p>
-        </SPAWComponent>
-    )
 }

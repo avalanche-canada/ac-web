@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'prismic/components/base'
-import { SPAW as Component, OneLiner } from 'components/alert'
+import { SPAW as Component } from 'components/alert'
 
 SPAW.propTypes = {
     href: PropTypes.object,
@@ -15,11 +15,7 @@ export default function SPAW({
     link,
     style,
 }) {
-    const content = (
-        <Component style={style}>
-            <OneLiner>{children}</OneLiner>
-        </Component>
-    )
+    const content = <Component style={style}>{children}</Component>
 
     return link ? <Link {...link}>{content}</Link> : content
 }
