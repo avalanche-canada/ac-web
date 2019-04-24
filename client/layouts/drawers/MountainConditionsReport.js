@@ -21,6 +21,7 @@ import {
     Location,
     Media,
 } from 'layouts/products/mcr'
+import { WHITE } from 'constants/colors'
 
 MountainConditionsReport.propTypes = {
     id: PropTypes.string.isRequired,
@@ -35,7 +36,11 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
         <Container>
             <Body>
                 <Navbar style={NAVBAR_STYLE}>
-                    <Close shadow onClick={onCloseClick} />
+                    <Close
+                        shadow
+                        onClick={onCloseClick}
+                        style={{ backgroundColor: WHITE }}
+                    />
                 </Navbar>
                 <Report id={id}>
                     {({ data, loading }) => {
