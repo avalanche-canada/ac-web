@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { styles, accessToken } from 'services/mapbox/config.json'
 import MapContext, { WithMap } from './context'
+import { createAction } from 'utils/reducer'
 import './Map.css'
 
 mapbox.accessToken = accessToken
@@ -53,7 +54,10 @@ export default function MapComponent({
     ...props
 }) {
     const container = useRef()
-    const [state, dispatch] = useReducer(reducer, STATE)
+    const [state, dispatch] = useReducer(reducer, {
+        map: undefined,
+        loaded: false,
+    })
 
     useEffect(() => {
         Object.assign(props, {
@@ -64,11 +68,11 @@ export default function MapComponent({
         const map = new mapbox.Map(props)
 
         map.on('load', event => {
-            dispatch({ type: 'LOADED' })
+            dispatch(loaded())
             onLoad(event)
         })
 
-        dispatch({ type: 'CREATED', payload: map })
+        dispatch(created(map))
 
         return () => {
             if (state.map) {
@@ -86,7 +90,9 @@ export default function MapComponent({
     )
 }
 
-// Reducer and state
+// Reducer, state and actions
+const created = createAction('CREATED')
+const loaded = createAction('LOADED')
 function reducer(state, action) {
     switch (action.type) {
         case 'CREATED':
@@ -102,8 +108,4 @@ function reducer(state, action) {
         default:
             return state
     }
-}
-const STATE = {
-    map: undefined,
-    loaded: false,
 }

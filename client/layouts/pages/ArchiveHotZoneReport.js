@@ -15,6 +15,7 @@ import eachDay from 'date-fns/each_day'
 import { Document, Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
 import { DATE } from 'utils/date'
+import { merger } from 'utils/reducer'
 
 ArchiveHotZoneReport.propTypes = {
     name: PropTypes.string,
@@ -23,7 +24,7 @@ ArchiveHotZoneReport.propTypes = {
 
 export default function ArchiveHotZoneReport(props) {
     const [{ name, date, month }, setState] = useReducer(
-        reducer,
+        merger,
         Object.assign({}, props, {
             month: props.date || new Date(),
         })
@@ -102,9 +103,6 @@ function navigateToAdvisory(name, date) {
     ]
 
     navigate(paths.filter(Boolean).join('/'))
-}
-function reducer(state, action) {
-    return Object.assign({}, state, action)
 }
 function monthReducer(days, { data }) {
     const start = startOfDay(data.dateOfIssue)

@@ -1,5 +1,6 @@
 import React, { createContext, useReducer } from 'react'
 import PropTypes from 'prop-types'
+import { createAction } from 'utils/reducer'
 
 Provider.propTypes = {
     children: PropTypes.element.isRequired,
@@ -9,13 +10,13 @@ export function Provider({ children }) {
     const [state, dispatch] = useReducer(reducer, {
         opened: false,
         open() {
-            dispatch({ type: OPEN })
+            dispatch(open())
         },
         close() {
-            dispatch({ type: CLOSE })
+            dispatch(close())
         },
         toggle() {
-            dispatch({ type: state.opened ? CLOSE : OPEN })
+            dispatch(state.opened ? close() : open())
         },
     })
 
@@ -26,19 +27,17 @@ const MenuContext = createContext()
 
 export default MenuContext
 
-// Constants
-const OPEN = 'OPEN'
-const CLOSE = 'CLOSE'
-
-// Utils
+// Reducer and actions
+const open = createAction('OPEN')
+const close = createAction('CLOSE')
 function reducer(state, { type }) {
     switch (type) {
-        case OPEN:
+        case 'OPEN':
             return {
                 ...state,
                 opened: true,
             }
-        case CLOSE:
+        case 'CLOSE':
             return {
                 ...state,
                 opened: false,

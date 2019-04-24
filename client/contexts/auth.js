@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import * as auth from 'services/auth/auth0'
 import Accessor from 'services/auth/accessor'
 import { setUserContext } from 'services/sentry'
+import { createAction } from 'utils/reducer'
 
 const AuthContext = createContext()
 
@@ -19,18 +20,12 @@ export function Provider({ children }) {
         async login(events) {
             const { profile } = await auth.login(events)
 
-            dispatch({
-                type: 'LOGIN',
-                payload: profile,
-            })
+            dispatch(login(profile))
         },
         async resume(hash) {
             const data = await auth.resume(hash)
 
-            dispatch({
-                type: 'RESUME',
-                payload: data.profile,
-            })
+            dispatch(resume(data.profile))
 
             return data
         },
@@ -38,9 +33,7 @@ export function Provider({ children }) {
             await auth.logout()
 
             return Promise.resolve().then(() => {
-                dispatch({
-                    type: 'LOGOUT',
-                })
+                dispatch(logout())
             })
         },
     })
@@ -54,6 +47,10 @@ export function Provider({ children }) {
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
+// Actions
+const login = createAction('LOGIN')
+const resume = createAction('RESUME')
+const logout = createAction('LOGOUT')
 // Reducer
 function reducer(state, { type, payload }) {
     switch (type) {

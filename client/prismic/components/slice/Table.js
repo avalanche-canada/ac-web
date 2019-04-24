@@ -18,6 +18,7 @@ import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
 import { Documents } from 'prismic/containers'
 import * as Predicates from 'prismic/predicates'
+import { createAction } from 'utils/reducer'
 
 PrismicTable.propTypes = {
     value: PropTypes.array.isRequired,
@@ -30,14 +31,14 @@ function PrismicTable({ value }) {
         sorting: [null, NONE],
         pageSize: 10,
         page: 1,
-        onSortingChange(...payload) {
-            dispatch({ type: SORTING, payload })
+        onSortingChange(...sorting) {
+            dispatch(setSorting(sorting))
         },
         onPageSizeChange(pageSize) {
-            dispatch({ type: PAGE_SIZE, payload: pageSize })
+            dispatch(setPageSize(pageSize))
         },
         onPageChange(page) {
-            dispatch({ type: PAGE, payload: page })
+            dispatch(setPage(page))
         },
     }
     const [state, dispatch] = useReducer(reducer, initial)
@@ -135,25 +136,24 @@ function PrismicTable({ value }) {
 export default memo(PrismicTable)
 
 // Reducer and actions
-const SORTING = 'SORTING'
-const PAGE_SIZE = 'PAGE_SIZE'
-const PAGE = 'PAGE'
-
+const setSorting = createAction('SORTING')
+const setPageSize = createAction('PAGE_SIZE')
+const setPage = createAction('PAGE')
 function reducer(state, { type, payload }) {
     switch (type) {
-        case SORTING:
+        case 'SORTING':
             return {
                 ...state,
                 sorting: payload,
                 page: 1,
             }
-        case PAGE_SIZE:
+        case 'PAGE_SIZE':
             return {
                 ...state,
                 pageSize: payload,
                 page: 1,
             }
-        case PAGE:
+        case 'PAGE':
             return {
                 ...state,
                 page: payload,
