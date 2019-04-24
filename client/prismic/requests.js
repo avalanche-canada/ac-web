@@ -17,18 +17,16 @@ export function search(ref, predicates = [], options = {}) {
 }
 
 // Utils
-// TODO: Could potentally use URLSearchParams and leave get function taking care if everything
 function serializeParams(params) {
-    return Object.entries(params)
-        .filter(tuple => Boolean(tuple[1]))
-        .map(([key, value]) => {
-            if (Array.isArray(value)) {
-                const content = value.map(encodeURIComponent).join(',')
+    const query = new URLSearchParams(params)
 
-                return `${key}=[${content}]`
-            } else {
-                return `${key}=${encodeURIComponent(value)}`
-            }
-        })
-        .join('&')
+    // Prismic API requires the array to be encoded differently!
+    // TODO Look if there is a better to implement that or look at PRismic docs
+    for (const key of query.keys()) {
+        if (Array.isArray(params[key])) {
+            query.set(key, `[${query.getAll(key).join(',')}]`)
+        }
+    }
+
+    return query.toString()
 }
