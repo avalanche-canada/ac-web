@@ -1,4 +1,4 @@
-import React, { createElement, memo } from 'react'
+import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Pagination.css'
 import Segment, { Disabled } from './Segment'
@@ -23,16 +23,19 @@ function Pagination({ total = 0, active = 1, onChange = () => {} }) {
                   .fill(1)
                   .map((value, index) => value + index)
             : pagination(active, total, 3, null)
-    function createSegment(page, index) {
+
+    function createSegment(page) {
         if (typeof page === 'number') {
-            return createElement(Segment, {
-                key: index,
-                page,
-                onActivate: onChange,
-                isActive: active === page,
-            })
+            return (
+                <Segment
+                    key={page}
+                    page={page}
+                    onActivate={onChange}
+                    isActive={active === page}
+                />
+            )
         } else {
-            return <Disabled key={index}>…</Disabled>
+            return <Disabled key={page}>…</Disabled>
         }
     }
 
