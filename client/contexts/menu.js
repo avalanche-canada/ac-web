@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from 'react'
+import React, { createContext, useReducer, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { createAction } from 'utils/reducer'
 
@@ -25,7 +25,9 @@ export function Provider({ children }) {
 
 const MenuContext = createContext()
 
-export default MenuContext
+export function useMenu() {
+    return useContext(MenuContext)
+}
 
 // Reducer and actions
 const open = createAction('OPEN')

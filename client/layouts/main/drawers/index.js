@@ -1,12 +1,12 @@
-import React, { useContext } from 'react'
+import React from 'react'
+import { useMenu } from 'contexts/menu'
 import Drawer, { LEFT } from 'components/page/drawer'
-import MenuContext from 'contexts/menu'
-import MenuContent from './Menu'
-
-export ToggleMenu from './ToggleMenu'
+import { Menu as Icon } from 'components/icons'
+import Button, { SUBTILE } from 'components/button'
+import Content from './Menu'
 
 export function Menu() {
-    const { opened, close } = useContext(MenuContext)
+    const { opened, close } = useMenu()
 
     return (
         <Drawer
@@ -15,7 +15,26 @@ export function Menu() {
             backdrop
             open={opened}
             onCloseClick={close}>
-            <MenuContent onCloseClick={close} />
+            <Content onCloseClick={close} />
         </Drawer>
     )
+}
+
+export function ToggleMenu() {
+    const { toggle } = useMenu()
+
+    return (
+        <Button style={STYLE} onClick={toggle} kind={SUBTILE}>
+            <Icon />
+        </Button>
+    )
+}
+
+// Style
+const STYLE = {
+    position: 'absolute',
+    top: '0.75em',
+    left: '0.75em',
+    backgroundColor: 'white',
+    zIndex: 13,
 }
