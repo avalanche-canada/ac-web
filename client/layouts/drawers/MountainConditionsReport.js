@@ -39,7 +39,7 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
                     <Close
                         shadow
                         onClick={onCloseClick}
-                        style={{ backgroundColor: WHITE }}
+                        style={CLOSE_BUTTON_STYLE}
                     />
                 </Navbar>
                 <Report id={id}>
@@ -120,4 +120,7 @@ const NAVBAR_STYLE = {
     top: 0,
     left: 0,
     right: 0,
+}
+const CLOSE_BUTTON_STYLE = {
+    backgroundColor: WHITE,
 }
