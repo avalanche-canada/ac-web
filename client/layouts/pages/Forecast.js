@@ -16,7 +16,11 @@ import { Muted, Loading, Warning } from 'components/text'
 import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
-import SPAW from './SPAW'
+import { NorthRockiesBlogFeed } from 'layouts/feed'
+import { SPAW as SPAWComponent } from 'components/misc'
+import { Region as SPAWContainer } from 'layouts/SPAW'
+import { StructuredText } from 'prismic/components/base'
+import Shim from 'components/Shim'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -85,6 +89,23 @@ export default function ForecastLayout({ name, date }) {
     )
 }
 
+export function NorthRockies() {
+    return (
+        <Page>
+            <Header title="North Rockies" />
+            <Content>
+                <Main>
+                    <SPAW name="north-rockies" />
+                    <NorthRockiesBlogFeed />
+                </Main>
+                <Aside>
+                    <components.Sidebar />
+                </Aside>
+            </Content>
+        </Page>
+    )
+}
+
 // Utils
 function renderRegions({ fulfilled, data }) {
     return fulfilled ? (
@@ -99,4 +120,21 @@ function renderRegions({ fulfilled, data }) {
             </List>
         </Fragment>
     ) : null
+}
+function SPAW({ name }) {
+    return (
+        <SPAWContainer name={name}>
+            {({ document }) => {
+                const { link, description } = document.data
+
+                return (
+                    <Shim top>
+                        <SPAWComponent link={link}>
+                            <StructuredText value={description} />
+                        </SPAWComponent>
+                    </Shim>
+                )
+            }}
+        </SPAWContainer>
+    )
 }

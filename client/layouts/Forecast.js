@@ -1,7 +1,6 @@
 import React from 'react'
 import { Router, Redirect, navigate } from '@reach/router'
-import Forecast from 'layouts/pages/Forecast'
-import NorthRockies from 'layouts/pages/NorthRockies'
+import Forecast, { NorthRockies } from 'layouts/pages/Forecast'
 import ForecastRegionList from 'layouts/ForecastRegionList'
 import ArchiveForecast from 'layouts/pages/ArchiveForecast'
 import parse from 'date-fns/parse'
