@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Close } from 'components/button'
+import { Link } from 'prismic/components/base'
 import styles from './Alert.css'
 
 // Types
@@ -13,13 +14,6 @@ export const Danger = alert(DANGER)
 export const Info = alert(INFO)
 export const Warning = alert(WARNING)
 export const Success = alert(SUCCESS)
-export function SPAW({ children, ...rest }) {
-    return (
-        <Danger {...rest}>
-            <OneLiner>{children}</OneLiner>
-        </Danger>
-    )
-}
 
 export function forType(type) {
     return Components.get(type.toUpperCase())
@@ -27,6 +21,26 @@ export function forType(type) {
 
 export function OneLiner({ children }) {
     return <div className={styles.OneLiner}>{children}</div>
+}
+
+// SPAW
+SPAW.propTypes = {
+    link: PropTypes.object,
+    children: PropTypes.node,
+}
+
+export function SPAW({
+    children = 'Special Public Avalanche Warning',
+    link,
+    ...rest
+}) {
+    const content = (
+        <Danger {...rest}>
+            <OneLiner>{children}</OneLiner>
+        </Danger>
+    )
+
+    return link ? <Link {...link}>{content}</Link> : content
 }
 
 // Constants

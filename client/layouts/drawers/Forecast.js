@@ -1,7 +1,7 @@
 import React, { useCallback, memo, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
-import { SPAW as SPAWComponent } from 'components/misc'
+import { SPAW as SPAWComponent } from 'components/alert'
 import { Region as SPAWContainer } from 'layouts/SPAW'
 import {
     Navbar,

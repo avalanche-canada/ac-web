@@ -1,7 +1,6 @@
 export Sponsor from './Sponsor'
 export Ribbon from './Ribbon'
 export Backdrop from './Backdrop'
-export SPAW from './SPAW'
 export InnerHTML from './InnerHTML'
 export Image, { OpenInNewTab } from './Image'
 export Position from './Position'
