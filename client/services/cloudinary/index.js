@@ -23,10 +23,6 @@ export function getByTag(tag, options = {}) {
     return fetch(url).then(status)
 }
 
-export function url(name, { crop, height, width }) {
-    return `${RESOURCE_PREFIX}/c_${crop},h_${height},w_${width}/v1/${name}`
-}
-
 // Constants
 const RESOURCE_PREFIX = '//res.cloudinary.com/avalanche-ca/image/upload'
 const THUMBNAIL_SIZE = 50
