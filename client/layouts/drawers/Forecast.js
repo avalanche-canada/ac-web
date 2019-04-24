@@ -1,12 +1,11 @@
 import React, { useCallback, memo, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
+import SPAW from './SPAW'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
 import * as components from 'layouts/products/forecast'
-import { SPAW as SPAWComponent } from 'components/misc'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
-import { Region as SPAW } from 'layouts/SPAW'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Muted, Warning, Loading } from 'components/text'
 import { Forecast } from 'containers/forecast'
@@ -52,7 +51,7 @@ function Layout({ name, onCloseClick, onLocateClick }) {
             {({ data }) => (
                 <Container>
                     <Navbar>
-                        <SPAW name={name}>{renderSPAW}</SPAW>
+                        <SPAW name={name} />
                         <Sponsor label={null} />
                         <Close onClick={onCloseClick} />
                     </Navbar>
@@ -109,10 +108,4 @@ function renderRegions({ fulfilled, data }) {
             )}
         </Location>
     ) : null
-}
-function renderSPAW({ link }) {
-    return <SPAWComponent link={link} style={SPAW_STYLE} />
-}
-const SPAW_STYLE = {
-    flex: 1,
 }

@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Region } from 'containers/features'
 import { NorthRockies } from 'layouts/feed'
-import { SPAW as SPAWComponent } from 'components/misc'
-import { Region as SPAW } from 'layouts/SPAW'
+import SPAW from './SPAW'
 import Sponsor from 'layouts/Sponsor'
 import {
     Container,
@@ -29,7 +28,7 @@ function NorthRockiesLayout({ onCloseClick, onLocateClick }) {
     return (
         <Container>
             <Navbar>
-                <SPAW name={name}>{renderSPAW}</SPAW>
+                <SPAW name={name} />
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
@@ -59,10 +58,3 @@ function NorthRockiesLayout({ onCloseClick, onLocateClick }) {
 }
 
 export default memo.static(NorthRockiesLayout)
-
-const SPAW_STYLE = {
-    flex: 1,
-}
-function renderSPAW({ link }) {
-    return <SPAWComponent link={link} style={SPAW_STYLE} />
-}
