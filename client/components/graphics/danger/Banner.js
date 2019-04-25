@@ -1,15 +1,20 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import ELEVATIONS, { ALP, TLN, BTL } from 'constants/forecast/elevation'
 import RATINGS, {
     NO_RATING,
+    LOW,
+    MODERATE,
+    CONSIDERABLE,
+    HIGH,
+    EXTREME,
     Texts as RatingTexts,
     TravelAdvices,
     LikehoodOfAvalanche,
     SizeAndDistribution,
 } from 'constants/forecast/rating'
 import { BannerFill, BannerStroke, TextFill } from './colors'
-import IconGroups from './IconGroups'
+import * as Icons from './IconGroups'
 
 RatingText.propTypes = {
     rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
@@ -128,9 +133,7 @@ export default function Banner({
             {showTravelAdvice && (
                 <ExtraInformation rating={rating} expanded={expanded} />
             )}
-            <g transform="scale(0.45)">
-                {createElement(IconGroups.get(rating))}
-            </g>
+            <g transform="scale(0.45)">{IconGroups.get(rating)}</g>
             {expandable && (
                 <ExpandButton
                     rating={rating}
@@ -142,3 +145,12 @@ export default function Banner({
         </g>
     )
 }
+
+const IconGroups = new Map([
+    [LOW, <Icons.Low />],
+    [MODERATE, <Icons.Moderate />],
+    [CONSIDERABLE, <Icons.Considerable />],
+    [HIGH, <Icons.High />],
+    [EXTREME, <Icons.High />],
+    [NO_RATING, <Icons.NoRating />],
+])
