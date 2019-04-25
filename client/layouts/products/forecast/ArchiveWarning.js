@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Consumer } from './Context'
-import { ArchiveWarning as Base } from 'components/misc'
+import Base from '../ArchiveWarning'
 import { DateElement } from 'components/time'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'

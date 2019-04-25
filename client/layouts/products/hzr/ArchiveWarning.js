@@ -1,6 +1,6 @@
 import React from 'react'
 import { Consumer } from './Context'
-import { ArchiveWarning as Base } from 'components/misc'
+import Base from '../ArchiveWarning'
 import Shim from 'components/Shim'
 import { isValid } from 'utils/hzr'
 
