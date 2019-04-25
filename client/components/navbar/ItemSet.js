@@ -1,8 +1,15 @@
-import React, { cloneElement, Children, useState, useEffect } from 'react'
+import React, {
+    cloneElement,
+    Children,
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    useMemo,
+} from 'react'
 import PropTypes from 'prop-types'
-import keycodes from 'constants/keycodes'
 import { useEventListener } from 'utils/react/hooks'
-import Backdrop from '../misc/Backdrop'
+import keycodes from 'constants/keycodes'
 import styles from './Navbar.css'
 
 ItemSet.propTypes = {
@@ -13,22 +20,35 @@ ItemSet.propTypes = {
 export default function ItemSet({ children, location }) {
     const [activeIndex, setActiveIndex] = useState(null)
     const opened = activeIndex !== null
+    const container = useRef()
     function close() {
         setActiveIndex(null)
     }
-    function handleKeyUp({ keyCode }) {
-        if (keycodes.esc !== keyCode) {
+    function keyUpEventHandler(event) {
+        if (keycodes.esc !== event.keyCode) {
             return
         }
 
         close()
     }
+    function clickEventHandler(event) {
+        if (!container.current.contains(event.target)) {
+            close()
+        }
+    }
+    const handleClick = useMemo(() => (opened ? clickEventHandler : null), [
+        opened,
+    ])
+    const handleKeyUp = useMemo(() => (opened ? keyUpEventHandler : null), [
+        opened,
+    ])
 
     useEventListener('keyup', handleKeyUp)
+    useEventListener('click', handleClick, document)
     useEffect(close, [location])
 
     return (
-        <div className={styles['ItemSet--Container']}>
+        <div ref={container} className={styles['ItemSet--Container']}>
             <ul className={styles.ItemSet}>
                 {Children.toArray(children)
                     .filter(Boolean)
@@ -57,7 +77,6 @@ export default function ItemSet({ children, location }) {
                         return cloneElement(item, props, children)
                     })}
             </ul>
-            {opened && <Backdrop onClick={close} />}
         </div>
     )
 }

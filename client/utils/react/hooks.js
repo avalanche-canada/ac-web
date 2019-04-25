@@ -57,27 +57,21 @@ export function useWindowSize(wait = 250) {
 }
 
 export function useEventListener(eventName, handler, element = window) {
-    const savedHandler = useRef()
-
     useEffect(() => {
-        savedHandler.current = handler
-    }, [handler])
-
-    useEffect(() => {
-        if (element === null || !element.addEventListener) {
+        if (
+            element === null ||
+            !element.addEventListener ||
+            typeof handler !== 'function'
+        ) {
             return
         }
 
-        function listener(event) {
-            return savedHandler.current(event)
-        }
-
-        element.addEventListener(eventName, listener, false)
+        element.addEventListener(eventName, handler, false)
 
         return () => {
-            element.removeEventListener(eventName, listener, false)
+            element.removeEventListener(eventName, handler, false)
         }
-    }, [eventName, element])
+    }, [eventName, element, handler])
 }
 
 export function useFetch(request) {
