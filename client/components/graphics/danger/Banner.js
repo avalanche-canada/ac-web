@@ -14,7 +14,7 @@ import RATINGS, {
     SizeAndDistribution,
 } from 'constants/forecast/rating'
 import { BannerFill, BannerStroke, TextFill } from './colors'
-import * as Icons from './IconGroups'
+import * as Icons from './Icons'
 
 RatingText.propTypes = {
     rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
@@ -117,6 +117,7 @@ export default function Banner({
     const width = 301 - value * 20
     const fill = BannerFill.get(rating)
     const stroke = BannerStroke.get(rating)
+    const Icon = IconByRating.get(rating)
 
     return (
         <g transform={`translate(${dx} ${dy})`}>
@@ -133,7 +134,9 @@ export default function Banner({
             {showTravelAdvice && (
                 <ExtraInformation rating={rating} expanded={expanded} />
             )}
-            <g transform="scale(0.45)">{IconGroups.get(rating)}</g>
+            <g transform="scale(0.45)">
+                <Icon />
+            </g>
             {expandable && (
                 <ExpandButton
                     rating={rating}
@@ -146,11 +149,11 @@ export default function Banner({
     )
 }
 
-const IconGroups = new Map([
-    [LOW, <Icons.Low />],
-    [MODERATE, <Icons.Moderate />],
-    [CONSIDERABLE, <Icons.Considerable />],
-    [HIGH, <Icons.High />],
-    [EXTREME, <Icons.High />],
-    [NO_RATING, <Icons.NoRating />],
+const IconByRating = new Map([
+    [LOW, Icons.Low],
+    [MODERATE, Icons.Moderate],
+    [CONSIDERABLE, Icons.Considerable],
+    [HIGH, Icons.High],
+    [EXTREME, Icons.High],
+    [NO_RATING, Icons.NoRating],
 ])

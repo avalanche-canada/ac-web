@@ -11,13 +11,12 @@ import {
 // TODO Ask Brent to help simplifying these shapes!
 // TODO Splitting these drawings into smaller reusable shapes.
 // Frame
-// Summits
+// Summits/Snowcaps
 // Mountains
 // Exclamation
 // Check
 // ...
 
-// All groups
 export function Low() {
     return (
         <g width="81.62" height="81.62">
@@ -142,4 +141,12 @@ export function NoRating() {
             <circle cx="41.36" cy="71.03" r="3.4" />
         </g>
     )
+}
+
+// Shapes
+function Snowcaps() {
+    return null
+}
+function Frame() {
+    return null
 }
