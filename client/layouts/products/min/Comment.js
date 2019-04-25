@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
-import { MultiLine } from 'components/markup'
+import { MultiLine } from 'components/misc'
 
 Comment.propTypes = {
     title: PropTypes.string,

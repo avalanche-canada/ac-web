@@ -12,7 +12,7 @@ import {
 } from 'components/table'
 import Pagination from 'components/pagination'
 import { Loading, Muted } from 'components/text'
-import { Br } from 'components/markup'
+import { Br } from 'components/misc'
 import snakeCase from 'lodash/snakeCase'
 import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'

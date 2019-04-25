@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Base from 'components/gallery'
 import { Media, Caption } from 'components/media'
 import { StructuredText, Image } from 'prismic/components/base'
-import { Credit } from 'components/markup'
+import { Credit } from 'components/misc'
 import styles from './Gallery.css'
 
 Gallery.propTypes = {

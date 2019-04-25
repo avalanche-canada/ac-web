@@ -85,8 +85,8 @@
 
 .Header {
     composes: RestrictFullPageWidth;
-    composes: import MainDecorator from '../markup/Br.css';
-    composes: import RibbonDecorator from '../markup/Br.css';
+    composes: import MainDecorator from '../misc/Br.css';
+    composes: import RibbonDecorator from '../misc/Br.css';
 
     display: flex;
     flex-direction: column;

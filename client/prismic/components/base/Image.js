@@ -1,7 +1,7 @@
 import React, { Children, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import { Credit } from 'components/markup'
+import { Credit } from 'components/misc'
 import WebLink from './WebLink'
 import styles from './Image.css'
 import { useEventListener, useBoolean } from 'utils/react/hooks'

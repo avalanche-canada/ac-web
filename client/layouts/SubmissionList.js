@@ -8,7 +8,7 @@ import * as turf from '@turf/helpers'
 import Button from 'components/button'
 import { Page, Header, Main, Content } from 'components/page'
 import { Muted, Error } from 'components/text'
-import { Br } from 'components/markup'
+import { Br } from 'components/misc'
 import {
     Table,
     Row,

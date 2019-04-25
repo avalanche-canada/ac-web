@@ -21,7 +21,7 @@ import {
     Caption,
 } from 'components/table'
 import { Helper } from 'components/text'
-import { MultiLine } from 'components/markup'
+import { MultiLine } from 'components/misc'
 import ErrorBoundary from 'components/ErrorBoundary'
 import { Pending } from 'components/fetch'
 import { Paginated, Sorted } from 'components/collection'

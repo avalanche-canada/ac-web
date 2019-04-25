@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Ambassador from 'components/ambassador'
 import { StructuredText } from 'prismic/components/base'
-import { Br } from 'components/markup'
+import { Br } from 'components/misc'
 
 AmbassadorSet.propTypes = {
     value: PropTypes.arrayOf(PropTypes.object).isRequired,

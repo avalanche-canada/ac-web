@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Br } from 'components/markup'
+import { Br } from 'components/misc'
 import styles from './Sections.css'
 
 Splash.propTypes = {
