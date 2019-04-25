@@ -5,7 +5,6 @@
     "homepage": "https://www.avalanche.ca/",
     "dependencies": {
         "@mapbox/mapbox-gl-supported": "^1.4.0",
-        "@storybook/cli": "^3.4.3",
         "ajv": "^4.6.1",
         "async": "2.5.0",
         "auth0-lock": "^11.7.2",
@@ -89,9 +88,6 @@
         "@babel/runtime": "^7.1.2",
         "@reach/router": "^1.2.1",
         "@sentry/browser": "^4.0.5",
-        "@storybook/addon-info": "^3.4.4",
-        "@storybook/addon-knobs": "^3.4.3",
-        "@storybook/react": "^3.4.3",
         "@turf/bbox": "^5.0.0",
         "@turf/bbox-polygon": "^5.1.0",
         "@turf/distance": "^5.0.0",
@@ -162,7 +158,11 @@
         "webpack-bundle-analyzer": "^3.0.2",
         "webpack-cli": "^3.1.0",
         "webpack-dev-middleware": "^3.3.0",
-        "webpack-merge": "^4.1.0"
+        "webpack-merge": "^4.1.0",
+        "@storybook/react": "^5.0.10",
+        "@storybook/addon-actions": "^5.0.10",
+        "@storybook/addon-links": "^5.0.10",
+        "@storybook/addons": "^5.0.10"
     },
     "peerDependencies": {
         "react": "^16.8.1",
@@ -178,7 +178,6 @@
         "prepublishOnly": "npm run build",
         "start": "node server/app.js",
         "start-dev": "node server/app-dev.js",
-        "storybook": "NODE_PATH=client start-storybook -p 9001 -c .storybook",
         "mocha": "mocha",
         "prettier-client": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line --no-semi \"client/**/*.js\"",
         "prettier-server": "prettier --write --tab-width=4 --single-quote --trailing-comma=es5 --jsx-bracket-same-line \"server/**/*.js\"",
@@ -186,7 +185,9 @@
         "test": "jest",
         "analyze": "npm run analyze:dev",
         "analyze:dev": "webpack --config webpack.development.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/public",
-        "analyze:prod": "webpack --config webpack.production.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/public"
+        "analyze:prod": "webpack --config webpack.production.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/public",
+        "storybook": "start-storybook -p 6006",
+        "build-storybook": "build-storybook"
     },
     "jest": {
         "testURL": "http://localhost/",
