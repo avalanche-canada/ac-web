@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import { Br, Credit, Markup } from './'
+import { Br, Credit, MultiLine } from './'
 
 test('Br component', () => {
     expect(Renderer.create(<Br />)).toMatchSnapshot()
@@ -14,6 +14,8 @@ test('Credit component', () => {
     ).toMatchSnapshot()
 })
 
-test('Markup component', () => {
-    expect(Renderer.create(<Markup>Some content...</Markup>)).toMatchSnapshot()
+test('MultiLine component', () => {
+    expect(
+        Renderer.create(<MultiLine>Some content...</MultiLine>)
+    ).toMatchSnapshot()
 })

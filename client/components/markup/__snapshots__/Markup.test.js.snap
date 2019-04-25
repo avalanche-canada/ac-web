@@ -32,9 +32,8 @@ exports[`Credit component 2`] = `
 </span>
 `;
 
-exports[`Markup component 1`] = `
-<div>
+exports[`MultiLine component 1`] = `
+<p>
   Some content...
-  <br />
-</div>
+</p>
 `;

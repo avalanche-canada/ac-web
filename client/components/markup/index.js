@@ -1,3 +1,3 @@
 export Credit from './Credit'
 export Br from './Br'
-export Markup from './Markup'
+export MultiLine from './MultiLine'

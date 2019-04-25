@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
-import { Markup } from 'components/markup'
+import { MultiLine } from 'components/markup'
 
 Comment.propTypes = {
     title: PropTypes.string,
@@ -15,11 +15,7 @@ export default function Comment({ title = 'Comments', children }) {
 
     return (
         <Section title={title}>
-            {typeof children === 'string'
-                ? <Markup>
-                      {children}
-                  </Markup>
-                : children}
+            <MultiLine>{children}</MultiLine>
         </Section>
     )
 }

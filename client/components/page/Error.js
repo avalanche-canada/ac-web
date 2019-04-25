@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Page from './Page'
 import Content from './Content'
-import Credit from '../markup/Credit'
+import { Credit } from 'components/markup'
 import styles from './Page.css'
 
 Error.propTypes = {
