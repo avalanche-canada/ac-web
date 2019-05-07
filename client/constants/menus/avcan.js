@@ -337,10 +337,11 @@ module.exports = {
                             label: 'Contact Us',
                             to: '/about#contact-us',
                         },
-                        // {
-                        //     id: String(id++),
-                        //     to: '/careers',
-                        // },
+                        {
+                            id: String(id++),
+                            label: 'Careers',
+                            to: '/careers',
+                        },
                     ],
                 },
                 {
