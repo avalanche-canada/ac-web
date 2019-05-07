@@ -92,6 +92,7 @@ function AvalancheCanada() {
 
                                 <Weather path="weather/*" />
                                 <Ast path="training/*" />
+                                <StaticPage path="careers" uid="careers" />
                                 <StaticPage
                                     path="about"
                                     uid="about"
@@ -191,6 +192,7 @@ function AvalancheCanada() {
                             <Null path="map/*" />
                             <Null path="planning/trip-planner" />
                             <Null path="tutoriel" />
+                            <Null path="careers" />
                             <Footer default />
                         </Router>
                     </Application>
@@ -640,6 +642,7 @@ function Pages() {
 function StaticPagePages() {
     return (
         <Router>
+            <Redirect from="careers" to="/careers" />
             <Redirect from="planning" to="/planning" />
             <Redirect from="decision-making" to="/planning/decision-making" />
             <Redirect from="sled" to="/sled" />

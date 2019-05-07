@@ -6,7 +6,7 @@ import styles from './Slider.css'
 Slider.defaultProps = {
     showThumbnails: false,
     autoPlay: true,
-    slideInterval: 5000,
+    slideInterval: 7500,
 }
 
 export default function Slider({ value, ...props }) {

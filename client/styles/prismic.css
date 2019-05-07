@@ -195,7 +195,8 @@
     }
 }
 
-:global(.static-page-foundation-home) {
+:global(.static-page-foundation-home),
+:global(.static-page-careers) {
     & > header {
         display: none;
     }
