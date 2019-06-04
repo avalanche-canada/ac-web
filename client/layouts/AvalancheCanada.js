@@ -192,7 +192,6 @@ function AvalancheCanada() {
                             <Null path="map/*" />
                             <Null path="planning/trip-planner" />
                             <Null path="tutoriel" />
-                            <Null path="careers" />
                             <Footer default />
                         </Router>
                     </Application>
