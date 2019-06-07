@@ -6,8 +6,6 @@ var pg = require('pg');
 var _ = require('lodash');
 var request = require('request');
 var xml2js = require('xml2js');
-var url = require('url');
-var querystring = require('querystring');
 
 var config = require('../../config/environment');
 var metadata = require('../features/metadata');
@@ -15,30 +13,13 @@ var regionData = require('../../data/season').forecast_regions;
 var avalxMapping = require('../../data/season/2016/avalxMapping.json');
 var avalx = require('../forecasts/avalx');
 var logger = require('../../logger');
+var pg_utils = require('../../lib/pg_utils');
 
 var BULLETIN_NOT_FOUND = 'BULLETIN_NOT_FOUND';
 var NEW_AVALX_START_DATE = '2016-10-01';
 
-const db_params = url.parse(config.BULLETIN_ARCHIVE_DB);
-const db_auth = db_params.auth.split(':');
 
-var db_use_ssl = true;
-if (db_params.search) {
-    const db_opts = querystring.parse(db_params.search.slice(1));
-    if (db_opts.use_ssl === 'false') {
-        db_use_ssl = false;
-    }
-}
-
-const db_config = {
-    user: db_auth[0],
-    password: db_auth[1],
-    host: db_params.hostname,
-    port: db_params.port,
-    database: db_params.pathname.split('/')[1],
-    ssl: db_use_ssl,
-};
-
+const db_config = pg_utils.configFromUrl(config.BULLETIN_ARCHIVE_DB);
 var pg_pool = new pg.Pool(db_config);
 
 function pg_query(text, values) {
