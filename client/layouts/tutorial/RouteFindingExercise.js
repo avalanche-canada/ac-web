@@ -165,7 +165,8 @@ export default class RouteFindingExercise extends Component {
                             <EndPoint coordinates={to} />
                             <Route coordinates={coordinates} />
                             <g>
-                                {Array.from(touched).map(
+                                {Array.from(
+                                    touched,
                                     this.renderDangerZoneLabel
                                 )}
                             </g>
@@ -181,7 +182,7 @@ export default class RouteFindingExercise extends Component {
                                 </Translate>
                             </div>
                             <ol>
-                                {Array.from(touched).map(index => {
+                                {Array.from(touched, index => {
                                     const { description } = zones[index]
 
                                     return (

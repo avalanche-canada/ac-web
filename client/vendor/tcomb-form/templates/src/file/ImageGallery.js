@@ -35,7 +35,7 @@ export default class ImageGallery extends Component {
     }
     setImages(files) {
         this.setState(STATE, () => {
-            Promise.all(Array.from(files).map(read))
+            Promise.all(Array.from(files, read))
                 .then(images => ({ images }), () => ({ hasError: true }))
                 .then(state => this.setState(state))
         })

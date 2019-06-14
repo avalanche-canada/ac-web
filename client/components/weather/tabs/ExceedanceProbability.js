@@ -175,7 +175,7 @@ export default class ExceedanceProbability extends Component {
                     <Set
                         onActivate={this.handleActivateType}
                         activeIndex={activeIndex}>
-                        {Array.from(TITLES).map(([product, title]) => (
+                        {Array.from(TITLES, ([product, title]) => (
                             <Item key={product}>{title}</Item>
                         ))}
                     </Set>

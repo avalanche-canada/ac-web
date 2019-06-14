@@ -36,7 +36,7 @@ function Menu({ onCloseClick }) {
                                 ))}
                             </Dropdown>
                             <Dropdown name="types">
-                                {Array.from(NAMES).map(([value, name]) => (
+                                {Array.from(NAMES, ([value, name]) => (
                                     <Option key={value} value={value}>
                                         {name}
                                     </Option>

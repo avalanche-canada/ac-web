@@ -32,7 +32,7 @@ export default function UnsupportedMap({ headline = HEADLINE, links = LINKS }) {
                 </Headline>
                 <p />
                 <ButtonSet>
-                    {Array.from(links).map(([link, text]) => (
+                    {Array.from(links, ([link, text]) => (
                         <Link key={link} className={styles.Link} to={link}>
                             {text}
                         </Link>

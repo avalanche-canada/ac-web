@@ -25,7 +25,7 @@ export function Subscribe({ url }) {
                 className={styles.Input}
             />
             <Submit chevron="RIGHT">Subscribe</Submit>
-            {Array.from(params.entries()).map(([name, value]) => (
+            {Array.from(params.entries(), ([name, value]) => (
                 <input key={name} name={name} type="hidden" value={value} />
             ))}
         </form>

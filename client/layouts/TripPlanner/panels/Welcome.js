@@ -35,7 +35,7 @@ export function Content() {
                 zoomed in automatically.
             </p>
             <p>ATES are:</p>
-            {Array.from(RATINGS).map(rating => (
+            {Array.from(RATINGS, rating => (
                 <Entry key={rating}>
                     <Symbol style={getStyle(rating)} />
                     <Name>{Texts.get(rating)} terrain</Name>

@@ -7,7 +7,7 @@ import LEVELS, { PALETTE, TEXTS, DESCRIPTIONS } from 'constants/trip-planner'
 function TerrainRatingsPanel() {
     return (
         <Panel header="Chart legend">
-            {Array.from(LEVELS).map(level => (
+            {Array.from(LEVELS, level => (
                 <Entry key={level}>
                     <Symbol style={getStyle(level)} />
                     <Name>{TEXTS.get(level)}</Name>

@@ -209,7 +209,7 @@ class Form extends Component {
                         onChange={onElevationChange}
                         value={elevation}
                         style={INPUT_STYLE}>
-                        {Array.from(ElevationTexts).map(([value, text]) => (
+                        {Array.from(ElevationTexts, ([value, text]) => (
                             <Option key={value} value={value}>
                                 {text}
                             </Option>

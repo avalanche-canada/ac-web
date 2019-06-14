@@ -13,7 +13,7 @@ import { WHITE, BLACK } from 'constants/forecast/palette'
 function TerrainRatingsPanel() {
     return (
         <Panel header="Terrain Ratings Explained">
-            {Array.from(Ratings).map(rating => (
+            {Array.from(Ratings, rating => (
                 <Section key={rating}>
                     <Header style={getStyle(rating)}>
                         {Texts.get(rating)}

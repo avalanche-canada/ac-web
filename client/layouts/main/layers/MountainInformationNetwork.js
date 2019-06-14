@@ -26,7 +26,7 @@ export default function MountainInformationNetwork({ filters, ...props }) {
                 ? ['boolean', true]
                 : [
                       'any',
-                      ...Array.from(types).map(type => [
+                      ...Array.from(types, type => [
                           'boolean',
                           ['get', type],
                           false,

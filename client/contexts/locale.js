@@ -5,7 +5,7 @@ import LOCALE, { LOCALES } from 'constants/locale'
 const LocaleContext = createContext({
     locale: LOCALE,
     dictionnaries: new Map(
-        Array.from(LOCALES).map(locale => [locale, new Map()])
+        Array.from(LOCALES, locale => [locale, new Map()])
     ),
 })
 

@@ -359,7 +359,7 @@ function renderContent(type, { loading, documents, page, total_pages }) {
     )
 }
 function convertTagsToOptions(tags) {
-    return new Map(Array.from(tags).map(tag => [tag, <TagTitle value={tag} />]))
+    return new Map(Array.from(tags, tag => [tag, <TagTitle value={tag} />]))
 }
 function isFeaturedPost({ featured }) {
     return featured

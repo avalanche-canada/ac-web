@@ -9,7 +9,7 @@ import hut from './hut-11.svg'
 function MapLegend() {
     return (
         <Panel header="Map legend">
-            {Array.from(RATINGS).map(rating => (
+            {Array.from(RATINGS, rating => (
                 <Entry key={rating}>
                     <Symbol style={getStyle(rating)} />
                     <Name>{Texts.get(rating)} terrain</Name>

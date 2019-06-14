@@ -49,9 +49,7 @@ export function Set({ children, ...props }) {
 
 // Utils
 export function createShareUrls(url) {
-    return Array.from(SHARE_URL_CREATORS).map(([_provider, create]) =>
-        create(url)
-    )
+    return Array.from(SHARE_URL_CREATORS, ([_provider, create]) => create(url))
 }
 const getProvider = memoize(url => {
     for (const [provider, regex] of PROVIDER_REGEXES) {
