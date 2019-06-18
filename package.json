@@ -32,7 +32,7 @@
         "geocoder": "^0.2.2",
         "geolib": "^2.0.17",
         "jade": "^1.7.0",
-        "js-yaml": "3.10.0",
+        "js-yaml": "3.13.1",
         "jsonwebtoken": "^5.0.4",
         "jwks-rsa": "^1.2.1",
         "jwt-decode": "^2.1.0",
