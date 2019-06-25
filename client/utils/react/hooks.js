@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
 import { status } from 'services/fetch/utils'
+import { None } from 'components/fetch/Cache'
 
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)
@@ -74,9 +75,9 @@ export function useEventListener(eventName, handler, element = window) {
     }, [eventName, element, handler])
 }
 
-export function useFetch(request) {
+export function useFetch(request, cache = new None()) {
     const { url } = request || {}
-    const [data, setData] = useSafeState(null)
+    const [data, setData] = useSafeState(cache.get(url))
     const [pending, setPending] = useSafeState(false)
     const controller = useRef(null)
 
@@ -105,7 +106,7 @@ export function useFetch(request) {
     }
 
     useEffect(() => {
-        if (!request) {
+        if (!request || cache.has(url)) {
             return
         }
 
@@ -306,7 +307,6 @@ function useSafeState(initialState) {
     return [state, setState]
 }
 
-// import { None } from 'components/fetch/Cache'
 // export function useSuspendedFetch(request, cache = new None()) {
 //     return data
 // }
