@@ -56,7 +56,7 @@ function SponsorRoute({ name, label }) {
                         name={name}
                         logo={image229}
                         url={url}>
-                        <Loading show={pending} />
+                        {pending && <Loading />}
                     </Sponsor>
                 )
             }}

@@ -28,9 +28,9 @@ export default function FeedSplash({ children, ...props }) {
 
                     return (
                         <Fragment>
-                            <Loading show={pending}>
-                                {`Loading latest ${type}...`}
-                            </Loading>
+                            {pending && (
+                                <Loading>{`Loading latest ${type}...`}</Loading>
+                            )}
                             {isEmpty && <Muted>Nothing found.</Muted>}
                             {featured && (
                                 <EntrySet>{createEntry(featured)}</EntrySet>

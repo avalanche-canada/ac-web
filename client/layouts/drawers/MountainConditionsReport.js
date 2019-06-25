@@ -89,9 +89,12 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
                                     )}
                                 </Header>
                                 <Content>
-                                    <Loading show={pending}>
-                                        Loading Mountain Conditions Report...
-                                    </Loading>
+                                    {pending && (
+                                        <Loading>
+                                            Loading Mountain Conditions
+                                            Report...
+                                        </Loading>
+                                    )}
                                     {body && <InnerHTML>{body}</InnerHTML>}
                                     {!pending && !body && (
                                         <Muted>

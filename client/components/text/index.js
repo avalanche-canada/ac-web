@@ -12,18 +12,15 @@ export function Muted({ children, ...props }) {
 export function Loading({
     children = 'Loading...',
     component = 'p',
-    show,
     ...props
 }) {
-    return show === true || show === undefined
-        ? createElement(
-              component,
-              Object.assign(props, {
-                  className: styles.Loading,
-              }),
-              children
-          )
-        : null
+    return createElement(
+        component,
+        Object.assign(props, {
+            className: styles.Loading,
+        }),
+        children
+    )
 }
 
 export function Error({

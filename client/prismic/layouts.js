@@ -46,11 +46,13 @@ export function StaticPage({ uid, title }) {
                         {banner && <Banner {...banner.main} />}
                         <Header title={data?.title || title} />
                         <Content>
-                            <Loading show={pending}>
-                                {title
-                                    ? `Loading ${title} page...`
-                                    : 'Loading page...'}
-                            </Loading>
+                            {pending && (
+                                <Loading>
+                                    {title
+                                        ? `Loading ${title} page...`
+                                        : 'Loading page...'}
+                                </Loading>
+                            )}
                             <Main>
                                 {headline && <Headline>{headline}</Headline>}
                                 {Array.isArray(content) && (
@@ -78,11 +80,13 @@ export function GenericPage({ uid, title }) {
                 <Page>
                     <Header title={document?.data?.title || title} />
                     <Content>
-                        <Loading show={pending}>
-                            {title
-                                ? `Loading ${title} page...`
-                                : 'Loading page...'}
-                        </Loading>
+                        {pending && (
+                            <Loading>
+                                {title
+                                    ? `Loading ${title} page...`
+                                    : 'Loading page...'}
+                            </Loading>
+                        )}
                         <Main>
                             <StructuredText value={document?.data?.body} />
                         </Main>
@@ -106,7 +110,7 @@ export function Generic({ uid, children = renderBody }) {
 function renderBody({ pending, document }) {
     return (
         <Fragment>
-            <Loading show={pending} />
+            {pending && <Loading />}
             {document && <StructuredText value={document.data.body} />}
         </Fragment>
     )

@@ -55,7 +55,7 @@ function page(props, { pending, fulfilled, document }) {
                 <Main>
                     {document && <PostMetadata {...document} />}
                     {document && <PostContent {...document} />}
-                    <Loading show={pending} />
+                    {pending && <Loading />}
                 </Main>
                 <Aside>
                     <Sidebar {...props} />
@@ -69,7 +69,7 @@ function minimal({ pending, document }) {
         <Fragment>
             {document && <PostMetadata {...document} />}
             {document && <PostContent {...document} />}
-            <Loading show={pending} />
+            {pending && <Loading />}
         </Fragment>
     )
 }

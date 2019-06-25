@@ -20,7 +20,7 @@ function pluckId({ staff }) {
 function renderChildren({ pending, documents = [] }) {
     return (
         <Fragment>
-            <Loading show={pending} />
+            {pending && <Loading />}
             {documents.map(renderItem)}
         </Fragment>
     )

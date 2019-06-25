@@ -66,7 +66,7 @@ function Glossary(props) {
         <Document {...glossary.glossary()}>
             {({ document, pending }) => (
                 <Fragment>
-                    <Loading show={pending} />
+                    {pending && <Loading />}
                     {document && (
                         <GlossaryContent {...props} {...document.data} />
                     )}
@@ -84,7 +84,7 @@ function Definition({ uid }) {
         <Document {...glossary.definition(uid)}>
             {({ pending, document }) => (
                 <Fragment>
-                    <Loading show={pending} />
+                    {pending && <Loading />}
                     {document && (
                         <DefinitionLayout linkToExternal {...document} />
                     )}

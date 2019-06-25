@@ -25,7 +25,7 @@ export default function FeedSidebar(props) {
                     return (
                         <Fragment>
                             <Header>{Headers.get(props.type)}</Header>
-                            <Loading show={pending} />
+                            {pending && <Loading />}
                             {documents && documents.map(renderItem)}
                         </Fragment>
                     )

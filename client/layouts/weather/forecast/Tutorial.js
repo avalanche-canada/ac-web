@@ -19,7 +19,7 @@ export default memo(Tutorial)
 function children({ pending, document }) {
     return (
         <Fragment>
-            <Loading show={pending}>Loading tutorial...</Loading>
+            {pending && <Loading>Loading tutorial...</Loading>}
             {document && <StructuredText value={document.data.tutorial} />}
         </Fragment>
     )

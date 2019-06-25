@@ -63,7 +63,7 @@ function Ambassadors({ to }) {
         <Document {...params.uid(STATIC_PAGE, 'ambassadors')}>
             {({ pending, document }) => (
                 <Fragment>
-                    <Loading show={pending} />
+                    {pending && <Loading />}
                     {document && (
                         <ColumnSet>
                             {document.data.content[0].value.map(
