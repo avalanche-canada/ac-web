@@ -76,15 +76,11 @@ export function useEventListener(eventName, handler, element = window) {
 
 export function useFetch(request) {
     const { url } = request || {}
-    const [data, setData] = useState(null)
-    const [pending, start, stop] = useBoolean(false)
+    const [data, setData] = useSafeState(null)
+    const [pending, setPending] = useSafeState(false)
     const controller = useRef(null)
 
-    useEffect(() => {
-        if (!request) {
-            return
-        }
-
+    async function fetcher() {
         try {
             controller.current = new AbortController()
         } catch (error) {
@@ -93,23 +89,27 @@ export function useFetch(request) {
             }
         }
 
-        const { signal } = controller.current
+        try {
+            setPending(true)
 
-        start()
-        fetch(request, {
-            signal,
-        })
-            .then(status)
-            .then(
-                data => {
-                    stop()
-                    setData(data)
-                },
-                error => {
-                    stop()
-                    throw error
-                }
-            )
+            const { signal } = controller.current
+            const response = await fetch(request, { signal })
+            const payload = await status(response)
+
+            setData(payload)
+        } catch (error) {
+            throw error
+        } finally {
+            setPending(false)
+        }
+    }
+
+    useEffect(() => {
+        if (!request) {
+            return
+        }
+
+        fetcher()
 
         return () => {
             if (pending) {
@@ -286,3 +286,27 @@ function getFullscreenElement() {
         document.msFullscreenElement
     )
 }
+
+function useSafeState(initialState) {
+    const [state, unsafeSetState] = useState(initialState)
+    const mounted = useRef(true)
+    const setState = useCallback(value => {
+        if (mounted.current) {
+            unsafeSetState(value)
+        }
+    }, [])
+
+    useEffect(
+        () => () => {
+            mounted.current = false
+        },
+        []
+    )
+
+    return [state, setState]
+}
+
+// import { None } from 'components/fetch/Cache'
+// export function useSuspendedFetch(request, cache = new None()) {
+//     return data
+// }
