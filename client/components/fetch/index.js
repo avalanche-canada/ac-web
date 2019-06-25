@@ -116,55 +116,54 @@ export default class Fetch extends Component {
     }
 }
 
-export class Fulfilled extends Component {
-    static propTypes = {
-        children: PropTypes.oneOfType([
-            PropTypes.element,
-            PropTypes.arrayOf(PropTypes.element),
-            PropTypes.func,
-        ]).isRequired,
-    }
-    static Found({ children }) {
+Fulfilled.propTypes = {
+    children: PropTypes.oneOfType([
+        PropTypes.element,
+        PropTypes.arrayOf(PropTypes.element),
+        PropTypes.func,
+    ]).isRequired,
+}
+
+export function Fulfilled({ children }) {
+    return (
+        <Consumer>
+            {({ fulfilled, data }) =>
+                fulfilled ? Fulfilled.children(children, data) : null
+            }
+        </Consumer>
+    )
+}
+
+Object.assign(Fulfilled, {
+    Found({ children }) {
         return (
             <Fulfilled>
                 {data => (data ? Fulfilled.children(children, data) : null)}
             </Fulfilled>
         )
-    }
-    static NotFound({ children }) {
+    },
+    NotFound({ children }) {
         return (
             <Fulfilled>
                 {data => (data ? null : Fulfilled.children(children))}
             </Fulfilled>
         )
-    }
-    static children(children, data) {
+    },
+    children(children, data) {
         return typeof children === 'function'
             ? children(data)
             : data
             ? Children.map(children, child => cloneElement(child, { data }))
             : children
-    }
-    children = ({ fulfilled, data }) => {
-        if (!fulfilled) {
-            return null
-        }
+    },
+})
 
-        return Fulfilled.children(this.props.children, data)
-    }
-    render() {
-        return <Consumer>{this.children}</Consumer>
-    }
+Pending.propTypes = {
+    children: PropTypes.element.isRequired,
 }
 
-export class Pending extends Component {
-    static propTypes = {
-        children: PropTypes.element.isRequired,
-    }
-    children = ({ pending }) => (pending ? this.props.children : null)
-    render() {
-        return <Consumer>{this.children}</Consumer>
-    }
+export function Pending({ children }) {
+    return <Consumer>{({ pending }) => (pending ? children : null)}</Consumer>
 }
 
 const { Provider, Consumer } = createContext()
