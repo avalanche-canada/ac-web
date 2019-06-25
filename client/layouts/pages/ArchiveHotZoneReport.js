@@ -145,9 +145,9 @@ function ArchiveContent({ name, date }) {
     if (name && date) {
         return (
             <Document {...hotZone.report(name, date)}>
-                {({ document, loading }) => (
+                {({ document, pending }) => (
                     <Fragment>
-                        {loading ? (
+                        {pending ? (
                             <Loading />
                         ) : document ? null : (
                             <Muted>

@@ -21,14 +21,14 @@ export default function HotZoneReportLayout({ region, uid }) {
     return (
         <Page>
             <Document {...params}>
-                {({ document, loading }) => (
+                {({ document, pending }) => (
                     <Fragment>
                         <HotZone name={region}>
                             {({ data }) => (
                                 <Header
                                     title={utils.title({
                                         report: document,
-                                        loading,
+                                        pending,
                                         hotZone: data,
                                     })}
                                 />
@@ -36,7 +36,7 @@ export default function HotZoneReportLayout({ region, uid }) {
                         </HotZone>
                         <Content>
                             <Main>
-                                {loading ? (
+                                {pending ? (
                                     <Loading />
                                 ) : (
                                     <Hzr.Report value={document}>

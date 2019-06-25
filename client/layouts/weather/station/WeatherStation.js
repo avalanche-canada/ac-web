@@ -102,13 +102,13 @@ function NoStation({ id }) {
         </Fragment>
     )
 }
-function renderMeasurements({ utcOffset }, { loading, data }) {
-    return loading || !data ? (
+function renderMeasurements({ utcOffset }, { pending, data }) {
+    return pending || !data ? (
         <Muted>Loading measurements...</Muted>
     ) : (
         <Station utcOffset={utcOffset} measurements={data} />
     )
 }
-function getTitle({ loading, data }) {
-    return loading ? 'Loading...' : data?.name || 'No weather station'
+function getTitle({ pending, data }) {
+    return pending ? 'Loading...' : data?.name || 'No weather station'
 }

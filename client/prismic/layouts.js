@@ -32,7 +32,7 @@ export function StaticPage({ uid, title }) {
 
     return (
         <Document {...props}>
-            {({ loading, document }) => {
+            {({ pending, document }) => {
                 const data = document?.data
                 const headline = data?.headline
                 const content = data?.content
@@ -46,7 +46,7 @@ export function StaticPage({ uid, title }) {
                         {banner && <Banner {...banner.main} />}
                         <Header title={data?.title || title} />
                         <Content>
-                            <Loading show={loading}>
+                            <Loading show={pending}>
                                 {title
                                     ? `Loading ${title} page...`
                                     : 'Loading page...'}
@@ -74,11 +74,11 @@ GenericPage.propTypes = {
 export function GenericPage({ uid, title }) {
     return (
         <Document {...params.uid(GENERIC, uid)}>
-            {({ document, loading }) => (
+            {({ document, pending }) => (
                 <Page>
                     <Header title={document?.data?.title || title} />
                     <Content>
-                        <Loading show={loading}>
+                        <Loading show={pending}>
                             {title
                                 ? `Loading ${title} page...`
                                 : 'Loading page...'}
@@ -103,10 +103,10 @@ export function Generic({ uid, children = renderBody }) {
 }
 
 // Constants, utils & renderers
-function renderBody({ loading, document }) {
+function renderBody({ pending, document }) {
     return (
         <Fragment>
-            <Loading show={loading} />
+            <Loading show={pending} />
             {document && <StructuredText value={document.data.body} />}
         </Fragment>
     )

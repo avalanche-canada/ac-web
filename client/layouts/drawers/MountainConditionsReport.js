@@ -43,7 +43,7 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
                     />
                 </Navbar>
                 <Report id={id}>
-                    {({ data, loading }) => {
+                    {({ data, pending }) => {
                         const {
                             locationDescription,
                             permalink,
@@ -89,11 +89,11 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
                                     )}
                                 </Header>
                                 <Content>
-                                    <Loading show={loading}>
+                                    <Loading show={pending}>
                                         Loading Mountain Conditions Report...
                                     </Loading>
                                     {body && <InnerHTML>{body}</InnerHTML>}
-                                    {!loading && !body && (
+                                    {!pending && !body && (
                                         <Muted>
                                             Report #{id} is not available
                                             anymore.

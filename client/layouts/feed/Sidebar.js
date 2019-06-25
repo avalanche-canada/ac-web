@@ -17,15 +17,15 @@ export default function FeedSidebar(props) {
     return (
         <Sidebar share follow>
             <Documents {...feed.sidebar(props)}>
-                {({ loading, documents }) => {
-                    if (!loading && documents?.length === 0) {
+                {({ pending, documents }) => {
+                    if (!pending && documents?.length === 0) {
                         return null
                     }
 
                     return (
                         <Fragment>
                             <Header>{Headers.get(props.type)}</Header>
-                            <Loading show={loading} />
+                            <Loading show={pending} />
                             {documents && documents.map(renderItem)}
                         </Fragment>
                     )

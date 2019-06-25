@@ -19,7 +19,7 @@ MountainInformationNetwork.propTypes = {
 function MountainInformationNetwork({ id, onCloseClick, onLocateClick }) {
     return (
         <Report id={id}>
-            {({ loading, data }) => (
+            {({ pending, data }) => (
                 <Container>
                     <Navbar>
                         <Sponsor label={null} />
@@ -29,7 +29,7 @@ function MountainInformationNetwork({ id, onCloseClick, onLocateClick }) {
                         <h1>
                             <Link
                                 to={`/mountain-information-network/submissions/${id}`}>
-                                {data?.title || (loading ? 'Loading...' : null)}
+                                {data?.title || (pending ? 'Loading...' : null)}
                             </Link>
                             {data && (
                                 <DisplayOnMap
@@ -43,7 +43,7 @@ function MountainInformationNetwork({ id, onCloseClick, onLocateClick }) {
                     <Body>
                         <Submission value={data}>
                             <Shim horizontal>
-                                {loading && (
+                                {pending && (
                                     <Loading>
                                         Loading Mountain Information Network
                                         reports...

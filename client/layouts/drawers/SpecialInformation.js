@@ -30,7 +30,7 @@ export default function SpecialInformation({
 }) {
     return (
         <Document {...special.report(id)}>
-            {({ document, loading }) => (
+            {({ document, pending }) => (
                 <Container>
                     <Navbar>
                         <Close onClick={onCloseClick} />
@@ -60,7 +60,7 @@ export default function SpecialInformation({
                     </Header>
                     <Body>
                         <Content>
-                            {loading ? (
+                            {pending ? (
                                 <Loading>
                                     Loading latest special information...
                                 </Loading>

@@ -26,7 +26,7 @@ FatalAccident.propTypes = {
 function FatalAccident({ id, onCloseClick, onLocateClick }) {
     return (
         <Document {...fatal.accident(id)}>
-            {({ document, loading }) => (
+            {({ document, pending }) => (
                 <Container>
                     <Navbar>
                         <Close onClick={onCloseClick} />
@@ -52,7 +52,7 @@ function FatalAccident({ id, onCloseClick, onLocateClick }) {
                     </Header>
                     <Body>
                         <Content>
-                            {loading ? (
+                            {pending ? (
                                 <Loading>
                                     Loading fatal recreational accident...
                                 </Loading>

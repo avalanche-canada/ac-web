@@ -18,8 +18,8 @@ CoursesContainer.propTypes = {
 export default function CoursesContainer({ children, ...params }) {
     return (
         <Fetch cache={CACHE} request={ast.courses()}>
-            {({ data, loading }) => {
-                const props = { loading }
+            {({ data, pending }) => {
+                const props = { pending }
                 let results = data?.results
 
                 if (Array.isArray(results)) {

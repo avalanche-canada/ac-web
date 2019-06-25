@@ -77,7 +77,7 @@ export function useEventListener(eventName, handler, element = window) {
 export function useFetch(request) {
     const { url } = request || {}
     const [data, setData] = useState(null)
-    const [loading, loaded, unloaded] = useBoolean(false)
+    const [pending, start, stop] = useBoolean(false)
     const controller = useRef(null)
 
     useEffect(() => {
@@ -95,28 +95,30 @@ export function useFetch(request) {
 
         const { signal } = controller.current
 
-        loaded()
-        fetch(request, { signal })
+        start()
+        fetch(request, {
+            signal,
+        })
             .then(status)
             .then(
                 data => {
-                    unloaded()
+                    stop()
                     setData(data)
                 },
                 error => {
-                    unloaded()
+                    stop()
                     throw error
                 }
             )
 
         return () => {
-            if (loading) {
+            if (pending) {
                 controller.current.abort()
             }
         }
     }, [url])
 
-    return [data, loading]
+    return [data, pending]
 }
 
 function useStorage(

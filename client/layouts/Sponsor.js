@@ -47,7 +47,7 @@ function SponsorRoute({ name, label }) {
 
     return (
         <Document {...props}>
-            {({ loading, document = {} }) => {
+            {({ pending, document = {} }) => {
                 const { name, image229, url } = document.data || {}
 
                 return (
@@ -56,7 +56,7 @@ function SponsorRoute({ name, label }) {
                         name={name}
                         logo={image229}
                         url={url}>
-                        <Loading show={loading} />
+                        <Loading show={pending} />
                     </Sponsor>
                 )
             }}

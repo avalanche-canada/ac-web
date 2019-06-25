@@ -43,13 +43,13 @@ export default class TripPlanning extends Component {
 
         return <Content {...props} forecast={forecast} />
     }
-    renderChildren({ loading, data }) {
+    renderChildren({ pending, data }) {
         const hasDangerRatings = data && data.dangerRatings
 
         return (
             <Fragment>
                 <div style={CONTENT_STYLE}>
-                    {loading ? (
+                    {pending ? (
                         <Muted>Loading avalanche forecast...</Muted>
                     ) : hasDangerRatings ? (
                         this.renderContent(data)

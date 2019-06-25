@@ -101,17 +101,6 @@ export default class Fetch extends Component {
     componentWillUnmount() {
         this.mounted = false
     }
-    retry = () => {
-        this.fetch()
-    }
-    get params() {
-        return {
-            ...this.state,
-            retry: this.retry,
-            // TODO: Remove loading and just send the state to avoid rerender
-            loading: this.state.pending, // Backward compatibility
-        }
-    }
     render() {
         const { error } = this.state
         const { children } = this.props
@@ -119,9 +108,9 @@ export default class Fetch extends Component {
         return error && !(error instanceof NotFound) ? (
             throw error
         ) : (
-            <Provider value={this.params}>
+            <Provider value={this.state}>
                 {typeof children === 'function'
-                    ? children(this.params)
+                    ? children(this.state)
                     : children}
             </Provider>
         )

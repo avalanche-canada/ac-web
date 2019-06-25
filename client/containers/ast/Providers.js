@@ -12,7 +12,7 @@ ProviderContainer.propTypes = {
 export default function ProviderContainer({ children, tags }) {
     return (
         <Fetch cache={CACHE} request={ast.providers()}>
-            {({ data, loading }) => {
+            {({ data, pending }) => {
                 let results = data?.results
 
                 if (Array.isArray(results) && tags && tags.size > 0) {
@@ -24,7 +24,7 @@ export default function ProviderContainer({ children, tags }) {
                 }
 
                 return children({
-                    loading,
+                    pending,
                     providers: results,
                 })
             }}

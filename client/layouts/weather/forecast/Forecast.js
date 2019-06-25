@@ -27,7 +27,7 @@ WeatherForecast.defaultProps = {
 export default function WeatherForecast({ date, onDateChange }) {
     return (
         <Document {...mw.forecast(date)}>
-            {({ loading, document }) => (
+            {({ pending, document }) => (
                 <Article>
                     <Metadata>
                         <Entry term="Date" sideBySide>
@@ -40,7 +40,7 @@ export default function WeatherForecast({ date, onDateChange }) {
                             {document?.data?.handle || 'Loading...'}
                         </Entry>
                     </Metadata>
-                    {loading ? (
+                    {pending ? (
                         <Loading>
                             Loading mountain weather forecast for{' '}
                             <DateElement value={date} />

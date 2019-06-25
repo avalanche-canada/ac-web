@@ -74,7 +74,7 @@ function PrismicTable({ value }) {
 
     return (
         <Documents {...params}>
-            {({ documents = [], loading, total_pages, total_results_size }) => (
+            {({ documents = [], pending, total_pages, total_results_size }) => (
                 <Fragment>
                     <Br />
                     <Responsive>
@@ -106,7 +106,7 @@ function PrismicTable({ value }) {
                                 ))}
                             </TBody>
                             <Caption>
-                                {loading ? (
+                                {pending ? (
                                     <Loading>Loading documents...</Loading>
                                 ) : (
                                     <Muted>

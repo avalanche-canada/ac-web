@@ -23,7 +23,7 @@ export default function Layout({ id }) {
     return (
         <Page>
             <Report id={id}>
-                {({ loading, data }) => {
+                {({ pending, data }) => {
                     const title = data
                         ? data.title
                         : 'Mountain Information Network'
@@ -33,7 +33,7 @@ export default function Layout({ id }) {
                             <Header title={title} />
                             <Content>
                                 <Main>
-                                    {loading && (
+                                    {pending && (
                                         <Loading>
                                             Loading Mountain Information Network
                                             report...

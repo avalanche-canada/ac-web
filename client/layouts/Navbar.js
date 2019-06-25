@@ -61,9 +61,9 @@ export default function AvalancheCanadaNavbar() {
 function Ambassadors({ to }) {
     return (
         <Document {...params.uid(STATIC_PAGE, 'ambassadors')}>
-            {({ loading, document }) => (
+            {({ pending, document }) => (
                 <Fragment>
-                    <Loading show={loading} />
+                    <Loading show={pending} />
                     {document && (
                         <ColumnSet>
                             {document.data.content[0].value.map(

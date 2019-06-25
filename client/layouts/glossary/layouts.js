@@ -64,9 +64,9 @@ const GlossarySidebar = memo.static(function GlossarySidebar() {
 function Glossary(props) {
     return (
         <Document {...glossary.glossary()}>
-            {({ document, loading }) => (
+            {({ document, pending }) => (
                 <Fragment>
-                    <Loading show={loading} />
+                    <Loading show={pending} />
                     {document && (
                         <GlossaryContent {...props} {...document.data} />
                     )}
@@ -82,9 +82,9 @@ Definition.propTypes = {
 function Definition({ uid }) {
     return (
         <Document {...glossary.definition(uid)}>
-            {({ loading, document }) => (
+            {({ pending, document }) => (
                 <Fragment>
-                    <Loading show={loading} />
+                    <Loading show={pending} />
                     {document && (
                         <DefinitionLayout linkToExternal {...document} />
                     )}

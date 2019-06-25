@@ -19,8 +19,8 @@ export default function FeedSplash({ children, ...props }) {
         <Splash>
             {children}
             <Documents {...feed.splash(props)}>
-                {({ loading, documents = [] }) => {
-                    const isEmpty = !loading && documents.length === 0
+                {({ pending, documents = [] }) => {
+                    const isEmpty = !pending && documents.length === 0
                     const featured =
                         documents.find(p => p.featured) || documents[0]
 
@@ -28,7 +28,7 @@ export default function FeedSplash({ children, ...props }) {
 
                     return (
                         <Fragment>
-                            <Loading show={loading}>
+                            <Loading show={pending}>
                                 {`Loading latest ${type}...`}
                             </Loading>
                             {isEmpty && <Muted>Nothing found.</Muted>}

@@ -17,10 +17,10 @@ export default memo(StaffSet)
 function pluckId({ staff }) {
     return staff.value.document.id
 }
-function renderChildren({ loading, documents = [] }) {
+function renderChildren({ pending, documents = [] }) {
     return (
         <Fragment>
-            <Loading show={loading} />
+            <Loading show={pending} />
             {documents.map(renderItem)}
         </Fragment>
     )

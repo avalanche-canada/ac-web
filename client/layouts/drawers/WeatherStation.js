@@ -65,8 +65,8 @@ function WeatherStation({ id, onCloseClick, onLocateClick }) {
                                 <Fulfilled.Found>
                                     <Metadata {...station.data} />
                                     <containers.Measurements id={id}>
-                                        {({ data, loading }) =>
-                                            loading || !data ? (
+                                        {({ data, pending }) =>
+                                            pending || !data ? (
                                                 <Muted>
                                                     Loading weather station
                                                     measurements...

@@ -105,11 +105,11 @@ export class Tags extends Component {
         children: PropTypes.func.isRequired,
     }
     state = {
-        loading: false,
+        pending: false,
         tags: new Set(),
     }
     async fetch() {
-        this.setState({ loading: true }, async () => {
+        this.setState({ pending: true }, async () => {
             try {
                 const api = await fetch(requests.api()).then(status)
                 const { ref } = api.refs.find(isMasterRef)
@@ -137,11 +137,11 @@ export class Tags extends Component {
                 } while (nextPage)
 
                 this.setState({
-                    loading: false,
+                    pending: false,
                     tags: new Set(Array.from(tags).sort(sorter)),
                 })
             } catch (error) {
-                this.setState({ loading: false })
+                this.setState({ pending: false })
 
                 throw error
             }
@@ -171,7 +171,7 @@ function renderError({ error }) {
     return (
         <Text.Error component="details">
             <summary>
-                An error happened while loading and display content.{' '}
+                An error happened while pending and display content.{' '}
                 <a href={document.location}>Retry</a>
             </summary>
             <p>

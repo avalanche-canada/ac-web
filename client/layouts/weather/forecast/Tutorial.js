@@ -16,10 +16,10 @@ function Tutorial({ uid }) {
 export default memo(Tutorial)
 
 // Utils
-function children({ loading, document }) {
+function children({ pending, document }) {
     return (
         <Fragment>
-            <Loading show={loading}>Loading tutorial...</Loading>
+            <Loading show={pending}>Loading tutorial...</Loading>
             {document && <StructuredText value={document.data.tutorial} />}
         </Fragment>
     )

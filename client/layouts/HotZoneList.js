@@ -14,8 +14,8 @@ export default function HotZoneList() {
     )
 }
 
-function renderer({ loading, data }) {
-    if (loading || !data) {
+function renderer({ pending, data }) {
+    if (pending || !data) {
         return <Loading />
     }
 

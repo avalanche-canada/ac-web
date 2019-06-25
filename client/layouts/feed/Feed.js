@@ -346,11 +346,11 @@ function handleTagChange(tags) {
 function handleTimelineChange(timeline) {
     this.setState({ timeline, page: 1 }, serialize)
 }
-function renderContent(type, { loading, documents, page, total_pages }) {
+function renderContent(type, { pending, documents, page, total_pages }) {
     return (
         <FeedContent
             type={type}
-            loading={loading}
+            loading={pending}
             documents={documents}
             page={page}
             totalPages={total_pages}

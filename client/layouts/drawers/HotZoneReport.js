@@ -21,7 +21,7 @@ HotZoneReportDrawer.propTypes = {
 function HotZoneReportDrawer({ name, onCloseClick, onLocateClick }) {
     return (
         <Document {...hotZone.report(name)}>
-            {({ document, loading }) => (
+            {({ document, pending }) => (
                 <Container>
                     <Navbar>
                         <Sponsor label={null} />
@@ -31,7 +31,7 @@ function HotZoneReportDrawer({ name, onCloseClick, onLocateClick }) {
                         <HotZone name={name}>
                             {({ data }) => {
                                 const title = utils.title({
-                                    loading,
+                                    pending,
                                     report: document,
                                     hotZone: data,
                                 })
@@ -58,7 +58,7 @@ function HotZoneReportDrawer({ name, onCloseClick, onLocateClick }) {
                         </HotZone>
                     </Header>
                     <Body>
-                        {loading ? (
+                        {pending ? (
                             <Shim horizontal>
                                 <Loading />
                             </Shim>
