@@ -7,7 +7,6 @@ import Cache, { None } from './Cache'
 // https://github.com/CharlesMangwa/react-data-fetching
 // https://github.com/techniq/react-fetch-component
 
-// FIXME: Make sure component is still mounted when it is time to set state
 // TODO: Give a try to state machine
 
 export default class Fetch extends Component {
