@@ -1,52 +1,23 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import styles from './Text.css'
 
-export function Muted({ children, ...props }) {
-    return (
-        <p className={styles.Muted} {...props}>
-            {children}
-        </p>
-    )
-}
+export const Muted = createText('p', styles.Muted)
+export const Loading = createText('p', styles.Loading, 'Loading...')
+export const Error = createText('p', styles.Error, 'An error happened.')
+export const Helper = createText('span', styles.Helper)
+export const Warning = createText('p', styles.Warning)
 
-export function Loading({
-    children = 'Loading...',
-    component = 'p',
-    ...props
-}) {
-    return createElement(
-        component,
-        Object.assign(props, {
-            className: styles.Loading,
-        }),
-        children
-    )
-}
-
-export function Error({
-    children = 'An error happened.',
-    component = 'p',
-    ...props
-}) {
-    Object.assign(props, { className: styles.Error })
-
-    return createElement(component, props, children)
-}
-
-export function Helper({ children, ...props }) {
-    return (
-        <span className={styles.Helper} {...props}>
-            {children}
-        </span>
-    )
-}
-
-export function Warning({ children, component = 'p', ...props }) {
-    return createElement(
-        component,
-        Object.assign(props, {
-            className: styles.Warning,
-        }),
-        children
-    )
+// Factory
+function createText(component, className, text) {
+    return function Text({
+        component: Component = component,
+        children = text,
+        ...props
+    }) {
+        return (
+            <Component {...props} className={className}>
+                {children}
+            </Component>
+        )
+    }
 }
