@@ -78,7 +78,7 @@ export function useEventListener(eventName, handler, element = window) {
 export function useFetch(request, cache = new None()) {
     const { url } = request || {}
     const [data, setData] = useSafeState(cache.get(url))
-    const [pending, setPending] = useSafeState(false)
+    const [pending, setPending] = useSafeState(FETCHING.has(url))
     const controller = useRef(null)
 
     async function fetcher() {
@@ -91,6 +91,8 @@ export function useFetch(request, cache = new None()) {
         }
 
         try {
+            FETCHING.add(url)
+
             setPending(true)
 
             const { signal } = controller.current
@@ -101,12 +103,14 @@ export function useFetch(request, cache = new None()) {
         } catch (error) {
             throw error
         } finally {
+            FETCHING.delete(url)
+
             setPending(false)
         }
     }
 
     useEffect(() => {
-        if (!request || cache.has(url)) {
+        if (!request || cache.has(url) || FETCHING.has(url)) {
             return
         }
 
@@ -272,7 +276,8 @@ export function useFullscreen() {
     return [ref, enter, exit, toggle]
 }
 
-// Utils
+// Utils & constants
+const FETCHING = new Set()
 function getWindowSize() {
     return {
         height: window.innerHeight,
