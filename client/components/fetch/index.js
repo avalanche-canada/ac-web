@@ -7,8 +7,6 @@ import Cache, { None } from './Cache'
 // https://github.com/CharlesMangwa/react-data-fetching
 // https://github.com/techniq/react-fetch-component
 
-// TODO: Give a try to state machine
-
 export default class Fetch extends Component {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
