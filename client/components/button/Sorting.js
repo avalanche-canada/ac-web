@@ -1,11 +1,11 @@
-import React, { memo, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { ExpandLess, ExpandMore, Remove } from 'components/icons'
 import Button from './Button'
 import { SUBTILE } from './kinds'
 import { NONE, ASC, DESC } from 'constants/sortings'
 
-// TODO: Move to stateless, need to look at every usage
+// TODO: Move to stateless, need to look at every usage > why?
 
 const SORTINGS = [NONE, ASC, DESC]
 
@@ -19,7 +19,7 @@ Sorting.defaultProps = {
     sorting: NONE,
 }
 
-function Sorting(props) {
+export default function Sorting(props) {
     const [sorting, setSorting] = useState(props.sorting)
     function handleClick() {
         const next =
@@ -38,8 +38,6 @@ function Sorting(props) {
         </Button>
     )
 }
-
-export default memo(Sorting)
 
 // Components
 const ICONS = new Map([
