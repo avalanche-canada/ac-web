@@ -38,9 +38,7 @@ export default function Tabs({
                             activeTab,
                         })
                     default:
-                        throw new Error(
-                            'Wrong child provided to Tabs components'
-                        )
+                        return null
                 }
             })}
         </div>
