@@ -57,13 +57,7 @@ export default function HeaderSet({
                         },
                     })
                 )}
-            {stacked && (
-                <Expand
-                    chevron
-                    expanded={expanded}
-                    iconProps={{ color: WHITE }}
-                />
-            )}
+            {stacked && <Expand chevron expanded={expanded} color={WHITE} />}
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { memo, createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { SUBTILE } from './kinds'
 import Button from './Button'
@@ -7,18 +7,23 @@ import { Remove, Add, ExpandMore, ExpandLess } from 'components/icons'
 Expand.propTypes = {
     expanded: PropTypes.bool.isRequired,
     chevron: PropTypes.bool,
-    iconProps: PropTypes.object,
+    color: PropTypes.string,
 }
 
-function Expand({ chevron = false, expanded = false, iconProps, ...props }) {
+export default function Expand({
+    chevron = false,
+    expanded = false,
+    color,
+    ...props
+}) {
+    const Icon = ICONS.get(chevron).get(expanded)
+
     return (
         <Button kind={SUBTILE} {...props}>
-            {createElement(ICONS.get(chevron).get(expanded), iconProps)}
+            <Icon color={color} />
         </Button>
     )
 }
-
-export default memo(Expand)
 
 const ICONS = new Map([
     [true, new Map([[true, ExpandLess], [false, ExpandMore]])],

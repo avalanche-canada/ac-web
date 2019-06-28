@@ -10,12 +10,12 @@ Close.propTypes = {
     children: PropTypes.element.isRequired,
 }
 
-export default function Close({ children = '×', className, ...rest }) {
+export default function Close({ children = '×', ...props }) {
     return (
         <Button
             kind={SUBTILE}
-            className={classnames(styles.Close, className)}
-            {...rest}>
+            {...props}
+            className={classnames(styles.Close, props.className)}>
             {children}
         </Button>
     )

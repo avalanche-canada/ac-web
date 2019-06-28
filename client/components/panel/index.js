@@ -34,7 +34,7 @@ export default function Panel({
                     <Expand
                         className={styles.Expand}
                         expanded={on}
-                        iconProps={ICON_PROPS}
+                        color={WHITE}
                     />
                 )}
                 <span className={styles.Title}>{header}</span>
@@ -45,6 +45,3 @@ export default function Panel({
 }
 
 const classNames = classnames.bind(styles)
-const ICON_PROPS = {
-    color: WHITE,
-}
