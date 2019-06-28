@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Phone from './Phone'
+import { Phone } from './index'
 
 test('phone component', () => {
     let phone = Renderer.create(<Phone phone="250-837-2141" />)

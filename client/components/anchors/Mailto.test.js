@@ -1,6 +1,6 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Mailto from './Mailto'
+import { Mailto } from './index'
 
 test('mailto component', () => {
     let mailto = Renderer.create(<Mailto email="kguillotte@avalanche.ca" />)
