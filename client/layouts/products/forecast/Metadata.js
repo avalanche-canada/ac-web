@@ -9,7 +9,6 @@ import {
     TimestampEntry,
 } from 'components/metadata'
 import differenceInDays from 'date-fns/difference_in_days'
-import { FURTHER_NOTICE_DAYS } from 'constants/forecast/time'
 
 ForecastMetadata.propTypes = {
     shareUrl: PropTypes.string,
@@ -55,3 +54,4 @@ function ValidUntil({ dateIssued, validUntil }) {
         </Entry>
     )
 }
+const FURTHER_NOTICE_DAYS = 7
