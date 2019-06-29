@@ -11,16 +11,11 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [zoom, setZoom] = useSessionStorage('zoom', 4.3, Number, String)
-    const [center, setCenter] = useSessionStorage(
-        'center',
-        {
-            lng: -125.15,
-            lat: 54.8,
-        },
-        JSON.parse,
-        JSON.stringify
-    )
+    const [zoom, setZoom] = useSessionStorage('zoom', 4.3)
+    const [center, setCenter] = useSessionStorage('center', {
+        lng: -125.15,
+        lat: 54.8,
+    })
     const value = useMemo(() => ({ zoom, setZoom, center, setCenter }), [
         zoom,
         center.lng,

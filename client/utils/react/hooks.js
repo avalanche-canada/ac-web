@@ -166,11 +166,21 @@ function useStorage(
     return [value, set, remove]
 }
 
-export function useLocalStorage(key, defaultValue, decode, encode) {
+export function useLocalStorage(
+    key,
+    defaultValue,
+    decode = JSON.parse,
+    encode = JSON.stringify
+) {
     return useStorage(window.localStorage, key, defaultValue, decode, encode)
 }
 
-export function useSessionStorage(key, defaultValue, decode, encode) {
+export function useSessionStorage(
+    key,
+    defaultValue,
+    decode = JSON.parse,
+    encode = JSON.stringify
+) {
     return useStorage(window.sessionStorage, key, defaultValue, decode, encode)
 }
 

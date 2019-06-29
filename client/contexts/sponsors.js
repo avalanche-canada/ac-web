@@ -11,12 +11,7 @@ Provider.propTypes = {
 export function Provider({ children }) {
     const ready = useTimeout(999)
     const [data] = useFetch(ready ? resource('sponsors') : null)
-    const [sponsors, setSponsors] = useLocalStorage(
-        'sponsors',
-        SPONSORS,
-        JSON.parse,
-        JSON.stringify
-    )
+    const [sponsors, setSponsors] = useLocalStorage('sponsors', SPONSORS)
 
     useEffect(() => {
         if (!data) {

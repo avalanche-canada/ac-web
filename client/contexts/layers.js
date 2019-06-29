@@ -8,12 +8,7 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [layers, setLayers] = useLocalStorage(
-        'layers',
-        LAYERS,
-        decode,
-        JSON.stringify
-    )
+    const [layers, setLayers] = useLocalStorage('layers', LAYERS, decode)
 
     const value = useMemo(
         () => ({
