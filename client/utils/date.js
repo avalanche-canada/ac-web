@@ -14,6 +14,7 @@ export function setUTCOffset(date, offset) {
     )
 }
 
+// TODO Remove that function
 export function lazyParse(date, ...rest) {
     return date ? parse(date, ...rest) : date
 }
