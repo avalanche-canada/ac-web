@@ -13,9 +13,9 @@ export default function Summary({ title, children }) {
     }
 
     return (
-        <div className={styles.Summary}>
+        <section className={styles.Summary}>
             <h3>{title}</h3>
             {children}
-        </div>
+        </section>
     )
 }
