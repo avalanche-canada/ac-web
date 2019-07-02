@@ -19,7 +19,11 @@ export function geometry({ bbox }) {
 }
 
 export function shareUrl({ uid, data }) {
-    return `${document.location.origin}/advisories/${data.region}/${uid}`
+    return document.location.origin + path(data.region, uid)
+}
+
+export function path(region, uid) {
+    return `/advisories/${region}/${uid}`
 }
 
 export function isValid({ dateOfIssue, validUntil }) {

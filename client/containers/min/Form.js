@@ -170,7 +170,7 @@ export default class SubmissionForm extends Component {
                         this.setState({ isSubmitting: false }, () => {
                             const { subid } = data
 
-                            // FIXME: Huge side effect hack, but it working for now
+                            // FIXME: Huge side effect hack, but it is working for now
                             CACHE.reset()
 
                             navigate(links.mountainInformationNetwork(subid))

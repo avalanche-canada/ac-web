@@ -4,6 +4,7 @@ import { Link } from '@reach/router'
 import classnames from 'classnames'
 import { supported } from 'utils/mapbox'
 import styles from 'styles/typography.css'
+import * as min from 'utils/min'
 
 Home.propTypes = {
     children: PropTypes.node,
@@ -40,7 +41,7 @@ export function MountainInformationNetwork({ id, children, ...props }) {
 export function mountainInformationNetwork(id) {
     return supported()
         ? `/map?panel=mountain-information-network-submissions/${id}`
-        : `/mountain-information-network/submissions/${id}`
+        : min.path(id)
 }
 
 Forecast.propTypes = {
@@ -57,5 +58,5 @@ export function Forecast({ id, children, ...props }) {
 }
 
 export function forecast(id) {
-    return supported() ? `/map/forecasts/${id}` : `/forecasts/${id}`
+    return supported() ? '/map' : '' + `/forecasts/${id}`
 }

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from '@reach/router'
-import { memo } from 'utils/react'
 import {
     Sidebar,
     Contact,
@@ -12,7 +11,7 @@ import {
 } from 'components/sidebar'
 import { Mailto, Phone } from 'components/anchors'
 
-function KananaskisSidebar() {
+export default function KananaskisSidebar() {
     const { pathname, origin } = document.location
     const EMAIL = 'avalanche.safety@gov.ab.ca'
 
@@ -31,8 +30,8 @@ function KananaskisSidebar() {
                 />
             </Item>
             <Item>
-                <Phone phone="403-679-3511" /> is the Public Safety
-                office phone number (weekdays)
+                <Phone phone="403-679-3511" /> is the Public Safety office phone
+                number (weekdays)
             </Item>
             <Item>
                 <Phone phone="403-591-7755" /> is the dispatch office
@@ -69,5 +68,3 @@ function KananaskisSidebar() {
         </Sidebar>
     )
 }
-
-export default memo.static(KananaskisSidebar)
