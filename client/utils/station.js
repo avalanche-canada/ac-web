@@ -8,10 +8,6 @@ export function geometry({ longitude, latitude }) {
     return turf.point([longitude, latitude])
 }
 
-export function shareUrl(station) {
-    return document.location.origin + link(station)
-}
-
-export function link({ stationId }) {
+export function path(stationId) {
     return `/weather/stations/${stationId}`
 }

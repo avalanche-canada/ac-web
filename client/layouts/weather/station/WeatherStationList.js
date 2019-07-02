@@ -12,6 +12,7 @@ import {
 } from 'components/page'
 import { Fulfilled, Pending } from 'components/fetch'
 import { Error, Muted } from 'components/text'
+import { path } from 'utils/station'
 
 export default function WeatherStationList() {
     const error = (
@@ -54,9 +55,7 @@ function renderData(data) {
             <List>
                 {data.map(({ stationId, name }) => {
                     return (
-                        <ListItem
-                            key={stationId}
-                            to={`/weather/stations/${stationId}`}>
+                        <ListItem key={stationId} to={path(stationId)}>
                             {name}
                         </ListItem>
                     )

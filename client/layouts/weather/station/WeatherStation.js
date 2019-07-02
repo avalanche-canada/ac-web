@@ -14,6 +14,7 @@ import { Error, Muted, Loading } from 'components/text'
 import ErrorBoundary from 'components/ErrorBoundary'
 import { Fulfilled, Pending } from 'components/fetch'
 import * as containers from 'containers/weather'
+import { path } from 'utils/station'
 
 WeatherStation.propTypes = {
     id: PropTypes.string.isRequired,
@@ -88,7 +89,7 @@ function NoStation({ id }) {
                                         return (
                                             <ListItem
                                                 key={stationId}
-                                                to={`/weather/stations/${stationId}`}>
+                                                to={path(stationId)}>
                                                 {name}
                                             </ListItem>
                                         )

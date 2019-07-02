@@ -47,7 +47,7 @@ function WeatherStation({ id, onCloseClick, onLocateClick }) {
                                     </Warning>
                                 </Fulfilled.NotFound>
                                 <Fulfilled.Found>
-                                    <Link to={`/weather/stations/${id}`}>
+                                    <Link to={utils.path(id)}>
                                         {station.data?.name}
                                     </Link>
                                     <DisplayOnMap
