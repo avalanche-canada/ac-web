@@ -79,7 +79,7 @@ export function Layers({ children }) {
 function decode(string) {
     const data = JSON.parse(string)
 
-    // TODO Simplify the implementation. It was easier with the LocaleStorage class.
+    // TODO Simplify the implementation: only few properties need to be transfered, also LAYERS should be deeply cloned!
 
     return {
         ...LAYERS,
