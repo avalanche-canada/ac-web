@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Problem from './Problem'
 import TopicSet from './TopicSet'
@@ -15,14 +15,14 @@ export default function ProblemSet({ problems }) {
         return <h3>No problems identified.</h3>
     }
 
-    return <Fragment>{problems.map(renderProblem)}</Fragment>
+    return problems.map(renderProblem)
 }
 
 function renderProblem(problem, index) {
     const { type, icons, comment, travelAndTerrainAdvice } = problem
 
     return (
-        <Problem title={`Avalanche Problem ${index + 1}: ${type}`}>
+        <Problem key={index} title={`Avalanche Problem ${index + 1}: ${type}`}>
             <TopicSet>
                 <Topic title="What Elevation?" src={icons.elevations} />
                 <Topic title="Which Slopes?" src={icons.aspects} />
