@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import { memo } from 'utils/react'
 import { Section, Header, Content } from 'components/explanation'
 import Ratings, {
     EXTREME,
@@ -12,7 +11,7 @@ import Ratings, {
 } from 'constants/forecast/rating'
 import { WHITE, BLACK } from 'constants/forecast/palette'
 
-function RatingExplanation() {
+export default function RatingExplanation() {
     const ratings = Array.from(Ratings).filter(rating => rating !== NO_RATING)
 
     return (
@@ -32,8 +31,6 @@ function RatingExplanation() {
         </Fragment>
     )
 }
-
-export default memo.static(RatingExplanation)
 
 // Utils
 function getStyle(rating) {
