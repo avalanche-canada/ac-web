@@ -22,14 +22,15 @@ export function shareUrl({ uid, data }) {
     return document.location.origin + path(data.region, uid)
 }
 
-export function path(region, uid) {
-    return `/advisories/${region}/${uid}`
-}
-
 export function isValid({ dateOfIssue, validUntil }) {
     return isWithinRange(
         new Date(),
         startOfDay(dateOfIssue),
         endOfDay(validUntil)
     )
+}
+
+// Utils
+function path(region, uid) {
+    return `/advisories/${region}/${uid}`
 }

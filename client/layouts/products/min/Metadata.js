@@ -8,7 +8,7 @@ import {
     LocationEntry,
     TimestampEntry,
 } from 'components/metadata'
-import { shareUrl } from 'utils/min'
+import * as utils from 'utils/min'
 
 MountainInformationNetworkMetadata.propTypes = {
     shareable: PropTypes.bool,
@@ -30,7 +30,7 @@ export default function MountainInformationNetworkMetadata({ shareable }) {
                             latitude={report.latlng[0]}
                         />
                         {shareable && (
-                            <ShareEntry url={shareUrl(report.subid)} />
+                            <ShareEntry url={utils.shareUrl(report.subid)} />
                         )}
                     </Metadata>
                 ) : null

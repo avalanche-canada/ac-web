@@ -2,13 +2,13 @@ import React from 'react'
 import { Consumer } from './Context'
 import Base from '../ArchiveWarning'
 import Shim from 'components/Shim'
-import { isValid } from 'utils/hzr'
+import * as utils from 'utils/hzr'
 
 export default function ArchiveWarning() {
     return (
         <Consumer>
             {report => {
-                if (!report || isValid(report.data)) {
+                if (!report || utils.isValid(report.data)) {
                     return null
                 }
 
