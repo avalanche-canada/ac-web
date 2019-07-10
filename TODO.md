@@ -1,4 +1,4 @@
-Frontend
+# Frontend
 
 -   Remove querystring module dependency, DONE
 -   Clean up the utils functions and modules, DONE
@@ -18,6 +18,9 @@ Frontend
     -   Zoom to MIN A & B does not work, DONE
 -   Static page should not display other content when loading a page, DONE
 -   Do more caching
+-   Fix assets caching, asset hashes get replaced on every push
+-   Use inspectpack/plugin
+-   Split mapbox
 
 # Map style
 
@@ -26,11 +29,6 @@ Frontend
 3.  Layer & Source components as accessor, or components do not remove when unmounting
 4.  DataSet components fetch data and set it to the source
 
-# React Router replacement
-
-Testing all urls possibilities, DONE
-Look at all <Link>s, DONE
-
 # General
 
 -   Glossary
@@ -38,9 +36,13 @@ Look at all <Link>s, DONE
 
 # Upgrades
 
--   React 16.5
-
 # Improvements
 
 -   Remove react-ga DONE
 -   https://github.com/babel/babel-loader
+
+# Other tools/framework
+
+-   SVELTE, DONE. Really promising, lots of work to refactor. Started w/ the foundation website as POC
+-   JAMSTACK
+-   HUGO, started POC w/ Chery Bowl
