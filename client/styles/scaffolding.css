@@ -82,22 +82,8 @@ img {
     vertical-align: bottom;
 }
 
-ul:not([class]) {
-    /*list-style: none;*/
-    padding-left: 2em;
-
-    /* Colored bullet, but it does not wrap properly when displayed on two lines */
-    /*& > li {
-        &:before {
-            content: "•";
-            padding-right: 7px;
-            color: var(--primary);
-        }
-    }*/
-}
-
-p {
-    /*white-space: pre;*/
+li::marker {
+    color: var(--primary);
 }
 
 /* PRINT */
