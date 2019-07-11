@@ -9,6 +9,6 @@ export function station(id) {
     return get(`${weatherBaseUrl}/stations/${id}/`)
 }
 
-export function measurements(id) {
-    return get(`${weatherBaseUrl}/stations/${id}/measurements/`)
+export function measurements(stationId) {
+    return get(`${weatherBaseUrl}/stations/${stationId}/measurements/`)
 }
