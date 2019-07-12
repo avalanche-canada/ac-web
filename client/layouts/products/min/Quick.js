@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
 import Comment from './Comment'
-import { trulyKeys, projectKeys } from 'utils/object'
+import { trulyKeys } from 'utils/object'
 import { List, Term, Definition } from 'components/description'
 
 const avalancheConditionsTexts = {
@@ -82,12 +82,11 @@ export default function Quick({
     ridingConditions,
     comment,
 }) {
-    // TODO: Improve code here! So confusing this key project!!!
+    // TODO: Improve code here! So confusing this truly key!!!
     // TODO: Simplify code!!!!!
     ridingConditions = computeRidingConditions(ridingConditions)
-    avalancheConditions = projectKeys(
-        avalancheConditionsTexts,
-        avalancheConditions
+    avalancheConditions = trulyKeys(avalancheConditions).map(
+        key => avalancheConditionsTexts[key]
     )
 
     const hasAvalancheConditions = avalancheConditions.length > 0
