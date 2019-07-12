@@ -1,14 +1,11 @@
 export function status(response) {
-    const { status, ok } = response
-
-    if (ok && status >= 200 && status < 300) {
+    if (response.ok) {
         return response.json()
     }
-    if (status === 404) {
-        return Promise.reject(new NotFound())
-    }
 
-    return Promise.reject(new Error(response.statusText))
+    return response.status === 404
+        ? Promise.reject(new NotFound())
+        : Promise.reject(new Error(response.statusText))
 }
 
 export class NotFound extends Error {
