@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
-import { station, stations, measurements } from 'api/requests/weather'
+import { station, stations, measurements } from 'api/urls/weather'
 
 Station.propTypes = {
     id: PropTypes.string.isRequired,
@@ -11,7 +11,7 @@ Station.propTypes = {
 
 export function Station({ id, children }) {
     return (
-        <Fetch cache={STATIONS} request={station(id)}>
+        <Fetch cache={STATIONS} url={station(id)}>
             {children}
         </Fetch>
     )
@@ -23,7 +23,7 @@ Stations.propTypes = {
 
 export function Stations({ children }) {
     return (
-        <Fetch cache={STATIONS} request={stations()}>
+        <Fetch cache={STATIONS} url={stations()}>
             {({ data, ...props }) =>
                 children(
                     Object.assign(props, {
@@ -41,7 +41,7 @@ Measurements.propTypes = {
 }
 
 export function Measurements({ id, children }) {
-    return <Fetch request={measurements(id)}>{children}</Fetch>
+    return <Fetch url={measurements(id)}>{children}</Fetch>
 }
 
 const STATIONS = new Memory()

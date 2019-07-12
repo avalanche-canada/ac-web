@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
-import * as ast from 'api/requests/ast'
+import * as ast from 'api/urls/ast'
 
 ProviderContainer.propTypes = {
     children: PropTypes.func.isRequired,
@@ -11,7 +11,7 @@ ProviderContainer.propTypes = {
 
 export default function ProviderContainer({ children, tags }) {
     return (
-        <Fetch cache={CACHE} request={ast.providers()}>
+        <Fetch cache={CACHE} url={ast.providers()}>
             {({ data, pending }) => {
                 let results = data?.results
 

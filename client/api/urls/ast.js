@@ -1,12 +1,12 @@
 import { astBaseUrl } from 'api/config.json'
-import { get } from 'services/fetch/requests'
+import { build } from 'utils/url'
 
 export function providers() {
-    return get(`${astBaseUrl}/providers`, PARAMS)
+    return build('/providers', PARAMS, astBaseUrl)
 }
 
 export function courses() {
-    return get(`${astBaseUrl}/courses`, PARAMS)
+    return build('/courses', PARAMS, astBaseUrl)
 }
 
 const PARAMS = {

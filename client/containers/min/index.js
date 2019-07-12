@@ -4,7 +4,7 @@ import memoize from 'lodash/memoize'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
-import * as min from 'api/requests/min'
+import * as min from 'api/urls/min'
 import * as transformers from 'api/transformers'
 import { Error } from 'components/text'
 
@@ -24,7 +24,7 @@ export function Report({ id, children }) {
 
     return (
         <ErrorBoundary fallback={fallback}>
-            <Fetch cache={CACHE} request={min.report(id)}>
+            <Fetch cache={CACHE} url={min.report(id)}>
                 {({ data, ...props }) =>
                     children(
                         Object.assign(props, {
@@ -47,10 +47,8 @@ Reports.propTypes = {
 }
 
 export function Reports({ days = 7, children }) {
-    const request = min.reports(days)
-
     return (
-        <Fetch cache={CACHE} request={request}>
+        <Fetch cache={CACHE} url={min.reports(days)}>
             {({ data, ...props }) =>
                 children(
                     Object.assign(props, {

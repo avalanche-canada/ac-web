@@ -75,8 +75,7 @@ export function useEventListener(eventName, handler, element = window) {
     }, [eventName, element, handler])
 }
 
-export function useFetch(request, cache = new None()) {
-    const { url } = request || {}
+export function useFetch(url, cache = new None()) {
     const [data, setData] = useSafeState(cache.get(url))
     const [pending, setPending] = useSafeState(FETCHING.has(url))
     const controller = useRef(null)
@@ -96,7 +95,7 @@ export function useFetch(request, cache = new None()) {
             setPending(true)
 
             const { signal } = controller.current
-            const response = await fetch(request, { signal })
+            const response = await fetch(url, { signal })
             const payload = await status(response)
 
             setData(payload)
@@ -110,7 +109,7 @@ export function useFetch(request, cache = new None()) {
     }
 
     useEffect(() => {
-        if (!request || cache.has(url) || FETCHING.has(url)) {
+        if (!url || cache.has(url) || FETCHING.has(url)) {
             return
         }
 
@@ -322,6 +321,6 @@ function useSafeState(initialState) {
     return [state, setState]
 }
 
-// export function useSuspendedFetch(request, cache = new None()) {
+// export function useSuspendedFetch(url, cache = new None()) {
 //     return data
 // }

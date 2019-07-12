@@ -14,9 +14,7 @@ export function FeatureCollection({ id, children }) {
     const dataset = datasets[id]
 
     return (
-        <Fetch
-            cache={FEATURE_COLLECTION_CACHE}
-            request={mapbox.features(dataset)}>
+        <Fetch cache={FEATURE_COLLECTION_CACHE} url={mapbox.features(dataset)}>
             {children}
         </Fetch>
     )
@@ -28,10 +26,8 @@ Style.propTypes = {
 }
 
 export function Style({ id = 'default', children }) {
-    const request = mapbox.style(id)
-
     return (
-        <Fetch cache={STYLE_CACHE} request={request}>
+        <Fetch cache={STYLE_CACHE} url={mapbox.style(id)}>
             {children}
         </Fetch>
     )

@@ -1,9 +1,10 @@
-import { get } from 'services/fetch/requests'
 import * as Predicates from 'prismic/predicates'
 import { root, version } from './config.json'
 
+// TODO See if we could use the utils/url/build
+
 export function api() {
-    return get(`${root}/${version}`)
+    return `${root}/${version}`
 }
 
 export function search(ref, predicates = [], options = {}) {
@@ -13,7 +14,8 @@ export function search(ref, predicates = [], options = {}) {
         q: `[${predicates.map(Predicates.toQuery).join('')}]`,
         ref,
     })
-    return get(`${root}/${version}/documents/search?${params}`)
+
+    return `${api()}/documents/search?${params}`
 }
 
 // Utils

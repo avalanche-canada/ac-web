@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
-import { forecast } from 'api/requests/forecast'
+import { forecast } from 'api/urls/forecast'
 import { transformForecast } from 'api/transformers'
 
 Forecast.propTypes = {
@@ -12,10 +12,8 @@ Forecast.propTypes = {
 }
 
 export function Forecast({ name, date, children }) {
-    const request = forecast(name, date)
-
     return (
-        <Fetch cache={CACHE} request={request}>
+        <Fetch cache={CACHE} url={forecast(name, date)}>
             {({ data, ...props }) =>
                 children(
                     Object.assign(props, {

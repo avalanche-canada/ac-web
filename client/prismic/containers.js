@@ -6,7 +6,7 @@ import Fetch from 'components/fetch'
 import { Memory as Cache } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
 import * as Text from 'components/text'
-import * as requests from './requests'
+import * as urls from './urls'
 import * as params from 'prismic/params'
 import { status } from 'services/fetch/utils'
 import parse from './parsers'
@@ -15,7 +15,7 @@ import { FR, EN } from 'constants/locale'
 
 function MasterRef({ children }) {
     return (
-        <Fetch cache={REFCACHE} request={requests.api()}>
+        <Fetch cache={REFCACHE} url={urls.api()}>
             {({ data }) =>
                 data ? children(data.refs.find(isMasterRef).ref) : null
             }
@@ -39,10 +39,10 @@ function Search({ children, predicates, locale, ...options }) {
                         Object.assign(options, LANGUAGES.get(locale))
                     }
 
-                    const request = requests.search(ref, predicates, options)
+                    const url = urls.search(ref, predicates, options)
 
                     return (
-                        <Fetch cache={CACHE} request={request}>
+                        <Fetch cache={CACHE} url={url}>
                             {children}
                         </Fetch>
                     )
@@ -111,7 +111,7 @@ export class Tags extends Component {
     async fetch() {
         this.setState({ pending: true }, async () => {
             try {
-                const api = await fetch(requests.api()).then(status)
+                const api = await fetch(urls.api()).then(status)
                 const { ref } = api.refs.find(isMasterRef)
                 const { type } = this.props
                 const tags = new Set()
@@ -123,8 +123,8 @@ export class Tags extends Component {
                         type,
                         page,
                     })
-                    const request = requests.search(ref, predicates, options)
-                    const data = await fetch(request).then(status)
+                    const url = urls.search(ref, predicates, options)
+                    const data = await fetch(url).then(status)
 
                     page = data.page + 1
                     nextPage = data.next_page

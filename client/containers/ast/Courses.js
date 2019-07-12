@@ -5,7 +5,7 @@ import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import isAfter from 'date-fns/is_after'
-import * as ast from 'api/requests/ast'
+import * as ast from 'api/urls/ast'
 
 CoursesContainer.propTypes = {
     children: PropTypes.func.isRequired,
@@ -17,7 +17,7 @@ CoursesContainer.propTypes = {
 
 export default function CoursesContainer({ children, ...params }) {
     return (
-        <Fetch cache={CACHE} request={ast.courses()}>
+        <Fetch cache={CACHE} url={ast.courses()}>
             {({ data, pending }) => {
                 const props = { pending }
                 let results = data?.results

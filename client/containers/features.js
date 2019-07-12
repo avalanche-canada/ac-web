@@ -5,7 +5,7 @@ import get from 'lodash/get'
 import Fetch from 'components/fetch'
 import { Memory } from 'components/fetch/Cache'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { metadata } from 'api/requests/metadata'
+import { metadata } from 'api/urls/metadata'
 import { Error } from 'components/text'
 
 Region.propTypes = {
@@ -83,7 +83,7 @@ export function HotZones({ all, children }) {
 function Features({ fallback, children, transform }) {
     return (
         <ErrorBoundary fallback={<Error>{fallback}</Error>}>
-            <Fetch cache={CACHE} request={metadata()}>
+            <Fetch cache={CACHE} url={metadata()}>
                 {({ data, ...props }) =>
                     children(
                         Object.assign(props, {

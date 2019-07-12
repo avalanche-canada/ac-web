@@ -11,7 +11,8 @@ export default class Fetch extends Component {
     static propTypes = {
         children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
             .isRequired,
-        request: PropTypes.instanceOf(Request).isRequired,
+        url: PropTypes.string.isRequired,
+        options: PropTypes.object,
         cache: PropTypes.instanceOf(Cache),
     }
     static defaultProps = {
@@ -27,7 +28,10 @@ export default class Fetch extends Component {
         return this.props.cache
     }
     get url() {
-        return this.props.request.url
+        return this.props.url
+    }
+    get options() {
+        return this.props.options
     }
     safeSetState(...args) {
         if (this.mounted) {
@@ -78,7 +82,7 @@ export default class Fetch extends Component {
             if (FETCHING.has(url)) {
                 fetching = FETCHING.get(url)
             } else {
-                fetching = fetch(this.props.request).then(status)
+                fetching = fetch(this.url, this.options).then(status)
 
                 FETCHING.set(url, fetching)
             }
@@ -86,8 +90,8 @@ export default class Fetch extends Component {
             fetching.then(this.fulfill, this.reject)
         }
     }
-    componentDidUpdate({ request }) {
-        if (this.url !== request.url) {
+    componentDidUpdate({ url }) {
+        if (this.url !== url) {
             this.fetch()
         }
     }

@@ -1,38 +1,38 @@
-import { get } from 'services/fetch/requests'
 import { accessToken, username, api, styleIds } from './config.json'
+import { build } from 'utils/url'
 
-export function place(term, options) {
+export function place(term) {
     if (!term) {
         return null
     }
 
     term = encodeURIComponent(term.trim())
 
-    const url = `${api}/geocoding/v5/mapbox.places/${term}.json`
+    const url = `/geocoding/v5/mapbox.places/${term}.json`
 
-    return get(url, PLACE_PARAMS, options)
+    return build(url, PLACE_PARAMS, api)
 }
 
 export function style(id) {
     const style = styleIds[id]
-    const url = `${api}/styles/v1/${username}/${style}`
+    const url = `/styles/v1/${username}/${style}`
 
-    return get(url, PARAMS)
+    return build(url, PARAMS, api)
 }
 
 export function features(dataset) {
-    const url = `${api}/datasets/v1/${username}/${dataset}/features`
+    const url = `/datasets/v1/${username}/${dataset}/features`
 
-    return get(url, PARAMS)
+    return build(url, PARAMS, api)
 }
 
 // Constants
-const PLACE_PARAMS = new URLSearchParams({
+const PLACE_PARAMS = {
     country: 'ca,us,au,jp',
     types: 'country,region,locality,place',
     autocomplete: true,
     access_token: accessToken,
-})
-const PARAMS = new URLSearchParams({
+}
+const PARAMS = {
     access_token: accessToken,
-})
+}

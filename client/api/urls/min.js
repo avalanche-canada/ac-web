@@ -1,9 +1,9 @@
-import * as requests from 'services/fetch/requests'
+import { build } from 'utils/url'
 import Accessor from 'services/auth/accessor'
 import { baseURL } from 'api/config.json'
 
 export function report(id) {
-    return requests.get(`${BASE_URL}/${id}`, { id, client })
+    return build(`${BASE_URL}/${id}`, { id, client })
 }
 
 export function reports(days = 7) {
@@ -11,7 +11,7 @@ export function reports(days = 7) {
         throw new RangeError('Number of days must be higher or equal to 1.')
     }
 
-    return requests.get(BASE_URL, { client, last: `${days}:days` })
+    return build(BASE_URL, { client, last: `${days}:days` })
 }
 
 export function post(data) {

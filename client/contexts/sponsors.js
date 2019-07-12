@@ -1,7 +1,7 @@
 import React, { createContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
-import { resource } from 'api/requests/static'
+import { resource } from 'api/urls/static'
 import { useLocalStorage, useFetch, useTimeout } from 'utils/react/hooks'
 
 Provider.propTypes = {
