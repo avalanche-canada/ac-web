@@ -1,9 +1,10 @@
 import { status } from 'services/fetch/utils'
-import { clean } from 'utils/object'
+import { build } from 'utils/url'
 
 export function mapToSizeFactory(width = 100, height = 100) {
     const transform = `c_fill,h_${height},w_${width}`
     const original = `c_fill,h_${600},w_${1000}`
+    const RESOURCE_PREFIX = '//res.cloudinary.com/avalanche-ca/image/upload'
 
     return function mapToSize({ public_id }) {
         return {
@@ -14,12 +15,9 @@ export function mapToSizeFactory(width = 100, height = 100) {
 }
 
 export function getByTag(tag, options = {}) {
-    const params = new URLSearchParams(clean({ max_results: 25, ...options }))
-    const url = `${TAGS_PATH}/${tag.trim()}?${params.toString()}`
+    const params = { max_results: 25, ...options }
+    const path = `/vendor/cloudinary/resources/image/tags/${tag.trim()}`
+    const url = build(path, params)
 
     return fetch(url).then(status)
 }
-
-// Constants
-const RESOURCE_PREFIX = '//res.cloudinary.com/avalanche-ca/image/upload'
-const TAGS_PATH = '/vendor/cloudinary/resources/image/tags'
