@@ -1,5 +1,4 @@
 import { build } from 'utils/url'
-import Accessor from 'services/auth/accessor'
 import { baseURL } from 'api/config.json'
 
 export function report(id) {
@@ -14,15 +13,8 @@ export function reports(days = 7) {
     return build(BASE_URL, { client, last: `${days}:days` })
 }
 
-export function post(data) {
-    const config = {
-        body: data,
-        headers: new Headers({
-            Authorization: `Bearer ${Accessor.idToken}`,
-        }),
-    }
-
-    return requests.post(BASE_URL, { client }, config)
+export function post() {
+    return build(BASE_URL, { client })
 }
 
 const client = 'web'

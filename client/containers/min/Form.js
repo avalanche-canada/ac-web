@@ -12,10 +12,11 @@ import { TYPES } from 'constants/min'
 import { Mailto } from 'components/anchors'
 import ObservationSetError from './ObservationSetError'
 import transform from './transform'
-import { status } from 'services/fetch/utils'
 import * as min from 'api/urls/min'
 import { CACHE } from './index'
 import { SUPPORT } from 'constants/emails'
+import Accessor from 'services/auth/accessor'
+import { status } from 'services/fetch/utils'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
@@ -163,7 +164,16 @@ export default class SubmissionForm extends Component {
     }
     submit(value) {
         this.setState({ isSubmitting: true, error: null }, () => {
-            fetch(min.post(transform(value)))
+            const url = min.post()
+            const options = {
+                method: 'POST',
+                body: transform(value),
+                headers: new Headers({
+                    Authorization: `Bearer ${Accessor.idToken}`,
+                }),
+            }
+
+            fetch(url, options)
                 .then(status)
                 .then(
                     data => {
