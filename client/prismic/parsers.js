@@ -1,10 +1,10 @@
-import { lazyParse as parseDate } from 'utils/date'
+import parseDate from 'date-fns/parse'
 import camelCase from 'lodash/camelCase'
 import identity from 'lodash/identity'
 import DocumentTransformers from './transformers'
 
 const TypeTransformers = new Map([
-    ['Date', parseDate],
+    ['Date', lazyParseDate],
     ['StructuredText', identity],
     ['Group', parseGroup],
     ['SliceZone', parseSliceZone],
@@ -67,8 +67,8 @@ function parseDocument(document, transformer = identity) {
 
     Object.assign(rest, {
         type,
-        firstPublicationDate: parseDate(first_publication_date),
-        lastPublicationDate: parseDate(last_publication_date),
+        firstPublicationDate: lazyParseDate(first_publication_date),
+        lastPublicationDate: lazyParseDate(last_publication_date),
         data: parseData(data[type]),
     })
 
@@ -89,4 +89,9 @@ export function parseLocation(document) {
     const { location } = parse(document).data
 
     return location ? [location.longitude, location.latitude] : null
+}
+
+// TODO Test if this function is really needed!
+function lazyParseDate(date) {
+    return date ? parseDate(date) : date
 }

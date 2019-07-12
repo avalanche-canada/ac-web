@@ -14,11 +14,6 @@ export function setUTCOffset(date, offset) {
     )
 }
 
-// TODO Remove that function
-export function lazyParse(date, ...rest) {
-    return date ? parse(date, ...rest) : date
-}
-
 export function startOfSeason(date = new Date()) {
     const year = date.getFullYear()
     const octoberFirst = new Date(year, 9, 1)
