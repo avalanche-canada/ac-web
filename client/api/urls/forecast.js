@@ -17,6 +17,10 @@ export function forecast(name, date) {
     return build(`${baseURL}/${path}/${name}.json`)
 }
 
+export function forecasts() {
+    return forecast('all')
+}
+
 // Utils
 function isArchiveBulletinRequest(date) {
     if (!date) {
