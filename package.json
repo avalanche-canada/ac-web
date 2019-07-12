@@ -146,7 +146,6 @@
         "react-day-picker": "^7.3.0",
         "react-dom": "^16.8.1",
         "react-image-gallery": "^0.8.12",
-        "react-jsonschema-form": "^0.40.0",
         "react-test-renderer": "^16.8.1",
         "requirejs": "~2.1.11",
         "should": "~3.3.1",
