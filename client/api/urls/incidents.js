@@ -1,4 +1,4 @@
-import { incidentsBaseUrl } from 'api/config'
+import { incidentsBaseUrl } from 'api/config.json'
 import { build } from 'utils/url'
 
 export function incident(id) {
