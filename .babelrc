@@ -1,11 +1,22 @@
 {
     "presets": [
-        ["@babel/preset-env", { "useBuiltIns": "usage" }],
+        [
+            "@babel/preset-env",
+            {
+                "useBuiltIns": "usage",
+                "corejs": 3
+            }
+        ],
         "@babel/preset-react"
     ],
     "plugins": [
         "preval",
-        "@babel/plugin-transform-runtime",
+        [
+            "@babel/plugin-transform-runtime",
+            {
+                "corejs": 3
+            }
+        ],
         [
             "transform-react-remove-prop-types",
             {

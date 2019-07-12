@@ -26,7 +26,7 @@ module.exports = {
             ),
             // Creates an issue when used. This could be enabled back once auth0-lock will move newer React
             // 'react-lifecycles-compat': path.resolve(__dirname, 'client/vendor/react-lifecycles-compat/shim.js'),
-            'object-assign': 'core-js/fn/object/assign.js',
+            'object-assign': 'core-js/features/object/assign.js',
         },
     },
     plugins: [
