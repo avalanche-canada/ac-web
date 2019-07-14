@@ -5,7 +5,7 @@ import Control from './Control'
 export Map from './Map'
 export StaticMap, { Managed as ManagedStaticMap } from './StaticMap'
 export Marker from './Marker'
-export Layer from './Layer'
+export Layer, { Symbol, Fill, Line, Circle } from './Layer'
 export Source from './sources/GeoJSON'
 
 export function NavigationControl(props) {

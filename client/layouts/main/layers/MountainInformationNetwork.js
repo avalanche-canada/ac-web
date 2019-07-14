@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { Location } from '@reach/router'
-import { Source, Layer } from 'components/map'
+import { Source, Symbol } from 'components/map'
 import { Report, Reports } from 'containers/min'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
@@ -58,7 +58,7 @@ export default function MountainInformationNetwork({ filters, ...props }) {
             <Report id={id}>
                 {({ data }) => (
                     <Source id={id} data={createReportFeatureCollection(data)}>
-                        <Layer.Symbol id={id} {...props} {...styles.reports} />
+                        <Symbol id={id} {...props} {...styles.reports} />
                     </Source>
                 )}
             </Report>
@@ -79,7 +79,7 @@ export default function MountainInformationNetwork({ filters, ...props }) {
                             cluster
                             clusterMaxZoom={14}
                             data={reports}>
-                            <Layer.Symbol
+                            <Symbol
                                 id={key}
                                 filter={filter}
                                 {...props}
@@ -87,7 +87,7 @@ export default function MountainInformationNetwork({ filters, ...props }) {
                             />
                         </Source>
                         <Source id={`${key}-incidents`} data={incidents}>
-                            <Layer.Symbol
+                            <Symbol
                                 id={`${key}-incidents`}
                                 filter={filter}
                                 {...props}

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Match } from '@reach/router'
 import * as turf from '@turf/helpers'
 import { FeatureCollection } from 'containers/mapbox'
-import { Source, Layer, Map } from 'components/map'
+import { Source, Fill, Line, Symbol, Map } from 'components/map'
 import { FORECASTS as key } from 'constants/drawers'
 
 ForecastRegions.propTypes = {
@@ -25,13 +25,13 @@ export default function ForecastRegions(props) {
 
                     return (
                         <Source id={key} data={data}>
-                            <Layer.Fill id={key} {...props} {...styles.fill} />
-                            <Layer.Line
+                            <Fill id={key} {...props} {...styles.fill} />
+                            <Line
                                 id={`${key}-line`}
                                 {...props}
                                 {...styles.line}
                             />
-                            <Layer.Symbol
+                            <Symbol
                                 id={`${key}-labels`}
                                 {...props}
                                 {...styles.labels}

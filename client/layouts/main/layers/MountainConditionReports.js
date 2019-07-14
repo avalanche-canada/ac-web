@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import { Source, Layer } from 'components/map'
+import { Source, Symbol } from 'components/map'
 import * as Containers from 'containers/mcr'
 import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
 
@@ -23,7 +23,7 @@ export default function MountainConditionReports(props) {
                         cluster
                         clusterMaxZoom={14}
                         data={createReportsFeatureCollection(data)}>
-                        <Layer.Symbol id={key} {...props} {...styles} />
+                        <Symbol id={key} {...props} {...styles} />
                     </Source>
                     <Location>
                         {({ location }) => {
@@ -47,7 +47,7 @@ export default function MountainConditionReports(props) {
                                             data={createReportFeatureCollection(
                                                 data
                                             )}>
-                                            <Layer.Symbol
+                                            <Symbol
                                                 {...props}
                                                 id="mountain-conditions-report"
                                                 {...styles}

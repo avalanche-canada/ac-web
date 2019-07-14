@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import { Source, Layer } from 'components/map'
+import { Source, Symbol } from 'components/map'
 import { Documents } from 'prismic/containers'
 import { special } from 'prismic/params'
 import { SPECIAL_INFORMATION as key } from 'constants/drawers'
@@ -18,7 +18,7 @@ export default function SpecialInformation(props) {
         <Documents {...special.reports()}>
             {({ documents }) => (
                 <Source id={key} data={createFeatureCollection(documents)}>
-                    <Layer.Symbol id={key} {...props} layout={layout} />
+                    <Symbol id={key} {...props} layout={layout} />
                 </Source>
             )}
         </Documents>

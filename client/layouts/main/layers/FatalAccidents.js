@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import { Source, Layer } from 'components/map'
+import { Source, Symbol } from 'components/map'
 import { Documents } from 'prismic/containers'
 import { fatal } from 'prismic/params'
 import { FATAL_ACCIDENT as key } from 'constants/drawers'
@@ -22,7 +22,7 @@ export default function FatalAccidents(props) {
                     cluster
                     clusterMaxZoom={14}
                     data={createFeatureCollection(documents)}>
-                    <Layer.Symbol id={key} {...props} {...styles} />
+                    <Symbol id={key} {...props} {...styles} />
                 </Source>
             )}
         </Documents>

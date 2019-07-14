@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import * as features from 'containers/features'
-import { Source, Layer } from 'components/map'
+import { Source, Circle } from 'components/map'
 import { Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
 import { HOT_ZONE_REPORTS as key } from 'constants/drawers'
@@ -23,7 +23,7 @@ export default function HotZones(props) {
                         <Source
                             id={key}
                             data={createFeatureCollection(data)(documents)}>
-                            <Layer.Circle id={key} {...props} {...styles} />
+                            <Circle id={key} {...props} {...styles} />
                         </Source>
                     )}
                 </Documents>
