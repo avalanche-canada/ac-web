@@ -105,9 +105,6 @@ export const memo = {
     static(component) {
         return React.memo(component, t)
     },
-    // props(component) {
-    //     return React.memo(component, arePropsEqual)
-    // },
 }
 
 // Utils
