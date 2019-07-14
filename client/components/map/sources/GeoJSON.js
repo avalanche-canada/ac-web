@@ -29,6 +29,8 @@ export default function Source(props) {
     )
 }
 
+// Tried to convert to functional component, but dod not work well...
+
 class GeoJSONSource extends Component {
     static defaultProps = {
         data: turf.featureCollection([]),
