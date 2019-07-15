@@ -7,15 +7,15 @@ InnerHTML.propTypes = {
 }
 
 function InnerHTML({ component = 'div', children, ...props }) {
-    if (children) {
-        props.dangerouslySetInnerHTML = {
-            __html: children,
-        }
-
-        return createElement(component, props)
+    if (!children) {
+        return null
     }
 
-    return null
+    props.dangerouslySetInnerHTML = {
+        __html: children,
+    }
+
+    return createElement(component, props)
 }
 
 export default memo(InnerHTML)
