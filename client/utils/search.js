@@ -64,18 +64,18 @@ export function toNumber(value) {
 }
 
 export function formatSorting(sorting) {
-    if (Array.isArray(sorting)) {
-        const [name, order] = sorting
-
-        switch (order) {
-            case ASC:
-                return '+' + name
-            case DESC:
-                return '-' + name
-        }
+    if (!Array.isArray(sorting)) {
+        return undefined
     }
 
-    return undefined
+    const [name, order] = sorting
+
+    switch (order) {
+        case ASC:
+            return '+' + name
+        case DESC:
+            return '-' + name
+    }
 }
 
 export function parseSorting(sorting) {
