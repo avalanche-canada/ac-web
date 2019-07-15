@@ -72,6 +72,14 @@ module.exports = Object.assign({}, common, {
                 cache: true,
                 parallel: true,
                 sourceMap: true,
+                terserOptions: {
+                    toplevel: true,
+                    compress: {
+                        passes: 3,
+                        pure_getters: true,
+                        unsafe: true,
+                    },
+                },
             }),
             new OptimizeCSSAssetsPlugin({}),
         ],
