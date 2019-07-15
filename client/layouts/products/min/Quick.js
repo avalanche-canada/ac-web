@@ -5,6 +5,68 @@ import Comment from './Comment'
 import { trulyKeys } from 'utils/object'
 import { List, Term, Definition } from 'components/description'
 
+Quick.propTypes = {
+    avalancheConditions: PropTypes.shape({
+        sound: PropTypes.bool.isRequired,
+        snow: PropTypes.bool.isRequired,
+        slab: PropTypes.bool.isRequired,
+        temp: PropTypes.bool.isRequired,
+    }).isRequired,
+    ridingConditions: PropTypes.shape({
+        snowConditions: PropTypes.object.isRequired,
+        ridingQuality: PropTypes.object.isRequired,
+        stayedAway: PropTypes.object.isRequired,
+        rideType: PropTypes.object.isRequired,
+        weather: PropTypes.object.isRequired,
+    }).isRequired,
+    comment: PropTypes.string,
+}
+
+export default function Quick({
+    avalancheConditions,
+    ridingConditions,
+    comment,
+}) {
+    // TODO: Improve code here! So confusing this truly key!!!
+    // TODO: Simplify code!!!!!
+    ridingConditions = computeRidingConditions(ridingConditions)
+    avalancheConditions = trulyKeys(avalancheConditions).map(
+        key => avalancheConditionsTexts[key]
+    )
+
+    const hasAvalancheConditions = avalancheConditions.length > 0
+    const hasRidingConditions = ridingConditions.length > 0
+    const hasInformation = hasAvalancheConditions || hasRidingConditions
+
+    return (
+        <Fragment>
+            {hasInformation && (
+                <Section title="Information">
+                    <List bordered>
+                        {hasAvalancheConditions && (
+                            <Fragment>
+                                <Term block>Avalanche conditions</Term>
+                                <Definition block>
+                                    <ul>
+                                        {avalancheConditions.map(
+                                            (condition, index) => (
+                                                <li key={index}>{condition}</li>
+                                            )
+                                        )}
+                                    </ul>
+                                </Definition>
+                            </Fragment>
+                        )}
+                        {hasRidingConditions && ridingConditions}
+                    </List>
+                </Section>
+            )}
+            {comment && <Comment>{comment}</Comment>}
+        </Fragment>
+    )
+}
+
+// Constants & utils
 const avalancheConditionsTexts = {
     slab: 'Slab avalanches today or yesterday.',
     sound: 'Whumpfing or drum-like sounds or shooting cracks.',
@@ -54,65 +116,4 @@ function computeRidingConditions(conditions = {}) {
 
         return children
     }, [])
-}
-
-Quick.propTypes = {
-    avalancheConditions: PropTypes.shape({
-        sound: PropTypes.bool.isRequired,
-        snow: PropTypes.bool.isRequired,
-        slab: PropTypes.bool.isRequired,
-        temp: PropTypes.bool.isRequired,
-    }).isRequired,
-    ridingConditions: PropTypes.shape({
-        snowConditions: PropTypes.object.isRequired,
-        ridingQuality: PropTypes.object.isRequired,
-        stayedAway: PropTypes.object.isRequired,
-        rideType: PropTypes.object.isRequired,
-        weather: PropTypes.object.isRequired,
-    }).isRequired,
-    comment: PropTypes.string,
-}
-
-export default function Quick({
-    avalancheConditions,
-    ridingConditions,
-    comment,
-}) {
-    // TODO: Improve code here! So confusing this truly key!!!
-    // TODO: Simplify code!!!!!
-    ridingConditions = computeRidingConditions(ridingConditions)
-    avalancheConditions = trulyKeys(avalancheConditions).map(
-        key => avalancheConditionsTexts[key]
-    )
-
-    const hasAvalancheConditions = avalancheConditions.length > 0
-    const hasRidingConditions = ridingConditions.length > 0
-    const hasInformation = hasAvalancheConditions || hasRidingConditions
-
-    return (
-        <Fragment>
-            {hasInformation && (
-                <Section title="Information">
-                    <List bordered>
-                        {hasAvalancheConditions && (
-                            <Term block>Avalanche conditions</Term>
-                        )}
-                        {hasAvalancheConditions && (
-                            <Definition block>
-                                <ul>
-                                    {avalancheConditions.map(
-                                        (condition, index) => (
-                                            <li key={index}>{condition}</li>
-                                        )
-                                    )}
-                                </ul>
-                            </Definition>
-                        )}
-                        {hasRidingConditions && ridingConditions}
-                    </List>
-                </Section>
-            )}
-            {comment && <Comment>{comment}</Comment>}
-        </Fragment>
-    )
 }
