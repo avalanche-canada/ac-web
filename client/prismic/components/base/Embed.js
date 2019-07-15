@@ -12,17 +12,16 @@ Embed.propTypes = {
     }).isRequired,
 }
 
-export default function Embed({
-    label,
-    oembed: { type, provider_name, embed_url, html },
-}) {
+export default function Embed({ label, oembed }) {
+    const { type, provider_name, embed_url, html } = oembed
+
     return (
-        <div
+        <InnerHTML
             className={label}
             data-oembed={embed_url}
             data-oembed-provider={provider_name}
             data-oembed-type={type}>
-            <InnerHTML>{html}</InnerHTML>
-        </div>
+            {html}
+        </InnerHTML>
     )
 }
