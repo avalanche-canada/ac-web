@@ -41,15 +41,12 @@ function parseSliceZone(slices = []) {
 }
 
 function parseData(data) {
-    return {
-        ...Object.keys(data).reduce((object, key) => {
-            const camelCaseKey = camelCase(key)
-
-            object[camelCaseKey] = parseValue(data[key])
-
-            return object
-        }, {}),
-    }
+    return Object.fromEntries(
+        Object.entries(data).map(([key, value]) => [
+            camelCase(key),
+            parseValue(value),
+        ])
+    )
 }
 
 function parseGroup(group) {
