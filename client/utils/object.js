@@ -3,11 +3,7 @@ export function trulyKeys(object = {}) {
 }
 
 export function clean(object = {}) {
-    return Object.entries(object).reduce((object, [key, value]) => {
-        if (value != null) {
-            object[key] = value
-        }
-
-        return object
-    }, {})
+    return Object.fromEntries(
+        Object.entries(object).filter(([_, value]) => value != null)
+    )
 }
