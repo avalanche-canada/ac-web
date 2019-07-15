@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Section from './Section'
 import Comment from './Comment'
@@ -50,10 +50,6 @@ function computeRidingConditions(conditions = {}) {
                 }
                 break
             }
-            default:
-                throw new Error(
-                    `Prompt of type="${type}" not supported in Quick MIN observation.`
-                )
         }
 
         return children
@@ -94,7 +90,7 @@ export default function Quick({
     const hasInformation = hasAvalancheConditions || hasRidingConditions
 
     return (
-        <div>
+        <Fragment>
             {hasInformation && (
                 <Section title="Information">
                     <List bordered>
@@ -117,6 +113,6 @@ export default function Quick({
                 </Section>
             )}
             {comment && <Comment>{comment}</Comment>}
-        </div>
+        </Fragment>
     )
 }

@@ -4,6 +4,6 @@ export function trulyKeys(object = {}) {
 
 export function clean(object = {}) {
     return Object.fromEntries(
-        Object.entries(object).filter(([_, value]) => value != null)
+        Object.entries(object).filter(([_key, value]) => value != null)
     )
 }

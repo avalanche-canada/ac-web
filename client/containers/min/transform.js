@@ -93,6 +93,7 @@ const ObservationTransformers = new Map([
 
 export default function transform(value) {
     const { required, uploads } = value
+    // FIXME Slow operation to stringify and then parse
     const observations = JSON.parse(JSON.stringify(value.observations))
     const { longitude, latitude } = required.latlng
     const data = {
