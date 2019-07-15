@@ -15,13 +15,13 @@ const TypeTransformers = new Map([
 ])
 
 function parseValue({ type, value }) {
-    if (TypeTransformers.has(type)) {
-        const transformer = TypeTransformers.get(type)
-
-        value = transformer(value)
+    if (!TypeTransformers.has(type)) {
+        return value
     }
 
-    return value
+    const transformer = TypeTransformers.get(type)
+
+    return transformer(value)
 }
 
 function parseSlice({ slice_type, slice_label, value, repeat, ...rest }) {
