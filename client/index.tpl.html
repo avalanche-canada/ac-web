@@ -7,42 +7,12 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta name="description" content="Avalanche Canada" />
-</head>
-
-<body>
-    <!--[if lte IE 9]>
-            <h1>
-                Avalanche Canada website is not supported on your browser.
-            </h1>
-            <p>
-                Check what browser version you're currently using at:
-                <a href="https://www.whatismybrowser.com/"
-                    >www.whatismybrowser.com</a
-                >.
-            </p>
-            <p>
-                You can update your browser at:
-                <a
-                    href="https://www.whatismybrowser.com/guides/how-to-update-your-browser/auto"
-                    >www.whatismybrowser.com</a
-                >
-            </p>
-        <![endif]-->
-    <noscript>
-        <h1>Avalanche Canada</h1>
-        <p>
-            For full functionality of this site, it is necessary to enable
-            JavaScript. Here are the
-            <a href="https://www.enable-javascript.com/">
-                instructions how to enable JavaScript in your web browser</a>.
-        </p>
-    </noscript>
-    <div id="app"></div>
     <script>
         var appendScript = function (src) {
             var script = document.createElement('script');
 
             script.src = src;
+            script.async = false;
 
             document.head.appendChild(script);
         }
@@ -86,6 +56,37 @@
             appendScript('https://cdn.jsdelivr.net/npm/whatwg-fetch@3.0.0/dist/fetch.umd.min.js')
         }
     </script>
+</head>
+
+<body>
+    <!--[if lte IE 9]>
+            <h1>
+                Avalanche Canada website is not supported on your browser.
+            </h1>
+            <p>
+                Check what browser version you're currently using at:
+                <a href="https://www.whatismybrowser.com/"
+                    >www.whatismybrowser.com</a
+                >.
+            </p>
+            <p>
+                You can update your browser at:
+                <a
+                    href="https://www.whatismybrowser.com/guides/how-to-update-your-browser/auto"
+                    >www.whatismybrowser.com</a
+                >
+            </p>
+        <![endif]-->
+    <noscript>
+        <h1>Avalanche Canada</h1>
+        <p>
+            For full functionality of this site, it is necessary to enable
+            JavaScript. Here are the
+            <a href="https://www.enable-javascript.com/">
+                instructions how to enable JavaScript in your web browser</a>.
+        </p>
+    </noscript>
+    <div id="app"></div>
     <!-- Google Analytics -->
     <script>
         window.ga =
