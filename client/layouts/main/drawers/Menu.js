@@ -24,7 +24,6 @@ function Menu({ onCloseClick }) {
                     <components.LayerSet title="Analysis">
                         <Layer id={Layers.FORECASTS} />
                         <Layer id={Layers.HOT_ZONE_REPORTS} />
-                        <Layer id={Layers.SPECIAL_INFORMATION} />
                     </components.LayerSet>
                     <components.LayerSet title="Observations">
                         <Layer id={Layers.MOUNTAIN_INFORMATION_NETWORK}>
@@ -96,7 +95,6 @@ const ICONS = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, <Icons.MountainInformationNetwork />],
     [Layers.MOUNTAIN_CONDITIONS_REPORTS, <Icons.MountainConditionsReport />],
     [Layers.WEATHER_STATION, <Icons.WeatherStation />],
-    [Layers.SPECIAL_INFORMATION, <Icons.SpecialInformation />],
     [Layers.FATAL_ACCIDENT, <Icons.FatalAccident />],
 ])
 const TITLES = new Map([
@@ -105,6 +103,5 @@ const TITLES = new Map([
     [Layers.MOUNTAIN_INFORMATION_NETWORK, 'Mountain information network'],
     [Layers.MOUNTAIN_CONDITIONS_REPORTS, 'Mountain Conditions Reports'],
     [Layers.WEATHER_STATION, 'Weather stations'],
-    [Layers.SPECIAL_INFORMATION, 'Special information'],
     [Layers.FATAL_ACCIDENT, 'Fatal recreational accidents'],
 ])

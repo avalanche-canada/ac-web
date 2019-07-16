@@ -262,6 +262,5 @@ const SEARCHS = new Map([
         'mountain-information-network-submissions',
     ],
     [TYPES.FATAL_ACCIDENT, 'fatal-accidents'],
-    [TYPES.SPECIAL_INFORMATION, 'special-information'],
     [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'mountain-conditions-reports'],
 ])

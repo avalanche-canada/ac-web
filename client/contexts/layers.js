@@ -127,8 +127,5 @@ const LAYERS = {
     [LAYER_IDS.FATAL_ACCIDENT]: {
         visible: false,
     },
-    [LAYER_IDS.SPECIAL_INFORMATION]: {
-        visible: true,
-    },
 }
 const LayersContext = createContext(LAYER_IDS)

@@ -86,22 +86,6 @@ export const fatal = {
     },
 }
 
-export const special = {
-    report(id) {
-        return uid(types.SPECIAL_INFORMATION, id)
-    },
-    reports() {
-        const { SPECIAL_INFORMATION } = types
-
-        return {
-            predicates: rangePredicates(
-                my(SPECIAL_INFORMATION, 'dateOfIssue'),
-                my(SPECIAL_INFORMATION, 'validUntil')
-            ),
-        }
-    },
-}
-
 export const hotZone = {
     report(name, date) {
         const { HOTZONE_REPORT } = types
