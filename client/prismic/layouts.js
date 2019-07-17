@@ -115,15 +115,6 @@ function renderBody({ pending, document }) {
         </Fragment>
     )
 }
-const ToBoolean = new Map([
-    ['Yes', true],
-    ['No', false],
-    [undefined, false],
-    [null, false],
-])
-function boolean(string) {
-    return ToBoolean.get(string)
-}
 function renderAside({
     sharing,
     following,
@@ -131,9 +122,10 @@ function renderAside({
     sidebar = [],
     contact,
 }) {
-    sharing = boolean(sharing)
-    following = boolean(following)
-    contacting = boolean(contacting)
+    const YES = 'Yes'
+    sharing = sharing === YES
+    following = following === YES
+    contacting = contacting === YES
 
     if (sharing || following || contacting || sidebar.length) {
         contact = contacting
