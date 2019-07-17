@@ -1,11 +1,11 @@
 import React from 'react'
-import { storiesOf, action } from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import Quick from './Quick'
 import Avalanche from './Avalanche'
 import Snowpack from './Snowpack'
 import Weather from './Weather'
 import Incident from './Incident'
-import {Submission} from './'
+import { Submission } from './'
 import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from 'constants/min'
 
 const data = [
@@ -37,8 +37,10 @@ const data = [
             blowingSnow: 'None',
             tempLatlng: '50.95540,-118.14938',
         },
-        focusUrl: 'http://www.avalanche.ca/focus/6bc8aeb2-3b73-4e7c-a983-318fcea3e237',
-        shareUrl: 'http://www.avalanche.ca/share/test-only-for-design-purposes/6bc8aeb2-3b73-4e7c-a983-318fcea3e237',
+        focusUrl:
+            'http://www.avalanche.ca/focus/6bc8aeb2-3b73-4e7c-a983-318fcea3e237',
+        shareUrl:
+            'http://www.avalanche.ca/share/test-only-for-design-purposes/6bc8aeb2-3b73-4e7c-a983-318fcea3e237',
         thumbs: [
             'http://www.avalanche.ca/api/min/uploads/2016/07/10/d48efff5-a746-465d-8dfc-68cc723379bf.jpeg',
         ],
@@ -99,8 +101,10 @@ const data = [
             tempLatlng: '50.95540,-118.14938',
             snowpackObsComment: 'Test only for design purposes',
         },
-        focusUrl: 'http://www.avalanche.ca/focus/377cb449-8b4a-4d8f-9936-22d4431cc903',
-        shareUrl: 'http://www.avalanche.ca/share/test-only-for-design-purposes/377cb449-8b4a-4d8f-9936-22d4431cc903',
+        focusUrl:
+            'http://www.avalanche.ca/focus/377cb449-8b4a-4d8f-9936-22d4431cc903',
+        shareUrl:
+            'http://www.avalanche.ca/share/test-only-for-design-purposes/377cb449-8b4a-4d8f-9936-22d4431cc903',
         thumbs: [
             'http://www.avalanche.ca/api/min/uploads/2016/07/10/d48efff5-a746-465d-8dfc-68cc723379bf.jpeg',
         ],
@@ -170,8 +174,10 @@ const data = [
             avalancheOccurrenceEpoch: '2016-07-10',
             vegetationCover: 'Open slope',
         },
-        focusUrl: 'http://www.avalanche.ca/focus/1405e3a3-8792-4ac2-9c2c-5f23668af71b',
-        shareUrl: 'http://www.avalanche.ca/share/test-only-for-design-purposes/1405e3a3-8792-4ac2-9c2c-5f23668af71b',
+        focusUrl:
+            'http://www.avalanche.ca/focus/1405e3a3-8792-4ac2-9c2c-5f23668af71b',
+        shareUrl:
+            'http://www.avalanche.ca/share/test-only-for-design-purposes/1405e3a3-8792-4ac2-9c2c-5f23668af71b',
         thumbs: [
             'http://www.avalanche.ca/api/min/uploads/2016/07/10/d48efff5-a746-465d-8dfc-68cc723379bf.jpeg',
         ],
@@ -257,8 +263,10 @@ const data = [
             tempLatlng: '50.95540,-118.14938',
             comment: 'Great day to ride the Mountain Coaster at RMR',
         },
-        focusUrl: 'http://www.avalanche.ca/focus/e775d955-e7aa-4b90-9522-8175c111660b',
-        shareUrl: 'http://www.avalanche.ca/share/test-only-for-design-purposes/e775d955-e7aa-4b90-9522-8175c111660b',
+        focusUrl:
+            'http://www.avalanche.ca/focus/e775d955-e7aa-4b90-9522-8175c111660b',
+        shareUrl:
+            'http://www.avalanche.ca/share/test-only-for-design-purposes/e775d955-e7aa-4b90-9522-8175c111660b',
         thumbs: [
             'http://www.avalanche.ca/api/min/uploads/2016/07/10/d48efff5-a746-465d-8dfc-68cc723379bf.jpeg',
         ],
@@ -303,8 +311,10 @@ const data = [
             numberFullyBuried: 0,
             tempLatlng: '50.95540,-118.14938',
         },
-        focusUrl: 'http://www.avalanche.ca/focus/2e9622bc-57b1-4269-87f3-28f58dbc94d6',
-        shareUrl: 'http://www.avalanche.ca/share/test-only-for-design-purposes/2e9622bc-57b1-4269-87f3-28f58dbc94d6',
+        focusUrl:
+            'http://www.avalanche.ca/focus/2e9622bc-57b1-4269-87f3-28f58dbc94d6',
+        shareUrl:
+            'http://www.avalanche.ca/share/test-only-for-design-purposes/2e9622bc-57b1-4269-87f3-28f58dbc94d6',
         thumbs: [
             'http://www.avalanche.ca/api/min/uploads/2016/07/10/d48efff5-a746-465d-8dfc-68cc723379bf.jpeg',
         ],

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Consumer } from './Context'
+import { useReport } from './Context'
 import Comment from 'layouts/products/min/Comment'
 import List from 'layouts/products/min/List'
 import { Term, Definition } from 'components/description'
@@ -105,13 +105,9 @@ function CriticalFactorsComponent({
 }
 
 export default function CriticalFactors() {
-    return (
-        <Consumer>
-            {report =>
-                report ? <CriticalFactorsComponent {...report.data} /> : null
-            }
-        </Consumer>
-    )
+    const report = useReport()
+
+    return report ? <CriticalFactorsComponent {...report.data} /> : null
 }
 
 // Constants

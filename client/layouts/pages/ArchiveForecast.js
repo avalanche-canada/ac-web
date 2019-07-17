@@ -119,7 +119,7 @@ function ForecastContent({ name, date }) {
     ) : (
         <Forecast name={name} date={date}>
             {({ data }) => (
-                <components.Forecast value={data}>
+                <components.Provider value={data}>
                     <Pending>
                         <Loading>Loading forecast...</Loading>
                     </Pending>
@@ -136,7 +136,7 @@ function ForecastContent({ name, date }) {
                         <Footer.Disclaimer />
                     </components.Footer>
                     <Region name={name}>{renderWarning}</Region>
-                </components.Forecast>
+                </components.Provider>
             )}
         </Forecast>
     )

@@ -1,7 +1,7 @@
 import React, { Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import { memo } from 'utils/react'
-import { Consumer } from './Context'
+import { useForecast } from './Context'
 import Panel from 'components/panel'
 
 import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
@@ -10,18 +10,14 @@ import ArchiveDatePicker from './ArchiveDatePicker'
 import styles from './Forecast.css'
 
 export default function Footer() {
-    return (
-        <Consumer>
-            {forecast =>
-                forecast ? (
-                    <OptimizedFooterComponent
-                        region={forecast.region}
-                        date={forecast.date}
-                    />
-                ) : null
-            }
-        </Consumer>
-    )
+    const forecast = useForecast()
+
+    return forecast ? (
+        <OptimizedFooterComponent
+            region={forecast.region}
+            date={forecast.date}
+        />
+    ) : null
 }
 
 export const ArchivedBulletins = memo.static(function ArchivedBulletins(props) {

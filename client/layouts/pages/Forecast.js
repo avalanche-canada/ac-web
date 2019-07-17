@@ -57,7 +57,7 @@ export default function ForecastLayout({ name, date }) {
                                     <Muted>Loading forecast data...</Muted>
                                 </Pending>
                                 <Fulfilled.Found>
-                                    <components.Forecast value={props.data}>
+                                    <components.Provider value={props.data}>
                                         <components.Metadata />
                                         <SPAW name={name} />
                                         <components.Headline />
@@ -67,7 +67,7 @@ export default function ForecastLayout({ name, date }) {
                                             }
                                         />
                                         <components.Footer />
-                                    </components.Forecast>
+                                    </components.Provider>
                                 </Fulfilled.Found>
                                 <Fulfilled.NotFound>
                                     <Regions>{renderRegions}</Regions>

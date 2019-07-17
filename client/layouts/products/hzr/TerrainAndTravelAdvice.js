@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
-import { Consumer } from './Context'
+import { useReport } from './Context'
 import TerrainSummary from './TerrainSummary'
 import AdviceText from './AdviceText'
 
@@ -51,13 +51,9 @@ function TerrainAndTravelAdviceComponent({ report }) {
 }
 
 export default function TerrainAndTravelAdvice() {
-    return (
-        <Consumer>
-            {report =>
-                report ? (
-                    <TerrainAndTravelAdviceComponent report={report.data} />
-                ) : null
-            }
-        </Consumer>
-    )
+    const report = useReport()
+
+    return report ? (
+        <TerrainAndTravelAdviceComponent report={report.data} />
+    ) : null
 }

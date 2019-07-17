@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import { Consumer } from './Context'
+import { useReport } from './Context'
 import { Sidebar, Contact, Follow, Share, Item } from 'components/sidebar'
 import * as utils from 'utils/hzr'
 import { FORECASTERS } from 'constants/emails'
@@ -38,12 +38,14 @@ export default function HotZoneReportSidebar({
                 </Link>
             </Item>
             <Follow />
-            {shareable && (
-                <Consumer>
-                    {report => report && <Share url={utils.shareUrl(report)} />}
-                </Consumer>
-            )}
+            {shareable && <ShareReport />}
             <Contact email={FORECASTERS} />
         </Sidebar>
     )
+}
+
+function ShareReport() {
+    const report = useReport()
+
+    return report ? <Share url={utils.shareUrl(report)} /> : null
 }

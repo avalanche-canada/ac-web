@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Consumer } from './Context'
+import { useReport } from './Context'
 import Comment from 'layouts/products/min/Comment'
 import Section from 'layouts/products/min/Section'
 import { StructuredText } from 'prismic/components/base'
@@ -104,11 +104,7 @@ function TerrainAdviceSetComponent({
 }
 
 export default function TerrainAdviceSet() {
-    return (
-        <Consumer>
-            {report =>
-                report ? <TerrainAdviceSetComponent {...report.data} /> : null
-            }
-        </Consumer>
-    )
+    const report = useReport()
+
+    return report ? <TerrainAdviceSetComponent {...report.data} /> : null
 }

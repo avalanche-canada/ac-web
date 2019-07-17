@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Consumer } from './Context'
+import { useForecast } from './Context'
 import { DateTime } from 'components/time'
 import {
     Metadata,
@@ -15,26 +15,19 @@ ForecastMetadata.propTypes = {
 }
 
 export default function ForecastMetadata({ shareUrl }) {
-    return (
-        <Consumer>
-            {forecast =>
-                forecast ? (
-                    <Metadata>
-                        <TimestampEntry
-                            term="Date Issued"
-                            value={forecast.dateIssued}
-                        />
-                        <ValidUntil
-                            dateIssued={forecast.dateIssued}
-                            validUntil={forecast.validUntil}
-                        />
-                        <Entry term="Prepared by">{forecast.forecaster}</Entry>
-                        {shareUrl && <ShareEntry url={shareUrl} />}
-                    </Metadata>
-                ) : null
-            }
-        </Consumer>
-    )
+    const forecast = useForecast()
+
+    return forecast ? (
+        <Metadata>
+            <TimestampEntry term="Date Issued" value={forecast.dateIssued} />
+            <ValidUntil
+                dateIssued={forecast.dateIssued}
+                validUntil={forecast.validUntil}
+            />
+            <Entry term="Prepared by">{forecast.forecaster}</Entry>
+            {shareUrl && <ShareEntry url={shareUrl} />}
+        </Metadata>
+    ) : null
 }
 
 // Components

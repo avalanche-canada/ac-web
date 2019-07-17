@@ -22,13 +22,13 @@ export default class Content extends Component {
                     </Shim>
                 )}
                 {data && (
-                    <components.Forecast value={data}>
+                    <components.Provider value={data}>
                         <Shim horizontal>
                             <components.Metadata />
                             <components.Headline />
                         </Shim>
                         <components.TabSet />
-                    </components.Forecast>
+                    </components.Provider>
                 )}
                 <Disclaimer />
                 <DangerRatings />

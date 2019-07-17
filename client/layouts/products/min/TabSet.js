@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Consumer } from './Context'
+import { useReport } from './Context'
 import Tabs, {
     HeaderSet,
     ColoredHeader,
@@ -11,18 +11,11 @@ import Observation from './Observation'
 import { INCIDENT, NAMES, TYPES, COLORS } from 'constants/min'
 
 export default function TabSet() {
-    return (
-        <Consumer>
-            {report =>
-                report && Array.isArray(report.obs) ? (
-                    <TabSetComponent
-                        key={report.subid}
-                        observations={report.obs}
-                    />
-                ) : null
-            }
-        </Consumer>
-    )
+    const report = useReport()
+
+    return report && Array.isArray(report.obs) ? (
+        <TabSetComponent key={report.subid} observations={report.obs} />
+    ) : null
 }
 
 // Components

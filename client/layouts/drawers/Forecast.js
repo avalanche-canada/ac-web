@@ -81,7 +81,7 @@ function Layout({ name, onCloseClick, onLocateClick }) {
                                     </Shim>
                                 </Pending>
                                 <Fulfilled.Found>
-                                    <components.Forecast value={data}>
+                                    <components.Provider value={data}>
                                         <Shim horizontal>
                                             <components.Metadata />
                                             <components.Headline />
@@ -92,7 +92,7 @@ function Layout({ name, onCloseClick, onLocateClick }) {
                                             }
                                         />
                                         <components.Footer />
-                                    </components.Forecast>
+                                    </components.Provider>
                                 </Fulfilled.Found>
                                 <Fulfilled.NotFound>
                                     <Regions>{renderRegions}</Regions>

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Consumer } from './Context'
+import { useForecast } from './Context'
 import Base from '../ArchiveWarning'
 import { DateElement } from 'components/time'
 import subDays from 'date-fns/sub_days'
@@ -53,16 +53,9 @@ ArchiveWarning.propTypes = {
 }
 
 export default function ArchiveWarning({ date }) {
-    return (
-        <Consumer>
-            {forecast =>
-                forecast && forecast.isArchived ? (
-                    <ArchiveWarningComponent
-                        region={forecast.region}
-                        date={date}
-                    />
-                ) : null
-            }
-        </Consumer>
-    )
+    const forecast = useForecast()
+
+    return forecast?.isArchived ? (
+        <ArchiveWarningComponent region={forecast.region} date={date} />
+    ) : null
 }
