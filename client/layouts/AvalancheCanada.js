@@ -29,6 +29,7 @@ import { Provider as MapStateProvider } from 'contexts/map/state'
 import { StaticPage, GenericPage } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
+import { path } from 'utils/min'
 import styles from 'components/page/Page.css'
 
 function AvalancheCanada() {
@@ -680,10 +681,7 @@ function GenericPages() {
 function MIN() {
     return (
         <Router>
-            <Redirect
-                from="submissions/:id"
-                to="/mountain-information-network/submissions/:id"
-            />
+            <Redirect from="submissions/:id" to={path(':id')} />
             <Redirect from=":page" to="/mountain-information-network/:page" />
             <Redirect from="/" to="/mountain-information-network" />
         </Router>

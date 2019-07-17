@@ -6,6 +6,7 @@ import Shim from 'components/Shim'
 import { Submission, Metadata, TabSet, Gallery } from 'layouts/products/min'
 import { Loading } from 'components/text'
 import { Report } from 'containers/min'
+import { path } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { point } from '@turf/helpers'
@@ -27,8 +28,7 @@ function MountainInformationNetwork({ id, onCloseClick, onLocateClick }) {
                     </Navbar>
                     <Header subject="Mountain Information Network">
                         <h1>
-                            <Link
-                                to={`/mountain-information-network/submissions/${id}`}>
+                            <Link to={path(id)}>
                                 {data?.title || (pending ? 'Loading...' : null)}
                             </Link>
                             {data && (
