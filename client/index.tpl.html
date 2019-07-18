@@ -7,55 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <meta name="description" content="Avalanche Canada" />
-    <script>
-        var appendScript = function (src) {
-            var script = document.createElement('script');
-
-            script.src = src;
-            script.async = false;
-
-            document.head.appendChild(script);
-        }
-
-        if (!window.requestAnimationFrame) {
-            appendScript('https://cdn.jsdelivr.net/npm/raf@3.4.1/index.min.js')
-        }
-
-        var nativeURLSearchParams =
-            typeof URLSearchParams !== 'undefined' && URLSearchParams.prototype.get
-                ? URLSearchParams
-                : null,
-            isSupportObjectConstructor =
-                nativeURLSearchParams &&
-                new nativeURLSearchParams({ a: 1 }).toString() === 'a=1',
-            // There is a bug in safari 10.1 (and earlier) that incorrectly decodes `%2B` as an empty space and not a plus.
-            decodesPlusesCorrectly =
-                nativeURLSearchParams &&
-                new nativeURLSearchParams('s=%2B').get('s') === '+',
-            // Fix bug in Edge which cannot encode ' &' correctly
-            encodesAmpersandsCorrectly = nativeURLSearchParams
-                ? (function () {
-                    var ampersandTest = new nativeURLSearchParams()
-                    ampersandTest.append('s', ' &')
-                    return ampersandTest.toString() === 's=+%26'
-                })()
-                : true
-
-        if (
-            !(
-                nativeURLSearchParams &&
-                isSupportObjectConstructor &&
-                decodesPlusesCorrectly &&
-                encodesAmpersandsCorrectly
-            )
-        ) {
-            appendScript('https://cdn.jsdelivr.net/npm/url-search-params-polyfill@5.1.0/index.min.js')
-        }
-
-        if (!window.fetch) {
-            appendScript('https://cdn.jsdelivr.net/npm/whatwg-fetch@3.0.0/dist/fetch.umd.min.js')
-        }
-    </script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=fetch%2CURL%2CrequestAnimationFrame"></script>
 </head>
 
 <body>
