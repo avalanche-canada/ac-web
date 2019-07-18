@@ -4,7 +4,7 @@ import Panel, { SIMPLE, INVERSE } from './index'
 
 storiesOf('Panel', module)
     .add('Panel', () => (
-        <Panel header="A panel" collapsible={false}>
+        <Panel header="A panel">
             <p>some content.</p>
             <p>some content.</p>
         </Panel>

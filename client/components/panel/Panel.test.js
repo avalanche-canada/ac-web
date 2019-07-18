@@ -1,38 +1,19 @@
 import React from 'react'
 import Renderer from 'react-test-renderer'
-import Panel, { SIMPLE, INVERSE } from './'
+import Panel from './'
 
-const THEMES = [SIMPLE, INVERSE]
 const header = 'Header'
 
 test('panel component', () => {
-    THEMES.forEach(theme => {
-        const panel = Renderer.create(
-            <Panel header={header} theme={theme} collapsible={false}>
-                Content
-            </Panel>
-        )
+    let panel = Renderer.create(<Panel header={header}>Content</Panel>)
 
-        expect(panel).toMatchSnapshot()
-    })
+    expect(panel).toMatchSnapshot()
 
-    THEMES.forEach(theme => {
-        const panel = Renderer.create(
-            <Panel header={header} expanded collapsible={false} theme={theme}>
-                Content
-            </Panel>
-        )
+    panel = Renderer.create(
+        <Panel header={header} expanded>
+            Content
+        </Panel>
+    )
 
-        expect(panel).toMatchSnapshot()
-    })
-
-    THEMES.forEach(theme => {
-        const panel = Renderer.create(
-            <Panel header={header} theme={theme}>
-                Content
-            </Panel>
-        )
-
-        expect(panel).toMatchSnapshot()
-    })
+    expect(panel).toMatchSnapshot()
 })

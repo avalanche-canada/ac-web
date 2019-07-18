@@ -10,45 +10,31 @@
     &:last-child {
         border-bottom: var(--border);
     }
-}
 
-.Collapsible {
-    & .Header {
+    & > summary {
         cursor: pointer;
+        list-style: none;
+        background-color: var(--black);
+        color: white;
+        font-weight: 700;
+        padding: 0 1em;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-height: 3em;
 
-        @media print {
-            & svg {
-                display: none;
-            }
+        &::after {
+            content: '';
+            float: right;
+            background-image: url('../icons/add.svg');
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 3em;
+            width: 24px;
         }
     }
-}
 
-.Header {
-    position: relative;
-    background-color: var(--black);
-    color: white;
-    font-weight: 700;
-    line-height: 3em;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    @media print {
-        font-size: 1.5em;
-    }
-}
-
-.Title {
-    padding: 0 0.5em;
-}
-
-.Expand {
-    height: 3em;
-    padding: 0 0.5em;
-    float: right;
-
-    &:focus {
-        outline: none;
+    &[open] > summary::after {
+        background-image: url('../icons/remove.svg');
     }
 }

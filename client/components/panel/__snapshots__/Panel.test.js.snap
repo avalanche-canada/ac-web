@@ -1,173 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`panel component 1`] = `
-<section
+<details
   className="Container"
+  open={false}
 >
-  <header
-    className="Header"
-    onClick={null}
-  >
-    <span
-      className="Title"
-    >
-      Header
-    </span>
-  </header>
-  <div
-    className="Container"
-  >
-    Content
-  </div>
-</section>
+  <summary>
+    Header
+  </summary>
+  Content
+</details>
 `;
 
 exports[`panel component 2`] = `
-<section
+<details
   className="Container"
+  open={true}
 >
-  <header
-    className="Header"
-    onClick={null}
-  >
-    <span
-      className="Title"
-    >
-      Header
-    </span>
-  </header>
-  <div
-    className="Container"
-  >
-    Content
-  </div>
-</section>
-`;
-
-exports[`panel component 3`] = `
-<section
-  className="Container"
->
-  <header
-    className="Header"
-    onClick={null}
-  >
-    <span
-      className="Title"
-    >
-      Header
-    </span>
-  </header>
-  <div
-    className="Container"
-  >
-    Content
-  </div>
-</section>
-`;
-
-exports[`panel component 4`] = `
-<section
-  className="Container"
->
-  <header
-    className="Header"
-    onClick={null}
-  >
-    <span
-      className="Title"
-    >
-      Header
-    </span>
-  </header>
-  <div
-    className="Container"
-  >
-    Content
-  </div>
-</section>
-`;
-
-exports[`panel component 5`] = `
-<section
-  className="Container Collapsible"
->
-  <header
-    className="Header"
-    onClick={[Function]}
-  >
-    <button
-      className="Expand Subtile"
-      type="button"
-    >
-      <svg
-        fill="none"
-        height={24}
-        viewBox="0 0 24 24"
-        width={24}
-      >
-        <path
-          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-          fill="#FFFFFF"
-        />
-        <path
-          d="M0 0h24v24H0z"
-          fill="none"
-        />
-      </svg>
-    </button>
-    <span
-      className="Title"
-    >
-      Header
-    </span>
-  </header>
-  <div
-    className="Container"
-  >
-    Content
-  </div>
-</section>
-`;
-
-exports[`panel component 6`] = `
-<section
-  className="Container Collapsible"
->
-  <header
-    className="Header"
-    onClick={[Function]}
-  >
-    <button
-      className="Expand Subtile"
-      type="button"
-    >
-      <svg
-        fill="none"
-        height={24}
-        viewBox="0 0 24 24"
-        width={24}
-      >
-        <path
-          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-          fill="#FFFFFF"
-        />
-        <path
-          d="M0 0h24v24H0z"
-          fill="none"
-        />
-      </svg>
-    </button>
-    <span
-      className="Title"
-    >
-      Header
-    </span>
-  </header>
-  <div
-    className="Container"
-  >
-    Content
-  </div>
-</section>
+  <summary>
+    Header
+  </summary>
+  Content
+</details>
 `;
