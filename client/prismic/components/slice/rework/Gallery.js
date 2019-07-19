@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Base from 'components/gallery'
 import { Media, Caption } from 'components/media'
@@ -15,7 +15,7 @@ Gallery.propTypes = {
     ),
 }
 
-function Gallery({ repeat }) {
+export default function Gallery({ repeat }) {
     const items = repeat.filter(Boolean)
     const { length } = items
 
@@ -31,8 +31,6 @@ function Gallery({ repeat }) {
         </div>
     )
 }
-
-export default memo(Gallery)
 
 // Utils
 function renderItem(item) {

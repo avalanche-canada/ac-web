@@ -21,8 +21,7 @@ export default function FragmentIdentifier(props) {
     )
 }
 
-function FragmentIdentifierWithLocation(props) {
-    const { location, hash, children, ...rest } = props
+function FragmentIdentifierWithLocation({ location, hash, children, ...rest }) {
     const href = `#${hash}`
     const anchor = useRef()
     function scroll() {

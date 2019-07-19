@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { StructuredText } from 'prismic/components/base'
 
@@ -8,8 +8,6 @@ Text.propTypes = {
     }).isRequired,
 }
 
-function Text({ nonRepeat }) {
+export default function Text({ nonRepeat }) {
     return <StructuredText value={nonRepeat.content} />
 }
-
-export default memo(Text)

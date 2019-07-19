@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Section as Base } from 'components/page'
 import { StructuredText } from 'prismic/components/base'
@@ -10,7 +10,7 @@ Section.propTypes = {
     }).isRequired,
 }
 
-function Section({ nonRepeat }) {
+export default function Section({ nonRepeat }) {
     const { content, header } = nonRepeat
 
     return (
@@ -19,5 +19,3 @@ function Section({ nonRepeat }) {
         </Base>
     )
 }
-
-export default memo(Section)

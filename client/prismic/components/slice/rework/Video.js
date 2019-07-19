@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Embed } from 'prismic/components/base'
 import { Media, Caption } from 'components/media'
@@ -11,7 +11,7 @@ Video.propTypes = {
     }).isRequired,
 }
 
-function Video({ nonRepeat }) {
+export default function Video({ nonRepeat }) {
     const { video, caption } = nonRepeat
 
     return (
@@ -25,5 +25,3 @@ function Video({ nonRepeat }) {
         </Media>
     )
 }
-
-export default memo(Video)
