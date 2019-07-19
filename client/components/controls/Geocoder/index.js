@@ -17,9 +17,9 @@ Geocoder.propTypes = {
 }
 
 export default function Geocoder({
+    value = '',
     onChange = noop,
     placeholder = 'Search',
-    value = '',
 }) {
     const [active, activate, deactivate] = useBoolean(false)
     const [term, setTerm] = useState(value || '')
