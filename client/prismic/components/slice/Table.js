@@ -1,4 +1,4 @@
-import React, { memo, Fragment, useReducer } from 'react'
+import React, { Fragment, useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { Responsive, PageSizeSelector } from 'components/table'
 import {
@@ -24,7 +24,7 @@ PrismicTable.propTypes = {
     value: PropTypes.array.isRequired,
 }
 
-function PrismicTable({ value }) {
+export default function PrismicTable({ value }) {
     const columns = value.map(createColumn)
     const type = value?.[0]?.source
     const initial = {
@@ -132,8 +132,6 @@ function PrismicTable({ value }) {
         </Documents>
     )
 }
-
-export default memo(PrismicTable)
 
 // Reducer and actions
 const setSorting = createAction('SORTING')

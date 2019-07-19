@@ -1,8 +1,8 @@
-import React, { memo } from 'react'
+import React from 'react'
 import { Section as Base } from 'components/page'
 import { StructuredText, Link } from 'prismic/components/base'
 
-function Section({ value }) {
+export default function Section({ value }) {
     const [{ content, title, link, ...props }] = value
 
     return (
@@ -11,5 +11,3 @@ function Section({ value }) {
         </Base>
     )
 }
-
-export default memo(Section)
