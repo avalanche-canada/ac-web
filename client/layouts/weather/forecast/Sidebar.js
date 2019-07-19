@@ -1,9 +1,8 @@
 import React from 'react'
 import { Link } from '@reach/router'
-import { memo } from 'utils/react'
 import Sidebar, { Item, Header } from 'components/sidebar'
 
-function WeatherSidebar() {
+export default function WeatherSidebar() {
     return (
         <Sidebar>
             <Header>Forecast</Header>
@@ -44,5 +43,3 @@ function WeatherSidebar() {
         </Sidebar>
     )
 }
-
-export default memo.static(WeatherSidebar)
