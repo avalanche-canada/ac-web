@@ -22,8 +22,6 @@ import {
 } from 'constants/forecast/owners'
 import { handleForecastTabActivate } from 'services/analytics'
 
-// TODO: Could use <Router> to display warning intead of if statments
-
 ArchiveForecast.propTypes = {
     name: PropTypes.string,
     date: PropTypes.instanceOf(Date),
