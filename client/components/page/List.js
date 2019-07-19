@@ -26,15 +26,15 @@ Item.propTypes = {
     target: PropTypes.string,
 }
 
-export function Item({ children, target, to, ...link }) {
+export function Item({ children, to, ...link }) {
     return (
         <li>
-            {target ? (
-                <a href={to} target={target} {...link}>
+            {link.target ? (
+                <a href={to} {...link}>
                     {children}
                 </a>
             ) : (
-                <Link to={to} target={target} {...link}>
+                <Link to={to} {...link}>
                     {children}
                 </Link>
             )}
