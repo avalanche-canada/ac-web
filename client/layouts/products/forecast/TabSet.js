@@ -9,7 +9,7 @@ export default function TabSet(props) {
     const forecast = useForecast()
 
     return forecast ? (
-        <Tabs theme="LOOSE" {...props}>
+        <Tabs {...props}>
             <HeaderSet>
                 <Header>Danger ratings</Header>
                 <Header>Problems</Header>

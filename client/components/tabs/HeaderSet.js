@@ -1,4 +1,4 @@
-import React, { cloneElement, Children, memo } from 'react'
+import React, { cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { Expand } from 'components/button'
@@ -17,14 +17,8 @@ HeaderSet.propTypes = {
     stacked: PropTypes.bool,
 }
 
-// FIXME Tried to have defaults params and it does not work. Need to investigate.
-HeaderSet.defaultProps = {
-    theme: COMPACT,
-    stacked: false,
-}
-
 export default function HeaderSet({
-    theme,
+    theme = COMPACT,
     stacked,
     children,
     onTabChange,
@@ -62,7 +56,7 @@ export default function HeaderSet({
     )
 }
 
-BaseHeader.propTypes = {
+Header.propTypes = {
     isActive: PropTypes.bool,
     disabled: PropTypes.bool,
     arrow: PropTypes.bool,
@@ -71,7 +65,7 @@ BaseHeader.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-function BaseHeader({
+export function Header({
     isActive,
     disabled,
     arrow,
@@ -96,8 +90,6 @@ function BaseHeader({
         </div>
     )
 }
-
-export const Header = memo(BaseHeader)
 
 ColoredHeader.propTypes = {
     color: PropTypes.string,
