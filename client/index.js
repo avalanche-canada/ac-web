@@ -9,19 +9,19 @@ import 'services/sentry'
 
 import 'styles'
 
-render()
+render(window)
 
-async function render() {
+async function render(self) {
     // Import polyfills
-    if (!window.fetch) {
+    if (!self.fetch) {
         await import('whatwg-fetch')
     }
 
-    if (!window.requestAnimationFrame) {
+    if (!self.requestAnimationFrame) {
         await import('raf/polyfill')
     }
 
-    if (!urlSearchParamsSupported(window)) {
+    if (!urlSearchParamsSupported(self)) {
         await import('url-search-params-polyfill')
     }
 
