@@ -20,40 +20,38 @@ export default function WeatherStationList() {
             Oups!! An error happened while loading weather station data.
         </Error>
     )
+    function renderItem({ stationId, name }) {
+        return (
+            <ListItem key={stationId} to={path(stationId)}>
+                {name}
+            </ListItem>
+        )
+    }
+    function renderPage() {
+        return (
+            <Page>
+                <Header title="Weather stations" />
+                <Content>
+                    <Main>
+                        <Pending>
+                            <Muted>Loading weather station data...</Muted>
+                        </Pending>
+                        <Fulfilled>
+                            <Headline>
+                                Click on a link below to see weather station
+                                data.
+                            </Headline>
+                            <List renderItem={renderItem} />
+                        </Fulfilled>
+                    </Main>
+                </Content>
+            </Page>
+        )
+    }
 
     return (
         <ErrorBoundary fallback={error}>
-            <Stations>
-                {() => (
-                    <Page>
-                        <Header title="Weather stations" />
-                        <Content>
-                            <Main>
-                                <Pending>
-                                    <Muted>
-                                        Loading weather station data...
-                                    </Muted>
-                                </Pending>
-                                <Fulfilled>
-                                    <Headline>
-                                        Click on a link below to see weather
-                                        station data.
-                                    </Headline>
-                                    <List renderItem={renderItem} />
-                                </Fulfilled>
-                            </Main>
-                        </Content>
-                    </Page>
-                )}
-            </Stations>
+            <Stations>{renderPage}</Stations>
         </ErrorBoundary>
-    )
-}
-
-function renderItem({ stationId, name }) {
-    return (
-        <ListItem key={stationId} to={path(stationId)}>
-            {name}
-        </ListItem>
     )
 }
