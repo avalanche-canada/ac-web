@@ -8,6 +8,8 @@ import { List, Entry } from 'components/description'
 import { incidentsBaseUrl } from 'api/config'
 import styles from './incidents.css'
 
+// TODO Should be moved to product or layout
+
 export function IncidentTable({ data }) {
     return (
         <t.Responsive>

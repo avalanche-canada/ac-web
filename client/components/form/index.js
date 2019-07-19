@@ -16,6 +16,8 @@ export function Form({ children, style }) {
     )
 }
 
+export Search from './Search'
+
 Fieldset.propTypes = {
     children: PropTypes.node.isRequired,
 }
@@ -65,5 +67,3 @@ export function ControlSet({ horizontal, children }) {
 
 // Styles
 const classNames = classnames.bind(styles)
-
-export Search from './Search'

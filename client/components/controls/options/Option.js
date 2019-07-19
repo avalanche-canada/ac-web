@@ -1,5 +1,6 @@
 import React, { isValidElement } from 'react'
 import PropTypes from 'prop-types'
+import noop from 'lodash/noop'
 import styles from './OptionSet.css'
 
 Option.propTypes = {
@@ -9,12 +10,7 @@ Option.propTypes = {
     onClick: PropTypes.func,
 }
 
-export default function Option({
-    children,
-    value,
-    active,
-    onClick = () => {},
-}) {
+export default function Option({ children, value, active, onClick = noop }) {
     const title = isValidElement(children) ? value : children
     const name = active ? 'Option--Active' : 'Option'
     function handleMouseDown() {
