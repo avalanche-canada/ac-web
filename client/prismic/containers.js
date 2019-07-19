@@ -32,7 +32,7 @@ Search.propTypes = {
 function Search({ children, predicates, locale, ...options }) {
     // TODO We should not render <ErrorBoundary> here, it should be done outside the container.
     return (
-        <ErrorBoundary fallback={renderError}>
+        <ErrorBoundary fallback={<Error />}>
             <MasterRef>
                 {ref => {
                     if (LANGUAGES.has(locale)) {
@@ -167,7 +167,7 @@ function isMasterRef({ isMasterRef }) {
 function sorter(a, b) {
     return a.localeCompare(b, 'en', { sensitivity: 'base' })
 }
-function renderError({ error }) {
+function Error({ error }) {
     return (
         <Text.Error component="details">
             <summary>

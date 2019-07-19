@@ -155,9 +155,6 @@ export default class Courses extends Component {
             </TBody>
         )
     }
-    renderError() {
-        return <Error>An error happened while loading courses.</Error>
-    }
     renderPagination = courses => {
         return (
             <Pagination
@@ -194,9 +191,10 @@ export default class Courses extends Component {
     }
     render() {
         const { level, from, to, tags } = this.props
+        const fallback = <Error>An error happened while loading courses.</Error>
 
         return (
-            <ErrorBoundary fallback={this.renderError}>
+            <ErrorBoundary fallback={fallback}>
                 <Container level={level} from={from} to={to} tags={tags}>
                     {this.renderContent}
                 </Container>

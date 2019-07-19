@@ -41,7 +41,7 @@ function AvalancheCanada() {
                         <Navbar />
                         <SPAW />
                         <Highlight />
-                        <ErrorBoundary fallback={renderError}>
+                        <ErrorBoundary fallback={<FallbackError />}>
                             {/* FIXME: Make it primary. With primary clicking a region on the map make the map jumping. */}
                             <Router primary={false}>
                                 <Main path="map/*" />
@@ -204,7 +204,7 @@ function AvalancheCanada() {
 
 export default memo.static(AvalancheCanada)
 
-function renderError({ error }) {
+function FallbackError({ error }) {
     return (
         <Page.Error>
             <Page.Main>

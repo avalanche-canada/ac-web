@@ -6,9 +6,7 @@ import { captureException } from 'services/sentry'
 export default class ErrorBoundary extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
-        // TODO Should be only an element
-        fallback: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
-            .isRequired,
+        fallback: PropTypes.element.isRequired,
         onError: PropTypes.func,
         capture: PropTypes.bool,
     }
@@ -39,10 +37,6 @@ export default class ErrorBoundary extends Component {
     render() {
         const { children, fallback } = this.props
 
-        return this.state.error
-            ? typeof fallback === 'function'
-                ? fallback(this.state)
-                : cloneElement(fallback, this.state)
-            : children
+        return this.state.error ? cloneElement(fallback, this.state) : children
     }
 }

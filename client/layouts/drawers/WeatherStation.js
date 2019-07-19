@@ -1,4 +1,4 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
 import { NotFound } from 'services/fetch/utils'
@@ -26,9 +26,9 @@ WeatherStation.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function WeatherStation({ id, onCloseClick, onLocateClick }) {
+export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
     return (
-        <ErrorBoundary fallback={renderError}>
+        <ErrorBoundary fallback={<FallbackError />}>
             <containers.Station id={id}>
                 {station => (
                     <Container>
@@ -100,10 +100,8 @@ function WeatherStation({ id, onCloseClick, onLocateClick }) {
     )
 }
 
-export default memo(WeatherStation, (prev, next) => prev.id === next.id)
-
 // Utils
-function renderError({ error }) {
+function FallbackError({ error }) {
     if (error instanceof NotFound) {
         return <Error>Weather station not found.</Error>
     }

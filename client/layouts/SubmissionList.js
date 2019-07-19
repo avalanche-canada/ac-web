@@ -56,30 +56,11 @@ export default class SubmissionList extends Component {
     state = {
         count: 0,
     }
-    increment() {
-        this.setState(increment)
-    }
-    renderError = ({ error }) => {
-        async function handleResetClick() {
-            await this.props.onParamsChange({ days: undefined })
-            this.increment()
-        }
-
-        return (
-            <Fragment>
-                <Error>
-                    An error happened while retrieving Mountain Information
-                    Information reports for the last {this.props.days} days.
-                </Error>
-                <Error>{error.message}</Error>
-                {error.name === 'RangeError' && (
-                    <Button onClick={handleResetClick.bind(this)}>
-                        Reset to the last {SubmissionList.defaultProps.days}{' '}
-                        days
-                    </Button>
-                )}
-            </Fragment>
-        )
+    onReset = async () => {
+        await this.props.onParamsChange({ days: undefined })
+        this.setState(({ count }) => ({
+            count: count + 1,
+        }))
     }
     handleFromDateChange = from => {
         const days = differenceInCalendarDays(new Date(), from)
@@ -227,7 +208,9 @@ export default class SubmissionList extends Component {
         )
     }
     render() {
+        const { days } = this.props
         const { count } = this.state
+        const fallback = <FallbackError days={days} onReset={this.onReset} />
 
         return (
             <Page>
@@ -236,7 +219,7 @@ export default class SubmissionList extends Component {
                     <Main>
                         <Regions>{props => this.renderForm(props)}</Regions>
                         <Br />
-                        <ErrorBoundary key={count} fallback={this.renderError}>
+                        <ErrorBoundary key={count} fallback={fallback}>
                             <Responsive>
                                 <Table>
                                     <THead>
@@ -244,7 +227,7 @@ export default class SubmissionList extends Component {
                                             {COLUMNS.map(this.renderHeader)}
                                         </Row>
                                     </THead>
-                                    <Reports days={this.props.days}>
+                                    <Reports days={days}>
                                         {props =>
                                             this.renderTableContent(props)
                                         }
@@ -263,7 +246,6 @@ Reports.propTypes = {
     days: PropTypes.number.isRequired,
     children: PropTypes.func.isRequired,
 }
-
 function Reports({ days, children }) {
     return (
         <FeatureCollection id="regions">
@@ -283,6 +265,23 @@ function Reports({ days, children }) {
                 </containers.Reports>
             )}
         </FeatureCollection>
+    )
+}
+
+function FallbackError({ error, onReset, days }) {
+    return (
+        <Fragment>
+            <Error>
+                An error happened while retrieving Mountain Information
+                Information reports for the last {days} days.
+            </Error>
+            <Error>{error.message}</Error>
+            {error.name === 'RangeError' && (
+                <Button onClick={onReset}>
+                    Reset to the last {SubmissionList.defaultProps.days} days
+                </Button>
+            )}
+        </Fragment>
     )
 }
 
@@ -417,9 +416,4 @@ function runSubmissionsSpatialAnalysis(reports, { features }) {
 
         return report
     })
-}
-function increment({ count }) {
-    return {
-        count: count + 1,
-    }
 }

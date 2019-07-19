@@ -13,13 +13,13 @@ Bundle.propTypes = {
 
 export default function Bundle({ children, fallback = <Text.Loading /> }) {
     return (
-        <ErrorBoundary capture={false} fallback={renderError}>
+        <ErrorBoundary capture={false} fallback={<Error />}>
             <Suspense fallback={fallback}>{children}</Suspense>
         </ErrorBoundary>
     )
 }
 
-function renderError({ error }) {
+function Error({ error }) {
     if (error instanceof SyntaxError) {
         return <ErrorPage error={error} />
     }
