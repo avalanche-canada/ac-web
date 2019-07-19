@@ -39,7 +39,7 @@ export default function WeatherStation({ id }) {
                                             Loading weather station data...
                                         </Loading>
                                     </Pending>
-                                    <Fulfilled strict>
+                                    <Fulfilled>
                                         {station =>
                                             station ? (
                                                 <StationLayout data={station} />

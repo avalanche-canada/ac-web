@@ -1,4 +1,10 @@
-import React, { Component, createContext, cloneElement, Children } from 'react'
+import React, {
+    Component,
+    createContext,
+    cloneElement,
+    Children,
+    useContext,
+} from 'react'
 import PropTypes from 'prop-types'
 import { status, NotFound } from 'services/fetch/utils'
 import Cache, { None } from './Cache'
@@ -106,18 +112,21 @@ export default class Fetch extends Component {
         const { error } = this.state
         const { children } = this.props
 
-        return error && !(error instanceof NotFound) ? (
+        if (error && !(error instanceof NotFound)) {
             throw error
-        ) : (
-            <Provider value={this.state}>
+        }
+
+        return (
+            <Context.Provider value={this.state}>
                 {typeof children === 'function'
                     ? children(this.state)
                     : children}
-            </Provider>
+            </Context.Provider>
         )
     }
 }
 
+// Utils components
 Fulfilled.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.element,
@@ -127,36 +136,21 @@ Fulfilled.propTypes = {
 }
 
 export function Fulfilled({ children }) {
-    return (
-        <Consumer>
-            {({ fulfilled, data }) =>
-                fulfilled ? Fulfilled.children(children, data) : null
-            }
-        </Consumer>
-    )
+    const { fulfilled, data } = useFetchContext()
+
+    return fulfilled ? renderChildren(children, data) : null
 }
 
 Object.assign(Fulfilled, {
     Found({ children }) {
-        return (
-            <Fulfilled>
-                {data => (data ? Fulfilled.children(children, data) : null)}
-            </Fulfilled>
-        )
+        const { fulfilled, data } = useFetchContext()
+
+        return fulfilled && data ? renderChildren(children, data) : null
     },
     NotFound({ children }) {
-        return (
-            <Fulfilled>
-                {data => (data ? null : Fulfilled.children(children))}
-            </Fulfilled>
-        )
-    },
-    children(children, data) {
-        return typeof children === 'function'
-            ? children(data)
-            : data
-            ? Children.map(children, child => cloneElement(child, { data }))
-            : children
+        const { fulfilled, data } = useFetchContext()
+
+        return fulfilled && !data ? renderChildren(children) : null
     },
 })
 
@@ -165,8 +159,20 @@ Pending.propTypes = {
 }
 
 export function Pending({ children }) {
-    return <Consumer>{({ pending }) => (pending ? children : null)}</Consumer>
+    const { pending } = useFetchContext()
+
+    return pending ? children : null
 }
 
-const { Provider, Consumer } = createContext()
+const Context = createContext()
+function useFetchContext() {
+    return useContext(Context)
+}
+function renderChildren(children, data) {
+    return typeof children === 'function'
+        ? children(data)
+        : data
+        ? Children.map(children, child => cloneElement(child, { data }))
+        : children
+}
 const FETCHING = new Map()
