@@ -1,5 +1,6 @@
 import React from 'react'
-import { TimePicker, DayPicker } from 'components/controls'
+import { DayPicker } from 'components/controls'
+import TimePicker from '../../TimePicker'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
