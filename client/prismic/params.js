@@ -8,7 +8,7 @@ import { startOfSeason, endOfSeason } from 'utils/date'
 import * as Predicates from 'prismic/predicates'
 import * as types from 'constants/prismic'
 
-// TODO: Find a way to reduce this file size!!!
+// TODO: Find a way to reduce this file size and KEEP it easy to read
 
 export function uid(type, uid) {
     return {
