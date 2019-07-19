@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styles from './MultiColumnLayout.css'
 import { StructuredText } from 'prismic/components/base'
 
+// TODO Look if we really need that slice
+// Component still needed would benefit of creating a Grid component instead.
+
 MultiColumnLayout.propTypes = {
     // TODO: Create appropriate propType
     value: PropTypes.arrayOf(PropTypes.string).isRequired,
