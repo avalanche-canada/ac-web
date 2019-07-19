@@ -4,9 +4,9 @@ import format from 'date-fns/format'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { Expand } from 'components/button'
 import { DATE } from 'utils/date'
+import { useBoolean } from 'utils/react/hooks'
 import styles from './DayPicker.css'
 import 'react-day-picker/lib/style.css'
-import { useBoolean } from 'utils/react/hooks'
 
 DayPicker.propTypes = {
     date: PropTypes.instanceOf(Date),
