@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Stations } from 'containers/weather'
 import ErrorBoundary from 'components/ErrorBoundary'
 import {
@@ -22,45 +22,38 @@ export default function WeatherStationList() {
     )
 
     return (
-        <Page>
-            <Header title="Weather stations" />
-            <Content>
-                <Main>
-                    <ErrorBoundary fallback={error}>
-                        <Stations>{children}</Stations>
-                    </ErrorBoundary>
-                </Main>
-            </Content>
-        </Page>
+        <ErrorBoundary fallback={error}>
+            <Stations>
+                {() => (
+                    <Page>
+                        <Header title="Weather stations" />
+                        <Content>
+                            <Main>
+                                <Pending>
+                                    <Muted>
+                                        Loading weather station data...
+                                    </Muted>
+                                </Pending>
+                                <Fulfilled>
+                                    <Headline>
+                                        Click on a link below to see weather
+                                        station data.
+                                    </Headline>
+                                    <List renderItem={renderItem} />
+                                </Fulfilled>
+                            </Main>
+                        </Content>
+                    </Page>
+                )}
+            </Stations>
+        </ErrorBoundary>
     )
 }
 
-// Renderers
-function children() {
+function renderItem({ stationId, name }) {
     return (
-        <Fragment>
-            <Pending>
-                <Muted>Loading weather station data...</Muted>
-            </Pending>
-            <Fulfilled>{renderData}</Fulfilled>
-        </Fragment>
-    )
-}
-function renderData(data) {
-    return (
-        <Fragment>
-            <Headline>
-                Click on a link below to see weather station data.
-            </Headline>
-            <List>
-                {data.map(({ stationId, name }) => {
-                    return (
-                        <ListItem key={stationId} to={path(stationId)}>
-                            {name}
-                        </ListItem>
-                    )
-                })}
-            </List>
-        </Fragment>
+        <ListItem key={stationId} to={path(stationId)}>
+            {name}
+        </ListItem>
     )
 }

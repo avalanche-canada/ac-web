@@ -6,14 +6,16 @@ import styles from './Page.css'
 List.propTypes = {
     children: PropTypes.node,
     column: PropTypes.number,
+    data: PropTypes.array,
+    renderItem: PropTypes.function,
 }
 
-export default function List({ children, column }) {
+export default function List({ data, renderItem, children, column }) {
     const style = typeof column === 'number' ? { columnCount: column } : null
 
     return (
         <ul style={style} className={styles.List}>
-            {children}
+            {children || data.map(renderItem)}
         </ul>
     )
 }

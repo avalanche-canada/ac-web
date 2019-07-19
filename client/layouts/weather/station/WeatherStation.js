@@ -39,15 +39,12 @@ export default function WeatherStation({ id }) {
                                             Loading weather station data...
                                         </Loading>
                                     </Pending>
-                                    <Fulfilled>
-                                        {station =>
-                                            station ? (
-                                                <StationLayout data={station} />
-                                            ) : (
-                                                <NoStation id={id} />
-                                            )
-                                        }
-                                    </Fulfilled>
+                                    <Fulfilled.Found>
+                                        <StationLayout />
+                                    </Fulfilled.Found>
+                                    <Fulfilled.NotFound>
+                                        <NoStation id={id} />
+                                    </Fulfilled.NotFound>
                                 </Main>
                             </Content>
                         </Fragment>
@@ -85,15 +82,13 @@ function NoStation({ id }) {
                         <Fulfilled>
                             {data => (
                                 <List>
-                                    {data.map(({ stationId, name }) => {
-                                        return (
-                                            <ListItem
-                                                key={stationId}
-                                                to={path(stationId)}>
-                                                {name}
-                                            </ListItem>
-                                        )
-                                    })}
+                                    {data.map(({ stationId, name }) => (
+                                        <ListItem
+                                            key={stationId}
+                                            to={path(stationId)}>
+                                            {name}
+                                        </ListItem>
+                                    ))}
                                 </List>
                             )}
                         </Fulfilled>
