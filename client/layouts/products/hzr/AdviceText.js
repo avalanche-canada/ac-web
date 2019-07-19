@@ -1,9 +1,8 @@
-import React from 'react'
-import { memo } from 'utils/react'
+import React, { Fragment } from 'react'
 
-function AdviceText() {
+export default function AdviceText() {
     return (
-        <div>
+        <Fragment>
             <p>To minimize risk, always:</p>
             <ul>
                 <li>Expose only one person at a time in avalanche terrain.</li>
@@ -16,8 +15,6 @@ function AdviceText() {
             <p>
                 And while this advisory is valid follow the travel advice below.
             </p>
-        </div>
+        </Fragment>
     )
 }
-
-export default memo.static(AdviceText)
