@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import noop from 'lodash/noop'
 import { Sorting } from 'components/button'
 import { ASC, DESC, NONE } from 'constants/sortings'
 import styles from './Table.css'
@@ -15,7 +14,7 @@ HeaderCell.propTypes = {
 export default function HeaderCell({
     children,
     sorting,
-    onSortingChange = noop,
+    onSortingChange,
     ...props
 }) {
     const sortable = sorting !== undefined && sorting !== null
