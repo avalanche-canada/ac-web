@@ -1,20 +1,16 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import styles from './Description.css'
 
-export const Term = memo(BaseTerm)
-export const Definition = memo(BaseDefinition)
-export const List = memo(BaseList)
-
-BaseTerm.propTypes = {
+Base.propTypes = {
     children: PropTypes.node.isRequired,
     style: PropTypes.object,
     className: PropTypes.string,
     block: PropTypes.bool,
 }
 
-function BaseTerm({ style, block, className, children }) {
+export function Base({ style, block, className, children }) {
     className = classNames(className, { Term: true, Block: block })
 
     return (
@@ -24,14 +20,14 @@ function BaseTerm({ style, block, className, children }) {
     )
 }
 
-BaseDefinition.propTypes = {
+Definition.propTypes = {
     children: PropTypes.node.isRequired,
     style: PropTypes.object,
     className: PropTypes.string,
     block: PropTypes.bool,
 }
 
-function BaseDefinition({ className, block, style, children }) {
+export function Definition({ className, block, style, children }) {
     className = classNames(className, { Definition: true, Block: block })
 
     return (
@@ -49,20 +45,20 @@ Entry.propTypes = {
 export function Entry({ term, children }) {
     return (
         <Fragment>
-            <BaseTerm>{term}</BaseTerm>
-            <BaseDefinition>{children}</BaseDefinition>
+            <Base>{term}</Base>
+            <Definition>{children}</Definition>
         </Fragment>
     )
 }
 
-BaseList.propTypes = {
+List.propTypes = {
     children: PropTypes.node.isRequired,
     inline: PropTypes.bool,
     condensed: PropTypes.bool,
     bordered: PropTypes.bool,
 }
 
-function BaseList({ inline, condensed, bordered, children }) {
+export function List({ inline, condensed, bordered, children }) {
     const className = classNames(styles.List, {
         Condensed: condensed,
         Bordered: bordered,
