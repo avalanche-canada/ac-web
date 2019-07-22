@@ -88,7 +88,6 @@
         "@babel/runtime": "^7.5.4",
         "@babel/runtime-corejs3": "^7.5.4",
         "@reach/router": "^1.2.1",
-        "@sentry/browser": "^4.0.5",
         "@storybook/addon-actions": "^5.1.9",
         "@storybook/addon-links": "^5.1.9",
         "@storybook/addons": "^5.1.9",
