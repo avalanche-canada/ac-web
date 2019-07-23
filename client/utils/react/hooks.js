@@ -116,8 +116,20 @@ export function useFetch(url, cache = new None()) {
         fetcher()
 
         return () => {
-            if (pending) {
+            if (!pending) {
+                return
+            }
+
+            try {
                 controller.current.abort()
+            } catch (error) {
+                if (error.name !== 'AbortError') {
+                    throw error
+                }
+            } finally {
+                FETCHING.delete(url)
+
+                setPending(false)
             }
         }
     }, [url])
