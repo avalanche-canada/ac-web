@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
 import { status } from 'services/fetch/utils'
+import Memory from 'services/storage/Memory'
 import { None } from 'components/fetch/Cache'
 
 export function useBoolean(initialValue) {
@@ -173,13 +174,24 @@ function useStorage(
     return [value, set, remove]
 }
 
+const MEMORY = new Memory()
+
 export function useLocalStorage(
     key,
     defaultValue,
     decode = JSON.parse,
     encode = JSON.stringify
 ) {
-    return useStorage(window.localStorage, key, defaultValue, decode, encode)
+    let storage
+
+    // Chrome throws when storage are accessed from the global object
+    try {
+        storage = window.localStorage
+    } catch {
+        storage = MEMORY
+    }
+
+    return useStorage(storage, key, defaultValue, decode, encode)
 }
 
 export function useSessionStorage(
@@ -188,7 +200,16 @@ export function useSessionStorage(
     decode = JSON.parse,
     encode = JSON.stringify
 ) {
-    return useStorage(window.sessionStorage, key, defaultValue, decode, encode)
+    let storage
+
+    // Chrome throws when storage are accessed from the global object
+    try {
+        storage = window.sessionStorage
+    } catch {
+        storage = MEMORY
+    }
+
+    return useStorage(storage, key, defaultValue, decode, encode)
 }
 
 export function useCounter(

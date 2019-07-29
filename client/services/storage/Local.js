@@ -5,6 +5,13 @@ export default class LocalStorage extends Storage {
         return new LocalStorage()
     }
     constructor() {
-        super(window.localStorage)
+        let storage
+
+        // Chrome throws when storage are accessed from the global object
+        try {
+            storage = window.localStorage
+        } catch {}
+
+        super(storage)
     }
 }

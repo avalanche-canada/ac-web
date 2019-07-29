@@ -5,6 +5,13 @@ export default class SessionStorage extends Storage {
         return new SessionStorage()
     }
     constructor() {
-        super(window.sessionStorage)
+        let storage
+
+        // Chrome throws when storage are accessed from the global object
+        try {
+            storage = window.sessionStorage
+        } catch {}
+
+        super(storage)
     }
 }
