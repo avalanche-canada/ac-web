@@ -67,7 +67,7 @@ function createOverlay(children) {
                 url.host = 'www.avalanche.ca'
 
                 return `url-${encodeURIComponent(url.href)}(${lng},${lat})`
-            } catch (error) {
+            } catch {
                 return `pin-s+${PRIMARY.substr(1)}(${lng},${lat})`
             }
         })

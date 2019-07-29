@@ -104,7 +104,7 @@ async function computeForecastUrls(
             }
 
             return hours.map(hour => formatForecastUrl(type, date, run, hour))
-        } catch (e) {
+        } catch {
             date = addDays(date, -1)
         }
     }
@@ -149,7 +149,7 @@ async function computeCurrentConditionsUrls({
 
             dates.push(date)
             found = true
-        } catch (error) {
+        } catch {
             dates.unshift(addDays(date, -1))
 
             if (i === 0) {

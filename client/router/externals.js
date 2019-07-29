@@ -33,7 +33,7 @@ export function open(name, date) {
 
     try {
         window.open(url, name)
-    } catch (error) {
+    } catch {
         return
     }
 }

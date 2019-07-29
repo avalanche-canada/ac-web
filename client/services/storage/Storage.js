@@ -10,7 +10,7 @@ export default class Storage {
             storage.removeItem('local-storage-test')
 
             this.storage = storage
-        } catch (error) {
+        } catch {
             this.storage = new Memory()
         }
     }
@@ -19,7 +19,7 @@ export default class Storage {
 
         try {
             return value ? parse(value) : defaultValue
-        } catch (e) {
+        } catch {
             return value || defaultValue
         }
     }

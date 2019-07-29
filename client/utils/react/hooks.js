@@ -83,7 +83,7 @@ export function useFetch(url, cache = new None()) {
     async function fetcher() {
         try {
             controller.current = new AbortController()
-        } catch (error) {
+        } catch {
             controller.current = {
                 abort() {},
             }
@@ -149,7 +149,7 @@ function useStorage(
             const value = storage.getItem(key)
 
             return value === null ? defaultValue : decode(value)
-        } catch (error) {
+        } catch {
             return defaultValue
         }
     })
@@ -159,16 +159,12 @@ function useStorage(
         }
     }
     function set(value) {
-        try {
-            setValue(value)
-            storage.setItem(key, encode(value))
-        } catch (error) {}
+        setValue(value)
+        storage.setItem(key, encode(value))
     }
     function remove() {
-        try {
-            setValue(null)
-            storage.removeItem(key)
-        } catch (error) {}
+        setValue(null)
+        storage.removeItem(key)
     }
 
     // listening to changes

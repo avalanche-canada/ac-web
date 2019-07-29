@@ -8,7 +8,7 @@ export function isTypeSupported(type) {
             input.setAttribute('type', type)
 
             suported.set(type, input.type === type)
-        } catch (e) {
+        } catch {
             suported.set(type, false)
         }
     }
