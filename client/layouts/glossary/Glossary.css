@@ -5,6 +5,8 @@
 }
 
 .Definition {
+    position: relative;
+
     & > h2 {
         clear: both;
     }

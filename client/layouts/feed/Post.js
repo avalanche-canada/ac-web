@@ -12,6 +12,7 @@ import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
 import { NEWS, BLOG, EVENT, FEED } from 'constants/prismic'
 import { TagSet, Tag } from 'components/tag'
+import Edit from 'prismic/Edit'
 
 Post.propTypes = {
     type: PropTypes.oneOf(FEED).isRequired,
@@ -50,6 +51,7 @@ function page(props, { pending, fulfilled, document }) {
 
     return (
         <Fragment>
+            <Edit id={document?.id} position="fixed" />
             <PostHeader post={document} />
             <Content>
                 <Main>

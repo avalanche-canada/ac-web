@@ -20,6 +20,7 @@ import { glossary } from 'prismic/params'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
+import Edit from 'prismic/Edit'
 
 export default function Layout() {
     return (
@@ -68,7 +69,10 @@ function Glossary(props) {
                 <Fragment>
                     {pending && <Loading />}
                     {document && (
-                        <GlossaryContent {...props} {...document.data} />
+                        <Fragment>
+                            <Edit position="fixed" id={document.id} />
+                            <GlossaryContent {...props} {...document.data} />
+                        </Fragment>
                     )}
                 </Fragment>
             )}
@@ -97,12 +101,13 @@ function Definition({ uid }) {
 // Util layouts
 DefinitionLayout.propTypes = {
     linkToExternal: PropTypes.bool,
+    id: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
     tags: PropTypes.array.isRequired,
     data: PropTypes.object.isRequired,
 }
 
-function DefinitionLayout({ uid, tags, data, linkToExternal }) {
+function DefinitionLayout({ id, uid, tags, data, linkToExternal }) {
     const { title } = data
 
     return (
@@ -116,6 +121,7 @@ function DefinitionLayout({ uid, tags, data, linkToExternal }) {
                     </FragmentIdentifier>
                 )}
             </h2>
+            <Edit id={id} position="absolute" />
             {tags.length > 0 && (
                 <TagSet>
                     {tags.map((tag, index) => (

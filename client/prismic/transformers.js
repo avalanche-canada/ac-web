@@ -8,12 +8,13 @@ export default new Map([
     [NEWS, transformNews],
 ])
 
-function transformBlog({ uid, type, tags, data }) {
+function transformBlog({ id, uid, type, tags, data }) {
     const { shortlede, body, previewImage, date } = data
 
     return {
         ...data,
         type,
+        id,
         uid,
         tags,
         featured: tags.includes('featured'),
@@ -26,12 +27,13 @@ function transformBlog({ uid, type, tags, data }) {
     }
 }
 
-function transformEvent({ uid, type, tags, data }) {
+function transformEvent({ id, uid, type, tags, data }) {
     const { shortlede, description, featuredImage, startDate, endDate } = data
 
     return {
         ...data,
         type,
+        id,
         uid,
         tags,
         featured: tags.includes('featured'),
@@ -47,12 +49,13 @@ function transformEvent({ uid, type, tags, data }) {
     }
 }
 
-function transformNews({ uid, type, tags, data }) {
+function transformNews({ id, uid, type, tags, data }) {
     const { shortlede, body, featuredImage, date } = data
 
     return {
         ...data,
         type,
+        id,
         uid,
         tags,
         featured: tags.includes('featured'),

@@ -16,6 +16,7 @@ import { Loading } from 'components/text'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
 import { SliceZone } from 'prismic/components/base'
+import Edit from './Edit'
 
 // TODO: SUSPENSE
 
@@ -44,6 +45,7 @@ export function StaticPage({ uid, title }) {
                 return (
                     <Page className={`${STATIC_PAGE}-${uid}`}>
                         {banner && <Banner {...banner.main} />}
+                        <Edit id={document?.id} position="fixed" />
                         <Header title={data?.title || title} />
                         <Content>
                             {pending && (
@@ -78,6 +80,7 @@ export function GenericPage({ uid, title }) {
         <Document {...params.uid(GENERIC, uid)}>
             {({ document, pending }) => (
                 <Page>
+                    <Edit id={document?.id} position="fixed" />
                     <Header title={document?.data?.title || title} />
                     <Content>
                         {pending && (
