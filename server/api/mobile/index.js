@@ -75,15 +75,11 @@ const MESSAGES = [
     new StatusMessage(
         new StatusParams(APP, '1.4.2', IOS),
         'New Application version released',
-        `<h1>New application version released.</h1>
-        <p>A change to the application requires you to install the latest version of the application.</p>
-        <a href="https://google.ca">Test for link</a>`
+        '<h1>New application version released.</h1><p>A change to the application requires you to install the latest version of the application.</p><a href="https://google.ca">Test for link</a>'
     ),
     new StatusMessage(
         new StatusParams(APP, '1.4.2', ANDROID),
         'New Application version released',
-        `<h1>New application version released.</h1>
-        <p>A change to the application requires you to install the latest version of the application.</p>
-        <a href="https://google.ca">Test for link</a>`
+        '<h1>New application version released.</h1><p>A change to the application requires you to install the latest version of the application.</p><a href="https://google.ca">Test for link</a>'
     ),
 ]
