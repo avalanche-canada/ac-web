@@ -1,4 +1,4 @@
-'user strict'
+'use strict'
 
 const express = require('express')
 const compare = require('version-comparison')
@@ -12,76 +12,59 @@ router.get('/status', function(req, res) {
 
 module.exports = router
 
-class StatusParams {
-    constructor(
+function StatusParams(app, appVersion, platform, platformVersion, lang) {
+    Object.assign(this, {
         app,
         appVersion,
         platform,
-        platformVersion = null,
-        lang = 'en'
-    ) {
-        Object.assign(this, {
-            app,
-            appVersion,
-            platform,
-            platformVersion,
-            lang,
-        })
+        platformVersion: platformVersion || null,
+        lang: lang || 'en',
+    })
+}
+
+StatusParams.prototype.test = function(params) {
+    if (this.app !== params.App) {
+        return false
     }
-    test({ App, AppVersion, Platform, PlatformVersion, Lang = 'en' }) {
-        const { app, appVersion, platform, platformVersion, lang } = this
 
-        if (app !== App) {
-            return false
-        }
+    if (params.Lang && this.lang !== params.Lang) {
+        return false
+    }
 
-        if (lang !== Lang) {
-            return false
-        }
+    if (this.platform !== params.Platform) {
+        return false
+    }
 
-        if (platform !== Platform) {
-            return false
-        }
+    if (compare(params.AppVersion, this.appVersion) !== -1) {
+        return false
+    }
 
-        if (compare(AppVersion, appVersion) !== -1) {
-            return false
-        }
+    if (
+        this.platformVersion &&
+        params.PlatformVersion &&
+        compare(params.PlatformVersion, this.platformVersion) !== -1
+    ) {
+        return false
+    }
 
-        if (
-            platformVersion &&
-            PlatformVersion &&
-            compare(PlatformVersion, platformVersion) !== -1
-        ) {
-            return false
-        }
+    return true
+}
 
-        return true
+function StatusMessage(params, title, body, banner, level, dismissible) {
+    this.params = params
+    this.content = {
+        level: level || 'error',
+        dismissible: typeof dismissible === 'boolean' ? dismissible : false,
+        banner: banner || title,
+        page: {
+            title,
+            body,
+        },
     }
 }
 
-class StatusMessage {
-    constructor(
-        params,
-        title,
-        body,
-        banner = title,
-        level = 'error',
-        dismissible = false
-    ) {
-        this.params = params
-        this.content = {
-            level,
-            dismissible,
-            banner,
-            page: {
-                title,
-                body,
-            },
-        }
-    }
-    test(params) {
-        return this.params.test(params)
-    }
+StatusMessage.prototype.test = function(params) {
+    return this.params.test(params)
 }
 
 // Constants
