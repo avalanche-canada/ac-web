@@ -17,7 +17,7 @@ export default function Video({ nonRepeat }) {
     return (
         <Media>
             <Embed oembed={video.oembed} />
-            {caption.length > 0 && (
+            {caption?.length > 0 && (
                 <Caption>
                     <StructuredText value={caption} />
                 </Caption>
