@@ -6,10 +6,8 @@
 
 .Definition {
     position: relative;
+    clear: both;
 
-    & > h2 {
-        clear: both;
-    }
     & > figure {
         & + figure {
             margin-top: 1em;
