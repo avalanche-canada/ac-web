@@ -1,3 +1,5 @@
+import 'polyfills'
+
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Router, Redirect, Location } from '@reach/router'
