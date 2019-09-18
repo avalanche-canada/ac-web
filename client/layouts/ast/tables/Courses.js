@@ -28,7 +28,7 @@ import { Paginated, Sorted } from 'components/collection'
 import { Error, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import { Distance, Tags } from './cells'
-import { LEVELS } from '../constants'
+import { LEVELS, MINIMUM_DISTANCE } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import styles from './Courses.css'
@@ -135,12 +135,12 @@ export default class Courses extends Component {
 
         const { sorting, place } = this.props
         const { page } = this.state
-        const [name, order] = sorting || []
+        const [name, order] = sorting || ['dates'] // If no sorting defined, sorting is done on 'dates' by default
 
         if (place) {
             courses = courses.map(course => ({
                 ...course,
-                distance: distance(turf.point(course.loc), place),
+                distance: Math.max(Math.round(distance(turf.point(course.loc), place)), MINIMUM_DISTANCE),
             }))
         }
 
@@ -274,18 +274,21 @@ const COLUMNS = [
     },
 ]
 const SORTERS = new Map([
+    ['provider', (a, b) => sortByName(a, b) || sortByDate(a, b)],
     [
-        'provider',
-        (a, b) =>
-            a.provider.name.localeCompare(b.provider.name, 'en', {
-                sensitivity: 'base',
-            }),
+        'distance',
+        (a, b) => sortByDistance(a, b) || sortByDate(a, b) || sortByName(a, b),
     ],
-    ['distance', (a, b) => a.distance - b.distance],
-    [
-        'dates',
-        (a, b) => {
-            return new Date(a.date_start) - new Date(b.date_start)
-        },
-    ],
+    ['dates', (a, b) => sortByDate(a, b) || sortByName(a, b)],
 ])
+function sortByDate(a, b) {
+    return new Date(a.date_start) - new Date(b.date_start)
+}
+function sortByDistance(a, b) {
+    return a.distance - b.distance
+}
+function sortByName(a, b) {
+    return a.provider.name.localeCompare(b.provider.name, 'en', {
+        sensitivity: 'base',
+    })
+}

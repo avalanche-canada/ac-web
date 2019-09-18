@@ -31,7 +31,6 @@ export default function CoursesContainer({ children, ...params }) {
 
                     props.courses = getFilters(params)
                         .reduce(filterReducer, results)
-                        .sort(sorter)
                 }
 
                 return children(props)
@@ -42,9 +41,6 @@ export default function CoursesContainer({ children, ...params }) {
 
 // Utils and constants
 const CACHE = new Memory()
-function sorter({ date_start, date_end }) {
-    return date_start - date_end
-}
 const FILTERS = new Map([
     ['level', ({ level }) => course => course.level === level],
     [
