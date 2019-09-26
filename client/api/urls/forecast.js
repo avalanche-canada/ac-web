@@ -14,7 +14,7 @@ export function forecast(name, date) {
         path = `bulletin-archive/${data.toISOString()}`
     }
 
-    return build(`${baseURL}/${path}/${name}.json`)
+    return build(`${baseURL}/${path}/${name}.json?avid=true`)
 }
 
 export function forecasts() {
