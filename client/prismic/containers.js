@@ -9,7 +9,7 @@ import * as Text from 'components/text'
 import * as urls from './urls'
 import * as params from 'prismic/params'
 import { status } from 'services/fetch/utils'
-import parse from './parsers'
+// import parse from './parsers'
 import { FEED } from 'constants/prismic'
 import { FR, EN } from 'constants/locale'
 
@@ -62,10 +62,7 @@ export function Document({ children = identity, ...props }) {
             {({ data, ...rest }) =>
                 children(
                     Object.assign(rest, {
-                        document:
-                            data?.results?.length > 0
-                                ? parse(data.results[0])
-                                : undefined,
+                        document: data?.results?.[0]
                     })
                 )
             }
@@ -85,7 +82,7 @@ export function Documents({ children = identity, ...props }) {
                     const { results, ...rest } = data
 
                     Object.assign(props, rest, {
-                        documents: parseDocuments(results),
+                        documents: results,
                     })
                 }
 
@@ -184,9 +181,6 @@ function Error({ error }) {
         </Text.Error>
     )
 }
-const parseDocuments = memoize(documents =>
-    documents.map(document => parse(document))
-)
 
 // Constants
 const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])

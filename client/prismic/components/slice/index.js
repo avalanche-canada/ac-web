@@ -12,7 +12,6 @@ import Quote from './Quote'
 import Slider from './Slider'
 import SponsorSet from './SponsorSet'
 import StaffSet from './StaffSet'
-import StaticSplash from './StaticSplash'
 import Table from './Table'
 import SidebarItemSet from './SidebarItemSet'
 import ContactForm from './ContactForm'
@@ -32,7 +31,6 @@ export default new Map([
     ['slider', Slider],
     ['sponsor-set', SponsorSet],
     ['staff-set', StaffSet],
-    ['staticSplash', StaticSplash],
     ['table', Table],
     ['header', SidebarHeader],
     ['items', SidebarItemSet],

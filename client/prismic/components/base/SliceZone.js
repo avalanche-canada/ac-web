@@ -1,4 +1,4 @@
-import { memo, createElement } from 'react'
+import { createElement } from 'react'
 import PropTypes from 'prop-types'
 import SliceComponents from '../slice'
 
@@ -7,11 +7,15 @@ SliceZone.propTypes = {
     components: PropTypes.instanceOf(Map),
 }
 
-function SliceZone({ value = [], components = SliceComponents, ...rest }) {
-    function renderSlice({ type, ...props }, index) {
-        return components.has(type)
+export default function SliceZone({
+    value = [],
+    components = SliceComponents,
+    ...rest
+}) {
+    function renderSlice({ slice_type, ...props }, index) {
+        return components.has(slice_type)
             ? createElement(
-                  components.get(type),
+                  components.get(slice_type),
                   Object.assign(props, rest, { key: index })
               )
             : null
@@ -19,5 +23,3 @@ function SliceZone({ value = [], components = SliceComponents, ...rest }) {
 
     return value.map(renderSlice)
 }
-
-export default memo(SliceZone)

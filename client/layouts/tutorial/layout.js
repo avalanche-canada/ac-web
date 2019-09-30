@@ -373,10 +373,10 @@ function NoDocument({ uid, uri }) {
 
 // Utils
 function getUIDFromMenuItem({ link }) {
-    return link.value.document.uid
+    return link.uid
 }
 function renderTreeNode({ title, link, children }, splat) {
-    const { uid } = link.value.document
+    const { uid } = link
     const uids = [splat, uid].filter(Boolean)
 
     splat = uids.join('/')

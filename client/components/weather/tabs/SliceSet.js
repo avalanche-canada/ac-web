@@ -4,8 +4,18 @@ import Loop from '../Loop'
 import Meteogram from '../Meteogram'
 import { StructuredText } from 'prismic/components/base'
 
-function Slice({ type, value }) {
-    switch (type) {
+// Could reuse SliceZone
+
+SliceSet.propTypes = {
+    slices: PropTypes.arrayOf(PropTypes.object).isRequired,
+}
+
+export default function SliceSet({ slices = [] }) {
+    return slices.map((slice, index) => <Slice key={index} {...slice} />)
+}
+
+function Slice({ slice_type, value }) {
+    switch (slice_type) {
         case 'text':
             return <StructuredText value={value} />
         case 'loop': {
@@ -42,7 +52,7 @@ function Slice({ type, value }) {
             const props = {
                 model,
                 run: Number(run.replace('Z', '')),
-                type: type.split('-')[0],
+                type: slice_type.split('-')[0],
                 location: meteogram.location,
             }
 
@@ -51,16 +61,4 @@ function Slice({ type, value }) {
         default:
             return null
     }
-}
-
-SliceSet.propTypes = {
-    slices: PropTypes.arrayOf(PropTypes.object).isRequired,
-}
-
-export default function SliceSet({ slices = [] }) {
-    return (
-        <div>
-            {slices.map((slice, index) => <Slice key={index} {...slice} />)}
-        </div>
-    )
 }

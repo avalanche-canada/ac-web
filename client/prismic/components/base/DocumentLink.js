@@ -1,41 +1,30 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import { pathname } from 'utils/prismic'
+import { pathname } from 'router/prismic'
 import { Loading } from 'components/text'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 
 DocumentLink.propTypes = {
-    value: PropTypes.shape({
-        document: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            type: PropTypes.string.isRequired,
-            uid: PropTypes.string.isRequired,
-        }).isRequired,
-        isBroken: PropTypes.bool.isRequired,
-    }).isRequired,
-    document: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        uid: PropTypes.string.isRequired,
-    }),
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
+    isBroken: PropTypes.bool.isRequired,
     children: PropTypes.node,
 }
 
-function DocumentLink({ children, value, document, ...props }) {
-    const { type, uid } = value.document
+export default function DocumentLink({ children, isBroken, ...props }) {
+    const { type, uid } = props
 
     return (
-        <Link to={pathname(value.document)} {...props}>
+        <Link to={pathname(props)} {...props}>
             {children || (
                 <Document {...params.uid(type, uid)}>{renderer}</Document>
             )}
         </Link>
     )
 }
-
-export default memo(DocumentLink)
 
 // Utils
 function renderer({ document }) {

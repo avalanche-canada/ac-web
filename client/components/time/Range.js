@@ -1,4 +1,4 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Time from './Time'
 
@@ -9,7 +9,7 @@ DateRange.propTypes = {
     format: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 }
 
-function DateRange({ from, to, separator = ' to ', format }) {
+export default function DateRange({ from, to, separator = ' to ', format }) {
     return (
         <Fragment>
             <Time value={from} format={format} />
@@ -18,5 +18,3 @@ function DateRange({ from, to, separator = ' to ', format }) {
         </Fragment>
     )
 }
-
-export default memo(DateRange)

@@ -5,14 +5,14 @@ import { StructuredText } from 'prismic/components/base'
 import Shim from 'components/Shim'
 
 Alert.propTypes = {
-    nonRepeat: PropTypes.shape({
+    primary: PropTypes.shape({
         type: PropTypes.oneOf(['Warning', 'Information', 'Danger']).isRequired,
         content: PropTypes.arrayOf(PropTypes.object).isRequired,
     }).isRequired,
 }
 
-export default function Alert({ nonRepeat }) {
-    const { type, content } = nonRepeat
+export default function Alert({ primary }) {
+    const { type, content } = primary
     const Alert = forType(type)
 
     return (

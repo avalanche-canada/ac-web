@@ -66,19 +66,18 @@ function Ambassadors({ to }) {
                     {pending && <Loading />}
                     {document && (
                         <ColumnSet>
-                            {document.data.content[0].value.map(
-                                ({ fullName }) => {
-                                    var hash = fullName
-                                        .toLowerCase()
-                                        .replace(/\s/, '-', 'g')
+                            {document.data.content[0].value.map(ambassador => {
+                                const fullName = ambassador['full-name']
+                                const hash = fullName
+                                    .toLowerCase()
+                                    .replace(/\s/, '-', 'g')
 
-                                    return (
-                                        <Link key={hash} to={`${to}#${hash}`}>
-                                            {fullName}
-                                        </Link>
-                                    )
-                                }
-                            )}
+                                return (
+                                    <Link key={hash} to={`${to}#${hash}`}>
+                                        {fullName}
+                                    </Link>
+                                )
+                            })}
                         </ColumnSet>
                     )}
                 </Fragment>

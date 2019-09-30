@@ -1,4 +1,4 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Loading } from 'components/text'
 import { StructuredText } from 'prismic/components/base'
@@ -9,11 +9,9 @@ Tutorial.propTypes = {
     uid: PropTypes.string.isRequired,
 }
 
-function Tutorial({ uid }) {
+export default function Tutorial({ uid }) {
     return <Document {...mw.tutorial(uid)}>{children}</Document>
 }
-
-export default memo(Tutorial)
 
 // Utils
 function children({ pending, document }) {

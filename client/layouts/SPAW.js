@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import camelCase from 'lodash/camelCase'
 import Highlight from 'components/highlight'
 import { Danger, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
@@ -51,7 +50,7 @@ export function Region({ name, children }) {
     return (
         <Document {...spaw()}>
             {({ document }) =>
-                document && document.data[camelCase(name)] === 'Yes'
+                document && document.data[name] === 'Yes'
                     ? children({ document })
                     : null
             }

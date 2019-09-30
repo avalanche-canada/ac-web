@@ -1,22 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Embed } from 'prismic/components/base'
 import { Media, Caption } from 'components/media'
-import { StructuredText } from 'prismic/components/base'
+import { StructuredText, Embed } from 'prismic/components/base'
 
 Video.propTypes = {
-    nonRepeat: PropTypes.shape({
+    primary: PropTypes.shape({
         video: PropTypes.object.isRequired,
         caption: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
 }
 
-export default function Video({ nonRepeat }) {
-    const { video, caption } = nonRepeat
+export default function Video({ primary }) {
+    const { video, caption } = primary
 
     return (
         <Media>
-            <Embed oembed={video.oembed} />
+            <Embed oembed={video} />
             {caption?.length > 0 && (
                 <Caption>
                     <StructuredText value={caption} />

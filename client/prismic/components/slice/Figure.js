@@ -15,7 +15,7 @@ export default function Figure({ value }) {
 
     return (
         <Media>
-            <Image {...figure.main} />
+            <Image {...figure} />
             {hasCaptionContent &&
                 <Caption>
                     {caption && <StructuredText value={caption} />}

@@ -150,14 +150,13 @@ Related.propTypes = {
 
 function Related({ items, linkToExternal }) {
     items = items.filter(hasDefinition)
-
     return items.length === 0 ? null : (
         <div>
             <Muted>See also: </Muted>
             <ul>
                 {items.filter(isNotBroken).map(({ definition }) => {
-                    const { uid, data } = definition.value.document
-                    const title = data.definition.title.value
+                    const { uid } = definition
+                    const { title } = definition.data
 
                     return (
                         <li key={uid}>
@@ -191,8 +190,6 @@ function LetterTag({ letter }) {
         </Tag>
     )
 }
-
-const OptimizedLetterTag = memo.static(LetterTag)
 
 class GlossaryContent extends Component {
     static propTypes = {
@@ -232,9 +229,7 @@ class GlossaryContent extends Component {
         return LETTERS.reduce((sections, letter) => {
             const definitions = this.props[letter.toLowerCase()]
                 .filter(hasDefinition)
-                .map(({ definition }) =>
-                    allDefinitions.get(definition.value.document.uid)
-                )
+                .map(({ definition }) => allDefinitions.get(definition.uid))
                 .filter(Boolean)
 
             if (definitions.length > 0) {
@@ -267,7 +262,7 @@ class GlossaryContent extends Component {
                 {fulfilled && (
                     <TagSet>
                         {sections.map(({ letter }) => (
-                            <OptimizedLetterTag key={letter} letter={letter} />
+                            <LetterTag key={letter} letter={letter} />
                         ))}
                     </TagSet>
                 )}
@@ -332,16 +327,16 @@ function hasDefinition({ definition }) {
     return Boolean(definition)
 }
 function isNotBroken({ definition }) {
-    return !definition.value.isBroken
+    return definition.isBroken === false
 }
-function isText({ type }) {
-    return type === 'text'
+function isText({ slice_type }) {
+    return slice_type === 'text'
 }
-function isImage({ type }) {
-    return type === 'image'
+function isImage({ slice_type }) {
+    return slice_type === 'image'
 }
-function isNotImage({ type }) {
-    return type !== 'image'
+function isNotImage({ slice_type }) {
+    return slice_type !== 'image'
 }
 function renderSection(props) {
     return <Section key={props.letter} {...props} />
@@ -349,43 +344,41 @@ function renderSection(props) {
 function createDefinition(definition) {
     const { uid, data, tags } = definition
 
+    const images = data.content
+        .filter(isImage)
+        .filter(({ primary }) => Boolean(primary.caption))
+    const related = data.related.filter(hasDefinition).filter(isNotBroken)
+    const texts = data.content.filter(isText)
+
     return {
         ...definition,
         searchable:
             uid +
             data.title +
-            data.related
-                .filter(hasDefinition)
-                .reduce(
-                    (previous, current) =>
-                        previous +
-                        current.definition.value.document.data.definition.title
-                            .value,
-                    ''
-                ) +
-            data.content
-                .filter(isText)
-                .reduce(
-                    (previous, current) =>
-                        previous +
-                        current.nonRepeat.content.reduce(
-                            (previous, current) => previous + current.text,
+            related.reduce(
+                (previous, current) => previous + current.definition.data.title,
+                ''
+            ) +
+            texts.reduce(
+                (previous, current) =>
+                    previous +
+                    current.items.reduce(
+                        (previous, current) => previous + current.text || '',
+                        previous
+                    ),
+                ''
+            ) +
+            images.reduce(
+                (previous, current) =>
+                    previous + current.primary.credit ||
+                    '' +
+                        current.primary.caption.reduce(
+                            (previous, current) =>
+                                previous + current.text || '',
                             previous
                         ),
-                    ''
-                ) +
-            data.content
-                .filter(isImage)
-                .filter(({ nonRepeat }) => Boolean(nonRepeat.caption))
-                .reduce(
-                    (previous, current) =>
-                        previous +
-                        current.nonRepeat.caption.reduce(
-                            (previous, current) => previous + current.text,
-                            previous
-                        ),
-                    ''
-                ) +
+                ''
+            ) +
             tags.join(''),
     }
 }

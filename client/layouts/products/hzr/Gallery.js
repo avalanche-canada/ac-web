@@ -17,7 +17,7 @@ export default function Gallery() {
     const items = report.data.hotzoneImages
         .filter(image => image.hotzoneImage)
         .map(image => ({
-            original: image.hotzoneImage.main.url,
+            original: image.hotzoneImage.url,
             description: image.caption,
         }))
 

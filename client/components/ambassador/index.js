@@ -30,7 +30,7 @@ export default function Ambassador({
         <section className={styles.Ambassador}>
             <div className={styles.Biography}>
                 <div className={styles.Avatar}>
-                    {avatar && <Image {...avatar.main} />}
+                    {avatar && <Image {...avatar} />}
                     <Set>
                         {socials.map(link => (
                             <Item key={link} link={link} title={title} />
@@ -46,7 +46,7 @@ export default function Ambassador({
                     {children}
                 </div>
             </div>
-            {banner && <Image className={styles.Banner} {...banner.main} />}
+            {banner && <Image className={styles.Banner} {...banner} />}
         </section>
     )
 }

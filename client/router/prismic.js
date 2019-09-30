@@ -1,3 +1,4 @@
+import { build, path } from 'utils/url'
 import {
     EVENT,
     BLOG,
@@ -9,32 +10,23 @@ import {
     FATAL_ACCIDENT,
 } from 'constants/prismic'
 
-export function title(document = {}) {
-    const { type } = document
+// TODO Cleanup, I do not
 
-    switch (type) {
-        case EVENT:
-        case BLOG:
-        case NEWS:
-            return document.title
-        case GENERIC:
-        case STATIC_PAGE:
-            return document.data?.[type]?.title?.value
-        default:
-            throw new Error(
-                `Can not compute a title from Prismic document of type "${type}".`
-            )
-    }
+export const feed = {
+    uid(type, uid) {
+        return build(path(FEED_PATHS.get(type), uid), undefined, '/')
+    },
+    tags(type, tags) {
+        return build(FEED_PATHS.get(type), { tags }, '/')
+    },
 }
 
 export function pathname({ type, uid, lang }) {
     switch (type) {
         case EVENT:
-            return `/events/${uid}`
         case BLOG:
-            return `/blogs/${uid}`
         case NEWS:
-            return `/news/${uid}`
+            return feed.uid(type, uid)
         case GENERIC:
         case STATIC_PAGE:
             return `/pages/${type}/${uid}`
@@ -48,3 +40,6 @@ export function pathname({ type, uid, lang }) {
             return `/pages/${type}/${uid}`
     }
 }
+
+// Constants
+const FEED_PATHS = new Map([[NEWS, 'news'], [BLOG, 'blogs'], [EVENT, 'events']])

@@ -18,14 +18,14 @@ import styles from './RouteFindingExercise.css'
 
 export default class RouteFindingExercise extends Component {
     static propTypes = {
-        nonRepeat: PropTypes.shape({
+        primary: PropTypes.shape({
             heading: PropTypes.array.isRequired,
             from: PropTypes.string.isRequired,
             to: PropTypes.string.isRequired,
             image: PropTypes.object.isRequired,
             credit: PropTypes.string.isRequired,
         }).isRequired,
-        repeat: PropTypes.arrayOf(
+        items: PropTypes.arrayOf(
             PropTypes.shape({
                 description: PropTypes.array.isRequired,
                 coordinates: PropTypes.string.isRequired,
@@ -40,7 +40,7 @@ export default class RouteFindingExercise extends Component {
     constructor(props) {
         super(props)
 
-        this.zones = props.repeat.map(({ coordinates, ...rest }) => {
+        this.zones = props.items.map(({ coordinates, ...rest }) => {
             coordinates = coordinates
                 .split(' ')
                 .map(coords => coords.split(',').map(Number))
@@ -52,7 +52,7 @@ export default class RouteFindingExercise extends Component {
         })
     }
     get dimensions() {
-        return this.props.nonRepeat.image.main.dimensions
+        return this.props.primary.image.dimensions
     }
     handleResetClick = () => {
         this.reset()
@@ -140,9 +140,9 @@ export default class RouteFindingExercise extends Component {
         )
     }
     render() {
-        const { from, to, image, credit } = this.props.nonRepeat
-        const [{ text: heading }] = this.props.nonRepeat.heading
-        const { url } = image.main
+        const { from, to, image, credit } = this.props.primary
+        const [{ text: heading }] = this.props.primary.heading
+        const { url } = image
         const { width, height } = this.dimensions
         const { touched, coordinates, drawing } = this.state
         const { zones } = this

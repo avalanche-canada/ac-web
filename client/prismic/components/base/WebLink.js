@@ -13,13 +13,11 @@ import {
 // So needs to look at both usage and change parsers accordingly
 
 WebLink.propTypes = {
-    value: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-    }).isRequired,
+    url: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
 }
 
-export default function WebLink({ children, value: { url }, ...props }) {
+export default function WebLink({ children, url, ...props }) {
     if (avalancheCanadaPathRegex.test(url)) {
         if (FXResourcesRegex.test(url)) {
             return (

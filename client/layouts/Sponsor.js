@@ -47,19 +47,15 @@ function SponsorRoute({ name, label }) {
 
     return (
         <Document {...props}>
-            {({ pending, document = {} }) => {
-                const { name, image229, url } = document.data || {}
-
-                return (
-                    <Sponsor
-                        label={label}
-                        name={name}
-                        logo={image229}
-                        url={url}>
-                        {pending && <Loading />}
-                    </Sponsor>
-                )
-            }}
+            {({ pending, document = {} }) => (
+                <Sponsor
+                    label={label}
+                    name={document?.data?.name}
+                    logo={document?.data?.['image-229']}
+                    url={document?.data?.url}>
+                    {pending && <Loading />}
+                </Sponsor>
+            )}
         </Document>
     )
 }

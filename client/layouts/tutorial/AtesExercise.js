@@ -9,20 +9,18 @@ import styles from './ATESExercise.css'
 const VALUES = ['Simple', 'Challenging', 'Complex']
 
 ATESExercise.propTypes = {
-    nonRepeat: PropTypes.shape({
+    primary: PropTypes.shape({
         answer: PropTypes.oneOf(VALUES).isRequired,
         credit: PropTypes.string,
         caption: PropTypes.array.isRequired,
         image: PropTypes.shape({
-            main: PropTypes.shape({
-                url: PropTypes.string.isRequired,
-            }).isRequired,
+            url: PropTypes.string.isRequired,
         }).isRequired,
     }).isRequired,
 }
 
-export default function ATESExercise({ nonRepeat }) {
-    const { image, credit, answer, caption } = nonRepeat
+export default function ATESExercise({ primary }) {
+    const { image, credit, answer, caption } = primary
     const [picked, pick] = useState(null)
     function handleChange(event) {
         pick(event.target.value)
@@ -31,7 +29,7 @@ export default function ATESExercise({ nonRepeat }) {
     return (
         <div className={styles.Container}>
             <Media>
-                <Image url={image.main.url} copyright={credit} />
+                <Image url={image.url} copyright={credit} />
                 <Caption>
                     <StructuredText value={caption} />
                     <div className={styles.Choices}>
