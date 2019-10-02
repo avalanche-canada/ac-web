@@ -344,42 +344,43 @@ function renderSection(props) {
 function createDefinition(definition) {
     const { uid, data, tags } = definition
 
-    const images = data.content
-        .filter(isImage)
-        .filter(({ primary }) => Boolean(primary.caption))
+    const images = data.content.filter(isImage)
     const related = data.related.filter(hasDefinition).filter(isNotBroken)
     const texts = data.content.filter(isText)
+    const searchables = [
+        uid,
+        data.title,
+        related.reduce(
+            (previous, current) => [...previous, current.definition.data.title],
+            []
+        ),
+        texts.reduce(
+            (previous, current) => [
+                ...previous,
+                current.items.reduce(
+                    (previous, current) => [...previous, current.text],
+                    previous
+                ),
+            ],
+            []
+        ),
+        images.reduce(
+            (previous, current) =>
+                current.primary.caption.reduce(
+                    (previous, current) => [...previous, current.text],
+                    [...previous, current.primary.credit]
+                ),
+            []
+        ),
+        tags,
+    ]
 
     return {
         ...definition,
-        searchable:
-            uid +
-            data.title +
-            related.reduce(
-                (previous, current) => previous + current.definition.data.title,
-                ''
-            ) +
-            texts.reduce(
-                (previous, current) =>
-                    previous +
-                    current.items.reduce(
-                        (previous, current) => previous + current.text || '',
-                        previous
-                    ),
-                ''
-            ) +
-            images.reduce(
-                (previous, current) =>
-                    previous + current.primary.credit ||
-                    '' +
-                        current.primary.caption.reduce(
-                            (previous, current) =>
-                                previous + current.text || '',
-                            previous
-                        ),
-                ''
-            ) +
-            tags.join(''),
+        searchable: searchables
+            .flat()
+            .filter(Boolean)
+            .join(' '),
     }
 }
 const filterSections = memoize((term, sections) => {
