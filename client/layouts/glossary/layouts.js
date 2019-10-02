@@ -355,32 +355,31 @@ function createDefinition(definition) {
             []
         ),
         texts.reduce(
+            (previous, current) =>
+                current.primary.content.reduce(
+                    (previous, current) => [...previous, current.text],
+                    previous
+                ),
+            []
+        ),
+        images.reduce(
             (previous, current) => [
-                ...previous,
-                current.items.reduce(
+                current.primary.credit,
+                current.primary.caption.reduce(
                     (previous, current) => [...previous, current.text],
                     previous
                 ),
             ],
             []
         ),
-        images.reduce(
-            (previous, current) =>
-                current.primary.caption.reduce(
-                    (previous, current) => [...previous, current.text],
-                    [...previous, current.primary.credit]
-                ),
-            []
-        ),
         tags,
     ]
+        .flat()
+        .filter(Boolean)
 
     return {
         ...definition,
-        searchable: searchables
-            .flat()
-            .filter(Boolean)
-            .join(' '),
+        searchable: searchables.join(' '),
     }
 }
 const filterSections = memoize((term, sections) => {
