@@ -36,7 +36,7 @@ export default function Search({ value, onChange, placeholder = 'Search...' }) {
                 name="search"
                 type="search"
                 placeholder={placeholder}
-                value={value}
+                defaultValue={value}
                 onChange={handleChange}
             />
             {value && <Close onClick={handleReset} />}
