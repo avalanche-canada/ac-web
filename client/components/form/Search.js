@@ -22,6 +22,7 @@ export default function Search({ value, onChange, placeholder = 'Search...' }) {
         onChange(value)
     }
     function handleReset() {
+        input.current.value = ''
         onChange('')
         focus()
     }
