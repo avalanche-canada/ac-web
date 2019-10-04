@@ -1,16 +1,8 @@
-import React, { useCallback, memo, Fragment } from 'react'
+import React, { useCallback, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
-import {
-    Navbar,
-    Header,
-    Container,
-    Body,
-    Close,
-    Content,
-} from 'components/page/drawer'
-import { NorthRockies } from 'layouts/feed'
+import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
 import * as components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
@@ -29,7 +21,7 @@ Layout.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function Layout({ name, onCloseClick, onLocateClick }) {
+export default function Layout({ name, onCloseClick, onLocateClick }) {
     const renderHeader = useCallback(
         ({ pending, fulfilled, data }) => (
             <h1>
@@ -65,55 +57,43 @@ function Layout({ name, onCloseClick, onLocateClick }) {
                 <Region name={name}>{renderHeader}</Region>
             </Header>
             <Body>
-                {name === 'north-rockies' ? (
-                    <Content>
-                        <NorthRockies />
-                    </Content>
-                ) : (
-                    <Forecast name={name}>
-                        {({ data }) => (
-                            <Fragment>
-                                <Pending>
-                                    <Shim all>
-                                        <Muted>
-                                            Loading avalanche forecast...
-                                        </Muted>
+                <Forecast name={name}>
+                    {({ data }) => (
+                        <Fragment>
+                            <Pending>
+                                <Shim all>
+                                    <Muted>Loading avalanche forecast...</Muted>
+                                </Shim>
+                            </Pending>
+                            <Fulfilled.Found>
+                                <components.Provider value={data}>
+                                    <Shim horizontal>
+                                        <components.Metadata />
+                                        <components.Headline />
                                     </Shim>
-                                </Pending>
-                                <Fulfilled.Found>
-                                    <components.Provider value={data}>
-                                        <Shim horizontal>
-                                            <components.Metadata />
-                                            <components.Headline />
-                                        </Shim>
-                                        <components.TabSet
-                                            onTabChange={
-                                                handleForecastTabActivate
-                                            }
-                                        />
-                                        <components.Footer />
-                                    </components.Provider>
-                                </Fulfilled.Found>
-                                <Fulfilled.NotFound>
-                                    <Regions>{renderRegions}</Regions>
-                                </Fulfilled.NotFound>
-                            </Fragment>
-                        )}
-                    </Forecast>
-                )}
+                                    <components.TabSet
+                                        onTabChange={handleForecastTabActivate}
+                                    />
+                                    <components.Footer />
+                                </components.Provider>
+                            </Fulfilled.Found>
+                            <Fulfilled.NotFound>
+                                <Regions>{renderRegions}</Regions>
+                            </Fulfilled.NotFound>
+                        </Fragment>
+                    )}
+                </Forecast>
             </Body>
         </Container>
     )
 }
-
-export default memo(Layout, (prev, next) => prev.name === next.name)
 
 // Utils and Constants
 function renderRegions({ fulfilled, data }) {
     return fulfilled ? (
         <Location>
             {({ location }) => (
-                <Shim horizontal>
+                <Shim horizontal as="section">
                     <h3>Click on a link below to see another forecast:</h3>
                     <List column={1}>
                         {data.map(({ id, name }) => (

@@ -18,7 +18,6 @@ import {
     PARKS_CANADA,
     CHIC_CHOCS,
     VANCOUVER_ISLAND,
-    AVALANCHE_CANADA,
 } from 'constants/forecast/owners'
 import { handleForecastTabActivate } from 'services/analytics'
 
@@ -112,7 +111,7 @@ function ForecastContent({ name, date }) {
         return <Muted>Select a forecast date.</Muted>
     }
 
-    return externals.has(name) || name === NORTH_ROCKIES ? (
+    return externals.has(name) ? (
         <Region name={name}>{renderWarning}</Region>
     ) : (
         <Forecast name={name} date={date}>
@@ -149,10 +148,6 @@ function getWarningText({ name, owner, id }) {
         case CHIC_CHOCS:
         case VANCOUVER_ISLAND:
             return `You can get more information for ${name} region on their website`
-        case AVALANCHE_CANADA:
-            return id === NORTH_ROCKIES
-                ? 'North Rockies are available as blog posts'
-                : null
         default:
             return null
     }
@@ -173,5 +168,3 @@ function getWarningUrl({ type, url, externalUrl }, date) {
             return null
     }
 }
-
-const NORTH_ROCKIES = 'north-rockies'

@@ -16,7 +16,6 @@ import { Muted, Loading, Warning } from 'components/text'
 import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
-import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import { StructuredText } from 'prismic/components/base'
 import Shim from 'components/Shim'
@@ -82,23 +81,6 @@ export default function ForecastLayout({ name, date }) {
                     ) : (
                         <components.Sidebar isPrintable={isPrintable} />
                     )}
-                </Aside>
-            </Content>
-        </Page>
-    )
-}
-
-export function NorthRockies() {
-    return (
-        <Page>
-            <Header title="North Rockies" />
-            <Content>
-                <Main>
-                    <SPAW name="north-rockies" />
-                    <NorthRockiesBlogFeed />
-                </Main>
-                <Aside>
-                    <components.Sidebar />
                 </Aside>
             </Content>
         </Page>
