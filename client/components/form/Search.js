@@ -4,6 +4,7 @@ import * as Icons from 'components/icons'
 import { Close } from 'components/button'
 import { Control } from 'components/form'
 import { GRAY_LIGHT } from 'constants/colors'
+import styles from './Search.css'
 
 Search.propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -13,29 +14,28 @@ Search.propTypes = {
 
 export default function Search({ value, onChange, placeholder = 'Search...' }) {
     const input = useRef(null)
-    function focus() {
-        input.current.focus()
-    }
-    function handleChange(event) {
-        const { value } = event.target
-
-        onChange(value)
+    function handleChange({ target }) {
+        onChange(target.value)
     }
     function handleReset() {
-        input.current.value = ''
+        const { current } = input
+
+        current.value = ''
+        current.focus()
+
         onChange('')
-        focus()
     }
 
     return (
         <Control horizontal bordered>
-            <i style={SEARCH_ICON_STYLE} onClick={focus}>
+            <i className={styles.Magnify}>
                 <Icons.Search color={GRAY_LIGHT} />
             </i>
             <input
                 ref={input}
                 name="search"
                 type="search"
+                className={styles.Input}
                 placeholder={placeholder}
                 defaultValue={value}
                 onChange={handleChange}
@@ -43,10 +43,4 @@ export default function Search({ value, onChange, placeholder = 'Search...' }) {
             {value && <Close onClick={handleReset} />}
         </Control>
     )
-}
-
-// Constants
-const SEARCH_ICON_STYLE = {
-    display: 'flex',
-    marginLeft: 10,
 }
