@@ -47,5 +47,6 @@ export default function Search({ value, onChange, placeholder = 'Search...' }) {
 
 // Constants
 const SEARCH_ICON_STYLE = {
+    display: 'flex',
     marginLeft: 10,
 }
