@@ -2,10 +2,7 @@ import React, { createElement, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Image from './Image'
 import Embed from './Embed'
-import WebLink from './WebLink'
-import ImageLink from './ImageLink'
-import FileLink from './FileLink'
-import DocumentLink from './DocumentLink'
+import Hyperlink from './Hyperlink'
 import { replaceLineFeed, swap } from 'utils/react'
 
 const LABEL = 'label'
@@ -26,31 +23,23 @@ const HYPERLINK = 'hyperlink'
 const EMBED = 'embed'
 
 const SpanComponents = new Map([
-    [
-        HYPERLINK,
-        new Map([
-            ['Link.web', WebLink],
-            ['Link.document', DocumentLink],
-            ['Link.image', ImageLink],
-            ['Link.file', FileLink],
-        ]),
-    ],
-    [EM, new Map([[undefined, 'em']])],
-    [STRONG, new Map([[undefined, 'strong']])],
-    [LABEL, new Map([[undefined, Label]])],
+    [HYPERLINK, Hyperlink],
+    [EM, 'em'],
+    [STRONG, 'strong'],
+    [LABEL, Label],
 ])
 
 function addSpanSet(component) {
-    return function SpanSet({ text, label, spans }) {
+    return function SpanSet(props) {
+        const { text, label, spans } = props
         let children = text
 
         if (spans.length > 0) {
             children = spans.reduce((children, span, index) => {
                 const { type, start, end } = span
-                const { type: subtype, ...data } = span.data || {}
                 const element = createElement(
-                    SpanComponents.get(type).get(subtype),
-                    { ...data, key: index },
+                    SpanComponents.get(type),
+                    Object.assign({}, span.data, { key: index }),
                     text.substring(start, end)
                 )
 
@@ -132,6 +121,8 @@ StructuredText.propTypes = {
     className: PropTypes.string,
 }
 
-export default function StructuredText({ value = [] }) {
-    return value.reduce(childrenElementReducer, [])
+export default function StructuredText({ value }) {
+    return Array.isArray(value)
+        ? value.reduce(childrenElementReducer, [])
+        : null
 }

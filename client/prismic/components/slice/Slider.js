@@ -23,7 +23,7 @@ export default function Slider({ value, ...props }) {
 // Utils
 function createItem({ image, content }) {
     return {
-        src: image.main.url,
+        src: image.url,
         children: (
             <div className={styles.Item}>
                 <StructuredText value={content} />

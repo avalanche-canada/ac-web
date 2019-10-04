@@ -9,7 +9,7 @@ import { PRIMARY } from 'constants/colors'
 import styles from './Image.css'
 
 Image.propTypes = {
-    nonRepeat: PropTypes.shape({
+    primary: PropTypes.shape({
         image: PropTypes.object.isRequired,
         caption: PropTypes.arrayOf(PropTypes.object),
         credit: PropTypes.object,
@@ -17,13 +17,13 @@ Image.propTypes = {
     fullscreen: PropTypes.bool,
 }
 
-export default function Image({ nonRepeat, fullscreen }) {
-    const { image, caption, credit } = nonRepeat
+export default function Image({ primary, fullscreen }) {
+    const { image, caption, credit } = primary
     const [ref, , , toggle] = useFullscreen()
 
     return (
         <Media>
-            <Base imageRef={ref} {...image.main} credit={credit} />
+            <Base imageRef={ref} {...image} credit={credit} />
             <Toolbar>
                 {caption?.length > 0 && (
                     <Caption>

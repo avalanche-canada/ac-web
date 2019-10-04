@@ -6,17 +6,18 @@ import { Translate } from 'contexts/locale'
 import styles from './Question.css'
 
 Question.propTypes = {
-    nonRepeat: PropTypes.shape({
+    primary: PropTypes.shape({
         question: PropTypes.string.isRequired,
         answer: PropTypes.array.isRequired,
     }).isRequired,
 }
 
-export default function Question({ nonRepeat }) {
-    const { question, answer } = nonRepeat
+export default function Question({ primary }) {
+    const { question, answer } = primary
     const [marking, setMarking] = useState(false)
     const [valid, setValid] = useState(true)
     const input = useRef(null)
+    const style = marking ? INVISIBLE_STYLE : null
     function handleSubmit(event) {
         event.preventDefault()
 
@@ -30,6 +31,8 @@ export default function Question({ nonRepeat }) {
     }
     function handleReset() {
         setMarking(false)
+
+        input.current.focus()
     }
     function handleChange() {
         setValid(true)
@@ -44,14 +47,13 @@ export default function Question({ nonRepeat }) {
             <fieldset>
                 <legend>Question</legend>
                 <label>
-                    {question}{' '}
+                    {question}
                     <textarea
                         name="user-answer"
                         ref={input}
-                        autoFocus
                         required
                         onChange={handleChange}
-                        style={marking ? { display: 'none' } : null}
+                        style={style}
                     />
                     <span data-error-message>
                         <Translate>Your answer is required.</Translate>
@@ -74,7 +76,7 @@ export default function Question({ nonRepeat }) {
     )
 }
 
-// Utils
+// Utils & constants
 function Answers({ answer, user }) {
     return (
         <section className={styles.Answers}>
@@ -98,4 +100,9 @@ function Answers({ answer, user }) {
             </dl>
         </section>
     )
+}
+const INVISIBLE_STYLE = {
+    position: 'absolute',
+    left: -9999,
+    top: -9999,
 }

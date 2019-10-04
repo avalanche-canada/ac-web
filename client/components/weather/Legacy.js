@@ -9,7 +9,7 @@ const SEQUENCE = [0, 1, 2, 3]
 function Content({ image, text }) {
     return (
         <div>
-            {image && <Image {...image.main} />}
+            {image && <Image {...image} />}
             {text && <StructuredText value={text} />}
         </div>
     )

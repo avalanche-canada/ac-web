@@ -1,9 +1,8 @@
-@import "../../styles/colors.css";
+@import '../../styles/colors.css';
 
 @custom-media --two-columns (width > 360px);
 @custom-media --three-columns (width > 560px);
 @custom-media --four-columns (width > 780px);
-
 
 .ItemSet {
     display: flex;
@@ -14,6 +13,7 @@
     flex: 100%;
     padding: 2em;
     box-sizing: border-box;
+    display: flex;
 
     @media (--two-columns) {
         flex: 50%;

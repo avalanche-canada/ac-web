@@ -5,10 +5,10 @@ import styles from './Quiz.css'
 import classnames from 'classnames/bind'
 
 Quiz.propTypes = {
-    nonRepeat: PropTypes.shape({
+    primary: PropTypes.shape({
         question: PropTypes.array.isRequired,
     }).isRequired,
-    repeat: PropTypes.arrayOf(
+    items: PropTypes.arrayOf(
         PropTypes.shape({
             answer: PropTypes.string.isRequired,
             feedback: PropTypes.array.isRequired,
@@ -17,9 +17,9 @@ Quiz.propTypes = {
     ),
 }
 
-export default function Quiz({ repeat, nonRepeat }) {
+export default function Quiz({ items, primary }) {
     const [picked, pick] = useState(null)
-    const answer = typeof picked === 'number' ? repeat[picked] : null
+    const answer = typeof picked === 'number' ? items[picked] : null
     const feedbackClassNames = classNames({
         Feedback: true,
         FeedbackSuccess: answer && answer.correctness === '100',
@@ -29,10 +29,10 @@ export default function Quiz({ repeat, nonRepeat }) {
     return (
         <fieldset>
             <legend>Quiz</legend>
-            <label>{nonRepeat.question}</label>
+            <label>{primary.question}</label>
             <div className={styles.Content}>
                 <div className={styles.Choices}>
-                    {repeat.map(({ answer }, index) => (
+                    {items.map(({ answer }, index) => (
                         <label key={index}>
                             <input
                                 type="radio"

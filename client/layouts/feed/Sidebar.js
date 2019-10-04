@@ -6,7 +6,7 @@ import { feed } from 'prismic/params'
 import Sidebar, { Header, Item } from 'components/sidebar'
 import { Loading } from 'components/text'
 import { EVENT, NEWS, BLOG, FEED } from 'constants/prismic'
-import { pathname, title } from 'utils/prismic'
+import { pathname } from 'router/prismic'
 
 FeedSidebar.propTypes = {
     type: PropTypes.oneOf(FEED).isRequired,
@@ -39,7 +39,7 @@ export default function FeedSidebar(props) {
 function renderItem(document) {
     return (
         <Item key={document.uid}>
-            <Link to={pathname(document)}>{title(document)}</Link>
+            <Link to={pathname(document)}>{document.data.title}</Link>
         </Item>
     )
 }

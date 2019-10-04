@@ -2,7 +2,8 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Muted, Loading } from 'components/text'
 import { Splash } from 'components/page/sections'
-import { Entry, EntrySet } from 'components/feed'
+import Entry from './Entry'
+import EntrySet from './EntrySet'
 import { Documents } from 'prismic/containers'
 import { feed } from 'prismic/params'
 
@@ -22,7 +23,8 @@ export default function FeedSplash({ children, ...props }) {
                 {({ pending, documents = [] }) => {
                     const isEmpty = !pending && documents.length === 0
                     const featured =
-                        documents.find(p => p.featured) || documents[0]
+                        documents.find(p => p.tags.includes('featured')) ||
+                        documents[0]
 
                     documents = documents.filter(p => p !== featured)
 

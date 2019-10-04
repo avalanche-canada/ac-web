@@ -1,20 +1,31 @@
 import React from 'react'
 import { ItemSet, Item } from 'components/sponsor'
-import parse from '../../parsers'
+import { Documents } from 'prismic/containers'
+import * as params from 'prismic/params'
 
 export default function SponsorSet({ value }) {
-    return <ItemSet>{value.filter(isNotBroken).map(renderItem)}</ItemSet>
+    const ids = value.filter(isNotBroken).map(pluckId)
+
+    return <Documents {...params.ids(ids)}>{renderChildren}</Documents>
 }
 
 // Utils
-function isNotBroken({ sponsor }) {
-    return !sponsor.value.isBroken
+function pluckId({ sponsor }) {
+    return sponsor.id
 }
-function renderItem(slice) {
-    const {
-        id,
-        data: { image229, name, url },
-    } = parse(slice.sponsor.value.document)
-
-    return <Item key={id} title={name} src={image229} url={url} />
+function renderChildren({ documents = [] }) {
+    return <ItemSet>{documents.map(renderItem)}</ItemSet>
+}
+function isNotBroken({ sponsor }) {
+    return sponsor.isBroken === false
+}
+function renderItem({ id, data }) {
+    return (
+        <Item
+            key={id}
+            title={data.name}
+            src={data['image-229']}
+            url={data.url}
+        />
+    )
 }

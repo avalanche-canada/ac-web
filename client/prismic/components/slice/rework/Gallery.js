@@ -7,7 +7,7 @@ import { Credit } from 'components/misc'
 import styles from './Gallery.css'
 
 Gallery.propTypes = {
-    repeat: PropTypes.arrayOf(
+    items: PropTypes.arrayOf(
         PropTypes.shape({
             image: PropTypes.object.isRequired,
             caption: PropTypes.arrayOf(PropTypes.object),
@@ -15,15 +15,15 @@ Gallery.propTypes = {
     ),
 }
 
-export default function Gallery({ repeat }) {
-    const items = repeat.filter(Boolean)
-    const { length } = items
+export default function Gallery({ items }) {
+    items = items.filter(Boolean)
+    const multiple = items.length > 1
 
     return (
         <div className={styles.Container}>
             <Base
-                showBullets={length > 1}
-                showPlayButton={length > 1}
+                showBullets={multiple}
+                showPlayButton={multiple}
                 showThumbnails={false}
                 items={items}
                 renderItem={renderItem}
@@ -33,9 +33,7 @@ export default function Gallery({ repeat }) {
 }
 
 // Utils
-function renderItem(item) {
-    const { image, caption, credit } = item
-
+function renderItem({ image, caption, credit }) {
     return (
         <Media>
             {caption?.length > 0 && (
@@ -43,7 +41,7 @@ function renderItem(item) {
                     <StructuredText value={caption} />
                 </Caption>
             )}
-            <Image {...image.main}>
+            <Image {...image}>
                 {credit && <Credit.Managed top>{credit}</Credit.Managed>}
             </Image>
         </Media>

@@ -27,8 +27,9 @@ function createAmbassador(ambassador, index, ambassadors) {
 }
 function transform({ twitter, facebook, instagram, website, ...ambassador }) {
     return Object.assign(ambassador, {
+        fullName: ambassador['full-name'],
         socials: [facebook, instagram, twitter, website]
-            .filter(Boolean)
-            .map(social => social.value.url),
+            .map(social => social.url)
+            .filter(Boolean),
     })
 }

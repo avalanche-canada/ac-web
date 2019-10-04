@@ -138,6 +138,29 @@ export function useFetch(url, cache = new None()) {
     return [data, pending]
 }
 
+export function useAsync(fn, ...params) {
+    const [data, setData] = useSafeState(null)
+    const [pending, setPending] = useSafeState(false)
+
+    async function caller() {
+        try {
+            setPending(true)
+
+            setData(await fn.apply(null, params))
+        } catch (error) {
+            throw error
+        } finally {
+            setPending(false)
+        }
+    }
+
+    useEffect(() => {
+        caller()
+    }, [])
+
+    return [data, pending]
+}
+
 function useStorage(
     storage,
     key,

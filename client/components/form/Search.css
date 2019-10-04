@@ -1,0 +1,17 @@
+.Magnify {
+    position: absolute;
+    pointer-events: none;
+    width: 3em;
+
+    display: flex;
+    align-content: center;
+    align-items: center;
+
+    & > svg {
+        width: 100%;
+    }
+}
+
+.Input {
+    padding-left: 3em;
+}

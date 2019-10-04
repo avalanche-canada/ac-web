@@ -116,40 +116,6 @@
     }
 }
 
-:global(.android-branding-store) {
-    position: relative;
-    line-height: 40px;
-    background: url(https://developer.android.com/images/brand/en_generic_rgb_wo_45.png)
-        no-repeat;
-    background-size: 140px 40px;
-    width: 140px;
-    height: 40px;
-    margin: 1em;
-    & > a {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        color: transparent;
-    }
-}
-
-:global(.apple-branding-store) {
-    position: relative;
-    line-height: 40px;
-    background: url(http://linkmaker.itunes.apple.com/images/badges/en-us/badge_appstore-lrg.svg)
-        no-repeat;
-    background-size: 140px 40px;
-    width: 140px;
-    height: 40px;
-    margin: 1em;
-    & > a {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        color: transparent;
-    }
-}
-
 :global(.static-page-youth) {
     & main {
         & div:not(:last-child) ul:not([class]) {
@@ -209,16 +175,6 @@
 
         @media (--full-nav-height) {
             height: calc(100vh - 75px);
-        }
-    }
-}
-
-:global(.static-page-mountain-information-network-overview) {
-    & main > div:not([class]):not(:last-child) {
-        display: flex;
-        align-items: center;
-        & figure {
-            margin: 1em;
         }
     }
 }

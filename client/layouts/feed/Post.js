@@ -1,17 +1,18 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Redirect, Link } from '@reach/router'
+import { Link, Redirect } from '@reach/router'
 import { Loading } from 'components/text'
 import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { Page, Content, Header, Main, Headline, Aside } from 'components/page'
 import { Metadata, Entry } from 'components/metadata'
 import { DateElement, Range, dateTimeFormatGetter } from 'components/time'
-import { TagTitle } from 'components/feed'
+import TagTitle from './TagTitle'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
-import { NEWS, BLOG, EVENT, FEED } from 'constants/prismic'
+import { FEED } from 'constants/prismic'
 import { TagSet, Tag } from 'components/tag'
+import { feed } from 'router/prismic'
 import Edit from 'prismic/Edit'
 
 Post.propTypes = {
@@ -25,7 +26,7 @@ export default function Post(props) {
     return (
         <Page>
             <Document {...params.uid(type, uid)}>
-                {page.bind(null, props)}
+                {state => page(props, state)}
             </Document>
         </Page>
     )
@@ -37,56 +38,26 @@ export function NorthRockies() {
 
     return (
         <Document {...params.feed.blog({ pageSize, category })}>
-            {minimal}
+            {content}
         </Document>
     )
 }
 
-// Utils
-function page(props, { pending, fulfilled, document }) {
-    // Post not found, redirecting to feed
-    if (fulfilled && !document) {
-        return <Redirect to={`/${props.type}`} />
-    }
-
-    return (
-        <Fragment>
-            <Edit id={document?.id} position="fixed" />
-            <PostHeader post={document} />
-            <Content>
-                <Main>
-                    {document && <PostMetadata {...document} />}
-                    {document && <PostContent {...document} />}
-                    {pending && <Loading />}
-                </Main>
-                <Aside>
-                    <Sidebar {...props} />
-                </Aside>
-            </Content>
-        </Fragment>
-    )
-}
-function minimal({ pending, document }) {
-    return (
-        <Fragment>
-            {document && <PostMetadata {...document} />}
-            {document && <PostContent {...document} />}
-            {pending && <Loading />}
-        </Fragment>
-    )
-}
-function PostMetadata({
-    date,
-    source,
-    location,
-    hostedBy,
-    startDate,
-    endDate,
-    tags,
-    type,
-}) {
+// Components
+function PostMetadata(document) {
+    const { tags, type, data } = document
+    const {
+        source,
+        location,
+        hosted_by,
+        start_date,
+        end_date,
+        date = start_date,
+    } = data
     const hasDateRange =
-        startDate && endDate && startDate.getTime() !== endDate.getTime()
+        start_date &&
+        end_date &&
+        Date.parse(start_date) !== Date.parse(end_date)
 
     return (
         <Metadata>
@@ -94,8 +65,8 @@ function PostMetadata({
                 <Entry term="Date">
                     {hasDateRange ? (
                         <Range
-                            from={startDate}
-                            to={endDate}
+                            from={start_date}
+                            to={end_date}
                             format={dateTimeFormatGetter}
                         />
                     ) : (
@@ -107,13 +78,13 @@ function PostMetadata({
                 <Entry term="Location">{location}</Entry>
             )}
             {source && <Entry term="Source">{source}</Entry>}
-            {hostedBy && <Entry term="Hosted by">{hostedBy}</Entry>}
+            {hosted_by && <Entry term="Hosted by">{hosted_by}</Entry>}
             {tags.length > 0 && (
                 <Entry term="Tagged under">
                     <TagSet>
                         {tags.map(tag => (
                             <Tag key={tag}>
-                                <Link to={`/${PATHS.get(type)}?tags=${tag}`}>
+                                <Link to={feed.tags(type, tag)}>
                                     <TagTitle value={tag} />
                                 </Link>
                             </Tag>
@@ -124,20 +95,59 @@ function PostMetadata({
         </Metadata>
     )
 }
-function PostContent({ headline, content }) {
+function PostContent({ data }) {
+    const { shortlede, body, description } = data
+
     return (
         <Fragment>
-            {headline && (
+            {shortlede && (
                 <Headline>
-                    <StructuredText value={headline} />
+                    <StructuredText value={shortlede} />
                 </Headline>
             )}
-            <StructuredText value={content} />
+            <StructuredText value={body || description} />
         </Fragment>
     )
 }
-function PostHeader({ post }) {
-    return <Header title={post?.title || 'Loading...'} />
-}
 
-const PATHS = new Map([[NEWS, 'news'], [BLOG, 'blogs'], [EVENT, 'events']])
+// Renderers
+function page(props, state) {
+    const { fulfilled, document } = state
+
+    // Post not found, redirecting to feed page
+    if (fulfilled && !document) {
+        return <Redirect to={feed.type(props.type)} />
+    }
+
+    return document ? (
+        <Fragment>
+            <Edit id={document.id} position="fixed" />
+            <Header title={document?.data?.title || 'Loading...'} />
+            <Content>
+                <Main>{content(state)}</Main>
+                <Aside>
+                    <Sidebar {...props} />
+                </Aside>
+            </Content>
+        </Fragment>
+    ) : (
+        <Fragment>
+            <Header title="Loading..."></Header>
+            <Content>
+                <Main></Main>
+                <Aside>
+                    <Sidebar {...props} />
+                </Aside>
+            </Content>
+        </Fragment>
+    )
+}
+function content({ pending, document }) {
+    return (
+        <Fragment>
+            {pending && <Loading />}
+            {document && <PostMetadata {...document} />}
+            {document && <PostContent {...document} />}
+        </Fragment>
+    )
+}

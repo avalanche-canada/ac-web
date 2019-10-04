@@ -65,7 +65,7 @@ function Layout({ name, onCloseClick, onLocateClick }) {
                 <Region name={name}>{renderHeader}</Region>
             </Header>
             <Body>
-                {name === NORTH_ROCKIES ? (
+                {name === 'north-rockies' ? (
                     <Content>
                         <NorthRockies />
                     </Content>
@@ -109,7 +109,6 @@ function Layout({ name, onCloseClick, onLocateClick }) {
 export default memo(Layout, (prev, next) => prev.name === next.name)
 
 // Utils and Constants
-const NORTH_ROCKIES = 'north-rockies'
 function renderRegions({ fulfilled, data }) {
     return fulfilled ? (
         <Location>

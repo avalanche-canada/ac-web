@@ -34,3 +34,7 @@ export function build(path, params, base = document.location.origin) {
 
     return url
 }
+
+export function path(...chunks) {
+    return chunks.filter(Boolean).join('/')
+}

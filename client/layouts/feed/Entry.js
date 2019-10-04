@@ -1,52 +1,41 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import { memo } from 'utils/react'
 import { DateElement } from 'components/time'
 import { StructuredText, Image } from 'prismic/components/base'
 import { TagSet, Tag } from 'components/tag'
 import TagTitle from './TagTitle'
+import { feed } from 'router/prismic'
 import styles from './Feed.css'
 
+// TODO Should be moved to /layouts
+
 Entry.propTypes = {
-    featured: PropTypes.bool.isRequired,
-    title: PropTypes.string.isRequired,
-    source: PropTypes.string,
-    category: PropTypes.string,
-    date: PropTypes.instanceOf(Date).isRequired,
-    headline: PropTypes.shape(StructuredText.propTypes).isRequired,
     tags: PropTypes.arrayOf(PropTypes.string),
-    link: PropTypes.string.isRequired,
-    preview: PropTypes.shape(Image.propTypes),
+    data: PropTypes.object,
+    type: PropTypes.string.isRequired,
     uid: PropTypes.string.isRequired,
-    condensed: PropTypes.bool,
 }
 
-function Entry({
-    featured = false,
-    title,
-    category,
-    source,
-    date,
-    headline,
-    tags,
-    preview,
-    link,
-}) {
+function Entry({ type, uid, tags, data }) {
+    const date = data.start_date || data.date
+    const preview = data?.featured_image || data?.preview_image?.Column
+    const { title, category, source, shortlede } = data
+    const featured = tags.includes('featured')
     const className = featured ? 'Entry--Featured' : 'Entry'
 
     return (
         <div className={styles[className]}>
-            {preview && (
+            {preview?.url && (
                 <div className={styles.Image}>
                     <Image {...preview} />
                 </div>
             )}
             <div className={styles.Content}>
                 <h2>
-                    <Link to={link}>{title}</Link>
+                    <Link to={feed.uid(type, uid)}>{title}</Link>
                 </h2>
-                <StructuredText value={headline} />
+                <StructuredText value={shortlede} />
                 <ul className={styles.Metadata}>
                     {date && (
                         <li>
@@ -56,44 +45,36 @@ function Entry({
                     {category && <li>{category}</li>}
                     {source && <li>{source}</li>}
                 </ul>
-                {Array.isArray(tags) && (
-                    <TagSet>
-                        {tags.sort().map(tag => (
-                            <Tag key={tag}>
-                                <TagTitle value={tag} />
-                            </Tag>
-                        ))}
-                    </TagSet>
-                )}
+                <TagSet>
+                    {tags.sort().map(tag => (
+                        <Tag key={tag}>
+                            <TagTitle value={tag} />
+                        </Tag>
+                    ))}
+                </TagSet>
             </div>
         </div>
     )
 }
 
 CondensedEntry.propTypes = {
-    featured: PropTypes.bool,
-    title: PropTypes.string.isRequired,
-    category: PropTypes.string,
-    source: PropTypes.string,
-    date: PropTypes.instanceOf(Date),
-    link: PropTypes.string.isRequired,
+    data: PropTypes.object,
+    tags: PropTypes.arrayOf(PropTypes.string),
+    type: PropTypes.string.isRequired,
+    uid: PropTypes.string.isRequired,
 }
 
-function CondensedEntry({
-    featured = false,
-    title,
-    category,
-    source,
-    date,
-    link,
-}) {
+function CondensedEntry({ type, uid, tags, data }) {
+    const featured = tags.includes('featured')
+    const date = data.start_date || data.date
+    const { title, category, source } = data
     const className = featured ? 'Entry--Featured' : 'Entry'
 
     return (
         <div className={styles[className]}>
             <div className={styles.Content}>
                 <h2>
-                    <Link to={link}>{title}</Link>
+                    <Link to={feed.uid(type, uid)}>{title}</Link>
                 </h2>
                 <ul className={styles.Metadata}>
                     {date && (
@@ -113,8 +94,6 @@ EntryComponent.propTypes = {
     condensed: PropTypes.bool,
 }
 
-function EntryComponent({ condensed, ...props }) {
+export default function EntryComponent({ condensed, ...props }) {
     return createElement(condensed ? CondensedEntry : Entry, props)
 }
-
-export default memo.static(EntryComponent)

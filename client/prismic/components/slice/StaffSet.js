@@ -13,7 +13,7 @@ export default function StaffSet({ value }) {
 
 // Utils
 function pluckId({ staff }) {
-    return staff.value.document.id
+    return staff.id
 }
 function renderChildren({ pending, documents = [] }) {
     return (
@@ -26,7 +26,7 @@ function renderChildren({ pending, documents = [] }) {
 
 function renderItem({ id, data: { biography, avatar, ...props } }) {
     return (
-        <Biography key={id} avatar={avatar?.main?.url} {...props}>
+        <Biography key={id} avatar={avatar?.url} {...props}>
             <StructuredText value={biography} />
         </Biography>
     )

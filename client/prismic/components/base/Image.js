@@ -2,7 +2,7 @@ import React, { Children, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { Credit } from 'components/misc'
-import WebLink from './WebLink'
+import Hyperlink from './Hyperlink'
 import styles from './Image.css'
 import { useEventListener, useBoolean } from 'utils/react/hooks'
 
@@ -65,7 +65,7 @@ export default function Image({
     return (
         <figure className={className}>
             {typeof linkTo === 'object' ? (
-                <WebLink {...linkTo}>{image}</WebLink>
+                <Hyperlink {...linkTo}>{image}</Hyperlink>
             ) : (
                 image
             )}

@@ -1,7 +1,8 @@
-import React, { memo, createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import isAfter from 'date-fns/is_after'
 import isBefore from 'date-fns/is_before'
+import parse from 'date-fns/parse'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import Synopsis from './tabs/Synopsis'
 import Day1 from './tabs/Day1'
@@ -16,7 +17,7 @@ Forecast.propTypes = {
     forecast: PropTypes.object.isRequired,
 }
 
-function Forecast({ forecast }) {
+export default function Forecast({ forecast }) {
     const { date } = forecast
     // Long range launching date was November 27th, 2017, yeah! on my birthday ;)
     const isDay5To7TabVisible = isAfter(date, new Date(2017, 10, 26))
@@ -33,11 +34,13 @@ function Forecast({ forecast }) {
             </HeaderSet>
             <PanelSet>
                 <Panel>{createPanel(forecast, Synopsis, 'synopsis')}</Panel>
-                <Panel>{createPanel(forecast, Day1, 'day1')}</Panel>
-                <Panel>{createPanel(forecast, Day2, 'day2')}</Panel>
-                <Panel>{createPanel(forecast, Day3To4, 'day3To4')}</Panel>
+                <Panel>{createPanel(forecast, Day1, 'day-1')}</Panel>
+                <Panel>{createPanel(forecast, Day2, 'day-2')}</Panel>
+                <Panel>{createPanel(forecast, Day3To4, 'day-3-to-4')}</Panel>
                 {isDay5To7TabVisible && (
-                    <Panel>{createPanel(forecast, Day5To7, 'day5To7')}</Panel>
+                    <Panel>
+                        {createPanel(forecast, Day5To7, 'day-5-to-7')}
+                    </Panel>
                 )}
                 <Panel>
                     <Tutorial uid="weather" />
@@ -47,24 +50,28 @@ function Forecast({ forecast }) {
     )
 }
 
-export default memo(Forecast)
-
 // Utils
-function createPanel(forecast, component, name) {
-    const { date } = forecast
+function createPanel(forecast, Component, name) {
+    const date = parse(forecast.date)
     const group = forecast[name]
-    const slices = forecast[`${name}More`] || group
+    const slices = forecast[`${name}-more`] || group
     const props = { date }
 
-    if (component === Day5To7 && isBefore(date, new Date(2017, 11, 25))) {
-        return createElement(component, props, <StructuredText value={group} />)
+    if (Component === Day5To7 && isBefore(date, new Date(2017, 11, 25))) {
+        return (
+            <Component {...props}>
+                <StructuredText value={group} />)
+            </Component>
+        )
     }
 
     if (Array.isArray(group)) {
         Object.assign(props, group[0])
     }
 
-    const children = <SliceSet slices={slices} />
-
-    return createElement(component, props, children)
+    return (
+        <Component {...props}>
+            <SliceSet slices={slices} />
+        </Component>
+    )
 }
