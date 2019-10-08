@@ -4,14 +4,12 @@ import isWithinRange from 'date-fns/is_within_range'
 import startOfDay from 'date-fns/start_of_day'
 import endOfDay from 'date-fns/end_of_day'
 
-export function title({ report, pending, hotZone }) {
-    const name = hotZone?.name
+export function title({ region, report, hotZone }) {
+    const name = hotZone?.name || report?.data?.region || region
 
-    return !pending
-        ? report
-            ? name
-            : `No ${name} advisory is currently available`
-        : name || 'Loading...'
+    return report
+        ? name
+        : `No ${name} Avalanche Advisory is currently available`
 }
 
 export function geometry({ bbox }) {

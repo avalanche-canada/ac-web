@@ -2,7 +2,10 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Forecast } from 'containers/forecast'
-import { Region, Regions } from 'containers/features'
+import {
+    useForecastRegionsMetadata,
+    useForecastRegionMetadata,
+} from 'containers/features'
 import {
     Page,
     Header,
@@ -19,6 +22,7 @@ import { handleForecastTabActivate } from 'services/analytics'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import { StructuredText } from 'prismic/components/base'
 import Shim from 'components/Shim'
+import ErrorBoundary from 'components/ErrorBoundary'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -27,52 +31,51 @@ ForecastLayout.propTypes = {
 
 export default function ForecastLayout({ name, date }) {
     const isPrintable = !date || isToday(date)
+    const [region, pending] = useForecastRegionMetadata(name)
 
     return (
         <Page>
-            <Region name={name}>
-                {({ pending, data }) => (
-                    <Header
-                        title={
-                            pending ? (
-                                <Loading component="span" />
-                            ) : (
-                                data?.name || (
-                                    <Warning component="span">
-                                        {name} forecast not found
-                                    </Warning>
-                                )
-                            )
-                        }
-                    />
-                )}
-            </Region>
+            <Header
+                title={
+                    pending ? (
+                        <Loading component="span" />
+                    ) : (
+                        region?.name || (
+                            <Warning component="span">
+                                {name} forecast not found
+                            </Warning>
+                        )
+                    )
+                }
+            />
             <Content>
                 <Main>
                     <Forecast name={name} date={date}>
-                        {props => (
-                            <Fragment>
-                                <Pending>
-                                    <Muted>Loading forecast data...</Muted>
-                                </Pending>
-                                <Fulfilled.Found>
-                                    <components.Provider value={props.data}>
-                                        <components.Metadata />
-                                        <SPAW name={name} />
-                                        <components.Headline />
-                                        <components.TabSet
-                                            onTabChange={
-                                                handleForecastTabActivate
-                                            }
-                                        />
-                                        <components.Footer />
-                                    </components.Provider>
-                                </Fulfilled.Found>
-                                <Fulfilled.NotFound>
-                                    <Regions>{renderRegions}</Regions>
-                                </Fulfilled.NotFound>
-                            </Fragment>
-                        )}
+                        {props => {
+                            return (
+                                <Fragment>
+                                    <Pending>
+                                        <Muted>Loading forecast data...</Muted>
+                                    </Pending>
+                                    <Fulfilled.Found>
+                                        <components.Provider value={props.data}>
+                                            <components.Metadata />
+                                            <SPAW name={name} />
+                                            <components.Headline />
+                                            <components.TabSet
+                                                onTabChange={
+                                                    handleForecastTabActivate
+                                                }
+                                            />
+                                            <components.Footer />
+                                        </components.Provider>
+                                    </Fulfilled.Found>
+                                    <Fulfilled.NotFound>
+                                        <OtherRegions />
+                                    </Fulfilled.NotFound>
+                                </Fragment>
+                            )
+                        }}
                     </Forecast>
                 </Main>
                 <Aside>
@@ -87,20 +90,22 @@ export default function ForecastLayout({ name, date }) {
     )
 }
 
-// Utils
-function renderRegions({ fulfilled, data }) {
-    return fulfilled ? (
+// Util components
+function OtherRegions() {
+    const [regions] = useForecastRegionsMetadata()
+
+    return (
         <Fragment>
             <h3>Click on a link below to see another forecast:</h3>
             <List column={1}>
-                {data.map(({ id, name }) => (
+                {regions.map(({ id, name }) => (
                     <ListItem key={id} to={`../${id}`} replace>
                         {name}
                     </ListItem>
                 ))}
             </List>
         </Fragment>
-    ) : null
+    )
 }
 function SPAW({ name }) {
     return (

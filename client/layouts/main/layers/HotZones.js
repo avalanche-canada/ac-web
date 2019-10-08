@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
-import * as features from 'containers/features'
+import { useAdvisoriesMetadata } from 'containers/features'
 import { Source, Circle } from 'components/map'
 import { Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
@@ -15,20 +15,18 @@ HotZones.propTypes = {
 }
 
 export default function HotZones(props) {
+    const [areas] = useAdvisoriesMetadata()
+
     return (
-        <features.HotZones>
-            {({ data = [] }) => (
-                <Documents {...hotZone.reports()}>
-                    {({ documents = [] }) => (
-                        <Source
-                            id={key}
-                            data={createFeatureCollection(data)(documents)}>
-                            <Circle id={key} {...props} {...styles} />
-                        </Source>
-                    )}
-                </Documents>
+        <Documents {...hotZone.reports()}>
+            {({ documents = [] }) => (
+                <Source
+                    id={key}
+                    data={createFeatureCollection(areas)(documents)}>
+                    <Circle id={key} {...props} {...styles} />
+                </Source>
             )}
-        </features.HotZones>
+        </Documents>
     )
 }
 

@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import { Forecast } from 'containers/forecast'
-import { Region, Regions } from 'containers/features'
+import {
+    useForecastRegionsMetadata,
+    useForecastRegionMetadata,
+} from 'containers/features'
 import { Page, Content, Header, Main } from 'components/page'
 import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
@@ -69,40 +72,31 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
 
 // Utils
 function RegionDropdown({ value, onChange }) {
-    return (
-        <Regions>
-            {({ data }) =>
-                data ? (
-                    <Dropdown
-                        options={new Map(data.map(createRegionOption))}
-                        value={value}
-                        onChange={onChange}
-                        disabled
-                        placeholder="Select a region"
-                    />
-                ) : (
-                    'Loading...'
-                )
-            }
-        </Regions>
+    const [regions, pending] = useForecastRegionsMetadata()
+
+    return pending ? (
+        'Loading...'
+    ) : (
+        <Dropdown
+            options={new Map(regions.map(createRegionOption))}
+            value={value}
+            onChange={onChange}
+            disabled
+            placeholder="Select a region"
+        />
     )
 }
 function ForecastContent({ name, date }) {
-    function renderWarning({ data }) {
-        if (!data) {
-            return null
-        }
-
-        const to = getWarningUrl(data, date)
-
-        return to ? (
+    const [region] = useForecastRegionMetadata(name)
+    const warning =
+        region && getWarningUrl(region, date) ? (
             <Shim vertical>
-                <a href={to} target={data.id}>
-                    <Warning>{getWarningText(data)}</Warning>
+                <a href={getWarningUrl(region, date)} target={region.id}>
+                    <Warning>{getWarningText(region)}</Warning>
                 </a>
             </Shim>
         ) : null
-    }
+
     if (!name) {
         return <Muted>Select a forecast region.</Muted>
     }
@@ -112,7 +106,7 @@ function ForecastContent({ name, date }) {
     }
 
     return externals.has(name) ? (
-        <Region name={name}>{renderWarning}</Region>
+        warning
     ) : (
         <Forecast name={name} date={date}>
             {({ data }) => (
@@ -132,7 +126,7 @@ function ForecastContent({ name, date }) {
                         <Footer.DangerRatings />
                         <Footer.Disclaimer />
                     </components.Footer>
-                    <Region name={name}>{renderWarning}</Region>
+                    {warning}
                 </components.Provider>
             )}
         </Forecast>
@@ -141,7 +135,7 @@ function ForecastContent({ name, date }) {
 function createRegionOption({ id, name }) {
     return [id, name]
 }
-function getWarningText({ name, owner, id }) {
+function getWarningText({ name, owner }) {
     switch (owner) {
         case PARKS_CANADA:
             return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`

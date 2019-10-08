@@ -21,6 +21,10 @@ export function forecasts() {
     return forecast('all')
 }
 
+export function regions() {
+    return build(baseURL + '/forecasts')
+}
+
 // Utils
 function isArchiveBulletinRequest(date) {
     if (!date) {

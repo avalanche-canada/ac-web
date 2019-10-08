@@ -7,7 +7,7 @@ import { Item } from 'components/sidebar'
 import * as Hzr from 'layouts/products/hzr'
 import { Document } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
-import { HotZone } from 'containers/features'
+import { useAdvisoryMetadata } from 'containers/features'
 import * as utils from 'utils/hzr'
 
 HotZoneReportLayout.propTypes = {
@@ -16,6 +16,7 @@ HotZoneReportLayout.propTypes = {
 }
 
 export default function HotZoneReportLayout({ region, uid }) {
+    const [area] = useAdvisoryMetadata(region)
     const params = uid ? hotZone.uid(uid) : hotZone.report(region)
 
     return (
@@ -23,17 +24,17 @@ export default function HotZoneReportLayout({ region, uid }) {
             <Document {...params}>
                 {({ document, pending }) => (
                     <Fragment>
-                        <HotZone name={region}>
-                            {({ data }) => (
-                                <Header
-                                    title={utils.title({
-                                        report: document,
-                                        pending,
-                                        hotZone: data,
-                                    })}
-                                />
-                            )}
-                        </HotZone>
+                        <Header
+                            title={
+                                pending
+                                    ? 'Loading...'
+                                    : utils.title({
+                                          region,
+                                          report: document,
+                                          hotZone: area,
+                                      })
+                            }
+                        />
                         <Content>
                             <Main>
                                 {pending ? (

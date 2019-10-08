@@ -78,10 +78,35 @@ export function useEventListener(eventName, handler, element = window) {
 
 export function useFetch(url, cache = new None()) {
     const [data, setData] = useSafeState(cache.get(url))
-    const [pending, setPending] = useSafeState(FETCHING.has(url))
+    const [pending, setPending] = useSafeState(PROMISES.has(url))
     const controller = useRef(null)
+    function setError(error) {
+        setData(() => {
+            throw error
+        })
+    }
 
-    async function fetcher() {
+    useEffect(() => {
+        // Yes, url can be "null"
+        if (!url || cache.has(url)) {
+            return
+        }
+
+        if (PROMISES.has(url)) {
+            const promise = PROMISES.get(url)
+
+            promise
+                .then(setData)
+                .catch(setError)
+                .finally(() => {
+                    setPending(false)
+                })
+
+            return
+        }
+
+        setPending(true)
+
         try {
             controller.current = new AbortController()
         } catch {
@@ -90,31 +115,19 @@ export function useFetch(url, cache = new None()) {
             }
         }
 
-        try {
-            FETCHING.add(url)
+        const { signal } = controller.current
+        const promise = fetch(url, { signal }).then(status)
 
-            setPending(true)
+        promise
+            .then(setData)
+            .catch(setError)
+            .finally(() => {
+                PROMISES.delete(url)
 
-            const { signal } = controller.current
-            const response = await fetch(url, { signal })
-            const payload = await status(response)
+                setPending(false)
+            })
 
-            setData(payload)
-        } catch (error) {
-            throw error
-        } finally {
-            FETCHING.delete(url)
-
-            setPending(false)
-        }
-    }
-
-    useEffect(() => {
-        if (!url || cache.has(url) || FETCHING.has(url)) {
-            return
-        }
-
-        fetcher()
+        PROMISES.set(url, promise)
 
         return () => {
             if (!pending) {
@@ -125,10 +138,12 @@ export function useFetch(url, cache = new None()) {
                 controller.current.abort()
             } catch (error) {
                 if (error.name !== 'AbortError') {
-                    throw error
+                    setData(() => {
+                        throw error
+                    })
                 }
             } finally {
-                FETCHING.delete(url)
+                PROMISES.delete(url)
 
                 setPending(false)
             }
@@ -148,7 +163,9 @@ export function useAsync(fn, ...params) {
 
             setData(await fn.apply(null, params))
         } catch (error) {
-            throw error
+            setData(() => {
+                throw error
+            })
         } finally {
             setPending(false)
         }
@@ -338,7 +355,7 @@ export function useFullscreen() {
 }
 
 // Utils & constants
-const FETCHING = new Set()
+const PROMISES = new Map()
 function getWindowSize() {
     return {
         height: window.innerHeight,

@@ -1,6 +1,6 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Regions } from 'containers/features'
+import { useForecastRegionsMetadata } from 'containers/features'
 import { Layer } from 'contexts/layers'
 import { Marker } from 'components/map'
 import { FORECASTS } from 'constants/drawers'
@@ -13,15 +13,13 @@ ForecastMarkers.propTypes = {
 }
 
 export default function ForecastMarkers(props) {
+    const [regions] = useForecastRegionsMetadata()
+
     return (
         <Layer id={FORECASTS}>
             {layer =>
                 layer.visible ? (
-                    <Regions>
-                        {({ data }) => (
-                            <MarkersRenderer {...props} data={data} />
-                        )}
-                    </Regions>
+                    <MarkersRenderer {...props} data={regions} />
                 ) : null
             }
         </Layer>
@@ -29,9 +27,7 @@ export default function ForecastMarkers(props) {
 }
 
 // Utils
-const MarkersRenderer = memo(MarkersRendererBase)
-
-function MarkersRendererBase({ data = [], map, onMarkerClick }) {
+function MarkersRenderer({ data = [], map, onMarkerClick }) {
     return data.map(({ id, name, dangerIconUrl, centroid }) => {
         const element = document.createElement('img')
 

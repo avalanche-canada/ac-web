@@ -1,33 +1,33 @@
 import React from 'react'
-import { HotZones } from 'containers/features'
+import { useAdvisoriesMetadata } from 'containers/features'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import Page from 'layouts/Page'
 
 export default function HotZoneList() {
+    const [areas, pending] = useAdvisoriesMetadata()
+
     return (
         <Page
             title="Avalanche Advisories"
-            headline="Click on a link below to read an Avalanche Advisory.">
-            <HotZones>{renderer}</HotZones>
-        </Page>
-    )
-}
-
-function renderer({ pending, data }) {
-    if (pending || !data) {
-        return <Loading />
-    }
-
-    return (
-        <List>
-            {data.map(({ id, name }) => {
-                return (
-                    <ListItem key={id} to={`/advisories/${id}`}>
-                        {name}
-                    </ListItem>
+            headline={
+                areas.length > 0 ? (
+                    'Click on a link below to read an Avalanche Advisory.'
+                ) : pending ? (
+                    <Loading />
+                ) : (
+                    'There is currently no Avalanche Advisory available.'
                 )
-            })}
-        </List>
+            }>
+            <List>
+                {areas.map(({ id, name }) => {
+                    return (
+                        <ListItem key={id} to={`/advisories/${id}`}>
+                            {name}
+                        </ListItem>
+                    )
+                })}
+            </List>
+        </Page>
     )
 }

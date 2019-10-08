@@ -1,4 +1,4 @@
-import React, { useCallback, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
@@ -10,7 +10,10 @@ import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Muted, Warning, Loading } from 'components/text'
 import { Forecast } from 'containers/forecast'
 import { Fulfilled, Pending } from 'components/fetch'
-import { Region, Regions } from 'containers/features'
+import {
+    useForecastRegionsMetadata,
+    useForecastRegionMetadata,
+} from 'containers/features'
 import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 import { handleForecastTabActivate } from 'services/analytics'
@@ -22,29 +25,7 @@ Layout.propTypes = {
 }
 
 export default function Layout({ name, onCloseClick, onLocateClick }) {
-    const renderHeader = useCallback(
-        ({ pending, fulfilled, data }) => (
-            <h1>
-                {pending && <Loading component="span" />}
-                {fulfilled &&
-                    (data ? (
-                        <Fragment>
-                            <Link to={`/forecasts/${name}`}>{data.name}</Link>
-                            <DisplayOnMap
-                                onClick={() =>
-                                    onLocateClick(utils.geometry(data))
-                                }
-                            />
-                        </Fragment>
-                    ) : (
-                        <Warning component="span">
-                            Forecast {name} not found
-                        </Warning>
-                    ))}
-            </h1>
-        ),
-        [name]
-    )
+    const [region, pending] = useForecastRegionMetadata(name)
 
     return (
         <Container>
@@ -54,7 +35,24 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Header subject="Avalanche Forecast">
-                <Region name={name}>{renderHeader}</Region>
+                <h1>
+                    {pending ? (
+                        <Loading component="span" />
+                    ) : region ? (
+                        <Fragment>
+                            <Link to={`/forecasts/${name}`}>{region.name}</Link>
+                            <DisplayOnMap
+                                onClick={() =>
+                                    onLocateClick(utils.geometry(region))
+                                }
+                            />
+                        </Fragment>
+                    ) : (
+                        <Warning component="span">
+                            Forecast {name} not found
+                        </Warning>
+                    )}
+                </h1>
             </Header>
             <Body>
                 <Forecast name={name}>
@@ -78,7 +76,7 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                                 </components.Provider>
                             </Fulfilled.Found>
                             <Fulfilled.NotFound>
-                                <Regions>{renderRegions}</Regions>
+                                <OtherRegions />
                             </Fulfilled.NotFound>
                         </Fragment>
                     )}
@@ -89,14 +87,16 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
 }
 
 // Utils and Constants
-function renderRegions({ fulfilled, data }) {
-    return fulfilled ? (
+function OtherRegions() {
+    const [regions] = useForecastRegionsMetadata()
+
+    return (
         <Location>
             {({ location }) => (
                 <Shim horizontal as="section">
                     <h3>Click on a link below to see another forecast:</h3>
                     <List column={1}>
-                        {data.map(({ id, name }) => (
+                        {regions.map(({ id, name }) => (
                             <ListItem
                                 key={id}
                                 to={`/map/forecasts/${id}${location.search}`}
@@ -108,7 +108,7 @@ function renderRegions({ fulfilled, data }) {
                 </Shim>
             )}
         </Location>
-    ) : null
+    )
 }
 
 function SPAW({ name }) {
