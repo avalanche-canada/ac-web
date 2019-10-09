@@ -7,6 +7,8 @@ import { Map as Base, NavigationControl } from 'components/map'
 import * as TYPES from 'constants/drawers'
 import LAYERS from './layers'
 
+// TODO Rework that the way it has been done it the AvID API viewer
+
 export default class Layout extends Component {
     static propTypes = {
         onFeatureClick: PropTypes.func.isRequired,
