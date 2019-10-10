@@ -1,10 +1,12 @@
+import 'core-js/features/promise'
+
 export default async function polyfills(self) {
-    if (!self.fetch) {
-        await import('whatwg-fetch')
+    if (!self.Set) {
+        await import('core-js/features/set')
     }
 
-    if (!self.Promise) {
-        await import('core-js/features/promise')
+    if (!self.fetch) {
+        await import('whatwg-fetch')
     }
 
     if (!self.requestAnimationFrame) {
@@ -13,10 +15,6 @@ export default async function polyfills(self) {
 
     if (!urlSearchParamsSupported(self)) {
         await import('url-search-params-polyfill')
-    }
-
-    if (!self.Set) {
-        await import('core-js/features/set')
     }
 }
 
