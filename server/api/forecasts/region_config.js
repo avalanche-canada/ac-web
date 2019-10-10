@@ -38,7 +38,7 @@ function parseAvalx(region_id) {
 }
 
 
-var REGIONS = {
+var AVCAN = {
     'northwest-coastal': {
         fetchNow: function() { return fetch.fetchAvalx2016(16).then(parseAvalx('northwest-coastal')); },
         metadata: reg_properties['northwest-coastal'],
@@ -101,11 +101,6 @@ var REGIONS = {
     },
 };
 
-var LINKS = {
-    'vancouver-island' : { metadata: reg_properties['vancouver-island'] },
-    'chic-chocs'       : { metadata: reg_properties['chic-chocs'] },
-    'north-rockies'    : { metadata: reg_properties['north-rockies'] },
-};
 
 // PARKS
 
@@ -132,12 +127,13 @@ var PARKS = {
     },
 };
 
-var x = {'cariboos': REGIONS['cariboos']}
-_.forEach(REGIONS, function(reg, id) {
-    reg.fetchNow()
-       .catch(function(err) {
-           console.log("ERRROR with :: " + id);
-           console.log(err)
-        });
-    console.log(id);
-});
+var LINKS = {
+    'vancouver-island' : { metadata: reg_properties['vancouver-island'] },
+    'chic-chocs'       : { metadata: reg_properties['chic-chocs'] },
+    'north-rockies'    : { metadata: reg_properties['north-rockies'] },
+};
+
+
+module.exports = {
+    cached_regions: Object.assign({}, AVCAN, PARKS),
+}

@@ -53,38 +53,13 @@ function getForecastData(regionName, region) {
     }
 
     return webcache.avalxWebcache
-        .get(region.properties.url)
-        .then(function(cached_caaml) {
-            if (!cached_caaml) {
-                logger.debug('BUILDING forecast caaml for region:', region.id);
-                return Q.nfcall(avalx.fetchCaamlForecast, region);
-            } else {
-                return cached_caaml;
-            }
-        })
-        .then(function(caaml) {
-            return [caaml];
-        })
-        .spread(function(caaml) {
-            var cacheKey = 'forecast-data::json::' + region.id;
-            var json = webcache.fragmentCache.wrap(cacheKey, function() {
-                logger.debug('BUILDING forecast data...', cacheKey);
-                return Q.nfcall(avalx.parseCaamlForecast, caaml, region);
-            });
-            return [caaml, json];
-        })
-        .spread(function(caaml, json) {
-            if (region.properties.type === 'avalx') {
-                json.bulletinTitle = region.properties.name;
-            } else if (region.properties.type === 'parks') {
-                json.parksUrl = region.properties.externalUrl;
-                json.name = region.properties.name;
-            }
-
+        .get(region.id)
+        .then(function(regionJson){
             return {
                 region: region.id,
-                caaml: caaml,
-                json: json,
+                // TODO: get the XML? Look at logs to see how much was coming out of it.
+                //caaml: caaml,
+                json: regionJson,
             };
         });
 }
@@ -142,7 +117,9 @@ router.get('/:region.:format', function(req, res) {
 
     switch (req.params.format) {
         case 'xml':
-            return res.type('application/xml').send(req.forecast.caaml);
+            return res.status(404).text("XML is no longer supported. Please contact support@avalanche.ca if you require access to CAAML data");
+            //TODO:
+            //return res.type('application/xml').send(req.forecast.caaml);
             break;
 
         case 'json':

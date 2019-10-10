@@ -4,6 +4,14 @@ var _ = require('lodash');
 var events = require('events');
 var logger = require('../../logger');
 
+/**
+ * Web cache is now seeded by "items" (instead of the previous "urls")
+ * type item = {
+ *    key: string,
+ *    fetch: () => json
+ * }
+ */
+
 var WebCacheMem = function () {
     this.client = {};
 };
@@ -19,7 +27,7 @@ WebCacheMem.prototype.set = function (key, val) {
 };
 
 var WebCache = function (options) {
-    this.urls = [];
+    this.items = [];
     this.options = options || {};
     this.cache = this.options.store || new WebCacheMem();
     this.isReady = false;
@@ -29,41 +37,30 @@ var WebCache = function (options) {
         var self = this;
 
         setInterval(function () {
-            if(self.urls.length > 0) self.refresh();
+            if(self.items.length > 0) self.refresh();
         }, self.options.refreshInterval);
     }
 };
 
 WebCache.prototype.__proto__ = events.EventEmitter.prototype;
 
-WebCache.prototype.seed = function (seedUrls) {
-    logger.info('webcache seed urls=%s', JSON.stringify(seedUrls));
-    this.urls = seedUrls;
+WebCache.prototype.seed = function (seed_items) {
+    logger.info('webcache seed items=%s', JSON.stringify(_.map(seed_items, function(x){return x.key})));
+    this.items = seed_items;
     this.refresh();
 };
 
 WebCache.prototype.refresh = function () {
     var self = this;
     var start = +new Date;
-    var requests = this.urls.map(function (url) { 
-        var options = {
-            uri: url,
-            headers: {
-                'cache-control': 'no-cache'
-            },
-            transform: function (body, response) {
-                logger.debug('webcache transform url=%s', url);
-                return {
-                    url: url,
-                    data: body
-                }
-            },
-            timeout: 300000
-        };
-
-        logger.debug('webcache get url=%s', url);
-        return rp(options)
-            .catch(function (e) { logger.error('webcache request_error url=%s responseCode=%d', url, e.statusCode); });
+    // Kick off all the Promises to get items
+    //TODO: batch these or do them sequentially to not overload the server
+    var requests = _.map(this.items, function(item){ 
+        var p = item.fetch()
+            .then(function(result){
+                return {key: item.key, result: result};
+            }); 
+        return p;
     });
 
     logger.info('webcache started seeding item_count=%d', requests.length);
@@ -72,7 +69,9 @@ WebCache.prototype.refresh = function () {
         results = _.groupBy(results, 'state');
         results.rejected = results.rejected || [];
 
-        var sets = results.fulfilled.map(function (r) { return self.cache.set(r.value.url, r.value.data); })
+        var sets = results.fulfilled.map(function (r) { 
+            return self.cache.set(r.value.key, r.value.result); 
+        })
 
         return Q.allSettled(sets).then(function () {
             var end = +new Date;
@@ -94,9 +93,9 @@ WebCache.prototype.get = function (url) {
     return this.cache.get(url);
 };
 
-WebCache.prototype.cacheUrl = function (url, data) {
-    if(this.urls.indexOf(url) === -1) this.urls.push(url);
-    if(data) this.cache.set(url, data);
-};
+//WebCache.prototype.cacheUrl = function (url, data) {
+//    if(this.urls.indexOf(url) === -1) this.urls.push(url);
+//    if(data) this.cache.set(url, data);
+//};
 
 module.exports = WebCache;

@@ -4,7 +4,7 @@ var WebCache = require('../../lib/webcache');
 var WebCacheRedis = require('../../lib/webcache-redis');
 
 var config = require('../../config/environment');
-var regions = require('../../data/season').forecast_regions;
+var region_config = require('./region_config')
 
 // XXX: es6-promiseRequired to polyfill the cache-manager package
 // When upgrading to a new version of node this may not be required
@@ -13,18 +13,6 @@ require('es6-promise');
 
 var cacheManager = require('cache-manager');
 var redisStore = require('cache-manager-redis');
-
-var acAvalxUrls = _.chain(regions.features)
-    .filter(function(feature) {
-        return (
-            feature.properties.type === 'avalx' ||
-            feature.properties.type === 'parks'
-        );
-    })
-    .map(function(feature) {
-        return feature.properties.url;
-    })
-    .value();
 
 var avalxWebcache = null;
 var fragmentCache = null;
@@ -53,7 +41,14 @@ if (config.REDIS_HOST) {
     });
 }
 
-avalxWebcache.seed(acAvalxUrls);
+
+
+
+var region_items =  _.map(region_config.cached_regions, function(reg, id){
+    return {key: id, fetch: reg.fetchNow};
+});
+
+avalxWebcache.seed(region_items);
 
 
 module.exports = {
