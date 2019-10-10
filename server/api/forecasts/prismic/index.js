@@ -1,5 +1,5 @@
 var rp = require('request-promise')
-var logger = require('../../logger')
+var logger = require('../../../logger')
 var PrismicDOM = require('prismic-dom')
 
 module.exports = {
@@ -39,7 +39,8 @@ module.exports = {
 
         return {
             id: id,
-            region: data.region,
+            region: forecastRegionFromName(data.region),
+            fxFormat: 'avid',
             forecaster: data.forecaster,
             dateIssued: first_publication_date,
             validUntil: data.validUntil,
@@ -49,13 +50,11 @@ module.exports = {
                 confidence.level +
                 ' - ' +
                 PrismicDOM.RichText.asText(confidence.statements),
-            // TODO To finish
             avidConfidence: {
-                level: confidence.level,
-                statements: confidence.statements,
+                rating: confidence.level,
+                statements: confidence.statements.map(pluckText),
             },
-            // TODO To finish
-            avidTerrainAndTravelAdvices: [],
+            avidTerrainAndTravel: data.terrainAndTravelAdvice.map(pluckText),
             dangerRatings: [data.day1[0], data.day2[0], data.day3[0]].map(
                 function(day) {
                     return {
@@ -68,12 +67,66 @@ module.exports = {
                     }
                 }
             ),
-            avalancheSummary: PrismicDOM.RichText.asText(data.avalancheSummary),
-            snowpackSummary: PrismicDOM.RichText.asText(data.snowpackSummary),
-            weatherForecast: PrismicDOM.RichText.asText(data.weatherForecast),
+            problems: data.problems.map(createProblem),
+            avalancheSummary: PrismicDOM.RichText.asHtml(data.avalancheSummary),
+            snowpackSummary: PrismicDOM.RichText.asHtml(data.snowpackSummary),
+            weatherForecast: PrismicDOM.RichText.asHtml(data.weatherForecast),
             dangerMode: 'Regular season',
         }
     },
+}
+
+// Utils
+function createProblem(slice) {
+    var data = slice.primary
+    var min = data.minSize
+    var max = data.maxSize
+    function isYes(key) {
+        return data[key] === 'Yes'
+    }
+
+    return {
+        type: slice.slice_type,
+        elevations: ['Alp', 'Tln', 'Btl'].filter(isYes),
+        aspects: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'].filter(isYes),
+        likelihood: data.likelihood,
+        expectedSize: {
+            min: min,
+            max: max,
+        },
+        icons: {
+            aspects:
+                'https://www.avalanche.ca/assets/images/Compass/compass-' +
+                '-' +
+                '-' +
+                '-' +
+                '-' +
+                '-' +
+                '-' +
+                '-' +
+                '_EN.png',
+            elevations:
+                'https://www.avalanche.ca/assets/images/Elevation/Elevation-' +
+                '-' +
+                '-' +
+                '_EN.png',
+            expectedSize:
+                'https://www.avalanche.ca/assets/images/size/Size-' +
+                '-' +
+                '_EN.png',
+            likelihood:
+                'https://www.avalanche.ca/assets/images/Likelihood/Likelihood-' +
+                '_EN.png',
+        },
+        comment: PrismicDOM.RichText.asHtml(data.comments),
+        travelAndTerrainAdvice: '',
+    }
+}
+function pluckText(item) {
+    return item.text
+}
+function forecastRegionFromName(region) {
+    return Object.keys(IDS_TO_NAMES).find(key => IDS_TO_NAMES[key] === region)
 }
 
 // CONSTANTS
