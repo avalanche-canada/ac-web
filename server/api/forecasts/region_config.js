@@ -59,10 +59,10 @@ var AVCAN = {
         fetchNow: function(){ return fetch.fetchAvalx2016(8).then(parseAvalx('south-coast')); },
         metadata: reg_properties['south-coast'],
     },
-    //'north-rockies': {
-    //    fetchNow: function(){ return fetch.fetchAvalx2016(9).then(parseAvalx('north-rockies')); },
-    //    metadata: reg_properties['north-rockies'],
-    //},
+    'north-rockies': {
+       fetchNow: function(){ return fetch.fetchAvalx2016(9).then(parseAvalx('north-rockies')); },
+       metadata: reg_properties['north-rockies'],
+    },
     'cariboos': {
         fetchNow: function () { return fetch.fetchAvalx2016(19).then(parseAvalx('cariboos')); },
         metadata: reg_properties['cariboos'],
@@ -96,7 +96,7 @@ var AVCAN = {
         metadata: reg_properties['kananaskis'],
     },
     'yukon': {
-        fetchNow: function(){ return fetch.fetchAvalx2016(7).then(parseAvalx('yukon')); },
+        fetchNow: function(){ return fetch.fetchAvalx2016(20).then(parseAvalx('yukon')); },
         metadata: reg_properties['yukon'],
     },
 };

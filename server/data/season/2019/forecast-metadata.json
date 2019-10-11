@@ -87,7 +87,7 @@
   },
   "north-rockies": {
     "name": "North Rockies",
-    "type": "link",
+    "type": "avalx",
     "url": "http://avalanche.ca/blogs/north-rockies",
     "forecastUrl": "/api/forecasts/north-rockies.json",
     "dangerIconUrl": "/api/forecasts/north-rockies/danger-rating-icon.svg",

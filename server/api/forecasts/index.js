@@ -220,14 +220,6 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         btl: '',
     };
 
-    // TODO(wnh): Remove this giant hack
-    if (req.region.id === 'north-rockies') {
-        res.sendFile(
-            config.ROOT + '/server/views/forecasts/conditions-report-icon.svg'
-        );
-        return;
-    }
-
     var renderIcon = function(styles) {
         res.render('forecasts/danger-icon', styles, function(err, svg) {
             if (err) {
