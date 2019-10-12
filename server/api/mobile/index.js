@@ -71,15 +71,33 @@ StatusMessage.prototype.test = function(params) {
 const APP = 'ca.avalanche.mobile.v2'
 const IOS = 'ios'
 const ANDROID = 'android'
+const STORE_URLS = {
+    ios: 'itms-apps://apps.apple.com/ca/app/avalanche-canada/id1440069335',
+    android:
+        'https://play.google.com/store/apps/details?id=ca.avalanche.mobile.v2',
+}
+const STORE_NAMES = {
+    ios: 'App Store',
+    android: 'Google Play',
+}
+const STORE_PROMPTS = {
+    ios: 'Open the AvCan app in the ' + STORE_NAMES[IOS],
+    android: 'Open the AvCan app in ' + STORE_NAMES[ANDROID],
+}
+
 const MESSAGES = [
-    new StatusMessage(
-        new StatusParams(APP, '1.4.2', IOS),
-        'New Application version released',
-        '<h1>New application version released.</h1><p>A change to the application requires you to install the latest version of the application.</p><a href="https://google.ca">Test for link</a>'
-    ),
-    new StatusMessage(
-        new StatusParams(APP, '1.4.2', ANDROID),
-        'New Application version released',
-        '<h1>New application version released.</h1><p>A change to the application requires you to install the latest version of the application.</p><a href="https://google.ca">Test for link</a>'
-    ),
+    createRelease145Message(IOS),
+    createRelease145Message(ANDROID),
 ]
+
+function createRelease145Message(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '1.5.0', platform),
+        'New application released for season 2019-2020',
+        '<h1>A new application has been released for season 2019-2020.</h1><p>A change to our products offer for season 2019-2020 requires to update the application.</p><a href="' +
+            STORE_URLS[platform] +
+            '">' +
+            STORE_PROMPTS[platform] +
+            '  ></a>'
+    )
+}
