@@ -76,13 +76,9 @@ const STORE_URLS = {
     android:
         'https://play.google.com/store/apps/details?id=ca.avalanche.mobile.v2',
 }
-const STORE_NAMES = {
-    ios: 'App Store',
-    android: 'Google Play',
-}
 const STORE_PROMPTS = {
-    ios: 'Open the AvCan app in the ' + STORE_NAMES[IOS],
-    android: 'Open the AvCan app in ' + STORE_NAMES[ANDROID],
+    ios: 'Open the AvCan app in the App Store',
+    android: 'Open the AvCan app in Google Play',
 }
 
 const MESSAGES = [
