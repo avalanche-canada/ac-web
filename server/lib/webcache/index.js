@@ -17,12 +17,14 @@ var WebCacheMem = function () {
 };
 
 WebCacheMem.prototype.get = function (key) {
-    var val = this.client[key];
+    var jval = this.client[key];
+    var val = JSON.parse(jval);
     return Q.fcall(function () { return val; });
 };
 
 WebCacheMem.prototype.set = function (key, val) {
-    this.client[key] = val;
+    var jval = JSON.stringify(val)
+    this.client[key] = jval;
     return Q.fcall(function () { return 'OK'; });
 };
 
@@ -36,7 +38,7 @@ var WebCache = function (options) {
     if(_.isNumber(this.options.refreshInterval)) {
         var self = this;
 
-        setInterval(function () {
+        self.timer = setInterval(function () {
             if(self.items.length > 0) self.refresh();
         }, self.options.refreshInterval);
     }
@@ -51,6 +53,7 @@ WebCache.prototype.seed = function (seed_items) {
 };
 
 WebCache.prototype.refresh = function () {
+    logger.debug('webcache refresh')
     var self = this;
     var start = +new Date;
     // Kick off all the Promises to get items
@@ -58,7 +61,13 @@ WebCache.prototype.refresh = function () {
     var requests = _.map(this.items, function(item){ 
         var p = item.fetch()
             .then(function(result){
-                return {key: item.key, result: result};
+                logger.debug('**** success');
+                return {key: item.key, result: result, _tag:"success in webcache.refresh"};
+            })
+            .catch(function(err){
+                logger.debug('**** fail?');
+                throw err; 
+                return {key: item.key, err: err, _tag:"Failure handler in webcache.refresh"};
             }); 
         return p;
     });
@@ -66,9 +75,13 @@ WebCache.prototype.refresh = function () {
     logger.info('webcache started seeding item_count=%d', requests.length);
 
     return Q.allSettled(requests).then(function (results) {
+        //console.dir(results)
         results = _.groupBy(results, 'state');
         results.rejected = results.rejected || [];
 
+        if(results.rejected.length > 0) {
+            logger.warn('webcache rejected=' + JSON.stringify(results.rejected));
+        }
         var sets = results.fulfilled.map(function (r) { 
             return self.cache.set(r.value.key, r.value.result); 
         })

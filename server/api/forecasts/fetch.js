@@ -30,13 +30,18 @@ function doFetch(url) {
     }
 
     logger.debug('doFetch url=%s', url)
-    return rp(options).catch(function(e) {
-        logger.error(
-            'doFetch request_error url=%s responseCode=%d',
-            url,
-            e.statusCode
-        )
-    })
+    return rp(options)
+        .then(function(data){
+            return {success: data, _tag: "success in do fetch"};
+        })
+        .catch(function(e) {
+            logger.error(
+                'doFetch request_error url=%s responseCode=%d',
+                url,
+                e.statusCode
+            );
+            return Promise.reject({fail: e, _tag: "failure handler in do fetch"});
+        })
 }
 
 module.exports = {
