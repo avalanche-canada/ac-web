@@ -9,7 +9,7 @@ var region_config = require('./region_config')
 // XXX: es6-promiseRequired to polyfill the cache-manager package
 // When upgrading to a new version of node this may not be required
 // (currently required on nodejs v0.10.26)
-require('es6-promise');
+require('es6-promise').polyfill();
 
 var cacheManager = require('cache-manager');
 var redisStore = require('cache-manager-redis');

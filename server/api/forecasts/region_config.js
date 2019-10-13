@@ -1,10 +1,9 @@
 var _ = require('lodash');
 var xml2js = require('xml2js');
+var Q = require('q');
 
 var fetch = require('./fetch');
 var avalx = require('./avalx');
-
-require('es6-promise');
 
 var reg_metadata = require('../../data/season')
 
@@ -20,13 +19,12 @@ function noop() {}
 
 function parseAvalx(region_id) {
     return function(data) {
-
-        var caaml_json = new Promise(function(resolve, reject){
-            xml_parser.parseString(data, function(err, result){
+        var caaml_json = Q.Promise(function(resolve, reject){
+            xml2js.parseString(data, function(err, result){
                 if (err) {
-                    return reject(err)
+                    reject({err: err, _tag: "rejected in parseAvalx"})
                 } else {
-                    return resolve(result)
+                    resolve(result)
                 }
             });
         });
@@ -139,5 +137,6 @@ var LINKS = {
 
 
 module.exports = {
-    cached_regions: Object.assign({}, AVCAN, PARKS),
+    cached_regions: Object.assign({}, AVCAN, KCOUNTRY, PARKS),
+    //cached_regions: AVCAN
 }

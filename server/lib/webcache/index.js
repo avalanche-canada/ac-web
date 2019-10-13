@@ -18,6 +18,7 @@ var WebCacheMem = function () {
 
 WebCacheMem.prototype.get = function (key) {
     var jval = this.client[key];
+    logger.debug("OTHER", key, jval)
     var val = JSON.parse(jval);
     return Q.fcall(function () { return val; });
 };
@@ -61,27 +62,24 @@ WebCache.prototype.refresh = function () {
     var requests = _.map(this.items, function(item){ 
         var p = item.fetch()
             .then(function(result){
-                logger.debug('**** success');
+                logger.debug('fetch success key=%s', item.key);
                 return {key: item.key, result: result, _tag:"success in webcache.refresh"};
             })
-            .catch(function(err){
-                logger.debug('**** fail?');
-                throw err; 
-                return {key: item.key, err: err, _tag:"Failure handler in webcache.refresh"};
-            }); 
+            //.catch(function(err){
+            //    logger.debug('fetch failure key=%s', item.key);
+            //    return Promise.reject({key: item.key, err: err, _tag:"Failure handler in webcache.refresh"});
+            //}); 
         return p;
     });
 
     logger.info('webcache started seeding item_count=%d', requests.length);
 
     return Q.allSettled(requests).then(function (results) {
-        //console.dir(results)
         results = _.groupBy(results, 'state');
         results.rejected = results.rejected || [];
 
-        if(results.rejected.length > 0) {
-            logger.warn('webcache rejected=' + JSON.stringify(results.rejected));
-        }
+        logger.info('webcache fetchComplete fulfilled=%d rejected=%d',
+            results.fulfilled.length, results.rejected.length);
         var sets = results.fulfilled.map(function (r) { 
             return self.cache.set(r.value.key, r.value.result); 
         })
