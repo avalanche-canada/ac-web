@@ -1,5 +1,5 @@
-var rp = require('request-promise')
-
+var request = require('request');
+var Q = require('q');
 var logger = require('../../logger');
 
 
@@ -30,18 +30,22 @@ function doFetch(url) {
     }
 
     logger.debug('doFetch url=%s', url)
-    return rp(options)
-        .then(function(data){
-            return {success: data, _tag: "success in do fetch"};
-        })
-        .catch(function(e) {
-            logger.error(
-                'doFetch request_error url=%s responseCode=%d',
-                url,
-                e.statusCode
-            );
-            return Promise.reject({fail: e, _tag: "failure handler in do fetch"});
-        })
+    return Q.Promise(function(resolve, reject, notify) {
+        request(options, function(error, response, data){
+            if (!error && response.statusCode == 200) {
+                logger.debug('doFetch success url=%s', url);
+                resolve(data);
+            } else {
+                logger.error(
+                    'doFetch request_error url=%s responseCode=%d',
+                    url,
+                    response.statusCode
+                );
+                reject(error);
+            }
+        });
+
+    });
 }
 
 module.exports = {
