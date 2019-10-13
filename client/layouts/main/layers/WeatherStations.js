@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
-import memoize from 'lodash/memoize'
 import { Source, Symbol } from 'components/map'
-import { Stations } from 'containers/weather'
+import { useStations } from 'hooks/weather'
 import { WEATHER_STATION as key } from 'constants/drawers'
 
 WeatherStations.propTypes = {
@@ -13,18 +12,16 @@ WeatherStations.propTypes = {
 }
 
 export default function WeatherStations(props) {
+    const [stations = []] = useStations()
+    const data = useMemo(
+        () => turf.featureCollection(stations.map(createFeature)),
+        [stations]
+    )
+
     return (
-        <Stations>
-            {({ data }) => (
-                <Source
-                    id={key}
-                    cluster
-                    clusterMaxZoom={14}
-                    data={createFeatureCollection(data)}>
-                    <Symbol id={key} {...props} {...styles} />
-                </Source>
-            )}
-        </Stations>
+        <Source id={key} cluster clusterMaxZoom={14} data={data}>
+            <Symbol id={key} {...props} {...styles} />
+        </Source>
     )
 }
 
@@ -36,9 +33,6 @@ function createFeature({ stationId, name, longitude, latitude }) {
         title: name,
     })
 }
-const createFeatureCollection = memoize((data = []) =>
-    turf.featureCollection(data.map(createFeature))
-)
 
 // Styles
 const styles = {

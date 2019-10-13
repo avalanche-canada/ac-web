@@ -45,7 +45,7 @@ function transformMountainConditionsReport({
 }
 
 export function transformForecast(forecast) {
-    if (!forecast.region) {
+    if (!forecast || !forecast.region) {
         return forecast
     }
 

@@ -1,7 +1,7 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { point } from '@turf/helpers'
-import { Report } from 'containers/mcr'
+import { useReport } from 'hooks/mcr'
 import { Loading, Muted } from 'components/text'
 import { InnerHTML } from 'components/misc'
 import { Locate } from 'components/button'
@@ -29,8 +29,23 @@ MountainConditionsReport.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
-    id = Number(id)
+export default function MountainConditionsReport({
+    id,
+    onCloseClick,
+    onLocateClick,
+}) {
+    const [report = {}, pending] = useReport(id)
+    const {
+        locationDescription,
+        permalink,
+        body,
+        title,
+        images,
+        user,
+        dates,
+        groups,
+        location,
+    } = report
 
     return (
         <Container>
@@ -42,81 +57,48 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
                         style={CLOSE_BUTTON_STYLE}
                     />
                 </Navbar>
-                <Report id={id}>
-                    {({ data, pending }) => {
-                        const {
-                            locationDescription,
-                            permalink,
-                            body,
-                            title,
-                            images,
-                            user,
-                            dates,
-                            groups,
-                            location,
-                        } = data || {}
-
-                        return (
-                            <Fragment>
-                                <Banner>
-                                    <Media images={images} />
-                                </Banner>
-                                <Header subject="Arc'Teryx Mountain Conditions Report">
-                                    {title && (
-                                        <h1>
-                                            <a
-                                                href={permalink}
-                                                target={permalink}>
-                                                {title}
-                                            </a>
-                                            {Array.isArray(location) && (
-                                                <Locate
-                                                    onClick={() =>
-                                                        onLocateClick(
-                                                            point(location)
-                                                        )
-                                                    }
-                                                />
-                                            )}
-                                        </h1>
-                                    )}
-                                    {Array.isArray(dates) && (
-                                        <DateSet values={dates} />
-                                    )}
-                                    <Location>{locationDescription}</Location>
-                                    {user && (
-                                        <Submitter {...user} groups={groups} />
-                                    )}
-                                </Header>
-                                <Content>
-                                    {pending && (
-                                        <Loading>
-                                            Loading Mountain Conditions
-                                            Report...
-                                        </Loading>
-                                    )}
-                                    {body && <InnerHTML>{body}</InnerHTML>}
-                                    {!pending && !body && (
-                                        <Muted>
-                                            Report #{id} is not available
-                                            anymore.
-                                        </Muted>
-                                    )}
-                                    <Footer />
-                                </Content>
-                            </Fragment>
-                        )
-                    }}
-                </Report>
+                <Fragment>
+                    <Banner>
+                        <Media images={images} />
+                    </Banner>
+                    <Header subject="Arc'Teryx Mountain Conditions Report">
+                        {title && (
+                            <h1>
+                                <a href={permalink} target={permalink}>
+                                    {title}
+                                </a>
+                                {Array.isArray(location) && (
+                                    <Locate
+                                        onClick={() =>
+                                            onLocateClick(point(location))
+                                        }
+                                    />
+                                )}
+                            </h1>
+                        )}
+                        {Array.isArray(dates) && <DateSet values={dates} />}
+                        <Location>{locationDescription}</Location>
+                        {user && <Submitter {...user} groups={groups} />}
+                    </Header>
+                    <Content>
+                        {pending && (
+                            <Loading>
+                                Loading Mountain Conditions Report...
+                            </Loading>
+                        )}
+                        {body && <InnerHTML>{body}</InnerHTML>}
+                        {!pending && !body && (
+                            <Muted>
+                                Report #{id} is not available anymore.
+                            </Muted>
+                        )}
+                        <Footer />
+                    </Content>
+                </Fragment>
             </Body>
         </Container>
     )
 }
-
-export default memo(
-    MountainConditionsReport,
-    (prev, next) => prev.id === next.id
-)
 
 const NAVBAR_STYLE = {
     position: 'absolute',

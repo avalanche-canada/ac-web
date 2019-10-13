@@ -1,10 +1,9 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Pending } from 'components/fetch'
 import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
 import { Table, Responsive, TBody, Row, Cell, Caption } from 'components/table'
@@ -12,11 +11,11 @@ import Header from './Header'
 import Pagination from './Pagination'
 import Layout from './Layout'
 import { Helper } from 'components/text'
-import { Paginated, Sorted } from 'components/collection'
-import Container from 'containers/ast/Providers'
+import { useProviders } from 'hooks/ast'
 import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
 import { Error, Muted } from 'components/text'
+import { useSorting, usePagination } from 'utils/react/hooks/collection'
 
 Providers.propTypes = {
     tags: PropTypes.instanceOf(Set),
@@ -27,37 +26,35 @@ Providers.propTypes = {
 
 export default function Providers({ tags, sorting, place, onParamsChange }) {
     const fallback = <Error>An error happened while loading providers.</Error>
+    const [name, order] = sorting || []
     const [page, setPage] = useState(1)
-    function renderBodies(providers) {
-        if (providers.length === 0) {
-            return null
-        }
-
-        const [name, order] = sorting || []
-
+    const [providers = [], pending] = useProviders()
+    const all = useMemo(() => {
         if (place) {
-            providers = providers.map(provider => ({
+            return providers.map(provider => ({
                 ...provider,
                 distance: distance(turf.point(provider.loc), place),
             }))
         }
 
-        return (
-            <Fragment>
-                <TBody featured title="Our sponsors">
-                    {renderRows(providers.filter(isSponsor))}
-                </TBody>
-                <TBody>
-                    <Sorted
-                        values={providers.filter(isNotSponsor)}
-                        sorter={SORTERS.get(name)}
-                        reverse={order === DESC}>
-                        <Paginated page={page}>{renderRows}</Paginated>
-                    </Sorted>
-                </TBody>
-            </Fragment>
-        )
-    }
+        return providers
+    }, [providers, place])
+    const [sponsors, others] = useMemo(() => {
+        return [all.filter(isSponsor), all.filter(isNotSponsor)]
+    }, [all])
+    const filtered = useMemo(() => {
+        if (tags.size > 0) {
+            return others.filter(provider =>
+                provider.tags.some(tag => tags.has(tag))
+            )
+        }
+
+        // IMPORTANT!!! It is not updating if "others" is returned as is. Need to figured it out...
+        return Array.from(others)
+    }, [others, tags])
+    const sorted = useSorting(filtered, SORTERS.get(name), order === DESC)
+    const paginated = usePagination(sorted, page)
+
     function handleSortingChange(name, order) {
         onParamsChange({
             sorting: order === NONE ? null : [name, order],
@@ -70,38 +67,41 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
 
     return (
         <ErrorBoundary fallback={fallback}>
-            <Container tags={tags}>
-                {({ providers }) => (
-                    <Layout title={getTitle(providers)}>
-                        <Responsive>
-                            <Table>
-                                <Header
-                                    columns={COLUMNS}
-                                    onSortingChange={handleSortingChange}
-                                    sorting={sorting}
-                                    place={place}
-                                />
-                                {Array.isArray(providers) &&
-                                    renderBodies(providers)}
-                                <Caption>
-                                    <Pending>
-                                        <Muted>Loading providers...</Muted>
-                                    </Pending>
-                                    {Array.isArray(providers) &&
-                                        renderEmptyMessage(providers)}
-                                </Caption>
-                            </Table>
-                        </Responsive>
-                        {Array.isArray(providers) && (
-                            <Pagination
-                                count={providers.length}
-                                page={page}
-                                onChange={setPage}
-                            />
+            <Layout title={getTitle(filtered)}>
+                <Responsive>
+                    <Table>
+                        <Header
+                            columns={COLUMNS}
+                            onSortingChange={handleSortingChange}
+                            sorting={sorting}
+                            place={place}
+                        />
+                        {sponsors.length > 0 && (
+                            <TBody featured title="Our sponsors">
+                                {renderRows(sponsors)}
+                            </TBody>
                         )}
-                    </Layout>
+                        {others.length > 0 && (
+                            <TBody>{renderRows(paginated)}</TBody>
+                        )}
+                        <Caption>
+                            {pending ? (
+                                <Muted>Loading providers...</Muted>
+                            ) : (
+                                Array.isArray(filtered) &&
+                                renderEmptyMessage(filtered)
+                            )}
+                        </Caption>
+                    </Table>
+                </Responsive>
+                {Array.isArray(filtered) && (
+                    <Pagination
+                        count={filtered.length}
+                        page={page}
+                        onChange={setPage}
+                    />
                 )}
-            </Container>
+            </Layout>
         </ErrorBoundary>
     )
 }
@@ -197,13 +197,12 @@ function renderRow(row) {
     )
 }
 function getTitle(providers) {
-    return Array.isArray(providers)
+    return providers.length > 0
         ? `All providers (${providers.length})`
         : 'All providers'
 }
 
 const TERM_STYLE = {
-    // minWidth: 75,
     flex: '0 1 25%',
 }
 const DEFINITION_STYLE = {
@@ -231,13 +230,20 @@ function Anchor({ href }) {
 function isSponsor({ is_sponsor }) {
     return is_sponsor
 }
-function isNotSponsor({ is_sponsor }) {
-    return !is_sponsor
+function isNotSponsor(provider) {
+    return !isSponsor(provider)
 }
 const SORTERS = new Map([
     [
         'provider',
-        (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }),
+        function sortByName(a, b) {
+            return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
+        },
     ],
-    ['distance', (a, b) => a.distance - b.distance],
+    [
+        'distance',
+        function sortByDistance(a, b) {
+            return a.distance - b.distance
+        },
+    ],
 ])

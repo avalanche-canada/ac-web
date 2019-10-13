@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
 import { NotFound } from 'services/fetch/utils'
@@ -14,8 +14,7 @@ import {
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Error, Muted, Loading, Warning } from 'components/text'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Fulfilled, Pending } from 'components/fetch'
-import * as containers from 'containers/weather'
+import * as hooks from 'hooks/weather'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/station'
@@ -27,75 +26,54 @@ WeatherStation.propTypes = {
 }
 
 export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
+    const [station, pending] = hooks.useStation(id)
+
     return (
         <ErrorBoundary fallback={<FallbackError />}>
-            <containers.Station id={id}>
-                {station => (
-                    <Container>
-                        <Navbar>
-                            <Sponsor label={null} />
-                            <Close onClick={onCloseClick} />
-                        </Navbar>
-                        <Header subject="Weather station">
-                            <h1>
-                                <Pending>
-                                    <Loading component="span" />
-                                </Pending>
-                                <Fulfilled.NotFound>
-                                    <Warning component="span">
-                                        Weather station #{id} not found
-                                    </Warning>
-                                </Fulfilled.NotFound>
-                                <Fulfilled.Found>
-                                    <Link to={utils.path(id)}>
-                                        {station.data?.name}
-                                    </Link>
-                                    <DisplayOnMap
-                                        onClick={() => {
-                                            onLocateClick(
-                                                utils.geometry(station.data)
-                                            )
-                                        }}
-                                    />
-                                </Fulfilled.Found>
-                            </h1>
-                        </Header>
-                        <Body>
-                            <Content>
-                                <Fulfilled.Found>
-                                    <Metadata {...station.data} />
-                                    <containers.Measurements id={id}>
-                                        {({ data, pending }) =>
-                                            pending || !data ? (
-                                                <Muted>
-                                                    Loading weather station
-                                                    measurements...
-                                                </Muted>
-                                            ) : (
-                                                <Station
-                                                    utcOffset={
-                                                        station.data.utcOffset
-                                                    }
-                                                    measurements={data}
-                                                />
-                                            )
-                                        }
-                                    </containers.Measurements>
-                                    <Footer />
-                                </Fulfilled.Found>
-                                <Fulfilled.NotFound>
-                                    <containers.Stations>
-                                        {renderStations}
-                                    </containers.Stations>
-                                </Fulfilled.NotFound>
-                                <Pending>
-                                    <Loading />
-                                </Pending>
-                            </Content>
-                        </Body>
-                    </Container>
-                )}
-            </containers.Station>
+            <Container>
+                <Navbar>
+                    <Sponsor label={null} />
+                    <Close onClick={onCloseClick} />
+                </Navbar>
+                <Header subject="Weather station">
+                    <h1>
+                        {pending ? (
+                            <Loading component="span" />
+                        ) : station ? (
+                            <Fragment>
+                                <Link to={utils.path(id)}>{station.name}</Link>
+                                <DisplayOnMap
+                                    onClick={() => {
+                                        onLocateClick(utils.geometry(station))
+                                    }}
+                                />
+                            </Fragment>
+                        ) : (
+                            <Warning component="span">
+                                Weather station #{id} not found
+                            </Warning>
+                        )}
+                    </h1>
+                </Header>
+                <Body>
+                    <Content>
+                        {pending ? (
+                            <Loading />
+                        ) : station ? (
+                            <Fragment>
+                                <Metadata {...station} />
+                                <Measurements
+                                    id={id}
+                                    utcOffset={station.utcOffset}
+                                />
+                                <Footer />
+                            </Fragment>
+                        ) : (
+                            <StationList />
+                        )}
+                    </Content>
+                </Body>
+            </Container>
         </ErrorBoundary>
     )
 }
@@ -109,31 +87,38 @@ function FallbackError({ error }) {
     return <Error>An error happened while loading weather station data.</Error>
 }
 
-function renderStations() {
-    return (
-        <Fulfilled.Found>
-            <h3>Click on a link below to see another weather station:</h3>
-            <WeatherStations />
-        </Fulfilled.Found>
+function Measurements({ id, utcOffset }) {
+    const [measurements, pending] = hooks.useMeasurements(id)
+
+    return pending ? (
+        <Muted>Loading weather station measurements...</Muted>
+    ) : (
+        <Station utcOffset={utcOffset} measurements={measurements} />
     )
 }
-function WeatherStations({ data }) {
+
+function StationList() {
+    const [stations = []] = hooks.useStations()
+
     return (
-        <Location>
-            {({ location }) => (
-                <List column={1}>
-                    {data.map(({ stationId, name }) => (
-                        <ListItem
-                            key={stationId}
-                            to={`${
-                                location.pathname
-                            }?panel=weather-stations/${stationId}`}
-                            replace>
-                            {name}
-                        </ListItem>
-                    ))}
-                </List>
-            )}
-        </Location>
+        <Fragment>
+            <h3>Click on a link below to see another weather station:</h3>
+            <Location>
+                {({ location }) => (
+                    <List column={1}>
+                        {stations.map(({ stationId, name }) => (
+                            <ListItem
+                                key={stationId}
+                                to={`${
+                                    location.pathname
+                                }?panel=weather-stations/${stationId}`}
+                                replace>
+                                {name}
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
+            </Location>
+        </Fragment>
     )
 }

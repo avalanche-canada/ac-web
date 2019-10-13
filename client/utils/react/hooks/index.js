@@ -78,7 +78,9 @@ export function useEventListener(eventName, handler, element = window) {
 
 export function useFetch(url, cache = new None()) {
     const [data, setData] = useSafeState(cache.get(url))
-    const [pending, setPending] = useSafeState(FETCHING.has(url))
+    const [pending, setPending] = useSafeState(
+        FETCHING.has(url) || !cache.get(url)
+    )
     const controller = useRef(null)
 
     async function fetcher() {
@@ -372,7 +374,3 @@ function useSafeState(initialState) {
 
     return [state, setState]
 }
-
-// export function useSuspendedFetch(url, cache = new None()) {
-//     return data
-// }

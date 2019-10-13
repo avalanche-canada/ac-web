@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
 import isSameDay from 'date-fns/is_same_day'
-import Container from 'containers/ast/Courses'
+import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
+import addDays from 'date-fns/add_days'
 import Layout from './Layout'
 import Header from './Header'
 import Pagination from './Pagination'
@@ -23,8 +24,6 @@ import {
 import { Helper } from 'components/text'
 import { MultiLine } from 'components/misc'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Pending } from 'components/fetch'
-import { Paginated, Sorted } from 'components/collection'
 import { Error, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import { Distance, Tags } from './cells'
@@ -32,175 +31,159 @@ import { LEVELS, MINIMUM_DISTANCE } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import styles from './Courses.css'
+import { useCourses } from 'hooks/ast'
+import {
+    useSorting,
+    usePagination,
+    useFilters,
+} from 'utils/react/hooks/collection'
 
-export default class Courses extends Component {
-    static propTypes = {
-        level: PropTypes.oneOf(Array.from(LEVELS.keys())),
-        from: PropTypes.instanceOf(Date),
-        to: PropTypes.instanceOf(Date),
-        tags: PropTypes.instanceOf(Set),
-        sorting: PropTypes.arrayOf(PropTypes.string),
-        place: PropTypes.object,
-        onParamsChange: PropTypes.func.isRequired,
-    }
-    state = {
-        page: 1,
-    }
-    handleSortingChange = (name, order) => {
-        this.props.onParamsChange({
-            sorting: order === NONE ? null : [name, order],
-        })
-    }
-    handlePageChange = page => {
-        this.setState({ page })
-    }
-    getTitle(courses) {
-        return Array.isArray(courses)
-            ? `All courses (${courses.length})`
-            : 'All courses'
-    }
-    componentDidUpdate({ level, from, to, tags, sorting }) {
-        if (
-            this.props.level !== level ||
-            this.props.from !== from ||
-            this.props.to !== to ||
-            this.props.tags !== tags ||
-            this.props.sorting !== sorting
-        ) {
-            this.setState({ page: 1 })
-        }
-    }
-    renderEmptyMessage(courses) {
-        return courses.length ? null : (
-            <div>
-                No courses match your criteria, consider finding a provider on
-                the <Link to="/training/providers">providers page</Link> to
-                contact directly.
-            </div>
-        )
-    }
-    renderRow = row => {
-        return (
-            <ExpandableRow key={row.id}>
-                <Row>
-                    {COLUMNS.map(({ property, name }) => (
-                        <Cell key={name}>{property(row)}</Cell>
-                    ))}
-                </Row>
-                <Row>
-                    <Cell colSpan={COLUMNS.length + 1}>
-                        {this.renderControlled(row)}
-                    </Cell>
-                </Row>
-            </ExpandableRow>
-        )
-    }
-    renderControlled({ description, provider }) {
-        const { name, website, email, phone, loc_description } = provider
+Courses.propTypes = {
+    level: PropTypes.oneOf(Array.from(LEVELS.keys())),
+    from: PropTypes.instanceOf(Date),
+    to: PropTypes.instanceOf(Date),
+    tags: PropTypes.instanceOf(Set),
+    sorting: PropTypes.arrayOf(PropTypes.string),
+    place: PropTypes.object,
+    onParamsChange: PropTypes.func.isRequired,
+}
 
-        return (
-            <div className={styles.Controlled}>
-                <Shim right>
-                    <List inline>
-                        <Entry term="Description">
-                            <MultiLine>{description}</MultiLine>
-                        </Entry>
-                    </List>
-                </Shim>
-                <List>
-                    <Entry term="Name">{name}</Entry>
-                    <Entry term="Website">
-                        <a href={website} target={name}>
-                            {website}
-                        </a>
-                    </Entry>
-                    <Entry term="Email">
-                        <Mailto email={email} />
-                    </Entry>
-                    <Entry term="Phone">
-                        <Phone phone={phone} />
-                    </Entry>
-                    <Entry term="Location">{loc_description}</Entry>
-                </List>
-            </div>
-        )
-    }
-    renderRows = courses => {
-        return courses.map(this.renderRow)
-    }
-    renderBody = courses => {
-        if (courses.length === 0) {
-            return null
-        }
-
-        const { sorting, place } = this.props
-        const { page } = this.state
-        const [name, order] = sorting || ['dates'] // If no sorting defined, sorting is done on 'dates' by default
-
+export default function Courses({
+    level,
+    from,
+    to,
+    tags,
+    sorting,
+    place,
+    onParamsChange,
+}) {
+    const fallback = <Error>An error happened while loading courses.</Error>
+    const [name, order] = sorting || ['dates'] // If no sorting defined, sorting is done on 'dates' by default
+    const [courses = [], pending] = useCourses()
+    const [page, setPage] = useState(1)
+    const all = useMemo(() => {
         if (place) {
-            courses = courses.map(course => ({
+            return courses.map(course => ({
                 ...course,
-                distance: Math.max(Math.round(distance(turf.point(course.loc), place)), MINIMUM_DISTANCE),
+                distance: Math.max(
+                    Math.round(distance(turf.point(course.loc), place)),
+                    MINIMUM_DISTANCE
+                ),
             }))
         }
 
-        return (
-            <TBody>
-                <Sorted
-                    values={courses}
-                    sorter={SORTERS.get(name)}
-                    reverse={order === DESC}>
-                    <Paginated page={page}>{this.renderRows}</Paginated>
-                </Sorted>
-            </TBody>
-        )
+        return Array.from(courses)
+    }, [courses, place])
+    const sorted = useSorting(all, SORTERS.get(name), order === DESC)
+    const filtered = useFilters(
+        sorted,
+        getPredicates({ level, from, to, tags })
+    )
+    const paginated = usePagination(filtered, page)
+
+    function handleSortingChange(name, order) {
+        onParamsChange({
+            sorting: order === NONE ? null : [name, order],
+        })
     }
-    renderPagination = courses => {
-        return (
-            <Pagination
-                count={courses.length}
-                page={this.state.page}
-                onChange={this.handlePageChange}
-            />
-        )
-    }
-    renderContent = ({ courses }) => {
-        return (
-            <Layout title={this.getTitle(courses)}>
+
+    useEffect(() => {
+        setPage(1)
+    }, [level, from, to, tags, sorting])
+
+    return (
+        <ErrorBoundary fallback={fallback}>
+            <Layout title={getTitle(filtered)}>
                 <Responsive>
                     <Table>
                         <Header
                             columns={COLUMNS}
-                            sorting={this.props.sorting}
-                            onSortingChange={this.handleSortingChange}
-                            place={this.props.place}
+                            sorting={sorting}
+                            onSortingChange={handleSortingChange}
+                            place={place}
                         />
-                        {Array.isArray(courses) && this.renderBody(courses)}
+                        <TBody>{paginated.map(renderRow)}</TBody>
                         <Caption>
-                            <Pending>
+                            {pending ? (
                                 <Muted>Loading courses...</Muted>
-                            </Pending>
-                            {Array.isArray(courses) &&
-                                this.renderEmptyMessage(courses)}
+                            ) : (
+                                renderEmptyMessage(filtered)
+                            )}
                         </Caption>
                     </Table>
                 </Responsive>
-                {Array.isArray(courses) && this.renderPagination(courses)}
+                {courses.length > 0 && (
+                    <Pagination
+                        count={courses.length}
+                        page={page}
+                        onChange={setPage}
+                    />
+                )}
             </Layout>
-        )
-    }
-    render() {
-        const { level, from, to, tags } = this.props
-        const fallback = <Error>An error happened while loading courses.</Error>
+        </ErrorBoundary>
+    )
+}
 
-        return (
-            <ErrorBoundary fallback={fallback}>
-                <Container level={level} from={from} to={to} tags={tags}>
-                    {this.renderContent}
-                </Container>
-            </ErrorBoundary>
-        )
-    }
+// Utils
+function getTitle(courses) {
+    return courses.length > 0
+        ? `All courses (${courses.length})`
+        : 'All courses'
+}
+function renderEmptyMessage(courses) {
+    return courses.length ? null : (
+        <div>
+            No courses match your criteria, consider finding a provider on the{' '}
+            <Link to="/training/providers">providers page</Link> to contact
+            directly.
+        </div>
+    )
+}
+function renderRow(row) {
+    return (
+        <ExpandableRow key={row.id}>
+            <Row>
+                {COLUMNS.map(({ property, name }) => (
+                    <Cell key={name}>{property(row)}</Cell>
+                ))}
+            </Row>
+            <Row>
+                <Cell colSpan={COLUMNS.length + 1}>
+                    {renderControlled(row)}
+                </Cell>
+            </Row>
+        </ExpandableRow>
+    )
+}
+function renderControlled({ description, provider }) {
+    const { name, website, email, phone, loc_description } = provider
+
+    return (
+        <div className={styles.Controlled}>
+            <Shim right>
+                <List inline>
+                    <Entry term="Description">
+                        <MultiLine>{description}</MultiLine>
+                    </Entry>
+                </List>
+            </Shim>
+            <List>
+                <Entry term="Name">{name}</Entry>
+                <Entry term="Website">
+                    <a href={website} target={name}>
+                        {website}
+                    </a>
+                </Entry>
+                <Entry term="Email">
+                    <Mailto email={email} />
+                </Entry>
+                <Entry term="Phone">
+                    <Phone phone={phone} />
+                </Entry>
+                <Entry term="Location">{loc_description}</Entry>
+            </List>
+        </div>
+    )
 }
 
 // Utils
@@ -291,4 +274,28 @@ function sortByName(a, b) {
     return a.provider.name.localeCompare(b.provider.name, 'en', {
         sensitivity: 'base',
     })
+}
+const PREDICATES = new Map([
+    ['level', ({ level }) => course => course.level === level],
+    [
+        'tags',
+        ({ tags = new Set() }) => course =>
+            tags.size === 0 ? true : course.tags.some(tag => tags.has(tag)),
+    ],
+    [
+        'to',
+        ({ from, to }) => ({ date_start, date_end }) =>
+            areRangesOverlapping(from, addDays(to, 1), date_start, date_end),
+    ],
+])
+function getPredicates(props) {
+    return Object.entries(props).reduce((filters, [key, value]) => {
+        if (value && PREDICATES.has(key)) {
+            const predicate = PREDICATES.get(key)
+
+            filters.push(predicate(props))
+        }
+
+        return filters
+    }, [])
 }

@@ -4,7 +4,7 @@ import { Location } from '@reach/router'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { Source, Symbol } from 'components/map'
-import * as Containers from 'containers/mcr'
+import { useReports, useReport } from 'hooks/mcr'
 import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
 
 MountainConditionReports.propTypes = {
@@ -14,58 +14,51 @@ MountainConditionReports.propTypes = {
 }
 
 export default function MountainConditionReports(props) {
+    const [reports] = useReports()
+
     return (
-        <Containers.Reports>
-            {({ data = [] }) => (
-                <Fragment>
-                    <Source
-                        id={key}
-                        cluster
-                        clusterMaxZoom={14}
-                        data={createReportsFeatureCollection(data)}>
-                        <Symbol id={key} {...props} {...styles} />
-                    </Source>
-                    <Location>
-                        {({ location }) => {
-                            const params = new URLSearchParams(location.search)
+        <Fragment>
+            <Source
+                id={key}
+                cluster
+                clusterMaxZoom={14}
+                data={createReportsFeatureCollection(reports)}>
+                <Symbol id={key} {...props} {...styles} />
+            </Source>
+            <Location>
+                {({ location }) => {
+                    const params = new URLSearchParams(location.search)
 
-                            if (!params.has('panel')) {
-                                return null
-                            }
+                    if (!params.has('panel')) {
+                        return null
+                    }
 
-                            const [type, id] = params.get('panel').split('/')
+                    const [type, id] = params.get('panel').split('/')
 
-                            if (type !== TYPE || data.some(r => r.id == id)) {
-                                return null
-                            }
+                    if (type !== TYPE || reports.some(r => r.id == id)) {
+                        return null
+                    }
 
-                            return (
-                                <Containers.Report id={id}>
-                                    {({ data }) => (
-                                        <Source
-                                            id="mountain-conditions-report"
-                                            data={createReportFeatureCollection(
-                                                data
-                                            )}>
-                                            <Symbol
-                                                {...props}
-                                                id="mountain-conditions-report"
-                                                {...styles}
-                                            />
-                                        </Source>
-                                    )}
-                                </Containers.Report>
-                            )
-                        }}
-                    </Location>
-                </Fragment>
-            )}
-        </Containers.Reports>
+                    return <Report id={id} props={props} />
+                }}
+            </Location>
+        </Fragment>
     )
 }
 
 // Utils & constants
 const TYPE = 'mountain-conditions-reports'
+function Report({ id, props }) {
+    const [report] = useReport(id)
+
+    return (
+        <Source
+            id="mountain-conditions-report"
+            data={createReportFeatureCollection(report)}>
+            <Symbol {...props} id="mountain-conditions-report" {...styles} />
+        </Source>
+    )
+}
 function createFeature({ location, title, id }) {
     return turf.point(location, { title, id, type: key })
 }

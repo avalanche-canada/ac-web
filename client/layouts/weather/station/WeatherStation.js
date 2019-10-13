@@ -12,8 +12,7 @@ import {
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Error, Muted, Loading } from 'components/text'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Fulfilled, Pending } from 'components/fetch'
-import * as containers from 'containers/weather'
+import * as hooks from 'hooks/weather'
 import { path } from 'utils/station'
 
 WeatherStation.propTypes = {
@@ -21,6 +20,7 @@ WeatherStation.propTypes = {
 }
 
 export default function WeatherStation({ id }) {
+    const [station, pending] = hooks.useStation(id)
     const error = (
         <Error>An error happened while loading weather station data.</Error>
     )
@@ -28,83 +28,59 @@ export default function WeatherStation({ id }) {
     return (
         <Page>
             <ErrorBoundary fallback={error}>
-                <containers.Station id={id}>
-                    {props => (
-                        <Fragment>
-                            <Header title={getTitle(props)} />
-                            <Content>
-                                <Main>
-                                    <Pending>
-                                        <Loading>
-                                            Loading weather station data...
-                                        </Loading>
-                                    </Pending>
-                                    <Fulfilled.Found>
-                                        <StationLayout />
-                                    </Fulfilled.Found>
-                                    <Fulfilled.NotFound>
-                                        <NoStation id={id} />
-                                    </Fulfilled.NotFound>
-                                </Main>
-                            </Content>
-                        </Fragment>
-                    )}
-                </containers.Station>
+                <Header title={getTitle(station, pending)} />
+                <Content>
+                    <Main>
+                        {pending ? (
+                            <Loading>Loading weather station data...</Loading>
+                        ) : station ? (
+                            <StationLayout {...station} />
+                        ) : (
+                            <NoStation id={id} />
+                        )}
+                    </Main>
+                </Content>
             </ErrorBoundary>
         </Page>
     )
 }
 
-function StationLayout({ data }) {
+function StationLayout(station) {
+    const { utcOffset, stationId: id } = station
+    const [measurements, pending] = hooks.useMeasurements(id)
+
     return (
         <Fragment>
-            <Metadata {...data} />
-            <containers.Measurements id={data.stationId}>
-                {renderMeasurements.bind(null, data)}
-            </containers.Measurements>
+            <Metadata {...station} id={id} />
+            {pending ? (
+                <Muted>Loading measurements...</Muted>
+            ) : measurements ? (
+                <Station utcOffset={utcOffset} measurements={measurements} />
+            ) : null}
             <Footer />
         </Fragment>
     )
 }
 function NoStation({ id }) {
+    const [stations = [], pending] = hooks.useStations()
+
     return (
         <Fragment>
             <Headline>
                 Weather station #{id} does not exist. Click on a link below to
                 see another weather station.
             </Headline>
-            <containers.Stations>
-                {() => (
-                    <Fragment>
-                        <Pending>
-                            <Loading>Loading all weather stations...</Loading>
-                        </Pending>
-                        <Fulfilled>
-                            {data => (
-                                <List>
-                                    {data.map(({ stationId, name }) => (
-                                        <ListItem
-                                            key={stationId}
-                                            to={path(stationId)}>
-                                            {name}
-                                        </ListItem>
-                                    ))}
-                                </List>
-                            )}
-                        </Fulfilled>
-                    </Fragment>
-                )}
-            </containers.Stations>
+            {pending && <Loading>Loading all weather stations...</Loading>}
+            <List>
+                {stations.map(({ stationId, name }) => (
+                    <ListItem key={stationId} to={path(stationId)}>
+                        {name}
+                    </ListItem>
+                ))}
+            </List>
         </Fragment>
     )
 }
-function renderMeasurements({ utcOffset }, { pending, data }) {
-    return pending || !data ? (
-        <Muted>Loading measurements...</Muted>
-    ) : (
-        <Station utcOffset={utcOffset} measurements={data} />
-    )
-}
-function getTitle({ pending, data }) {
-    return pending ? 'Loading...' : data?.name || 'No weather station'
+function getTitle(station, pending) {
+    return pending ? 'Loading...' : station?.name || 'No weather station'
 }

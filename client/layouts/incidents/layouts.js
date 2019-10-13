@@ -1,9 +1,8 @@
 import React, { useState, Fragment } from 'react'
 import { Router } from '@reach/router'
 import format from 'date-fns/format'
-import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'components/incidents'
-import * as containers from 'containers/incidents'
+import * as hooks from 'hooks/incidents'
 import { Loading, Warning } from 'components/text'
 import Pagination from 'components/pagination'
 
@@ -20,6 +19,11 @@ function IncidentsList() {
     const [page, setPage] = useState(1)
     const [filters, setFilters] = useState({})
     const { from, to } = filters
+    const [incidents, pending] = hooks.useIncidents({
+        page,
+        from: from ? seasonToFrom(from) : undefined,
+        to: to ? seasonToTo(to) : undefined,
+    })
     function handlerFiltersChange(filters) {
         setFilters(filters)
         setPage(1)
@@ -31,43 +35,31 @@ function IncidentsList() {
                 values={filters}
                 onChange={handlerFiltersChange}
             />
-            <containers.Incidents
-                page={page}
-                from={from ? seasonToFrom(from) : undefined}
-                to={to ? seasonToTo(to) : undefined}>
-                <Pending>
-                    <Loading />
-                </Pending>
-                <Fulfilled>
-                    <components.IncidentTable />
-                </Fulfilled>
-                <Fulfilled>
-                    {({ count }) => (
-                        <Pagination
-                            total={count / 50}
-                            active={page}
-                            onChange={setPage}
-                        />
-                    )}
-                </Fulfilled>
-            </containers.Incidents>
+            {pending ? (
+                <Loading />
+            ) : (
+                <Fragment>
+                    <components.IncidentTable data={incidents} />
+                    <Pagination
+                        total={incidents.count / 50}
+                        active={page}
+                        onChange={setPage}
+                    />
+                </Fragment>
+            )}
         </Fragment>
     )
 }
 
 function IncidentDetails({ id }) {
-    return (
-        <containers.Incident id={id}>
-            <Pending>
-                <Loading />
-            </Pending>
-            <Fulfilled.Found>
-                <components.IncidentDetails />
-            </Fulfilled.Found>
-            <Fulfilled.NotFound>
-                <Warning>Incident #{id} not found</Warning>
-            </Fulfilled.NotFound>
-        </containers.Incident>
+    const [incident, pending] = hooks.useIncident(id)
+
+    return pending ? (
+        <Loading />
+    ) : incident ? (
+        <components.IncidentDetails data={incident} />
+    ) : (
+        <Warning>Incident #{id} not found</Warning>
     )
 }
 
