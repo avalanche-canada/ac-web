@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForecast } from './Context'
-import { Table, Day, DaySet, Condition, Confidence } from './danger'
+import { Table, Day, DaySet, Condition, Confidence, Advice } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import DetailSet from './DetailSet'
 import ProblemSet from './problem'
@@ -31,6 +31,11 @@ export default function TabSet(props) {
                             )}
                         </DaySet>
                         <Confidence {...forecast.confidence} />
+                        {forecast.avidTerrainAndTravelAdvice && (
+                            <Advice>
+                                {forecast.avidTerrainAndTravelAdvice}
+                            </Advice>
+                        )}
                     </Table>
                 </Panel>
                 <Panel>
