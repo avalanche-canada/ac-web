@@ -49,7 +49,8 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
             )
         }
 
-        // IMPORTANT!!! It is not updating if "others" is returned as is. Need to figured it out...
+        // FIXME(karl) It is not updating if "others" is returned as is.
+        // Needs to figure it out...
         return Array.from(others)
     }, [others, tags])
     const sorted = useSorting(filtered, SORTERS.get(name), order === DESC)
@@ -81,9 +82,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                                 {renderRows(sponsors)}
                             </TBody>
                         )}
-                        {others.length > 0 && (
-                            <TBody>{renderRows(paginated)}</TBody>
-                        )}
+                        <TBody>{renderRows(paginated)}</TBody>
                         <Caption>
                             {pending ? (
                                 <Muted>Loading providers...</Muted>

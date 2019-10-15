@@ -72,6 +72,8 @@ export default function Courses({
             }))
         }
 
+        // FIXME(karl) It is not updating if "others" is returned as is.
+        // Needs to figure it out...
         return Array.from(courses)
     }, [courses, place])
     const sorted = useSorting(all, SORTERS.get(name), order === DESC)
@@ -112,9 +114,9 @@ export default function Courses({
                         </Caption>
                     </Table>
                 </Responsive>
-                {courses.length > 0 && (
+                {filtered.length > 0 && (
                     <Pagination
-                        count={courses.length}
+                        count={filtered.length}
                         page={page}
                         onChange={setPage}
                     />
