@@ -1,4 +1,4 @@
-import { Memory } from 'components/fetch/Cache'
+import { Memory } from 'services/cache'
 import * as requests from 'api/urls/mcr'
 import { useFetch } from 'hooks'
 

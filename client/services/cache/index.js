@@ -1,5 +1,3 @@
-// TODO Move these outside of the "components" folder
-
 export class None {
     reset() {}
     has() {

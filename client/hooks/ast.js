@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import isAfter from 'date-fns/is_after'
 import * as ast from 'api/urls/ast'
 import { useFetch } from 'hooks'
-import { Memory } from 'components/fetch/Cache'
+import { Memory } from 'services/cache'
 
 export function useProviders() {
     const [providers, pending] = useFetch(ast.providers(), CACHE)

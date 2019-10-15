@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Memory } from 'components/fetch/Cache'
+import { Memory } from 'services/cache'
 import * as urls from 'api/urls/weather'
 import { useFetch } from 'hooks'
 

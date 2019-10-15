@@ -1,4 +1,4 @@
-import { Memory } from 'components/fetch/Cache'
+import { Memory } from 'services/cache'
 import { incident, incidents } from 'api/urls/incidents'
 import { useFetch } from 'hooks'
 

@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import { status, NotFound } from 'services/fetch/utils'
-import Cache, { None } from './Cache'
+import { None } from 'services/cache'
 
 // Some inspirations, but still think this implementation is easier
 // https://github.com/CharlesMangwa/react-data-fetching
@@ -19,7 +19,7 @@ export default class Fetch extends Component {
             .isRequired,
         url: PropTypes.string.isRequired,
         options: PropTypes.object,
-        cache: PropTypes.instanceOf(Cache),
+        cache: PropTypes.object,
     }
     static defaultProps = {
         cache: new None(),

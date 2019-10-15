@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Memory } from 'components/fetch/Cache'
+import { Memory } from 'services/cache'
 import * as urls from 'api/urls/min'
 import { sanitizeMountainInformationNetworkSubmission } from 'api/transformers'
 import { useFetch } from 'hooks'

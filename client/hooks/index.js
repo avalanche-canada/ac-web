@@ -3,7 +3,7 @@ import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
 import { status } from 'services/fetch/utils'
 import Memory from 'services/storage/Memory'
-import { None } from 'components/fetch/Cache'
+import { None } from 'services/cache'
 
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)
