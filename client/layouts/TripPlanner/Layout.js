@@ -247,7 +247,7 @@ export default class TripPlannerLayout extends PureComponent {
 function Window({ children }) {
     return children(useWindowSize())
 }
-// TODO Remove that component once converted to functionnal compoenent
+// TODO Remove that component once converted to functionnal component
 function Regions({ children }) {
     const [data, pending] = useForecastRegionsMetadata()
 

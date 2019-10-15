@@ -407,7 +407,7 @@ function runSubmissionsSpatialAnalysis(reports, { features }) {
         return report
     })
 }
-// TODO Remove that component once converted to functionnal compoenent
+// TODO Remove that component once converted to functionnal component
 function Regions({ children }) {
     const [data, pending] = useForecastRegionsMetadata()
 
