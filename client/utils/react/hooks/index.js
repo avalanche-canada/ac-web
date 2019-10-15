@@ -78,7 +78,9 @@ export function useEventListener(eventName, handler, element = window) {
 
 export function useFetch(url, cache = new None()) {
     const [data, setData] = useSafeState(cache.get(url))
-    const [pending, setPending] = useSafeState(FETCHING.has(url))
+    const [pending, setPending] = useSafeState(
+        FETCHING.has(url) || (Boolean(url) && !data)
+    )
     const controller = useRef(null)
 
     async function fetcher() {
@@ -100,6 +102,7 @@ export function useFetch(url, cache = new None()) {
             const payload = await status(response)
 
             setData(payload)
+            cache.set(url, payload)
         } catch (error) {
             throw error
         } finally {
