@@ -1,13 +1,9 @@
-import React, {
-    Component,
-    createContext,
-    cloneElement,
-    Children,
-    useContext,
-} from 'react'
+import { Component } from 'react'
 import PropTypes from 'prop-types'
 import { status, NotFound } from 'services/fetch/utils'
 import { None } from 'services/cache'
+
+// TODO Remove that component
 
 // Some inspirations, but still think this implementation is easier
 // https://github.com/CharlesMangwa/react-data-fetching
@@ -116,63 +112,9 @@ export default class Fetch extends Component {
             throw error
         }
 
-        return (
-            <Context.Provider value={this.state}>
-                {typeof children === 'function'
-                    ? children(this.state)
-                    : children}
-            </Context.Provider>
-        )
+        return typeof children === 'function' ? children(this.state) : children
     }
 }
 
 // Utils components
-Fulfilled.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.element,
-        PropTypes.arrayOf(PropTypes.element),
-        PropTypes.func,
-    ]).isRequired,
-}
-
-export function Fulfilled({ children }) {
-    const { fulfilled, data } = useFetchContext()
-
-    return fulfilled ? renderChildren(children, data) : null
-}
-
-Object.assign(Fulfilled, {
-    Found({ children }) {
-        const { fulfilled, data } = useFetchContext()
-
-        return fulfilled && data ? renderChildren(children, data) : null
-    },
-    NotFound({ children }) {
-        const { fulfilled, data } = useFetchContext()
-
-        return fulfilled && !data ? renderChildren(children) : null
-    },
-})
-
-Pending.propTypes = {
-    children: PropTypes.element.isRequired,
-}
-
-export function Pending({ children }) {
-    const { pending } = useFetchContext()
-
-    return pending ? children : null
-}
-
-const Context = createContext()
-function useFetchContext() {
-    return useContext(Context)
-}
-function renderChildren(children, data) {
-    return typeof children === 'function'
-        ? children(data)
-        : data
-        ? Children.map(children, child => cloneElement(child, { data }))
-        : children
-}
 const FETCHING = new Map()
