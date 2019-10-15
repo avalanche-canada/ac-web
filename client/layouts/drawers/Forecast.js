@@ -8,8 +8,7 @@ import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Muted, Warning, Loading } from 'components/text'
-import { Forecast } from 'hooks/forecast'
-import { Fulfilled, Pending } from 'components/fetch'
+import { useForecast } from 'hooks/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
@@ -25,7 +24,8 @@ Layout.propTypes = {
 }
 
 export default function Layout({ name, onCloseClick, onLocateClick }) {
-    const [region, pending] = useForecastRegionMetadata(name)
+    const [region, regionPending] = useForecastRegionMetadata(name)
+    const [forecast, forecastPending] = useForecast(name)
 
     return (
         <Container>
@@ -36,7 +36,7 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
             </Navbar>
             <Header subject="Avalanche Forecast">
                 <h1>
-                    {pending ? (
+                    {regionPending ? (
                         <Loading component="span" />
                     ) : region ? (
                         <Fragment>
@@ -55,32 +55,24 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                 </h1>
             </Header>
             <Body>
-                <Forecast name={name}>
-                    {({ data }) => (
-                        <Fragment>
-                            <Pending>
-                                <Shim all>
-                                    <Muted>Loading avalanche forecast...</Muted>
-                                </Shim>
-                            </Pending>
-                            <Fulfilled.Found>
-                                <components.Provider value={data}>
-                                    <Shim horizontal>
-                                        <components.Metadata />
-                                        <components.Headline />
-                                    </Shim>
-                                    <components.TabSet
-                                        onTabChange={handleForecastTabActivate}
-                                    />
-                                    <components.Footer />
-                                </components.Provider>
-                            </Fulfilled.Found>
-                            <Fulfilled.NotFound>
-                                <OtherRegions />
-                            </Fulfilled.NotFound>
-                        </Fragment>
-                    )}
-                </Forecast>
+                {forecastPending ? (
+                    <Shim all>
+                        <Muted>Loading avalanche forecast...</Muted>
+                    </Shim>
+                ) : forecast ? (
+                    <components.Provider value={forecast}>
+                        <Shim horizontal>
+                            <components.Metadata />
+                            <components.Headline />
+                        </Shim>
+                        <components.TabSet
+                            onTabChange={handleForecastTabActivate}
+                        />
+                        <components.Footer />
+                    </components.Provider>
+                ) : (
+                    <OtherRegions />
+                )}
             </Body>
         </Container>
     )

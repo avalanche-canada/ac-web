@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import { Forecast } from 'hooks/forecast'
+import { useForecast } from 'hooks/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
@@ -16,7 +16,6 @@ import {
     ListItem,
 } from 'components/page'
 import { Muted, Loading, Warning } from 'components/text'
-import { Pending, Fulfilled } from 'components/fetch'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
@@ -28,54 +27,24 @@ ForecastLayout.propTypes = {
     date: PropTypes.instanceOf(Date),
 }
 
-export default function ForecastLayout({ name, date }) {
+export default function ForecastLayout(props) {
+    const { name, date } = props
     const isPrintable = !date || isToday(date)
     const [region, pending] = useForecastRegionMetadata(name)
+    const title = pending ? (
+        <Loading component="span" />
+    ) : (
+        region?.name || (
+            <Warning component="span">{name} forecast not found</Warning>
+        )
+    )
 
     return (
         <Page>
-            <Header
-                title={
-                    pending ? (
-                        <Loading component="span" />
-                    ) : (
-                        region?.name || (
-                            <Warning component="span">
-                                {name} forecast not found
-                            </Warning>
-                        )
-                    )
-                }
-            />
+            <Header title={title} />
             <Content>
                 <Main>
-                    <Forecast name={name} date={date}>
-                        {props => {
-                            return (
-                                <Fragment>
-                                    <Pending>
-                                        <Muted>Loading forecast data...</Muted>
-                                    </Pending>
-                                    <Fulfilled.Found>
-                                        <components.Provider value={props.data}>
-                                            <components.Metadata />
-                                            <SPAW name={name} />
-                                            <components.Headline />
-                                            <components.TabSet
-                                                onTabChange={
-                                                    handleForecastTabActivate
-                                                }
-                                            />
-                                            <components.Footer />
-                                        </components.Provider>
-                                    </Fulfilled.Found>
-                                    <Fulfilled.NotFound>
-                                        <OtherRegions />
-                                    </Fulfilled.NotFound>
-                                </Fragment>
-                            )
-                        }}
-                    </Forecast>
+                    <ForecastContent {...props} />
                 </Main>
                 <Aside>
                     {name === 'kananaskis' ? (
@@ -90,6 +59,25 @@ export default function ForecastLayout({ name, date }) {
 }
 
 // Util components
+function ForecastContent({ name, date }) {
+    const [forecast, pending] = useForecast(name, date)
+
+    if (pending) {
+        return <Muted>Loading forecast data...</Muted>
+    }
+
+    return forecast ? (
+        <components.Provider value={forecast}>
+            <components.Metadata />
+            <SPAW name={name} />
+            <components.Headline />
+            <components.TabSet onTabChange={handleForecastTabActivate} />
+            <components.Footer />
+        </components.Provider>
+    ) : (
+        <OtherRegions />
+    )
+}
 function OtherRegions() {
     const [regions] = useForecastRegionsMetadata()
 

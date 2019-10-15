@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
-import { Forecast } from 'hooks/forecast'
+import { useForecast } from 'hooks/forecast'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
 import Shim from 'components/Shim'
@@ -92,6 +92,13 @@ export default class TripPlanning extends Component {
             </Fragment>
         )
     }
+}
+
+// TODO Cleanup and removed that component
+function Forecast({ name, children }) {
+    const [data, pending] = useForecast(name)
+
+    return children({ data, pending })
 }
 
 class Content extends Component {

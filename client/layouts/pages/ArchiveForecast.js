@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
-import { Forecast } from 'hooks/forecast'
+import { useForecast } from 'hooks/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
@@ -10,7 +10,6 @@ import {
 import { Page, Content, Header, Main } from 'components/page'
 import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
-import { Pending } from 'components/fetch'
 import { Muted, Loading } from 'components/text'
 import { Warning } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
@@ -63,7 +62,7 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
                             </Entry>
                         )}
                     </Metadata>
-                    <ForecastContent name={name} date={date} />
+                    <ForecastSwitch name={name} date={date} />
                 </Main>
             </Content>
         </Page>
@@ -86,16 +85,9 @@ function RegionDropdown({ value, onChange }) {
         />
     )
 }
-function ForecastContent({ name, date }) {
+function ForecastSwitch(props) {
+    const { name, date } = props
     const [region] = useForecastRegionMetadata(name)
-    const warning =
-        region && getWarningUrl(region, date) ? (
-            <Shim vertical>
-                <a href={getWarningUrl(region, date)} target={region.id}>
-                    <Warning>{getWarningText(region)}</Warning>
-                </a>
-            </Shim>
-        ) : null
 
     if (!name) {
         return <Muted>Select a forecast region.</Muted>
@@ -105,31 +97,39 @@ function ForecastContent({ name, date }) {
         return <Muted>Select a forecast date.</Muted>
     }
 
-    return externals.has(name) ? (
-        warning
-    ) : (
-        <Forecast name={name} date={date}>
-            {({ data }) => (
-                <components.Provider value={data}>
-                    <Pending>
-                        <Loading>Loading forecast...</Loading>
-                    </Pending>
-                    <components.Metadata />
-                    <Shim vertical>
-                        <components.ArchiveWarning date={date} />
-                    </Shim>
-                    <components.Headline />
-                    <components.TabSet
-                        onTabChange={handleForecastTabActivate}
-                    />
-                    <components.Footer>
-                        <Footer.DangerRatings />
-                        <Footer.Disclaimer />
-                    </components.Footer>
-                    {warning}
-                </components.Provider>
-            )}
-        </Forecast>
+    const warning =
+        region && getWarningUrl(region, date) ? (
+            <Shim vertical>
+                <a href={getWarningUrl(region, date)} target={region.id}>
+                    <Warning>{getWarningText(region)}</Warning>
+                </a>
+            </Shim>
+        ) : null
+
+    if (externals.has(name)) {
+        return warning
+    }
+
+    return <ForecastContent {...props}>{warning}</ForecastContent>
+}
+function ForecastContent({ name, date, children }) {
+    const [forecast, pending] = useForecast(name, date)
+
+    return (
+        <components.Provider value={forecast}>
+            {pending && <Loading>Loading forecast...</Loading>}
+            <components.Metadata />
+            <Shim vertical>
+                <components.ArchiveWarning date={date} />
+            </Shim>
+            <components.Headline />
+            <components.TabSet onTabChange={handleForecastTabActivate} />
+            <components.Footer>
+                <Footer.DangerRatings />
+                <Footer.Disclaimer />
+            </components.Footer>
+            {children}
+        </components.Provider>
     )
 }
 function createRegionOption({ id, name }) {
