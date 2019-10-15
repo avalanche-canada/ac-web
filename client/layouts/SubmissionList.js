@@ -19,8 +19,8 @@ import {
     Responsive,
     Caption,
 } from 'components/table'
-import * as containers from 'containers/min'
 import { Regions, useForecastRegions } from 'containers/features'
+import { useReports } from 'hooks/min'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
@@ -181,13 +181,17 @@ export default class SubmissionList extends Component {
 
         return predicates
     }
-    renderTableContent({ pending, data }) {
+    renderTableContent = ([data, pending]) => {
         return (
             <Filtered values={data || []} predicates={this.predicates}>
                 <Sorted {...this.sortProps}>
                     {submissions => (
                         <Fragment>
-                            <TBody>{this.renderSubmissions(submissions)}</TBody>
+                            {pending || (
+                                <TBody>
+                                    {this.renderSubmissions(submissions)}
+                                </TBody>
+                            )}
                             <Caption>
                                 {pending ? (
                                     <Muted>
@@ -197,7 +201,9 @@ export default class SubmissionList extends Component {
                                 ) : submissions.length === 0 ? (
                                     'No submissions found.'
                                 ) : (
-                                    `Total of ${submissions.length} submissions found.`
+                                    `Total of ${
+                                        submissions.length
+                                    } submissions found.`
                                 )}
                             </Caption>
                         </Fragment>
@@ -227,9 +233,7 @@ export default class SubmissionList extends Component {
                                         </Row>
                                     </THead>
                                     <Reports days={days}>
-                                        {props =>
-                                            this.renderTableContent(props)
-                                        }
+                                        {this.renderTableContent}
                                     </Reports>
                                 </Table>
                             </Responsive>
@@ -241,28 +245,17 @@ export default class SubmissionList extends Component {
     }
 }
 
-Reports.propTypes = {
-    days: PropTypes.number.isRequired,
-    children: PropTypes.func.isRequired,
-}
 function Reports({ days, children }) {
-    const [regions] = useForecastRegions()
+    const [regions, regionsPending] = useForecastRegions()
+    const [reports, reportsPending] = useReports(days)
+    const pending = regionsPending || reportsPending
 
-    return (
-        <containers.Reports days={days}>
-            {reports =>
-                regions && reports.data
-                    ? children({
-                          pending: false,
-                          data: runSubmissionsSpatialAnalysis(
-                              reports.data,
-                              regions
-                          ),
-                      })
-                    : children({ pending: true })
-            }
-        </containers.Reports>
-    )
+    return children([
+        regions && reports
+            ? runSubmissionsSpatialAnalysis(reports, regions)
+            : undefined,
+        pending,
+    ])
 }
 
 function FallbackError({ error, onReset, days }) {
