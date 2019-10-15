@@ -4,9 +4,9 @@ import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { Location } from '@reach/router'
 import { Source, Symbol } from 'components/map'
-import { Report, Reports } from 'containers/min'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
+import { useReports, useReport } from 'hooks/min'
 
 MountainInformationNetwork.propTypes = {
     visible: PropTypes.bool,
@@ -20,21 +20,10 @@ MountainInformationNetwork.propTypes = {
 
 export default function MountainInformationNetwork({ filters, ...props }) {
     const { days, types } = filters
-    const filter = useMemo(
-        () =>
-            types.size === 0
-                ? ['boolean', true]
-                : [
-                      'any',
-                      ...Array.from(types, type => [
-                          'boolean',
-                          ['get', type],
-                          false,
-                      ]),
-                  ],
-        [types]
-    )
-    const withLocation = all => ({ location }) => {
+    const [data = []] = useReports(days)
+    const { reports, incidents, all } = createFeatureCollections(data)
+    const filter = useMemo(() => createFilter(types), [types])
+    function withLocation({ location }) {
         const params = new URLSearchParams(location.search)
 
         if (!params.has('panel')) {
@@ -54,55 +43,42 @@ export default function MountainInformationNetwork({ filters, ...props }) {
             return null
         }
 
-        return (
-            <Report id={id}>
-                {({ data }) => (
-                    <Source id={id} data={createReportFeatureCollection(data)}>
-                        <Symbol id={id} {...props} {...styles.reports} />
-                    </Source>
-                )}
-            </Report>
-        )
+        return <Report id={id} {...props} />
     }
 
     return (
-        <Reports days={days}>
-            {({ data = [] }) => {
-                const { reports, incidents, all } = createFeatureCollections(
-                    data
-                )
-
-                return (
-                    <Fragment>
-                        <Source
-                            id={key}
-                            cluster
-                            clusterMaxZoom={14}
-                            data={reports}>
-                            <Symbol
-                                id={key}
-                                filter={filter}
-                                {...props}
-                                {...styles.reports}
-                            />
-                        </Source>
-                        <Source id={`${key}-incidents`} data={incidents}>
-                            <Symbol
-                                id={`${key}-incidents`}
-                                filter={filter}
-                                {...props}
-                                {...styles.incidents}
-                            />
-                        </Source>
-                        <Location>{withLocation(all)}</Location>
-                    </Fragment>
-                )
-            }}
-        </Reports>
+        <Fragment>
+            <Source id={key} cluster clusterMaxZoom={14} data={reports}>
+                <Symbol
+                    id={key}
+                    filter={filter}
+                    {...props}
+                    {...styles.reports}
+                />
+            </Source>
+            <Source id={`${key}-incidents`} data={incidents}>
+                <Symbol
+                    id={`${key}-incidents`}
+                    filter={filter}
+                    {...props}
+                    {...styles.incidents}
+                />
+            </Source>
+            <Location>{withLocation}</Location>
+        </Fragment>
     )
 }
 
 // Utils
+function Report({ id, ...props }) {
+    const [report] = useReport(id)
+
+    return report ? (
+        <Source id={id} data={createReportFeatureCollection(report)}>
+            <Symbol id={id} {...props} {...styles.reports} />
+        </Source>
+    ) : null
+}
 const TYPE = 'mountain-information-network-submissions'
 function isIncident({ properties }) {
     return INCIDENT in properties
@@ -136,6 +112,16 @@ const createReportFeatureCollection = memoize(report =>
 )
 
 // Styles
+function createFilter(types) {
+    if (types.size === 0) {
+        return ['boolean', true]
+    }
+
+    return [
+        'any',
+        ...Array.from(types, type => ['boolean', ['get', type], false]),
+    ]
+}
 const styles = {
     reports: {
         layout: {

@@ -1,46 +1,17 @@
-import memoize from 'lodash/memoize'
 import parseDate from 'date-fns/parse'
 import addDays from 'date-fns/add_days'
 import isBefore from 'date-fns/is_before'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
-export const sanitizeMountainInformationNetworkSubmission = memoize(
-    ({ latlng, datetime, ...submission }) =>
-        Object.assign(submission, {
-            latlng: latlng.map(Number),
-            lnglat: latlng.map(Number).reverse(),
-            datetime: new Date(datetime),
-        })
-)
+export function sanitizeMountainInformationNetworkSubmission(submission) {
+    const { latlng } = submission
 
-export function sanitizeMountainInformationNetworkSubmissions(data) {
-    if (Array.isArray(data)) {
-        return data.map(sanitizeMountainInformationNetworkSubmission)
-    }
-
-    return sanitizeMountainInformationNetworkSubmission(data)
-}
-
-export function transformMountainConditionsReports(data = []) {
-    return data.map(transformMountainConditionsReport)
-}
-
-function transformMountainConditionsReport({
-    id,
-    location_desc,
-    dates,
-    user = {},
-    ...report
-}) {
-    return Object.assign(report, {
-        id: String(id),
-        user: {
-            ...user,
-            certification: user.certs,
-        },
-        dates: dates.map(date => parseDate(date)).sort(),
-        locationDescription: location_desc,
+    return Object.assign({}, submission, {
+        // TODO Fix that double latitude/longituge object, we do not need both!!!
+        latlng: latlng.map(Number),
+        lnglat: latlng.map(Number).reverse(),
+        datetime: new Date(submission.datetime),
     })
 }
 

@@ -1,15 +1,15 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Container, Header, Body, Navbar, Close } from 'components/page/drawer'
 import Shim from 'components/Shim'
 import { Submission, Metadata, TabSet, Gallery } from 'layouts/products/min'
 import { Loading } from 'components/text'
-import { Report } from 'containers/min'
 import { path } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { point } from '@turf/helpers'
+import { useReport } from 'hooks/min'
 
 MountainInformationNetwork.propTypes = {
     id: PropTypes.string.isRequired,
@@ -17,53 +17,47 @@ MountainInformationNetwork.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function MountainInformationNetwork({ id, onCloseClick, onLocateClick }) {
+export default function MountainInformationNetwork({
+    id,
+    onCloseClick,
+    onLocateClick,
+}) {
+    const [report, pending] = useReport(id)
+
     return (
-        <Report id={id}>
-            {({ pending, data }) => (
-                <Container>
-                    <Navbar>
-                        <Sponsor label={null} />
-                        <Close onClick={onCloseClick} />
-                    </Navbar>
-                    <Header subject="Mountain Information Network">
-                        <h1>
-                            <Link to={path(id)}>
-                                {data?.title || (pending ? 'Loading...' : null)}
-                            </Link>
-                            {data && (
-                                <DisplayOnMap
-                                    onClick={() =>
-                                        onLocateClick(point(data.lnglat))
-                                    }
-                                />
-                            )}
-                        </h1>
-                    </Header>
-                    <Body>
-                        <Submission value={data}>
-                            <Shim horizontal>
-                                {pending && (
-                                    <Loading>
-                                        Loading Mountain Information Network
-                                        reports...
-                                    </Loading>
-                                )}
-                                <Metadata />
-                            </Shim>
-                            <Shim vertical>
-                                <TabSet />
-                            </Shim>
-                            <Gallery />
-                        </Submission>
-                    </Body>
-                </Container>
-            )}
-        </Report>
+        <Container>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={onCloseClick} />
+            </Navbar>
+            <Header subject="Mountain Information Network">
+                <h1>
+                    <Link to={path(id)}>
+                        {report?.title || (pending ? 'Loading...' : null)}
+                    </Link>
+                    {report && (
+                        <DisplayOnMap
+                            onClick={() => onLocateClick(point(report.lnglat))}
+                        />
+                    )}
+                </h1>
+            </Header>
+            <Body>
+                <Submission value={report}>
+                    <Shim horizontal>
+                        {pending && (
+                            <Loading>
+                                Loading Mountain Information Network reports...
+                            </Loading>
+                        )}
+                        <Metadata />
+                    </Shim>
+                    <Shim vertical>
+                        <TabSet />
+                    </Shim>
+                    <Gallery />
+                </Submission>
+            </Body>
+        </Container>
     )
 }
-
-export default memo(
-    MountainInformationNetwork,
-    (prev, next) => prev.id === next.id
-)
