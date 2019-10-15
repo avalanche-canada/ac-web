@@ -4,7 +4,7 @@ import { Media, Caption } from 'components/media'
 import { StructuredText, Image as Base } from 'prismic/components/base'
 import Button, { INCOGNITO } from 'components/button'
 import { Fullscreen as Icon } from 'components/icons'
-import { useFullscreen } from 'utils/react/hooks'
+import { useFullscreen } from 'hooks'
 import { PRIMARY } from 'constants/colors'
 import styles from './Image.css'
 

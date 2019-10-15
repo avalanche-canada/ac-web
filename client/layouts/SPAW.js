@@ -5,7 +5,7 @@ import { Danger, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { spaw } from 'prismic/params'
-import { useSessionStorage } from 'utils/react/hooks'
+import { useSessionStorage } from 'hooks'
 
 export default function SPAW() {
     const [hidden, setHidden] = useSessionStorage(

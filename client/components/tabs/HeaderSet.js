@@ -2,7 +2,7 @@ import React, { cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { Expand } from 'components/button'
-import { useToggle } from 'utils/react/hooks'
+import { useToggle } from 'hooks'
 import { WHITE } from 'constants/colors'
 import styles from './Tabs.css'
 

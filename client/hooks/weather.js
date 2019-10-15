@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { Memory } from 'components/fetch/Cache'
 import * as urls from 'api/urls/weather'
-import { useFetch } from 'utils/react/hooks'
+import { useFetch } from 'hooks'
 
 export function useStation(id) {
     return useFetch(urls.station(id), STATIONS)

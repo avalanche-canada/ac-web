@@ -16,7 +16,7 @@ import Ratings, {
 } from 'constants/forecast/rating'
 import { WHITE, BLACK } from 'constants/forecast/palette'
 import DangerCard from 'components/graphics/danger'
-import { useClientRect } from 'utils/react/hooks'
+import { useClientRect } from 'hooks'
 
 Row.propTypes = {
     rating: PropTypes.oneOf(Array.from(Ratings)).isRequired,

@@ -8,7 +8,7 @@ import { getDateExtent } from './utils'
 import ErrorBoundary from 'components/ErrorBoundary'
 import { Error } from 'components/text'
 import styles from './Station.css'
-import { useRatio } from 'utils/react/hooks'
+import { useRatio } from 'hooks'
 
 ChartSet.propTypes = {
     measurements: PropTypes.arrayOf(PropTypes.object).isRequired,

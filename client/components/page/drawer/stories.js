@@ -5,7 +5,7 @@ import Drawer, { LEFT, RIGHT, Header, Content } from './'
 import { LayerSet, Layer } from './layers'
 import Button from 'components/button'
 import * as TYPES from 'constants/drawers'
-import { useBoolean } from 'utils/react/hooks'
+import { useBoolean } from 'hooks'
 
 const background = {
     backgroundColor: '#7EC0EE',

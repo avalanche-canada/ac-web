@@ -1,6 +1,6 @@
 import { Memory } from 'components/fetch/Cache'
 import { incident, incidents } from 'api/urls/incidents'
-import { useFetch } from 'utils/react/hooks'
+import { useFetch } from 'hooks'
 
 export function useIncident(id) {
     return useFetch(incident(id), CACHE)

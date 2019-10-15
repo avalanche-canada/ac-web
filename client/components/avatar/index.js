@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
 import { initials } from 'utils/string'
-import { useBoolean } from 'utils/react/hooks'
+import { useBoolean } from 'hooks'
 import styles from './Avatar.css'
 
 Avatar.propTypes = {

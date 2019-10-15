@@ -4,7 +4,7 @@ import { forType, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { Document } from 'prismic/containers'
 import { highlight } from 'prismic/params'
-import { useSessionStorage } from 'utils/react/hooks'
+import { useSessionStorage } from 'hooks'
 
 export default function HighlightLayout() {
     const [hidden, setHidden] = useSessionStorage(

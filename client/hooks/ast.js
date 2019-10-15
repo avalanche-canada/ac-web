@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import isAfter from 'date-fns/is_after'
 import * as ast from 'api/urls/ast'
-import { useFetch } from 'utils/react/hooks'
+import { useFetch } from 'hooks'
 import { Memory } from 'components/fetch/Cache'
 
 export function useProviders() {

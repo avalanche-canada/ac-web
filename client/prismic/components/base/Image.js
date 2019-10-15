@@ -4,7 +4,7 @@ import classnames from 'classnames/bind'
 import { Credit } from 'components/misc'
 import Hyperlink from './Hyperlink'
 import styles from './Image.css'
-import { useEventListener, useBoolean } from 'utils/react/hooks'
+import { useEventListener, useBoolean } from 'hooks'
 
 Image.propTypes = {
     url: PropTypes.string.isRequired,

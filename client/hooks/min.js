@@ -2,7 +2,7 @@ import { useMemo } from 'react'
 import { Memory } from 'components/fetch/Cache'
 import * as urls from 'api/urls/min'
 import { sanitizeMountainInformationNetworkSubmission } from 'api/transformers'
-import { useFetch } from 'utils/react/hooks'
+import { useFetch } from 'hooks'
 
 // TODO Implement cache per ids and serve it once available
 

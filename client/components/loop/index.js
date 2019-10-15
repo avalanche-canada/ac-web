@@ -6,7 +6,7 @@ import {
     useEventListener,
     useTimeout,
     useFullscreen,
-} from 'utils/react/hooks'
+} from 'hooks'
 import { Image, OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import ButtonSet from './ButtonSet'

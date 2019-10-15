@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as LAYER_IDS from 'constants/drawers'
-import { useLocalStorage } from 'utils/react/hooks'
+import { useLocalStorage } from 'hooks'
 
 Provider.propTypes = {
     children: PropTypes.element,

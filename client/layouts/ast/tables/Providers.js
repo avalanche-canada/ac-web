@@ -15,7 +15,7 @@ import { useProviders } from 'hooks/ast'
 import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
 import { Error, Muted } from 'components/text'
-import { useSorting, usePagination } from 'utils/react/hooks/collection'
+import { useSorting, usePagination } from 'hooks/collection'
 
 Providers.propTypes = {
     tags: PropTypes.instanceOf(Set),

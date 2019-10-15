@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Credit } from 'components/misc'
 import styles from './Page.css'
-import { useWindowSize } from 'utils/react/hooks'
+import { useWindowSize } from 'hooks'
 
 Banner.propTypes = {
     url: PropTypes.string.isRequired,

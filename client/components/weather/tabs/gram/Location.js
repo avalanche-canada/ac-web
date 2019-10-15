@@ -1,7 +1,7 @@
 import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import styles from './Gram.css'
-import { useFullscreen } from 'utils/react/hooks'
+import { useFullscreen } from 'hooks'
 
 Location.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,

@@ -8,7 +8,7 @@ import React, {
     useMemo,
 } from 'react'
 import PropTypes from 'prop-types'
-import { useEventListener } from 'utils/react/hooks'
+import { useEventListener } from 'hooks'
 import keycodes from 'constants/keycodes'
 import styles from './Navbar.css'
 

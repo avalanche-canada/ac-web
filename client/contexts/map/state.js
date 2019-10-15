@@ -1,6 +1,6 @@
 import React, { createContext, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { useSessionStorage } from 'utils/react/hooks'
+import { useSessionStorage } from 'hooks'
 
 const MapStateContext = createContext()
 

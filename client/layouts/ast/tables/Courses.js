@@ -36,7 +36,7 @@ import {
     useSorting,
     usePagination,
     useFilters,
-} from 'utils/react/hooks/collection'
+} from 'hooks/collection'
 
 Courses.propTypes = {
     level: PropTypes.oneOf(Array.from(LEVELS.keys())),

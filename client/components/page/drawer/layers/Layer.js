@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import { useToggle } from 'utils/react/hooks'
+import { useToggle } from 'hooks'
 import { Expand } from 'components/button'
 import styles from './Layer.css'
 

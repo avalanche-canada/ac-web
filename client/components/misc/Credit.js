@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames/bind'
-import { useToggle, useClientRect } from 'utils/react/hooks'
+import { useToggle, useClientRect } from 'hooks'
 import styles from './Credit.css'
 
 Credit.propTypes = {

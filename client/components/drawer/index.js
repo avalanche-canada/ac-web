@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { findNode, getPath, getParent } from 'utils/tree'
 import Drawer from './Drawer'
 import styles from './Drawer.css'
-import { useWindowSize } from 'utils/react/hooks'
+import { useWindowSize } from 'hooks'
 
 Layout.propTypes = {
     menu: PropTypes.object,

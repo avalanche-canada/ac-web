@@ -5,7 +5,7 @@ import { useMemo } from 'react'
 import { Memory } from 'components/fetch/Cache'
 import { forecast } from 'api/urls/forecast'
 import { transformForecast } from 'api/transformers'
-import { useFetch } from 'utils/react/hooks'
+import { useFetch } from 'hooks'
 
 export function useForecast(name, date) {
     const [data, pending] = useFetch(forecast(name, date), CACHE)

@@ -4,7 +4,7 @@ import t from 'vendor/tcomb-form'
 import { HeaderSet, ColoredHeader, Panel } from 'components/tabs'
 import { Reset } from 'components/button'
 import { NAMES, COLORS, TYPES } from 'constants/min'
-import { useClientRect } from 'utils/react/hooks'
+import { useClientRect } from 'hooks'
 
 const { struct } = t.form.Form.templates
 
