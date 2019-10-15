@@ -19,7 +19,7 @@ import {
     Responsive,
     Caption,
 } from 'components/table'
-import { Regions, useForecastRegions } from 'hooks/features'
+import { useForecastRegions, useForecastRegionsMetadata } from 'hooks/features'
 import { useReports } from 'hooks/min'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
@@ -406,4 +406,10 @@ function runSubmissionsSpatialAnalysis(reports, { features }) {
 
         return report
     })
+}
+// TODO Remove that component once converted to functionnal compoenent
+function Regions({ children }) {
+    const [data, pending] = useForecastRegionsMetadata()
+
+    return children({ data, pending })
 }

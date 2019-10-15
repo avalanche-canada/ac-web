@@ -3,7 +3,7 @@ import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import { getGeom } from '@turf/invariant'
 import { Link } from '@reach/router'
-import { Regions } from 'hooks/features'
+import { useForecastRegionsMetadata } from 'hooks/features'
 import Map from './Map'
 import TripPlanning from './TripPlanning'
 import Forecast from './Forecast'
@@ -246,6 +246,12 @@ export default class TripPlannerLayout extends PureComponent {
 // TODO Remove that <Window> component
 function Window({ children }) {
     return children(useWindowSize())
+}
+// TODO Remove that component once converted to functionnal compoenent
+function Regions({ children }) {
+    const [data, pending] = useForecastRegionsMetadata()
+
+    return children({ data, pending })
 }
 const NAVBAR_STYLE = {
     justifyContent: 'space-between',

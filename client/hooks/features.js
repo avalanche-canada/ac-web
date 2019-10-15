@@ -24,13 +24,6 @@ export function useAdvisoryMetadata(id) {
     return useSingle(HOT_ZONES, id)
 }
 
-// TODO Remove that component once comsumers are converted to functional components
-export function Regions({ children }) {
-    const [data, pending] = useForecastRegionsMetadata()
-
-    return children({ data, pending })
-}
-
 // Utils
 function useSingle(type, id) {
     const [meta, pending] = useMetadata()
