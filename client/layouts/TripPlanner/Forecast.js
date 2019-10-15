@@ -4,7 +4,6 @@ import { Forecast } from 'containers/forecast'
 import { Muted } from 'components/text'
 import Shim from 'components/Shim'
 import * as components from 'layouts/products/forecast'
-import { NorthRockiesBlogFeed } from 'layouts/feed'
 import { Disclaimer, DangerRatings } from 'layouts/products/forecast/Footer'
 import externals from 'router/externals'
 import styles from './TripPlanner.css'
@@ -37,14 +36,6 @@ export default class Content extends Component {
     }
     render() {
         const { id } = this.props
-
-        if (id === 'north-rockies') {
-            return (
-                <Shim horizontal>
-                    <NorthRockiesBlogFeed />
-                </Shim>
-            )
-        }
 
         if (externals.has(id)) {
             return (

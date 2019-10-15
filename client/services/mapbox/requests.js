@@ -20,12 +20,6 @@ export function style(id) {
     return build(url, PARAMS, api)
 }
 
-export function features(dataset) {
-    const url = `/datasets/v1/${username}/${dataset}/features`
-
-    return build(url, PARAMS, api)
-}
-
 // Constants
 const PLACE_PARAMS = {
     country: 'ca,us,au,jp',

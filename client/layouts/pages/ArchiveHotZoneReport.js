@@ -1,7 +1,7 @@
 import React, { useReducer, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
-import { HotZones } from 'containers/features'
+import { useAdvisoriesMetadata } from 'containers/features'
 import { Report } from 'layouts/products/hzr'
 import { Page, Content, Header, Main } from 'components/page'
 import { Muted } from 'components/text'
@@ -115,22 +115,18 @@ function monthReducer(days, { data }) {
     return days
 }
 function HotZonesDropdown({ value, onChange }) {
-    return (
-        <HotZones all>
-            {({ data }) =>
-                data ? (
-                    <Dropdown
-                        options={new Map(data.map(createZoneOption))}
-                        value={value}
-                        onChange={onChange}
-                        disabled
-                        placeholder="Select an area"
-                    />
-                ) : (
-                    'Loading...'
-                )
-            }
-        </HotZones>
+    const [areas, pending] = useAdvisoriesMetadata()
+
+    return pending ? (
+        'Loading...'
+    ) : (
+        <Dropdown
+            options={new Map(areas.map(createZoneOption))}
+            value={value}
+            onChange={onChange}
+            disabled
+            placeholder="Select an area"
+        />
     )
 }
 function ArchiveContent({ name, date }) {

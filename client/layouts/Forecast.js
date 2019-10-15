@@ -1,6 +1,6 @@
 import React from 'react'
 import { Router, Redirect, navigate } from '@reach/router'
-import Forecast, { NorthRockies } from 'layouts/pages/Forecast'
+import Forecast from 'layouts/pages/Forecast'
 import ForecastRegionList from 'layouts/ForecastRegionList'
 import ArchiveForecast from 'layouts/pages/ArchiveForecast'
 import parse from 'date-fns/parse'
@@ -15,7 +15,6 @@ export default function ForecastLayout() {
     return (
         <Router>
             <ForecastRegionList path="/" />
-            <NorthRockies path="north-rockies" />
             <ArchiveForecastRoute path="archives" />
             <ArchiveForecastRoute path="archives/:name" />
             <ArchiveForecastRoute path="archives/:name/:date" />

@@ -1,0 +1,230 @@
+{
+    "id": "XZ54wBUAACUAjFCf",
+    "uid": null,
+    "type": "avalanche-forecast",
+    "href": "https://avalancheca.cdn.prismic.io/api/v2/documents/search?ref=XZ54wxUAACIAjFC0&q=%5B%5B%3Ad+%3D+at%28document.id%2C+%22XZ54wBUAACUAjFCf%22%29+%5D%5D",
+    "tags": [],
+    "first_publication_date": "2019-10-10T00:18:11+0000",
+    "last_publication_date": "2019-10-10T00:18:11+0000",
+    "slugs": [
+        "cariboos"
+    ],
+    "linked_documents": [],
+    "lang": "en-us",
+    "alternate_languages": [],
+    "data": {
+        "region": "Cariboos",
+        "validUntil": "2019-03-01T22:00:00+0000",
+        "forecaster": "jsmith",
+        "headline": [
+            {
+                "type": "paragraph",
+                "text": "Recently formed wind slabs are sitting on top  of buried wind slabs that are sitting on facets (weak, sugary snow). The  fresh wind slabs may still be touchy and the buried wind slabs are  remaining reactive to human triggers longer than is typical.",
+                "spans": []
+            }
+        ],
+        "terrainAndTravelAdvice": [
+            {
+                "type": "list-item",
+                "text": "Avoid slopes that sound hollow or drum-like.",
+                "spans": []
+            },
+            {
+                "type": "list-item",
+                "text": "Avoid wind loaded pockets, especially near ridge crests and roll-overs.",
+                "spans": []
+            },
+            {
+                "type": "list-item",
+                "text": "Steep and rocky terrain are likely places to trigger buried wind slabs.",
+                "spans": []
+            },
+            {
+                "type": "list-item",
+                "text": "Avoid steep, open and/or sparsely treed slopes at and below treeline.",
+                "spans": []
+            },
+            {
+                "type": "list-item",
+                "text": "Use conservative route selection, choose moderate angled terrain with low consequence.",
+                "spans": []
+            },
+            {
+                "type": "list-item",
+                "text": "Avoid low elevation cut-blocks where this layer is well preserved.",
+                "spans": []
+            }
+        ],
+        "day1": [
+            {
+                "date": "2019-03-01",
+                "alp": "Moderate",
+                "tln": "Moderate",
+                "btl": "Moderate"
+            }
+        ],
+        "day2": [
+            {
+                "date": "2019-03-02",
+                "alp": "Moderate",
+                "tln": "Moderate",
+                "btl": "Moderate"
+            }
+        ],
+        "day3": [
+            {
+                "date": "2019-03-03",
+                "alp": "Moderate",
+                "tln": "Moderate",
+                "btl": "Moderate"
+            }
+        ],
+        "confidence": [
+            {
+                "level": "High",
+                "statements": [
+                    {
+                        "type": "paragraph",
+                        "text": "The weather pattern is stable",
+                        "spans": []
+                    }
+                ]
+            }
+        ],
+        "problems": [
+            {
+                "slice_type": "WindSlab",
+                "slice_label": null,
+                "items": [],
+                "primary": {
+                    "Alp": "Yes",
+                    "Tln": "Yes",
+                    "Btl": "No",
+                    "N": "Yes",
+                    "NE": "Yes",
+                    "E": "Yes",
+                    "SE": "Yes",
+                    "S": "Yes",
+                    "SW": "Yes",
+                    "W": "Yes",
+                    "NW": "Yes",
+                    "likelihood": "Likely - Possible",
+                    "minSize": "1.0",
+                    "maxSize": "2.0",
+                    "comments": [
+                        {
+                            "type": "paragraph",
+                            "text": "Buried, hard wind slabs that often become  unreactive after a few days continue to surprise riders. Thin to thick  rocky areas are likely places to trigger these.",
+                            "spans": []
+                        }
+                    ]
+                }
+            },
+            {
+                "slice_type": "PersistentSlab",
+                "slice_label": null,
+                "items": [],
+                "primary": {
+                    "Alp": "No",
+                    "Tln": "Yes",
+                    "Btl": "Yes",
+                    "N": "Yes",
+                    "NE": "Yes",
+                    "E": "Yes",
+                    "SE": "Yes",
+                    "S": "Yes",
+                    "SW": "Yes",
+                    "W": "Yes",
+                    "NW": "Yes",
+                    "likelihood": "Possible - Unlikely",
+                    "minSize": "1.5",
+                    "maxSize": "2.5",
+                    "comments": [
+                        {
+                            "type": "paragraph",
+                            "text": "Approximately  50-60 cm of snow sits above a persistent weak layer of surface hoar  (weak, feathery crystals) that was buried in mid-January. This layer is slow to change and has created a low likelihood, high consequence scenario.",
+                            "spans": []
+                        }
+                    ]
+                }
+            }
+        ],
+        "avalancheSummary": [
+            {
+                "type": "paragraph",
+                "text": "No new avalanches were reported on Wednesday.",
+                "spans": []
+            },
+            {
+                "type": "paragraph",
+                "text": "On February 16th, a persistent slab avalanche was triggered by a skier on a north aspect on a 30 degree slope. Check out the MIN report here.  These kinds of avalanches have become less frequent, but they are still  possible to human trigger in specific locations and the consequences  can be high.",
+                "spans": [
+                    {
+                        "start": 111,
+                        "end": 141,
+                        "type": "hyperlink",
+                        "data": {
+                            "link_type": "Web",
+                            "url": "https://www.avalanche.ca/mountain-information-network/submissions/043c732e-fd04-4102-be4c-0004e2dcf9f9",
+                            "target": "_blank"
+                        }
+                    }
+                ]
+            }
+        ],
+        "snowpackSummary": [
+            {
+                "type": "paragraph",
+                "text": "Moderate to strong northerly ridge-top winds have created fresh wind slabs on lee features at treeline and above. Additionally, there are buried wind slabs on a variety of aspects that are sitting on facets (sugary snow) which may cause them to remain reactive to human triggers longer than what is typical for a wind slab problem in this region.",
+                "spans": []
+            },
+            {
+                "type": "paragraph",
+                "text": "A weak layer that was buried in mid January is down 50-60 cm. This layer consists of surface hoar (weak, feathery crystals) and facets. The layer also likely consists of a crust on south facing slopes. Avalanche activity on this layer has slowed, but test results still indicate that this layer may still be possible to human trigger in specific locations. It has been most reactive at lower elevations below treeline.",
+                "spans": []
+            },
+            {
+                "type": "paragraph",
+                "text": "The lower snowpack is generally considered to be strong, except for shallow, rocky areas where the cold temperatures continue to facet (weaken) the snowpack.",
+                "spans": []
+            }
+        ],
+        "weatherForecast": [
+            {
+                "type": "paragraph",
+                "text": "THURSDAY NIGHT: Cloudy / Light, northwesterly winds / Alpine low -20.",
+                "spans": []
+            },
+            {
+                "type": "paragraph",
+                "text": "FRIDAY: Mix of sun and cloud / Light to moderate, northwesterly winds / Alpine high -21.",
+                "spans": []
+            },
+            {
+                "type": "paragraph",
+                "text": "SATURDAY: Sunny / Light, northeasterly winds / Alpine high -21.",
+                "spans": []
+            },
+            {
+                "type": "paragraph",
+                "text": "SUNDAY: Sunny / Light, northeasterly winds / Alpine high -16.",
+                "spans": []
+            },
+            {
+                "type": "paragraph",
+                "text": "More details can be found on the Mountain Weather Forecast.",
+                "spans": [
+                    {
+                        "start": 33,
+                        "end": 58,
+                        "type": "hyperlink",
+                        "data": {
+                            "link_type": "Web",
+                            "url": "https://avalanche.ca/weather"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

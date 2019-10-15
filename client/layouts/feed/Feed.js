@@ -17,24 +17,6 @@ import { GRAY_LIGHTEST } from 'constants/colors'
 
 // FIXME: Do not parse params, just use them from this.props.location.search
 
-export class NorthRockiesBlogFeed extends PureComponent {
-    state = {
-        page: 1,
-    }
-    handlePageChange = page => this.setState({ page })
-    renderContent = renderContent.bind(this, BLOG)
-    render() {
-        const { page } = this.state
-        const category = 'north-rockies'
-
-        return (
-            <Documents {...feed.blog({ category, page })}>
-                {this.renderContent}
-            </Documents>
-        )
-    }
-}
-
 export class BlogPostFeed extends PureComponent {
     state = this.parseParams(this.props.location.search)
     parseParams(search) {

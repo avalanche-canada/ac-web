@@ -3,10 +3,13 @@ export function status(response) {
         return response.json()
     }
 
-    return response.status === 404
-        ? Promise.reject(new NotFound())
-        : Promise.reject(new Error(response.statusText))
+    const HTTPError = response.status === 404 ? NotFound : Error
+    const error = new HTTPError(response.statusText)
+
+    return Promise.reject(error)
 }
+
+// TODO We could create an HTTPError instead
 
 export class NotFound extends Error {
     constructor(...args) {

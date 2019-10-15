@@ -3,8 +3,6 @@ var Q = require('q');
 var express = require('express');
 var router = express.Router();
 var avalx = require('./avalx');
-var WebCache = require('../../lib/webcache');
-var WebCacheRedis = require('../../lib/webcache-redis');
 var moment = require('moment');
 var request = require('request');
 var logger = require('../../logger');
@@ -12,56 +10,10 @@ var config = require('../../config/environment');
 var fs = require('fs');
 var Prismic = require('prismic.io');
 
+var webcache = require('./webcache');
+
 var regions = require('../../data/season').forecast_regions;
-
-// XXX: es6-promiseRequired to polyfill the cache-manager package
-// When upgrading to a new version of node this may not be required
-// (currently required on nodejs v0.10.26)
-require('es6-promise');
-
-var cacheManager = require('cache-manager');
-var redisStore = require('cache-manager-redis');
-
-var acAvalxUrls = _.chain(regions.features)
-    .filter(function(feature) {
-        return (
-            feature.properties.type === 'avalx' ||
-            feature.properties.type === 'parks'
-        );
-    })
-    .map(function(feature) {
-        return feature.properties.url;
-    })
-    .value();
-
-var avalxWebcache = null;
-var fragmentCache = null;
-
-if (config.REDIS_HOST) {
-    var webcacheOptions = {
-        store: new WebCacheRedis(6379, config.REDIS_HOST),
-    };
-    if (!process.env.NO_CACHE_REFRESH)
-        webcacheOptions.refreshInterval = 300000 /*milliseconds*/;
-    avalxWebcache = new WebCache(webcacheOptions);
-
-    fragmentCache = cacheManager.caching({
-        store: redisStore,
-        host: config.REDIS_HOST, // default value
-        port: 6379, // default value
-        db: 1,
-        ttl: 60 * 5 /*seconds*/,
-    });
-} else {
-    avalxWebcache = new WebCache();
-    fragmentCache = cacheManager.caching({
-        store: 'memory',
-        max: 100,
-        ttl: 60 * 10 /*seconds*/,
-    });
-}
-
-avalxWebcache.seed(acAvalxUrls);
+var region_config = require('./region_config');
 
 router.param('region', function(req, res, next) {
     req.region = _.find(regions.features, { id: req.params.region });
@@ -100,39 +52,14 @@ function getForecastData(regionName, region) {
         return Q.resolve(region.properties);
     }
 
-    return avalxWebcache
-        .get(region.properties.url)
-        .then(function(cached_caaml) {
-            if (!cached_caaml) {
-                logger.debug('BUILDING forecast caaml for region:', region.id);
-                return Q.nfcall(avalx.fetchCaamlForecast, region);
-            } else {
-                return cached_caaml;
-            }
-        })
-        .then(function(caaml) {
-            return [caaml];
-        })
-        .spread(function(caaml) {
-            var cacheKey = 'forecast-data::json::' + region.id;
-            var json = fragmentCache.wrap(cacheKey, function() {
-                logger.debug('BUILDING forecast data...', cacheKey);
-                return Q.nfcall(avalx.parseCaamlForecast, caaml, region);
-            });
-            return [caaml, json];
-        })
-        .spread(function(caaml, json) {
-            if (region.properties.type === 'avalx') {
-                json.bulletinTitle = region.properties.name;
-            } else if (region.properties.type === 'parks') {
-                json.parksUrl = region.properties.externalUrl;
-                json.name = region.properties.name;
-            }
-
+    return webcache.avalxWebcache
+        .get(region.id)
+        .then(function(regionJson){
             return {
                 region: region.id,
-                caaml: caaml,
-                json: json,
+                // TODO: get the XML? Look at logs to see how much was coming out of it.
+                //caaml: caaml,
+                json: regionJson,
             };
         });
 }
@@ -171,6 +98,7 @@ router.get('/ALL.json', function(req, res) {
         );
         res.status(200).json(fs);
     }).catch(function(err){
+        logger.error("error retrieving forecases:",  err)
         res.status(500).json({err: "Error getting forecasts"});
     }).done();
 });
@@ -189,7 +117,9 @@ router.get('/:region.:format', function(req, res) {
 
     switch (req.params.format) {
         case 'xml':
-            return res.type('application/xml').send(req.forecast.caaml);
+            return res.status(404).text("XML is no longer supported. Please contact support@avalanche.ca if you require access to CAAML data");
+            //TODO:
+            //return res.type('application/xml').send(req.forecast.caaml);
             break;
 
         case 'json':
@@ -230,7 +160,7 @@ router.get('/:region/nowcast.svg', function(req, res) {
         styles = avalx.getNowcastStyles(req.forecast.json);
 
         var cacheKey = 'nowcast-image::' + req.region.id;
-        fragmentCache
+        webcache.fragmentCache
             .wrap(cacheKey, function() {
                 logger.debug('BUILDING Nowcast image...', cacheKey);
                 return Q.nfcall(
@@ -290,14 +220,6 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
         btl: '',
     };
 
-    // TODO(wnh): Remove this giant hack
-    if (req.region.id === 'north-rockies') {
-        res.sendFile(
-            config.ROOT + '/server/views/forecasts/conditions-report-icon.svg'
-        );
-        return;
-    }
-
     var renderIcon = function(styles) {
         res.render('forecasts/danger-icon', styles, function(err, svg) {
             if (err) {
@@ -328,7 +250,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
     if (req.forecast.json.dangerMode === 'Regular season') {
         //renderIcon(ratingStyles);
         var cacheKey = 'danger-rating-icon::' + req.region.id;
-        fragmentCache
+        webcache.fragmentCache
             .wrap(cacheKey, function() {
                 logger.debug('BUILDING danger-rating-icon...', cacheKey);
                 return Q.nfcall(
@@ -378,7 +300,7 @@ router.get('/:region/danger-rating-icon.svg', function(req, res) {
 });
 
 function getDangerModes() {
-    return fragmentCache.wrap('danger-modes', function() {
+    return webcache.fragmentCache.wrap('danger-modes', function() {
         logger.info('building danger-modes');
         /*
          * Use Q.Promise because the promise handleing in the Prismic library

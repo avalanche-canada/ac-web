@@ -20,8 +20,7 @@ import {
     Caption,
 } from 'components/table'
 import * as containers from 'containers/min'
-import { Regions } from 'containers/features'
-import { FeatureCollection } from 'containers/mapbox'
+import { Regions, useForecastRegions } from 'containers/features'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
@@ -198,9 +197,7 @@ export default class SubmissionList extends Component {
                                 ) : submissions.length === 0 ? (
                                     'No submissions found.'
                                 ) : (
-                                    `Total of ${
-                                        submissions.length
-                                    } submissions found.`
+                                    `Total of ${submissions.length} submissions found.`
                                 )}
                             </Caption>
                         </Fragment>
@@ -249,24 +246,22 @@ Reports.propTypes = {
     children: PropTypes.func.isRequired,
 }
 function Reports({ days, children }) {
+    const [regions] = useForecastRegions()
+
     return (
-        <FeatureCollection id="regions">
-            {features => (
-                <containers.Reports days={days}>
-                    {reports =>
-                        features.data && reports.data
-                            ? children({
-                                  pending: false,
-                                  data: runSubmissionsSpatialAnalysis(
-                                      reports.data,
-                                      features.data
-                                  ),
-                              })
-                            : children({ pending: true })
-                    }
-                </containers.Reports>
-            )}
-        </FeatureCollection>
+        <containers.Reports days={days}>
+            {reports =>
+                regions && reports.data
+                    ? children({
+                          pending: false,
+                          data: runSubmissionsSpatialAnalysis(
+                              reports.data,
+                              regions
+                          ),
+                      })
+                    : children({ pending: true })
+            }
+        </containers.Reports>
     )
 }
 
