@@ -158,7 +158,7 @@ function cleanHTML(txt) {
 function prismicQuery(query, options, cb) {
     Prismic.api('https://avalancheca.prismic.io/api', function(err1, api) {
         if (err1) {
-            logger.error("share prismic_query get_api", {error: err2});
+            logger.error("share prismic_query get_api", {error: err1});
             cb(err1);
             return;
         }
