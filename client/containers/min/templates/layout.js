@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from 'containers/min/Form.css'
+import styles from '../Form.css'
 
 export default function Layout(locals) {
     return (
