@@ -8,7 +8,7 @@ var logger = require('../../logger');
  * Web cache is now seeded by "items" (instead of the previous "urls")
  * type item = {
  *    key: string,
- *    fetch: () => json
+ *    fetch: () => Promise[json]
  * }
  */
 
@@ -59,16 +59,16 @@ WebCache.prototype.refresh = function () {
     var start = +new Date;
     // Kick off all the Promises to get items
     //TODO: batch these or do them sequentially to not overload the server
-    var requests = _.map(this.items, function(item){ 
+    var requests = _.map(this.items, function(item){
         var p = item.fetch()
             .then(function(result){
                 logger.debug('fetch success key=%s', item.key);
-                return {key: item.key, result: result, _tag:"success in webcache.refresh"};
+                return {key: item.key, result: result};
             })
-            //.catch(function(err){
-            //    logger.debug('fetch failure key=%s', item.key);
-            //    return Promise.reject({key: item.key, err: err, _tag:"Failure handler in webcache.refresh"});
-            //}); 
+            .catch(function(err){
+                logger.debug('fetch failure key=%s', item.key);
+                return Promise.reject({key: item.key, err: err});
+            });
         return p;
     });
 
@@ -76,13 +76,14 @@ WebCache.prototype.refresh = function () {
 
     return Q.allSettled(requests).then(function (results) {
         results = _.groupBy(results, 'state');
-        results.rejected = results.rejected || [];
+        results.rejected  = results.rejected  || [];
+        results.fulfilled = results.fulfilled || [];
 
         logger.info('webcache fetchComplete fulfilled=%d rejected=%d',
             results.fulfilled.length, results.rejected.length);
-        var sets = results.fulfilled.map(function (r) { 
-            return self.cache.set(r.value.key, r.value.result); 
-        })
+        var sets = results.fulfilled.map(function (r) {
+            return self.cache.set(r.value.key, r.value.result);
+        });
 
         return Q.allSettled(sets).then(function () {
             var end = +new Date;
@@ -97,7 +98,7 @@ WebCache.prototype.refresh = function () {
                 self.emit('refreshed');
             }
         });
-    }, function (e) { logger.error('webcache requests', e); });
+    }).done();
 };
 
 WebCache.prototype.get = function (url) {
