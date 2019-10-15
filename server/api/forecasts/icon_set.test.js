@@ -59,7 +59,6 @@ var danger_data = {
 describe('dangerIconSet - the basics', function() {
     Object.keys(danger_data).map(function(key){
         var set = icon_set.genDangerIconSet(-8, danger_data[key]);
-        console.dir(set)
         test(key + ' is defined', function(){
             expect(set).toBeDefined();
         });
