@@ -2,7 +2,7 @@
 var icon_set = require('./icon_set');
 
 var danger_data = {
-    south_col: [
+    standard_time: [
         {
             "date": "2019-01-01T00:00:00Z",
             "dangerRating": {
@@ -28,7 +28,7 @@ var danger_data = {
             }
         }
     ],
-    glacier:[
+    daylight_time:[
         {
             "date": "2019-10-02T00:00:00",
             "dangerRating": {
@@ -52,13 +52,13 @@ var danger_data = {
                 "tln": "N/A:No Rating",
                 "btl": "N/A:No Rating"
             }
-        }
-    ,]
+        },
+    ]
 };
 
 describe('dangerIconSet - the basics', function() {
     Object.keys(danger_data).map(function(key){
-        var set = icon_set.genDangerIconSet(-8, danger_data[key]);
+        var set = icon_set.genDangerIconSet('America/Vancouver', danger_data[key]);
         test(key + ' is defined', function(){
             expect(set).toBeDefined();
         });
@@ -78,4 +78,25 @@ describe('dangerIconSet - the basics', function() {
             expect(set[1].to).toEqual(set[2].from);
         });
     });
+});
+
+describe('timezone shifts', function(){
+    test('standard time mountain is -7', function(){
+        var set = icon_set.genDangerIconSet('America/Edmonton', danger_data['standard_time']);
+        console.dir(set)
+        expect(set[0].to).toMatch(/07:00:00/);
+    });
+    test('standard time pacific is -8', function(){
+        var set = icon_set.genDangerIconSet('America/Vancouver', danger_data['standard_time']);
+        expect(set[0].to).toMatch(/08:00:00/);
+    });
+    test('standard time mountain is -7', function(){
+        var set = icon_set.genDangerIconSet('America/Edmonton', danger_data['daylight_time']);
+        expect(set[0].to).toMatch(/06:00:00/);
+    });
+    test('standard time pacific is -8', function(){
+        var set = icon_set.genDangerIconSet('America/Vancouver', danger_data['daylight_time']);
+        expect(set[0].to).toMatch(/07:00:00/);
+    });
+
 });
