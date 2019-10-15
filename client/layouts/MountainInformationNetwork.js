@@ -33,7 +33,7 @@ export default function MountainInformationNetwork() {
     )
 }
 
-const SubmitContainer = lazy(() => import('containers/min/Form'))
+const SubmitContainer = lazy(() => import('layouts/min/Form'))
 
 function Submit(props) {
     return (
