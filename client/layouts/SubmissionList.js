@@ -36,8 +36,10 @@ import Shim from 'components/Shim'
 import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 
+// Need to bring changes from branch "season/2019" first
 // TODO use hooks, but needs to be converted in a functionnal component
-// TODO Split that component
+// TODO Split that component into smaller ones
+// TODO Once converted: remove <Regions> container, remove components/collection
 
 export default class SubmissionList extends Component {
     static propTypes = {
