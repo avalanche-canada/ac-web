@@ -82,7 +82,7 @@ export function useFetch(url, cache = new None()) {
         PROMISES.has(url) || (Boolean(url) && !data)
     )
     const controller = useRef(null)
-    function setError(error) {
+    function throwError(error) {
         setData(() => {
             throw error
         })
@@ -103,7 +103,7 @@ export function useFetch(url, cache = new None()) {
 
             promise
                 .then(setupData)
-                .catch(setError)
+                .catch(throwError)
                 .finally(() => {
                     setPending(false)
                 })
@@ -126,7 +126,7 @@ export function useFetch(url, cache = new None()) {
 
         promise
             .then(setupData)
-            .catch(setError)
+            .catch(throwError)
             .finally(() => {
                 PROMISES.delete(url)
 
