@@ -10,21 +10,26 @@ export class None {
 export class Memory {
     constructor(lifespan = Infinity) {
         this.store = new Map()
+        this.timestamps = new Map()
         this.lifespan = lifespan
     }
     reset() {
         this.store = new Map()
+        this.timestamps = new Map()
     }
     has(url) {
-        return this.store.has(url) && this.store.get(url).expiry > Date.now()
+        const timestamp = this.timestamps.get(url)
+
+        return (
+            typeof timestamp === 'number' &&
+            timestamp + this.lifespan > Date.now()
+        )
     }
     get(url) {
-        return this.has(url) ? this.store.get(url).data : undefined
+        return this.has(url) ? this.store.get(url) : undefined
     }
     set(url, data) {
-        this.store.set(url, {
-            expiry: Date.now() + this.lifespan,
-            data,
-        })
+        this.store.set(url, data)
+        this.timestamps.set(url, Date.now())
     }
 }
