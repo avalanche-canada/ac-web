@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
-import { Forecast } from 'containers/forecast'
+import { Forecast } from 'hooks/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
-} from 'containers/features'
+} from 'hooks/features'
 import { Page, Content, Header, Main } from 'components/page'
 import * as components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'

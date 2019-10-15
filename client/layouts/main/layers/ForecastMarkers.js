@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { useForecastRegionsMetadata } from 'containers/features'
+import { useForecastRegionsMetadata } from 'hooks/features'
 import { Layer } from 'contexts/layers'
 import { Marker } from 'components/map'
 import { FORECASTS } from 'constants/drawers'

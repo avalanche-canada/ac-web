@@ -7,7 +7,7 @@ import { Item } from 'components/sidebar'
 import * as Hzr from 'layouts/products/hzr'
 import { Document } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
-import { useAdvisoryMetadata } from 'containers/features'
+import { useAdvisoryMetadata } from 'hooks/features'
 import * as utils from 'utils/hzr'
 
 HotZoneReportLayout.propTypes = {

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useForecastRegionsMetadata } from 'containers/features'
+import { useForecastRegionsMetadata } from 'hooks/features'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import Page from 'layouts/Page'

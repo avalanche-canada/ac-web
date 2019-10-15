@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Forecast } from 'containers/forecast'
+import { Forecast } from 'hooks/forecast'
 import { Muted } from 'components/text'
 import Shim from 'components/Shim'
 import * as components from 'layouts/products/forecast'

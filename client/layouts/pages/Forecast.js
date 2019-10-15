@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import { Forecast } from 'containers/forecast'
+import { Forecast } from 'hooks/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
-} from 'containers/features'
+} from 'hooks/features'
 import {
     Page,
     Header,
@@ -22,7 +22,6 @@ import { handleForecastTabActivate } from 'services/analytics'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import { StructuredText } from 'prismic/components/base'
 import Shim from 'components/Shim'
-import ErrorBoundary from 'components/ErrorBoundary'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
-import { Forecast } from 'containers/forecast'
+import { Forecast } from 'hooks/forecast'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
 import Shim from 'components/Shim'

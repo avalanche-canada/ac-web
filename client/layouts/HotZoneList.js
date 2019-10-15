@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAdvisoriesMetadata } from 'containers/features'
+import { useAdvisoriesMetadata } from 'hooks/features'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import Page from 'layouts/Page'

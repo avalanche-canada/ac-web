@@ -8,7 +8,7 @@ import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Document } from 'prismic/containers'
-import { useAdvisoryMetadata } from 'containers/features'
+import { useAdvisoryMetadata } from 'hooks/features'
 import { hotZone } from 'prismic/params'
 import * as utils from 'utils/hzr'
 
