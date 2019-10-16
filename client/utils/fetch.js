@@ -1,15 +1,13 @@
 export default function request(url, init) {
-    function remove() {
-        REQUESTS.delete(url)
-    }
-
     if (REQUESTS.has(url)) {
         return REQUESTS.get(url)
     }
 
     const request = fetch(url, init)
         .then(status)
-        .finally(remove)
+        .finally(() => {
+            REQUESTS.delete(url)
+        })
 
     REQUESTS.set(url, request)
 
