@@ -10,7 +10,7 @@ Provider.propTypes = {
 
 export function Provider({ children }) {
     const [sponsors, setSponsors] = useLocalStorage('sponsors', SPONSORS)
-    const [data] = useAsync(request, ['sponsors'], sponsors)
+    const [data] = useAsync(request, ['sponsors'])
 
     useEffect(() => {
         if (!data) {
