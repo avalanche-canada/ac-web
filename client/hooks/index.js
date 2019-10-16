@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
-import { status } from 'utils/fetch'
-import { None, Memory } from 'services/cache'
+import { Memory } from 'services/cache'
 
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)

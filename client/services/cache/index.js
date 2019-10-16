@@ -1,13 +1,3 @@
-export class None {
-    reset() {}
-    has() {
-        return false
-    }
-    get() {}
-    set() {}
-    remove() {}
-}
-
 export class Memory {
     constructor() {
         this.store = new Map()

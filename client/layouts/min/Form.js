@@ -15,7 +15,7 @@ import transform from './transform'
 import * as min from 'api/urls/min'
 import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
-import { status } from 'utils/fetch'
+import request from 'utils/fetch'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {
@@ -172,25 +172,23 @@ export default class SubmissionForm extends Component {
                 }),
             }
 
-            fetch(url, options)
-                .then(status)
-                .then(
-                    data => {
-                        this.setState({ isSubmitting: false }, () => {
-                            const { subid } = data
+            request(url, options).then(
+                data => {
+                    this.setState({ isSubmitting: false }, () => {
+                        const { subid } = data
 
-                            navigate(links.mountainInformationNetwork(subid))
-                        })
-                    },
-                    error => {
-                        this.setState({
-                            isSubmitting: false,
-                            error,
-                        })
+                        navigate(links.mountainInformationNetwork(subid))
+                    })
+                },
+                error => {
+                    this.setState({
+                        isSubmitting: false,
+                        error,
+                    })
 
-                        throw error
-                    }
-                )
+                    throw error
+                }
+            )
         })
     }
     render() {

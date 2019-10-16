@@ -1,6 +1,10 @@
+import { useMemo } from 'react'
 import * as api from './api'
-import { useAsync } from 'hooks'
+import { useCacheAsync } from 'hooks'
 
 export function useDocuments(params) {
-    return useAsync(api.all, params)
+    // TODO Big hack so it does not refetch!!
+    const parameters = useMemo(() => [params], [JSON.stringify(params)])
+
+    return useCacheAsync(api.all, parameters, undefined, 'documents')
 }

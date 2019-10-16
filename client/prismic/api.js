@@ -1,8 +1,8 @@
 import * as urls from './urls'
-import { status } from 'utils/fetch'
+import request from 'utils/fetch'
 
 async function getRef() {
-    const { refs } = await fetch(urls.api()).then(status)
+    const { refs } = await request(urls.api())
 
     return refs.find(({ isMasterRef }) => isMasterRef).ref
 }
@@ -11,7 +11,7 @@ export async function search(predicates, options) {
     const ref = await getRef()
     const url = urls.search(ref, predicates, options)
 
-    return await fetch(url).then(status)
+    return await request(url)
 }
 
 export async function all({ predicates, ...options }) {

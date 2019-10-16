@@ -1,8 +1,22 @@
-export default function request(...args) {
-    return fetch(...args).then(status)
+export default function request(url, init) {
+    function remove() {
+        REQUESTS.delete(url)
+    }
+
+    if (REQUESTS.has(url)) {
+        return REQUESTS.get(url)
+    }
+
+    const request = fetch(url, init)
+        .then(status)
+        .finally(remove)
+
+    REQUESTS.set(url, request)
+
+    return request
 }
 
-export function status(response) {
+function status(response) {
     if (response.ok) {
         return response.json()
     }
@@ -21,3 +35,6 @@ export class NotFound extends Error {
         this.name = 'NotFound'
     }
 }
+
+// Constants
+const REQUESTS = new Map()
