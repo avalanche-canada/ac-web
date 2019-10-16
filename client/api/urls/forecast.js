@@ -2,7 +2,7 @@ import isValid from 'date-fns/is_valid'
 import isBefore from 'date-fns/is_before'
 import startOfToday from 'date-fns/start_of_today'
 import parse from 'date-fns/parse'
-import { baseURL } from 'api/config.json'
+import { baseURL } from './config.json'
 import { build } from 'utils/url'
 
 export function forecast(name, date) {

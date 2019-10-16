@@ -1,5 +1,5 @@
 import { build } from 'utils/url'
-import { weatherBaseUrl } from 'api/config.json'
+import { weatherBaseUrl } from './config.json'
 
 export function stations() {
     return build('/stations/', null, weatherBaseUrl)

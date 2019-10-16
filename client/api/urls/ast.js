@@ -1,4 +1,4 @@
-import { astBaseUrl } from 'api/config.json'
+import { astBaseUrl } from './config.json'
 import { build } from 'utils/url'
 
 export function providers() {

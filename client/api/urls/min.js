@@ -1,5 +1,5 @@
 import { build } from 'utils/url'
-import { baseURL } from 'api/config.json'
+import { baseURL } from './config.json'
 
 export function report(id) {
     return build(`${PATH}/${id}`, { id, client }, baseURL)
