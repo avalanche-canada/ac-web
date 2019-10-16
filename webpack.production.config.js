@@ -69,15 +69,11 @@ module.exports = Object.assign({}, common, {
         },
         minimizer: [
             new TerserPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true,
                 terserOptions: {
                     toplevel: true,
                     compress: {
                         passes: 3,
                         pure_getters: true,
-                        unsafe: true,
                     },
                 },
             }),

@@ -8,7 +8,7 @@ var logger = require('../../logger');
  * Web cache is now seeded by "items" (instead of the previous "urls")
  * type item = {
  *    key: string,
- *    fetch: () => json
+ *    fetch: () => Promise[json]
  * }
  */
 
@@ -17,12 +17,15 @@ var WebCacheMem = function () {
 };
 
 WebCacheMem.prototype.get = function (key) {
-    var val = this.client[key];
+    var jval = this.client[key];
+    logger.debug("OTHER", key, jval)
+    var val = JSON.parse(jval);
     return Q.fcall(function () { return val; });
 };
 
 WebCacheMem.prototype.set = function (key, val) {
-    this.client[key] = val;
+    var jval = JSON.stringify(val)
+    this.client[key] = jval;
     return Q.fcall(function () { return 'OK'; });
 };
 
@@ -36,7 +39,7 @@ var WebCache = function (options) {
     if(_.isNumber(this.options.refreshInterval)) {
         var self = this;
 
-        setInterval(function () {
+        self.timer = setInterval(function () {
             if(self.items.length > 0) self.refresh();
         }, self.options.refreshInterval);
     }
@@ -51,15 +54,21 @@ WebCache.prototype.seed = function (seed_items) {
 };
 
 WebCache.prototype.refresh = function () {
+    logger.debug('webcache refresh')
     var self = this;
     var start = +new Date;
     // Kick off all the Promises to get items
     //TODO: batch these or do them sequentially to not overload the server
-    var requests = _.map(this.items, function(item){ 
+    var requests = _.map(this.items, function(item){
         var p = item.fetch()
             .then(function(result){
+                logger.debug('fetch success key=%s', item.key);
                 return {key: item.key, result: result};
-            }); 
+            })
+            .catch(function(err){
+                logger.debug('fetch failure key=%s', item.key);
+                return Promise.reject({key: item.key, err: err});
+            });
         return p;
     });
 
@@ -67,11 +76,14 @@ WebCache.prototype.refresh = function () {
 
     return Q.allSettled(requests).then(function (results) {
         results = _.groupBy(results, 'state');
-        results.rejected = results.rejected || [];
+        results.rejected  = results.rejected  || [];
+        results.fulfilled = results.fulfilled || [];
 
-        var sets = results.fulfilled.map(function (r) { 
-            return self.cache.set(r.value.key, r.value.result); 
-        })
+        logger.info('webcache fetchComplete fulfilled=%d rejected=%d',
+            results.fulfilled.length, results.rejected.length);
+        var sets = results.fulfilled.map(function (r) {
+            return self.cache.set(r.value.key, r.value.result);
+        });
 
         return Q.allSettled(sets).then(function () {
             var end = +new Date;
@@ -86,7 +98,7 @@ WebCache.prototype.refresh = function () {
                 self.emit('refreshed');
             }
         });
-    }, function (e) { logger.error('webcache requests', e); });
+    }).done();
 };
 
 WebCache.prototype.get = function (url) {

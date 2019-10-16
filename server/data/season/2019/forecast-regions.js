@@ -31,6 +31,19 @@ module.exports = {
             geometry: JSON.parse(geometry),
             properties: properties
         }
+    }).concat({
+        id: 'yukon',
+        type: 'Feature',
+        properties: {
+            name: 'Yukon',
+            id: 'yukon',
+            type: 'hotzone',
+            centroid: [-135.110971, 60.002517],
+        },
+        geometry: {
+            type: 'Point',
+            coordinates: [-135.110971, 60.002517],
+        },
     }),
 };
 

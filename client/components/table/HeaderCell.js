@@ -6,7 +6,7 @@ import styles from './Table.css'
 
 HeaderCell.propTypes = {
     children: PropTypes.node.isRequired,
-    // TODO Remove these props!!! Just passing children is enough!
+    // TODO Remove these props!!! Just passing children is enough! Needs to look at every usages.
     sorting: PropTypes.oneOf([ASC, DESC, NONE]),
     onSortingChange: PropTypes.func,
 }

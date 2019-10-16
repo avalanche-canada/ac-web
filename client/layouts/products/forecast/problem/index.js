@@ -30,7 +30,7 @@ function renderProblem(problem, index) {
                 <Topic title="Expected Size?" src={icons.expectedSize} />
             </TopicSet>
             <Comment>{comment}</Comment>
-            <Advice>{travelAndTerrainAdvice}</Advice>
+            {travelAndTerrainAdvice && <Advice>{travelAndTerrainAdvice}</Advice>}
         </Problem>
     )
 }
