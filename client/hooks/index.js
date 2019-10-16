@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
-import { status } from 'services/fetch/utils'
+import { status } from 'utils/fetch'
 import Memory from 'services/storage/Memory'
 import { None } from 'services/cache'
 

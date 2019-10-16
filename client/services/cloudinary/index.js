@@ -1,4 +1,4 @@
-import { status } from 'services/fetch/utils'
+import { status } from 'utils/fetch'
 import { build } from 'utils/url'
 
 export function mapToSizeFactory(width = 100, height = 100) {

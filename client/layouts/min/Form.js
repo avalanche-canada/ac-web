@@ -16,7 +16,7 @@ import * as min from 'api/urls/min'
 import { CACHE } from 'hooks/min'
 import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
-import { status } from 'services/fetch/utils'
+import { status } from 'utils/fetch'
 import styles from './Form.css'
 
 export default class SubmissionForm extends Component {

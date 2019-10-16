@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
-import { NotFound } from 'services/fetch/utils'
+import { NotFound } from 'utils/fetch'
 import { List, ListItem } from 'components/page'
 import {
     Header,

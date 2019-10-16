@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import PropTypes from 'prop-types'
-import { status, NotFound } from 'services/fetch/utils'
+import { status, NotFound } from 'utils/fetch'
 import { None } from 'services/cache'
 
 // TODO Remove that component

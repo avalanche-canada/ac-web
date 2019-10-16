@@ -1,5 +1,5 @@
 import * as urls from './urls'
-import { status } from 'services/fetch/utils'
+import { status } from 'utils/fetch'
 
 async function getRef() {
     const { refs } = await fetch(urls.api()).then(status)

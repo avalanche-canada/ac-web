@@ -7,7 +7,7 @@ import ErrorBoundary from 'components/ErrorBoundary'
 import * as Text from 'components/text'
 import * as urls from './urls'
 import * as params from 'prismic/params'
-import { status } from 'services/fetch/utils'
+import { status } from 'utils/fetch'
 import { FEED } from 'constants/prismic'
 import { FR, EN } from 'constants/locale'
 
