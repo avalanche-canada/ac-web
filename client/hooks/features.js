@@ -32,10 +32,13 @@ function useSingle(type, id) {
 }
 function useMultiple(type) {
     const [meta, ...rest] = useMetadata()
-    const data = useMemo(() => Object.values(meta?.[type] || {}).sort(sorter), [
-        meta,
-        type,
-    ])
+    const data = useMemo(
+        () =>
+            Object.values(meta?.[type] || {})
+                .filter(item => !item._legacy)
+                .sort(sorter),
+        [meta, type]
+    )
 
     return [data, ...rest]
 }
@@ -43,7 +46,7 @@ function useMetadata() {
     return useCacheAsync(metadata, undefined, undefined, 'metadata')
 }
 const FORECAST_REGIONS = 'forecast-regions'
-const HOT_ZONES = 'hot-zones-ah!-ah!'
+const HOT_ZONES = 'hot-zones'
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
 }

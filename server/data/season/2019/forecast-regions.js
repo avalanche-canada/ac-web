@@ -38,6 +38,7 @@ module.exports = {
             name: 'Yukon',
             id: 'yukon',
             type: 'hotzone',
+            _legacy: true,
             centroid: [-135.110971, 60.002517],
         },
         geometry: {
