@@ -4,6 +4,8 @@ import isBefore from 'date-fns/is_before'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
+// TODO Move that file to a better location
+
 export function sanitizeMountainInformationNetworkSubmission(submission) {
     const { latlng } = submission
 
