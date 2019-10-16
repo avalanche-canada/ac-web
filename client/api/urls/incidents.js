@@ -2,7 +2,7 @@ import { incidentsBaseUrl } from 'api/config.json'
 import { build } from 'utils/url'
 
 export function incident(id) {
-    return `${incidents()}${id}/`
+    return incidents() + id + '/'
 }
 
 export function incidents(params) {

@@ -6,9 +6,9 @@ export function stations() {
 }
 
 export function station(id) {
-    return `${stations()}${id}/`
+    return stations() + id + '/'
 }
 
 export function measurements(stationId) {
-    return `${station(stationId)}measurements/`
+    return station(stationId) + 'measurements/'
 }
