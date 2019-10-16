@@ -43,7 +43,7 @@ function useMetadata() {
     return useCacheAsync(metadata, undefined, undefined, 'metadata')
 }
 const FORECAST_REGIONS = 'forecast-regions'
-const HOT_ZONES = 'hot-zones'
+const HOT_ZONES = 'hot-zones-ah!-ah!'
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
 }

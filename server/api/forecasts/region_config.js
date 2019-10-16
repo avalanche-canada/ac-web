@@ -22,7 +22,7 @@ function parseAvalx(region_id) {
         var caaml_json = Q.Promise(function(resolve, reject){
             xml2js.parseString(data, function(err, result){
                 if (err) {
-                    reject({err: err, _tag: "rejected in parseAvalx"})
+                    reject({err: err})
                 } else {
                     resolve(result)
                 }
@@ -135,8 +135,24 @@ var LINKS = {
     'north-rockies'    : { metadata: reg_properties['north-rockies'] },
 };
 
+var TEST_REGIONS = {
+    http_500: {
+        thing: {
+            fetchNow: function(){
+                    return fetch.doFetch('http://httpbin.org/status/500');
+            }
+        }
+    },
+    bad_host: {
+        thing: {
+            fetchNow: function(){
+                    return fetch.doFetch('http://not-a-real-thing.avalanche.ca/');
+            }
+        }
+    }
+};
+
 
 module.exports = {
     cached_regions: Object.assign({}, AVCAN, KCOUNTRY, PARKS),
-    //cached_regions: AVCAN
 }

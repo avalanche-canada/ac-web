@@ -27,7 +27,7 @@ function genDangerIconSet(region_tz, dangerRatings) {
         // Take only the date part as the time and TZ info is not actually
         // intended for use
         var only_date = rating.date.split("T")[0];
-        var d = moment.tz(only_date, 'America/Vancouver');
+        var d = moment.tz(only_date, region_tz);
         return d.utc().toISOString();
     });
 
