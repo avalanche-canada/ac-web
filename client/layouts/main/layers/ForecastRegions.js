@@ -2,9 +2,9 @@ import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Match } from '@reach/router'
 import * as turf from '@turf/helpers'
-import { FeatureCollection } from 'containers/mapbox'
 import { Source, Fill, Line, Symbol, Map } from 'components/map'
 import { FORECASTS as key } from 'constants/drawers'
+import { useForecastRegions } from 'containers/features'
 
 ForecastRegions.propTypes = {
     visible: PropTypes.bool,
@@ -13,33 +13,21 @@ ForecastRegions.propTypes = {
 }
 
 export default function ForecastRegions(props) {
+    let [regions = EMPTY] = useForecastRegions()
+
+    regions.features.forEach((feature, index) => {
+        // https://github.com/mapbox/mapbox-gl-js/issues/2716
+        feature.id = index + 1
+        feature.properties.type = key
+    })
+
     return (
         <Fragment>
-            <FeatureCollection id="regions">
-                {({ data = EMPTY }) => {
-                    // https://github.com/mapbox/mapbox-gl-js/issues/2716
-                    data.features.forEach((feature, index) => {
-                        feature.id = index + 1
-                        feature.properties.type = key
-                    })
-
-                    return (
-                        <Source id={key} data={data}>
-                            <Fill id={key} {...props} {...styles.fill} />
-                            <Line
-                                id={`${key}-line`}
-                                {...props}
-                                {...styles.line}
-                            />
-                            <Symbol
-                                id={`${key}-labels`}
-                                {...props}
-                                {...styles.labels}
-                            />
-                        </Source>
-                    )
-                }}
-            </FeatureCollection>
+            <Source id={key} data={regions}>
+                <Fill id={key} {...props} {...styles.fill} />
+                <Line id={`${key}-line`} {...props} {...styles.line} />
+                <Symbol id={`${key}-labels`} {...props} {...styles.labels} />
+            </Source>
             <Match path="forecasts/:id">
                 {({ match }) =>
                     match ? (

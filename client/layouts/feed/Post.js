@@ -32,17 +32,6 @@ export default function Post(props) {
     )
 }
 
-export function NorthRockies() {
-    const category = 'north-rockies'
-    const pageSize = 1
-
-    return (
-        <Document {...params.feed.blog({ pageSize, category })}>
-            {content}
-        </Document>
-    )
-}
-
 // Components
 function PostMetadata(document) {
     const { tags, type, data } = document

@@ -1,99 +1,54 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import memoize from 'lodash/memoize'
-import get from 'lodash/get'
-import Fetch from 'components/fetch'
+import { useMemo } from 'react'
+import { useFetch } from 'utils/react/hooks'
 import { Memory } from 'components/fetch/Cache'
-import ErrorBoundary from 'components/ErrorBoundary'
 import { metadata } from 'api/urls/metadata'
-import { Error } from 'components/text'
+import * as urls from 'api/urls/forecast'
 
-Region.propTypes = {
-    name: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired,
+export function useForecastRegions() {
+    return useFetch(urls.regions(), CACHE)
 }
 
-export function Region({ name, children }) {
-    const fallback = 'An error happened while retrieving forecast region.'
-    function transform(data) {
-        return get(data, [FORECAST_REGIONS, name], null)
-    }
-
-    return (
-        <Features fallback={fallback} transform={transform}>
-            {children}
-        </Features>
-    )
+export function useForecastRegionsMetadata() {
+    return useMultiple(FORECAST_REGIONS)
 }
 
-Regions.propTypes = {
-    children: PropTypes.func.isRequired,
+export function useForecastRegionMetadata(id) {
+    return useSingle(FORECAST_REGIONS, id)
 }
 
+export function useAdvisoriesMetadata() {
+    return useMultiple(HOT_ZONES)
+}
+
+export function useAdvisoryMetadata(id) {
+    return useSingle(HOT_ZONES, id)
+}
+
+// TODO Remove that component once comsumers are converted to functional components
 export function Regions({ children }) {
-    const fallback = 'An error happened while retrieving forecast regions.'
-    function transform(data) {
-        return data ? extractForecastRegions(data) : data
-    }
+    const [data, pending] = useForecastRegionsMetadata()
 
-    return (
-        <Features fallback={fallback} transform={transform}>
-            {children}
-        </Features>
-    )
-}
-
-HotZone.propTypes = {
-    name: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired,
-}
-
-export function HotZone({ name, children }) {
-    const fallback = 'An error happened while retrieving advisory area.'
-    function transform(data) {
-        return get(data, [HOT_ZONES, name], null)
-    }
-
-    return (
-        <Features fallback={fallback} transform={transform}>
-            {children}
-        </Features>
-    )
-}
-
-HotZones.propTypes = {
-    children: PropTypes.func.isRequired,
-    all: PropTypes.bool,
-}
-
-export function HotZones({ all, children }) {
-    const fallback = 'An error happened while retrieving advisory areas.'
-    function transform(data) {
-        return data ? extractHotZones(data)(all) : data
-    }
-
-    return (
-        <Features fallback={fallback} transform={transform}>
-            {children}
-        </Features>
-    )
+    return children({ data, pending })
 }
 
 // Utils
-function Features({ fallback, children, transform }) {
-    return (
-        <ErrorBoundary fallback={<Error>{fallback}</Error>}>
-            <Fetch cache={CACHE} url={metadata()}>
-                {({ data, ...props }) =>
-                    children(
-                        Object.assign(props, {
-                            data: data ? transform(data) : data,
-                        })
-                    )
-                }
-            </Fetch>
-        </ErrorBoundary>
-    )
+function useSingle(type, id) {
+    const [meta, pending] = useMetadata()
+    const data = meta?.[type]?.[id]
+
+    return [data, pending]
+}
+function useMultiple(type) {
+    const [meta, pending] = useMetadata()
+    const data = useMemo(() => Object.values(meta?.[type] || {}).sort(sorter), [
+        meta,
+        type,
+    ])
+
+    return [data, pending]
+}
+function useMetadata() {
+    return useFetch(metadata(), CACHE)
 }
 const CACHE = new Memory()
 const FORECAST_REGIONS = 'forecast-regions'
@@ -101,13 +56,3 @@ const HOT_ZONES = 'hot-zones'
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
 }
-const extractHotZones = memoize(data =>
-    memoize(all =>
-        Object.values(data[HOT_ZONES])
-            .filter(({ id }) => (all ? true : id === 'yukon'))
-            .sort(sorter)
-    )
-)
-const extractForecastRegions = memoize(data =>
-    Object.values(data[FORECAST_REGIONS]).sort(sorter)
-)

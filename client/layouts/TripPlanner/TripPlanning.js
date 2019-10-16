@@ -79,7 +79,7 @@ export default class TripPlanning extends Component {
 
         return (
             <Fragment>
-                {region && region.id !== 'north-rockies' ? (
+                {region ? (
                     <Forecast name={region.id}>
                         {props => this.renderChildren(props)}
                     </Forecast>

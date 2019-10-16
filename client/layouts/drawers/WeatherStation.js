@@ -125,9 +125,7 @@ function WeatherStations({ data }) {
                     {data.map(({ stationId, name }) => (
                         <ListItem
                             key={stationId}
-                            to={`${
-                                location.pathname
-                            }?panel=weather-stations/${stationId}`}
+                            to={`${location.pathname}?panel=weather-stations/${stationId}`}
                             replace>
                             {name}
                         </ListItem>
