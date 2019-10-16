@@ -1,24 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import identity from 'lodash/identity'
-import Fetch from 'components/fetch'
-import { Memory as Cache } from 'services/cache'
 import ErrorBoundary from 'components/ErrorBoundary'
 import * as Text from 'components/text'
 import * as urls from './urls'
 import * as params from 'prismic/params'
-import { status } from 'utils/fetch'
+import request from 'utils/fetch'
 import { FEED } from 'constants/prismic'
 import { FR, EN } from 'constants/locale'
+import { useCacheAsync, createKey } from 'hooks'
 
-function MasterRef({ children }) {
-    return (
-        <Fetch cache={REFCACHE} url={urls.api()}>
-            {({ data }) =>
-                data ? children(data.refs.find(isMasterRef).ref) : null
-            }
-        </Fetch>
-    )
+function useMasterRef() {
+    function api() {
+        return request(urls.api())
+    }
+    const [data] = useCacheAsync(api, undefined, undefined, REF_KEY)
+
+    return Array.isArray(data?.refs) ? data.refs.find(isMasterRef).ref : null
 }
 
 Search.propTypes = {
@@ -28,24 +26,19 @@ Search.propTypes = {
 }
 
 function Search({ children, predicates, locale, ...options }) {
+    if (LANGUAGES.has(locale)) {
+        Object.assign(options, LANGUAGES.get(locale))
+    }
+
+    const ref = useMasterRef()
+    const url = ref ? urls.search(ref, predicates, options) : null
+    const req = url ? () => request(url) : () => Promise.resolve()
+    const [data, pending] = useCacheAsync(req, [url], undefined, url)
+
     // TODO We should not render <ErrorBoundary> here, it should be done outside the container.
     return (
         <ErrorBoundary fallback={<Error />}>
-            <MasterRef>
-                {ref => {
-                    if (LANGUAGES.has(locale)) {
-                        Object.assign(options, LANGUAGES.get(locale))
-                    }
-
-                    const url = urls.search(ref, predicates, options)
-
-                    return (
-                        <Fetch cache={CACHE} url={url}>
-                            {children}
-                        </Fetch>
-                    )
-                }}
-            </MasterRef>
+            {children({ data, pending })}
         </ErrorBoundary>
     )
 }
@@ -105,7 +98,7 @@ export class Tags extends Component {
     async fetch() {
         this.setState({ pending: true }, async () => {
             try {
-                const api = await fetch(urls.api()).then(status)
+                const api = await request(urls.api())
                 const { ref } = api.refs.find(isMasterRef)
                 const { type } = this.props
                 const tags = new Set()
@@ -118,7 +111,7 @@ export class Tags extends Component {
                         page,
                     })
                     const url = urls.search(ref, predicates, options)
-                    const data = await fetch(url).then(status)
+                    const data = await request(url)
 
                     page = data.page + 1
                     nextPage = data.next_page
@@ -181,5 +174,4 @@ function Error({ error }) {
 
 // Constants
 const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
-const REFCACHE = new Cache(60 * 1000)
-const CACHE = new Cache()
+const REF_KEY = createKey('prismic', 'ref')
