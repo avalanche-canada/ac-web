@@ -1,3 +1,7 @@
+export default function request(...args) {
+    return fetch(...args).then(status)
+}
+
 export function status(response) {
     if (response.ok) {
         return response.json()
