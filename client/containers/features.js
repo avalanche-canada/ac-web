@@ -52,7 +52,7 @@ function useMetadata() {
 }
 const CACHE = new Memory()
 const FORECAST_REGIONS = 'forecast-regions'
-const HOT_ZONES = 'hot-zones'
+const HOT_ZONES = 'hot-zones-ah!-ah!'
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
 }
