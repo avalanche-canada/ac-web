@@ -1,11 +1,10 @@
 import { useMemo } from 'react'
-import { useFetch } from 'hooks'
-import { Memory } from 'services/cache'
-import { metadata } from 'api/urls/metadata'
-import * as urls from 'api/urls/forecast'
+import { useCacheAsync } from 'hooks'
+import { metadata } from 'api/requests/metadata'
+import { regions } from 'api/requests/forecast'
 
 export function useForecastRegions() {
-    return useFetch(urls.regions(), CACHE)
+    return useCacheAsync(regions, undefined, undefined, 'regions')
 }
 
 export function useForecastRegionsMetadata() {
@@ -26,24 +25,23 @@ export function useAdvisoryMetadata(id) {
 
 // Utils
 function useSingle(type, id) {
-    const [meta, pending] = useMetadata()
+    const [meta, ...rest] = useMetadata()
     const data = meta?.[type]?.[id]
 
-    return [data, pending]
+    return [data, ...rest]
 }
 function useMultiple(type) {
-    const [meta, pending] = useMetadata()
+    const [meta, ...rest] = useMetadata()
     const data = useMemo(() => Object.values(meta?.[type] || {}).sort(sorter), [
         meta,
         type,
     ])
 
-    return [data, pending]
+    return [data, ...rest]
 }
 function useMetadata() {
-    return useFetch(metadata(), CACHE)
+    return useCacheAsync(metadata, undefined, undefined, 'metadata')
 }
-const CACHE = new Memory()
 const FORECAST_REGIONS = 'forecast-regions'
 const HOT_ZONES = 'hot-zones'
 function sorter(a, b) {

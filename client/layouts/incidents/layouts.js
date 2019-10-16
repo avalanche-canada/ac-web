@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, useMemo, Fragment } from 'react'
 import { Router } from '@reach/router'
 import format from 'date-fns/format'
 import * as components from 'components/incidents'
@@ -19,11 +19,15 @@ function IncidentsList() {
     const [page, setPage] = useState(1)
     const [filters, setFilters] = useState({})
     const { from, to } = filters
-    const [incidents, pending] = hooks.useIncidents({
-        page,
-        from: from ? seasonToFrom(from) : undefined,
-        to: to ? seasonToTo(to) : undefined,
-    })
+    const params = useMemo(
+        () => ({
+            page,
+            from: from ? seasonToFrom(from) : undefined,
+            to: to ? seasonToTo(to) : undefined,
+        }),
+        [page, from, to]
+    )
+    const [incidents, pending] = hooks.useIncidents(params)
     function handlerFiltersChange(filters) {
         setFilters(filters)
         setPage(1)

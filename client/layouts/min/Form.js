@@ -13,7 +13,6 @@ import { Mailto } from 'components/anchors'
 import ObservationSetError from './ObservationSetError'
 import transform from './transform'
 import * as min from 'api/urls/min'
-import { CACHE } from 'hooks/min'
 import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
 import { status } from 'utils/fetch'
@@ -179,9 +178,6 @@ export default class SubmissionForm extends Component {
                     data => {
                         this.setState({ isSubmitting: false }, () => {
                             const { subid } = data
-
-                            // FIXME: Huge side effect hack, but it is working for now
-                            CACHE.reset()
 
                             navigate(links.mountainInformationNetwork(subid))
                         })

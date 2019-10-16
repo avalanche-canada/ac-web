@@ -1,16 +1,17 @@
 import { accessToken, username, api, styleIds } from './config.json'
+import fetch from 'utils/fetch'
 import { build } from 'utils/url'
 
 export function place(term) {
     if (!term) {
-        return null
+        return Promise.resolve()
     }
 
     term = encodeURIComponent(term.trim())
 
     const url = `/geocoding/v5/mapbox.places/${term}.json`
 
-    return build(url, PLACE_PARAMS, api)
+    return fetch(build(url, PLACE_PARAMS, api))
 }
 
 export function style(id) {

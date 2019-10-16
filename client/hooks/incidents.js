@@ -1,13 +1,14 @@
-import { Memory } from 'services/cache'
-import { incident, incidents } from 'api/urls/incidents'
-import { useFetch } from 'hooks'
+import { incident, incidents } from 'api/requests/incidents'
+import { useCacheAsync, createKey } from 'hooks'
 
 export function useIncident(id) {
-    return useFetch(incident(id), CACHE)
+    const key = createKey(KEY, id)
+
+    return useCacheAsync(incident, [id], undefined, key)
 }
 
 export function useIncidents(params) {
-    return useFetch(incidents(params), CACHE)
+    return useCacheAsync(incidents, [params], undefined, KEY)
 }
 
-const CACHE = new Memory()
+const KEY = 'incidents'

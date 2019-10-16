@@ -14,7 +14,7 @@ import { Error, Muted } from 'components/text'
 import { path } from 'utils/station'
 
 export default function WeatherStationList() {
-    const [stations, pending] = useStations()
+    const [stations = [], pending] = useStations()
     const error = (
         <Error>
             Oups!! An error happened while loading weather station data.

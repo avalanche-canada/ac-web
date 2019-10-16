@@ -5,7 +5,7 @@ import * as t from 'components/table'
 import { Muted } from 'components/text'
 import { DropdownFromOptions } from 'components/controls'
 import { List, Entry } from 'components/description'
-import { incidentsBaseUrl } from 'api/config'
+import { incidentsBaseUrl } from 'api/urls/config.json'
 import styles from './incidents.css'
 
 // TODO Should be moved to product or layout

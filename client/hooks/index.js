@@ -2,8 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
 import { status } from 'utils/fetch'
-import Memory from 'services/storage/Memory'
-import { None } from 'services/cache'
+import { None, Memory } from 'services/cache'
 
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)
@@ -74,114 +73,6 @@ export function useEventListener(eventName, handler, element = window) {
             element.removeEventListener(eventName, handler, false)
         }
     }, [eventName, element, handler])
-}
-
-export function useFetch(url, cache = new None()) {
-    const [data, setData] = useSafeState(cache.get(url))
-    const [pending, setPending] = useSafeState(
-        PROMISES.has(url) || (Boolean(url) && !data)
-    )
-    const controller = useRef(null)
-    function throwError(error) {
-        setData(() => {
-            throw error
-        })
-    }
-    function setupData(data) {
-        setData(data)
-        cache.set(url, data)
-    }
-
-    useEffect(() => {
-        // Yes, url can be "null"
-        if (!url || cache.has(url)) {
-            return
-        }
-
-        if (PROMISES.has(url)) {
-            const promise = PROMISES.get(url)
-
-            promise
-                .then(setupData)
-                .catch(throwError)
-                .finally(() => {
-                    setPending(false)
-                })
-
-            return
-        }
-
-        setPending(true)
-
-        try {
-            controller.current = new AbortController()
-        } catch {
-            controller.current = {
-                abort() {},
-            }
-        }
-
-        const { signal } = controller.current
-        const promise = fetch(url, { signal }).then(status)
-
-        promise
-            .then(setupData)
-            .catch(throwError)
-            .finally(() => {
-                PROMISES.delete(url)
-
-                setPending(false)
-            })
-
-        PROMISES.set(url, promise)
-
-        return () => {
-            if (!pending) {
-                return
-            }
-
-            try {
-                controller.current.abort()
-            } catch (error) {
-                if (error.name !== 'AbortError') {
-                    setData(() => {
-                        throw error
-                    })
-                }
-            } finally {
-                PROMISES.delete(url)
-
-                setPending(false)
-            }
-        }
-    }, [url])
-
-    return [data, pending]
-}
-
-export function useAsync(fn, ...params) {
-    const [data, setData] = useSafeState(null)
-    const [pending, setPending] = useSafeState(false)
-
-    async function caller() {
-        try {
-            setPending(true)
-
-            setData(await fn.apply(null, params))
-        } catch (error) {
-            setData(() => {
-                throw error
-            })
-        } finally {
-            setPending(false)
-        }
-    }
-
-    useEffect(() => {
-        caller()
-    }, [])
-
-    return [data, pending]
 }
 
 function useStorage(
@@ -396,45 +287,78 @@ function useSafeState(initialState) {
     return [state, setState]
 }
 
-// export function useAsync(fn, params = [], initialState) {
-//     const [data, setData] = useSafeState(initialState)
-//     const [pending, setPending] = useSafeState(false)
-//     const [error, setError] = useSafeState(null)
+export function useAsync(fn, params = [], initialState) {
+    const [data, setData] = useSafeState(initialState)
+    const [pending, setPending] = useSafeState(true)
+    const [error, setError] = useSafeState(null)
 
-//     useEffect(() => {
-//         setPending(true)
+    useEffect(() => {
+        setPending(true)
 
-//         let controller
+        let controller
 
-//         try {
-//             controller = new AbortController()
-//         } catch {
-//             controller = {
-//                 abort() {},
-//             }
-//         }
+        try {
+            controller = new AbortController()
+        } catch {
+            controller = {
+                abort() {},
+            }
+        }
 
-//         fn.apply(null, [...params, controller.signal])
-//             .then(
-//                 data => {
-//                     if (controller?.signal?.aborted) {
-//                         return
-//                     }
+        fn.apply(null, [...params, controller.signal])
+            .then(
+                data => {
+                    if (controller?.signal?.aborted) {
+                        return
+                    }
 
-//                     setData(data)
-//                 },
-//                 error => {
-//                     setError(error)
-//                 }
-//             )
-//             .finally(() => {
-//                 setPending(false)
-//             })
+                    setData(data)
+                },
+                error => {
+                    setError(error)
+                }
+            )
+            .finally(() => {
+                setPending(false)
+            })
 
-//         return () => {
-//             controller.abort()
-//         }
-//     }, [])
+        return () => {
+            controller.abort()
+        }
+    }, params)
 
-//     return [data, pending, error]
-// }
+    return [data, pending, error]
+}
+
+export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
+    const [get, set, has] = useCache(key, initialState, lifespan)
+    const func = useMemo(() => {
+        return has() ? () => Promise.resolve(get()) : fn
+    }, [has, get])
+    const values = useAsync(func, params, get())
+    const [data] = values
+
+    useEffect(() => {
+        set(data)
+    }, [data, set])
+
+    return values
+}
+
+function useCache(key, initialState, lifespan) {
+    const get = useCallback(() => CACHE.get(key, initialState), [key])
+    const set = useCallback(data => CACHE.set(key, data, lifespan), [
+        key,
+        lifespan,
+    ])
+    const has = useCallback(() => CACHE.has(key), [key])
+    const remove = useCallback(() => CACHE.remove(key), [key])
+
+    return [get, set, has, remove]
+}
+
+const CACHE = new Memory()
+
+export function createKey(...paths) {
+    return paths.filter(Boolean).join(':')
+}

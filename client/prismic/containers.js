@@ -91,7 +91,6 @@ export function Documents({ children = identity, ...props }) {
 }
 
 // TODO: HOOKS & SUSPENSE
-// Could implement a "useFetch" but it is preferable to wait for <Suspense>
 // With the loop it is a bit too complicated to move to functional component!
 
 export class Tags extends Component {

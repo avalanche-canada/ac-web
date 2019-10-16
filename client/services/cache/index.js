@@ -5,31 +5,32 @@ export class None {
     }
     get() {}
     set() {}
+    remove() {}
 }
 
 export class Memory {
-    constructor(lifespan = Infinity) {
+    constructor() {
         this.store = new Map()
-        this.timestamps = new Map()
-        this.lifespan = lifespan
+        this.expiries = new Map()
     }
     reset() {
-        this.store = new Map()
-        this.timestamps = new Map()
+        this.store.clear()
+        this.expiries.clear()
     }
-    has(url) {
-        const timestamp = this.timestamps.get(url)
+    has(key) {
+        const expiry = this.expiries.get(key)
 
-        return (
-            typeof timestamp === 'number' &&
-            timestamp + this.lifespan > Date.now()
-        )
+        return typeof expiry === 'number' && Date.now() < expiry
     }
-    get(url) {
-        return this.has(url) ? this.store.get(url) : undefined
+    get(key, defaultValue) {
+        return this.has(key) ? this.store.get(key) : defaultValue
     }
-    set(url, data) {
-        this.store.set(url, data)
-        this.timestamps.set(url, Date.now())
+    set(key, data, lifespan = Infinity) {
+        this.store.set(key, data)
+        this.expiries.set(key, Date.now() + lifespan)
+    }
+    remove(key) {
+        this.store.delete(key)
+        this.expiries.delete(key)
     }
 }

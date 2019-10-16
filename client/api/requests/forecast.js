@@ -1,23 +1,25 @@
 import parseDate from 'date-fns/parse'
 import addDays from 'date-fns/add_days'
 import isBefore from 'date-fns/is_before'
+import * as urls from '../urls/forecast'
+import fetch from 'utils/fetch'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
-// TODO Move that file to a better location
-
-export function sanitizeMountainInformationNetworkSubmission(submission) {
-    const { latlng } = submission
-
-    return Object.assign({}, submission, {
-        // TODO Fix that double latitude/longituge object, we do not need both!!!
-        latlng: latlng.map(Number),
-        lnglat: latlng.map(Number).reverse(),
-        datetime: new Date(submission.datetime),
-    })
+export function forecast(name, date) {
+    return fetch(urls.forecast(name, date)).then(parse)
 }
 
-export function transformForecast(forecast) {
+export function forecasts() {
+    return fetch(urls.forecasts())
+}
+
+export function regions() {
+    return fetch(urls.regions())
+}
+
+// Parser
+function parse(forecast) {
     if (!forecast || !forecast.region) {
         return forecast
     }

@@ -1,13 +1,14 @@
-import { Memory } from 'services/cache'
-import * as requests from 'api/urls/mcr'
-import { useFetch } from 'hooks'
+import * as requests from 'api/requests/mcr'
+import { useCacheAsync, createKey } from 'hooks'
 
 export function useReport(id) {
-    return useFetch(requests.report(id), CACHE)
+    const key = createKey(KEY, id)
+
+    return useCacheAsync(requests.report, [id], undefined, key)
 }
 
 export function useReports() {
-    return useFetch(requests.reports(), CACHE)
+    return useCacheAsync(requests.reports, undefined, undefined, KEY)
 }
 
-const CACHE = new Memory()
+const KEY = createKey('mcr', 'reports')

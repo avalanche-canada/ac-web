@@ -1,28 +1,20 @@
-import { useMemo } from 'react'
-import { Memory } from 'services/cache'
-import * as urls from 'api/urls/weather'
-import { useFetch } from 'hooks'
+import * as requests from 'api/requests/weather'
+import { useCacheAsync, createKey } from 'hooks'
 
 export function useStation(id) {
-    return useFetch(urls.station(id), STATIONS)
+    const key = createKey(KEY, id)
+
+    return useCacheAsync(requests.station, [id], undefined, key)
 }
 
 export function useStations() {
-    const [data, pending] = useFetch(urls.stations(), STATIONS)
-    const stations = useMemo(
-        () => (Array.isArray(data) ? data.sort(sorter) : data),
-        [data]
-    )
-
-    return [stations, pending]
+    return useCacheAsync(requests.stations, undefined, undefined, KEY)
 }
 
-export function useMeasurements(id) {
-    return useFetch(urls.measurements(id))
+export function useMeasurements(stationId) {
+    const key = createKey(KEY, stationId, 'measurements')
+
+    return useCacheAsync(requests.measurements, [stationId], undefined, key)
 }
 
-// Constants & utils
-const STATIONS = new Memory()
-function sorter(a, b) {
-    return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
-}
+const KEY = createKey('weather', 'stations')

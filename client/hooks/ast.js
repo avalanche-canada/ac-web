@@ -1,30 +1,16 @@
-import { useMemo } from 'react'
-import isAfter from 'date-fns/is_after'
-import * as ast from 'api/urls/ast'
-import { useFetch } from 'hooks'
-import { Memory } from 'services/cache'
+import { providers, courses } from 'api/requests/ast'
+import { useCacheAsync, createKey } from 'hooks'
 
 export function useProviders() {
-    const [providers, pending] = useFetch(ast.providers(), CACHE)
+    const key = createKey(KEY, 'providers')
 
-    return [providers?.results, pending]
+    return useCacheAsync(providers, undefined, undefined, key)
 }
 
 export function useCourses() {
-    const [courses, pending] = useFetch(ast.courses(), CACHE)
+    const key = createKey(KEY, 'courses')
 
-    return [
-        useMemo(() => {
-            if (Array.isArray(courses?.results)) {
-                const now = new Date()
-
-                return courses.results.filter(course =>
-                    isAfter(course.date_end, now)
-                )
-            }
-        }, [courses]),
-        pending,
-    ]
+    return useCacheAsync(courses, undefined, undefined, key)
 }
 
-const CACHE = new Memory()
+const KEY = 'ast'

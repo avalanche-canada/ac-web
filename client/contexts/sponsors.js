@@ -1,16 +1,15 @@
 import React, { createContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
-import { resource } from 'api/urls/static'
-import { useLocalStorage, useFetch, useTimeout } from 'hooks'
+import { resource } from 'api/requests/static'
+import { useLocalStorage, useAsync } from 'hooks'
 
 Provider.propTypes = {
     children: PropTypes.element,
 }
 
 export function Provider({ children }) {
-    const ready = useTimeout(999)
-    const [data] = useFetch(ready ? resource('sponsors') : null)
+    const [data] = useAsync(request, ['sponsors'])
     const [sponsors, setSponsors] = useLocalStorage('sponsors', SPONSORS)
 
     useEffect(() => {
@@ -47,5 +46,13 @@ const SPONSORS = {
 }
 
 const SponsorsContext = createContext()
+
+function request(name) {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve(resource(name))
+        }, 9999)
+    })
+}
 
 export default SponsorsContext

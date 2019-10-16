@@ -1,17 +1,9 @@
-import { useMemo } from 'react'
-import { Memory } from 'services/cache'
-import * as urls from 'api/urls/forecast'
-import { transformForecast } from 'api/transformers'
-import { useFetch } from 'hooks'
+import { forecast } from 'api/requests/forecast'
+import { useCacheAsync, createKey } from 'hooks'
 
 export function useForecast(name, date) {
-    const [data, pending] = useFetch(urls.forecast(name, date), CACHE)
-    const forecast = useMemo(
-        () => (data ? transformForecast(data) : undefined),
-        [data]
-    )
+    const params = [name, date]
+    const key = createKey('avalanche', 'forecast', name, date)
 
-    return [forecast, pending]
+    return useCacheAsync(forecast, params, undefined, key)
 }
-
-const CACHE = new Memory(15 * 60 * 1000)
