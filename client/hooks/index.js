@@ -395,3 +395,46 @@ function useSafeState(initialState) {
 
     return [state, setState]
 }
+
+// export function useAsync(fn, params = [], initialState) {
+//     const [data, setData] = useSafeState(initialState)
+//     const [pending, setPending] = useSafeState(false)
+//     const [error, setError] = useSafeState(null)
+
+//     useEffect(() => {
+//         setPending(true)
+
+//         let controller
+
+//         try {
+//             controller = new AbortController()
+//         } catch {
+//             controller = {
+//                 abort() {},
+//             }
+//         }
+
+//         fn.apply(null, [...params, controller.signal])
+//             .then(
+//                 data => {
+//                     if (controller?.signal?.aborted) {
+//                         return
+//                     }
+
+//                     setData(data)
+//                 },
+//                 error => {
+//                     setError(error)
+//                 }
+//             )
+//             .finally(() => {
+//                 setPending(false)
+//             })
+
+//         return () => {
+//             controller.abort()
+//         }
+//     }, [])
+
+//     return [data, pending, error]
+// }
