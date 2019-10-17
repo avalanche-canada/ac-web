@@ -333,25 +333,24 @@ export function useAsync(fn, params = [], initialState) {
 export const CACHE = new Memory()
 
 export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
-    const [get, set, has] = useCache(key, initialState, lifespan)
+    const [data, set, has] = useCache(key, initialState, lifespan)
     const func = useCallback(
         (...args) => {
-            return has() ? Promise.resolve(get()) : fn(...args)
+            return has() ? Promise.resolve(data) : fn(...args)
         },
-        [has, get, fn]
+        [has, data, fn]
     )
-    const values = useAsync(func, params, get())
-    const [data] = values
+    const values = useAsync(func, params, data)
 
     useEffect(() => {
-        set(data)
-    }, [data, set])
+        set(values[0])
+    }, [values[0], set])
 
     return values
 }
 
 function useCache(key, initialState, lifespan) {
-    const get = useCallback(() => CACHE.get(key, initialState), [key])
+    const data = useMemo(() => CACHE.get(key, initialState), [key])
     const set = useCallback(
         data => {
             if (!data) {
@@ -364,7 +363,7 @@ function useCache(key, initialState, lifespan) {
     )
     const has = useCallback(() => CACHE.has(key), [key])
 
-    return [get, set, has]
+    return [data, set, has]
 }
 
 export function createKey(...paths) {
