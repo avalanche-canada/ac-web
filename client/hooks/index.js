@@ -293,6 +293,7 @@ export function useAsync(fn, params = [], initialState) {
 
     useEffect(() => {
         setPending(true)
+        setData(undefined) // TODO That screws up the initialState...need to find something better
 
         let controller
 
@@ -331,9 +332,12 @@ export function useAsync(fn, params = [], initialState) {
 
 export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
     const [get, set, has] = useCache(key, initialState, lifespan)
-    const func = useMemo(() => {
-        return has() ? () => Promise.resolve(get()) : fn
-    }, [has, get])
+    const func = useCallback(
+        (...args) => {
+            return has() ? Promise.resolve(get()) : fn(...args)
+        },
+        [has, get, fn]
+    )
     const values = useAsync(func, params, get())
     const [data] = values
 
@@ -346,10 +350,16 @@ export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
 
 function useCache(key, initialState, lifespan) {
     const get = useCallback(() => CACHE.get(key, initialState), [key])
-    const set = useCallback(data => CACHE.set(key, data, lifespan), [
-        key,
-        lifespan,
-    ])
+    const set = useCallback(
+        data => {
+            if (!data) {
+                return
+            }
+
+            return CACHE.set(key, data, lifespan)
+        },
+        [key, lifespan]
+    )
     const has = useCallback(() => CACHE.has(key), [key])
     const remove = useCallback(() => CACHE.remove(key), [key])
 
