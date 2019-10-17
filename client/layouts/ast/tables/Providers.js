@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
-import ErrorBoundary from 'components/ErrorBoundary'
 import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
 import { Table, Responsive, TBody, Row, Cell, Caption } from 'components/table'
@@ -14,7 +13,7 @@ import { Helper } from 'components/text'
 import { useProviders } from 'hooks/ast'
 import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
-import { Error, Muted } from 'components/text'
+import { Muted } from 'components/text'
 import { useSorting, usePagination } from 'hooks/collection'
 
 Providers.propTypes = {
@@ -25,7 +24,7 @@ Providers.propTypes = {
 }
 
 export default function Providers({ tags, sorting, place, onParamsChange }) {
-    const fallback = <Error>An error happened while loading providers.</Error>
+    // TODO Adds error handling
     const [name, order] = sorting || []
     const [page, setPage] = useState(1)
     const [providers = [], pending] = useProviders()
@@ -67,41 +66,39 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
     }, [tags, place, sorting])
 
     return (
-        <ErrorBoundary fallback={fallback}>
-            <Layout title={getTitle(filtered)}>
-                <Responsive>
-                    <Table>
-                        <Header
-                            columns={COLUMNS}
-                            onSortingChange={handleSortingChange}
-                            sorting={sorting}
-                            place={place}
-                        />
-                        {sponsors.length > 0 && (
-                            <TBody featured title="Our sponsors">
-                                {renderRows(sponsors)}
-                            </TBody>
-                        )}
-                        <TBody>{renderRows(paginated)}</TBody>
-                        <Caption>
-                            {pending ? (
-                                <Muted>Loading providers...</Muted>
-                            ) : (
-                                Array.isArray(filtered) &&
-                                renderEmptyMessage(filtered)
-                            )}
-                        </Caption>
-                    </Table>
-                </Responsive>
-                {Array.isArray(filtered) && (
-                    <Pagination
-                        count={filtered.length}
-                        page={page}
-                        onChange={setPage}
+        <Layout title={getTitle(filtered)}>
+            <Responsive>
+                <Table>
+                    <Header
+                        columns={COLUMNS}
+                        onSortingChange={handleSortingChange}
+                        sorting={sorting}
+                        place={place}
                     />
-                )}
-            </Layout>
-        </ErrorBoundary>
+                    {sponsors.length > 0 && (
+                        <TBody featured title="Our sponsors">
+                            {renderRows(sponsors)}
+                        </TBody>
+                    )}
+                    <TBody>{renderRows(paginated)}</TBody>
+                    <Caption>
+                        {pending ? (
+                            <Muted>Loading providers...</Muted>
+                        ) : (
+                            Array.isArray(filtered) &&
+                            renderEmptyMessage(filtered)
+                        )}
+                    </Caption>
+                </Table>
+            </Responsive>
+            {Array.isArray(filtered) && (
+                <Pagination
+                    count={filtered.length}
+                    page={page}
+                    onChange={setPage}
+                />
+            )}
+        </Layout>
     )
 }
 

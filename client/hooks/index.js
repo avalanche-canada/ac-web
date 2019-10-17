@@ -298,6 +298,7 @@ export function useAsync(fn, params = [], initialState) {
         // This way, we know it is the first render and we are not screwing the "initialState"
         if (controller.current) {
             setData(undefined)
+            setError(null)
         }
 
         controller.current = createAbortController()

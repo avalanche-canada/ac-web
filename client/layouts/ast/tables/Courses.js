@@ -23,8 +23,7 @@ import {
 } from 'components/table'
 import { Helper } from 'components/text'
 import { MultiLine } from 'components/misc'
-import ErrorBoundary from 'components/ErrorBoundary'
-import { Error, Muted } from 'components/text'
+import { Muted } from 'components/text'
 import Shim from 'components/Shim'
 import { Distance, Tags } from './cells'
 import { LEVELS, MINIMUM_DISTANCE } from '../constants'
@@ -53,7 +52,7 @@ export default function Courses({
     place,
     onParamsChange,
 }) {
-    const fallback = <Error>An error happened while loading courses.</Error>
+    // TODO Adds error handling!
     const [name, order] = sorting || ['dates'] // If no sorting defined, sorting is done on 'dates' by default
     const [courses = [], pending] = useCourses()
     const [page, setPage] = useState(1)
@@ -90,35 +89,33 @@ export default function Courses({
     }, [level, from, to, tags, sorting])
 
     return (
-        <ErrorBoundary fallback={fallback}>
-            <Layout title={getTitle(filtered)}>
-                <Responsive>
-                    <Table>
-                        <Header
-                            columns={COLUMNS}
-                            sorting={sorting}
-                            onSortingChange={handleSortingChange}
-                            place={place}
-                        />
-                        <TBody>{paginated.map(renderRow)}</TBody>
-                        <Caption>
-                            {pending ? (
-                                <Muted>Loading courses...</Muted>
-                            ) : (
-                                renderEmptyMessage(filtered)
-                            )}
-                        </Caption>
-                    </Table>
-                </Responsive>
-                {filtered.length > 0 && (
-                    <Pagination
-                        count={filtered.length}
-                        page={page}
-                        onChange={setPage}
+        <Layout title={getTitle(filtered)}>
+            <Responsive>
+                <Table>
+                    <Header
+                        columns={COLUMNS}
+                        sorting={sorting}
+                        onSortingChange={handleSortingChange}
+                        place={place}
                     />
-                )}
-            </Layout>
-        </ErrorBoundary>
+                    <TBody>{paginated.map(renderRow)}</TBody>
+                    <Caption>
+                        {pending ? (
+                            <Muted>Loading courses...</Muted>
+                        ) : (
+                            renderEmptyMessage(filtered)
+                        )}
+                    </Caption>
+                </Table>
+            </Responsive>
+            {filtered.length > 0 && (
+                <Pagination
+                    count={filtered.length}
+                    page={page}
+                    onChange={setPage}
+                />
+            )}
+        </Layout>
     )
 }
 

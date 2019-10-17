@@ -30,13 +30,15 @@ ForecastLayout.propTypes = {
 export default function ForecastLayout(props) {
     const { name, date } = props
     const isPrintable = !date || isToday(date)
-    const [region, pending] = useForecastRegionMetadata(name)
+    const [region, regionPending] = useForecastRegionMetadata(name)
+    const [forecast, forecastPending, error] = useForecast(name, date)
+    const pending = regionPending || forecastPending
     const title = pending ? (
         <Loading component="span" />
+    ) : error?.status === 404 ? (
+        <Warning component="span">{name} forecast not found</Warning>
     ) : (
-        region?.name || (
-            <Warning component="span">{name} forecast not found</Warning>
-        )
+        region.name
     )
 
     return (
@@ -44,7 +46,9 @@ export default function ForecastLayout(props) {
             <Header title={title} />
             <Content>
                 <Main>
-                    <ForecastContent {...props} />
+                    {pending && <Muted>Loading forecast data...</Muted>}
+                    {forecast && <ForecastContent value={forecast} />}
+                    {error && <OtherRegions />}
                 </Main>
                 <Aside>
                     {name === 'kananaskis' ? (
@@ -59,23 +63,15 @@ export default function ForecastLayout(props) {
 }
 
 // Util components
-function ForecastContent({ name, date }) {
-    const [forecast, pending] = useForecast(name, date)
-
-    if (pending) {
-        return <Muted>Loading forecast data...</Muted>
-    }
-
-    return forecast ? (
-        <components.Provider value={forecast}>
+function ForecastContent({ value }) {
+    return (
+        <components.Provider value={value}>
             <components.Metadata />
             <SPAW name={name} />
             <components.Headline />
             <components.TabSet onTabChange={handleForecastTabActivate} />
             <components.Footer />
         </components.Provider>
-    ) : (
-        <OtherRegions />
     )
 }
 function OtherRegions() {

@@ -10,77 +10,100 @@ import {
     Headline,
 } from 'components/page'
 import { Metadata, Station, Footer } from 'components/weather/station'
-import { Error, Muted, Loading } from 'components/text'
-import ErrorBoundary from 'components/ErrorBoundary'
+import { Error, Loading, Warning } from 'components/text'
 import * as hooks from 'hooks/weather'
 import { path } from 'utils/station'
+import * as Async from 'contexts/async'
 
 WeatherStation.propTypes = {
     id: PropTypes.string.isRequired,
 }
 
 export default function WeatherStation({ id }) {
-    const [station, pending] = hooks.useStation(id)
-    const error = (
-        <Error>An error happened while loading weather station data.</Error>
-    )
-
     return (
-        <Page>
-            <ErrorBoundary fallback={error}>
-                <Header title={getTitle(station, pending)} />
+        <Async.Provider value={hooks.useStation(id)}>
+            <Page>
+                <Header title={<Title id={id} />} />
                 <Content>
                     <Main>
-                        {pending ? (
+                        <Async.Pending>
                             <Loading>Loading weather station data...</Loading>
-                        ) : station ? (
-                            <StationLayout {...station} />
-                        ) : (
-                            <NoStation id={id} />
-                        )}
+                        </Async.Pending>
+                        <Async.Found>
+                            <StationLayout />
+                        </Async.Found>
+                        <Async.FirstError>
+                            <Async.NotFound>
+                                <NoStation />
+                            </Async.NotFound>
+                            <Async.HTTPError>
+                                <Error>
+                                    An error happened while loading weather
+                                    station data.
+                                </Error>
+                            </Async.HTTPError>
+                        </Async.FirstError>
                     </Main>
                 </Content>
-            </ErrorBoundary>
-        </Page>
+            </Page>
+        </Async.Provider>
     )
 }
 
-function StationLayout(station) {
-    const { utcOffset, stationId: id } = station
-    const [measurements, pending] = hooks.useMeasurements(id)
+function StationLayout({ payload }) {
+    const { utcOffset, stationId: id } = payload
 
     return (
-        <Fragment>
-            <Metadata {...station} id={id} />
-            {pending ? (
-                <Muted>Loading measurements...</Muted>
-            ) : measurements ? (
-                <Station utcOffset={utcOffset} measurements={measurements} />
-            ) : null}
+        <Async.Provider value={hooks.useMeasurements(id)}>
+            <Metadata {...payload} id={id} />
+            <Async.Pending>
+                <Loading>Loading measurements...</Loading>
+            </Async.Pending>
+            <Async.Found>
+                {measurements => (
+                    <Station
+                        utcOffset={utcOffset}
+                        measurements={measurements}
+                    />
+                )}
+            </Async.Found>
             <Footer />
-        </Fragment>
+        </Async.Provider>
     )
 }
-function NoStation({ id }) {
-    const [stations = [], pending] = hooks.useStations()
-
+function NoStation() {
+    return (
+        <Async.Provider value={hooks.useStations()}>
+            <Headline>
+                Click on a link below to see another weather station.
+            </Headline>
+            <Async.Pending>
+                <Loading>Loading all weather stations...</Loading>
+            </Async.Pending>
+            <Async.Found>
+                {stations => (
+                    <List>
+                        {stations.map(({ stationId, name }) => (
+                            <ListItem key={stationId} to={path(stationId)}>
+                                {name}
+                            </ListItem>
+                        ))}
+                    </List>
+                )}
+            </Async.Found>
+        </Async.Provider>
+    )
+}
+function Title({ id }) {
     return (
         <Fragment>
-            <Headline>
-                Weather station #{id} does not exist. Click on a link below to
-                see another weather station.
-            </Headline>
-            {pending && <Loading>Loading all weather stations...</Loading>}
-            <List>
-                {stations.map(({ stationId, name }) => (
-                    <ListItem key={stationId} to={path(stationId)}>
-                        {name}
-                    </ListItem>
-                ))}
-            </List>
+            <Async.Pending>
+                <Loading />
+            </Async.Pending>
+            <Async.Found>{station => station.name}</Async.Found>
+            <Async.NotFound>
+                <Warning>Weather station #{id} does not exist.</Warning>
+            </Async.NotFound>
         </Fragment>
     )
-}
-function getTitle(station, pending) {
-    return pending ? 'Loading...' : station?.name || 'No weather station'
 }

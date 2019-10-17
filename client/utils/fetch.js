@@ -14,25 +14,25 @@ export default function request(url, init) {
     return request
 }
 
+export class HTTPError extends Error {
+    constructor(response) {
+        super(response.statusText)
+        this.name = 'HTTPError'
+        this.response = response
+    }
+    get status() {
+        return this.response.status
+    }
+}
+
+// Constants & utils
+const REQUESTS = new Map()
 function status(response) {
     if (response.ok) {
         return response.json()
     }
 
-    const HTTPError = response.status === 404 ? NotFound : Error
-    const error = new HTTPError(response.statusText)
+    const error = new HTTPError(response)
 
     return Promise.reject(error)
 }
-
-// TODO We could create an HTTPError instead
-
-export class NotFound extends Error {
-    constructor(...args) {
-        super(...args)
-        this.name = 'NotFound'
-    }
-}
-
-// Constants
-const REQUESTS = new Map()
