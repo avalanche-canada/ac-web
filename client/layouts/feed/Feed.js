@@ -220,7 +220,7 @@ function FeedLayout({ title, children }) {
 }
 
 function FeedContent({
-    loading,
+    pending,
     documents,
     page,
     totalPages,
@@ -237,7 +237,7 @@ function FeedContent({
 
     return (
         <Shim vertical>
-            {loading ? (
+            {pending ? (
                 <Loading />
             ) : documents?.length === 0 ? (
                 <Muted>{EMPTY_MESSAGES.get(type)}</Muted>
@@ -335,7 +335,7 @@ function renderContent(type, { pending, documents, page, total_pages }) {
     return (
         <FeedContent
             type={type}
-            loading={pending}
+            pending={pending}
             documents={documents}
             page={page}
             totalPages={total_pages}
