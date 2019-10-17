@@ -1,60 +1,8 @@
 
 var icon_set = require('./icon_set');
+var fx_test_data = require('./t/fx_test_data.js');
+var danger_data = require('./t/danger_ratings.js');
 
-var danger_data = {
-    standard_time: [
-        {
-            "date": "2019-01-01T00:00:00Z",
-            "dangerRating": {
-                "alp": "2:Moderate",
-                "tln": "3:Considerable",
-                "btl": "5:Extreme"
-            }
-        },
-        {
-            "date": "2019-01-02T00:00:00Z",
-            "dangerRating": {
-                "alp": "2:Moderate",
-                "tln": "2:Moderate",
-                "btl": "1:Low"
-            }
-        },
-        {
-            "date": "2019-01-03T00:00:00Z",
-            "dangerRating": {
-                "alp": "2:Moderate",
-                "tln": "2:Moderate",
-                "btl": "1:Low"
-            }
-        }
-    ],
-    daylight_time:[
-        {
-            "date": "2019-10-02T00:00:00",
-            "dangerRating": {
-                "alp": "N/A:No Rating",
-                "tln": "N/A:No Rating",
-                "btl": "N/A:No Rating"
-            }
-        },
-        {
-            "date": "2019-10-03T00:00:00",
-            "dangerRating": {
-                "alp": "N/A:No Rating",
-                "tln": "N/A:No Rating",
-                "btl": "N/A:No Rating"
-            }
-        },
-        {
-            "date": "2019-10-04T00:00:00",
-            "dangerRating": {
-                "alp": "N/A:No Rating",
-                "tln": "N/A:No Rating",
-                "btl": "N/A:No Rating"
-            }
-        },
-    ]
-};
 
 
 describe('movingDangerIconSet', function(){
@@ -125,4 +73,78 @@ describe('genSingleDangerIconSet', function(){
             expect(set[0].dangerRating.btl).toBe(5);
         });
     });
+});
+describe('addIconSet', function(){
+    describe('the basics', function() {
+        Object.keys(fx_test_data).map(function(key){
+            test(key + ' works for Pacific time', function(){
+                var fx = fx_test_data[key];
+			    var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
+                expect(newfx.iconSet).toBeDefined();
+                expect(newfx.iconSet.length).toBeGreaterThanOrEqual(1);
+            });
+            test(key + ' works for mountain time', function(){
+                var fx = fx_test_data[key];
+			    var newfx = icon_set.addStaticIcons('America/Edmonton', fx);
+                expect(newfx.iconSet).toBeDefined();
+                expect(newfx.iconSet.length).toBeGreaterThanOrEqual(1);
+            });
+		});
+	});
+	describe('static', function(){
+		test('off season', function(){
+			var fx = fx_test_data.off_season;
+			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
+			expect(newfx.iconSet.length).toEqual(1);
+			expect(newfx.iconSet[0].iconType).toEqual('OFF_SEASON');
+			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+		});
+		test('spring', function(){
+			var fx = fx_test_data.spring_conditions;
+			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
+			expect(newfx.iconSet[0].iconType).toEqual('SPRING');
+			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+		});
+		test('early season', function(){
+			var fx = fx_test_data.early_season;
+			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
+			expect(newfx.iconSet[0].iconType).toEqual('EARLY_SEASON');
+			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+		});
+		test('regular season', function(){
+			var fx = fx_test_data.regular_season;
+			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
+			expect(newfx.iconSet.length).toEqual(1);
+			expect(newfx.iconSet[0].iconType).toEqual('RATINGS');
+		});
+	});
+	describe('moving', function(){
+		test('off season', function(){
+			var fx = fx_test_data.off_season;
+			var newfx = icon_set.addMovingIcons('America/Vancouver', fx);
+			expect(newfx.iconSet.length).toEqual(1);
+			expect(newfx.iconSet[0].iconType).toEqual('OFF_SEASON');
+			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+		});
+		test('spring', function(){
+			var fx = fx_test_data.spring_conditions;
+			var newfx = icon_set.addMovingIcons('America/Vancouver', fx);
+			expect(newfx.iconSet[0].iconType).toEqual('SPRING');
+			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+		});
+		test('early season', function(){
+			var fx = fx_test_data.early_season;
+			var newfx = icon_set.addMovingIcons('America/Vancouver', fx);
+			expect(newfx.iconSet[0].iconType).toEqual('EARLY_SEASON');
+			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+		});
+		test('regular season', function(){
+			var fx = fx_test_data.regular_season;
+			var newfx = icon_set.addMovingIcons('America/Vancouver', fx);
+			expect(newfx.iconSet.length).toEqual(3);
+			newfx.iconSet.forEach(function(rr){
+				expect(rr.iconType).toEqual('RATINGS');
+			});
+		});
+	});
 });
