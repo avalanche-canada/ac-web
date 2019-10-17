@@ -292,17 +292,9 @@ export function useAsync(fn, params = [], initialState) {
     const [error, setError] = useSafeState(null)
 
     useEffect(() => {
+        const controller = createAbortController()
+
         setPending(true)
-
-        let controller
-
-        try {
-            controller = new AbortController()
-        } catch {
-            controller = {
-                abort() {},
-            }
-        }
 
         fn.apply(null, [...params, controller.signal])
             .then(
@@ -368,4 +360,14 @@ function useCache(key, initialState, lifespan) {
 
 export function createKey(...paths) {
     return paths.filter(Boolean).join(':')
+}
+
+function createAbortController() {
+    try {
+        return new AbortController()
+    } catch {
+        return {
+            abort() {},
+        }
+    }
 }
