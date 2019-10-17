@@ -32,11 +32,7 @@ import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import styles from './Courses.css'
 import { useCourses } from 'hooks/ast'
-import {
-    useSorting,
-    usePagination,
-    useFilters,
-} from 'hooks/collection'
+import { useSorting, usePagination, useFilters } from 'hooks/collection'
 
 Courses.propTypes = {
     level: PropTypes.oneOf(Array.from(LEVELS.keys())),
