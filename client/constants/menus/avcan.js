@@ -315,7 +315,7 @@ module.exports = {
                         {
                             id: String(id++),
                             label: 'The Aspect Newsletter',
-                            to: '/about#stakeholdernews',
+                            to: '/about#newsletters',
                         },
                         {
                             id: String(id++),
