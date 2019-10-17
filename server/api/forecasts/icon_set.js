@@ -20,7 +20,7 @@ var   END_DATE = '9999-12-31T00:00:00Z';
  * Transform a danger rating set (from the AvalX format into list of danger rating icons in from/to
  * date pairs in UTC time
  */
-function genDangerIconSet(region_tz, dangerRatings) {
+function genMovingDangerIconSet(region_tz, dangerRatings) {
     assert(dangerRatings.length === 3, 'Need 3 danger ratings');
 
     var days = dangerRatings.map(function(rating){
@@ -41,6 +41,14 @@ function genDangerIconSet(region_tz, dangerRatings) {
     ];
 }
 
+function genSingleDangerIconSet(region_tz, dangerRatings) {
+    return [
+        {from: START_DATE, 
+         to: END_DATE,
+         dangerRating: ratingsToInts(dangerRatings[0].dangerRating) },
+    ];
+}
+
 function ratingsToInts(rt){
     return {
         alp: AVCAN_TO_INT[rt.alp],
@@ -50,4 +58,5 @@ function ratingsToInts(rt){
 }
 
 
-module.exports.genDangerIconSet= genDangerIconSet;
+module.exports.genMovingDangerIconSet = genMovingDangerIconSet;
+module.exports.genSingleDangerIconSet = genSingleDangerIconSet;
