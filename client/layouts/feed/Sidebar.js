@@ -17,19 +17,13 @@ export default function FeedSidebar(props) {
     return (
         <Sidebar share follow>
             <Documents {...feed.sidebar(props)}>
-                {({ pending, documents }) => {
-                    if (!pending && documents?.length === 0) {
-                        return null
-                    }
-
-                    return (
-                        <Fragment>
-                            <Header>{Headers.get(props.type)}</Header>
-                            {pending && <Loading />}
-                            {documents && documents.map(renderItem)}
-                        </Fragment>
-                    )
-                }}
+                {({ pending, documents = [] }) => (
+                    <Fragment>
+                        <Header>{Headers.get(props.type)}</Header>
+                        {pending && <Loading />}
+                        {documents.map(renderItem)}
+                    </Fragment>
+                )}
             </Documents>
         </Sidebar>
     )

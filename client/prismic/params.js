@@ -192,10 +192,9 @@ export const feed = {
 
         params.predicates.push(Predicates.not(my(type, 'uid'), uid))
 
-        return {
-            ...params,
+        return Object.assign(params, {
             pageSize: 7,
-        }
+        })
     },
     blog({ year, month, category, page = 1, pageSize = 10 }) {
         const { BLOG } = types
@@ -267,7 +266,7 @@ export const feed = {
     },
 }
 
-export function tags({ type, page = 1 }) {
+export function tags(type, page = 1) {
     return {
         ...all(type),
         fetch: 'document.tags',

@@ -293,7 +293,6 @@ export function useAsync(fn, params = [], initialState) {
 
     useEffect(() => {
         setPending(true)
-        setData(undefined) // TODO That screws up the initialState...need to find something better
 
         let controller
 

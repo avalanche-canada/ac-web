@@ -6,7 +6,8 @@ import { FR } from 'constants/locale'
 import { useCacheAsync, createKey } from 'hooks'
 
 function useMasterRef() {
-    const [ref = null] = useCacheAsync(api.ref, undefined, undefined, REF_KEY)
+    const key = createKey('prismic', 'ref')
+    const [ref = null] = useCacheAsync(api.ref, undefined, undefined, key)
 
     return ref
 }
@@ -16,33 +17,45 @@ function useSearch(predicates, locale, options) {
         Object.assign(options, LANGUAGES.get(locale))
     }
 
+    // Use URL as key and params, so it does not trigger all the time
     const ref = useMasterRef()
     const url = ref ? urls.search(ref, predicates, options) : null
-    const req = url ? request : () => Promise.resolve()
+    const req = url ? request : empty
 
     return useCacheAsync(req, [url], undefined, url)
 }
 
-export function Document({ children = identity, predicates, locale, options }) {
-    const [data, pending, error] = useSearch(predicates, locale, options)
+export function useDocument(predicates, locale, options) {
+    const [data, ...rest] = useSearch(predicates, locale, options)
 
-    return children({
-        document: data?.results?.[0],
-        pending,
-        error,
-    })
+    return [data?.results?.[0], ...rest]
+}
+
+export function Document({ children = identity, predicates, locale, options }) {
+    const [document, pending, error] = useDocument(predicates, locale, options)
+
+    return children({ document, pending, error })
+}
+
+export function useDocuments(predicates, locale, options) {
+    return useSearch(predicates, locale, options)
 }
 
 export function Documents({
     children = identity,
     predicates,
     locale,
-    options,
+    ...options
 }) {
-    const [data, pending, error] = useSearch(predicates, locale, options)
+    const [data = {}, pending, error] = useDocuments(
+        predicates,
+        locale,
+        options
+    )
 
     return children({
-        document: data?.results,
+        ...data,
+        documents: data.results,
         pending,
         error,
     })
@@ -50,19 +63,16 @@ export function Documents({
 
 export function Tags({ children, type }) {
     const ref = useMasterRef()
+    const params = [ref, type]
     const key = createKey('primic', 'tags', type)
-    const [tags = [], pending] = useCacheAsync(
-        api.tags,
-        [ref, type],
-        undefined,
-        key
-    )
-
-    console.warn(tags)
+    const fn = ref ? api.tags : empty
+    const [tags = [], pending] = useCacheAsync(fn, params, undefined, key)
 
     return children({ tags, pending })
 }
 
 // Constants
 const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
-const REF_KEY = createKey('prismic', 'ref')
+function empty() {
+    return Promise.resolve()
+}

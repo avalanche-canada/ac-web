@@ -19,24 +19,20 @@ export function search(ref, predicates, options) {
 }
 
 export async function all(ref, predicates, options = {}) {
-    let { results, next_page, page } = await search(ref, predicates, options)
+    let { results, total_pages } = await search(ref, predicates, options)
 
-    while (next_page) {
-        const payload = await search(ref, predicates, {
-            ...options,
-            page: page + 1,
-        })
+    for (let page = 2; page <= total_pages; page++) {
+        const payload = await search(ref, predicates, { ...options, page })
 
-        results = [...results, ...payload.results]
-        next_page = payload.next_page
-        page = payload.page
+        results = results.concat(payload.results)
     }
 
     return results
 }
 
 export async function tags(ref, type) {
-    const documents = await all(ref, params.tags(type))
+    const { predicates, ...options } = params.tags(type)
+    const documents = (await all(ref, predicates, options)) || []
 
     return new Set(
         documents
