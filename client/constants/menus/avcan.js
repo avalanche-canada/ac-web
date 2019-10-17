@@ -15,10 +15,15 @@ const Dangerator = {
     label: 'Dangerator',
     to: '/dangerator',
 }
-const Forecasts = {
+const ForecastRegionsListView = {
     id: String(id++),
-    label: 'Forecast Regions',
+    label: 'Forecast Regions List View',
     to: '/forecasts',
+}
+const WeatherStationsListView = {
+    id: String(id++),
+    label: 'Weather Stations List View',
+    to: '/weather/stations',
 }
 const MountainWeatherForecast = {
     id: String(id++),
@@ -75,7 +80,7 @@ const AvCanTrainingCourses = {
 }
 const MountainInformationNetworkListView = {
     id: String(id++),
-    label: 'All reports',
+    label: 'MIN Reports List View',
     to: '/mountain-information-network/submissions',
 }
 const MountainInformationNetwork = {
@@ -86,17 +91,17 @@ const MountainInformationNetwork = {
     children: [
         {
             id: String(id++),
-            label: 'How to GET information?',
+            label: 'How to GET Information?',
             to: '/mountain-information-network#get-information',
         },
         {
             id: String(id++),
-            label: 'How to GIVE information?',
+            label: 'How to GIVE Information?',
             to: '/mountain-information-network#give-information',
         },
         {
             id: String(id++),
-            label: 'Create a report',
+            label: 'Create a Report',
             to: '/mountain-information-network/submit',
         },
         MountainInformationNetworkListView,
@@ -113,7 +118,8 @@ const Planning = {
         TripPlanner,
         Dangerator,
         Gear,
-        Forecasts,
+        ForecastRegionsListView,
+        WeatherStationsListView,
     ],
 }
 
