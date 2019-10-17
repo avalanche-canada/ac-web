@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useCacheAsync } from 'hooks'
-import { metadata } from 'api/requests/metadata'
-import { regions } from 'api/requests/forecast'
+import { metadata } from 'requests/metadata'
+import { regions } from 'requests/forecast'
 
 export function useForecastRegions() {
     return useCacheAsync(regions, undefined, undefined, 'regions')

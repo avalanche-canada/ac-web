@@ -1,4 +1,4 @@
-import { providers, courses } from 'api/requests/ast'
+import { providers, courses } from 'requests/ast'
 import { useCacheAsync, createKey } from 'hooks'
 
 export function useProviders() {

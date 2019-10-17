@@ -1,4 +1,4 @@
-import { forecast } from 'api/requests/forecast'
+import { forecast } from 'requests/forecast'
 import { useCacheAsync, createKey } from 'hooks'
 
 export function useForecast(name, date) {

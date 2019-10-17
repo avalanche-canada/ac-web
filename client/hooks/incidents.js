@@ -1,4 +1,4 @@
-import { incident, incidents } from 'api/requests/incidents'
+import { incident, incidents } from 'requests/incidents'
 import { useCacheAsync, createKey } from 'hooks'
 
 export function useIncident(id) {
@@ -7,8 +7,11 @@ export function useIncident(id) {
     return useCacheAsync(incident, [id], undefined, key)
 }
 
-export function useIncidents(params) {
-    return useCacheAsync(incidents, [params], undefined, KEY)
+export function useIncidents(page, from, to) {
+    const params = [page, from, to]
+    const key = createKey(KEY, page, from, to)
+
+    return useCacheAsync(incidents, params, undefined, key)
 }
 
 const KEY = 'incidents'

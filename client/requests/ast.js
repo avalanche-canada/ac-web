@@ -1,13 +1,18 @@
 import isAfter from 'date-fns/is_after'
-import * as urls from '../urls/ast'
+import { astBaseUrl } from './config.json'
+import { build } from 'utils/url'
 import fetch from 'utils/fetch'
 
 export function providers() {
-    return fetch(urls.providers()).then(pluckResults)
+    const url = build('/providers', PARAMS, astBaseUrl)
+
+    return fetch(url).then(pluckResults)
 }
 
 export function courses() {
-    return fetch(urls.courses())
+    const url = build('/courses', PARAMS, astBaseUrl)
+
+    return fetch(url)
         .then(pluckResults)
         .then(courses => {
             const now = new Date()
@@ -16,7 +21,10 @@ export function courses() {
         })
 }
 
-// Utils
+// Utils & constants
 function pluckResults({ results }) {
     return results
+}
+const PARAMS = {
+    page_size: 1000,
 }

@@ -5,12 +5,12 @@ import * as t from 'components/table'
 import { Muted } from 'components/text'
 import { DropdownFromOptions } from 'components/controls'
 import { List, Entry } from 'components/description'
-import { incidentsBaseUrl } from 'api/urls/config.json'
+import { incidentsBaseUrl } from 'requests/config.json'
 import styles from './incidents.css'
 
 // TODO Should be moved to product or layout
 
-export function IncidentTable({ data }) {
+export function IncidentTable({ incidents }) {
     return (
         <t.Responsive>
             <t.Table>
@@ -27,7 +27,7 @@ export function IncidentTable({ data }) {
                     </t.Row>
                 </t.Header>
                 <t.TBody>
-                    {data.results.map(props => (
+                    {incidents.map(props => (
                         <t.Row key={props.id}>
                             <t.Cell>
                                 <span className={styles.DateCell}>

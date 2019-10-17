@@ -1,4 +1,4 @@
-import * as requests from 'api/requests/mcr'
+import * as requests from 'requests/mcr'
 import { useCacheAsync, createKey } from 'hooks'
 
 export function useReport(id) {

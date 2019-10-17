@@ -1,21 +1,61 @@
 import parseDate from 'date-fns/parse'
 import addDays from 'date-fns/add_days'
 import isBefore from 'date-fns/is_before'
-import * as urls from '../urls/forecast'
+import isValid from 'date-fns/is_valid'
+import startOfToday from 'date-fns/start_of_today'
+import { baseURL } from './config.json'
+import { build } from 'utils/url'
 import fetch from 'utils/fetch'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
 export function forecast(name, date) {
-    return fetch(urls.forecast(name, date)).then(parse)
+    const url = buildForecastURL(name, date)
+
+    return fetch(url).then(parse)
 }
 
 export function forecasts() {
-    return fetch(urls.forecasts())
+    const url = buildForecastURL('all')
+
+    return fetch(url)
 }
 
 export function regions() {
-    return fetch(urls.regions())
+    const url = build('/forecasts', null, baseURL)
+
+    return fetch(url).then(payload => ({
+        ...payload,
+        features: payload.features.filter(
+            region => region.properties.type !== 'hotzone'
+        ),
+    }))
+}
+
+// Utils
+function buildForecastURL(name, date) {
+    let path = 'forecasts'
+
+    if (isArchiveBulletinRequest(date)) {
+        const data = parseDate(date)
+
+        path = `bulletin-archive/${data.toISOString()}`
+    }
+
+    return build(`/${path}/${name}.json`, null, baseURL)
+}
+function isArchiveBulletinRequest(date) {
+    if (!date) {
+        return false
+    }
+
+    date = parseDate(date, 'YYYY-MM-DD')
+
+    if (isValid(date)) {
+        return isBefore(date, startOfToday())
+    }
+
+    return false
 }
 
 // Parser

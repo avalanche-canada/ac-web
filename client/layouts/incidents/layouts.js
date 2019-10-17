@@ -18,16 +18,9 @@ export default function Layout() {
 function IncidentsList() {
     const [page, setPage] = useState(1)
     const [filters, setFilters] = useState({})
-    const { from, to } = filters
-    const params = useMemo(
-        () => ({
-            page,
-            from: from ? seasonToFrom(from) : undefined,
-            to: to ? seasonToTo(to) : undefined,
-        }),
-        [page, from, to]
-    )
-    const [incidents, pending] = hooks.useIncidents(params)
+    const from = filters.from ? seasonToFrom(filters.from) : undefined
+    const to = filters.to ? seasonToTo(filters.to) : undefined
+    const [payload, pending] = hooks.useIncidents(page, from, to)
     function handlerFiltersChange(filters) {
         setFilters(filters)
         setPage(1)
@@ -43,9 +36,9 @@ function IncidentsList() {
                 <Loading />
             ) : (
                 <Fragment>
-                    <components.IncidentTable data={incidents} />
+                    <components.IncidentTable incidents={payload.results} />
                     <Pagination
-                        total={incidents.count / 50}
+                        total={payload.count / 50}
                         active={page}
                         onChange={setPage}
                     />

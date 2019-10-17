@@ -1,4 +1,4 @@
-import * as requests from 'api/requests/weather'
+import * as requests from 'requests/weather'
 import { useCacheAsync, createKey } from 'hooks'
 
 export function useStation(id) {

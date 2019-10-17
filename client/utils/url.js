@@ -24,12 +24,18 @@ export function forceHttps(url) {
 }
 
 export function build(path, params, base = document.location.origin) {
-    let url = base + path
+    return appendParams(base + path, params)
+}
 
-    if (params) {
-        const search = new URLSearchParams(clean(params))
+export function appendParams(url, params) {
+    if (!params) {
+        return url
+    }
 
-        url = `${url}?${search.toString()}`
+    const search = new URLSearchParams(clean(params))
+
+    if (search.keys().next().value) {
+        return url + '?' + search.toString()
     }
 
     return url

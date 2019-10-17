@@ -1,4 +1,4 @@
-import * as requests from 'api/requests/min'
+import * as requests from 'requests/min'
 import { useCacheAsync, createKey } from 'hooks'
 
 // TODO Implement cache per ids and serve it once available
