@@ -314,7 +314,7 @@ module.exports = {
                         },
                         {
                             id: String(id++),
-                            label: 'Stakeholder Newsletter',
+                            label: 'The Aspect Newsletter',
                             to: '/about#stakeholdernews',
                         },
                         {
