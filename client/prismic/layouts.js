@@ -1,6 +1,5 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { STATIC_PAGE, GENERIC, SPONSOR } from 'constants/prismic'
 import {
@@ -15,9 +14,7 @@ import {
 import { Loading } from 'components/text'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
-import Edit from './Edit'
-
-// TODO: SUSPENSE
+import { useDocument } from './hooks'
 
 StaticPage.propTypes = {
     uid: PropTypes.string.isRequired,
@@ -25,47 +22,35 @@ StaticPage.propTypes = {
 }
 
 export function StaticPage({ uid, title }) {
-    const props = {
+    const [document, pending] = useDocument({
         ...params.uid(STATIC_PAGE, uid),
         fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
-    }
+    })
+    const data = document?.data
+    const headline = data?.headline
+    const content = data?.content
+    const banner = data?.banner
+
+    // classes are defined in prismic.css, kind of a hack to have full control
+    // styling pages.
 
     return (
-        <Document {...props}>
-            {({ pending, document }) => {
-                const data = document?.data
-                const headline = data?.headline
-                const content = data?.content
-                const banner = data?.banner
-
-                // classes are defined in prismic.css, kind of a hack to have full control
-                // styling pages.
-
-                return (
-                    <Page className={`${STATIC_PAGE}-${uid}`}>
-                        {banner?.url && <Banner {...banner} />}
-                        <Edit id={document?.id} position="fixed" />
-                        <Header title={data?.title || title} />
-                        <Content>
-                            {pending && (
-                                <Loading>
-                                    {title
-                                        ? `Loading ${title} page...`
-                                        : 'Loading page...'}
-                                </Loading>
-                            )}
-                            <Main>
-                                {headline && <Headline>{headline}</Headline>}
-                                {Array.isArray(content) && (
-                                    <SliceZone value={content} />
-                                )}
-                            </Main>
-                            {data && renderAside(data)}
-                        </Content>
-                    </Page>
-                )
-            }}
-        </Document>
+        <Page className={`${STATIC_PAGE}-${uid}`}>
+            {banner?.url && <Banner {...banner} />}
+            <Header title={data?.title || title} />
+            <Content>
+                {pending && (
+                    <Loading>
+                        {title ? `Loading ${title} page...` : 'Loading page...'}
+                    </Loading>
+                )}
+                <Main>
+                    {headline && <Headline>{headline}</Headline>}
+                    {Array.isArray(content) && <SliceZone value={content} />}
+                </Main>
+                {data && renderAside(data)}
+            </Content>
+        </Page>
     )
 }
 
@@ -75,48 +60,40 @@ GenericPage.propTypes = {
 }
 
 export function GenericPage({ uid, title }) {
+    const [document, pending] = useDocument(params.uid(GENERIC, uid))
+
     return (
-        <Document {...params.uid(GENERIC, uid)}>
-            {({ document, pending }) => (
-                <Page>
-                    <Edit id={document?.id} position="fixed" />
-                    <Header title={document?.data?.title || title} />
-                    <Content>
-                        {pending && (
-                            <Loading>
-                                {title
-                                    ? `Loading ${title} page...`
-                                    : 'Loading page...'}
-                            </Loading>
-                        )}
-                        <Main>
-                            <StructuredText value={document?.data?.body} />
-                        </Main>
-                    </Content>
-                </Page>
-            )}
-        </Document>
+        <Page>
+            <Header title={document?.data?.title || title} />
+            <Content>
+                {pending && (
+                    <Loading>
+                        {title ? `Loading ${title} page...` : 'Loading page...'}
+                    </Loading>
+                )}
+                <Main>
+                    <StructuredText value={document?.data?.body} />
+                </Main>
+            </Content>
+        </Page>
     )
 }
 
 Generic.propTypes = {
     uid: PropTypes.string.isRequired,
-    children: PropTypes.func,
 }
 
-export function Generic({ uid, children = renderBody }) {
-    return <Document {...params.generic(uid)}>{children}</Document>
+export function Generic({ uid }) {
+    const [document, pending] = useDocument(params.generic(uid))
+
+    return pending ? (
+        <Loading />
+    ) : (
+        <StructuredText value={document?.data?.body} />
+    )
 }
 
 // Constants, utils & renderers
-function renderBody({ pending, document }) {
-    return (
-        <Fragment>
-            {pending && <Loading />}
-            {document && <StructuredText value={document.data.body} />}
-        </Fragment>
-    )
-}
 function renderAside({
     sharing,
     following,

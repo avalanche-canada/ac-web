@@ -4,9 +4,9 @@ import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { useAdvisoriesMetadata } from 'hooks/features'
 import { Source, Circle } from 'components/map'
-import { Documents } from 'prismic/containers'
 import { hotZone } from 'prismic/params'
 import { HOT_ZONE_REPORTS as key } from 'constants/drawers'
+import { useDocuments } from 'prismic/hooks'
 
 HotZones.propTypes = {
     visible: PropTypes.bool,
@@ -16,17 +16,12 @@ HotZones.propTypes = {
 
 export default function HotZones(props) {
     const [areas] = useAdvisoriesMetadata()
+    const [documents = []] = useDocuments(hotZone.reports())
 
     return (
-        <Documents {...hotZone.reports()}>
-            {({ documents = [] }) => (
-                <Source
-                    id={key}
-                    data={createFeatureCollection(areas)(documents)}>
-                    <Circle id={key} {...props} {...styles} />
-                </Source>
-            )}
-        </Documents>
+        <Source id={key} data={createFeatureCollection(areas)(documents)}>
+            <Circle id={key} {...props} {...styles} />
+        </Source>
     )
 }
 

@@ -1,7 +1,6 @@
-import React, { Fragment, useContext } from 'react'
+import React, { useContext } from 'react'
 import { navigate } from '@reach/router'
 import AuthContext from 'contexts/auth'
-import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { Loading } from 'components/text'
 import { STATIC_PAGE } from 'constants/prismic'
@@ -17,6 +16,7 @@ import Navbar, {
 import Avatar from 'components/avatar'
 import menu from /* preval */ '../constants/menus/avcan'
 import logo from 'styles/AvalancheCanada.svg'
+import { useDocument } from 'prismic/hooks'
 
 // FIXME
 menu.children[4].children[1].children = Ambassadors
@@ -59,29 +59,24 @@ export default function AvalancheCanadaNavbar() {
 
 // Utils
 function Ambassadors({ to }) {
-    return (
-        <Document {...params.uid(STATIC_PAGE, 'ambassadors')}>
-            {({ pending, document }) => (
-                <Fragment>
-                    {pending && <Loading />}
-                    {document && (
-                        <ColumnSet>
-                            {document.data.content[0].value.map(ambassador => {
-                                const fullName = ambassador['full-name']
-                                const hash = fullName
-                                    .toLowerCase()
-                                    .replace(/\s/, '-', 'g')
+    const props = params.uid(STATIC_PAGE, 'ambassadors')
+    const [document, pending] = useDocument(props)
+    const ambassadors = document?.data?.content?.[0]?.value || []
 
-                                return (
-                                    <Link key={hash} to={`${to}#${hash}`}>
-                                        {fullName}
-                                    </Link>
-                                )
-                            })}
-                        </ColumnSet>
-                    )}
-                </Fragment>
-            )}
-        </Document>
+    return pending ? (
+        <Loading />
+    ) : (
+        <ColumnSet>
+            {ambassadors.map(ambassador => {
+                const fullName = ambassador['full-name']
+                const hash = fullName.toLowerCase().replace(/\s/, '-', 'g')
+
+                return (
+                    <Link key={hash} to={`${to}#${hash}`}>
+                        {fullName}
+                    </Link>
+                )
+            })}
+        </ColumnSet>
     )
 }

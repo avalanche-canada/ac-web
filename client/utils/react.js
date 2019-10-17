@@ -1,5 +1,4 @@
 import React, { cloneElement, isValidElement } from 'react'
-import flatten from 'lodash/flatten'
 
 const LINE_FEED_REGEX = /(\n)/
 function br(string, index) {
@@ -33,8 +32,8 @@ function replace(source, match, fn) {
         source = [source]
     }
 
-    return flatten(
-        source.map(source => {
+    return source
+        .map(source => {
             if (typeof source === 'string') {
                 return replaceString(source, match, fn)
             }
@@ -49,7 +48,7 @@ function replace(source, match, fn) {
 
             return source
         })
-    )
+        .flat()
         .filter(Boolean)
         .map(addKey)
 }
@@ -76,8 +75,8 @@ export function swap(source, start, end, element) {
         source = [source]
     }
 
-    return flatten(
-        source.map(source => {
+    return source
+        .map(source => {
             if (typeof source === 'string') {
                 source = swapString(source, start, end, element)
                 start = start - source.length
@@ -98,7 +97,7 @@ export function swap(source, start, end, element) {
 
             return source
         })
-    )
+        .flat()
 }
 
 export const memo = {

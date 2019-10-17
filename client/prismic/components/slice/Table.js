@@ -16,9 +16,9 @@ import { Br } from 'components/misc'
 import snakeCase from 'lodash/snakeCase'
 import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
-import { Documents } from 'prismic/containers'
 import * as Predicates from 'prismic/predicates'
 import { createAction } from 'utils/reducer'
+import { useSearch } from 'prismic/hooks'
 
 PrismicTable.propTypes = {
     value: PropTypes.array.isRequired,
@@ -72,64 +72,61 @@ export default function PrismicTable({ value }) {
         }
     }
 
+    const [data = {}, pending] = useSearch(params)
+    const { results = [], total_pages, total_results_size } = data
+
     return (
-        <Documents {...params}>
-            {({ documents = [], pending, total_pages, total_results_size }) => (
-                <Fragment>
-                    <Br />
-                    <Responsive>
-                        <Table bordered>
-                            <Header>
-                                <Row>
-                                    {columns.map(column => (
-                                        <HeaderCell
-                                            key={column.name}
-                                            sorting={getSorting(column)}
-                                            onSortingChange={state.onSortingChange.bind(
-                                                null,
-                                                column.name
-                                            )}>
-                                            {column.title}
-                                        </HeaderCell>
-                                    ))}
-                                </Row>
-                            </Header>
-                            <TBody>
-                                {documents.map(row => (
-                                    <Row key={row.id}>
-                                        {columns.map(({ name, property }) => (
-                                            <Cell key={name}>
-                                                {property(row.data)}
-                                            </Cell>
-                                        ))}
-                                    </Row>
+        <Fragment>
+            <Br />
+            <Responsive>
+                <Table bordered>
+                    <Header>
+                        <Row>
+                            {columns.map(column => (
+                                <HeaderCell
+                                    key={column.name}
+                                    sorting={getSorting(column)}
+                                    onSortingChange={state.onSortingChange.bind(
+                                        null,
+                                        column.name
+                                    )}>
+                                    {column.title}
+                                </HeaderCell>
+                            ))}
+                        </Row>
+                    </Header>
+                    <TBody>
+                        {results.map(row => (
+                            <Row key={row.id}>
+                                {columns.map(({ name, property }) => (
+                                    <Cell key={name}>{property(row.data)}</Cell>
                                 ))}
-                            </TBody>
-                            <Caption>
-                                {pending ? (
-                                    <Loading>Loading documents...</Loading>
-                                ) : (
-                                    <Muted>
-                                        {`Total of ${total_results_size} documents
+                            </Row>
+                        ))}
+                    </TBody>
+                    <Caption>
+                        {pending ? (
+                            <Loading>Loading documents...</Loading>
+                        ) : (
+                            <Muted>
+                                {`Total of ${total_results_size} documents
                                     found.`}
-                                    </Muted>
-                                )}
-                            </Caption>
-                        </Table>
-                    </Responsive>
-                    <PageSizeSelector
-                        value={state.pageSize}
-                        onChange={state.onPageSizeChange}
-                        suffix="documents par page"
-                    />
-                    <Pagination
-                        active={state.page}
-                        onChange={state.onPageChange}
-                        total={total_pages}
-                    />
-                </Fragment>
-            )}
-        </Documents>
+                            </Muted>
+                        )}
+                    </Caption>
+                </Table>
+            </Responsive>
+            <PageSizeSelector
+                value={state.pageSize}
+                onChange={state.onPageSizeChange}
+                suffix="documents par page"
+            />
+            <Pagination
+                active={state.page}
+                onChange={state.onPageChange}
+                total={total_pages}
+            />
+        </Fragment>
     )
 }
 

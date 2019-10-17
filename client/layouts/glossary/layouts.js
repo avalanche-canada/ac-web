@@ -14,13 +14,11 @@ import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
-import { Document } from 'prismic/containers'
 import { glossary } from 'prismic/params'
-import { useDocuments } from 'prismic/hooks'
+import { useDocuments, useDocument } from 'prismic/hooks'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
-import Edit from 'prismic/Edit'
 
 export default function Layout() {
     return (
@@ -65,6 +63,7 @@ const GlossarySidebar = memo.static(function GlossarySidebar() {
 function Glossary({ location, navigate }) {
     const params = new URLSearchParams(location.search)
     const [term, setTerm] = useState(params.has('q') ? params.get('q') : '')
+    const [document, pending] = useDocument(glossary.glossary())
 
     useEffect(() => {
         if (term) {
@@ -76,52 +75,44 @@ function Glossary({ location, navigate }) {
         }
     }, [term])
 
-    return (
-        <Document {...glossary.glossary()}>
-            {({ document, pending }) => (
-                <Fragment>
-                    {pending && <Loading />}
-                    {document && (
-                        <Fragment>
-                            <Edit position="fixed" id={document.id} />
-                            <Headline>
-                                <StructuredText
-                                    value={document.data.headline}
-                                />
-                            </Headline>
-                            <Search
-                                onChange={debounce(setTerm, 500)}
-                                value={term}
-                                placeholder="Search for a definition"
-                            />
-                            <GlossaryContent
-                                layout={document.data}
-                                term={term}
-                            />
-                        </Fragment>
-                    )}
-                </Fragment>
-            )}
-        </Document>
-    )
+    if (pending) {
+        return <Loading />
+    }
+
+    if (document) {
+        return (
+            <Fragment>
+                <Headline>
+                    <StructuredText value={document.data.headline} />
+                </Headline>
+                <Search
+                    onChange={debounce(setTerm, 500)}
+                    value={term}
+                    placeholder="Search for a definition"
+                />
+                <GlossaryContent layout={document.data} term={term} />
+            </Fragment>
+        )
+    }
+
+    return null
 }
 
 Definition.propTypes = {
     uid: PropTypes.string.isRequired,
 }
 function Definition({ uid }) {
-    return (
-        <Document {...glossary.definition(uid)}>
-            {({ pending, document }) => (
-                <Fragment>
-                    {pending && <Loading />}
-                    {document && (
-                        <DefinitionLayout linkToExternal {...document} />
-                    )}
-                </Fragment>
-            )}
-        </Document>
-    )
+    const [document, pending] = useDocument(glossary.definition(uid))
+
+    if (pending) {
+        return <Loading />
+    }
+
+    if (document) {
+        return <DefinitionLayout linkToExternal {...document} />
+    }
+
+    return null
 }
 
 // Util layouts
@@ -147,7 +138,6 @@ function DefinitionLayout({ id, uid, tags, data, linkToExternal }) {
                     </FragmentIdentifier>
                 )}
             </h2>
-            <Edit id={id} position="absolute" />
             {tags.length > 0 && (
                 <TagSet>
                     {tags.map((tag, index) => (

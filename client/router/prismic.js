@@ -19,6 +19,9 @@ export const feed = {
     tags(type, tags) {
         return build(FEED_PATHS.get(type), { tags }, '/')
     },
+    type(type) {
+        return build(FEED_PATHS.get(type), undefined, '/')
+    },
 }
 
 export function pathname({ type, uid, lang }) {

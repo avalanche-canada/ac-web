@@ -1,8 +1,6 @@
 import React, { Fragment, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect, Location } from '@reach/router'
-import get from 'lodash/get'
-import { Document } from 'prismic/containers'
 import { tutorial } from 'prismic/params'
 import * as Page from 'components/page'
 import { Warning as Alert } from 'components/alert'
@@ -34,6 +32,7 @@ import Button, { SUBTILE } from 'components/button'
 import dictionnaries from './locales'
 import { useWindowSize, useBoolean } from 'hooks'
 import { FR, EN } from 'constants/locale'
+import { useDocument } from 'prismic/hooks'
 
 // TODO: Use Context to propagate the tutorial document
 // TODO: Brings LocaleProvider out of this layout...should be bring in the index file
@@ -44,7 +43,8 @@ Layout.propTypes = {
     uri: PropTypes.string.isRequired,
 }
 
-export default function Layout({ location, uri, path }) {
+export default function Layout(props) {
+    const { uri } = props
     const context = useMemo(
         () => ({
             locale: getLocaleFromProps(uri),
@@ -69,40 +69,39 @@ export default function Layout({ location, uri, path }) {
             <Page.Page>
                 <Page.Content>
                     <LocaleProvider value={context}>
-                        <Document {...tutorial.home()} locale={locale}>
-                            {({ document }) => {
-                                const isExact = path === uri
-                                const title = document?.data?.title[0]?.text
-
-                                return (
-                                    <Fragment>
-                                        <Sidebar
-                                            location={location}
-                                            items={document?.data?.items}
-                                            title={title}
-                                        />
-                                        <Content>
-                                            <h1>
-                                                {title ? (
-                                                    isExact ? (
-                                                        title
-                                                    ) : (
-                                                        <Link to={uri}>
-                                                            {title}
-                                                        </Link>
-                                                    )
-                                                ) : (
-                                                    <Loading />
-                                                )}
-                                            </h1>
-                                        </Content>
-                                    </Fragment>
-                                )
-                            }}
-                        </Document>
+                        <LayoutContent {...props} />
                     </LocaleProvider>
                 </Page.Content>
             </Page.Page>
+        </Fragment>
+    )
+}
+
+function LayoutContent({ uri, path, location }) {
+    const [document] = useHome()
+    const isExact = path === uri
+    const title = document?.data?.title[0]?.text
+
+    return (
+        <Fragment>
+            <Sidebar
+                location={location}
+                items={document?.data?.items}
+                title={title}
+            />
+            <Content>
+                <h1>
+                    {title ? (
+                        isExact ? (
+                            title
+                        ) : (
+                            <Link to={uri}>{title}</Link>
+                        )
+                    ) : (
+                        <Loading />
+                    )}
+                </h1>
+            </Content>
         </Fragment>
     )
 }
@@ -173,88 +172,74 @@ function Content({ children }) {
                         return null
                     }
 
-                    return (
-                        <Document {...tutorial.home()} locale={locale}>
-                            {({ document }) => {
-                                if (!document) {
-                                    return null
-                                }
-
-                                const uid = params.get('uid')
-                                const { items } = document.data
-                                function findByUID(item) {
-                                    return item.link.value.document.uid == uid
-                                }
-
-                                if (!items.some(findByUID)) {
-                                    return null
-                                }
-
-                                const index = items.findIndex(findByUID)
-                                const paths = []
-                                let level = Number(items[index].level)
-                                function finder(item) {
-                                    return item.level == level
-                                }
-                                const usefullItems = items
-                                    .slice(0, index + 1)
-                                    .reverse()
-
-                                do {
-                                    const item = usefullItems.find(finder)
-                                    const { uid } = item.link.value.document
-
-                                    paths.push(uid)
-
-                                    level = level - 1
-                                } while (level > 0)
-
-                                paths.push(location.pathname)
-
-                                return (
-                                    <Redirect
-                                        noThrow
-                                        to={paths.reverse().join('/')}
-                                    />
-                                )
-                            }}
-                        </Document>
-                    )
+                    return <Redirector uid={params.get('uid')} />
                 }}
             </Location>
         </Page.Main>
     )
 }
 
+function Redirector({ uid }) {
+    const [document] = useHome()
+
+    if (!document) {
+        return null
+    }
+
+    const { items } = document.data
+    function findByUID(item) {
+        return item.link.value.document.uid == uid
+    }
+
+    if (!items.some(findByUID)) {
+        return null
+    }
+
+    const index = items.findIndex(findByUID)
+    const paths = []
+    let level = Number(items[index].level)
+    function finder(item) {
+        return item.level == level
+    }
+    const usefullItems = items.slice(0, index + 1).reverse()
+
+    do {
+        const item = usefullItems.find(finder)
+        const { uid } = item.link.value.document
+
+        paths.push(uid)
+
+        level = level - 1
+    } while (level > 0)
+
+    paths.push(location.pathname)
+
+    return <Redirect noThrow to={paths.reverse().join('/')} />
+}
+
 function Home() {
-    const { locale } = useLocale()
+    const [document] = useHome()
+
+    if (!document) {
+        return null
+    }
+
+    const [first] = document.data.items
 
     return (
-        <Document {...tutorial.home()} locale={locale}>
-            {({ document }) => {
-                if (!document) {
-                    return null
-                }
-
-                const [first] = document.data.items
-
-                return (
-                    <Fragment>
-                        <SliceZone
-                            components={TutorialSliceComponents}
-                            value={document.data.content}
-                        />
-                        <Pager>
-                            <Next
-                                to={getUIDFromMenuItem(first)}
-                                subtitle={<Translate>Start with</Translate>}>
-                                {first.title}
-                            </Next>
-                        </Pager>
-                    </Fragment>
-                )
-            }}
-        </Document>
+        <Fragment>
+            <SliceZone
+                components={TutorialSliceComponents}
+                value={document.data.content}
+            />
+            <Pager>
+                <Next
+                    to={getUIDFromMenuItem(first)}
+                    subtitle={<Translate>Start with</Translate>}>
+                    {first.title}
+                </Next>
+            </Pager>
+        </Fragment>
     )
 }
 
@@ -266,68 +251,61 @@ Tutorial.propTypes = {
 function Tutorial(props) {
     const { uri } = props
     const [uid] = props['*'].split('/').reverse()
-    const { locale } = useLocale()
-    function renderPager({ document }) {
-        if (!document) {
-            return null
-        }
+    const [article, pending] = useArticle(uid)
 
-        const { items, title } = document.data
-        const item = items.find(item => getUIDFromMenuItem(item) === uid)
-        const index = items.indexOf(item)
-        const previous = items[index - 1]
-        const next = items[index + 1]
-        const previousSubtitle = previous ? 'Previous' : 'Back to'
-
+    if (pending) {
         return (
-            <Pager>
-                <Previous
-                    to={previous ? buildNodeLink(previous, items, uri) : uri}
-                    subtitle={<Translate>{previousSubtitle}</Translate>}>
-                    {previous ? previous.title : title[0].text}
-                </Previous>
-                {next && (
-                    <Next
-                        to={buildNodeLink(next, items, uri)}
-                        subtitle={<Translate>Next</Translate>}>
-                        {next.title}
-                    </Next>
-                )}
-            </Pager>
+            <h2>
+                <Loading />
+            </h2>
         )
     }
 
+    if (article) {
+        return (
+            <Fragment>
+                <h2>{article.data.title[0].text}</h2>
+                <SliceZone
+                    components={TutorialSliceComponents}
+                    value={article.data.content}
+                />
+                <HomePager uid={uid} uri={uri} />
+            </Fragment>
+        )
+    }
+
+    return <NoDocument uid={uid} uri={uri} />
+}
+
+function HomePager({ uid, uri }) {
+    const [document] = useHome()
+
+    if (!document) {
+        return null
+    }
+
+    const { items, title } = document.data
+    const item = items.find(item => getUIDFromMenuItem(item) === uid)
+    const index = items.indexOf(item)
+    const previous = items[index - 1]
+    const next = items[index + 1]
+    const previousSubtitle = previous ? 'Previous' : 'Back to'
+
     return (
-        <Document {...tutorial.article(uid)} locale={locale}>
-            {({ pending, fulfilled, document }) => {
-                if (pending) {
-                    return (
-                        <h2>
-                            <Loading />
-                        </h2>
-                    )
-                }
-
-                if (fulfilled) {
-                    return document ? (
-                        <Fragment>
-                            <h2>{document.data.title[0].text}</h2>
-                            <SliceZone
-                                components={TutorialSliceComponents}
-                                value={document.data.content}
-                            />
-                            <Document {...tutorial.home()} locale={locale}>
-                                {renderPager}
-                            </Document>
-                        </Fragment>
-                    ) : (
-                        <NoDocument uid={uid} uri={uri} />
-                    )
-                }
-
-                return null
-            }}
-        </Document>
+        <Pager>
+            <Previous
+                to={previous ? buildNodeLink(previous, items, uri) : uri}
+                subtitle={<Translate>{previousSubtitle}</Translate>}>
+                {previous ? previous.title : title[0].text}
+            </Previous>
+            {next && (
+                <Next
+                    to={buildNodeLink(next, items, uri)}
+                    subtitle={<Translate>Next</Translate>}>
+                    {next.title}
+                </Next>
+            )}
+        </Pager>
     )
 }
 
@@ -337,7 +315,7 @@ NoDocument.propTypes = {
 }
 
 function NoDocument({ uid, uri }) {
-    const { locale } = useLocale()
+    const [document] = useHome()
     function getItemTitle(document) {
         if (!document) {
             return uid
@@ -351,23 +329,17 @@ function NoDocument({ uid, uri }) {
     }
 
     return (
-        <Document {...tutorial.home()} locale={locale}>
-            {({ document }) => (
-                <Fragment>
-                    <Warning>
-                        <Translate>There is no document for</Translate>{' '}
-                        {getItemTitle(document)}.
-                    </Warning>
-                    <Pager>
-                        <Next
-                            to={uri}
-                            subtitle={<Translate>Visit the</Translate>}>
-                            {get(document, 'data.title[0].text', null)}
-                        </Next>
-                    </Pager>
-                </Fragment>
-            )}
-        </Document>
+        <Fragment>
+            <Warning>
+                <Translate>There is no document for</Translate>{' '}
+                {getItemTitle(document)}.
+            </Warning>
+            <Pager>
+                <Next to={uri} subtitle={<Translate>Visit the</Translate>}>
+                    {document?.data?.title?.[0]?.text || null}
+                </Next>
+            </Pager>
+        </Fragment>
     )
 }
 
@@ -430,6 +402,16 @@ function buildNodeLink(node, nodes, root) {
 }
 function getLocaleFromProps(uri) {
     return uri === '/tutoriel' ? FR : EN
+}
+function useHome() {
+    const { locale } = useLocale()
+
+    return useDocument(tutorial.home(locale))
+}
+function useArticle(uid) {
+    const { locale } = useLocale()
+
+    return useDocument(tutorial.article(uid, locale))
 }
 
 // Styles

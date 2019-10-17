@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react'
-import { Documents, Tags } from 'prismic/containers'
 import { feed } from 'prismic/params'
 import { Page, Content, Header, Main } from 'components/page'
 import { stringify } from 'utils/search'
@@ -9,11 +8,11 @@ import Pagination from 'components/pagination'
 import EntrySet from './EntrySet'
 import Entry from './Entry'
 import TagTitle from './TagTitle'
-
 import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { ControlSet, Control } from 'components/form'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
 import { GRAY_LIGHTEST } from 'constants/colors'
+import { useSearch, useTags } from 'prismic/hooks'
 
 // FIXME: Do not parse params, just use them from this.props.location.search
 
@@ -38,7 +37,6 @@ export class BlogPostFeed extends PureComponent {
     handleMonthChange = handleMonthChange.bind(this)
     handleCategoryChange = handleCategoryChange.bind(this)
     handlePageChange = handlePageChange.bind(this)
-    renderContent = renderContent.bind(this, BLOG)
     render() {
         const { category, year, month } = this.state
 
@@ -70,9 +68,11 @@ export class BlogPostFeed extends PureComponent {
                         />
                     </Control>
                 </ControlSet>
-                <Documents {...feed.blog(this.state)}>
-                    {this.renderContent}
-                </Documents>
+                <FeedContent
+                    params={feed.blog(this.state)}
+                    type={BLOG}
+                    onPageChange={this.handlePageChange}
+                />
             </FeedLayout>
         )
     }
@@ -101,7 +101,6 @@ export class NewsFeed extends PureComponent {
     handleMonthChange = handleMonthChange.bind(this)
     handleTagChange = handleTagChange.bind(this)
     handlePageChange = handlePageChange.bind(this)
-    renderContent = renderContent.bind(this, NEWS)
     render() {
         const { year, month, tags } = this.state
 
@@ -125,21 +124,18 @@ export class NewsFeed extends PureComponent {
                         />
                     </Control>
                     <Control style={CONTROL_STYLE}>
-                        <Tags type={NEWS}>
-                            {props => (
-                                <Dropdown
-                                    value={tags}
-                                    onChange={this.handleTagChange}
-                                    options={convertTagsToOptions(props.tags)}
-                                    placeholder="All tags"
-                                />
-                            )}
-                        </Tags>
+                        <TagsDropdown
+                            type={NEWS}
+                            value={new Set(tags)}
+                            onChange={this.handleTagChange}
+                        />
                     </Control>
                 </ControlSet>
-                <Documents {...feed.news(this.state)}>
-                    {this.renderContent}
-                </Documents>
+                <FeedContent
+                    type={NEWS}
+                    params={feed.news(this.state)}
+                    onPageChange={this.handlePageChange}
+                />
             </FeedLayout>
         )
     }
@@ -170,7 +166,6 @@ export class EventFeed extends PureComponent {
     handleTimelineChange = handleTimelineChange.bind(this)
     handleTagChange = handleTagChange.bind(this)
     handlePageChange = handlePageChange.bind(this)
-    renderContent = renderContent.bind(this, EVENT)
     render() {
         const { timeline, tags, page } = this.state
 
@@ -186,22 +181,22 @@ export class EventFeed extends PureComponent {
                         />
                     </Control>
                     <Control style={CONTROL_STYLE}>
-                        <Tags type={EVENT}>
-                            {props => (
-                                <Dropdown
-                                    value={new Set(tags)}
-                                    onChange={this.handleTagChange}
-                                    options={convertTagsToOptions(props.tags)}
-                                    placeholder="All tags"
-                                />
-                            )}
-                        </Tags>
+                        <TagsDropdown
+                            type={EVENT}
+                            value={new Set(tags)}
+                            onChange={this.handleTagChange}
+                        />
                     </Control>
                 </ControlSet>
-                <Documents
-                    {...feed.events({ tags, past: timeline === PAST, page })}>
-                    {this.renderContent}
-                </Documents>
+                <FeedContent
+                    type={EVENT}
+                    params={feed.events({
+                        tags,
+                        past: timeline === PAST,
+                        page,
+                    })}
+                    onPageChange={this.handlePageChange}
+                />
             </FeedLayout>
         )
     }
@@ -218,37 +213,45 @@ function FeedLayout({ title, children }) {
         </Page>
     )
 }
+function FeedContent({ params, type, onPageChange }) {
+    const [data = {}, pending] = useSearch(params)
+    const { results = [], page, total_pages } = data
+    let rearranged = results
 
-function FeedContent({
-    pending,
-    documents,
-    page,
-    totalPages,
-    onPageChange,
-    type,
-}) {
-    if (page === 1 && documents && documents.some(isFeaturedPost)) {
-        const featured = documents.find(isFeaturedPost)
+    if (page === 1 && rearranged.some(isFeaturedPost)) {
+        const featured = rearranged.find(isFeaturedPost)
 
-        documents = documents.filter(post => featured !== post)
+        rearranged = rearranged.filter(post => featured !== post)
 
-        documents.unshift(featured)
+        rearranged.unshift(featured)
     }
 
     return (
         <Shim vertical>
             {pending ? (
                 <Loading />
-            ) : documents?.length === 0 ? (
+            ) : results.length === 0 ? (
                 <Muted>{EMPTY_MESSAGES.get(type)}</Muted>
             ) : null}
-            {documents && <EntrySet>{documents.map(renderEntry)}</EntrySet>}
+            <EntrySet>{rearranged.map(renderEntry)}</EntrySet>
             <Pagination
                 active={page}
                 onChange={onPageChange}
-                total={totalPages}
+                total={total_pages}
             />
         </Shim>
+    )
+}
+function TagsDropdown({ type, value, onChange }) {
+    const [tags = []] = useTags(type)
+
+    return (
+        <Dropdown
+            value={value}
+            onChange={onChange}
+            options={convertTagsToOptions(tags)}
+            placeholder="All tags"
+        />
     )
 }
 
@@ -330,18 +333,6 @@ function handleTagChange(tags) {
 }
 function handleTimelineChange(timeline) {
     this.setState({ timeline, page: 1 }, serialize)
-}
-function renderContent(type, { pending, documents, page, total_pages }) {
-    return (
-        <FeedContent
-            type={type}
-            pending={pending}
-            documents={documents}
-            page={page}
-            totalPages={total_pages}
-            onPageChange={this.handlePageChange}
-        />
-    )
 }
 function convertTagsToOptions(tags) {
     return new Map(Array.from(tags, tag => [tag, <TagTitle value={tag} />]))

@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Redirect } from '@reach/router'
+import { Link } from '@reach/router'
 import { Loading } from 'components/text'
-import { Document } from 'prismic/containers'
 import * as params from 'prismic/params'
 import { Page, Content, Header, Main, Headline, Aside } from 'components/page'
 import { Metadata, Entry } from 'components/metadata'
@@ -13,7 +12,7 @@ import Sidebar from './Sidebar'
 import { FEED } from 'constants/prismic'
 import { TagSet, Tag } from 'components/tag'
 import { feed } from 'router/prismic'
-import Edit from 'prismic/Edit'
+import { useDocument } from 'prismic/hooks'
 
 Post.propTypes = {
     type: PropTypes.oneOf(FEED).isRequired,
@@ -22,19 +21,32 @@ Post.propTypes = {
 
 export default function Post(props) {
     const { type, uid } = props
+    const [post, pending] = useDocument(params.uid(type, uid))
+
+    // TODO Post not found, redirecting to feed page or showing information to the user
+    // if (!pending && !post) {
+    //     return <Redirect to={feed.type(type)} />
+    // }
 
     return (
         <Page>
-            <Document {...params.uid(type, uid)}>
-                {state => page(props, state)}
-            </Document>
+            <Header title={post?.data?.title || 'Loading...'} />
+            <Content>
+                <Main>
+                    {pending && <Loading />}
+                    {post && <PostMetadata {...post} />}
+                    {post && <PostContent {...post} />}
+                </Main>
+                <Aside>
+                    <Sidebar {...props} />
+                </Aside>
+            </Content>
         </Page>
     )
 }
 
 // Components
-function PostMetadata(document) {
-    const { tags, type, data } = document
+function PostMetadata({ tags, type, data }) {
     const {
         source,
         location,
@@ -95,48 +107,6 @@ function PostContent({ data }) {
                 </Headline>
             )}
             <StructuredText value={body || description} />
-        </Fragment>
-    )
-}
-
-// Renderers
-function page(props, state) {
-    const { fulfilled, document } = state
-
-    // Post not found, redirecting to feed page
-    if (fulfilled && !document) {
-        return <Redirect to={feed.type(props.type)} />
-    }
-
-    return document ? (
-        <Fragment>
-            <Edit id={document.id} position="fixed" />
-            <Header title={document?.data?.title || 'Loading...'} />
-            <Content>
-                <Main>{content(state)}</Main>
-                <Aside>
-                    <Sidebar {...props} />
-                </Aside>
-            </Content>
-        </Fragment>
-    ) : (
-        <Fragment>
-            <Header title="Loading..."></Header>
-            <Content>
-                <Main></Main>
-                <Aside>
-                    <Sidebar {...props} />
-                </Aside>
-            </Content>
-        </Fragment>
-    )
-}
-function content({ pending, document }) {
-    return (
-        <Fragment>
-            {pending && <Loading />}
-            {document && <PostMetadata {...document} />}
-            {document && <PostContent {...document} />}
         </Fragment>
     )
 }

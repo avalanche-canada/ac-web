@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import memoize from 'lodash/memoize'
 import { Source, Symbol } from 'components/map'
-import { Documents } from 'prismic/containers'
+import { useDocuments } from 'prismic/hooks'
 import { fatal } from 'prismic/params'
 import { FATAL_ACCIDENT as key } from 'constants/drawers'
 
@@ -14,18 +14,16 @@ FatalAccidents.propTypes = {
 }
 
 export default function FatalAccidents(props) {
+    const [documents] = useDocuments(fatal.accidents())
+
     return (
-        <Documents {...fatal.accidents()}>
-            {({ documents }) => (
-                <Source
-                    id={key}
-                    cluster
-                    clusterMaxZoom={14}
-                    data={createFeatureCollection(documents)}>
-                    <Symbol id={key} {...props} {...styles} />
-                </Source>
-            )}
-        </Documents>
+        <Source
+            id={key}
+            cluster
+            clusterMaxZoom={14}
+            data={createFeatureCollection(documents)}>
+            <Symbol id={key} {...props} {...styles} />
+        </Source>
     )
 }
 
