@@ -329,6 +329,9 @@ export function useAsync(fn, params = [], initialState) {
     return [data, pending, error]
 }
 
+// TODO Big hack to clear cache for MIN reports once a new one got created.
+export const CACHE = new Memory()
+
 export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
     const [get, set, has] = useCache(key, initialState, lifespan)
     const func = useCallback(
@@ -364,8 +367,6 @@ function useCache(key, initialState, lifespan) {
 
     return [get, set, has, remove]
 }
-
-const CACHE = new Memory()
 
 export function createKey(...paths) {
     return paths.filter(Boolean).join(':')

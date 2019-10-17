@@ -16,6 +16,7 @@ import * as requests from 'requests/min'
 import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
 import styles from './Form.css'
+import { clearCachedReports } from 'hooks/min'
 
 export default class SubmissionForm extends Component {
     static contextType = AuthContext
@@ -164,6 +165,7 @@ export default class SubmissionForm extends Component {
         this.setState({ isSubmitting: true, error: null }, () => {
             requests.post(transform(value), Accessor.idToken).then(
                 data => {
+                    clearCachedReports()
                     this.setState({ isSubmitting: false }, () => {
                         const { subid } = data
 
