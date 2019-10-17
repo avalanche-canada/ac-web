@@ -290,16 +290,22 @@ export function useAsync(fn, params = [], initialState) {
     const [data, setData] = useSafeState(initialState)
     const [pending, setPending] = useSafeState(true)
     const [error, setError] = useSafeState(null)
+    const controller = useRef(null)
 
     useEffect(() => {
-        const controller = createAbortController()
-
         setPending(true)
 
-        fn.apply(null, [...params, controller.signal])
+        // This way, we know it is the first render and we are not screwing the "initialState"
+        if (controller.current) {
+            setData(undefined)
+        }
+
+        controller.current = createAbortController()
+
+        fn.apply(null, [...params, controller.current.signal])
             .then(
                 data => {
-                    if (controller?.signal?.aborted) {
+                    if (controller.current.signal?.aborted) {
                         return
                     }
 
@@ -314,7 +320,7 @@ export function useAsync(fn, params = [], initialState) {
             })
 
         return () => {
-            controller.abort()
+            controller.current.abort()
         }
     }, params)
 
