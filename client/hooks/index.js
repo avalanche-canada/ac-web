@@ -363,9 +363,8 @@ function useCache(key, initialState, lifespan) {
         [key, lifespan]
     )
     const has = useCallback(() => CACHE.has(key), [key])
-    const remove = useCallback(() => CACHE.remove(key), [key])
 
-    return [get, set, has, remove]
+    return [get, set, has]
 }
 
 export function createKey(...paths) {
