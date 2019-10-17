@@ -195,7 +195,9 @@ export default class SubmissionList extends Component {
                                 ) : submissions.length === 0 ? (
                                     'No submissions found.'
                                 ) : (
-                                    `Total of ${submissions.length} submissions found.`
+                                    `Total of ${
+                                        submissions.length
+                                    } submissions found.`
                                 )}
                             </Caption>
                         </Fragment>
@@ -400,7 +402,9 @@ function runSubmissionsSpatialAnalysis(reports, { features }) {
     return reports.map(report => {
         const point = turf.point(report.lnglat)
 
-        for (const region of features) {
+        for (const region of features.filter(
+            feature => feature.properties.type !== 'hotzone'
+        )) {
             if (inside(point, region)) {
                 return {
                     ...report,
