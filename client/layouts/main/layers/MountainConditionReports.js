@@ -1,8 +1,7 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import * as turf from '@turf/helpers'
-import memoize from 'lodash/memoize'
 import { Source, Symbol } from 'components/map'
 import { useReports, useReport } from 'hooks/mcr'
 import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
@@ -14,15 +13,15 @@ MountainConditionReports.propTypes = {
 }
 
 export default function MountainConditionReports(props) {
-    const [reports] = useReports()
+    const [reports = []] = useReports()
+    const data = useMemo(
+        () => turf.featureCollection(reports.map(createFeature)),
+        [reports]
+    )
 
     return (
         <Fragment>
-            <Source
-                id={key}
-                cluster
-                clusterMaxZoom={14}
-                data={createReportsFeatureCollection(reports)}>
+            <Source id={key} cluster clusterMaxZoom={14} data={data}>
                 <Symbol id={key} {...props} {...styles} />
             </Source>
             <Location>
@@ -50,11 +49,12 @@ export default function MountainConditionReports(props) {
 const TYPE = 'mountain-conditions-reports'
 function Report({ id, props }) {
     const [report] = useReport(id)
+    const data = useMemo(() => {
+        return report && turf.featureCollection([createFeature(report)])
+    }, [report])
 
     return (
-        <Source
-            id="mountain-conditions-report"
-            data={createReportFeatureCollection(report)}>
+        <Source id="mountain-conditions-report" data={data}>
             <Symbol {...props} id="mountain-conditions-report" {...styles} />
         </Source>
     )
@@ -62,12 +62,6 @@ function Report({ id, props }) {
 function createFeature({ location, title, id }) {
     return turf.point(location, { title, id, type: key })
 }
-const createReportsFeatureCollection = memoize((data = []) =>
-    turf.featureCollection(data.map(createFeature))
-)
-const createReportFeatureCollection = memoize(
-    report => report && turf.featureCollection([createFeature(report)])
-)
 
 // Styles
 const styles = {

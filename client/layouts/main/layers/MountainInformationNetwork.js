@@ -1,7 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
-import memoize from 'lodash/memoize'
 import { Location } from '@reach/router'
 import { Source, Symbol } from 'components/map'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
@@ -21,7 +20,15 @@ MountainInformationNetwork.propTypes = {
 export default function MountainInformationNetwork({ filters, ...props }) {
     const { days, types } = filters
     const [data = []] = useReports(days)
-    const { reports, incidents, all } = createFeatureCollections(data)
+    const { reports, incidents, all } = useMemo(() => {
+        const features = data.map(createFeature)
+
+        return {
+            reports: turf.featureCollection(features.filter(isNotIncident)),
+            incidents: turf.featureCollection(features.filter(isIncident)),
+            all: features,
+        }
+    }, [data])
     const filter = useMemo(() => createFilter(types), [types])
     function withLocation({ location }) {
         const params = new URLSearchParams(location.search)
@@ -72,9 +79,13 @@ export default function MountainInformationNetwork({ filters, ...props }) {
 // Utils
 function Report({ id, ...props }) {
     const [report] = useReport(id)
+    const data = useMemo(
+        () => turf.featureCollection(report ? [createFeature(report)] : []),
+        [report]
+    )
 
     return report ? (
-        <Source id={id} data={createReportFeatureCollection(report)}>
+        <Source id={id} data={data}>
             <Symbol id={id} {...props} {...styles.reports} />
         </Source>
     ) : null
@@ -98,18 +109,6 @@ function createFeature({ subid, title, lnglat, obs }) {
         }, {}),
     })
 }
-const createFeatureCollections = memoize(data => {
-    const features = data.map(createFeature)
-
-    return {
-        reports: turf.featureCollection(features.filter(isNotIncident)),
-        incidents: turf.featureCollection(features.filter(isIncident)),
-        all: features,
-    }
-})
-const createReportFeatureCollection = memoize(report =>
-    turf.featureCollection(report ? [createFeature(report)] : [])
-)
 
 // Styles
 function createFilter(types) {

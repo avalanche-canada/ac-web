@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
-import memoize from 'lodash/memoize'
 import { useAdvisoriesMetadata } from 'hooks/features'
 import { Source, Circle } from 'components/map'
 import { hotZone } from 'prismic/params'
@@ -15,11 +14,18 @@ HotZones.propTypes = {
 }
 
 export default function HotZones(props) {
-    const [areas] = useAdvisoriesMetadata()
+    const [areas = []] = useAdvisoriesMetadata()
     const [documents = []] = useDocuments(hotZone.reports())
+    const data = useMemo(() => {
+        const regions = documents.map(pluckRegion)
+
+        return turf.featureCollection(
+            areas.map(zone => createFeature(zone, regions.includes(zone.id)))
+        )
+    }, [areas, documents])
 
     return (
-        <Source id={key} data={createFeatureCollection(areas)(documents)}>
+        <Source id={key} data={data}>
             <Circle id={key} {...props} {...styles} />
         </Source>
     )
@@ -38,15 +44,6 @@ function createFeature({ id, name, centroid }, active) {
         { id }
     )
 }
-const createFeatureCollection = memoize(zones =>
-    memoize(reports => {
-        const regions = reports.map(pluckRegion)
-
-        return turf.featureCollection(
-            zones.map(zone => createFeature(zone, regions.includes(zone.id)))
-        )
-    })
-)
 function pluckRegion({ data }) {
     return data.region
 }

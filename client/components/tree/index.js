@@ -1,7 +1,6 @@
 import React, { useState, Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Location } from '@reach/router'
-import memoize from 'lodash/memoize'
 import Button, { SUBTILE } from 'components/button'
 import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'
@@ -98,9 +97,12 @@ function Control(props) {
         </Button>
     )
 }
-const getNodeStyle = memoize(level => ({
-    paddingLeft: level * 15,
-}))
+// TODO Just use regular class
+function getNodeStyle(level) {
+    return {
+        paddingLeft: level * 15,
+    }
+}
 function getLinkProps({ isPartiallyCurrent }) {
     return {
         className: classNames({

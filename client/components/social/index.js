@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import memoize from 'lodash/memoize'
 import * as Icons from 'components/icons'
 import styles from './Social.css'
 
@@ -51,7 +50,7 @@ export function Set({ children, ...props }) {
 export function createShareUrls(url) {
     return Array.from(SHARE_URL_CREATORS, ([_provider, create]) => create(url))
 }
-const getProvider = memoize(url => {
+function getProvider(url) {
     for (const [provider, regex] of PROVIDER_REGEXES) {
         if (regex.test(url)) {
             return provider
@@ -59,7 +58,7 @@ const getProvider = memoize(url => {
     }
 
     return null
-})
+}
 
 // Constants
 const PROVIDER_REGEXES = new Map([

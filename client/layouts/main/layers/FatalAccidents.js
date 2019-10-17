@@ -1,7 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
-import memoize from 'lodash/memoize'
 import { Source, Symbol } from 'components/map'
 import { useDocuments } from 'prismic/hooks'
 import { fatal } from 'prismic/params'
@@ -14,14 +13,14 @@ FatalAccidents.propTypes = {
 }
 
 export default function FatalAccidents(props) {
-    const [documents] = useDocuments(fatal.accidents())
+    const [documents = []] = useDocuments(fatal.accidents())
+    const data = useMemo(
+        () => turf.featureCollection(documents.map(createFeature)),
+        [documents]
+    )
 
     return (
-        <Source
-            id={key}
-            cluster
-            clusterMaxZoom={14}
-            data={createFeatureCollection(documents)}>
+        <Source id={key} cluster clusterMaxZoom={14} data={data}>
             <Symbol id={key} {...props} {...styles} />
         </Source>
     )
@@ -37,9 +36,6 @@ function createFeature({ uid, data }) {
         title,
     })
 }
-const createFeatureCollection = memoize((documents = []) =>
-    turf.featureCollection(documents.map(createFeature))
-)
 
 // Styles
 const styles = {
