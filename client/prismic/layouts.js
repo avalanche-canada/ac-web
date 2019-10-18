@@ -133,9 +133,7 @@ function Body({ payload }) {
 function Title({ children = null }) {
     return (
         <Fragment>
-            <Async.Pending>
-                {children || <Loading component="span" />}
-            </Async.Pending>
+            <Async.Pending>{children || 'Loading...'}</Async.Pending>
             <Async.Found>
                 {document => document.data.title || children}
             </Async.Found>
