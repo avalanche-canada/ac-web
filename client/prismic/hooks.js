@@ -44,10 +44,9 @@ export function useTags(type) {
 
 // Utils & constants
 function useMasterRef() {
-    return useCacheAsync(api.ref, undefined, undefined, REF_KEY)
+    return useCacheAsync(api.ref, undefined, undefined, 'prismic:ref')
 }
 const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
-const REF_KEY = createKey('prismic', 'ref')
 function empty() {
     return Promise.resolve()
 }
