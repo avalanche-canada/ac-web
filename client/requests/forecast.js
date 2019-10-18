@@ -4,7 +4,6 @@ import isBefore from 'date-fns/is_before'
 import isValid from 'date-fns/is_valid'
 import startOfToday from 'date-fns/start_of_today'
 import { baseURL } from './config.json'
-import { build } from 'utils/url'
 import fetch from 'utils/fetch'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
@@ -22,7 +21,7 @@ export function forecasts() {
 }
 
 export function regions() {
-    const url = build('/forecasts', null, baseURL)
+    const url = baseURL + '/forecasts'
 
     return fetch(url).then(payload => ({
         ...payload,
@@ -42,7 +41,7 @@ function buildForecastURL(name, date) {
         path = `bulletin-archive/${data.toISOString()}`
     }
 
-    return build(`/${path}/${name}.json`, null, baseURL)
+    return baseURL + `/${path}/${name}.json`
 }
 function isArchiveBulletinRequest(date) {
     if (!date) {

@@ -1,11 +1,8 @@
-import { build } from 'utils/url'
 import { baseURL } from './config.json'
 import fetch from 'utils/fetch'
 
 export function report(id) {
-    const url = URL + id + '/'
-
-    return fetch(url)
+    return fetch(URL + id + '/')
 }
 
 export function reports() {
@@ -13,4 +10,4 @@ export function reports() {
 }
 
 // Constants
-const URL = build('/mcr/', null, baseURL)
+const URL = baseURL + '/mcr/'
