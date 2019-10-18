@@ -34,20 +34,8 @@ class Storage {
     }
 }
 
-class LocalStorage extends Storage {
-    constructor() {
-        super(() => window.localStorage)
-    }
-}
-
-class SessionStorage extends Storage {
-    constructor() {
-        super(() => window.sessionStorage)
-    }
-}
-
-export const Session = new SessionStorage()
-export const Local = new LocalStorage()
+export const Local = new Storage(() => window.localStorage)
+export const Session = new Storage(() => window.sessionStorage)
 
 // Fallback Storage
 class Memory {
