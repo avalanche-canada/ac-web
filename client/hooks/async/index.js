@@ -84,9 +84,9 @@ function useCache(key, initialState, lifespan) {
 export function merge(...values) {
     return values.reduce(
         (value, current) => [
-            current[0],
-            current[1] || value[1],
-            value[2] || current[2],
+            current[0], // payload
+            current[1] || value[1], // pending
+            value[2] || current[2], // error
         ],
         []
     )
