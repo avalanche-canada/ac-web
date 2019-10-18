@@ -24,26 +24,30 @@ export function useAdvisoryMetadata(id) {
 }
 
 // Utils
-function useSingle(type, id) {
-    const [meta, ...rest] = useMetadata()
-    const data = meta?.[type]?.[id]
-
-    return [data, ...rest]
-}
-function useMultiple(type) {
-    const [meta, ...rest] = useMetadata()
-    const data = useMemo(
-        () =>
-            Object.values(meta?.[type] || {})
-                .filter(item => !item._legacy)
-                .sort(sorter),
-        [meta, type]
-    )
-
-    return [data, ...rest]
-}
 function useMetadata() {
     return useCacheAsync(metadata, undefined, undefined, 'metadata')
+}
+function useSingle(type, id) {
+    const metadata = useMetadata()
+
+    return useMemo(() => {
+        const [data, ...rest] = metadata
+
+        return [data?.[type]?.[id], ...rest]
+    }, metadata)
+}
+function useMultiple(type) {
+    const metadata = useMetadata()
+    return useMemo(() => {
+        const [data, ...rest] = metadata
+
+        return [
+            Object.values(data?.[type] || {})
+                .filter(item => !item._legacy)
+                .sort(sorter),
+            ...rest,
+        ]
+    }, metadata)
 }
 const FORECAST_REGIONS = 'forecast-regions'
 const HOT_ZONES = 'hot-zones'
