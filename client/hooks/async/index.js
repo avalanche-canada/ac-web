@@ -22,18 +22,16 @@ export function useAsync(fn, params = [], initialState) {
         controller.current = createAbortController()
 
         fn.apply(null, [...params, controller.current.signal])
-            .then(
-                data => {
-                    if (controller.current.signal?.aborted) {
-                        return
-                    }
-
-                    setData(data)
-                },
-                error => {
-                    setError(error)
+            .then(data => {
+                if (controller.current.signal?.aborted) {
+                    return
                 }
-            )
+
+                setData(data)
+            })
+            .catch(error => {
+                setError(error)
+            })
             .finally(() => {
                 setPending(false)
             })

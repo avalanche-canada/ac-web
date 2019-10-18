@@ -10,15 +10,16 @@ import ItemSet from './ItemSet'
 import Brand from './Brand'
 import Donate from './Donate'
 import { useWindowSize, useBoolean } from 'hooks'
+import LOGO from 'styles/AvalancheCanada.svg'
 
 Layout.propTypes = {
-    menu: PropTypes.object.isRequired,
-    logo: PropTypes.string.isRequired,
-    donate: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
+    menu: PropTypes.object,
+    logo: PropTypes.string,
+    donate: PropTypes.string,
+    children: PropTypes.node,
 }
 
-export default function Layout({ menu, logo, donate, children }) {
+export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
     const [isCabinetOpened, showCabinet, hideCabinet] = useBoolean(false)
     const { width } = useWindowSize()
     const fullNavbar = width > 768
@@ -40,7 +41,7 @@ export default function Layout({ menu, logo, donate, children }) {
                             </ItemSet>
                         )}
                         {fullNavbar || <Burger onClick={showCabinet} />}
-                        <Donate to={donate} />
+                        {donate && <Donate to={donate} />}
                     </Navbar>
                     {fullNavbar || (
                         <Cabinet
@@ -54,4 +55,11 @@ export default function Layout({ menu, logo, donate, children }) {
             )}
         </Location>
     )
+}
+
+// Constants
+const MENU = {
+    label: 'Avalanche Canada',
+    to: '/',
+    children: [],
 }

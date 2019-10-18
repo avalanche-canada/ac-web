@@ -1,6 +1,6 @@
 import React from 'react'
 import { memo } from 'utils/react'
-import Application from 'components/application'
+import Application, { Fallback } from 'components/application'
 import { Router, Redirect } from '@reach/router'
 import Null from 'components/Null'
 import LoginComplete from './LoginComplete'
@@ -20,7 +20,6 @@ import TripPlanner from './TripPlanner'
 import * as Feed from './feed'
 import Glossary from 'layouts/glossary'
 import ErrorBoundary from 'components/ErrorBoundary'
-import { Error } from 'components/text'
 import * as Page from 'components/page'
 import { ButtonSet } from 'components/button'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
@@ -37,11 +36,11 @@ function AvalancheCanada() {
         <AuthProvider>
             <SponsorsMetadataProvider>
                 <MapStateProvider>
-                    <Application>
-                        <Navbar />
-                        <SPAW />
-                        <Highlight />
-                        <ErrorBoundary fallback={<FallbackError />}>
+                    <ErrorBoundary fallback={<AvCanFallback />}>
+                        <Application>
+                            <Navbar />
+                            <SPAW />
+                            <Highlight />
                             {/* FIXME: Make it primary. With primary clicking a region on the map make the map jumping. */}
                             <Router primary={false}>
                                 <Main path="map/*" />
@@ -188,14 +187,14 @@ function AvalancheCanada() {
                                 <Pages path="pages/*" />
                                 <Page.NotFound default />
                             </Router>
-                        </ErrorBoundary>
-                        <Router primary={false}>
-                            <Null path="map/*" />
-                            <Null path="planning/trip-planner" />
-                            <Null path="tutoriel" />
-                            <Footer default />
-                        </Router>
-                    </Application>
+                            <Router primary={false}>
+                                <Null path="map/*" />
+                                <Null path="planning/trip-planner" />
+                                <Null path="tutoriel" />
+                                <Footer default />
+                            </Router>
+                        </Application>
+                    </ErrorBoundary>
                 </MapStateProvider>
             </SponsorsMetadataProvider>
         </AuthProvider>
@@ -204,34 +203,27 @@ function AvalancheCanada() {
 
 export default memo.static(AvalancheCanada)
 
-function FallbackError({ error }) {
+function AvCanFallback(props) {
     return (
-        <Page.Error>
-            <Page.Main>
-                <h1>Uh oh! We never thought that would happen...</h1>
-                <Page.Headline>
-                    An error happened on a page you tried to visit.
-                    <Error>{error.message}</Error>
-                </Page.Headline>
-                <ButtonSet>
-                    <a href="/" className={styles.Link}>
-                        Forecasts
-                    </a>
-                    <a href="/training" className={styles.Link}>
-                        Training
-                    </a>
-                    <a href="/news" className={styles.Link}>
-                        Latest news
-                    </a>
-                    <a href="/events" className={styles.Link}>
-                        Upcoming events
-                    </a>
-                    <a href="/blogs" className={styles.Link}>
-                        Our blog
-                    </a>
-                </ButtonSet>
-            </Page.Main>
-        </Page.Error>
+        <Fallback navbar={<Navbar />} {...props}>
+            <ButtonSet>
+                <a href="/" className={styles.Link}>
+                    Forecasts
+                </a>
+                <a href="/training" className={styles.Link}>
+                    Training
+                </a>
+                <a href="/news" className={styles.Link}>
+                    Latest news
+                </a>
+                <a href="/events" className={styles.Link}>
+                    Upcoming events
+                </a>
+                <a href="/blogs" className={styles.Link}>
+                    Our blog
+                </a>
+            </ButtonSet>
+        </Fallback>
     )
 }
 

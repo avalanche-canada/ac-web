@@ -1,4 +1,10 @@
-import React, { createContext, useContext, cloneElement, Children } from 'react'
+import React, {
+    createContext,
+    useContext,
+    cloneElement,
+    isValidElement,
+    Children,
+} from 'react'
 import PropTypes from 'prop-types'
 import * as utils from 'utils/fetch'
 
@@ -9,16 +15,23 @@ export const { Provider } = AsyncContext
 
 // Components
 Pending.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.node,
 }
 
 export function Pending({ children }) {
     return usePending() === true ? children : null
 }
 
+Empty.propTypes = {
+    children: PropTypes.node,
+}
+
 Found.propTypes = {
-    children: PropTypes.oneOfType([PropTypes.func, PropTypes.element])
-        .isRequired,
+    children: PropTypes.oneOfType([
+        PropTypes.func,
+        PropTypes.element,
+        PropTypes.node,
+    ]).isRequired,
 }
 
 export function Found({ children }) {
@@ -28,22 +41,46 @@ export function Found({ children }) {
         return null
     }
 
-    return typeof children === 'function'
-        ? children(payload)
-        : cloneElement(children, { payload })
+    if (typeof children === 'function') {
+        return children(payload)
+    }
+
+    return isValidElement(children)
+        ? cloneElement(children, { payload })
+        : children
+}
+
+// Case for Prismic document. There no concept of NotFound error for Prismic documents.
+export function Empty({ children }) {
+    const payload = usePayload()
+    const pending = usePending()
+    const error = useError()
+    const empty = !payload && !pending && !error
+
+    return empty ? children : null
 }
 
 // Error related components
-NotFound.propTypes = {
-    children: PropTypes.element,
+Error.propTypes = {
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
 }
 
-export function NotFound({ children }) {
-    return <HTTPError status={404}>{children}</HTTPError>
+export function Error({ children }) {
+    const error = useError()
+
+    if (!error) {
+        return null
+    }
+
+    if (isValidElement(children)) {
+        children = cloneElement(children, { error })
+    }
+
+    return children
 }
 
 HTTPError.propTypes = {
-    children: PropTypes.element,
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
     status: PropTypes.number,
 }
 
@@ -54,13 +91,33 @@ export function HTTPError({ children, status }) {
         return null
     }
 
-    children = cloneElement(children, { error })
+    if (isValidElement(children)) {
+        children = cloneElement(children, { error })
+    }
 
     if (typeof status === 'number') {
         return error.status === status ? children : null
     }
 
-    return error ? children : null
+    return children
+}
+
+NotFound.propTypes = {
+    children: PropTypes.node,
+}
+
+export function NotFound({ children }) {
+    return <HTTPError status={404}>{children}</HTTPError>
+}
+
+export function Throw() {
+    const error = useError()
+
+    if (error) {
+        throw error
+    }
+
+    return null
 }
 
 export function FirstError({ children }) {
@@ -69,20 +126,23 @@ export function FirstError({ children }) {
     if (!error) {
         return null
     }
-
-    return Children.toArray(children).find(({ type }) => {
-        switch (type) {
-            case NotFound:
-                return error.status === 404
-            case HTTPError:
-                return error instanceof utils.HTTPError
-            default:
-                return true
-        }
-    })
+    return (
+        Children.toArray(children).find(({ type }) => {
+            switch (type) {
+                case NotFound:
+                    return error.status === 404
+                case HTTPError:
+                    return error instanceof utils.HTTPError
+                case Error:
+                    return error instanceof window.Error
+                default:
+                    return true
+            }
+        }) || null
+    )
 }
 
-// Utils
+// Util hooks
 function usePayload() {
     return useAsyncContext(0)
 }

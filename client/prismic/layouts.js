@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import * as params from 'prismic/params'
-import { STATIC_PAGE, GENERIC, SPONSOR } from 'constants/prismic'
+import { STATIC_PAGE, SPONSOR } from 'constants/prismic'
 import {
     Page,
     Content,
@@ -11,10 +11,11 @@ import {
     Banner,
     Aside,
 } from 'components/page'
-import { Loading } from 'components/text'
+import { Loading, Error } from 'components/text'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
 import { useDocument } from './hooks'
+import * as Async from 'contexts/async'
 
 StaticPage.propTypes = {
     uid: PropTypes.string.isRequired,
@@ -22,35 +23,58 @@ StaticPage.propTypes = {
 }
 
 export function StaticPage({ uid, title }) {
-    const [document, pending] = useDocument({
+    const className = `${STATIC_PAGE}-${uid}`
+    const props = {
         ...params.uid(STATIC_PAGE, uid),
         fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
-    })
-    const data = document?.data
-    const headline = data?.headline
-    const content = data?.content
-    const banner = data?.banner
+    }
 
     // classes are defined in prismic.css, kind of a hack to have full control
     // styling pages.
 
     return (
-        <Page className={`${STATIC_PAGE}-${uid}`}>
-            {banner?.url && <Banner {...banner} />}
-            <Header title={data?.title || title} />
-            <Content>
-                {pending && (
-                    <Loading>
-                        {title ? `Loading ${title} page...` : 'Loading page...'}
-                    </Loading>
-                )}
-                <Main>
-                    {headline && <Headline>{headline}</Headline>}
-                    {Array.isArray(content) && <SliceZone value={content} />}
-                </Main>
-                {data && renderAside(data)}
-            </Content>
-        </Page>
+        <Async.Provider value={useDocument(props)}>
+            <Page className={className}>
+                <Async.Found>
+                    {({ data }) =>
+                        data.banner?.url ? <Banner {...data.banner} /> : null
+                    }
+                </Async.Found>
+                <Header title={<Title>{title}</Title>} />
+                <Content>
+                    <Pending title={title} />
+                    <Async.Empty>
+                        <Main>
+                            <Error>Document {title || uid} not found.</Error>
+                        </Main>
+                    </Async.Empty>
+                    <Async.Found>
+                        {({ data }) => (
+                            <Main>
+                                {data.headline && (
+                                    <Headline>{data.headline}</Headline>
+                                )}
+                                {Array.isArray(data.content) && (
+                                    <SliceZone value={data.content} />
+                                )}
+                            </Main>
+                        )}
+                    </Async.Found>
+                    <Async.Found>
+                        {({ data }) => <PageAside {...data} />}
+                    </Async.Found>
+                    <Async.FirstError>
+                        <Async.HTTPError>
+                            <Error>
+                                An error happened while getting document{' '}
+                                {title || uid}.
+                            </Error>
+                        </Async.HTTPError>
+                        <Async.Throw />
+                    </Async.FirstError>
+                </Content>
+            </Page>
+        </Async.Provider>
     )
 }
 
@@ -60,22 +84,28 @@ GenericPage.propTypes = {
 }
 
 export function GenericPage({ uid, title }) {
-    const [document, pending] = useDocument(params.uid(GENERIC, uid))
-
     return (
-        <Page>
-            <Header title={document?.data?.title || title} />
-            <Content>
-                {pending && (
-                    <Loading>
-                        {title ? `Loading ${title} page...` : 'Loading page...'}
-                    </Loading>
-                )}
-                <Main>
-                    <StructuredText value={document?.data?.body} />
-                </Main>
-            </Content>
-        </Page>
+        <Async.Provider value={useDocument(params.generic(uid))}>
+            <Page>
+                <Header title={<Title>{title}</Title>} />
+                <Content>
+                    <Pending title={title} />
+                    <Main>
+                        <Async.Found>
+                            <Body />
+                        </Async.Found>
+                        <Async.FirstError>
+                            <Async.Empty>
+                                <Error>
+                                    Document {title || uid} not found.
+                                </Error>
+                            </Async.Empty>
+                            <Async.Throw />
+                        </Async.FirstError>
+                    </Main>
+                </Content>
+            </Page>
+        </Async.Provider>
     )
 }
 
@@ -84,27 +114,49 @@ Generic.propTypes = {
 }
 
 export function Generic({ uid }) {
-    const [document, pending] = useDocument(params.generic(uid))
-
-    return pending ? (
-        <Loading />
-    ) : (
-        <StructuredText value={document?.data?.body} />
+    return (
+        <Async.Provider value={useDocument(params.generic(uid))}>
+            <Async.Pending>
+                <Loading />
+            </Async.Pending>
+            <Async.Found>
+                <Body />
+            </Async.Found>
+        </Async.Provider>
     )
 }
 
-// Constants, utils & renderers
-function renderAside({
-    sharing,
-    following,
-    contacting,
-    sidebar = [],
-    contact,
-}) {
-    const YES = 'Yes'
-    sharing = sharing === YES
-    following = following === YES
-    contacting = contacting === YES
+// Util components
+function Body({ payload }) {
+    return <StructuredText value={payload.data.body} />
+}
+function Title({ children = null }) {
+    return (
+        <Fragment>
+            <Async.Pending>
+                {children || <Loading component="span" />}
+            </Async.Pending>
+            <Async.Found>
+                {document => document.data.title || children}
+            </Async.Found>
+            <Async.Empty>Document not found</Async.Empty>
+            <Async.Error>{children}</Async.Error>
+        </Fragment>
+    )
+}
+function Pending({ title }) {
+    return (
+        <Async.Pending>
+            <Loading>
+                {title ? `Loading ${title} page...` : 'Loading page...'}
+            </Loading>
+        </Async.Pending>
+    )
+}
+function PageAside({ sharing, following, contacting, sidebar = [], contact }) {
+    sharing = sharing === 'Yes'
+    following = following === 'Yes'
+    contacting = contacting === 'Yes'
 
     if (sharing || following || contacting || sidebar.length) {
         contact = contacting
