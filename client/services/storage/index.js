@@ -1,7 +1,9 @@
 class Storage {
-    constructor(get) {
+    constructor(access) {
         try {
-            const storage = get()
+            // Use a function to access the srtorage.
+            // Some browsers (i.e. Google) throw when trying to access the storage.
+            const storage = access()
             const key = '99999'
 
             storage.setItem(key, key)
