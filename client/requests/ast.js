@@ -14,16 +14,17 @@ export function courses() {
 
     return fetch(url)
         .then(pluckResults)
-        .then(courses => {
-            const now = new Date()
-
-            return courses.filter(course => isAfter(course.date_end, now))
-        })
+        .then(filterOutPastCourses)
 }
 
 // Utils & constants
 function pluckResults({ results }) {
     return results
+}
+function filterOutPastCourses(courses) {
+    const now = new Date()
+
+    return courses.filter(course => isAfter(course.date_end, now))
 }
 const PARAMS = {
     page_size: 1000,
