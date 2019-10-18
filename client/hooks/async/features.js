@@ -23,7 +23,9 @@ export function useAdvisoryMetadata(id) {
     return useSingle(HOT_ZONES, id)
 }
 
-// Utils
+// Constants & utils
+const FORECAST_REGIONS = 'forecast-regions'
+const HOT_ZONES = 'hot-zones'
 function useMetadata() {
     return useCacheAsync(metadata, undefined, undefined, 'metadata')
 }
@@ -41,6 +43,7 @@ function useMultiple(type) {
     return useMemo(() => {
         const [data, ...rest] = metadata
 
+        // Could be moved to the "request", but due to the object structure it does not make sense
         return [
             Object.values(data?.[type] || {})
                 .filter(item => !item._legacy)
@@ -49,8 +52,6 @@ function useMultiple(type) {
         ]
     }, metadata)
 }
-const FORECAST_REGIONS = 'forecast-regions'
-const HOT_ZONES = 'hot-zones'
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
 }
