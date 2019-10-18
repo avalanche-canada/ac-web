@@ -37,7 +37,7 @@ class Storage {
 }
 
 // Fallback Storage
-// This needs to above we are create "Local" and "Session"
+// This needs to be above we create "Local" and "Session" instances
 class Memory {
     constructor() {
         this.content = new Map()
