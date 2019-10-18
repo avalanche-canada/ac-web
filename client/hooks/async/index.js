@@ -90,7 +90,10 @@ export function merge(...values) {
     )
 }
 export function createKey(...paths) {
-    return paths.filter(Boolean).join(':')
+    return paths
+        .flat() // Because you can pass arrays, see forecast hooks!
+        .filter(Boolean)
+        .join(':')
 }
 
 function createAbortController() {

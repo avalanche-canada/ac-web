@@ -1,9 +1,8 @@
 import { forecast } from 'requests/forecast'
 import { useCacheAsync, createKey } from './'
 
-export function useForecast(name, date) {
-    const params = [name, date]
-    const key = createKey('avalanche', 'forecast', name, date)
+export function useForecast(...params) {
+    const key = createKey('avalanche', 'forecast', params)
 
     return useCacheAsync(forecast, params, undefined, key)
 }

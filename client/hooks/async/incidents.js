@@ -7,9 +7,8 @@ export function useIncident(id) {
     return useCacheAsync(incident, [id], undefined, key)
 }
 
-export function useIncidents(page, from, to) {
-    const params = [page, from, to]
-    const key = createKey(KEY, page, from, to)
+export function useIncidents(...params) {
+    const key = createKey(KEY, params)
 
     return useCacheAsync(incidents, params, undefined, key)
 }

@@ -1,16 +1,10 @@
 import { providers, courses } from 'requests/ast'
-import { useCacheAsync, createKey } from './'
+import { useCacheAsync } from './'
 
 export function useProviders() {
-    const key = createKey(KEY, 'providers')
-
-    return useCacheAsync(providers, undefined, undefined, key)
+    return useCacheAsync(providers, undefined, undefined, 'ast:providers')
 }
 
 export function useCourses() {
-    const key = createKey(KEY, 'courses')
-
-    return useCacheAsync(courses, undefined, undefined, key)
+    return useCacheAsync(courses, undefined, undefined, 'ast:courses')
 }
-
-const KEY = 'ast'
