@@ -12,9 +12,25 @@ info:
     # Changes in v2.0
 
     - Updated the `Forecast` object
-      - Added the `avidTerrainAndTravel` field to list the top-level terrain and travel advice
-        This is change is not backwards compatable with older versions of the API.
-      - Added the `avidConfidence` field to give structured access to the data from the 'confidence'
+      - Added the `fxType` field to specify if the forecast is from AvID and
+        thus if it contains the extra `avid*` properties.
+      - Added the `avidOffseasonComment` to for additional messaging when the
+        `dangerMode` field is set to any of "Spring situation", "Off season" or
+        "Early season"
+      - Added the `avidOffseasonMessage` to for a more specific off season
+        message when the `dangerMode` field is set to any of "Spring
+        situation", "Off season" or "Early season"
+      - Added the `avidTerrainAndTravel` field to list the top-level terrain
+        and travel advice.  This is change is not backwards compatable with
+        older versions of the API.
+      - Added the `avidConfidence` field to give structured access to the data
+        from the 'confidence'
+      - Added the `fxPublishTime` field to represent the *acutal* time that the
+        forecast was published. This will likely be different from the
+        `dateIssued` time which is meant to represent the predicitons valid
+        period 
+      - Added the `iconSet` field to represent what Icon should be displayed
+        on the map for what time periods.
 
     # Avalanche Canada API
 
@@ -104,7 +120,7 @@ paths:
           required: true
           in: path
           type: string
-          description: |
+          description: >
             The region id that is listed int `/features/metadata` objects
       responses:
         '200':
@@ -126,7 +142,7 @@ paths:
           required: true
           in: path
           type: string
-          description: |
+          description: >
             The region id that is listed int `/features/metadata` objects
         - name: date
           required: true
@@ -302,13 +318,29 @@ definitions:
                example: "Uncertainty is due to how buried persistent weak layers will react with the forecast incoming weather."
       avalancheSummary:
         type: string
+        format: HTML
         description: HTML Text describing the avalanche condition
       snowpackSummary:
         type: string
+        format: HTML
         description: HTML text describing the state of the snowpack
       weatherForecast:
         type: string
+        format: HTML
         description: HTML Text describing the weather forecast
+      avidOffseasonComment:
+        type: string
+        format: HTML
+        description: >
+          General per-forecast message describing the off-season conditions.
+          This will only be present when the `fxFormat` field is set to
+          `"avid"` and the `dangerMode` field is something other than `"Regular season"`
+      avidOffseasonMessage:
+        type: string
+        format: HTML
+        description: >
+          A mostly static message that describes the `dangerMode`. This is
+          indtended to display along side the large off season icon.
       dangerMode:
         $ref: '#/definitions/DangerModeOptions'
       avidTerrainAndTravel:
@@ -345,6 +377,37 @@ definitions:
                   $ref: '#/definitions/DangerRatingOptions'
                 btl:
                   $ref: '#/definitions/DangerRatingOptions'
+      iconSet:
+        description: >
+          Describes the time spans that a region/locations danger icons should
+          pass through. Each elements `from`/`to` fields will be in ISO8601
+          datetime format with an included UTC offset and are to be interpreted
+          as such. Interpreting these as local time or splitting the string to
+          use only the date will likely in incorrect behavior.
+          
+          For each element except the first and last will have the property
+          that `iconSet[n].to == iconSet[n+1].from`
+        type: array
+        items:
+          type: object
+          properties:
+            from:
+              type: string
+              format: datetime
+            to:
+              type: string
+              format: datetime
+            iconType: {type: string, enum: ["RATINGS", "SPRING", "OFF_SEASON", "EARLY_SEASON"]}
+            ratings:
+              description: |
+                When the `iconType` is set to "RATINGS" this object will contain the danger ratings to use
+              type: object
+              properties:
+                alp: {type: integer, minimum: 0, maximum: 5}
+                tln: {type: integer, minimum: 0, maximum: 5}
+                btl: {type: integer, minimum: 0, maximum: 5}
+          required: ["from", "to", "iconType"]
+
       problems:
         type: object
         required:
@@ -421,7 +484,7 @@ definitions:
           travelAndTerrainAdvice:
             type: string
             format: html
-            description: |
+            description: >
               Advice for navigating the terrain with this avalanche problem.
               This value will only be populated if the the 'fxFormat' field is
               'avalx'. If the 'fxFormat' field is 'avid' then this string will
@@ -452,7 +515,7 @@ definitions:
         description: Printable name of the region
       id:
         type: string
-        description: |
+        description: >
           Identifier for the region (used for urls and referencing)
       type:
         type: string

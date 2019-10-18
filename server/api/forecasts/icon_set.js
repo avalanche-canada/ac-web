@@ -20,7 +20,7 @@ var   END_DATE = '9999-12-31T00:00:00Z';
  * Transform a danger rating set (from the AvalX format into list of danger rating icons in from/to
  * date pairs in UTC time
  */
-function genDangerIconSet(region_tz, dangerRatings) {
+function genMovingDangerIconSet(region_tz, dangerRatings) {
     assert(dangerRatings.length === 3, 'Need 3 danger ratings');
 
     var days = dangerRatings.map(function(rating){
@@ -32,12 +32,29 @@ function genDangerIconSet(region_tz, dangerRatings) {
     });
 
     return [
-        {from: START_DATE, to: days[1], 
-            dangerRating: ratingsToInts(dangerRatings[0].dangerRating)},
-        {from: days[1], to: days[2], 
-            dangerRating: ratingsToInts(dangerRatings[1].dangerRating)},
-        {from: days[2], to: END_DATE, 
-            dangerRating: ratingsToInts(dangerRatings[2].dangerRating)},
+        { from: START_DATE,
+          to: days[1],
+          dangerRating: ratingsToInts(dangerRatings[0].dangerRating),
+          iconType: 'RATINGS' },
+
+        { from: days[1],
+          to: days[2],
+          dangerRating: ratingsToInts(dangerRatings[1].dangerRating),
+          iconType: 'RATINGS' },
+
+        { from: days[2],
+          to: END_DATE,
+          dangerRating: ratingsToInts(dangerRatings[2].dangerRating),
+          iconType: 'RATINGS' },
+    ];
+}
+
+function genSingleDangerIconSet(region_tz, dangerRatings) {
+    return [
+        { from: START_DATE,
+          to: END_DATE,
+          dangerRating: ratingsToInts(dangerRatings[0].dangerRating),
+          iconType: 'RATINGS' },
     ];
 }
 
@@ -49,5 +66,40 @@ function ratingsToInts(rt){
     };
 }
 
+function staticSet(iconType) {
+    return [{
+        from: START_DATE,
+        to: END_DATE,
+        iconType: iconType,
+    }];
+}
 
-module.exports.genDangerIconSet= genDangerIconSet;
+function addStaticIcons(region_tz, forecast){
+    return addIcon(genSingleDangerIconSet, region_tz, forecast);
+}
+function addMovingIcons(region_tz, forecast){
+    return addIcon(genMovingDangerIconSet, region_tz, forecast);
+}
+
+function addIcon(type_fn, region_tz, forecast){
+    var iconSet = {};
+    if (forecast.dangerMode ===  "Regular season") {
+        iconSet = type_fn(region_tz, forecast.dangerRatings);
+    } else if (forecast.dangerMode ===  "Early season") {
+        iconSet = staticSet('EARLY_SEASON');
+    } else if (forecast.dangerMode ===  "Off season") {
+        iconSet = staticSet('OFF_SEASON');
+    } else if (forecast.dangerMode ===  "Spring situation") {
+        iconSet = staticSet('SPRING');
+    } else {
+        assert(false, "Uknown forecast danger mode:" + forecast.dangerMode);
+    }
+    return Object.assign({}, forecast, {iconSet: iconSet});
+
+}
+
+
+module.exports.genMovingDangerIconSet = genMovingDangerIconSet;
+module.exports.genSingleDangerIconSet = genSingleDangerIconSet;
+module.exports.addStaticIcons = addStaticIcons;
+module.exports.addMovingIcons = addMovingIcons;
