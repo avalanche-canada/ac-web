@@ -2,26 +2,22 @@ import * as urls from './urls'
 import * as api from './api'
 import request from 'utils/fetch'
 import { FR } from 'constants/locale'
-import { useCacheAsync, createKey } from 'hooks/async'
-
-function useMasterRef() {
-    const key = createKey('prismic', 'ref')
-    const [ref = null] = useCacheAsync(api.ref, undefined, undefined, key)
-
-    return ref
-}
+import { useCacheAsync, createKey, merge } from 'hooks/async'
 
 export function useSearch({ predicates, locale, ...options }) {
     if (LANGUAGES.has(locale)) {
         Object.assign(options, LANGUAGES.get(locale))
     }
 
-    // Use URL as key and params, so it does not trigger all the time
+    // Use URL as key and params, so it does not trigger all the time!
+    // That is the only one that uses URL
+    // However there is an async search function that could be used
     const ref = useMasterRef()
-    const url = ref ? urls.search(ref, predicates, options) : null
+    const url = ref[0] ? urls.search(ref[0], predicates, options) : null
     const req = url ? request : empty
+    const search = useCacheAsync(req, [url], undefined, url)
 
-    return useCacheAsync(req, [url], undefined, url)
+    return merge(ref, search)
 }
 
 export function useDocuments(props) {
@@ -37,16 +33,21 @@ export function useDocument(props) {
 }
 
 export function useTags(type) {
-    const ref = useMasterRef()
-    const params = [ref, type]
     const key = createKey('primic', 'tags', type)
-    const fn = ref ? api.tags : empty
+    const ref = useMasterRef()
+    const params = [ref[0], type]
+    const fn = ref[0] ? api.tags : empty
+    const tags = useCacheAsync(fn, params, undefined, key)
 
-    return useCacheAsync(fn, params, undefined, key)
+    return merge(ref, tags)
 }
 
-// Constants
+// Utils & constants
+function useMasterRef() {
+    return useCacheAsync(api.ref, undefined, undefined, REF_KEY)
+}
 const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
+const REF_KEY = createKey('prismic', 'ref')
 function empty() {
     return Promise.resolve()
 }

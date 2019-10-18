@@ -80,6 +80,17 @@ function useCache(key, initialState, lifespan) {
     return [data, set, has]
 }
 
+// Utils
+export function merge(...values) {
+    return values.reduce(
+        (value, current) => [
+            current[0],
+            current[1] || value[1],
+            value[2] || current[2],
+        ],
+        []
+    )
+}
 export function createKey(...paths) {
     return paths.filter(Boolean).join(':')
 }
