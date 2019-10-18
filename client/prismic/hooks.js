@@ -42,6 +42,16 @@ export function useTags(type) {
     return merge(ref, tags)
 }
 
+export function useDefinitions() {
+    const key = createKey('primic', 'definitions')
+    const ref = useMasterRef()
+    const params = [ref[0]]
+    const fn = ref[0] ? api.definitions : empty
+    const definitions = useCacheAsync(fn, params, undefined, key)
+
+    return merge(ref, definitions)
+}
+
 // Utils & constants
 function useMasterRef() {
     return useCacheAsync(api.ref, undefined, undefined, 'prismic:ref')

@@ -20,6 +20,13 @@ export async function tags(ref, type) {
     )
 }
 
+export async function definitions(ref) {
+    const { predicates, ...options } = params.glossary.definitions()
+    const definitions = await all(ref, predicates, options)
+
+    return definitions || []
+}
+
 // Utils
 // TODO Try to use in prismic/hooks
 function search(ref, predicates, options) {

@@ -15,7 +15,7 @@ import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
 import { glossary } from 'prismic/params'
-import { useDocuments, useDocument } from 'prismic/hooks'
+import { useDocument, useDefinitions } from 'prismic/hooks'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
@@ -124,7 +124,7 @@ DefinitionLayout.propTypes = {
     data: PropTypes.object.isRequired,
 }
 
-function DefinitionLayout({ id, uid, tags, data, linkToExternal }) {
+function DefinitionLayout({ uid, tags, data, linkToExternal }) {
     const { title } = data
 
     return (
@@ -208,7 +208,7 @@ function LetterTag({ letter }) {
 }
 
 function useDefaultSections(layout = {}) {
-    const [definitions, loading] = useDocuments(glossary.definitions())
+    const [definitions = [], pending] = useDefinitions()
     const definitionsByUID = useMemo(() => {
         return Array.isArray(definitions)
             ? definitions.reduce(
@@ -242,7 +242,7 @@ function useDefaultSections(layout = {}) {
         )
     }, [layout, definitionsByUID])
 
-    return [sections, loading]
+    return [sections, pending]
 }
 
 function GlossaryContent({ layout, term }) {
