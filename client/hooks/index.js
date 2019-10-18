@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
-import identity from 'lodash/identity'
 import { Local, Session } from 'services/storage'
 
 export function useBoolean(initialValue) {
