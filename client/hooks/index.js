@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
-import { Memory } from 'services/cache'
+import { Local, Session } from 'services/storage'
 
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)
@@ -74,22 +74,8 @@ export function useEventListener(eventName, handler, element = window) {
     }, [eventName, element, handler])
 }
 
-function useStorage(
-    storage,
-    key,
-    defaultValue = null,
-    decode = identity,
-    encode = identity
-) {
-    const [value, setValue] = useState(() => {
-        try {
-            const value = storage.getItem(key)
-
-            return value === null ? defaultValue : decode(value)
-        } catch {
-            return defaultValue
-        }
-    })
+function useStorage(storage, key, defaultValue = null) {
+    const [value, setValue] = useState(storage.get(key, defaultValue))
     function listen(event) {
         if (event.storageArea === storage && event.key === key) {
             setValue(event.newValue)
@@ -97,11 +83,11 @@ function useStorage(
     }
     function set(value) {
         setValue(value)
-        storage.setItem(key, encode(value))
+        storage.set(key, value)
     }
     function remove() {
         setValue(null)
-        storage.removeItem(key)
+        storage.remove(key)
     }
 
     // listening to changes
@@ -110,42 +96,12 @@ function useStorage(
     return [value, set, remove]
 }
 
-const MEMORY = new Memory()
-
-export function useLocalStorage(
-    key,
-    defaultValue,
-    decode = JSON.parse,
-    encode = JSON.stringify
-) {
-    let storage
-
-    // Chrome throws when storage are accessed from the global object
-    try {
-        storage = window.localStorage
-    } catch {
-        storage = MEMORY
-    }
-
-    return useStorage(storage, key, defaultValue, decode, encode)
+export function useLocalStorage(key, defaultValue) {
+    return useStorage(Local, key, defaultValue)
 }
 
-export function useSessionStorage(
-    key,
-    defaultValue,
-    decode = JSON.parse,
-    encode = JSON.stringify
-) {
-    let storage
-
-    // Chrome throws when storage are accessed from the global object
-    try {
-        storage = window.sessionStorage
-    } catch {
-        storage = MEMORY
-    }
-
-    return useStorage(storage, key, defaultValue, decode, encode)
+export function useSessionStorage(key, defaultValue) {
+    return useStorage(Session, key, defaultValue)
 }
 
 export function useCounter(

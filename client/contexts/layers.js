@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useMemo } from 'react'
+import React, { createContext, useContext, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import * as LAYER_IDS from 'constants/drawers'
 import { useLocalStorage } from 'hooks'
@@ -8,8 +8,13 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [layers, setLayers] = useLocalStorage('layers', LAYERS, decode)
+    const [layers, setLayers] = useLocalStorage('layers', LAYERS)
 
+    useEffect(() => {
+        setLayers(resetLayers(layers))
+    }, [])
+
+    // TODO Not sure "useMemo" helps!
     const value = useMemo(
         () => ({
             layers,
@@ -76,9 +81,7 @@ export function Layers({ children }) {
 }
 
 // Utils & constants
-function decode(string) {
-    const data = JSON.parse(string)
-
+function resetLayers(data) {
     // TODO Simplify the implementation: only few properties need to be transfered, also LAYERS should be deeply cloned!
 
     return {
@@ -128,4 +131,4 @@ const LAYERS = {
         visible: false,
     },
 }
-const LayersContext = createContext(LAYER_IDS)
+const LayersContext = createContext(LAYERS)

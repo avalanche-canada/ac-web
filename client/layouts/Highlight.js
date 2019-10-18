@@ -8,12 +8,7 @@ import { useDocument } from 'prismic/hooks'
 
 export default function HighlightLayout() {
     const [document] = useDocument(highlight())
-    const [hidden, setHidden] = useSessionStorage(
-        'highlight-hidden',
-        false,
-        Boolean,
-        String
-    )
+    const [hidden, setHidden] = useSessionStorage('highlight-hidden', false)
     function handleDismiss() {
         setHidden(true)
     }

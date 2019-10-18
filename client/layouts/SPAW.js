@@ -9,12 +9,7 @@ import { useDocument } from 'prismic/hooks'
 
 export default function SPAW() {
     const [document] = useSPAW()
-    const [hidden, setHidden] = useSessionStorage(
-        'spaw-hidden',
-        false,
-        Boolean,
-        String
-    )
+    const [hidden, setHidden] = useSessionStorage('spaw-hidden', false)
     function handleDismiss() {
         setHidden(true)
     }
