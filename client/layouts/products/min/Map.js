@@ -14,7 +14,7 @@ export default function Map() {
         return null
     }
 
-    const [latitude, longitude] = report.latlng
+    const [longitude, latitude] = report.lnglat
     const center = new mapbox.LngLat(longitude, latitude)
     const withIncident = report.obs.some(hasIncident)
     const element = createElement({

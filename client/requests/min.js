@@ -35,9 +35,7 @@ export function post(report, idToken) {
 function parse(submission) {
     const { latlng } = submission
 
-    return Object.assign({}, submission, {
-        // TODO Fix that double latitude/longituge object, we do not need both!!!
-        latlng: latlng.map(Number),
+    return Object.assign(submission, {
         lnglat: latlng.map(Number).reverse(),
         datetime: new Date(submission.datetime),
     })
