@@ -2,8 +2,6 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import identity from 'lodash/identity'
 import { Memory } from 'services/cache'
-import { HTTPError } from 'utils/fetch'
-import { captureException } from 'services/sentry'
 
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)
@@ -315,14 +313,7 @@ export function useAsync(fn, params = [], initialState) {
                     setData(data)
                 },
                 error => {
-                    if (error instanceof HTTPError) {
-                        captureException(error)
-                        setError(error)
-                    } else {
-                        setError(() => {
-                            throw error
-                        })
-                    }
+                    setError(error)
                 }
             )
             .finally(() => {
