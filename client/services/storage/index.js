@@ -36,10 +36,8 @@ class Storage {
     }
 }
 
-export const Local = new Storage(() => window.localStorage)
-export const Session = new Storage(() => window.sessionStorage)
-
 // Fallback Storage
+// This needs to above we are create "Local" and "Session"
 class Memory {
     constructor() {
         this.content = new Map()
@@ -57,3 +55,6 @@ class Memory {
         return this.content.has(key)
     }
 }
+
+export const Local = new Storage(() => window.localStorage)
+export const Session = new Storage(() => window.sessionStorage)
