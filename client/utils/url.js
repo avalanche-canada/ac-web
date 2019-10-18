@@ -1,7 +1,7 @@
 import { clean } from 'utils/object'
 
 export function href(url) {
-    if (avalancheCanadaPathRegex.test(url)) {
+    if (isAvalancheCanada(url)) {
         return url.replace(avalancheCanadaPathRegex, '') || '/'
     }
 
@@ -16,8 +16,16 @@ export function isExternal(path) {
     return isExternalRegExp.test(path)
 }
 
-export const avalancheCanadaPathRegex = /^(http|https):\/\/(www.|)avalanche.ca/
-export const isExternalRegExp = new RegExp('^(https|http)://')
+export function isAvalancheCanada() {
+    if (typeof path !== 'string') {
+        return false
+    }
+
+    return avalancheCanadaPathRegex.test(path)
+}
+
+const avalancheCanadaPathRegex = /^(http|https):\/\/(www.|)avalanche.ca/
+const isExternalRegExp = new RegExp('^(https|http)://')
 
 export function forceHttps(url) {
     return typeof url === 'string' ? url.replace(/^http:/, 'https:') : url
