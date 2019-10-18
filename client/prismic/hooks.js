@@ -2,7 +2,7 @@ import * as urls from './urls'
 import * as api from './api'
 import request from 'utils/fetch'
 import { FR } from 'constants/locale'
-import { useCacheAsync, createKey, merge } from 'hooks/async'
+import { useCacheAsync, createKey } from 'hooks/async'
 
 export function useSearch({ predicates, locale, ...options }) {
     if (LANGUAGES.has(locale)) {
@@ -50,4 +50,14 @@ const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
 const REF_KEY = createKey('prismic', 'ref')
 function empty() {
     return Promise.resolve()
+}
+function merge(...values) {
+    return values.reduce(
+        (value, current) => [
+            current[0], // payload
+            current[1] || value[1], // pending
+            value[2] || current[2], // error
+        ],
+        []
+    )
 }

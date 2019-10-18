@@ -79,16 +79,6 @@ function useCache(key, initialState, lifespan) {
 }
 
 // Utils
-export function merge(...values) {
-    return values.reduce(
-        (value, current) => [
-            current[0], // payload
-            current[1] || value[1], // pending
-            value[2] || current[2], // error
-        ],
-        []
-    )
-}
 export function createKey(...paths) {
     return paths
         .flat() // Because you can pass arrays, see forecast hooks!
