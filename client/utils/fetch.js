@@ -1,17 +1,15 @@
 export default function request(url, init) {
-    if (REQUESTS.has(url)) {
-        return REQUESTS.get(url)
+    if (!REQUESTS.has(url)) {
+        const request = fetch(url, init)
+            .then(status)
+            .finally(() => {
+                REQUESTS.delete(url)
+            })
+
+        REQUESTS.set(url, request)
     }
 
-    const request = fetch(url, init)
-        .then(status)
-        .finally(() => {
-            REQUESTS.delete(url)
-        })
-
-    REQUESTS.set(url, request)
-
-    return request
+    return REQUESTS.get(url)
 }
 
 export class HTTPError extends Error {
