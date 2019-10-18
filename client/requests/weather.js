@@ -1,4 +1,3 @@
-import { build } from 'utils/url'
 import { weatherBaseUrl } from './config.json'
 import fetch from 'utils/fetch'
 
@@ -22,4 +21,4 @@ export function measurements(stationId) {
 function sorter(a, b) {
     return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
 }
-const URL = build('/stations/', null, weatherBaseUrl)
+const URL = weatherBaseUrl + '/stations/'
