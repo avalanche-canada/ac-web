@@ -9,7 +9,7 @@ import { path } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { point } from '@turf/helpers'
-import { useReport } from 'hooks/min'
+import { useReport } from 'hooks/async/min'
 
 MountainInformationNetwork.propTypes = {
     id: PropTypes.string.isRequired,

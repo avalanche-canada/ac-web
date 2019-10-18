@@ -1,5 +1,5 @@
 import { forecast } from 'requests/forecast'
-import { useCacheAsync, createKey } from 'hooks'
+import { useCacheAsync, createKey } from './'
 
 export function useForecast(name, date) {
     const params = [name, date]

@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
-import { useAdvisoriesMetadata } from 'hooks/features'
+import { useAdvisoriesMetadata } from 'hooks/async/features'
 import { Report } from 'layouts/products/hzr'
 import { Page, Content, Header, Main } from 'components/page'
 import { Muted } from 'components/text'

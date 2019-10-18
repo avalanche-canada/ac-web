@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { point } from '@turf/helpers'
-import { useReport } from 'hooks/mcr'
+import { useReport } from 'hooks/async/mcr'
 import { Loading, Muted } from 'components/text'
 import { InnerHTML } from 'components/misc'
 import { Locate } from 'components/button'

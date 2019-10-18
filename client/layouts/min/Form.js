@@ -16,7 +16,7 @@ import * as requests from 'requests/min'
 import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
 import styles from './Form.css'
-import { clearCachedReports } from 'hooks/min'
+import { clearCachedReports } from 'hooks/async/min'
 
 export default class SubmissionForm extends Component {
     static contextType = AuthContext

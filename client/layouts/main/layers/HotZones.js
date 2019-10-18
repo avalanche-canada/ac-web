@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
-import { useAdvisoriesMetadata } from 'hooks/features'
+import { useAdvisoriesMetadata } from 'hooks/async/features'
 import { Source, Circle } from 'components/map'
 import { hotZone } from 'prismic/params'
 import { HOT_ZONE_REPORTS as key } from 'constants/drawers'

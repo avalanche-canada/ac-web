@@ -1,11 +1,11 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import { useForecast } from 'hooks/forecast'
+import { useForecast } from 'hooks/async/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
-} from 'hooks/features'
+} from 'hooks/async/features'
 import {
     Page,
     Header,

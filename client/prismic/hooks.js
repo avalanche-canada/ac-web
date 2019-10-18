@@ -2,7 +2,7 @@ import * as urls from './urls'
 import * as api from './api'
 import request from 'utils/fetch'
 import { FR } from 'constants/locale'
-import { useCacheAsync, createKey } from 'hooks'
+import { useCacheAsync, createKey } from 'hooks/async'
 
 function useMasterRef() {
     const key = createKey('prismic', 'ref')

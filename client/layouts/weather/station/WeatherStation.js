@@ -11,7 +11,7 @@ import {
 } from 'components/page'
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Error, Loading, Warning } from 'components/text'
-import * as hooks from 'hooks/weather'
+import * as hooks from 'hooks/async/weather'
 import { path } from 'utils/station'
 import * as Async from 'contexts/async'
 

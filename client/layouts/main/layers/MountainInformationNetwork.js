@@ -5,7 +5,7 @@ import { Location } from '@reach/router'
 import { Source, Symbol } from 'components/map'
 import { MOUNTAIN_INFORMATION_NETWORK as key } from 'constants/drawers'
 import { INCIDENT } from 'constants/min'
-import { useReports, useReport } from 'hooks/min'
+import { useReports, useReport } from 'hooks/async/min'
 
 MountainInformationNetwork.propTypes = {
     visible: PropTypes.bool,

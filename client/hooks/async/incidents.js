@@ -1,5 +1,5 @@
 import { incident, incidents } from 'requests/incidents'
-import { useCacheAsync, createKey } from 'hooks'
+import { useCacheAsync, createKey } from './'
 
 export function useIncident(id) {
     const key = createKey(KEY, id)

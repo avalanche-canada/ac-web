@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Location } from '@reach/router'
 import * as turf from '@turf/helpers'
 import { Source, Symbol } from 'components/map'
-import { useReports, useReport } from 'hooks/mcr'
+import { useReports, useReport } from 'hooks/async/mcr'
 import { MOUNTAIN_CONDITIONS_REPORTS as key } from 'constants/drawers'
 
 MountainConditionReports.propTypes = {

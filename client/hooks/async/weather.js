@@ -1,5 +1,5 @@
 import * as requests from 'requests/weather'
-import { useCacheAsync, createKey } from 'hooks'
+import { useCacheAsync, createKey } from './'
 
 export function useStation(id) {
     const key = createKey(KEY, id)

@@ -2,7 +2,7 @@ import React, { useState, useMemo, Fragment } from 'react'
 import { Router } from '@reach/router'
 import format from 'date-fns/format'
 import * as components from 'components/incidents'
-import * as hooks from 'hooks/incidents'
+import * as hooks from 'hooks/async/incidents'
 import { Loading, Warning } from 'components/text'
 import Pagination from 'components/pagination'
 

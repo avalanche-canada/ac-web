@@ -2,7 +2,7 @@ import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import * as turf from '@turf/helpers'
 import { Source, Symbol } from 'components/map'
-import { useStations } from 'hooks/weather'
+import { useStations } from 'hooks/async/weather'
 import { WEATHER_STATION as key } from 'constants/drawers'
 
 WeatherStations.propTypes = {

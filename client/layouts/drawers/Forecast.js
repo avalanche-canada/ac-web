@@ -8,11 +8,11 @@ import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Muted, Warning, Loading } from 'components/text'
-import { useForecast } from 'hooks/forecast'
+import { useForecast } from 'hooks/async/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
-} from 'hooks/features'
+} from 'hooks/async/features'
 import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 import { handleForecastTabActivate } from 'services/analytics'

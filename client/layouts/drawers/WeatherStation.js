@@ -13,7 +13,7 @@ import {
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Loading, Warning } from 'components/text'
 import * as Async from 'contexts/async'
-import * as hooks from 'hooks/weather'
+import * as hooks from 'hooks/async/weather'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/station'

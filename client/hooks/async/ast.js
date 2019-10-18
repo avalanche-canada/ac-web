@@ -1,5 +1,5 @@
 import { providers, courses } from 'requests/ast'
-import { useCacheAsync, createKey } from 'hooks'
+import { useCacheAsync, createKey } from './'
 
 export function useProviders() {
     const key = createKey(KEY, 'providers')

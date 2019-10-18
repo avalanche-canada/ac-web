@@ -2,7 +2,8 @@ import React, { createContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import formatDate from 'date-fns/format'
 import { resource } from 'requests/static'
-import { useLocalStorage, useAsync } from 'hooks'
+import { useLocalStorage } from 'hooks'
+import { useAsync } from 'hooks/async'
 
 Provider.propTypes = {
     children: PropTypes.element,

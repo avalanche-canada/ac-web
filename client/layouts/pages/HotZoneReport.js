@@ -6,7 +6,7 @@ import { Loading } from 'components/text'
 import { Item } from 'components/sidebar'
 import * as Hzr from 'layouts/products/hzr'
 import { hotZone } from 'prismic/params'
-import { useAdvisoryMetadata } from 'hooks/features'
+import { useAdvisoryMetadata } from 'hooks/async/features'
 import * as utils from 'utils/hzr'
 import { useDocument } from 'prismic/hooks'
 

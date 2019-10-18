@@ -19,8 +19,11 @@ import {
     Responsive,
     Caption,
 } from 'components/table'
-import { useForecastRegions, useForecastRegionsMetadata } from 'hooks/features'
-import { useReports } from 'hooks/min'
+import {
+    useForecastRegions,
+    useForecastRegionsMetadata,
+} from 'hooks/async/features'
+import { useReports } from 'hooks/async/min'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
@@ -201,7 +204,9 @@ export default class SubmissionList extends Component {
                                 ) : submissions.length === 0 ? (
                                     'No submissions found.'
                                 ) : (
-                                    `Total of ${submissions.length} submissions found.`
+                                    `Total of ${
+                                        submissions.length
+                                    } submissions found.`
                                 )}
                             </Caption>
                         </Fragment>

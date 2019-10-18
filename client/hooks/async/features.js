@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { useCacheAsync } from 'hooks'
+import { useCacheAsync } from './'
 import { metadata } from 'requests/metadata'
 import { regions } from 'requests/forecast'
 

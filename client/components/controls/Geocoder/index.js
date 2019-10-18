@@ -7,7 +7,8 @@ import { place as request } from 'services/mapbox/requests'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import { Close } from 'components/button'
 import { PRIMARY } from 'constants/colors'
-import { useCacheAsync, useBoolean, createKey } from 'hooks'
+import { useBoolean } from 'hooks'
+import { useCacheAsync, createKey } from 'hooks/async'
 import styles from './Geocoder.css'
 
 Geocoder.propTypes = {

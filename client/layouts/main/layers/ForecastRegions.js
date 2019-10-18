@@ -4,7 +4,7 @@ import { Match } from '@reach/router'
 import * as turf from '@turf/helpers'
 import { Source, Fill, Line, Symbol, Map } from 'components/map'
 import { FORECASTS as key } from 'constants/drawers'
-import { useForecastRegions } from 'hooks/features'
+import { useForecastRegions } from 'hooks/async/features'
 
 ForecastRegions.propTypes = {
     visible: PropTypes.bool,

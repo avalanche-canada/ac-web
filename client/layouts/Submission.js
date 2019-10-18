@@ -13,7 +13,7 @@ import {
     Map,
     Sidebar,
 } from 'layouts/products/min'
-import { useReport } from 'hooks/min'
+import { useReport } from 'hooks/async/min'
 
 Layout.propTypes = {
     id: PropTypes.string.isRequired,

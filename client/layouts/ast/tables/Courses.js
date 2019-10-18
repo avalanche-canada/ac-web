@@ -30,7 +30,7 @@ import { LEVELS, MINIMUM_DISTANCE } from '../constants'
 import { NONE, DESC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import styles from './Courses.css'
-import { useCourses } from 'hooks/ast'
+import { useCourses } from 'hooks/async/ast'
 import { useSorting, usePagination, useFilters } from 'hooks/collection'
 
 Courses.propTypes = {

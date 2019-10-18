@@ -1,5 +1,5 @@
 import * as requests from 'requests/mcr'
-import { useCacheAsync, createKey } from 'hooks'
+import { useCacheAsync, createKey } from './'
 
 export function useReport(id) {
     const key = createKey(KEY, id)
