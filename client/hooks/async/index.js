@@ -5,6 +5,7 @@ import { Memory } from 'services/cache'
 export const CACHE = new Memory()
 
 export function useAsync(fn, params = [], initialState) {
+    // TODO Look to see if using a "useReducer" will be faster! Update everything at once!
     const [data, setData] = useSafeState(initialState)
     const [pending, setPending] = useSafeState(true)
     const [error, setError] = useSafeState(null)

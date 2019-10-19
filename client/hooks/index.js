@@ -2,6 +2,16 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import { Local, Session } from 'services/storage'
 
+// export function useLazyRef(fn) {
+//     const ref = useRef(null)
+
+//     if (ref.current === null) {
+//         ref.current = fn()
+//     }
+
+//     return ref
+// }
+
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)
     const activate = useCallback(() => {
@@ -24,6 +34,23 @@ export function useToggle(initialValue) {
     const state = useBoolean(initialValue)
 
     return [state[0], state[3]]
+}
+
+export function useArray(initialState = []) {
+    const [array, setArray] = useState(initialState)
+    function push(...items) {
+        setArray(() => [...array, ...items])
+    }
+    function clear() {
+        setArray([])
+    }
+    function remove(item) {
+        setArray(() => {
+            setArray(array.filter(anItem => anItem !== item))
+        })
+    }
+
+    return [array, push, remove, clear]
 }
 
 export function useTimeout(elapse = 0) {

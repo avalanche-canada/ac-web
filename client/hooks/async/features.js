@@ -40,6 +40,7 @@ function useSingle(type, id) {
 }
 function useMultiple(type) {
     const metadata = useMetadata()
+    // TODO Some optimizations here: we care about the data!
     return useMemo(() => {
         const [data, ...rest] = metadata
 
