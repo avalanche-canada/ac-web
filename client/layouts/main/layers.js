@@ -107,7 +107,7 @@ export function useForecastMarkers(map, onClick) {
         return regions.map(({ id, name, dangerIconUrl, centroid }) => {
             const element = document.createElement('img')
 
-            element.classList.add('map-marker')
+            element.style.cursor = 'pointer'
 
             Object.assign(element, {
                 src: dangerIconUrl,
