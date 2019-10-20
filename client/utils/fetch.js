@@ -23,6 +23,10 @@ export class HTTPError extends Error {
     }
 }
 
+export function empty() {
+    return Promise.resolve()
+}
+
 // Constants & utils
 const REQUESTS = new Map()
 function status(response) {

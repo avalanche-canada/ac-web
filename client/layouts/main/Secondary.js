@@ -39,7 +39,7 @@ export default class Secondary extends PureComponent {
                 : null
         }
 
-        this.opened = opened
+        this.opened = opened // TODO Remove
 
         return (
             <Drawer open={opened} width={width} side={LEFT}>

@@ -1,9 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState, useMemo, useRef } from 'react'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
-import * as turf from '@turf/helpers'
 import { accessToken, styles } from 'services/mapbox/config.json'
+import { useLazyRef } from 'hooks'
+import { clean } from 'utils/object'
 
-export function useMap(ref, props) {
+mapbox.accessToken = accessToken
+
+export function useMap(ref, props, events) {
     const [map, setMap] = useState()
 
     useEffect(() => {
@@ -20,6 +23,12 @@ export function useMap(ref, props) {
             setMap(instance)
         })
 
+        if (Array.isArray(events)) {
+            for (const event of events) {
+                instance.on(...event)
+            }
+        }
+
         return () => {
             instance.remove()
         }
@@ -28,77 +37,81 @@ export function useMap(ref, props) {
     return map
 }
 
-export function useSource(map, id, source) {
+export function useSource(map, id, source, data) {
+    const added = useRef(false)
+
+    useEffect(() => {
+        if (added.current) {
+            map.getSource(id).setData(data)
+        }
+    }, [added.current, data])
+
     useEffect(() => {
         if (!map || map.getSource(id)) {
             return
         }
 
-        map.addSource(id, source)
+        map.addSource(id, clean({ ...source, data }))
+        added.current = true
+    }, [map])
 
-        return () => {
-            map.removeSource(id)
-        }
-    }, [map, source])
+    return added.current
 }
 
-export function useGeoJSONSource(map, id, source) {
-    const definition = Object.assign(
-        {
-            data: EMPTY_FEATURE_COLLECTION,
-        },
-        source,
-        {
-            type: 'geojson',
-        }
-    )
+export function useLayer(map, layer, beforeId, visible = true, filter, events) {
+    const visibility = visible ? 'visible' : 'none'
+    const added = useRef(false)
 
-    return useSource(map, id, definition)
-}
-
-export function useSourceData(map, id, data) {
     useEffect(() => {
-        if (!map || !map.getSource(id) || !data) {
+        if (!map) {
             return
         }
 
-        map.getSource(id).setData(data)
-    }, [map, data])
-}
-
-export function useLayer(map, layer, beforeId) {
-    useEffect(() => {
-        const { id } = layer
-
-        if (!map || map.getLayer(id)) {
-            return
-        }
+        layer = clean({
+            ...layer,
+            filter,
+            layout: Object.assign({ visibility }, layer.layout),
+        })
 
         map.addLayer(layer, beforeId)
 
-        return () => {
-            map.removeLayer(id)
+        if (Array.isArray(events)) {
+            for (const [type, listener] of events) {
+                map.on(type, layer.id, listener)
+            }
         }
-    }, [map, layer, beforeId])
+
+        added.current = true
+    }, [map])
+
+    useEffect(() => {
+        if (added.current) {
+            map.setLayoutProperty(layer.id, 'visibility', visibility)
+        }
+    }, [visible, added.current])
+
+    useEffect(() => {
+        if (added.current) {
+            map.setFilter(layer.id, filter)
+        }
+    }, [filter, added.current])
+
+    return added.current
 }
 
 export function useMarkers(map, definitions) {
-    const [markers, setMarkers] = useState(null)
-
-    useEffect(() => {
+    const markers = useMemo(() => {
         if (!Array.isArray(definitions)) {
             return
         }
 
-        const markers = definitions.map(([lnglat, options]) => {
+        return definitions.map(([lnglat, options]) => {
             const marker = new mapbox.Marker(options)
 
             marker.setLngLat(lnglat)
 
             return marker
         })
-
-        setMarkers(markers)
     }, [definitions])
 
     useEffect(() => {
@@ -114,7 +127,6 @@ export function useMarkers(map, definitions) {
             for (const marker of markers) {
                 marker.remove()
             }
-            setMarkers(null)
         }
     }, [map, markers])
 
@@ -138,10 +150,9 @@ export function useGeolocateControl(map, props, position) {
     return useControl(map, mapbox.GeolocateControl, props, position)
 }
 
-mapbox.accessToken = accessToken
-
+// Utils
 function useControl(map, ControlClass, props, position = 'bottom-right') {
-    const control = useRef(new ControlClass(props))
+    const control = useLazyRef(() => new ControlClass(props))
 
     useEffect(() => {
         if (!map) {
@@ -157,6 +168,3 @@ function useControl(map, ControlClass, props, position = 'bottom-right') {
 
     return control.current
 }
-
-// Constants
-const EMPTY_FEATURE_COLLECTION = turf.featureCollection([])

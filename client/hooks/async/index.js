@@ -46,37 +46,16 @@ export function useAsync(fn, params = [], initialState) {
 }
 
 export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
-    const [data, set, has] = useCache(key, initialState, lifespan)
-    const func = useCallback(
-        (...args) => {
-            return has() ? Promise.resolve(data) : fn(...args)
-        },
-        [has, data, fn]
-    )
-    const values = useAsync(func, params, data)
+    const func = CACHE.has(key)
+        ? () => Promise.resolve(CACHE.get(key))
+        : (...args) =>
+              fn.apply(null, args).then(data => {
+                  CACHE.set(key, data, lifespan)
 
-    useEffect(() => {
-        set(values[0])
-    }, [values[0], set])
+                  return data
+              })
 
-    return values
-}
-
-function useCache(key, initialState, lifespan) {
-    const data = useMemo(() => CACHE.get(key, initialState), [key])
-    const set = useCallback(
-        data => {
-            if (!data) {
-                return
-            }
-
-            return CACHE.set(key, data, lifespan)
-        },
-        [key, lifespan]
-    )
-    const has = useCallback(() => CACHE.has(key), [key])
-
-    return [data, set, has]
+    return useAsync(func, params, initialState)
 }
 
 // Utils

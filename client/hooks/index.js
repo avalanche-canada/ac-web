@@ -2,15 +2,15 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import { Local, Session } from 'services/storage'
 
-// export function useLazyRef(fn) {
-//     const ref = useRef(null)
+export function useLazyRef(fn) {
+    const ref = useRef(null)
 
-//     if (ref.current === null) {
-//         ref.current = fn()
-//     }
+    if (ref.current === null) {
+        ref.current = fn()
+    }
 
-//     return ref
-// }
+    return ref
+}
 
 export function useBoolean(initialValue) {
     const [value, set] = useState(initialValue)

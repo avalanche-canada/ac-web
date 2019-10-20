@@ -1,6 +1,6 @@
 import * as urls from './urls'
 import * as api from './api'
-import request from 'utils/fetch'
+import request, { empty } from 'utils/fetch'
 import { FR } from 'constants/locale'
 import { useCacheAsync, createKey } from 'hooks/async'
 
@@ -57,9 +57,6 @@ function useMasterRef() {
     return useCacheAsync(api.ref, undefined, undefined, 'prismic:ref')
 }
 const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
-function empty() {
-    return Promise.resolve()
-}
 function merge(...values) {
     return values.reduce(
         (value, current) => [

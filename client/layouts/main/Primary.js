@@ -29,8 +29,8 @@ export default class Primary extends Component {
             PATHS.has(type) &&
             !externals.has(name)
 
-        this.opened = opened
-        this.location = location
+        this.opened = opened // TODO Remove
+        this.location = location // TODO Remove
 
         return (
             <Drawer side={RIGHT} open={opened} width={width}>

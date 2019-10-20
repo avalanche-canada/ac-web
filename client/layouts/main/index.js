@@ -15,6 +15,7 @@ import { Menu, ToggleMenu } from './drawers'
 import externals, { open } from 'router/externals'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
+import { Provider as MapStateProvider } from 'contexts/map/state'
 import * as TYPES from 'constants/drawers'
 import { isTouchable } from 'utils/device'
 import styles from './Map.css'
@@ -34,7 +35,6 @@ export default class Main extends Component {
     secondary = createRef()
     flyTo() {}
     fitBounds() {}
-    getSource() {}
     get offset() {
         const { width } = this.state
         let x = 0
@@ -50,72 +50,76 @@ export default class Main extends Component {
         return [x, 0]
     }
     handleError = error => {
+        // TODO Move that logic
         this.setState({ hasError: true }, () => {
             captureException(error)
         })
     }
-    handleLoad = ({ target }) => {
+    handleLoad = ({ target: map }) => {
         Object.assign(this, {
-            flyTo(center) {
-                target.flyTo({
-                    center,
-                    zoom: 13,
-                    offset: this.offset,
-                })
+            flyTo(center, zoom = 13) {
+                const { offset } = this
+
+                map.flyTo({ center, zoom, offset })
             },
             fitBounds(geometry) {
-                target.fitBounds(bbox(geometry), {
+                map.fitBounds(bbox(geometry), {
                     offset: this.offset,
                     padding: 75,
                     speed: 2.5,
                 })
             },
-            getSource(id) {
-                return target.getSource(id)
-            },
         })
 
-        target.on('resize', this.handleResize)
-    }
-    handleFeatureClick = feature => {
-        const { properties } = feature
+        map.on('resize', this.handleResize)
+        map.on('error', this.handleError)
+        map.on('click', event => {
+            const [feature] = map.queryRenderedFeatures(event.point)
 
-        if (properties.cluster) {
-            const source = this.getSource(feature.source)
-
-            source.getClusterLeaves(
-                feature.properties.cluster_id,
-                null,
-                null,
-                (error, features) => {
-                    if (error) {
-                        // We do not really care if there is an error
-                        return
-                    }
-
-                    this.fitBounds(turf.featureCollection(features))
-                }
-            )
-        } else {
-            const { type, id } = properties
-
-            if (type === TYPES.FORECASTS && externals.has(id)) {
-                open(id)
+            if (!feature) {
                 return
             }
 
-            let { pathname, search } = this.props.location
+            const { properties, geometry } = feature
 
-            if (PATHS.has(type)) {
-                pathname = `${PATHS.get(type)}/${id}`
+            if (properties.cluster) {
+                const source = map.getSource(feature.source)
+
+                source.getClusterExpansionZoom(
+                    properties.cluster_id,
+                    (error, zoom) => {
+                        if (error) {
+                            return // We do not really care if there is an error
+                        }
+
+                        this.flyTo(geometry.coordinates, zoom)
+                    }
+                )
+            } else {
+                this.handleFeatureClick(feature)
             }
+        })
+    }
+    handleFeatureClick({ properties, source }) {
+        const { location, navigate } = this.props
+        const { id } = properties
 
-            if (SEARCHS.has(type)) {
-                search = `?panel=${SEARCHS.get(type)}/${id}`
-            }
-
-            this.props.navigate(pathname + search)
+        if (source === TYPES.FORECASTS && externals.has(id)) {
+            open(id)
+            return
         }
+
+        let { pathname, search } = location
+
+        if (PATHS.has(source)) {
+            pathname = `${PATHS.get(source)}/${id}`
+        }
+
+        if (SEARCHS.has(source)) {
+            search = `?panel=${SEARCHS.get(source)}/${id}`
+        }
+
+        navigate(pathname + search)
     }
     handleMarkerClick = id => {
         if (externals.has(id)) {
@@ -177,34 +181,34 @@ export default class Main extends Component {
         return (
             <LayersProvider>
                 <MenuProvider>
-                    <div className={styles.Layout}>
-                        <Base
-                            onError={this.handleError}
-                            onLoad={this.handleLoad}
-                            onFeatureClick={this.handleFeatureClick}
-                            onMarkerClick={this.handleMarkerClick}
-                        />
-                        <Primary
-                            ref={this.primary}
-                            width={width}
-                            onLocateClick={this.handleLocateClick}
-                            onCloseClick={this.handlePrimaryCloseClick}
-                        />
-                        <Secondary
-                            ref={this.secondary}
-                            width={width}
-                            onLocateClick={this.handleLocateClick}
-                            onCloseClick={this.handleSecondaryCloseClick}
-                        />
-                        <Menu />
-                        <ToggleMenu />
-                        <LinkControlSet>
-                            {hasError && <ErrorIndicator />}
-                        </LinkControlSet>
-                        <Match path="forecasts/:name">
-                            {this.openExternalForecast}
-                        </Match>
-                    </div>
+                    <MapStateProvider>
+                        <div className={styles.Layout}>
+                            <Base
+                                onLoad={this.handleLoad}
+                                onMarkerClick={this.handleMarkerClick}
+                            />
+                            <Primary
+                                ref={this.primary}
+                                width={width}
+                                onLocateClick={this.handleLocateClick}
+                                onCloseClick={this.handlePrimaryCloseClick}
+                            />
+                            <Secondary
+                                ref={this.secondary}
+                                width={width}
+                                onLocateClick={this.handleLocateClick}
+                                onCloseClick={this.handleSecondaryCloseClick}
+                            />
+                            <Menu />
+                            <ToggleMenu />
+                            <LinkControlSet>
+                                {hasError && <ErrorIndicator />}
+                            </LinkControlSet>
+                            <Match path="forecasts/:name">
+                                {this.openExternalForecast}
+                            </Match>
+                        </div>
+                    </MapStateProvider>
                 </MenuProvider>
             </LayersProvider>
         )
@@ -259,6 +263,10 @@ const SEARCHS = new Map([
     [TYPES.WEATHER_STATION, 'weather-stations'],
     [
         TYPES.MOUNTAIN_INFORMATION_NETWORK,
+        'mountain-information-network-submissions',
+    ],
+    [
+        TYPES.MOUNTAIN_INFORMATION_NETWORK + '-incidents',
         'mountain-information-network-submissions',
     ],
     [TYPES.FATAL_ACCIDENT, 'fatal-accidents'],

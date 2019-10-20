@@ -36,7 +36,7 @@ function useSingle(type, id) {
         const [data, ...rest] = metadata
 
         return [data?.[type]?.[id], ...rest]
-    }, metadata)
+    }, [type, id, ...metadata])
 }
 function useMultiple(type) {
     const metadata = useMetadata()
@@ -51,7 +51,7 @@ function useMultiple(type) {
                 .sort(sorter),
             ...rest,
         ]
-    }, metadata)
+    }, [type, ...metadata])
 }
 function sorter(a, b) {
     return a.name.localeCompare(b.name)

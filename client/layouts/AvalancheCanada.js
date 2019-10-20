@@ -24,7 +24,6 @@ import * as Page from 'components/page'
 import { ButtonSet } from 'components/button'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
 import { Provider as AuthProvider } from 'contexts/auth'
-import { Provider as MapStateProvider } from 'contexts/map/state'
 import { StaticPage, GenericPage } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
@@ -35,167 +34,158 @@ function AvalancheCanada() {
     return (
         <AuthProvider>
             <SponsorsMetadataProvider>
-                <MapStateProvider>
-                    <ErrorBoundary fallback={<AvCanFallback />}>
-                        <Application>
-                            <Navbar />
-                            <SPAW />
-                            <Highlight />
-                            {/* FIXME: Make it primary. With primary clicking a region on the map make the map jumping. */}
-                            <Router primary={false}>
-                                <Main path="map/*" />
-                                <Redirect from="/" to="/map" />
-                                <Redirect
-                                    from="/map/ates"
-                                    to="/planning/trip-planner"
-                                />
-                                <Redirect
-                                    from="/trip-planner"
-                                    to="/planning/trip-planner"
-                                />
-                                <Redirect
-                                    from="/trip-planning/:page"
-                                    to="/planning/:page"
-                                />
-                                <Redirect
-                                    from="/trip-planning"
-                                    to="/planning"
-                                />
-                                <Redirect
-                                    from="/forecast/:name"
-                                    to="/forecasts/:name"
-                                />
-                                <Redirect from="/learn" to="/training" />
-                                <LoginComplete path="login-complete" />
-                                <Glossary path="glossary/*" />
-                                <Tutorial path="tutorial/*" />
-                                <Tutorial path="tutoriel/*" />
-                                <Redirect
-                                    from="hot-zone-reports/*"
-                                    to="advisories"
-                                />
-                                <Redirect from="hot-zones/*" to="advisories" />
-                                <HotZoneReport path="advisories/*" />
-                                <Forecast path="forecasts/*" />
-                                <Redirect from={BLOG} to="/blogs" />
-                                <Blogs path="blogs/*" />
-                                <News path="news/*" />
-                                <Redirect from={EVENT} to="/events" />
-                                <Events path="events/*" />
-                                <Incidents path="incidents/*" />
-                                <MIN path="min/*" />
-                                <MountainInformationNetwork path="mountain-information-network/*" />
-                                <Redirect
-                                    from="/submit"
-                                    to="/mountain-information-network/submit"
-                                />
+                <ErrorBoundary fallback={<AvCanFallback />}>
+                    <Application>
+                        <Navbar />
+                        <SPAW />
+                        <Highlight />
+                        {/* FIXME: Make it primary. With primary clicking a region on the map make the map jumping. */}
+                        <Router primary={false}>
+                            <Main path="map/*" />
+                            <Redirect from="/" to="/map" />
+                            <Redirect
+                                from="/map/ates"
+                                to="/planning/trip-planner"
+                            />
+                            <Redirect
+                                from="/trip-planner"
+                                to="/planning/trip-planner"
+                            />
+                            <Redirect
+                                from="/trip-planning/:page"
+                                to="/planning/:page"
+                            />
+                            <Redirect from="/trip-planning" to="/planning" />
+                            <Redirect
+                                from="/forecast/:name"
+                                to="/forecasts/:name"
+                            />
+                            <Redirect from="/learn" to="/training" />
+                            <LoginComplete path="login-complete" />
+                            <Glossary path="glossary/*" />
+                            <Tutorial path="tutorial/*" />
+                            <Tutorial path="tutoriel/*" />
+                            <Redirect
+                                from="hot-zone-reports/*"
+                                to="advisories"
+                            />
+                            <Redirect from="hot-zones/*" to="advisories" />
+                            <HotZoneReport path="advisories/*" />
+                            <Forecast path="forecasts/*" />
+                            <Redirect from={BLOG} to="/blogs" />
+                            <Blogs path="blogs/*" />
+                            <News path="news/*" />
+                            <Redirect from={EVENT} to="/events" />
+                            <Events path="events/*" />
+                            <Incidents path="incidents/*" />
+                            <MIN path="min/*" />
+                            <MountainInformationNetwork path="mountain-information-network/*" />
+                            <Redirect
+                                from="/submit"
+                                to="/mountain-information-network/submit"
+                            />
 
-                                <Weather path="weather/*" />
-                                <Ast path="training/*" />
-                                <StaticPage path="careers" uid="careers" />
-                                <StaticPage
-                                    path="about"
-                                    uid="about"
-                                    title="About"
-                                />
-                                <StaticPage
-                                    path="dangerator"
-                                    uid="dangerator"
-                                    title="Dangerator"
-                                />
-                                <StaticPage
-                                    path="mobile"
-                                    uid="mobile"
-                                    title="Mobile"
-                                />
-                                <StaticPage
-                                    path="early-season-conditions"
-                                    uid="early-season-conditions"
-                                    title="Early Season Conditions"
-                                />
-                                <TripPlanner path="planning/trip-planner" />
-                                <StaticPage
-                                    path="planning/decision-making"
-                                    uid="decision-making"
-                                    title="Decision Making"
-                                />
-                                <StaticPage
-                                    path="planning"
-                                    uid="planning"
-                                    title="Planning"
-                                />
-                                <StaticPage
-                                    path="information"
-                                    uid="information"
-                                    title="Information"
-                                />
-                                <StaticPage
-                                    path="sled"
-                                    uid="sled"
-                                    title="Sled"
-                                />
-                                <StaticPage
-                                    path="youth"
-                                    uid="youth"
-                                    title="Youth"
-                                />
-                                <StaticPage
-                                    path="gear"
-                                    uid="essential-gear"
-                                    title="Essential Gear"
-                                />
-                                <StaticPage
-                                    path="training"
-                                    uid="training"
-                                    title="Go Farther — Get Avalanche Trained"
-                                />
-                                <StaticPage
-                                    path="education"
-                                    uid="education"
-                                    title="Go Farther — Get Avalanche Trained"
-                                />
-                                <StaticPage
-                                    path="instructing-ast"
-                                    uid="instructing-ast"
-                                    title="Teaching Avalanche Skills Training (AST)"
-                                />
-                                <StaticPage
-                                    path="ambassadors"
-                                    uid="ambassadors"
-                                    title="Ambassadors"
-                                />
-                                <StaticPage
-                                    path="sponsors"
-                                    uid="sponsors"
-                                    title="Sponsors"
-                                />
-                                <StaticPage
-                                    path="collaborators"
-                                    uid="collaborators"
-                                    title="Collaborators"
-                                />
-                                <StaticPage
-                                    path="privacy-policy"
-                                    uid="privacy-policy"
-                                    title="Privacy Policy"
-                                />
-                                <GenericPage
-                                    path="terms-of-use"
-                                    uid="terms-of-use"
-                                    title="Terms of use"
-                                />
-                                <Pages path="pages/*" />
-                                <Page.NotFound default />
-                            </Router>
-                            <Router primary={false}>
-                                <Null path="map/*" />
-                                <Null path="planning/trip-planner" />
-                                <Null path="tutoriel" />
-                                <Footer default />
-                            </Router>
-                        </Application>
-                    </ErrorBoundary>
-                </MapStateProvider>
+                            <Weather path="weather/*" />
+                            <Ast path="training/*" />
+                            <StaticPage path="careers" uid="careers" />
+                            <StaticPage
+                                path="about"
+                                uid="about"
+                                title="About"
+                            />
+                            <StaticPage
+                                path="dangerator"
+                                uid="dangerator"
+                                title="Dangerator"
+                            />
+                            <StaticPage
+                                path="mobile"
+                                uid="mobile"
+                                title="Mobile"
+                            />
+                            <StaticPage
+                                path="early-season-conditions"
+                                uid="early-season-conditions"
+                                title="Early Season Conditions"
+                            />
+                            <TripPlanner path="planning/trip-planner" />
+                            <StaticPage
+                                path="planning/decision-making"
+                                uid="decision-making"
+                                title="Decision Making"
+                            />
+                            <StaticPage
+                                path="planning"
+                                uid="planning"
+                                title="Planning"
+                            />
+                            <StaticPage
+                                path="information"
+                                uid="information"
+                                title="Information"
+                            />
+                            <StaticPage path="sled" uid="sled" title="Sled" />
+                            <StaticPage
+                                path="youth"
+                                uid="youth"
+                                title="Youth"
+                            />
+                            <StaticPage
+                                path="gear"
+                                uid="essential-gear"
+                                title="Essential Gear"
+                            />
+                            <StaticPage
+                                path="training"
+                                uid="training"
+                                title="Go Farther — Get Avalanche Trained"
+                            />
+                            <StaticPage
+                                path="education"
+                                uid="education"
+                                title="Go Farther — Get Avalanche Trained"
+                            />
+                            <StaticPage
+                                path="instructing-ast"
+                                uid="instructing-ast"
+                                title="Teaching Avalanche Skills Training (AST)"
+                            />
+                            <StaticPage
+                                path="ambassadors"
+                                uid="ambassadors"
+                                title="Ambassadors"
+                            />
+                            <StaticPage
+                                path="sponsors"
+                                uid="sponsors"
+                                title="Sponsors"
+                            />
+                            <StaticPage
+                                path="collaborators"
+                                uid="collaborators"
+                                title="Collaborators"
+                            />
+                            <StaticPage
+                                path="privacy-policy"
+                                uid="privacy-policy"
+                                title="Privacy Policy"
+                            />
+                            <GenericPage
+                                path="terms-of-use"
+                                uid="terms-of-use"
+                                title="Terms of use"
+                            />
+                            <Pages path="pages/*" />
+                            <Page.NotFound default />
+                        </Router>
+                        <Router primary={false}>
+                            <Null path="map/*" />
+                            <Null path="planning/trip-planner" />
+                            <Null path="tutoriel" />
+                            <Footer default />
+                        </Router>
+                    </Application>
+                </ErrorBoundary>
             </SponsorsMetadataProvider>
         </AuthProvider>
     )

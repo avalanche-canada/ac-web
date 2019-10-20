@@ -50,15 +50,15 @@ export function Provider({ children }) {
     )
 }
 
-Layer.propTypes = {
-    id: PropTypes.oneOf(LAYER_IDS.default).isRequired,
-    children: PropTypes.func.isRequired,
+// Hooks
+export function useLayers() {
+    return useContext(LayersContext)
 }
 
-export function Layer({ id, children }) {
-    const { layers, toggle, setFilterValue } = useContext(LayersContext)
+export function useLayer(id) {
+    const { layers, toggle, setFilterValue } = useLayers()
 
-    return children({
+    return {
         ...layers[id],
         toggle() {
             toggle(id)
@@ -66,10 +66,19 @@ export function Layer({ id, children }) {
         setFilterValue(name, value) {
             setFilterValue(id, name, value)
         },
-    })
+    }
 }
 
 // TODO: To remove when consumer of <Layers> component gets converted to a function component
+Layer.propTypes = {
+    id: PropTypes.oneOf(LAYER_IDS.default).isRequired,
+    children: PropTypes.func.isRequired,
+}
+
+export function Layer({ id, children }) {
+    return children(useLayer(id))
+}
+
 Layers.propTypes = {
     children: PropTypes.func.isRequired,
 }
