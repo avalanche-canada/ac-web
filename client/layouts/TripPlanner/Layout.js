@@ -22,6 +22,7 @@ import Drawer, {
 import * as utils from 'utils/region'
 import styles from './TripPlanner.css'
 import { useWindowSize } from 'hooks'
+import { Provider as MapStateProvider } from 'contexts/map/state'
 
 // TODO: Could use Context to simplify implementation
 // TODO: Could use state machine to simplify implementation
@@ -91,8 +92,8 @@ export default class TripPlannerLayout extends PureComponent {
     handleDateChange = date => {
         this.setState({ date })
     }
-    handleMapLoad = ({ target }) => {
-        this.map = target
+    handleMapLoad = map => {
+        this.map = map
     }
     fitBounds = geometry => {
         this.map.fitBounds(bbox(geometry), {
@@ -230,13 +231,15 @@ export default class TripPlannerLayout extends PureComponent {
     render() {
         return (
             <div className={styles.Layout}>
-                <Map
-                    {...this.state}
-                    onLoad={this.handleMapLoad}
-                    onFeaturesSelect={this.handleFeaturesSelect}
-                />
-                <Window>{props => this.renderDrawers(props)}</Window>
-                <Regions>{this.setData}</Regions>
+                <MapStateProvider>
+                    <Map
+                        {...this.state}
+                        onLoad={this.handleMapLoad}
+                        onFeaturesSelect={this.handleFeaturesSelect}
+                    />
+                    <Window>{props => this.renderDrawers(props)}</Window>
+                    <Regions>{this.setData}</Regions>
+                </MapStateProvider>
             </div>
         )
     }

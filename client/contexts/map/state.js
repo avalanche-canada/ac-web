@@ -4,9 +4,6 @@ import { useSessionStorage, useArray } from 'hooks'
 
 const MapStateContext = createContext()
 
-// TODO Should not expose that value, but required by the Trip Planner!
-export default MapStateContext
-
 Provider.propTypes = {
     children: PropTypes.element.isRequired,
 }

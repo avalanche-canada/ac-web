@@ -1,112 +1,101 @@
-import React, { Component } from 'react'
+import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import bbox from '@turf/bbox'
-import MapStateContext from 'contexts/map/state'
-import { Map, NavigationControl } from 'components/map'
+import { useMapState } from 'contexts/map/state'
 import styles from './TripPlanner.css'
+import { useNavigationControl, useMap } from 'hooks/mapbox'
+import { styles as maps } from 'services/mapbox/config.json'
 
-export default class TripPlannerMap extends Component {
-    static propTypes = {
-        area: PropTypes.object,
-        onLoad: PropTypes.func.isRequired,
-        onFeaturesSelect: PropTypes.func.isRequired,
-    }
-    static contextType = MapStateContext
-    cursorEnterCounter = 0
-    handleZoomEnd = event => {
-        this.context.setZoom(event.target.getZoom())
-    }
-    handleMoveEnd = event => {
-        this.context.setCenter(event.target.getCenter())
-    }
-    handleLoad = event => {
-        const map = event.target
-        const container = map.getContainer()
+TripPlannerMap.propTypes = {
+    area: PropTypes.object,
+    onLoad: PropTypes.func.isRequired,
+    onFeaturesSelect: PropTypes.func.isRequired,
+}
 
-        map.on('click', this.handleClick)
-        map.on('zoomend', this.handleZoomEnd)
-        map.on('moveend', this.handleMoveEnd)
+export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
+    const ref = useRef(null)
+    const counter = useRef(0)
+    const { zoom, setZoom, center, setCenter } = useMapState()
+    const map = useMap(ref, { zoom, center, style: maps.ates })
+    function setActiveArea(id) {
+        map.setFilter('active-ates-areas', [
+            '==',
+            'ATES_ZONE_ID',
+            typeof id === 'number' ? id : -1,
+        ])
+    }
 
-        for (let layer of [
+    useNavigationControl(map)
+
+    useEffect(() => {
+        if (!map) {
+            return
+        }
+
+        function queryAreas(point) {
+            return map.queryRenderedFeatures(point, {
+                layers: ATES_AREAS_LAYERS,
+            })
+        }
+        function queryZones(point) {
+            return map.queryRenderedFeatures(point, {
+                layers: ATES_ZONES_LAYERS,
+            })
+        }
+        function queryRegions(point) {
+            return map.queryRenderedFeatures(point, {
+                layers: FORECAST_LAYERS,
+            })
+        }
+
+        map.on('click', ({ point }) => {
+            const [zone] = queryZones(point)
+            const [area] = queryAreas(point)
+            const [region] = queryRegions(point)
+
+            setActiveArea(area ? area.properties.ATES_ZONE_ID : -1)
+
+            if (zone) {
+                map.fitBounds(bbox(zone.geometry), {
+                    padding: 25,
+                })
+            } else {
+                onFeaturesSelect({ region, area })
+            }
+        })
+        map.on('zoomend', () => setZoom(map.getZoom()))
+        map.on('moveend', () => setCenter(map.getCenter()))
+
+        function handleMouseEnter({ target }) {
+            const canvas = target.getCanvas()
+
+            canvas.style.cursor = 'pointer'
+            counter.current++
+        }
+        function handleMouseLeave({ target }) {
+            const canvas = target.getCanvas()
+
+            counter.current--
+            if (counter.current < 1) {
+                canvas.style.cursor = ''
+            }
+
+            canvas.title = ''
+        }
+
+        for (const layer of [
             ...ATES_AREAS_LAYERS,
             ...ATES_ZONES_LAYERS,
             ...FORECAST_LAYERS,
         ]) {
-            map.on('mouseenter', layer, this.handleMouseenterLayer)
+            map.on('mouseenter', layer, handleMouseEnter)
+            map.on('mouseleave', layer, handleMouseLeave)
         }
 
-        container.addEventListener('mouseleave', this.handleMouseleave, false)
+        onLoad(map)
+    }, [map])
 
-        this.map = map
-        this.props.onLoad(event)
-    }
-    componentDidUpdate() {
-        if (!this.props.area) {
-            this.setActiveArea()
-        }
-    }
-    setActiveArea(id = -1) {
-        if (this.map) {
-            this.map.setFilter('active-ates-areas', ['==', 'ATES_ZONE_ID', id])
-        }
-    }
-    queryAreas(point) {
-        return this.map.queryRenderedFeatures(point, {
-            layers: ATES_AREAS_LAYERS,
-        })
-    }
-    queryZones(point) {
-        return this.map.queryRenderedFeatures(point, {
-            layers: ATES_ZONES_LAYERS,
-        })
-    }
-    queryRegions(point) {
-        return this.map.queryRenderedFeatures(point, {
-            layers: FORECAST_LAYERS,
-        })
-    }
-    handleMouseenterLayer = event => {
-        this.cursorEnterCounter = this.cursorEnterCounter + 1
-
-        event.target.getCanvas().style.cursor = 'pointer'
-    }
-    handleMouseleaveLayer = event => {
-        this.cursorEnterCounter = this.cursorEnterCounter - 1
-
-        if (this.cursorEnterCounter === 0) {
-            event.target.getCanvas().style.cursor = ''
-        }
-    }
-    handleClick = event => {
-        const { point } = event
-        const [zone] = this.queryZones(point)
-        const [area] = this.queryAreas(point)
-        const [region] = this.queryRegions(point)
-
-        this.setActiveArea(area ? area.properties.ATES_ZONE_ID : -1)
-
-        if (zone) {
-            this.map.fitBounds(bbox(zone.geometry), {
-                padding: 25,
-            })
-        } else {
-            this.props.onFeaturesSelect({ region, area })
-        }
-    }
-    render() {
-        const { zoom, center } = this.context
-
-        return (
-            <Map
-                className={styles.Map}
-                style="ates"
-                onLoad={this.handleLoad}
-                zoom={zoom}
-                center={center}>
-                <NavigationControl />
-            </Map>
-        )
-    }
+    return <div className={styles.Map} ref={ref} />
 }
 
 // Constants
