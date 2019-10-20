@@ -55,7 +55,7 @@ export default class Main extends Component {
             captureException(error)
         })
     }
-    handleLoad = ({ target: map }) => {
+    withMap = map => {
         Object.assign(this, {
             flyTo(center, zoom = 13) {
                 const { offset } = this
@@ -184,7 +184,7 @@ export default class Main extends Component {
                     <MapStateProvider>
                         <div className={styles.Layout}>
                             <Base
-                                onLoad={this.handleLoad}
+                                ref={this.withMap}
                                 onMarkerClick={this.handleMarkerClick}
                             />
                             <Primary

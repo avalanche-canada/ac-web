@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, forwardRef } from 'react'
 import PropTypes from 'prop-types'
 import { useMapState } from 'contexts/map/state'
 import { Map, useNavigationControl } from 'hooks/mapbox'
@@ -12,25 +12,22 @@ import {
     useForecastMarkers,
 } from './layers'
 
-MapLayout.propTypes = {
-    onMarkerClick: PropTypes.func.isRequired,
-    onLoad: PropTypes.func.isRequired,
-    className: PropTypes.string,
-}
-
-export default function MapLayout({ className, onMarkerClick, onLoad }) {
+const MapLayout = forwardRef(({ onMarkerClick }, ref) => {
     const [map, setMap] = useState(null)
     const { zoom, setZoom, center, setCenter, pushError } = useMapState()
-    function handleLoad({ target: map }) {
+    const options = { zoom, center }
+
+    useEffect(() => {
+        if (!map) {
+            return
+        }
+
         map.on('zoomend', () => setZoom(map.getZoom()))
         map.on('moveend', () => setCenter(map.getCenter()))
-    }
-    const options = { zoom, center }
-    const events = [
-        ['error', pushError],
-        ['load', handleLoad],
-        ['load', onLoad],
-    ]
+        map.on('error', pushError)
+
+        ref(map)
+    }, [map])
 
     useNavigationControl(map)
 
@@ -42,12 +39,11 @@ export default function MapLayout({ className, onMarkerClick, onLoad }) {
     useMountainInformationNetwork(map)
     useForecastMarkers(map, onMarkerClick)
 
-    return (
-        <Map
-            ref={setMap}
-            className={className}
-            options={options}
-            events={events}
-        />
-    )
+    return <Map ref={setMap} options={options} />
+})
+
+MapLayout.propTypes = {
+    onMarkerClick: PropTypes.func.isRequired,
 }
+
+export default MapLayout
