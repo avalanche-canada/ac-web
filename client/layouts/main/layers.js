@@ -125,7 +125,7 @@ export function useForecastMarkers(map) {
                         return
                     }
 
-                    navigate('forecasts/' + id + location.search)
+                    navigate('/map/forecasts/' + id + location.search)
                 },
             })
 
