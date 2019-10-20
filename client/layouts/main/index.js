@@ -121,17 +121,6 @@ export default class Main extends Component {
 
         navigate(pathname + search)
     }
-    handleMarkerClick = id => {
-        if (externals.has(id)) {
-            open(id)
-            return
-        }
-
-        const { location } = this.props
-        const path = `${PATHS.get(TYPES.FORECASTS)}/${id}`
-
-        this.props.navigate(path + location.search)
-    }
     handleResize = event => {
         const { clientWidth } = event.target.getContainer()
 
@@ -183,10 +172,7 @@ export default class Main extends Component {
                 <MenuProvider>
                     <MapStateProvider>
                         <div className={styles.Layout}>
-                            <Base
-                                ref={this.withMap}
-                                onMarkerClick={this.handleMarkerClick}
-                            />
+                            <Base ref={this.withMap} />
                             <Primary
                                 ref={this.primary}
                                 width={width}

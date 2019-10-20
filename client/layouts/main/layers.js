@@ -18,6 +18,7 @@ import { useSource, useLayer, useMarkers } from 'hooks/mapbox'
 import { INCIDENT } from 'constants/min'
 import { useLayer as useLayerState } from 'contexts/layers'
 import { useLocation } from 'router/hooks'
+import externals, { open } from 'router/externals'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
@@ -95,10 +96,11 @@ export function useForecastRegions(map) {
     )
 }
 
-export function useForecastMarkers(map, onClick) {
+export function useForecastMarkers(map) {
     const key = FORECASTS
     const [regions] = features.useForecastRegionsMetadata()
     const { visible } = useLayerState(key)
+    const { location, navigate } = useLocation()
     const definitions = useMemo(() => {
         if (!Array.isArray(regions)) {
             return
@@ -118,7 +120,12 @@ export function useForecastMarkers(map, onClick) {
                 onclick(event) {
                     event.stopPropagation()
 
-                    onClick(id)
+                    if (externals.has(id)) {
+                        open(id)
+                        return
+                    }
+
+                    navigate('forecasts/' + id + location.search)
                 },
             })
 
