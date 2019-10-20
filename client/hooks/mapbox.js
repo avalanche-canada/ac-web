@@ -160,10 +160,6 @@ function useControl(map, ControlClass, props, position = 'bottom-right') {
         }
 
         map.addControl(control.current, position)
-
-        return () => {
-            map.removeControl(control.current)
-        }
     }, [map])
 
     return control.current
