@@ -122,10 +122,9 @@ export function useForecastMarkers(map) {
 
                     if (externals.has(id)) {
                         open(id)
-                        return
+                    } else {
+                        navigate('/map/forecasts/' + id + location.search)
                     }
-
-                    navigate('/map/forecasts/' + id + location.search)
                 },
             })
 
