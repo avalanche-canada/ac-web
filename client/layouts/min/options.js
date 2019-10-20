@@ -15,6 +15,7 @@ import format from 'date-fns/format'
 import endOfToday from 'date-fns/end_of_today'
 import styles from './Form.css'
 import { supported } from 'utils/mapbox'
+import { Tag } from 'components/tag'
 
 function handleNumberInputWheel(event) {
     if (document.activeElement === event.currentTarget) {
@@ -87,6 +88,10 @@ const Required = {
                             online converter
                         </a>
                         .
+                    </p>
+                    <p>
+                        <Tag as="span">new</Tag>Once you have placed a pin, you
+                        can now drag it to adjust the location.
                     </p>
                 </Fragment>
             ),
