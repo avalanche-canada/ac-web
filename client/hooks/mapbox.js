@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef } from 'react'
+import React, { useEffect, useState, useMemo, useRef, forwardRef } from 'react'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { accessToken, styles } from 'services/mapbox/config.json'
 import { useLazyRef } from 'hooks'
@@ -36,6 +36,15 @@ export function useMap(ref, props, events) {
 
     return map
 }
+
+export const Map = forwardRef(({ options, events, ...props }, ref) => {
+    const div = useRef(null)
+    const map = useMap(div, options, events)
+
+    ref(map)
+
+    return <div ref={div} {...props} />
+})
 
 export function useSource(map, id, source, data) {
     const added = useRef(false)

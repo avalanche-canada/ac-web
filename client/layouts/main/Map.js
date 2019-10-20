@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMapState } from 'contexts/map/state'
-import { useMap, useNavigationControl } from 'hooks/mapbox'
+import { Map, useNavigationControl } from 'hooks/mapbox'
 import {
     useForecastRegions,
     useWeatherStations,
@@ -19,18 +19,18 @@ MapLayout.propTypes = {
 }
 
 export default function MapLayout({ className, onMarkerClick, onLoad }) {
-    const ref = useRef()
+    const [map, setMap] = useState(null)
     const { zoom, setZoom, center, setCenter, pushError } = useMapState()
     function handleLoad({ target: map }) {
         map.on('zoomend', () => setZoom(map.getZoom()))
         map.on('moveend', () => setCenter(map.getCenter()))
     }
+    const options = { zoom, center }
     const events = [
         ['error', pushError],
         ['load', handleLoad],
         ['load', onLoad],
     ]
-    const map = useMap(ref, { zoom, center }, events)
 
     useNavigationControl(map)
 
@@ -42,5 +42,12 @@ export default function MapLayout({ className, onMarkerClick, onLoad }) {
     useMountainInformationNetwork(map)
     useForecastMarkers(map, onMarkerClick)
 
-    return <div className={className} ref={ref} />
+    return (
+        <Map
+            ref={setMap}
+            className={className}
+            options={options}
+            events={events}
+        />
+    )
 }
