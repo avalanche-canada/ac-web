@@ -6,7 +6,7 @@ import { clean } from 'utils/object'
 
 mapbox.accessToken = accessToken
 
-export function useMap(ref, props, events) {
+export function useMap(ref, props) {
     const [map, setMap] = useState()
 
     useEffect(() => {
@@ -23,12 +23,6 @@ export function useMap(ref, props, events) {
             setMap(instance)
         })
 
-        if (Array.isArray(events)) {
-            for (const event of events) {
-                instance.on(...event)
-            }
-        }
-
         return () => {
             instance.remove()
         }
@@ -37,9 +31,9 @@ export function useMap(ref, props, events) {
     return map
 }
 
-export const Map = forwardRef(({ options, events, ...props }, ref) => {
+export const Map = forwardRef(({ options, ...props }, ref) => {
     const div = useRef(null)
-    const map = useMap(div, options, events)
+    const map = useMap(div, options)
 
     ref(map)
 
