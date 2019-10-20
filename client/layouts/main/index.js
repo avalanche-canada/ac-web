@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link, Match } from '@reach/router'
 import { supported } from 'utils/mapbox'
 import bbox from '@turf/bbox'
-import * as turf from '@turf/helpers'
 import * as react from 'utils/react'
 import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
@@ -18,6 +17,7 @@ import { Provider as LayersProvider } from 'contexts/layers'
 import { Provider as MapStateProvider } from 'contexts/map/state'
 import * as TYPES from 'constants/drawers'
 import { isTouchable } from 'utils/device'
+
 import styles from './Map.css'
 
 const MAX_DRAWER_WIDTH = 500

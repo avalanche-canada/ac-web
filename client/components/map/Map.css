@@ -1,7 +1,0 @@
-:global(.map-marker) {
-    cursor: pointer;
-}
-
-:global(.hidden-map-marker) {
-    display: none;
-}
