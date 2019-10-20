@@ -221,13 +221,3 @@
     composes: import Large from '../button/Button.css';
     composes: import Primary from '../button/Button.css';
 }
-
-.ContextMap {
-    & :global(.mapboxgl-map) {
-        height: 175px;
-
-        @media (--side-by-side) {
-            height: 225px;
-        }
-    }
-}

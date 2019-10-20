@@ -19,8 +19,6 @@ export List, { Item as ListItem } from './List'
 export Error from './Error'
 export NotFound from './NotFound'
 
-export ContextMap from './ContextMap'
-
 export function Loading({ title, children }) {
     return (
         <Page>
