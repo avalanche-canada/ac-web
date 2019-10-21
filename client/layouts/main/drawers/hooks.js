@@ -212,4 +212,4 @@ const SEARCHS = new Map([
     [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'mountain-conditions-reports'],
 ])
 const PRIMARY = new Set(PATHS.values())
-const SECONDARY = new Set(SEARCHS.values()) // TODO Oups! It includes incidents as well, it needs to be fixed!
+const SECONDARY = new Set(SEARCHS.values())
