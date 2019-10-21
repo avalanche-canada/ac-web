@@ -4,7 +4,6 @@ import React, {
     useState,
     useEffect,
     useRef,
-    useCallback,
     useMemo,
 } from 'react'
 import PropTypes from 'prop-types'
