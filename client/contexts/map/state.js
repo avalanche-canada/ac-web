@@ -1,6 +1,6 @@
 import React, { createContext, useMemo, useContext } from 'react'
 import PropTypes from 'prop-types'
-import { useSessionStorage, useArray } from 'hooks'
+import { useSessionStorage, useSet } from 'hooks'
 
 const MapStateContext = createContext()
 
@@ -9,7 +9,7 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [errors, pushError, removeError, clearErrors] = useArray()
+    const [errors, addError, removeError, clearErrors] = useSet()
     const [zoom, setZoom] = useSessionStorage('zoom', 4.3)
     const [center, setCenter] = useSessionStorage('center', {
         lng: -125.15,
@@ -22,7 +22,7 @@ export function Provider({ children }) {
             center,
             setCenter,
             errors,
-            pushError,
+            addError,
             removeError,
             clearErrors,
         }),

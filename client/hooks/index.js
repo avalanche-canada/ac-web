@@ -45,12 +45,33 @@ export function useArray(initialState = []) {
         setArray([])
     }
     function remove(item) {
-        setArray(() => {
-            setArray(array.filter(anItem => anItem !== item))
-        })
+        setArray(() => array.filter(i => i !== item))
     }
 
     return [array, push, remove, clear]
+}
+
+export function useSet(initialState = new Set()) {
+    const [set, setSet] = useState(initialState)
+    function add(item) {
+        setSet(() => {
+            set.add(item)
+
+            setSet(new Set(set))
+        })
+    }
+    function remove(item) {
+        setSet(() => {
+            set.remove(item)
+
+            setSet(new Set(set))
+        })
+    }
+    function clear() {
+        setSet(new Set())
+    }
+
+    return [set, add, remove, clear]
 }
 
 export function useTimeout(elapse = 0) {
