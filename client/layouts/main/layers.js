@@ -15,17 +15,22 @@ import * as min from 'hooks/async/min'
 import { useDocuments } from 'prismic/hooks'
 import * as params from 'prismic/params'
 import { useSource, useLayer, useMarkers } from 'hooks/mapbox'
+import { useMapState } from 'contexts/map/state'
 import { INCIDENT } from 'constants/min'
 import { useLayer as useLayerState } from 'contexts/layers'
 import { useLocation } from 'router/hooks'
 import externals, { open } from 'router/externals'
+import { usePrimaryDrawerParams, useSecondaryDrawerParams } from './hooks'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
     const IDS = [key, key + '-line', key + '-labels']
     const { visible } = useLayerState(key)
-    const [regions] = features.useForecastRegions()
+    const [regions, , error] = features.useForecastRegions()
     const [sourceLoaded, setSourceLoaded] = useState(false)
+    const { type, id } = usePrimaryDrawerParams()
+
+    useMapError(error)
 
     useEffect(() => {
         if (!map) {
@@ -38,16 +43,7 @@ export function useForecastRegions(map) {
     }, [map])
 
     useEffect(() => {
-        if (!map || !sourceLoaded) {
-            return
-        }
-
-        const [, type, id] = location.pathname
-            .split('/')
-            .filter(Boolean)
-            .map(String)
-
-        if (!id) {
+        if (!map || !sourceLoaded || !id || type !== 'forecasts') {
             return
         }
 
@@ -59,15 +55,14 @@ export function useForecastRegions(map) {
             return
         }
 
-        const active = type === 'forecasts' && typeof id === 'string'
         const target = { source: key, id: feature.id }
 
-        map.setFeatureState(target, { active })
+        map.setFeatureState(target, { active: true })
 
         return () => {
             map.removeFeatureState(target, 'active')
         }
-    }, [location.pathname, sourceLoaded])
+    }, [map, type, id, sourceLoaded])
 
     useSource(map, key, { ...GEOJSON, generateId: true }, regions)
     useLayer(
@@ -98,7 +93,7 @@ export function useForecastRegions(map) {
 
 export function useForecastMarkers(map) {
     const key = FORECASTS
-    const [regions] = features.useForecastRegionsMetadata()
+    const [regions, , error] = features.useForecastRegionsMetadata()
     const { visible } = useLayerState(key)
     const { location, navigate } = useLocation()
     const definitions = useMemo(() => {
@@ -132,6 +127,8 @@ export function useForecastMarkers(map) {
         })
     }, [regions])
 
+    // useMapError(error)
+
     const markers = useMarkers(map, definitions)
 
     // Make markers visible or not
@@ -157,12 +154,13 @@ export function useForecastMarkers(map) {
 export function useWeatherStations(map) {
     const key = WEATHER_STATION
     const { visible } = useLayerState(key)
-    const [stations] = weather.useStations()
+    const [stations, , error] = weather.useStations()
     const features = useMemo(
         () => createFeatureCollection(stations, createWeatherStationFeature),
         [stations]
     )
 
+    // useMapError(error)
     useSymbolLayer(map, key, features, visible)
 }
 
@@ -170,7 +168,7 @@ export function useMountainConditionReports(map) {
     const key = MOUNTAIN_CONDITIONS_REPORTS
     const { visible } = useLayerState(key)
     const id = useSearchPanelId('mountain-conditions-reports')
-    const [reports] = mcr.useReports()
+    const [reports, , error] = mcr.useReports()
     const [report] = mcr.useReport(id)
     const features = useMemo(
         () =>
@@ -189,6 +187,7 @@ export function useMountainConditionReports(map) {
         [report]
     )
 
+    // useMapError(error)
     useSymbolLayer(map, key, features, visible)
     useSymbolLayer(map, key + '-single', single, visible, STYLES[key].symbol)
 }
@@ -196,12 +195,13 @@ export function useMountainConditionReports(map) {
 export function useFatalAccidents(map) {
     const key = FATAL_ACCIDENT
     const { visible } = useLayerState(key)
-    const [documents] = useDocuments(params.fatal.accidents())
+    const [documents, , error] = useDocuments(params.fatal.accidents())
     const features = useMemo(
         () => createFeatureCollection(documents, createFatalAccidentFeature),
         [documents]
     )
 
+    // useMapError(error)
     useSymbolLayer(map, key, features, visible)
 }
 
@@ -209,8 +209,8 @@ export function useAdvisories(map) {
     const key = HOT_ZONE_REPORTS
     const layer = createLayer(key, key, 'circle')
     const { visible } = useLayerState(key)
-    const [areas] = features.useAdvisoriesMetadata()
-    const [documents] = useDocuments(params.hotZone.reports())
+    const [areas, , errorAreas] = features.useAdvisoriesMetadata()
+    const [documents, , errorReports] = useDocuments(params.hotZone.reports())
     const advisories = useMemo(() => {
         if (!Array.isArray(areas) || !Array.isArray(documents)) {
             return
@@ -224,6 +224,9 @@ export function useAdvisories(map) {
         return createFeatureCollection(areas, createFeature)
     }, [areas, documents])
 
+    // useMapError(errorAreas)
+    // useMapError(errorReports)
+
     useSource(map, key, GEOJSON, advisories)
     useLayer(map, layer, undefined, visible, undefined, EVENTS)
 }
@@ -233,7 +236,7 @@ export function useMountainInformationNetwork(map) {
     const id = useSearchPanelId('mountain-information-network-submissions')
     const { visible, filters } = useLayerState(key)
     const { days, types } = filters
-    const [data] = min.useReports(days)
+    const [data, , error] = min.useReports(days)
     const [report] = min.useReport(id)
     const [others, incidents] = useMemo(() => {
         const features = (data || [])
@@ -249,6 +252,8 @@ export function useMountainInformationNetwork(map) {
         () => createMountainInformationNetworkFilter(types),
         [types]
     )
+
+    // useMapError(error)
 
     // Incident icons
     key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
@@ -317,6 +322,15 @@ const CLUSTER = {
     ...GEOJSON,
     cluster: true,
     clusterMaxZoom: 14,
+}
+function useMapError(error) {
+    const { addError } = useMapState()
+
+    useEffect(() => {
+        if (error) {
+            addError(error)
+        }
+    }, [error])
 }
 const EVENTS = [
     ['mouseenter', handleMouseEnter],
@@ -402,27 +416,9 @@ function createFatalAccidentFeature({ uid, data }) {
     })
 }
 function useSearchPanelId(type) {
-    const { location } = useLocation()
+    const params = useSecondaryDrawerParams()
 
-    return useMemo(() => {
-        const params = new URLSearchParams(location.search)
-
-        if (!params.has('panel')) {
-            return null
-        }
-
-        const search = params
-            .get('panel')
-            .split('/')
-            .filter(Boolean)
-            .map(String)
-
-        if (search[0] === type) {
-            return search[1] || null
-        }
-
-        return null
-    }, [location.search])
+    return useMemo(() => (params.type === type ? params.id : null), [params])
 }
 
 // Constants

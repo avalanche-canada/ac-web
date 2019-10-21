@@ -13,6 +13,7 @@ export function useMap(ref, props) {
         if (map) {
             return
         }
+
         const instance = new mapbox.Map({
             style: styles.default,
             ...props,
