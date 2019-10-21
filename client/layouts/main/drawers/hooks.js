@@ -15,7 +15,7 @@ export function usePrimaryDrawerParams() {
             .filter(Boolean)
             .map(String)
 
-        if (!PRIMARY.has(type) || externals.has(id)) {
+        if (!type || !id || !PRIMARY.has(type) || externals.has(id)) {
             return BLANK_PARAMS
         }
 
@@ -165,7 +165,9 @@ export function useMapClickHandler(map) {
 function useDrawerWidth() {
     const { width } = useWindowSize()
 
-    return Math.min(MAX_DRAWER_WIDTH, width)
+    // TODO Actually, that should implemented in CSS only using percentage and media querries.
+
+    return Math.min(500, width) // 500px or smaller.
 }
 function useMapOffset() {
     const width = useDrawerWidth()
@@ -188,7 +190,6 @@ function useMapOffset() {
 }
 
 // Constants
-const MAX_DRAWER_WIDTH = 500
 const BLANK_PARAMS = {
     opened: false,
     type: null,

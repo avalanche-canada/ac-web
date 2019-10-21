@@ -29,7 +29,7 @@ function Main() {
     const handleMapClick = useMapClickHandler(map)
     const { location, navigate } = useLocation()
 
-    // TODO Find a better way to do this!
+    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL!
     const openExternalForecast = useCallback(
         ({ match }) => {
             if (!match) {
