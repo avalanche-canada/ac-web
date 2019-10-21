@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useMemo, useRef, forwardRef } from 'react'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
-import { accessToken, styles } from 'services/mapbox/config.json'
+import { ACCESS_TOKEN, STYLES } from 'services/mapbox/config'
 import { useLazyRef } from 'hooks'
 import { clean } from 'utils/object'
 
-mapbox.accessToken = accessToken
+mapbox.accessToken = ACCESS_TOKEN
 
 export function useMap(ref, props) {
     const [map, setMap] = useState()
@@ -15,7 +15,7 @@ export function useMap(ref, props) {
         }
 
         const instance = new mapbox.Map({
-            style: styles.default,
+            style: STYLES.default,
             ...props,
             container: ref.current,
         })

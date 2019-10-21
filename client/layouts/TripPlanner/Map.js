@@ -4,7 +4,7 @@ import bbox from '@turf/bbox'
 import { useMapState } from 'contexts/map/state'
 import styles from './TripPlanner.css'
 import { useNavigationControl, useMap } from 'hooks/mapbox'
-import { styles as maps } from 'services/mapbox/config.json'
+import { STYLES } from 'services/mapbox/config'
 
 TripPlannerMap.propTypes = {
     area: PropTypes.object,
@@ -16,7 +16,7 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
     const ref = useRef(null)
     const counter = useRef(0)
     const { zoom, setZoom, center, setCenter } = useMapState()
-    const map = useMap(ref, { zoom, center, style: maps.ates })
+    const map = useMap(ref, { zoom, center, style: STYLES.ates })
     function setActiveArea(id) {
         map.setFilter('active-ates-areas', [
             '==',
