@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect, Fragment } from 'react'
 import { Link, Match } from '@reach/router'
 import { supported } from 'utils/mapbox'
-import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Warning } from 'components/icons'
 import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
@@ -20,14 +19,64 @@ import { Error } from 'components/text'
 import Shim from 'components/Shim'
 import { useMapClickHandler } from './drawers/hooks'
 import { useLocation } from 'router/hooks'
+import { Map, useNavigationControl } from 'hooks/mapbox'
+import {
+    useForecastRegions,
+    useWeatherStations,
+    useMountainConditionReports,
+    useFatalAccidents,
+    useAdvisories,
+    useMountainInformationNetwork,
+    useForecastMarkers,
+} from './layers'
+import { captureException } from 'services/sentry'
 import styles from './Map.css'
 
-export default (supported() ? Main : UnsupportedMap)
+export default (supported() ? Wrapper : UnsupportedMap)
+
+function Wrapper() {
+    return (
+        <LayersProvider>
+            <MenuProvider>
+                <MapStateProvider>
+                    <Main />
+                </MapStateProvider>
+            </MenuProvider>
+        </LayersProvider>
+    )
+}
 
 function Main() {
     const [map, setMap] = useState(null)
     const handleMapClick = useMapClickHandler(map)
     const { location, navigate } = useLocation()
+    const { zoom, setZoom, center, setCenter, addError } = useMapState()
+    const options = { zoom, center }
+
+    useEffect(() => {
+        if (!map) {
+            return
+        }
+
+        map.on('zoomend', () => setZoom(map.getZoom()))
+        map.on('moveend', () => setCenter(map.getCenter()))
+        map.on('error', error => {
+            addError(error)
+            captureException(error)
+        })
+    }, [map])
+
+    useEffect(() => {
+        if (!map) {
+            return
+        }
+
+        map.on('click', handleMapClick)
+
+        return () => {
+            map.off('click', handleMapClick)
+        }
+    }, [map, handleMapClick])
 
     // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL!
     const openExternalForecast = useCallback(
@@ -46,39 +95,30 @@ function Main() {
         [location.search]
     )
 
-    useEffect(() => {
-        if (!map) {
-            return
-        }
+    useNavigationControl(map)
 
-        map.on('click', handleMapClick)
-
-        return () => {
-            map.off('click', handleMapClick)
-        }
-    }, [map, handleMapClick])
+    useForecastRegions(map)
+    useWeatherStations(map)
+    useMountainConditionReports(map)
+    useFatalAccidents(map)
+    useAdvisories(map)
+    useMountainInformationNetwork(map)
+    useForecastMarkers(map)
 
     return (
-        <LayersProvider>
-            <MenuProvider>
-                <MapStateProvider>
-                    <div className={styles.Layout}>
-                        <Base ref={setMap} />
-                        <Primary map={map} />
-                        <Secondary map={map} />
-                        <Menu />
-                        <ToggleMenu />
-                        <LinkControlSet />
-                        <Match path="forecasts/:name">
-                            {openExternalForecast}
-                        </Match>
-                    </div>
-                </MapStateProvider>
-            </MenuProvider>
-        </LayersProvider>
+        <div className={styles.Layout}>
+            <Map ref={setMap} options={options} />
+            <Primary map={map} />
+            <Secondary map={map} />
+            <Menu />
+            <ToggleMenu />
+            <LinkControlSet />
+            <Match path="forecasts/:name">{openExternalForecast}</Match>
+        </div>
     )
 }
 
+// Utils
 function LinkControlSet() {
     return (
         <div className={styles.LinkControlSet}>
@@ -98,7 +138,6 @@ function LinkControlSet() {
         </div>
     )
 }
-
 function ErrorIndicator() {
     const [opened, open, close] = useBoolean(true)
     const { errors } = useMapState()
@@ -128,7 +167,6 @@ function ErrorIndicator() {
         </Fragment>
     )
 }
-
 function ErrorDialog({ opened, close }) {
     const { errors } = useMapState()
     function reload() {
