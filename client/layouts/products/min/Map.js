@@ -30,7 +30,7 @@ export default function ContextMap() {
 function FallbackMap({ center, zoom, src, title }) {
     const [lng, lat] = center
     const url = 'https://www.avalanche.ca/' + src
-    const overlay = [`url-${encodeURIComponent(url)}(${lng},${lat})`]
+    const overlay = `url-${encodeURIComponent(url)}(${lng},${lat})`
 
     return (
         <StaticMap

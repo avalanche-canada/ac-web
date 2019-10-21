@@ -1,5 +1,6 @@
 import { ACCESS_TOKEN, USENAME, API, STYLE_IDS } from './config'
 import { Revelstoke } from 'constants/map/locations'
+import { path } from 'utils/url'
 
 export function createStyleUrl({
     styleId = STYLE_IDS.default,
@@ -14,22 +15,17 @@ export function createStyleUrl({
     height = 250,
     retina = false,
 } = {}) {
-    let pathname = [
+    return path(
+        API,
         'styles/v1',
         USENAME,
         styleId,
         'static',
-        Array.isArray(overlay) ? overlay.join(',') : false,
-        `${longitude},${latitude},${zoom},${bearing},${pitch}`,
+        Array.isArray(overlay) ? overlay.join(',') : overlay,
+        [longitude, latitude, zoom, bearing, pitch].join(','),
         auto ? 'auto' : false,
         `${width}x${height}`,
-    ]
-        .filter(Boolean)
-        .join('/')
-
-    if (retina) {
-        pathname = pathname + '@2x'
-    }
-
-    return API + `/${pathname}?access_token=${ACCESS_TOKEN}`
+        retina ? '@2x' : false,
+        '?access_token=' + ACCESS_TOKEN
+    )
 }

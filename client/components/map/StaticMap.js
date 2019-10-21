@@ -8,7 +8,10 @@ StaticMap.propTypes = {
     title: PropTypes.string,
     tracked: PropTypes.bool,
     styleId: PropTypes.string,
-    overlay: PropTypes.arrayOf(PropTypes.string),
+    overlay: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string,
+    ]),
     longitude: PropTypes.number,
     latitude: PropTypes.number,
     zoom: PropTypes.number,
