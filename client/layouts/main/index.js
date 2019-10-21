@@ -1,12 +1,10 @@
-import React, { Component, memo, createRef } from 'react'
+import React, { Component, Fragment, createRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match } from '@reach/router'
 import { supported } from 'utils/mapbox'
 import bbox from '@turf/bbox'
-import * as react from 'utils/react'
 import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
-import { captureException } from 'services/sentry'
 import { Warning } from 'components/icons'
 import Primary from './Primary'
 import Secondary from './Secondary'
@@ -14,9 +12,17 @@ import { Menu, ToggleMenu } from './drawers'
 import externals, { open } from 'router/externals'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
-import { Provider as MapStateProvider } from 'contexts/map/state'
+import { Provider as MapStateProvider, useMapState } from 'contexts/map/state'
 import * as TYPES from 'constants/drawers'
 import { isTouchable } from 'utils/device'
+import { pluralize } from 'utils/string'
+import keycodes from 'constants/keycodes'
+import { useBoolean, useEventListener } from 'hooks'
+import Dialog, { Header, Footer, Body } from 'components/dialog'
+import { Close } from 'components/button'
+import Button from 'components/button'
+import { Error } from 'components/text'
+import Shim from 'components/Shim'
 
 import styles from './Map.css'
 
@@ -28,7 +34,6 @@ export default class Main extends Component {
         location: PropTypes.object.isRequired,
     }
     state = {
-        hasError: false,
         width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
     }
     primary = createRef()
@@ -49,12 +54,6 @@ export default class Main extends Component {
 
         return [x, 0]
     }
-    handleError = error => {
-        // TODO Move that logic
-        this.setState({ hasError: true }, () => {
-            captureException(error)
-        })
-    }
     withMap = map => {
         Object.assign(this, {
             flyTo(center, zoom = 13) {
@@ -72,7 +71,6 @@ export default class Main extends Component {
         })
 
         map.on('resize', this.handleResize)
-        map.on('error', this.handleError)
         map.on('click', event => {
             const [feature] = map.queryRenderedFeatures(event.point)
 
@@ -165,7 +163,7 @@ export default class Main extends Component {
             return <UnsupportedMap />
         }
 
-        const { width, hasError } = this.state
+        const { width } = this.state
 
         return (
             <LayersProvider>
@@ -187,9 +185,7 @@ export default class Main extends Component {
                             />
                             <Menu />
                             <ToggleMenu />
-                            <LinkControlSet>
-                                {hasError && <ErrorIndicator />}
-                            </LinkControlSet>
+                            <LinkControlSet />
                             <Match path="forecasts/:name">
                                 {this.openExternalForecast}
                             </Match>
@@ -201,7 +197,7 @@ export default class Main extends Component {
     }
 }
 
-const LinkControlSet = memo(function LinkControlSet({ children }) {
+function LinkControlSet() {
     return (
         <div className={styles.LinkControlSet}>
             <Link
@@ -216,29 +212,77 @@ const LinkControlSet = memo(function LinkControlSet({ children }) {
                 data-tooltip="Visit the Mountain&#xa;Weather Forecast"
                 data-tooltip-placement="right"
             />
-            {children}
+            <ErrorIndicator />
         </div>
     )
-})
+}
 
-const ErrorIndicator = react.memo.static(function ErrorIndicator() {
+function ErrorIndicator() {
+    const [opened, open, close] = useBoolean(true)
+    const { errors } = useMapState()
+    const { size } = errors
+
+    if (size === 0) {
+        return null
+    }
+
+    const message = [
+        pluralize('error', size, true),
+        'happened.',
+        isTouchable ? 'Tap' : 'Click',
+        'for more details.',
+    ].join(' ')
+
+    return (
+        <Fragment>
+            <button
+                onClick={open}
+                className={styles.Error}
+                data-tooltip={message}
+                data-tooltip-placement="right">
+                <Warning inverse />
+            </button>
+            <ErrorDialog opened={opened} close={close} />
+        </Fragment>
+    )
+}
+
+function ErrorDialog({ opened, close }) {
+    const { errors } = useMapState()
     function reload() {
         window.location.reload(true)
     }
 
+    useEventListener('keyup', event => {
+        if (keycodes.esc === event.keyCode) {
+            close()
+        }
+    })
+
     return (
-        <button
-            onClick={reload}
-            className={styles.Error}
-            data-tooltip={`An error happened while initializing the map.&#xa;Therefore, some
-            functionnalities might not be available.&#xa;${
-                isTouchable ? 'Tap' : 'Click'
-            } to reload the map.`}
-            data-tooltip-placement="right">
-            <Warning inverse />
-        </button>
+        <Dialog open={opened}>
+            <Header>
+                <span>Errors</span>
+                <Close onClick={close} />
+            </Header>
+            <Body>
+                {Array.from(errors).map((error, index) => (
+                    <details key={index}>
+                        <Error component="summary">
+                            {error.message || error.error.message}
+                        </Error>
+                    </details>
+                ))}
+            </Body>
+            <Footer>
+                <Shim right>
+                    <Button onClick={reload}>Reload</Button>
+                </Shim>
+                <Button onClick={close}>Close</Button>
+            </Footer>
+        </Dialog>
     )
-})
+}
 
 // Constants
 const PATHS = new Map([

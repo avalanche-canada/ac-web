@@ -10,10 +10,11 @@ import {
     useMountainInformationNetwork,
     useForecastMarkers,
 } from './layers'
+import { captureException } from 'services/sentry'
 
 export default forwardRef((props, ref) => {
     const [map, setMap] = useState(null)
-    const { zoom, setZoom, center, setCenter, pushError } = useMapState()
+    const { zoom, setZoom, center, setCenter, addError } = useMapState()
     const options = { zoom, center }
 
     useEffect(() => {
@@ -23,7 +24,10 @@ export default forwardRef((props, ref) => {
 
         map.on('zoomend', () => setZoom(map.getZoom()))
         map.on('moveend', () => setCenter(map.getCenter()))
-        map.on('error', pushError)
+        map.on('error', error => {
+            addError(error)
+            captureException(error)
+        })
 
         ref(map)
     }, [map])
