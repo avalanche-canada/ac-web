@@ -20,7 +20,10 @@ import { INCIDENT } from 'constants/min'
 import { useLayer as useLayerState } from 'contexts/layers'
 import { useLocation } from 'router/hooks'
 import externals, { open } from 'router/externals'
-import { usePrimaryDrawerParams, useSecondaryDrawerParams } from './hooks'
+import {
+    usePrimaryDrawerParams,
+    useSecondaryDrawerParams,
+} from './drawers/hooks'
 
 export function useForecastRegions(map) {
     const key = FORECASTS

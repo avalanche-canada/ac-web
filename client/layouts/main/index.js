@@ -1,19 +1,14 @@
-import React, { Component, Fragment, createRef } from 'react'
-import PropTypes from 'prop-types'
+import React, { useCallback, useState, useEffect, Fragment } from 'react'
 import { Link, Match } from '@reach/router'
 import { supported } from 'utils/mapbox'
-import bbox from '@turf/bbox'
 import Base from './Map'
 import UnsupportedMap from './UnsupportedMap'
 import { Warning } from 'components/icons'
-import Primary from './Primary'
-import Secondary from './Secondary'
-import { Menu, ToggleMenu } from './drawers'
+import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
 import externals, { open } from 'router/externals'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
 import { Provider as MapStateProvider, useMapState } from 'contexts/map/state'
-import * as TYPES from 'constants/drawers'
 import { isTouchable } from 'utils/device'
 import { pluralize } from 'utils/string'
 import keycodes from 'constants/keycodes'
@@ -23,178 +18,64 @@ import { Close } from 'components/button'
 import Button from 'components/button'
 import { Error } from 'components/text'
 import Shim from 'components/Shim'
-
+import { useMapClickHandler } from './drawers/hooks'
+import { useLocation } from 'router/hooks'
 import styles from './Map.css'
 
-const MAX_DRAWER_WIDTH = 500
+export default (supported() ? Main : UnsupportedMap)
 
-export default class Main extends Component {
-    static propTypes = {
-        navigate: PropTypes.func.isRequired,
-        location: PropTypes.object.isRequired,
-    }
-    state = {
-        width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
-    }
-    primary = createRef()
-    secondary = createRef()
-    flyTo() {}
-    fitBounds() {}
-    get offset() {
-        const { width } = this.state
-        let x = 0
+function Main() {
+    const [map, setMap] = useState(null)
+    const handleMapClick = useMapClickHandler(map)
+    const { location, navigate } = useLocation()
 
-        if (this.primary?.current?.opened) {
-            x -= width / 2
-        }
-
-        if (this.secondary?.current?.opened) {
-            x += width / 2
-        }
-
-        return [x, 0]
-    }
-    withMap = map => {
-        Object.assign(this, {
-            flyTo(center, zoom = 13) {
-                const { offset } = this
-
-                map.flyTo({ center, zoom, offset })
-            },
-            fitBounds(geometry) {
-                map.fitBounds(bbox(geometry), {
-                    offset: this.offset,
-                    padding: 75,
-                    speed: 2.5,
-                })
-            },
-        })
-
-        map.on('resize', this.handleResize)
-        map.on('click', event => {
-            const [feature] = map.queryRenderedFeatures(event.point)
-
-            if (!feature) {
-                return
+    const openExternalForecast = useCallback(
+        ({ match }) => {
+            if (!match) {
+                return null
             }
 
-            const { properties, geometry } = feature
-
-            if (properties.cluster) {
-                const source = map.getSource(feature.source)
-
-                source.getClusterExpansionZoom(
-                    properties.cluster_id,
-                    (error, zoom) => {
-                        if (error) {
-                            return // We do not really care if there is an error
-                        }
-
-                        this.flyTo(geometry.coordinates, zoom)
-                    }
-                )
-            } else {
-                this.handleFeatureClick(feature)
-            }
-        })
-    }
-    handleFeatureClick({ properties, source }) {
-        const { location, navigate } = this.props
-        const { id } = properties
-
-        if (source === TYPES.FORECASTS && externals.has(id)) {
-            open(id)
-            return
-        }
-
-        let { pathname, search } = location
-
-        if (PATHS.has(source)) {
-            pathname = `${PATHS.get(source)}/${id}`
-        }
-
-        if (SEARCHS.has(source)) {
-            search = `?panel=${SEARCHS.get(source)}/${id}`
-        }
-
-        navigate(pathname + search)
-    }
-    handleResize = event => {
-        const { clientWidth } = event.target.getContainer()
-
-        this.setState({
-            width: Math.min(MAX_DRAWER_WIDTH, clientWidth),
-        })
-    }
-    handleLocateClick = ({ geometry }) => {
-        if (geometry.type === 'Point') {
-            this.flyTo(geometry.coordinates)
-        } else {
-            this.fitBounds(geometry)
-        }
-    }
-    openExternalForecast = ({ match }) => {
-        if (match) {
             const { name } = match
 
             if (externals.has(name)) {
-                const { location, navigate } = this.props
-
                 open(name)
-
-                navigate(location.search)
+                navigate('/map' + location.search)
             }
+        },
+        [location.search]
+    )
+
+    useEffect(() => {
+        if (!map) {
+            return
         }
 
-        return null
-    }
-    handlePrimaryCloseClick = () => {
-        const { navigate, location } = this.props
+        map.on('click', handleMapClick)
 
-        navigate(location.search)
-    }
-    handleSecondaryCloseClick = () => {
-        const { navigate, location } = this.props
-
-        navigate(location.pathname)
-    }
-    render() {
-        if (!supported()) {
-            return <UnsupportedMap />
+        return () => {
+            map.off('click', handleMapClick)
         }
+    }, [map, handleMapClick])
 
-        const { width } = this.state
-
-        return (
-            <LayersProvider>
-                <MenuProvider>
-                    <MapStateProvider>
-                        <div className={styles.Layout}>
-                            <Base ref={this.withMap} />
-                            <Primary
-                                ref={this.primary}
-                                width={width}
-                                onLocateClick={this.handleLocateClick}
-                                onCloseClick={this.handlePrimaryCloseClick}
-                            />
-                            <Secondary
-                                ref={this.secondary}
-                                width={width}
-                                onLocateClick={this.handleLocateClick}
-                                onCloseClick={this.handleSecondaryCloseClick}
-                            />
-                            <Menu />
-                            <ToggleMenu />
-                            <LinkControlSet />
-                            <Match path="forecasts/:name">
-                                {this.openExternalForecast}
-                            </Match>
-                        </div>
-                    </MapStateProvider>
-                </MenuProvider>
-            </LayersProvider>
-        )
-    }
+    return (
+        <LayersProvider>
+            <MenuProvider>
+                <MapStateProvider>
+                    <div className={styles.Layout}>
+                        <Base ref={setMap} />
+                        <Primary map={map} />
+                        <Secondary map={map} />
+                        <Menu />
+                        <ToggleMenu />
+                        <LinkControlSet />
+                        <Match path="forecasts/:name">
+                            {openExternalForecast}
+                        </Match>
+                    </div>
+                </MapStateProvider>
+            </MenuProvider>
+        </LayersProvider>
+    )
 }
 
 function LinkControlSet() {
@@ -283,22 +164,3 @@ function ErrorDialog({ opened, close }) {
         </Dialog>
     )
 }
-
-// Constants
-const PATHS = new Map([
-    [TYPES.HOT_ZONE_REPORTS, 'advisories'],
-    [TYPES.FORECASTS, 'forecasts'],
-])
-const SEARCHS = new Map([
-    [TYPES.WEATHER_STATION, 'weather-stations'],
-    [
-        TYPES.MOUNTAIN_INFORMATION_NETWORK,
-        'mountain-information-network-submissions',
-    ],
-    [
-        TYPES.MOUNTAIN_INFORMATION_NETWORK + '-incidents',
-        'mountain-information-network-submissions',
-    ],
-    [TYPES.FATAL_ACCIDENT, 'fatal-accidents'],
-    [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'mountain-conditions-reports'],
-])
