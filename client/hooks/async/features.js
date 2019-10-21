@@ -30,28 +30,23 @@ function useMetadata() {
     return useCacheAsync(metadata, undefined, undefined, 'metadata')
 }
 function useSingle(type, id) {
-    const metadata = useMetadata()
+    const [data, ...rest] = useMetadata()
+    const single = useMemo(() => data?.[type]?.[id], [type, id, data])
 
-    return useMemo(() => {
-        const [data, ...rest] = metadata
-
-        return [data?.[type]?.[id], ...rest]
-    }, [type, id, ...metadata])
+    return [single, ...rest]
 }
 function useMultiple(type) {
-    const metadata = useMetadata()
-    // TODO Some optimizations here: we care about the data!
-    return useMemo(() => {
-        const [data, ...rest] = metadata
-
-        // Could be moved to the "request", but due to the object structure it does not make sense
-        return [
+    const [data, ...rest] = useMetadata()
+    const multiple = useMemo(
+        () =>
+            // Could be moved to the "request", but due to the object structure it does not make sense
             Object.values(data?.[type] || {})
                 .filter(item => !item._legacy)
                 .sort(sorter),
-            ...rest,
-        ]
-    }, [type, ...metadata])
+        [type, data]
+    )
+
+    return [multiple, ...rest]
 }
 function sorter(a, b) {
     return a.name.localeCompare(b.name)
