@@ -17,7 +17,14 @@ export function forecast(name, date) {
 export function forecasts() {
     const url = buildForecastURL('all')
 
-    return fetch(url)
+    return fetch(url).then(payload =>
+        Object.fromEntries(
+            Object.entries(payload).map(([id, forecast]) => [
+                id,
+                parse(forecast),
+            ])
+        )
+    )
 }
 
 export function regions() {
