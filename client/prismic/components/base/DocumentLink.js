@@ -22,5 +22,5 @@ export default function DocumentLink({ children, isBroken, ...props }) {
 function Title({ type, uid }) {
     const [document, pending] = useDocument(params.uid(type, uid))
 
-    return pending ? <Loading /> : document?.data?.title
+    return pending ? <Loading /> : document?.data?.title || null
 }
