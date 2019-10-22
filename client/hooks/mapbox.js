@@ -10,10 +10,6 @@ export function useMap(ref, props) {
     const [map, setMap] = useState()
 
     useEffect(() => {
-        if (map) {
-            return
-        }
-
         const instance = new mapbox.Map({
             style: STYLES.default,
             ...props,
