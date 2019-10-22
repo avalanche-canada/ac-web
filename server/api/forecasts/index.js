@@ -184,22 +184,48 @@ router.get('/:region/nowcast.svg', function(req, res) {
     }
 });
 
+router.get('/graphics/:type.svg', function(req, res) {
+    var file = 'no_rating_icon.svg'
+
+    switch (req.params.type.toLowerCase()) {
+        case 'link':
+            file = 'link_icon.svg'
+            break;
+        case 'spring':
+            file = 'spring_situation_icon_map.svg'
+            break;
+        case 'off_season':
+        case 'off-season':
+            file = 'no_rating_icon.svg'
+            break;
+        case 'early_season':
+        case 'early-season':
+            file = 'early_season_icon.svg'
+            break;
+    }
+    
+    res.header('cache-control', 'no-cache');
+    res.header('content-type', 'image/svg+xml');
+    fs.createReadStream(config.ROOT + '/server/views/forecasts/' + file).pipe(res);
+})
+
+var DANGER_RATING_COLORS = {
+    0: avalx.dangerColors.white,
+    1: avalx.dangerColors.green,
+    2: avalx.dangerColors.yellow,
+    3: avalx.dangerColors.orange,
+    4: avalx.dangerColors.red,
+    5: avalx.dangerColors.black,
+    n: avalx.dangerColors.white,
+};
 router.get('/graphics/:alp/:tln/:btl/danger-rating-icon.svg', function(
     req,
     res
 ) {
-    var colors = {
-        1: avalx.dangerColors.green,
-        2: avalx.dangerColors.yellow,
-        3: avalx.dangerColors.orange,
-        4: avalx.dangerColors.red,
-        5: avalx.dangerColors.black,
-        n: avalx.dangerColors.white,
-    };
     var styles = {
-        alp: colors[req.params.alp],
-        tln: colors[req.params.tln],
-        btl: colors[req.params.btl],
+        alp: DANGER_RATING_COLORS[req.params.alp],
+        tln: DANGER_RATING_COLORS[req.params.tln],
+        btl: DANGER_RATING_COLORS[req.params.btl],
     };
 
     res.render('forecasts/danger-icon', styles, function(err, svg) {
