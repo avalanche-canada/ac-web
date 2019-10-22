@@ -55,7 +55,7 @@ export function useSource(map, id, source, data) {
             return
         }
 
-        map.addSource(id, clean({ ...source, data }))
+        map.addSource(id, clean({ data, ...source }))
         added.current = true
     }, [map])
 
