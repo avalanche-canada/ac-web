@@ -32,36 +32,6 @@ export function useMap(ref, props) {
     return map
 }
 
-export const Map = forwardRef(({ options, ...props }, ref) => {
-    const div = useRef(null)
-    const map = useMap(div, options)
-
-    ref(map)
-
-    return <div ref={div} {...props} />
-})
-
-export function useSource(map, id, source, data) {
-    const added = useRef(false)
-
-    useEffect(() => {
-        if (added.current) {
-            map.getSource(id).setData(data)
-        }
-    }, [added.current, data])
-
-    useEffect(() => {
-        if (!map || map.getSource(id)) {
-            return
-        }
-
-        map.addSource(id, clean({ data, ...source }))
-        added.current = true
-    }, [map])
-
-    return added.current
-}
-
 export function useLayer(map, layer, beforeId, visible = true, filter, events) {
     const visibility = visible ? 'visible' : 'none'
     const added = useRef(false)
@@ -152,6 +122,37 @@ export function useFullscreenControl(map, props, position) {
 
 export function useGeolocateControl(map, props, position) {
     return useControl(map, mapbox.GeolocateControl, props, position)
+}
+
+// One component to make creating map easier(ish)
+export const Map = forwardRef(({ options, ...props }, ref) => {
+    const div = useRef(null)
+    const map = useMap(div, options)
+
+    ref(map)
+
+    return <div ref={div} {...props} />
+})
+
+export function useSource(map, id, source, data) {
+    const added = useRef(false)
+
+    useEffect(() => {
+        if (added.current) {
+            map.getSource(id).setData(data)
+        }
+    }, [added.current, data])
+
+    useEffect(() => {
+        if (!map || map.getSource(id)) {
+            return
+        }
+
+        map.addSource(id, clean({ data, ...source }))
+        added.current = true
+    }, [map])
+
+    return added.current
 }
 
 // Utils
