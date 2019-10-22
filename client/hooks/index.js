@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import throttle from 'lodash/throttle'
 import { Local, Session } from 'services/storage'
+import { captureMessage } from 'services/sentry'
 
 export function useLazyRef(fn) {
     const ref = useRef(null)
@@ -175,14 +176,18 @@ export function useFullscreen() {
     const enter = useCallback(() => {
         const { current } = ref
 
-        if (current.requestFullscreen) {
-            current.requestFullscreen()
-        } else if (current.mozRequestFullScreen) {
-            current.mozRequestFullScreen()
-        } else if (current.webkitRequestFullscreen) {
-            current.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
-        } else if (current.msRequestFullscreen) {
-            current.msRequestFullscreen()
+        try {
+            if (current.requestFullscreen) {
+                current.requestFullscreen()
+            } else if (current.mozRequestFullScreen) {
+                current.mozRequestFullScreen()
+            } else if (current.webkitRequestFullscreen) {
+                current.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT)
+            } else if (current.msRequestFullscreen) {
+                current.msRequestFullscreen()
+            }
+        } catch (error) {
+            captureMessage('Can not request Fullscreen. ' + error.message)
         }
     }, [ref.current])
     const exit = useCallback(() => {
