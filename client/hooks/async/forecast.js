@@ -1,8 +1,23 @@
-import { forecast } from 'requests/forecast'
-import { useCacheAsync, createKey } from './'
+import * as requests from 'requests/forecast'
+import { useCacheAsync, createKey, CACHE } from './'
 
-export function useForecast(...params) {
-    const key = createKey('avalanche', 'forecast', params)
+export function useForecast(id, date) {
+    let request = requests.forecast
+    const key = createKey(KEY, id, date)
 
-    return useCacheAsync(forecast, params, undefined, key)
+    // Grab from the cache if already available
+    if (!date && CACHE.has(KEY)) {
+        const forecasts = CACHE.get(KEY)
+
+        request = id => Promise.resolve(forecasts[id])
+    }
+
+    return useCacheAsync(request, [id, date], undefined, key)
 }
+
+export function useForecasts() {
+    return useCacheAsync(requests.forecasts, undefined, undefined, KEY)
+}
+
+// Constants
+const KEY = createKey('avalanche', 'forecasts')

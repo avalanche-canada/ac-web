@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Memory } from 'services/cache'
 
-// TODO Big hack to clear cache for MIN reports once a new one got created.
-export const CACHE = new Memory()
-
 export function useAsync(fn, params = [], initialState) {
     // TODO Look to see if using a "useReducer" will be faster! Update everything at once!
     const [data, setData] = useSafeState(initialState)
@@ -50,6 +47,7 @@ export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
         ? () => Promise.resolve(CACHE.get(key))
         : (...args) =>
               fn.apply(null, args).then(data => {
+                  //   console.warn('set cache', key, data)
                   CACHE.set(key, data, lifespan)
 
                   return data
@@ -57,6 +55,10 @@ export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
 
     return useAsync(func, params, initialState)
 }
+
+// Cache
+// TODO Big hack to clear cache for MIN reports once a new one got created.
+export const CACHE = new Memory()
 
 // Utils
 export function createKey(...paths) {

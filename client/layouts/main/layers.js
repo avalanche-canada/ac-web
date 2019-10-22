@@ -8,11 +8,12 @@ import {
     HOT_ZONE_REPORTS,
     MOUNTAIN_INFORMATION_NETWORK,
 } from 'constants/drawers'
+import * as forecast from 'hooks/async/forecast'
 import * as features from 'hooks/async/features'
 import * as weather from 'hooks/async/weather'
 import * as mcr from 'hooks/async/mcr'
 import * as min from 'hooks/async/min'
-import { useDocuments } from 'prismic/hooks'
+import * as prismic from 'prismic/hooks'
 import * as params from 'prismic/params'
 import { useSource, useLayer, useMarkers } from 'hooks/mapbox'
 import { useMapState, ERRORS } from 'contexts/map/state'
@@ -24,6 +25,7 @@ import {
     usePrimaryDrawerParams,
     useSecondaryDrawerParams,
 } from './drawers/hooks'
+import { path } from 'utils/url'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
@@ -101,21 +103,25 @@ export function useForecastRegions(map) {
 
 export function useForecastMarkers(map) {
     const key = FORECASTS
-    const [regions, , error] = features.useForecastRegionsMetadata()
+    const [metadata, , error] = features.useForecastRegionsMetadata()
+    const [forecasts] = forecast.useForecasts()
     const { visible } = useLayerState(key)
     const { location, navigate } = useLocation()
     const definitions = useMemo(() => {
-        if (!Array.isArray(regions)) {
+        if (!forecasts || !Array.isArray(metadata)) {
             return
         }
 
-        return regions.map(({ id, name, dangerIconUrl, centroid }) => {
+        return metadata.map(({ id, name, centroid, type }) => {
             const element = document.createElement('img')
 
             element.style.cursor = 'pointer'
 
             Object.assign(element, {
-                src: dangerIconUrl,
+                src:
+                    type === 'link'
+                        ? ICONS.get('LINK')
+                        : createForecastIconURL(forecasts[id]),
                 width: 50,
                 height: 50,
                 alt: name,
@@ -133,7 +139,9 @@ export function useForecastMarkers(map) {
 
             return [centroid, { element }]
         })
-    }, [regions])
+    }, [metadata, forecasts])
+
+    // console.warn(forecasts)
 
     useMapError(ERRORS.FORECAST, error)
 
@@ -203,7 +211,7 @@ export function useMountainConditionReports(map) {
 export function useFatalAccidents(map) {
     const key = FATAL_ACCIDENT
     const { visible } = useLayerState(key)
-    const [documents, , error] = useDocuments(params.fatal.accidents())
+    const [documents, , error] = prismic.useDocuments(params.fatal.accidents())
     const features = useMemo(
         () => createFeatureCollection(documents, createFatalAccidentFeature),
         [documents]
@@ -218,7 +226,9 @@ export function useAdvisories(map) {
     const layer = createLayer(key, key, 'circle')
     const { visible } = useLayerState(key)
     const [areas, , errorAreas] = features.useAdvisoriesMetadata()
-    const [documents, , errorReports] = useDocuments(params.hotZone.reports())
+    const [documents, , errorReports] = prismic.useDocuments(
+        params.hotZone.reports()
+    )
     const advisories = useMemo(() => {
         if (!Array.isArray(areas) || !Array.isArray(documents)) {
             return EMPTY_FEATURE_COLLECTION
@@ -353,6 +363,33 @@ const EVENTS = [
     ['mouseleave', handleMouseLeave],
     ['mousemove', handleMouseMove],
 ]
+function createForecastIconURL({ iconSet }) {
+    const now = new Date()
+    const icon = iconSet.find(
+        ({ from, to }) => new Date(from) < now && now < new Date(to)
+    )
+    const { iconType } = icon || {}
+
+    if (!ICONS.has(iconType)) {
+        return ''
+    }
+
+    const url = ICONS.get(iconType)
+
+    return typeof url === 'function' ? url(icon) : url
+}
+const GRAPHICS = '/api/forecasts/graphics/'
+const ICONS = new Map([
+    [
+        'RATINGS',
+        ({ ratings: { alp, tln, btl } }) =>
+            GRAPHICS + path(alp, tln, btl, 'danger-rating-icon.svg'),
+    ],
+    ['SPRING', GRAPHICS + 'spring.svg'],
+    ['OFF_SEASON', GRAPHICS + 'off-season.svg'],
+    ['EARLY_SEASON', GRAPHICS + 'early-season.svg'],
+    ['LINK', GRAPHICS + 'link.svg'],
+])
 function handleMouseMove({ target, features }) {
     // This is the best way to handle title!
     // mouseenter does not work as well
