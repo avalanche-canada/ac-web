@@ -16,7 +16,7 @@ export function isExternal(path) {
     return isExternalRegExp.test(path)
 }
 
-export function isAvalancheCanada() {
+export function isAvalancheCanada(path) {
     if (typeof path !== 'string') {
         return false
     }
