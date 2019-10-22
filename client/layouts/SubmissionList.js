@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 import { endOfYesterday } from 'date-fns'
@@ -27,7 +27,6 @@ import { useReports } from 'hooks/async/min'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
-import { Sorted, Filtered } from 'components/collection'
 import * as links from 'components/links'
 import { INCIDENT, NAMES } from 'constants/min'
 import { NONE, DESC } from 'constants/sortings'
@@ -37,11 +36,12 @@ import pin from 'components/icons/min/min-pin.svg'
 import Shim from 'components/Shim'
 import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
+import { useFilters, useSorting } from 'hooks/collection'
 
 // Need to bring changes from branch "season/2019" first
 // TODO use hooks, but needs to be converted in a functionnal component
 // TODO Split that component into smaller ones
-// TODO Once converted: remove <Regions> container, remove components/collection
+// TODO Once converted: remove <Regions> container
 
 export default class SubmissionList extends Component {
     static propTypes = {
@@ -121,18 +121,6 @@ export default class SubmissionList extends Component {
             </Metadata>
         )
     }
-    renderSubmission(submission) {
-        return (
-            <Row key={submission.subid}>
-                {COLUMNS.map(({ name, style, property }) => (
-                    <Cell key={name} style={style}>
-                        {property(submission)}
-                    </Cell>
-                ))}
-            </Row>
-        )
-    }
-    renderSubmissions = submissions => submissions.map(this.renderSubmission)
     getSorting(name, order) {
         if (Array.isArray(this.props.sorting)) {
             const { sorting } = this.props
@@ -184,40 +172,10 @@ export default class SubmissionList extends Component {
 
         return predicates
     }
-    renderTableContent = ([data, pending]) => {
-        return (
-            <Filtered values={data || []} predicates={this.predicates}>
-                <Sorted {...this.sortProps}>
-                    {submissions => (
-                        <Fragment>
-                            {pending || (
-                                <TBody>
-                                    {this.renderSubmissions(submissions)}
-                                </TBody>
-                            )}
-                            <Caption>
-                                {pending ? (
-                                    <Muted>
-                                        Loading Mountain Information Network
-                                        submissions...
-                                    </Muted>
-                                ) : submissions.length === 0 ? (
-                                    'No submissions found.'
-                                ) : (
-                                    `Total of ${
-                                        submissions.length
-                                    } submissions found.`
-                                )}
-                            </Caption>
-                        </Fragment>
-                    )}
-                </Sorted>
-            </Filtered>
-        )
-    }
     render() {
         const { days } = this.props
         const { count } = this.state
+        const { predicates, sortProps } = this
         const fallback = <FallbackError days={days} onReset={this.onReset} />
 
         return (
@@ -235,9 +193,11 @@ export default class SubmissionList extends Component {
                                             {COLUMNS.map(this.renderHeader)}
                                         </Row>
                                     </THead>
-                                    <Reports days={days}>
-                                        {this.renderTableContent}
-                                    </Reports>
+                                    <TableContent
+                                        days={days}
+                                        predicates={predicates}
+                                        {...sortProps}
+                                    />
                                 </Table>
                             </Responsive>
                         </ErrorBoundary>
@@ -248,17 +208,50 @@ export default class SubmissionList extends Component {
     }
 }
 
-function Reports({ days, children }) {
+function TableContent({ days, predicates, sorter, reverse }) {
+    // TODO Could use a merger function!
     const [regions, regionsPending] = useForecastRegions()
     const [reports, reportsPending] = useReports(days)
     const pending = regionsPending || reportsPending
+    let submissions = useMemo(() => {
+        if (regions && reports) {
+            return runSubmissionsSpatialAnalysis(reports, regions)
+        }
 
-    return children([
-        regions && reports
-            ? runSubmissionsSpatialAnalysis(reports, regions)
-            : undefined,
-        pending,
-    ])
+        return []
+    }, [regions, reports])
+
+    submissions = useFilters(submissions, predicates)
+    submissions = useSorting(submissions, sorter, reverse)
+
+    return (
+        <Fragment>
+            {pending || <TBody>{submissions.map(renderSubmission)}</TBody>}
+            <Caption>
+                {pending ? (
+                    <Muted>
+                        Loading Mountain Information Network submissions...
+                    </Muted>
+                ) : submissions.length === 0 ? (
+                    'No submissions found.'
+                ) : (
+                    `Total of ${submissions.length} submissions found.`
+                )}
+            </Caption>
+        </Fragment>
+    )
+}
+
+function renderSubmission(submission) {
+    return (
+        <Row key={submission.subid}>
+            {COLUMNS.map(({ name, style, property }) => (
+                <Cell key={name} style={style}>
+                    {property(submission)}
+                </Cell>
+            ))}
+        </Row>
+    )
 }
 
 function FallbackError({ error, onReset, days }) {
