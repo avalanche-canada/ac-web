@@ -38,7 +38,6 @@ import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
 
-// Need to bring changes from branch "season/2019" first
 // TODO use hooks, but needs to be converted in a functionnal component
 // TODO Split that component into smaller ones
 // TODO Once converted: remove <Regions> container
@@ -209,7 +208,7 @@ export default class SubmissionList extends Component {
 }
 
 function TableContent({ days, predicates, sorter, reverse }) {
-    // TODO Could use a merger function!
+    // TODO Could use a merger function for the async!
     const [regions, regionsPending] = useForecastRegions()
     const [reports, reportsPending] = useReports(days)
     const pending = regionsPending || reportsPending
