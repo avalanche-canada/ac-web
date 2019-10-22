@@ -53,6 +53,7 @@ function Main() {
     const { zoom, setZoom, center, setCenter, addError } = useMapState()
     const options = { zoom, center }
 
+    // Initialize map with listeners
     useEffect(() => {
         if (!map) {
             return
@@ -66,6 +67,7 @@ function Main() {
         })
     }, [map])
 
+    // Initialize map click handler whenever "map" and the "listener" change
     useEffect(() => {
         if (!map) {
             return
