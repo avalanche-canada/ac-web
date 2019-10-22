@@ -27,3 +27,7 @@ export function setUserContext({ user_id, email, name }) {
         })
     })
 }
+
+export function captureMessage(message) {
+    Sentry.captureMessage(message)
+}
