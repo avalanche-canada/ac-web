@@ -25,13 +25,15 @@ router.get('/', function(req, res) {
                         return cb(err);
                     }
                     var fmt_reports = reports
-                        .filter(notUndefined)
+                        .filter(Boolean)
                         .map(function(ru) {
                             return mcr_format.formatReportFull(
                                 ru.report,
                                 ru.user
                             );
-                        });
+                        })
+                        // "formatReportFull" can return "undefined"
+                        .filter(Boolean);
                     fmt_reports = fmt_reports.filter(filterToSevenDays);
                     cb(null, fmt_reports);
                 });
@@ -56,10 +58,6 @@ function filterToSevenDays(report) {
     }
     var diff = differenceInDays(new Date(), report.dates[0]);
     return diff <= config.MCR_LIMIT_DAYS;
-}
-
-function notUndefined(x) {
-    return typeof x !== 'undefined';
 }
 
 router.get('/:report_id', function(req, res) {
