@@ -204,7 +204,7 @@ router.get('/graphics/:type.svg', function(req, res) {
             break;
     }
     
-    res.header('cache-control', 'no-cache');
+    res.header('Cache-Control', 'max-age=' + 30 /* min */ * 60 /* sec */);
     res.header('content-type', 'image/svg+xml');
     fs.createReadStream(config.ROOT + '/server/views/forecasts/' + file).pipe(res);
 })
@@ -232,7 +232,7 @@ router.get('/graphics/:alp/:tln/:btl/danger-rating-icon.svg', function(
         if (err) {
             res.send(500);
         } else {
-            res.header('Cache-Control', 'no-cache');
+            res.header('Cache-Control', 'max-age=' + 30 /* min */ * 60 /* sec */);
             res.header('Content-Type', 'image/svg+xml');
             res.send(svg);
         }
