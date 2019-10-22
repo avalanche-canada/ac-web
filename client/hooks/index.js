@@ -36,44 +36,6 @@ export function useToggle(initialValue) {
     return [state[0], state[3]]
 }
 
-export function useArray(initialState = []) {
-    const [array, setArray] = useState(initialState)
-    function push(...items) {
-        setArray(() => [...array, ...items])
-    }
-    function clear() {
-        setArray([])
-    }
-    function remove(item) {
-        setArray(() => array.filter(i => i !== item))
-    }
-
-    return [array, push, remove, clear]
-}
-
-export function useSet(initialState = new Set()) {
-    const [set, setSet] = useState(initialState)
-    function add(item) {
-        setSet(() => {
-            set.add(item)
-
-            setSet(new Set(set))
-        })
-    }
-    function remove(item) {
-        setSet(() => {
-            set.remove(item)
-
-            setSet(new Set(set))
-        })
-    }
-    function clear() {
-        setSet(new Set())
-    }
-
-    return [set, add, remove, clear]
-}
-
 export function useTimeout(elapse = 0) {
     const [ready, setReady] = useBoolean(false)
 
