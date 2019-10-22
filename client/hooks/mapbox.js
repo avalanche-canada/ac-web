@@ -32,6 +32,30 @@ export function useMap(ref, props) {
     return map
 }
 
+export function useSource(map, id, source, data) {
+    const added = useRef(false)
+
+    useEffect(() => {
+        if (added.current) {
+            map.getSource(id).setData(data)
+        }
+    }, [added.current, data])
+
+    useEffect(() => {
+        if (!map || map.getSource(id)) {
+            return
+        }
+
+        map.addSource(id, clean({ ...source, data }))
+        added.current = true
+    }, [map])
+
+    return added.current
+}
+
+// Convinient to iniatilize events here, but I would prefer to not do it here.
+// We are not removing them and we are not listening on the change of it.
+// Perhaps more hooks could be created, but it not be as efficient
 export function useLayer(map, layer, beforeId, visible = true, filter, events) {
     const visibility = visible ? 'visible' : 'none'
     const added = useRef(false)
@@ -41,13 +65,14 @@ export function useLayer(map, layer, beforeId, visible = true, filter, events) {
             return
         }
 
-        layer = clean({
-            ...layer,
-            filter,
-            layout: Object.assign({ visibility }, layer.layout),
-        })
-
-        map.addLayer(layer, beforeId)
+        map.addLayer(
+            clean({
+                ...layer,
+                filter,
+                layout: Object.assign({ visibility }, layer.layout),
+            }),
+            beforeId
+        )
 
         if (Array.isArray(events)) {
             for (const [type, listener] of events) {
@@ -133,27 +158,6 @@ export const Map = forwardRef(({ options, ...props }, ref) => {
 
     return <div ref={div} {...props} />
 })
-
-export function useSource(map, id, source, data) {
-    const added = useRef(false)
-
-    useEffect(() => {
-        if (added.current) {
-            map.getSource(id).setData(data)
-        }
-    }, [added.current, data])
-
-    useEffect(() => {
-        if (!map || map.getSource(id)) {
-            return
-        }
-
-        map.addSource(id, clean({ data, ...source }))
-        added.current = true
-    }, [map])
-
-    return added.current
-}
 
 // Utils
 function useControl(map, ControlClass, props, position = 'bottom-right') {

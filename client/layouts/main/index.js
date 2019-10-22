@@ -80,7 +80,7 @@ function Main() {
         }
     }, [map, handleMapClick])
 
-    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL!
+    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
     const openExternalForecast = useCallback(
         ({ match }) => {
             if (!match) {
