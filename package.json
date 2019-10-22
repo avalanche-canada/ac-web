@@ -4,7 +4,6 @@
     "main": "server/app.js",
     "homepage": "https://www.avalanche.ca/",
     "dependencies": {
-        "@mapbox/mapbox-gl-supported": "^1.4.0",
         "ajv": "^4.6.1",
         "async": "2.5.0",
         "auth0-lock": "^11.7.2",
@@ -89,6 +88,7 @@
         "@babel/preset-react": "^7.0.0",
         "@babel/runtime": "^7.5.4",
         "@babel/runtime-corejs3": "^7.5.4",
+        "@mapbox/mapbox-gl-supported": "^1.4.1",
         "@reach/router": "^1.2.1",
         "@storybook/addon-actions": "^5.1.9",
         "@storybook/addon-links": "^5.1.9",
