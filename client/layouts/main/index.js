@@ -7,7 +7,11 @@ import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
 import externals, { open } from 'router/externals'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
-import { Provider as MapStateProvider, useMapState } from 'contexts/map/state'
+import {
+    Provider as MapStateProvider,
+    useMapState,
+    ERRORS,
+} from 'contexts/map/state'
 import { isTouchable } from 'utils/device'
 import { pluralize } from 'utils/string'
 import keycodes from 'constants/keycodes'
@@ -19,7 +23,7 @@ import { Error } from 'components/text'
 import Shim from 'components/Shim'
 import { useMapClickHandler } from './drawers/hooks'
 import { useLocation } from 'router/hooks'
-import { Map, useNavigationControl } from 'hooks/mapbox'
+import { Map as MapComponent, useNavigationControl } from 'hooks/mapbox'
 import {
     useForecastRegions,
     useWeatherStations,
@@ -50,8 +54,8 @@ function Main() {
     const [map, setMap] = useState(null)
     const handleMapClick = useMapClickHandler(map)
     const { location, navigate } = useLocation()
-    const { zoom, setZoom, center, setCenter, addError } = useMapState()
-    const options = { zoom, center }
+    const { zoom, center, errors } = useMapState()
+    const options = { zoom: zoom.value, center: center.value }
 
     // Initialize map with listeners
     useEffect(() => {
@@ -59,10 +63,10 @@ function Main() {
             return
         }
 
-        map.on('zoomend', () => setZoom(map.getZoom()))
-        map.on('moveend', () => setCenter(map.getCenter()))
+        map.on('zoomend', () => zoom.set(map.getZoom()))
+        map.on('moveend', () => center.set(map.getCenter()))
         map.on('error', error => {
-            addError(error)
+            errors.add(ERRORS.MAP, error)
             captureException(error)
         })
     }, [map])
@@ -109,7 +113,7 @@ function Main() {
 
     return (
         <div className={styles.Layout}>
-            <Map ref={setMap} options={options} />
+            <MapComponent ref={setMap} options={options} />
             <Primary map={map} />
             <Secondary map={map} />
             <Menu />
@@ -141,16 +145,16 @@ function LinkControlSet() {
     )
 }
 function ErrorIndicator() {
-    const [opened, open, close] = useBoolean(true)
+    const [opened, open, close] = useBoolean(false)
     const { errors } = useMapState()
-    const { size } = errors
+    const { total } = errors
 
-    if (size === 0) {
+    if (total === 0) {
         return null
     }
 
     const message = [
-        pluralize('error', size, true),
+        pluralize('error', total, true),
         'happened.',
         isTouchable ? 'Tap' : 'Click',
         'for more details.',
@@ -171,6 +175,7 @@ function ErrorIndicator() {
 }
 function ErrorDialog({ opened, close }) {
     const { errors } = useMapState()
+
     function reload() {
         window.location.reload(true)
     }
@@ -184,24 +189,57 @@ function ErrorDialog({ opened, close }) {
     return (
         <Dialog open={opened}>
             <Header>
-                <span>Errors</span>
+                Uh oh! We never thought that would happen...
                 <Close onClick={close} />
             </Header>
             <Body>
-                {Array.from(errors).map((error, index) => (
-                    <details key={index}>
-                        <Error component="summary">
-                            {error.message || error.error.message}
-                        </Error>
+                <p>
+                    <strong>
+                        {pluralize('error', errors.total, true) + ' occured.'}
+                    </strong>{' '}
+                    You can still use the map. However, some data might be
+                    missing and behavour not working as expected. Click on the
+                    arrow for more details.
+                </p>
+                {Array.from(errors.value.entries()).map(([type, errors]) => (
+                    <details
+                        className={styles.ErrorDetails}
+                        key={type.description}>
+                        <Error component="summary">{SUMMARIES.get(type)}</Error>
+                        <ul>
+                            {Array.from(errors).map((error, index) => (
+                                <li key={index}>
+                                    {error.message || error.error.message}
+                                </li>
+                            ))}
+                        </ul>
                     </details>
                 ))}
             </Body>
             <Footer>
                 <Shim right>
-                    <Button onClick={reload}>Reload</Button>
+                    <Button onClick={reload}>Reload the page</Button>
                 </Shim>
                 <Button onClick={close}>Close</Button>
             </Footer>
         </Dialog>
     )
 }
+
+const PREFIX = 'A problem happened while loading '
+const SUFFIX = ' data on the map'
+const SUMMARIES = new Map([
+    [ERRORS.MAP, 'A problem happened while showing the map'],
+    [ERRORS.FORECAST, PREFIX + 'forecast' + SUFFIX],
+    [ERRORS.WEATHER_STATION, PREFIX + 'weather station' + SUFFIX],
+    [
+        ERRORS.MOUNTAIN_CONDITIONS_REPORT,
+        PREFIX + 'Mountain Conditions' + SUFFIX,
+    ],
+    [ERRORS.INCIDENT, PREFIX + 'incident' + SUFFIX],
+    [ERRORS.ADVISORY, PREFIX + 'advisory' + SUFFIX],
+    [
+        ERRORS.MOUNTAIN_INFORMATION_NETWORK,
+        PREFIX + 'Monutain Information Network (MIN)' + SUFFIX,
+    ],
+])

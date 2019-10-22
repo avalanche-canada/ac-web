@@ -15,7 +15,7 @@ import * as min from 'hooks/async/min'
 import { useDocuments } from 'prismic/hooks'
 import * as params from 'prismic/params'
 import { useSource, useLayer, useMarkers } from 'hooks/mapbox'
-import { useMapState } from 'contexts/map/state'
+import { useMapState, ERRORS } from 'contexts/map/state'
 import { INCIDENT } from 'constants/min'
 import { useLayer as useLayerState } from 'contexts/layers'
 import { useLocation } from 'router/hooks'
@@ -33,7 +33,7 @@ export function useForecastRegions(map) {
     const [sourceLoaded, setSourceLoaded] = useState(false)
     const { type, id } = usePrimaryDrawerParams()
 
-    useMapError(error)
+    useMapError(ERRORS.FORECAST, error)
 
     useEffect(() => {
         if (!map) {
@@ -67,7 +67,12 @@ export function useForecastRegions(map) {
         }
     }, [map, type, id, sourceLoaded])
 
-    useSource(map, key, { ...GEOJSON, generateId: true }, regions)
+    useSource(
+        map,
+        key,
+        { ...GEOJSON, generateId: true },
+        regions || EMPTY_FEATURE_COLLECTION
+    )
     useLayer(
         map,
         createLayer(IDS[0], key, 'fill'),
@@ -130,7 +135,7 @@ export function useForecastMarkers(map) {
         })
     }, [regions])
 
-    useMapError(error)
+    useMapError(ERRORS.FORECAST, error)
 
     const markers = useMarkers(map, definitions)
 
@@ -163,7 +168,7 @@ export function useWeatherStations(map) {
         [stations]
     )
 
-    useMapError(error)
+    useMapError(ERRORS.WEATHER_STATION, error)
     useSymbolLayer(map, key, features, visible)
 }
 
@@ -190,7 +195,7 @@ export function useMountainConditionReports(map) {
         [report]
     )
 
-    useMapError(error)
+    useMapError(ERRORS.MOUNTAIN_CONDITIONS_REPORT, error)
     useSymbolLayer(map, key, features, visible)
     useSymbolLayer(map, key + '-single', single, visible, STYLES[key].symbol)
 }
@@ -204,7 +209,7 @@ export function useFatalAccidents(map) {
         [documents]
     )
 
-    useMapError(error)
+    useMapError(ERRORS.INCIDENT, error)
     useSymbolLayer(map, key, features, visible)
 }
 
@@ -216,7 +221,7 @@ export function useAdvisories(map) {
     const [documents, , errorReports] = useDocuments(params.hotZone.reports())
     const advisories = useMemo(() => {
         if (!Array.isArray(areas) || !Array.isArray(documents)) {
-            return
+            return EMPTY_FEATURE_COLLECTION
         }
 
         const regions = new Set(documents.map(pluckRegion))
@@ -227,8 +232,8 @@ export function useAdvisories(map) {
         return createFeatureCollection(areas, createFeature)
     }, [areas, documents])
 
-    useMapError(errorAreas)
-    useMapError(errorReports)
+    useMapError(ERRORS.ADVISORY, errorAreas)
+    useMapError(ERRORS.ADVISORY, errorReports)
 
     useSource(map, key, GEOJSON, advisories)
     useLayer(map, layer, undefined, visible, undefined, EVENTS)
@@ -256,7 +261,7 @@ export function useMountainInformationNetwork(map) {
         [types]
     )
 
-    useMapError(error)
+    useMapError(ERRORS.MOUNTAIN_INFORMATION_NETWORK, error)
 
     // Incident icons
     key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
@@ -323,6 +328,17 @@ function isNotIncident(feature) {
     return !isIncident(feature)
 }
 
+// Errors handling
+function useMapError(type, error) {
+    const { errors } = useMapState()
+
+    useEffect(() => {
+        if (error) {
+            errors.add(type, error)
+        }
+    }, [error])
+}
+
 // Utils
 const GEOJSON = {
     type: 'geojson',
@@ -331,15 +347,6 @@ const CLUSTER = {
     ...GEOJSON,
     cluster: true,
     clusterMaxZoom: 14,
-}
-function useMapError(error) {
-    const { addError } = useMapState()
-
-    useEffect(() => {
-        if (error) {
-            addError(error)
-        }
-    }, [error])
 }
 const EVENTS = [
     ['mouseenter', handleMouseEnter],
@@ -380,7 +387,7 @@ function createFeatureCollection(data = [], createFeature) {
 function useSymbolLayer(map, key, features, visible, style) {
     const layer = createLayer(key, key, 'symbol', style)
 
-    useSource(map, key, CLUSTER, features)
+    useSource(map, key, CLUSTER, features || EMPTY_FEATURE_COLLECTION)
     useLayer(map, layer, undefined, visible, undefined, EVENTS)
 }
 function createLayer(id, source, type, styles = STYLES[source][type]) {
@@ -439,6 +446,7 @@ const TITLES = new Map([
     [MOUNTAIN_CONDITIONS_REPORTS, 'Mountain Condition reports'],
     [FORECASTS, 'forecast'],
 ])
+const EMPTY_FEATURE_COLLECTION = turf.featureCollection([])
 
 // Styles
 const STYLES = {

@@ -15,8 +15,12 @@ TripPlannerMap.propTypes = {
 export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
     const ref = useRef(null)
     const counter = useRef(0)
-    const { zoom, setZoom, center, setCenter } = useMapState()
-    const map = useMap(ref, { zoom, center, style: STYLES.ates })
+    const { zoom, center } = useMapState()
+    const map = useMap(ref, {
+        zoom: zoom.value,
+        center: center.value,
+        style: STYLES.ates,
+    })
     function setActiveArea(id) {
         map.setFilter('active-ates-areas', [
             '==',
@@ -63,8 +67,8 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
                 onFeaturesSelect({ region, area })
             }
         })
-        map.on('zoomend', () => setZoom(map.getZoom()))
-        map.on('moveend', () => setCenter(map.getCenter()))
+        map.on('zoomend', () => zoom.set(map.getZoom()))
+        map.on('moveend', () => center.set(map.getCenter()))
 
         function handleMouseEnter({ target }) {
             const canvas = target.getCanvas()
