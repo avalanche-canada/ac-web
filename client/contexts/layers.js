@@ -122,4 +122,5 @@ const LAYERS = {
         visible: false,
     },
 }
+
 const LayersContext = createContext(LAYERS)

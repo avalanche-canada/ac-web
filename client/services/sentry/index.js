@@ -3,12 +3,12 @@
 
 import { supported } from 'utils/mapbox'
 
-Sentry.withScope(scope => {
+withScope(scope => {
     scope.setExtra('mapboxgl.supported', supported())
 })
 
 export function captureException(error, context) {
-    Sentry.withScope(scope => {
+    withScope(scope => {
         scope.setExtras(context)
         Sentry.captureException(error)
 
@@ -17,11 +17,16 @@ export function captureException(error, context) {
 }
 
 export function setUserContext({ user_id, email, name }) {
-    Sentry.withScope(scope => {
+    withScope(scope => {
         scope.setUser({
             id: user_id,
             email,
             username: name,
         })
     })
+}
+
+// Fallback functions
+function withScope(callback) {
+    window?.Sentry?.withScope.apply(Sentry, callback)
 }
