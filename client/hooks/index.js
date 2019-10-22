@@ -123,11 +123,6 @@ export function useEventListener(eventName, handler, element = window) {
 
 function useStorage(storage, key, defaultValue = null) {
     const [value, setValue] = useState(storage.get(key, defaultValue))
-    function listen(event) {
-        if (event.storageArea === storage && event.key === key) {
-            setValue(event.newValue)
-        }
-    }
     function set(value) {
         setValue(value)
         storage.set(key, value)
@@ -136,9 +131,6 @@ function useStorage(storage, key, defaultValue = null) {
         setValue(null)
         storage.remove(key)
     }
-
-    // listening to changes
-    useEventListener('storage', useCallback(listen, []))
 
     return [value, set, remove]
 }
