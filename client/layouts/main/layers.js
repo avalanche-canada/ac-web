@@ -274,8 +274,14 @@ export function useMountainInformationNetwork(map) {
     // Active report, because a report could be filtered out by the filters...
     key = MOUNTAIN_INFORMATION_NETWORK + '-active-report'
     style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
-    const activeReport = turf.featureCollection(
-        [report].filter(Boolean).map(createMountainInformationNetworkFeature)
+    const activeReport = useMemo(
+        () =>
+            turf.featureCollection(
+                [report]
+                    .filter(Boolean)
+                    .map(createMountainInformationNetworkFeature)
+            ),
+        [report]
     )
     layer = createLayer(key, key, 'symbol', style)
     useSource(map, key, GEOJSON, activeReport)
