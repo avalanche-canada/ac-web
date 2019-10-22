@@ -50,5 +50,5 @@ export function appendParams(url, params) {
 }
 
 export function path(...chunks) {
-    return chunks.filter(Boolean).join('/')
+    return chunks.filter(chunk => chunk != null).join('/')
 }
