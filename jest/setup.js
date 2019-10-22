@@ -1,0 +1,4 @@
+global.Sentry = {
+    init() {},
+    withScope() {},
+}
