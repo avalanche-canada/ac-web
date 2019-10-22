@@ -3,6 +3,7 @@ import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { ACCESS_TOKEN, STYLES } from 'services/mapbox/config'
 import { useLazyRef } from 'hooks'
 import { clean } from 'utils/object'
+import { captureException } from 'services/sentry'
 
 mapbox.accessToken = ACCESS_TOKEN
 
@@ -18,6 +19,9 @@ export function useMap(ref, props) {
 
         instance.on('load', () => {
             setMap(instance)
+        })
+        instance.on('error', event => {
+            captureException(event.error)
         })
 
         return () => {

@@ -33,7 +33,6 @@ import {
     useMountainInformationNetwork,
     useForecastMarkers,
 } from './layers'
-import { captureException } from 'services/sentry'
 import styles from './Map.css'
 
 export default (supported() ? Wrapper : UnsupportedMap)
@@ -65,9 +64,8 @@ function Main() {
 
         map.on('zoomend', () => zoom.set(map.getZoom()))
         map.on('moveend', () => center.set(map.getCenter()))
-        map.on('error', error => {
+        map.on('error', ({ error }) => {
             errors.add(ERRORS.MAP, error)
-            captureException(error)
         })
     }, [map])
 
@@ -208,9 +206,7 @@ function ErrorDialog({ opened, close }) {
                         <Error component="summary">{SUMMARIES.get(type)}</Error>
                         <ul>
                             {Array.from(errors).map((error, index) => (
-                                <li key={index}>
-                                    {error.message || error.error.message}
-                                </li>
+                                <li key={index}>{error.message}</li>
                             ))}
                         </ul>
                     </details>

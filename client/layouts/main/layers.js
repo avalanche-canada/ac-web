@@ -26,6 +26,7 @@ import {
     useSecondaryDrawerParams,
 } from './drawers/hooks'
 import { path } from 'utils/url'
+import { captureException } from 'services/sentry'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
@@ -344,6 +345,7 @@ function useMapError(type, error) {
 
     useEffect(() => {
         if (error) {
+            captureException(error, { type })
             errors.add(type, error)
         }
     }, [error])
