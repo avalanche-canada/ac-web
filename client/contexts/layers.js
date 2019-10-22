@@ -15,8 +15,8 @@ export function Provider({ children }) {
     }, [])
 
     // TODO Not sure "useMemo" helps!
-    const value = useMemo(
-        () => ({
+    const value = useMemo(() => {
+        return {
             layers,
             toggle(id) {
                 setLayers({
@@ -39,9 +39,8 @@ export function Provider({ children }) {
                     },
                 })
             },
-        }),
-        [layers]
-    )
+        }
+    }, [layers])
 
     return (
         <LayersContext.Provider value={value}>
@@ -58,35 +57,18 @@ export function useLayers() {
 export function useLayer(id) {
     const { layers, toggle, setFilterValue } = useLayers()
 
-    return {
-        ...layers[id],
-        toggle() {
-            toggle(id)
-        },
-        setFilterValue(name, value) {
-            setFilterValue(id, name, value)
-        },
-    }
-}
-
-// TODO: To remove when consumer of <Layers> component gets converted to a function component
-Layer.propTypes = {
-    id: PropTypes.oneOf(LAYER_IDS.default).isRequired,
-    children: PropTypes.func.isRequired,
-}
-
-export function Layer({ id, children }) {
-    return children(useLayer(id))
-}
-
-Layers.propTypes = {
-    children: PropTypes.func.isRequired,
-}
-
-export function Layers({ children }) {
-    const { layers } = useContext(LayersContext)
-
-    return children(layers)
+    return useMemo(
+        () => ({
+            ...layers[id],
+            toggle() {
+                toggle(id)
+            },
+            setFilterValue(name, value) {
+                setFilterValue(id, name, value)
+            },
+        }),
+        [layers, id]
+    )
 }
 
 // Utils & constants

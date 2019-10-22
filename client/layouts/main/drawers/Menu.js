@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { memo } from 'utils/react'
 import { Container, Body, Content, Navbar, Close } from 'components/page/drawer'
 import * as components from 'components/page/drawer/layers'
-import * as context from 'contexts/layers'
+import { useLayer } from 'contexts/layers'
 import * as Layers from 'constants/drawers'
 import * as Icons from 'components/icons'
 import { NAMES } from 'constants/min'
@@ -61,29 +61,27 @@ Layer.propTypes = {
 }
 
 function Layer({ id, children }) {
+    const { visible, filters, toggle, setFilterValue } = useLayer(id)
+
     return (
-        <context.Layer id={id}>
-            {({ visible, filters, toggle, setFilterValue }) => (
-                <components.Layer
-                    title={TITLES.get(id)}
-                    icon={ICONS.get(id)}
-                    visible={visible}
-                    onClick={toggle}>
-                    {Children.map(children, input => {
-                        const { name, ...props } = input.props
+        <components.Layer
+            title={TITLES.get(id)}
+            icon={ICONS.get(id)}
+            visible={visible}
+            onClick={toggle}>
+            {Children.map(children, input => {
+                const { name, ...props } = input.props
 
-                        Object.assign(props, {
-                            value: filters[name],
-                            onChange(value) {
-                                setFilterValue(name, value)
-                            },
-                        })
+                Object.assign(props, {
+                    value: filters[name],
+                    onChange(value) {
+                        setFilterValue(name, value)
+                    },
+                })
 
-                        return cloneElement(input, props)
-                    })}
-                </components.Layer>
-            )}
-        </context.Layer>
+                return cloneElement(input, props)
+            })}
+        </components.Layer>
     )
 }
 
