@@ -130,7 +130,7 @@ export function useForecastMarkers(map) {
         })
     }, [regions])
 
-    // useMapError(error)
+    useMapError(error)
 
     const markers = useMarkers(map, definitions)
 
@@ -163,7 +163,7 @@ export function useWeatherStations(map) {
         [stations]
     )
 
-    // useMapError(error)
+    useMapError(error)
     useSymbolLayer(map, key, features, visible)
 }
 
@@ -190,7 +190,7 @@ export function useMountainConditionReports(map) {
         [report]
     )
 
-    // useMapError(error)
+    useMapError(error)
     useSymbolLayer(map, key, features, visible)
     useSymbolLayer(map, key + '-single', single, visible, STYLES[key].symbol)
 }
@@ -204,7 +204,7 @@ export function useFatalAccidents(map) {
         [documents]
     )
 
-    // useMapError(error)
+    useMapError(error)
     useSymbolLayer(map, key, features, visible)
 }
 
@@ -227,8 +227,8 @@ export function useAdvisories(map) {
         return createFeatureCollection(areas, createFeature)
     }, [areas, documents])
 
-    // useMapError(errorAreas)
-    // useMapError(errorReports)
+    useMapError(errorAreas)
+    useMapError(errorReports)
 
     useSource(map, key, GEOJSON, advisories)
     useLayer(map, layer, undefined, visible, undefined, EVENTS)
@@ -256,7 +256,7 @@ export function useMountainInformationNetwork(map) {
         [types]
     )
 
-    // useMapError(error)
+    useMapError(error)
 
     // Incident icons
     key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
