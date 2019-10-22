@@ -322,7 +322,7 @@ function NoDocument({ uid, uri }) {
         }
 
         const item = document.data.items.find(
-            item => item.link.value.document.uid === uid
+            item => item.link.value?.document.uid === uid
         )
 
         return item ? item.title : uid
