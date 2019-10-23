@@ -7,13 +7,13 @@ import { captureException } from 'services/sentry'
 
 mapbox.accessToken = ACCESS_TOKEN
 
-export function useMap(ref, props) {
+export function useMap(ref, options) {
     const [map, setMap] = useState()
 
     useEffect(() => {
         const instance = new mapbox.Map({
             style: STYLES.default,
-            ...props,
+            ...options,
             container: ref.current,
         })
 
@@ -154,7 +154,12 @@ export const Map = forwardRef(({ options, ...props }, ref) => {
     const div = useRef(null)
     const map = useMap(div, options)
 
-    ref(map)
+    // To prevent an infinite loop
+    useEffect(() => {
+        if (map) {
+            ref(map)
+        }
+    }, [map])
 
     return <div ref={div} {...props} />
 })
