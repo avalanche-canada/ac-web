@@ -2,18 +2,23 @@ import { useState, useEffect } from 'react'
 import { globalHistory } from '@reach/router'
 
 export function useLocation() {
-    const initialState = {
+    const [state, setState] = useState({
         location: globalHistory.location,
         navigate: globalHistory.navigate,
-    }
-
-    const [state, setState] = useState(initialState)
+    })
 
     useEffect(() => {
-        const removeListener = globalHistory.listen(params => {
-            const { location } = params
-            const newState = Object.assign({}, initialState, { location })
-            setState(newState)
+        const removeListener = globalHistory.listen(({ location }) => {
+            setState(state => {
+                if (location === state.location) {
+                    return state
+                }
+
+                return {
+                    ...state,
+                    location,
+                }
+            })
         })
         return () => {
             removeListener()
