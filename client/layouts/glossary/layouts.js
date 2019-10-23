@@ -61,17 +61,20 @@ const GlossarySidebar = memo.static(function GlossarySidebar() {
 })
 
 function Glossary({ location, navigate }) {
+    // TODO Use "hooks/params"
     const params = new URLSearchParams(location.search)
     const [term, setTerm] = useState(params.has('q') ? params.get('q') : '')
     const [document, pending] = useDocument(glossary.glossary())
 
     useEffect(() => {
+        const { hash } = location
+
         if (term) {
             params.set('q', term)
 
-            navigate('?' + params.toString())
+            navigate('?' + params.toString() + hash)
         } else {
-            navigate('')
+            navigate(hash)
         }
     }, [term])
 
