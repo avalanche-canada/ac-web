@@ -12,6 +12,7 @@ export function useAsync(
     const mounted = useMounted()
 
     useEffect(() => {
+        // If there is a "data", we are not dispatching a "Pending"
         if (!initialState[0]) {
             dispatch([controller.current ? Pending : InitialPending])
         }
@@ -78,13 +79,14 @@ const Rejected = Symbol('Rejected')
 function reducer(state, [type, payload]) {
     switch (type) {
         case InitialPending:
-            // Initial pending, we do not want to loose the initial state
+            // Initial pending, we do not want to loose the initial state!
             return [state[0], true, null]
         case Pending:
             return [undefined, true, null]
         case Fulfilled: {
             const [data, pending, error] = state
 
+            // Look of we can bail out on a dispatch to avoid a rerender
             if (data === payload && pending === false && error === null) {
                 return state
             }
