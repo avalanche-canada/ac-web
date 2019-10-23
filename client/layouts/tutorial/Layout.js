@@ -188,7 +188,7 @@ function Redirector({ uid }) {
 
     const { items } = document.data
     function findByUID(item) {
-        return item.link.value.document.uid == uid
+        return item?.link.value.document.uid == uid
     }
 
     if (!items.some(findByUID)) {
@@ -205,7 +205,7 @@ function Redirector({ uid }) {
 
     do {
         const item = usefullItems.find(finder)
-        const { uid } = item.link.value.document
+        const { uid } = item?.link.value.document
 
         paths.push(uid)
 
