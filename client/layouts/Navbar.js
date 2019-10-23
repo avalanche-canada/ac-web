@@ -61,7 +61,7 @@ export default function AvalancheCanadaNavbar() {
 function Ambassadors({ to }) {
     const props = params.uid(STATIC_PAGE, 'ambassadors')
     const [document, pending] = useDocument(props)
-    const ambassadors = document?.data?.content?.[0]?.value || []
+    const ambassadors = document?.data.content[0].value || []
 
     return pending ? (
         <Loading />
