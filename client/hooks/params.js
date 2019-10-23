@@ -57,6 +57,10 @@ export function useParams(definition) {
 }
 
 // Params
+export const IdentityParam = {
+    parse: identity,
+    serialize: identity,
+}
 export const NumberParam = {
     parse(value) {
         if (value === undefined) {
@@ -71,6 +75,7 @@ export const BooleanParam = {
     parse: Boolean,
     serialize: identity,
 }
+export const StringParam = IdentityParam
 export const ArrayParam = {
     parse(values) {
         return Array.isArray(values) ? values : [values]
