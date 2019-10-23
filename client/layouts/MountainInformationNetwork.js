@@ -6,7 +6,7 @@ import Submission from 'layouts/Submission'
 import SubmissionList from 'layouts/SubmissionList'
 import { StaticPage } from 'prismic/layouts'
 import { Loading } from 'components/page'
-import * as utils from 'utils/search'
+import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
 
 export default function MountainInformationNetwork() {
     return (
@@ -48,24 +48,16 @@ Submissions.propTypes = {
     navigate: PropTypes.func.isRequired,
 }
 
-function Submissions({ location, navigate }) {
-    const { days, types, regions, sorting } = utils.parse(location.search)
-    const params = {
-        days: utils.toNumber(days),
-        types: utils.toSet(types),
-        regions: utils.toSet(regions),
-        sorting: utils.parseSorting(sorting),
-    }
-    async function handleParamsChange(moreParams) {
-        const search = Object.assign({}, params, moreParams)
-        const to = utils.stringify({
-            ...search,
-            sorting: search.sorting
-                ? utils.formatSorting(search.sorting)
-                : undefined,
-        })
+function Submissions({ navigate }) {
+    const [params, stringify] = useParams({
+        days: NumberParam,
+        types: SetParam,
+        regions: SetParam,
+        sorting: SortingParam,
+    })
 
-        await navigate(to)
+    function handleParamsChange(params) {
+        navigate(stringify(params))
     }
 
     return <SubmissionList {...params} onParamsChange={handleParamsChange} />

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import isToday from 'date-fns/is_today'
 import startOfYesterday from 'date-fns/start_of_yesterday'
-import { formatDate } from 'utils/search'
 import { Article } from 'components/page'
 import { Muted, Loading } from 'components/text'
 import { DateElement } from 'components/time'
@@ -12,6 +11,7 @@ import Forecast from 'components/weather'
 import { DayPicker } from 'components/controls'
 import { mw } from 'prismic/params'
 import { useDocument } from 'prismic/hooks'
+import { DateParam } from 'hooks/params'
 
 // TODO: Reorganize using Context and create Components
 
@@ -53,7 +53,7 @@ export default function WeatherForecast({ date = new Date(), onDateChange }) {
                         <Muted>
                             Weather forecasts are usually published at 4:00 PST,
                             read yesterday's weather forecast{' '}
-                            <Link to={formatDate(startOfYesterday())}>
+                            <Link to={DateParam.format(startOfYesterday())}>
                                 here
                             </Link>
                             .

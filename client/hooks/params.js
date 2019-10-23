@@ -1,25 +1,36 @@
-import { useMemo } from 'react'
+import { useMemo, useCallback } from 'react'
 import formatDate from 'date-fns/format'
+import parseDate from 'date-fns/parse'
 import identity from 'lodash/identity'
 import { useLocation } from 'router/hooks'
 import { ASC, DESC, NONE } from 'constants/sortings'
 
-export function useParams(definition) {
+export default function useParams(definition) {
     const { location } = useLocation()
-    const values = useMemo(() => {
+    const params = useMemo(() => {
         const params = new URLSearchParams(location.search)
         const values = {}
 
+        // Get all received params
         params.forEach(function(value, key) {
             if (key in values) {
                 if (Array.isArray(values[key])) {
                     values[key].push(value) // Push to existing array
                 } else {
-                    values[key] = [values[key], value] // Create an array
+                    values[key] = [values[key], value] // Create an array with the value
                 }
             } else {
-                values[key] = value // Start to push a string
+                values[key] = value // Start to push as a string
             }
+        })
+
+        // Add "empty" values, they are in the definition, but we have not received a param for it
+        Object.entries(definition).forEach(([key, param]) => {
+            if (key in values) {
+                return
+            }
+
+            values[key] = param.format()
         })
 
         return Object.fromEntries(
@@ -29,75 +40,105 @@ export function useParams(definition) {
             ])
         )
     }, [location.search])
-    function stringify(query) {
-        const params = Object.entries(query).reduce((params, [key, value]) => {
-            // null or undefined
-            if (value == null) {
+    const stringify = useCallback(
+        query => {
+            const newParams = new URLSearchParams()
+
+            function reducer(params, [key, value]) {
+                // null or undefined
+                if (value == null) {
+                    return params
+                }
+
+                if (key in definition) {
+                    value = definition[key].format(value)
+                }
+
+                if (Array.isArray(value)) {
+                    for (const valeur of value) {
+                        if (valeur != null) {
+                            params.append(key, valeur)
+                        }
+                    }
+                } else if (value != null) {
+                    params.append(key, value)
+                }
+
                 return params
             }
 
-            if (key in definition) {
-                value = definition[key].serialize(value)
-            }
+            Object.entries({ ...params, ...query }).reduce(reducer, newParams)
 
-            if (Array.isArray(value)) {
-                for (const valeur of value) {
-                    params.append(key, valeur)
-                }
-            } else {
-                params.append(key, value)
-            }
-        }, new URLSearchParams())
-        const string = params.toString()
+            const string = newParams.toString()
 
-        return string ? '?' + string : string
-    }
+            return string ? '?' + string : string
+        },
+        [params]
+    )
 
-    return [values, stringify]
+    return [params, stringify]
 }
 
 // Params
-export const IdentityParam = {
+const IdentityParam = {
     parse: identity,
-    serialize: identity,
+    format: identity,
 }
 export const NumberParam = {
-    parse(value) {
-        if (value === undefined) {
+    parse(string) {
+        if (string == null) {
             return
         }
 
-        return Number(value)
+        return Number(string)
     },
-    serialize: identity,
+    format: identity,
 }
 export const BooleanParam = {
-    parse: Boolean,
-    serialize: identity,
+    parse(string) {
+        if (string === '0' || string === 'false') {
+            return false
+        }
+
+        return Boolean(string)
+    },
+    format: identity,
 }
 export const StringParam = IdentityParam
 export const ArrayParam = {
     parse(values) {
         return Array.isArray(values) ? values : [values]
     },
-    serialize: identity,
+    format(values) {
+        if (!Array.isArray(values)) {
+            return []
+        }
+
+        return values.filter(value => value != null)
+    },
 }
 export const SetParam = {
     parse(values) {
         return new Set(ArrayParam.parse(values))
     },
-    serialize(values) {
+    format(values) {
+        if (!values) {
+            return []
+        }
+
         return Array.from(values)
     },
 }
 export const DateParam = {
     parse(string) {
-        return string ? new Date(string) : string
+        return string && parseDate(string, DATE)
     },
-    serialize(date) {
-        return date ? formatDate(date, 'YYYY-MM-DD') : date
+    format(date) {
+        return date && formatDate(date, DATE)
     },
 }
+// TODO Remove the need for "+" for ASC sorts.
+// However, it does not work in AST pages, need to investigate!
 export const SortingParam = {
     parse(sorting) {
         if (typeof sorting !== 'string') {
@@ -105,26 +146,39 @@ export const SortingParam = {
         }
 
         switch (sorting.charAt(0)) {
-            case '+':
-                return [sorting.substring(1), ASC]
             case '-':
                 return [sorting.substring(1), DESC]
+            case '+':
+                return [sorting.substring(1), ASC]
             default:
                 return [null, NONE]
         }
     },
-    serialize(sorting) {
+    format(sorting) {
         if (!Array.isArray(sorting)) {
-            return undefined
+            return
         }
 
         const [name, order] = sorting
 
         switch (order) {
-            case ASC:
-                return '+' + name
             case DESC:
                 return '-' + name
+            case ASC:
+                return '+' + name
         }
     },
 }
+export const PageParam = {
+    parse(string) {
+        const page = NumberParam.parse(string)
+
+        return page < 2 ? undefined : page
+    },
+    format(page) {
+        return page < 2 ? undefined : page
+    },
+}
+
+// Constants
+const DATE = 'YYYY-MM-DD'

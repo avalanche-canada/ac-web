@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Redirect, navigate } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 import Forecast from 'layouts/pages/Forecast'
 import ForecastRegionList from 'layouts/ForecastRegionList'
 import ArchiveForecast from 'layouts/pages/ArchiveForecast'
@@ -9,7 +9,8 @@ import isValid from 'date-fns/is_valid'
 import isPast from 'date-fns/is_past'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import externals, { open } from 'router/externals'
-import * as utils from 'utils/search'
+import { DateParam } from 'hooks/params'
+import { path } from 'utils/url'
 
 export default function ForecastLayout() {
     return (
@@ -46,7 +47,7 @@ function ForecastRoute({ name, date }) {
 
     return <Forecast name={name} />
 }
-function ArchiveForecastRoute({ name, date }) {
+function ArchiveForecastRoute({ name, date, navigate }) {
     if (date && isAfter(parse(date), endOfYesterday())) {
         return <Redirect to={`/forecasts/${name}`} />
     }
@@ -55,18 +56,15 @@ function ArchiveForecastRoute({ name, date }) {
         open(name, date)
     }
 
+    function handleParamsChange({ name, date }) {
+        navigate(path('/forecasts/archives', name, DateParam.format(date)))
+    }
+
     return (
         <ArchiveForecast
             name={name}
-            date={utils.parseDate(date)}
+            date={DateParam.parse(date)}
             onParamsChange={handleParamsChange}
         />
     )
-}
-
-// Utils
-function handleParamsChange({ name, date }) {
-    const path = [name, utils.formatDate(date)].filter(Boolean).join('/')
-
-    navigate(`/forecasts/archives/${path}`)
 }

@@ -1,4 +1,4 @@
-import React, { cloneElement, useMemo } from 'react'
+import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import { Link, Match, Router } from '@reach/router'
 import { Page, Content, Banner, Main } from 'components/page'
@@ -6,7 +6,12 @@ import classnames from 'classnames'
 import { Container, Set, Item } from 'components/pill'
 import * as forms from './forms'
 import * as tables from './tables'
-import * as utils from 'utils/search'
+import useParams, {
+    DateParam,
+    SetParam,
+    SortingParam,
+    StringParam,
+} from 'hooks/params'
 import styles from 'styles/components.css'
 
 export default function Layout() {
@@ -56,39 +61,27 @@ Courses.propTypes = {
 }
 
 function Courses({ children, location, navigate }) {
-    const props = useMemo(() => {
-        const place = location?.state?.place
-        let { level, from, to, tags, sorting } = utils.parse(location.search)
-        from = typeof from === 'string' ? utils.parseDate(from) : from
-        to = typeof to === 'string' ? utils.parseDate(to) : to
-        tags = utils.toSet(tags)
-        sorting =
-            typeof sorting === 'string' ? utils.parseSorting(sorting) : sorting
-        const params = {
-            level,
-            from,
-            to,
-            tags,
-            sorting,
-            place,
-        }
+    const [params, stringify] = useParams({
+        level: StringParam,
+        from: DateParam,
+        to: DateParam,
+        tags: SetParam,
+        sorting: SortingParam,
+    })
+    const place = location.state?.place
 
-        return {
-            ...params,
-            onParamsChange(newParams) {
-                const { place, ...rest } = Object.assign(params, newParams)
-
-                rest.sorting = utils.formatSorting(rest.sorting)
-
-                navigate(utils.stringify(rest), {
-                    state: { place },
-                    replace: true,
-                })
-            },
-        }
-    }, [location])
-
-    return cloneElement(children, props)
+    return cloneElement(children, {
+        ...params,
+        place,
+        onParamsChange({ place, ...rest }) {
+            navigate(stringify(rest), {
+                state: {
+                    place: place || location.state?.place,
+                },
+                replace: true,
+            })
+        },
+    })
 }
 
 function CoursesTable(props) {
@@ -114,39 +107,24 @@ Providers.propTypes = {
 }
 
 function Providers({ children, location, navigate }) {
-    const props = useMemo(() => {
-        const place = location?.state?.place
-        let { tags, sorting } = utils.parse(location.search)
-        tags = utils.toSet(tags)
-        sorting =
-            typeof sorting === 'string' ? utils.parseSorting(sorting) : sorting
-        const params = {
-            tags,
-            sorting,
-            place,
-        }
+    const { place } = location.state || {}
+    const [params, stringify] = useParams({
+        tags: SetParam,
+        sorting: SortingParam,
+    })
 
-        return {
-            ...params,
-            onParamsChange(newParams) {
-                const { sorting, place, ...rest } = Object.assign(
-                    params,
-                    newParams
-                )
-                const search = utils.stringify({
-                    ...rest,
-                    sorting: utils.formatSorting(sorting),
-                })
-
-                navigate(search, {
-                    state: { place },
-                    replace: true,
-                })
-            },
-        }
-    }, [location])
-
-    return cloneElement(children, props)
+    return cloneElement(children, {
+        ...params,
+        place,
+        onParamsChange(params) {
+            navigate(stringify(params), {
+                state: {
+                    place: params.place || place,
+                },
+                replace: true,
+            })
+        },
+    })
 }
 
 function ProvidersTable(props) {

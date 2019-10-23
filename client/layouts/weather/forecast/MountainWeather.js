@@ -1,12 +1,13 @@
 import React from 'react'
-import { Router, Link, navigate } from '@reach/router'
+import { Router, Link } from '@reach/router'
 import isToday from 'date-fns/is_today'
 import { Page, Content, Header, Main, Aside } from 'components/page'
 import Sidebar from './Sidebar'
 import Forecast from './Forecast'
 import Footer from './Footer'
 import * as articles from './articles'
-import * as utils from 'utils/search'
+import { DateParam } from 'hooks/params'
+import { path } from 'utils/url'
 
 export default function Weather({ uri }) {
     const title = <Link to={uri}>Mountain Weather Forecast</Link>
@@ -41,19 +42,17 @@ export default function Weather({ uri }) {
 }
 
 // Subroutes
-function ForecastRoute({ date }) {
-    date = utils.parseDate(date)
+function ForecastRoute({ date, navigate }) {
+    function handleDateChange(date) {
+        date = isToday(date) ? undefined : DateParam.format(date)
 
-    return <Forecast date={date} onDateChange={handleDateChange} />
-}
-
-// Utis
-function handleDateChange(date) {
-    let path = '/weather/forecast'
-
-    if (!isToday(date)) {
-        path = `${path}/${utils.formatDate(date)}`
+        navigate(path('/weather/forecast', date))
     }
 
-    navigate(path)
+    return (
+        <Forecast
+            date={DateParam.parse(date)}
+            onDateChange={handleDateChange}
+        />
+    )
 }
