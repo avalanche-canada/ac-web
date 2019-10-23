@@ -1,15 +1,15 @@
 import 'core-js/features/promise'
 
 export default async function polyfills(self) {
-    if (!self.Set) {
+    if (typeof self.Set === 'undefined') {
         await import('core-js/features/set')
     }
 
-    if (!self.fetch) {
+    if (typeof self.fetch === 'undefined') {
         await import('whatwg-fetch')
     }
 
-    if (!self.requestAnimationFrame) {
+    if (typeof self.requestAnimationFrame === 'undefined') {
         await import('raf/polyfill')
     }
 
