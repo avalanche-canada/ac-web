@@ -212,6 +212,19 @@ export function useFullscreen() {
     return [ref, enter, exit, toggle]
 }
 
+export function useMounted() {
+    const mounted = useRef(true)
+
+    useEffect(
+        () => () => {
+            mounted.current = false
+        },
+        []
+    )
+
+    return mounted.current
+}
+
 // Utils
 function getWindowSize() {
     return {
