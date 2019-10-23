@@ -25,13 +25,12 @@ function Error({ error }) {
             <ErrorPage
                 title="A new version of this page is available!"
                 headline="Press the button below to reload it"
-                error={error}
             />
         )
     }
 
     if (error instanceof SyntaxError) {
-        return <ErrorPage error={error} />
+        return <ErrorPage message={error.message} />
     }
 
     throw error
@@ -40,7 +39,7 @@ function Error({ error }) {
 function ErrorPage({
     title = 'Uh oh! We never thought that would happen...',
     headline = 'An error happened while loading this page.',
-    error,
+    message,
 }) {
     function reload() {
         window.location.reload(true)
@@ -52,7 +51,7 @@ function ErrorPage({
                 <h1>{title}</h1>
                 <Page.Headline>
                     {headline}
-                    <Text.Error>{error.message}</Text.Error>
+                    {message && <Text.Error>{error.message}</Text.Error>}
                 </Page.Headline>
                 <ButtonSet>
                     <Button onClick={reload} className={styles.Link}>
