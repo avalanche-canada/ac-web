@@ -1,37 +1,31 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useEffect, useRef, useReducer } from 'react'
+import { useMounted } from 'hooks'
 import { Memory } from 'services/cache'
 
 export function useAsync(fn, params = [], initialState) {
-    // TODO Look to see if using a "useReducer" will be faster! Update everything at once!
-    const [data, setData] = useSafeState(initialState)
-    const [pending, setPending] = useSafeState(true)
-    const [error, setError] = useSafeState(null)
+    const [state, dispatch] = useReducer(reducer, [initialState, true, null])
     const controller = useRef(null)
+    const mounted = useMounted()
 
     useEffect(() => {
-        setPending(true)
-
-        // This way, we know it is the first render and we are not screwing the "initialState"
-        if (controller.current) {
-            setData(undefined)
-            setError(null)
-        }
+        dispatch([controller.current ? Pending : InitialPending])
 
         controller.current = createAbortController()
 
         fn.apply(null, [...params, controller.current.signal])
             .then(data => {
-                if (controller.current.signal?.aborted) {
+                if (!mounted) {
                     return
                 }
 
-                setData(data)
+                const { aborted } = controller.current.signal || {}
+
+                dispatch([Fulfilled, aborted ? undefined : data])
             })
             .catch(error => {
-                setError(error)
-            })
-            .finally(() => {
-                setPending(false)
+                if (mounted) {
+                    dispatch([Rejected, error])
+                }
             })
 
         return () => {
@@ -39,7 +33,7 @@ export function useAsync(fn, params = [], initialState) {
         }
     }, params)
 
-    return [data, pending, error]
+    return state
 }
 
 export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
@@ -67,7 +61,25 @@ export function createKey(...paths) {
         .filter(Boolean)
         .join(':')
 }
-
+const Pending = Symbol('Pending')
+const InitialPending = Symbol('InitialPending')
+const Fulfilled = Symbol('Fulfilled')
+const Rejected = Symbol('Rejected')
+function reducer(state, [type, payload]) {
+    switch (type) {
+        case InitialPending:
+            // Initial pending, we do not want to loose the initial state
+            return [state[0], true, null]
+        case Pending:
+            return [undefined, true, null]
+        case Fulfilled:
+            return [payload, false, null]
+        case Rejected:
+            return [undefined, false, payload]
+        default:
+            return state
+    }
+}
 function createAbortController() {
     try {
         return new AbortController()
@@ -76,22 +88,4 @@ function createAbortController() {
             abort() {},
         }
     }
-}
-function useSafeState(initialState) {
-    const [state, unsafeSetState] = useState(initialState)
-    const mounted = useRef(true)
-    const setState = useCallback(value => {
-        if (mounted.current) {
-            unsafeSetState(value)
-        }
-    }, [])
-
-    useEffect(
-        () => () => {
-            mounted.current = false
-        },
-        []
-    )
-
-    return [state, setState]
 }
