@@ -27,9 +27,9 @@ export function useDocuments(props) {
 }
 
 export function useDocument(props) {
-    const [[document] = [], ...rest] = useDocuments(props)
+    const [documents, ...rest] = useDocuments(props)
 
-    return [document, ...rest]
+    return [documents?.[0], ...rest]
 }
 
 export function useTags(type) {
@@ -60,8 +60,8 @@ const LANGUAGES = new Map([[FR, { lang: 'fr-ca' }]])
 function merge(...values) {
     return values.reduce(
         (value, current) => [
-            current[0], // payload
-            current[1] || value[1], // pending
+            current[0], // the last payload that we care, see calls above!
+            current[1] || value[1] || false, // pending
             value[2] || current[2], // error
         ],
         []
