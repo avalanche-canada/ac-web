@@ -12,7 +12,11 @@ export function useReport(id) {
         const find = report => report.subid === id
 
         for (const key of REPORTS_KEYS) {
-            cached = CACHE.get(key).find(find)
+            if (!CACHE.has(key)) {
+                continue
+            }
+
+            cached = CACHE.get(key, []).find(find)
 
             if (cached) {
                 break
