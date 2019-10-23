@@ -2,13 +2,19 @@ import { useEffect, useRef, useReducer } from 'react'
 import { useMounted } from 'hooks'
 import { Memory } from 'services/cache'
 
-export function useAsync(fn, params = [], initialState) {
-    const [state, dispatch] = useReducer(reducer, [initialState, true, null])
+export function useAsync(
+    fn,
+    params = [],
+    initialState = [undefined, true, null]
+) {
+    const [state, dispatch] = useReducer(reducer, initialState)
     const controller = useRef(null)
     const mounted = useMounted()
 
     useEffect(() => {
-        dispatch([controller.current ? Pending : InitialPending])
+        if (!initialState[0]) {
+            dispatch([controller.current ? Pending : InitialPending])
+        }
 
         controller.current = createAbortController()
 
@@ -47,7 +53,11 @@ export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
                   return data
               })
 
-    return useAsync(func, params, initialState)
+    return useAsync(func, params, [
+        CACHE.get(key, initialState),
+        !CACHE.has(key),
+        null,
+    ])
 }
 
 // Cache
@@ -72,8 +82,15 @@ function reducer(state, [type, payload]) {
             return [state[0], true, null]
         case Pending:
             return [undefined, true, null]
-        case Fulfilled:
+        case Fulfilled: {
+            const [data, pending, error] = state
+
+            if (data === payload && pending === false && error === null) {
+                return state
+            }
+
             return [payload, false, null]
+        }
         case Rejected:
             return [undefined, false, payload]
         default:
