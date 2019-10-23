@@ -64,7 +64,7 @@ export const CACHE = new Memory()
 // Utils
 export function createKey(...paths) {
     return paths
-        .flat() // Because you can pass arrays, see forecast hooks!
+        .flat() // Because you can pass arrays, just in case!
         .filter(Boolean)
         .join(':')
 }

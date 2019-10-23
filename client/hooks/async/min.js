@@ -2,14 +2,25 @@ import * as requests from 'requests/min'
 import { empty } from 'utils/fetch'
 import { useCacheAsync, createKey, CACHE } from './'
 
-// TODO Implement cache per ids and serve it once available
-
 export function useReport(id) {
-    // TODO Hack for the map, so we can use "useReport" and pass null to get no report. See MIN layer!
+    // Hack for the map, so we can use "useReport" and pass null to get no report. See MIN layer!
     const key = createKey(KEY, id === null ? 'none' : id)
     const request = id === null ? empty : requests.report
+    let cached
 
-    return useCacheAsync(request, [id], undefined, key)
+    if (REPORTS_KEYS.size > 0 && !CACHE.has(key) && id !== null) {
+        const find = report => report.subid === id
+
+        for (const key of REPORTS_KEYS) {
+            cached = CACHE.get(key).find(find)
+
+            if (cached) {
+                break
+            }
+        }
+    }
+
+    return useCacheAsync(request, [id], cached, key)
 }
 
 export function useReports(days = 7) {

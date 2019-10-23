@@ -1,10 +1,19 @@
 import * as requests from 'requests/weather'
-import { useCacheAsync, createKey } from './'
+import { useCacheAsync, createKey, CACHE } from './'
 
 export function useStation(id) {
     const key = createKey(KEY, id)
+    let cached
 
-    return useCacheAsync(requests.station, [id], undefined, key)
+    if (CACHE.has(KEY) && !CACHE.has(key)) {
+        const stations = CACHE.get(KEY)
+        // == because received id could be a string
+        const find = station => station.stationId == id
+
+        cached = stations.find(find)
+    }
+
+    return useCacheAsync(requests.station, [id], cached, key)
 }
 
 export function useStations() {

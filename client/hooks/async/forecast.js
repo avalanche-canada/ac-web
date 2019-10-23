@@ -6,7 +6,7 @@ export function useForecast(id, date) {
     let cached
 
     // Grab from the cache if already available
-    if (!date && CACHE.has(KEY)) {
+    if (!date && CACHE.has(KEY) && !CACHE.has(key)) {
         const forecasts = CACHE.get(KEY)
 
         cached = forecasts[id]
