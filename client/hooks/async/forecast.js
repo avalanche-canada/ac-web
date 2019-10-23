@@ -2,17 +2,17 @@ import * as requests from 'requests/forecast'
 import { useCacheAsync, createKey, CACHE } from './'
 
 export function useForecast(id, date) {
-    let request = requests.forecast
     const key = createKey(KEY, id, date)
+    let cached
 
     // Grab from the cache if already available
     if (!date && CACHE.has(KEY)) {
         const forecasts = CACHE.get(KEY)
 
-        request = id => Promise.resolve(forecasts[id])
+        cached = forecasts[id]
     }
 
-    return useCacheAsync(request, [id, date], undefined, key)
+    return useCacheAsync(requests.forecast, [id, date], cached, key)
 }
 
 export function useForecasts() {

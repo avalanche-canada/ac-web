@@ -43,22 +43,18 @@ export function useAsync(
     return state
 }
 
-export function useCacheAsync(fn, params = [], initialState, key, lifespan) {
-    const func = CACHE.has(key)
-        ? () => Promise.resolve(CACHE.get(key))
+export function useCacheAsync(fn, params = [], initialData, key, lifespan) {
+    const data = CACHE.get(key, initialData)
+    const func = data
+        ? () => Promise.resolve(data)
         : (...args) =>
               fn.apply(null, args).then(data => {
-                  //   console.warn('set cache', key, data)
                   CACHE.set(key, data, lifespan)
 
                   return data
               })
 
-    return useAsync(func, params, [
-        CACHE.get(key, initialState),
-        !CACHE.has(key),
-        null,
-    ])
+    return useAsync(func, params, [data, !data, null])
 }
 
 // Cache
