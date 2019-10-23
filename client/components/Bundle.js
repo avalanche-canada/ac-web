@@ -20,10 +20,6 @@ export default function Bundle({ children, fallback = <Text.Loading /> }) {
 }
 
 function Error({ error }) {
-    if (error instanceof SyntaxError) {
-        return <ErrorPage error={error} />
-    }
-
     if (error.name === 'ChunkLoadError') {
         return (
             <ErrorPage
@@ -32,6 +28,10 @@ function Error({ error }) {
                 error={error}
             />
         )
+    }
+
+    if (error instanceof SyntaxError) {
+        return <ErrorPage error={error} />
     }
 
     throw error
