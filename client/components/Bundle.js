@@ -24,11 +24,11 @@ function Error({ error }) {
         return <ErrorPage error={error} />
     }
 
-    if (error.type === 'missing') {
+    if (error.name === 'ChunkLoadError') {
         return (
             <ErrorPage
-                title="A new version of that page is available!"
-                headline="Load the new version using the button below"
+                title="A new version of this page is available!"
+                headline="Press the button below to reload it"
                 error={error}
             />
         )
