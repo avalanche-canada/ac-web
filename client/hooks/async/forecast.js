@@ -1,7 +1,12 @@
 import * as requests from 'requests/forecast'
 import { useCacheAsync, createKey, CACHE } from './'
+import { DateParam } from 'hooks/params'
 
 export function useForecast(id, date) {
+    // Convert to string, so cache and hooks dependencies work as expected!
+    // "date" can be different object on every, but being the same day!
+    date = DateParam.serialize(date)
+
     const key = createKey(KEY, id, date)
     let cached
 
