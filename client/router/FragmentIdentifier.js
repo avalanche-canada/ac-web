@@ -20,7 +20,7 @@ export default function FragmentIdentifier({ hash, children, ...rest }) {
 
             if (scrollY) {
                 setTimeout(() => {
-                    window.scroll(0, scrollY - 90)
+                    window.scroll(0, scrollY - 90) // Magic number: navbar height!
                 })
             }
         }
