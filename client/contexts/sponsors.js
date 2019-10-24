@@ -1,59 +1,38 @@
-import React, { createContext, useEffect } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import formatDate from 'date-fns/format'
-import { resource } from 'requests/static'
+import * as requests from 'requests/static'
+import { useCacheAsync } from 'hooks/async'
+import { DateParam } from 'hooks/params'
 import { useLocalStorage } from 'hooks'
-import { useAsync } from 'hooks/async'
 
 Provider.propTypes = {
     children: PropTypes.element,
 }
 
 export function Provider({ children }) {
-    const [sponsors, setSponsors] = useLocalStorage('sponsors', SPONSORS)
-    const [data] = useAsync(request, ['sponsors'])
+    const date = DateParam.format(new Date())
+    const [SPONSORS, set] = useLocalStorage('sponsors', {})
+    const [sponsors] = useCacheAsync(requests.sponsors, [date])
 
     useEffect(() => {
-        if (!data) {
-            return
+        if (sponsors) {
+            set(sponsors)
         }
-
-        const date = formatDate(new Date(), 'YYYY-MM-DD')
-
-        setSponsors(Object.assign({}, data.default, data[date]))
-    }, [data])
+    }, [sponsors])
 
     return (
-        <SponsorsContext.Provider value={sponsors}>
+        <SponsorsContext.Provider value={sponsors || SPONSORS}>
             {children}
         </SponsorsContext.Provider>
     )
 }
 
-const SPONSORS = {
-    About: 'rmr',
-    BlogIndex: 'teck',
-    BlogPage: 'mec',
-    EventIndex: 'varda',
-    EventPage: 'black-diamond',
-    Forecast: 'acf',
-    Gear: 'garmin-inreach',
-    MIN: 'rmr',
-    NewsIndex: 'northface',
-    NewsPage: 'outdoorresearch',
-    Training: 'revelstoke-tourism',
-    Weather: 'cbt',
-    Youth: 'cbt',
+function useSponsors() {
+    return useContext(SponsorsContext)
+}
+
+export function useSponsor(name) {
+    return useSponsors()[name] || name
 }
 
 const SponsorsContext = createContext()
-
-function request(name) {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            resolve(resource(name))
-        }, 9999)
-    })
-}
-
-export default SponsorsContext

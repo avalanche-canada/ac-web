@@ -1,9 +1,9 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import { Sponsor } from 'components/misc'
 import { Loading } from 'components/text'
-import SponsorsContext from 'contexts/sponsors'
+import { useSponsor } from 'contexts/sponsors'
 import * as params from 'prismic/params'
 import { useDocument } from 'prismic/hooks'
 
@@ -42,16 +42,15 @@ SponsorRoute.propTypes = {
     label: PropTypes.string,
 }
 function SponsorRoute({ name, label }) {
-    const uid = useContext(SponsorsContext)[name] || name
+    const uid = useSponsor(name)
     const [document, pending] = useDocument(params.sponsor(uid))
-    const data = document?.data || {}
 
     return (
         <Sponsor
             label={label}
-            name={data.name}
-            logo={data['image-229']}
-            url={data.url}>
+            name={document?.data?.name}
+            logo={document?.data?.['image-229']}
+            url={document?.data?.url}>
             {pending && <Loading />}
         </Sponsor>
     )
