@@ -5,7 +5,8 @@ export function useSorting(collection, compare, reversed = false) {
         if (typeof compare !== 'function') {
             return collection
         }
-        const sorted = collection.sort(compare)
+
+        const sorted = [...collection].sort(compare)
 
         return reversed ? sorted.reverse() : sorted
     }, [collection, compare, reversed])
