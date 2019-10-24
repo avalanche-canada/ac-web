@@ -5,6 +5,7 @@ import isValid from 'date-fns/is_valid'
 import startOfToday from 'date-fns/start_of_today'
 import { baseURL } from './config.json'
 import fetch from 'utils/fetch'
+import * as utils from 'utils/url'
 import * as Ratings from 'constants/forecast/rating'
 import * as Modes from 'constants/forecast/mode'
 
@@ -40,21 +41,17 @@ export function regions() {
 
 // Utils
 function buildForecastURL(name, date) {
-    let path = 'forecasts'
+    let archive
 
-    if (isArchiveBulletinRequest(date)) {
+    if (date && isArchiveBulletinRequest(date)) {
         const data = parseDate(date)
 
-        path = `bulletin-archive/${data.toISOString()}`
+        archive = 'bulletin-archive/' + data.toISOString()
     }
 
-    return baseURL + `/${path}/${name}.json`
+    return utils.path(baseURL, 'forecasts', archive, name + '.json')
 }
 function isArchiveBulletinRequest(date) {
-    if (!date) {
-        return false
-    }
-
     date = parseDate(date, 'YYYY-MM-DD')
 
     if (isValid(date)) {

@@ -1,9 +1,7 @@
 import React, { lazy } from 'react'
-import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import Bundle from 'components/Bundle'
-import Submission from 'layouts/Submission'
-import SubmissionList from 'layouts/SubmissionList'
+import Submission from 'layouts/min/Submission'
 import { StaticPage } from 'prismic/layouts'
 import { Loading } from 'components/page'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
@@ -43,10 +41,7 @@ function Submit(props) {
     )
 }
 
-Submissions.propTypes = {
-    location: PropTypes.object.isRequired,
-    navigate: PropTypes.func.isRequired,
-}
+const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
 
 function Submissions({ navigate }) {
     const [params, stringify] = useParams({
@@ -60,5 +55,9 @@ function Submissions({ navigate }) {
         navigate(stringify(params))
     }
 
-    return <SubmissionList {...params} onParamsChange={handleParamsChange} />
+    return (
+        <Bundle fallback={<Loading />}>
+            <SubmissionList {...params} onParamsChange={handleParamsChange} />
+        </Bundle>
+    )
 }

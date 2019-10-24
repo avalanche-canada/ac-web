@@ -1,6 +1,6 @@
 import React, { Fragment, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Router, Link, Redirect, Location } from '@reach/router'
+import { Router, Link, Redirect } from '@reach/router'
 import { tutorial } from 'prismic/params'
 import * as Page from 'components/page'
 import { Warning as Alert } from 'components/alert'
@@ -33,6 +33,7 @@ import dictionnaries from './locales'
 import { useWindowSize, useBoolean } from 'hooks'
 import { FR, EN } from 'constants/locale'
 import { useDocument } from 'prismic/hooks'
+import { useLocation } from 'router/hooks'
 
 // TODO: Use Context to propagate the tutorial document
 // TODO: Brings LocaleProvider out of this layout...should be bring in the index file
@@ -155,7 +156,8 @@ function Sidebar({ title, location, items = [], path }) {
 }
 
 function Content({ children }) {
-    const { locale } = useLocale()
+    const { location } = useLocation()
+    const params = new URLSearchParams(location.search)
 
     return (
         <Page.Main style={CONTENT_STYLE}>
@@ -164,17 +166,7 @@ function Content({ children }) {
                 <Home path="/" />
                 <Tutorial path="/*" />
             </Router>
-            <Location>
-                {({ location }) => {
-                    const params = new URLSearchParams(location.search)
-
-                    if (!params.has('uid')) {
-                        return null
-                    }
-
-                    return <Redirector uid={params.get('uid')} />
-                }}
-            </Location>
+            {params.has('uid') && <Redirector uid={params.get('uid')} />}
         </Page.Main>
     )
 }
@@ -187,8 +179,8 @@ function Redirector({ uid }) {
     }
 
     const { items } = document.data
-    function findByUID(item) {
-        return item?.link.value.document.uid == uid
+    function findByUID({ link }) {
+        return link.uid == uid
     }
 
     if (!items.some(findByUID)) {
@@ -205,7 +197,7 @@ function Redirector({ uid }) {
 
     do {
         const item = usefullItems.find(finder)
-        const { uid } = item?.link.value.document
+        const { uid } = item.link
 
         paths.push(uid)
 
@@ -322,7 +314,7 @@ function NoDocument({ uid, uri }) {
         }
 
         const item = document.data.items.find(
-            item => item.link.value?.document.uid === uid
+            item => item.link?.value?.document?.uid === uid
         )
 
         return item ? item.title : uid

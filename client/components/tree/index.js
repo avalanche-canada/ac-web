@@ -1,28 +1,19 @@
 import React, { useState, Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Location } from '@reach/router'
+import { Link } from '@reach/router'
 import Button, { SUBTILE } from 'components/button'
 import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'
 import classnames from 'classnames/bind'
 import styles from './Tree.css'
+import { useLocation } from 'router/hooks'
 
 Tree.propTypes = {
     children: PropTypes.node,
 }
 
 export default function Tree({ children }) {
-    return (
-        <div className={styles.Tree}>
-            <Location>
-                {({ location }) =>
-                    Children.map(children, node =>
-                        cloneElement(node, { location })
-                    )
-                }
-            </Location>
-        </div>
-    )
+    return <div className={styles.Tree}>{children}</div>
 }
 
 Node.propTypes = {
@@ -33,7 +24,6 @@ Node.propTypes = {
     isExpanded: PropTypes.bool,
     children: PropTypes.arrayOf(PropTypes.node),
     level: PropTypes.number,
-    location: PropTypes.object.isRequired,
 }
 
 export function Node({
@@ -44,13 +34,13 @@ export function Node({
     title,
     onClick,
     label,
-    location,
 }) {
+    const { location } = useLocation()
+    const { pathname } = location
     const [expanded, setExpanded] = useState(isExpanded)
     const hasChildren = Children.count(children) > 0
     const finalIsExpanded =
-        expanded ||
-        (location.pathname.includes(link) && !location.pathname.endsWith(link))
+        expanded || (pathname.includes(link) && !pathname.endsWith(link))
 
     return (
         <Fragment>
