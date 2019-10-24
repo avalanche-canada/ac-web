@@ -1,4 +1,4 @@
-import { useEffect, useRef, useReducer } from 'react'
+import { useEffect, useRef, useReducer, useMemo } from 'react'
 import { useMounted } from 'hooks'
 import { Memory } from 'services/cache'
 
@@ -68,6 +68,24 @@ export function createKey(...paths) {
         .filter(Boolean)
         .join(':')
 }
+
+export function useMerge(...asyncs) {
+    if (asyncs.length === 1) {
+        return asyncs[0]
+    }
+
+    return useMemo(() => asyncs.reduce(mergeReducer, MERGED), [asyncs.flat()])
+}
+const MERGED = [[], false, []]
+function mergeReducer(result, current) {
+    return [
+        [...result[0], current[0]],
+        current[1] || result[1],
+        [...result[2], current[2]].filter(Boolean),
+    ]
+}
+
+// Reducer
 const Pending = Symbol('Pending')
 const InitialPending = Symbol('InitialPending')
 const Fulfilled = Symbol('Fulfilled')

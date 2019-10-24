@@ -7,7 +7,7 @@ import inside from '@turf/inside'
 import * as turf from '@turf/helpers'
 import Button from 'components/button'
 import { Page, Header, Main, Content } from 'components/page'
-import { Muted, Error } from 'components/text'
+import { Muted, Error, Loading } from 'components/text'
 import { Br } from 'components/misc'
 import {
     Table,
@@ -38,6 +38,7 @@ import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
+import { useMerge } from 'hooks/async'
 
 SubmissionListLayout.propTypes = {
     navigate: PropTypes.func.isRequired,
@@ -150,7 +151,7 @@ function Form({ params, onParamsChange }) {
 }
 
 function TableContent(params) {
-    const [submissions = [], pending] = useSubmissions(params)
+    const [submissions = [], pending, errors] = useSubmissions(params)
 
     return (
         <Fragment>
@@ -170,10 +171,17 @@ function TableContent(params) {
                     <Muted>
                         Loading Mountain Information Network submissions...
                     </Muted>
+                ) : errors.length > 0 ? (
+                    <Error>
+                        {pluralize('error', errors.length, true)} occured while
+                        loading data.
+                    </Error>
                 ) : submissions.length === 0 ? (
-                    'No submissions found.'
+                    <Loading>No submissions found.</Loading>
                 ) : (
-                    `Total of ${submissions.length} submissions found.`
+                    <Muted>
+                        Total of {submissions.length} submissions found.
+                    </Muted>
                 )}
             </Caption>
         </Fragment>
@@ -198,11 +206,10 @@ function FallbackError({ error, onReset, days }) {
 // Hooks
 // Combine data fetching, filtering & sorting in one hook
 function useSubmissions(params) {
-    // TODO Could use a merger function for the async!
-    // TODO Deal with errors!
-    const [regions, regionsPending] = useForecastRegions()
-    const [reports, reportsPending] = useReports(params.days || DAYS)
-    const pending = regionsPending || reportsPending
+    const [[regions, reports], pending, errors] = useMerge(
+        useForecastRegions(),
+        useReports(params.days || DAYS)
+    )
     let submissions = useMemo(() => {
         if (regions && reports) {
             return runSubmissionsSpatialAnalysis(reports, regions)
@@ -232,7 +239,7 @@ function useSubmissions(params) {
     submissions = useFilters(submissions, predicates)
     submissions = useSorting(submissions, SORTERS.get(name), order === DESC)
 
-    return [submissions, pending]
+    return [submissions, pending, errors]
 }
 
 // Constants
