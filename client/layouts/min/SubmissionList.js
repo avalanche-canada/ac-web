@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useMemo } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import subDays from 'date-fns/sub_days'
 import { endOfYesterday } from 'date-fns'
@@ -39,6 +39,10 @@ import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
 
+SubmissionListLayout.propTypes = {
+    navigate: PropTypes.func.isRequired,
+}
+
 export default function SubmissionListLayout({ navigate }) {
     const [params, stringify] = useParams({
         days: NumberParam,
@@ -49,200 +53,118 @@ export default function SubmissionListLayout({ navigate }) {
     function handleParamsChange(params) {
         navigate(stringify(params))
     }
-
-    return <SubmissionList {...params} onParamsChange={handleParamsChange} />
-}
-
-// TODO use hooks, but needs to be converted in a functionnal component
-// TODO Split that component into smaller ones
-// TODO Once converted: remove <Regions> container
-// TODO Move to <SubmissionListLayout>
-class SubmissionList extends Component {
-    static propTypes = {
-        days: PropTypes.number,
-        types: PropTypes.instanceOf(Set),
-        regions: PropTypes.instanceOf(Set),
-        sorting: PropTypes.array,
-        onParamsChange: PropTypes.func.isRequired,
+    function handleReset() {
+        handleParamsChange({ days: DAYS })
     }
-    static defaultProps = {
-        days: 7,
-        types: new Set(),
-        regions: new Set(),
-        sorting: null,
-    }
-    state = {
-        count: 0,
-    }
-    onReset = async () => {
-        await this.props.onParamsChange({ days: undefined })
-        this.setState(({ count }) => ({
-            count: count + 1,
-        }))
-    }
-    handleFromDateChange = from => {
-        const days = differenceInCalendarDays(new Date(), from)
-
-        this.props.onParamsChange({ days })
-    }
-    handleTypesChange = types => {
-        this.props.onParamsChange({ types })
-    }
-    handleRegionsChange = regions => {
-        this.props.onParamsChange({ regions })
-    }
-    handleSortingChange(name, order) {
-        this.props.onParamsChange({
+    function handleSortingChange(name, order) {
+        handleParamsChange({
             sorting: [name, order],
         })
     }
-    get from() {
-        return subDays(new Date(), this.props.days)
-    }
-    renderForm({ data = [] }) {
-        const { from } = this
-
-        // TODO Create a <Form> for that!
-        return (
-            <Metadata>
-                <Entry term="From" sideBySide>
-                    <DayPicker
-                        date={from}
-                        onChange={this.handleFromDateChange}
-                        disabledDays={{ after: endOfYesterday() }}
-                    />
-                </Entry>
-                <Entry term="To" sideBySide>
-                    <Shim left>
-                        <DateElement />
-                    </Shim>
-                </Entry>
-                <Entry term="Reports" sideBySide>
-                    <Dropdown
-                        value={this.props.types}
-                        onChange={this.handleTypesChange}
-                        options={NAMES}
-                        placeholder="Show all"
-                    />
-                </Entry>
-                <Entry term="Regions" sideBySide>
-                    <Dropdown
-                        value={this.props.regions}
-                        onChange={this.handleRegionsChange}
-                        options={new Map(data.map(createRegionOption))}
-                        placeholder="Show all"
-                    />
-                </Entry>
-            </Metadata>
-        )
-    }
-    getSorting(name, order) {
-        if (Array.isArray(this.props.sorting)) {
-            const { sorting } = this.props
-
-            if (sorting[0] === name) {
-                return sorting[1]
-            }
-        }
-
-        return order
-    }
-    renderHeader = ({ name, title, style, sorting }) => {
+    const { days = DAYS } = params
+    const fallback = <FallbackError days={days} onReset={handleReset} />
+    function renderHeader({ name, title, style, sorting }) {
         return (
             <HeaderCell
                 key={name}
                 style={style}
-                sorting={this.getSorting(name, sorting)}
-                onSortingChange={this.handleSortingChange.bind(this, name)}>
+                sorting={getSorting(name, sorting, params.sorting)}
+                onSortingChange={order => handleSortingChange(name, order)}>
                 {title}
             </HeaderCell>
         )
     }
-    get sortProps() {
-        const [name, order] = this.props.sorting || []
 
-        if (order === NONE) {
-            return {}
-        }
-
-        return { sorter: SORTERS.get(name), reverse: order === DESC }
-    }
-    get predicates() {
-        const { types, regions } = this.props
-        const predicates = []
-
-        if (types.size > 0) {
-            predicates.push(report => {
-                const reportTypes = report.obs.map(pluckObtype)
-
-                return reportTypes.some(type => types.has(type))
-            })
-        }
-
-        if (regions.size > 0) {
-            predicates.push(report =>
-                'region' in report ? regions.has(report.region.id) : false
-            )
-        }
-
-        return predicates
-    }
-    render() {
-        const { days } = this.props
-        const { count } = this.state
-        const { predicates, sortProps } = this
-        const fallback = <FallbackError days={days} onReset={this.onReset} />
-
-        return (
-            <Page>
-                <Header title="Mountain Information Network — Submissions" />
-                <Content>
-                    <Main>
-                        <Regions>{props => this.renderForm(props)}</Regions>
-                        <Br />
-                        <ErrorBoundary key={count} fallback={fallback}>
-                            <Responsive>
-                                <Table>
-                                    <THead>
-                                        <Row>
-                                            {COLUMNS.map(this.renderHeader)}
-                                        </Row>
-                                    </THead>
-                                    <TableContent
-                                        days={days}
-                                        predicates={predicates}
-                                        {...sortProps}
-                                    />
-                                </Table>
-                            </Responsive>
-                        </ErrorBoundary>
-                    </Main>
-                </Content>
-            </Page>
-        )
-    }
+    return (
+        <Page>
+            <Header title="Mountain Information Network — Submissions" />
+            <Content>
+                <Main>
+                    <Form params={params} onParamsChange={handleParamsChange} />
+                    <Br />
+                    <ErrorBoundary key={days} fallback={fallback}>
+                        <Responsive>
+                            <Table>
+                                <THead>
+                                    <Row>{COLUMNS.map(renderHeader)}</Row>
+                                </THead>
+                                <TableContent {...params} />
+                            </Table>
+                        </Responsive>
+                    </ErrorBoundary>
+                </Main>
+            </Content>
+        </Page>
+    )
 }
 
-function TableContent({ days, predicates, sorter, reverse }) {
-    // TODO Could use a merger function for the async!
-    // TODO Deal with errors!
-    const [regions, regionsPending] = useForecastRegions()
-    const [reports, reportsPending] = useReports(days)
-    const pending = regionsPending || reportsPending
-    let submissions = useMemo(() => {
-        if (regions && reports) {
-            return runSubmissionsSpatialAnalysis(reports, regions)
-        }
+// Components
+function Form({ params, onParamsChange }) {
+    const [data] = useForecastRegionsMetadata()
+    const options = useMemo(() => new Map(data.map(createRegionOption)), [data])
+    const from = subDays(new Date(), params.days || DAYS)
+    function handleFromDateChange(from) {
+        const days = differenceInCalendarDays(new Date(), from)
 
-        return []
-    }, [regions, reports])
+        onParamsChange({ days })
+    }
+    function handleTypesChange(types) {
+        onParamsChange({ types })
+    }
+    function handleRegionsChange(regions) {
+        onParamsChange({ regions })
+    }
 
-    submissions = useFilters(submissions, predicates)
-    submissions = useSorting(submissions, sorter, reverse)
+    return (
+        <Metadata>
+            <Entry term="From" sideBySide>
+                <DayPicker
+                    date={from}
+                    onChange={handleFromDateChange}
+                    disabledDays={{ after: endOfYesterday() }}
+                />
+            </Entry>
+            <Entry term="To" sideBySide>
+                <Shim left>
+                    <DateElement />
+                </Shim>
+            </Entry>
+            <Entry term="Reports" sideBySide>
+                <Dropdown
+                    value={params.types}
+                    onChange={handleTypesChange}
+                    options={NAMES}
+                    placeholder="Show all"
+                />
+            </Entry>
+            <Entry term="Regions" sideBySide>
+                <Dropdown
+                    value={params.regions}
+                    onChange={handleRegionsChange}
+                    options={options}
+                    placeholder="Show all"
+                />
+            </Entry>
+        </Metadata>
+    )
+}
+
+function TableContent(params) {
+    const [submissions = [], pending] = useSubmissions(params)
 
     return (
         <Fragment>
-            {pending || <TBody>{submissions.map(renderSubmission)}</TBody>}
+            <TBody>
+                {submissions.map(submission => (
+                    <Row key={submission.subid}>
+                        {COLUMNS.map(({ name, style, property }) => (
+                            <Cell key={name} style={style}>
+                                {property(submission)}
+                            </Cell>
+                        ))}
+                    </Row>
+                ))}
+            </TBody>
             <Caption>
                 {pending ? (
                     <Muted>
@@ -258,18 +180,6 @@ function TableContent({ days, predicates, sorter, reverse }) {
     )
 }
 
-function renderSubmission(submission) {
-    return (
-        <Row key={submission.subid}>
-            {COLUMNS.map(({ name, style, property }) => (
-                <Cell key={name} style={style}>
-                    {property(submission)}
-                </Cell>
-            ))}
-        </Row>
-    )
-}
-
 function FallbackError({ error, onReset, days }) {
     return (
         <Fragment>
@@ -279,15 +189,54 @@ function FallbackError({ error, onReset, days }) {
             </Error>
             <Error>{error.message}</Error>
             {error.name === 'RangeError' && (
-                <Button onClick={onReset}>
-                    Reset to the last {SubmissionList.defaultProps.days} days
-                </Button>
+                <Button onClick={onReset}>Reset to the last {DAYS} days</Button>
             )}
         </Fragment>
     )
 }
 
+// Hooks
+// Combine data fetching, filtering & sorting in one hook
+function useSubmissions(params) {
+    // TODO Could use a merger function for the async!
+    // TODO Deal with errors!
+    const [regions, regionsPending] = useForecastRegions()
+    const [reports, reportsPending] = useReports(params.days || DAYS)
+    const pending = regionsPending || reportsPending
+    let submissions = useMemo(() => {
+        if (regions && reports) {
+            return runSubmissionsSpatialAnalysis(reports, regions)
+        }
+
+        return []
+    }, [regions, reports])
+
+    const predicates = []
+
+    if (params.types.size > 0) {
+        predicates.push(report => {
+            const reportTypes = report.obs.map(pluckObtype)
+
+            return reportTypes.some(type => params.types.has(type))
+        })
+    }
+
+    if (params.regions.size > 0) {
+        predicates.push(report =>
+            'region' in report ? params.regions.has(report.region.id) : false
+        )
+    }
+
+    const [name, order] = params.sorting
+
+    submissions = useFilters(submissions, predicates)
+    submissions = useSorting(submissions, SORTERS.get(name), order === DESC)
+
+    return [submissions, pending]
+}
+
 // Constants
+const DAYS = 7
 const SORTERS = new Map([
     ['date', (a, b) => new Date(a.datetime) - new Date(b.datetime)],
     ['reporter', (a, b) => a.user.localeCompare(b.user)],
@@ -419,9 +368,13 @@ function runSubmissionsSpatialAnalysis(reports, { features }) {
         return report
     })
 }
-// TODO Remove that component once converted to functionnal component
-function Regions({ children }) {
-    const [data, pending] = useForecastRegionsMetadata()
+// Weird function!!! Used to set the order on the header.
+function getSorting(name, order, sorting) {
+    if (Array.isArray(sorting)) {
+        if (sorting[0] === name) {
+            return sorting[1]
+        }
+    }
 
-    return children({ data, pending })
+    return order
 }

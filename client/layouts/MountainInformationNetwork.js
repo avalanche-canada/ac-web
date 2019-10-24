@@ -30,7 +30,9 @@ export default function MountainInformationNetwork() {
     )
 }
 
+// Code splitted subroutes
 const SubmitContainer = lazy(() => import('layouts/min/Form'))
+const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
 
 function Submit(props) {
     return (
@@ -39,8 +41,6 @@ function Submit(props) {
         </Bundle>
     )
 }
-
-const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
 
 function Submissions({ navigate }) {
     return (
