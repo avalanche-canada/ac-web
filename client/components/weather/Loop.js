@@ -9,6 +9,7 @@ import metadata from 'services/msc/loop/metadata.json'
 import { Loading, Error } from 'components/text'
 
 // TODO: HOOKS + FUNCTIONAL
+// TODO Improve the speed, we do not need to load all images...
 
 export default class Loop extends PureComponent {
     static propTypes = {
