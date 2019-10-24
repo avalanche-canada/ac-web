@@ -41,8 +41,8 @@ function AvalancheCanada() {
                         <Highlight />
                         {/* FIXME: Make it primary. With primary clicking a region on the map make the map jumping. */}
                         <Router primary={false}>
+                            <Main path="/" />
                             <Main path="map/*" />
-                            <Redirect from="/" to="/map" />
                             <Redirect
                                 from="/map/ates"
                                 to="/planning/trip-planner"
@@ -179,6 +179,7 @@ function AvalancheCanada() {
                             <Page.NotFound default />
                         </Router>
                         <Router primary={false}>
+                            <Null path="/" />
                             <Null path="map/*" />
                             <Null path="planning/trip-planner" />
                             <Footer default />

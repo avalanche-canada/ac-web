@@ -141,10 +141,14 @@ export function useMapClickHandler(map) {
 
                 if (externalUrl) {
                     window.open(externalUrl, name)
-                    return
+                    return // We are not navigating to the external location
                 }
 
                 let { pathname, search } = location
+
+                if (pathname === '/') {
+                    pathname = '/map'
+                }
 
                 if (PATHS.has(source)) {
                     pathname = `/map/${PATHS.get(source)}/${id}`
