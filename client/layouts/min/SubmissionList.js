@@ -39,10 +39,6 @@ import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
 
-// TODO use hooks, but needs to be converted in a functionnal component
-// TODO Split that component into smaller ones
-// TODO Once converted: remove <Regions> container
-
 export default function SubmissionListLayout({ navigate }) {
     const [params, stringify] = useParams({
         days: NumberParam,
@@ -57,6 +53,10 @@ export default function SubmissionListLayout({ navigate }) {
     return <SubmissionList {...params} onParamsChange={handleParamsChange} />
 }
 
+// TODO use hooks, but needs to be converted in a functionnal component
+// TODO Split that component into smaller ones
+// TODO Once converted: remove <Regions> container
+// TODO Move to <SubmissionListLayout>
 class SubmissionList extends Component {
     static propTypes = {
         days: PropTypes.number,
@@ -102,6 +102,7 @@ class SubmissionList extends Component {
     renderForm({ data = [] }) {
         const { from } = this
 
+        // TODO Create a <Form> for that!
         return (
             <Metadata>
                 <Entry term="From" sideBySide>
@@ -224,6 +225,7 @@ class SubmissionList extends Component {
 
 function TableContent({ days, predicates, sorter, reverse }) {
     // TODO Could use a merger function for the async!
+    // TODO Deal with errors!
     const [regions, regionsPending] = useForecastRegions()
     const [reports, reportsPending] = useReports(days)
     const pending = regionsPending || reportsPending
