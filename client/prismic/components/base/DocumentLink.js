@@ -22,5 +22,23 @@ export default function DocumentLink({ children, isBroken, ...props }) {
 function Title({ type, uid }) {
     const [document, pending] = useDocument(params.uid(type, uid))
 
-    return pending ? <Loading /> : document?.data?.title || null
+    if (pending) {
+        return <Loading />
+    }
+
+    if (!document?.data?.title) {
+        return null
+    }
+
+    const { title } = document.data
+
+    if (typeof title == 'string') {
+        return title
+    }
+
+    if (Array.isArray(title)) {
+        return title[0].text // <StructuredText>
+    }
+
+    return null
 }

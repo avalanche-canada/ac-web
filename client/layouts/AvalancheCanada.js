@@ -63,6 +63,10 @@ function AvalancheCanada() {
                             <Redirect from="/learn" to="/training" />
                             <LoginComplete path="login-complete" />
                             <Glossary path="glossary/*" />
+                            <Redirect
+                                from="pages/tutorial/tutorial"
+                                to="/tutorial"
+                            />
                             <Tutorial path="tutorial/*" />
                             <Tutorial path="tutoriel/*" />
                             <Redirect
