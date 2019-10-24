@@ -6,6 +6,7 @@ export function useSorting(collection, compare, reversed = false) {
             return collection
         }
 
+        // Sort is done in place, so we need to clone first
         const sorted = [...collection].sort(compare)
 
         return reversed ? sorted.reverse() : sorted

@@ -6,6 +6,7 @@ import * as turf from '@turf/helpers'
 import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
 import { Table, Responsive, TBody, Row, Cell, Caption } from 'components/table'
+import { MINIMUM_DISTANCE } from '../constants'
 import Header from './Header'
 import Pagination from './Pagination'
 import Layout from './Layout'
@@ -29,14 +30,15 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
     const [page, setPage] = useState(1)
     const [providers = [], pending] = useProviders()
     const all = useMemo(() => {
-        if (place) {
-            return providers.map(provider => ({
-                ...provider,
-                distance: distance(turf.point(provider.loc), place),
-            }))
-        }
-
-        return providers
+        return providers.map(provider => ({
+            ...provider,
+            distance: place
+                ? Math.max(
+                      Math.round(distance(turf.point(provider.loc), place)),
+                      MINIMUM_DISTANCE
+                  )
+                : null,
+        }))
     }, [providers, place])
     const [sponsors, others] = useMemo(() => {
         return [all.filter(isSponsor), all.filter(isNotSponsor)]
@@ -48,9 +50,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
             )
         }
 
-        // FIXME(karl) It is not updating if "others" is returned as is.
-        // Needs to figure it out...
-        return Array.from(others)
+        return others
     }, [others, tags])
     const sorted = useSorting(filtered, SORTERS.get(name), order === DESC)
     const paginated = usePagination(sorted, page)

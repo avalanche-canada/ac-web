@@ -61,6 +61,7 @@ Courses.propTypes = {
 }
 
 function Courses({ children, location, navigate }) {
+    const { place } = location.state || {}
     const [params, stringify] = useParams({
         level: StringParam,
         from: DateParam,
@@ -68,15 +69,16 @@ function Courses({ children, location, navigate }) {
         tags: SetParam,
         sorting: SortingParam,
     })
-    const place = location.state?.place
 
     return cloneElement(children, {
         ...params,
         place,
-        onParamsChange({ place, ...rest }) {
+        onParamsChange(params) {
+            const { place, ...rest } = params
+
             navigate(stringify(rest), {
                 state: {
-                    place: place || location.state?.place,
+                    place: 'place' in params ? place : location.state?.place,
                 },
                 replace: true,
             })
@@ -117,9 +119,11 @@ function Providers({ children, location, navigate }) {
         ...params,
         place,
         onParamsChange(params) {
-            navigate(stringify(params), {
+            const { place, ...rest } = params
+
+            navigate(stringify(rest), {
                 state: {
-                    place: params.place || place,
+                    place: 'place' in params ? place : location.state?.place,
                 },
                 replace: true,
             })

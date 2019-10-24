@@ -27,7 +27,7 @@ import { Muted } from 'components/text'
 import Shim from 'components/Shim'
 import { Distance, Tags } from './cells'
 import { LEVELS, MINIMUM_DISTANCE } from '../constants'
-import { NONE, DESC } from 'constants/sortings'
+import { NONE, DESC, ASC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import styles from './Courses.css'
 import { useCourses } from 'hooks/async/ast'
@@ -53,25 +53,21 @@ export default function Courses({
     onParamsChange,
 }) {
     // TODO Adds error handling!
-    const [name, order] = sorting || ['dates'] // If no sorting defined, sorting is done on 'dates' by default
+    const [name = null, order = NONE] = sorting
     const [courses = [], pending] = useCourses()
     const [page, setPage] = useState(1)
     const all = useMemo(() => {
-        if (place) {
-            return courses.map(course => ({
-                ...course,
-                distance: Math.max(
-                    Math.round(distance(turf.point(course.loc), place)),
-                    MINIMUM_DISTANCE
-                ),
-            }))
-        }
-
-        // FIXME(karl) It is not updating if "others" is returned as is.
-        // Needs to figure it out...
-        return Array.from(courses)
+        return courses.map(course => ({
+            ...course,
+            distance: place
+                ? Math.max(
+                      Math.round(distance(turf.point(course.loc), place)),
+                      MINIMUM_DISTANCE
+                  )
+                : null,
+        }))
     }, [courses, place])
-    const sorted = useSorting(all, SORTERS.get(name), order === DESC)
+    const sorted = useSorting(all, SORTERS.get(order).get(name))
     const filtered = useFilters(
         sorted,
         getPredicates({ level, from, to, tags })
@@ -252,13 +248,37 @@ const COLUMNS = [
     },
 ]
 const SORTERS = new Map([
-    ['provider', (a, b) => sortByName(a, b) || sortByDate(a, b)],
     [
-        'distance',
-        (a, b) => sortByDistance(a, b) || sortByDate(a, b) || sortByName(a, b),
+        ASC,
+        new Map([
+            ['provider', (a, b) => sortByName(a, b) || sortByDate(a, b)],
+            [
+                'distance',
+                (a, b) =>
+                    sortByDistance(a, b) ||
+                    sortByDate(a, b) ||
+                    sortByName(a, b),
+            ],
+            ['dates', (a, b) => sortByDate(a, b) || sortByName(a, b)],
+        ]),
     ],
-    ['dates', (a, b) => sortByDate(a, b) || sortByName(a, b)],
+    [
+        DESC,
+        new Map([
+            ['provider', (a, b) => sortByName(b, a) || sortByDate(a, b)],
+            [
+                'distance',
+                (a, b) =>
+                    sortByDistance(b, a) ||
+                    sortByDate(a, b) ||
+                    sortByName(a, b),
+            ],
+            ['dates', (a, b) => sortByDate(b, a) || sortByName(a, b)],
+        ]),
+    ],
+    [NONE, new Map()],
 ])
+
 function sortByDate(a, b) {
     return new Date(a.date_start) - new Date(b.date_start)
 }
