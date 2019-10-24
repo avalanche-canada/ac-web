@@ -18,7 +18,7 @@ export default function application() {
                     <Analytics>
                         <ScrollTo>
                             <Router primary={false}>
-                                <CAC path="cac" />
+                                <Redirect from="/cac/*" to="/" />
                                 <AvalancheCanada path="/*" />
                                 <AvalancheCanadaFoundation path="foundation/*" />
                             </Router>
@@ -28,18 +28,5 @@ export default function application() {
             </LocationProvider>
         </ErrorBoundary>,
         document.getElementById('app')
-    )
-}
-
-// Subroutes
-// TODO Make a better catch all cac/* to /
-function CAC() {
-    return (
-        <Router>
-            <Redirect from="training/ast/courses" to="training/courses" />
-            <Redirect from="training/overview" to="training" />
-            <Redirect from="training/online-course" to="tutorial" />
-            <Redirect from="/" to="/" />
-        </Router>
     )
 }
