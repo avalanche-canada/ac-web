@@ -19,7 +19,6 @@ export function notFound({ pathname }) {
 }
 
 Analytics.propTypes = {
-    location: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
 }
 
