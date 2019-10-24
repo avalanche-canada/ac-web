@@ -4,7 +4,6 @@ import Bundle from 'components/Bundle'
 import Submission from 'layouts/min/Submission'
 import { StaticPage } from 'prismic/layouts'
 import { Loading } from 'components/page'
-import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
 
 export default function MountainInformationNetwork() {
     return (
@@ -44,20 +43,9 @@ function Submit(props) {
 const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
 
 function Submissions({ navigate }) {
-    const [params, stringify] = useParams({
-        days: NumberParam,
-        types: SetParam,
-        regions: SetParam,
-        sorting: SortingParam,
-    })
-
-    function handleParamsChange(params) {
-        navigate(stringify(params))
-    }
-
     return (
         <Bundle fallback={<Loading />}>
-            <SubmissionList {...params} onParamsChange={handleParamsChange} />
+            <SubmissionList navigate={navigate} />
         </Bundle>
     )
 }

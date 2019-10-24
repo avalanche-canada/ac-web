@@ -37,12 +37,27 @@ import Shim from 'components/Shim'
 import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
+import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
 
 // TODO use hooks, but needs to be converted in a functionnal component
 // TODO Split that component into smaller ones
 // TODO Once converted: remove <Regions> container
 
-export default class SubmissionList extends Component {
+export default function SubmissionListLayout({ navigate }) {
+    const [params, stringify] = useParams({
+        days: NumberParam,
+        types: SetParam,
+        regions: SetParam,
+        sorting: SortingParam,
+    })
+    function handleParamsChange(params) {
+        navigate(stringify(params))
+    }
+
+    return <SubmissionList {...params} onParamsChange={handleParamsChange} />
+}
+
+class SubmissionList extends Component {
     static propTypes = {
         days: PropTypes.number,
         types: PropTypes.instanceOf(Set),

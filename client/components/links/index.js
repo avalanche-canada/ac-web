@@ -58,5 +58,7 @@ export function Forecast({ id, children, ...props }) {
 }
 
 export function forecast(id) {
-    return supported() ? '/map' : '' + `/forecasts/${id}`
+    const root = supported() ? '/map' : ''
+
+    return root + `/forecasts/${id}`
 }
