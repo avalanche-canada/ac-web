@@ -30,13 +30,11 @@ import { NEWS, BLOG, EVENT } from 'constants/prismic'
 import { path } from 'utils/min'
 import styles from 'components/page/Page.css'
 
-export default memo.static(AvalancheCanada)
-
 function AvalancheCanada() {
     return (
-        <ErrorBoundary fallback={<AvCanFallback />}>
-            <AuthProvider>
-                <SponsorsMetadataProvider>
+        <AuthProvider>
+            <SponsorsMetadataProvider>
+                <ErrorBoundary fallback={<AvCanFallback />}>
                     <Application>
                         <Navbar />
                         <SPAW />
@@ -187,11 +185,13 @@ function AvalancheCanada() {
                             <Footer default />
                         </Router>
                     </Application>
-                </SponsorsMetadataProvider>
-            </AuthProvider>
-        </ErrorBoundary>
+                </ErrorBoundary>
+            </SponsorsMetadataProvider>
+        </AuthProvider>
     )
 }
+
+export default memo.static(AvalancheCanada)
 
 function AvCanFallback(props) {
     return (
