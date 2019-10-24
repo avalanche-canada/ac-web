@@ -1,29 +1,29 @@
-import { useState, useEffect } from 'react'
+import React, { createContext, useState, useEffect, useContext } from 'react'
 import { globalHistory } from '@reach/router'
 
+const LocationContext = createContext({
+    location: globalHistory.location,
+    navigate: globalHistory.navigate,
+})
+
+export function LocationProvider({ children }) {
+    const [value, setValue] = useState(useLocation())
+
+    useEffect(
+        () =>
+            globalHistory.listen(({ location }) => {
+                setValue(value => ({ ...value, location }))
+            }),
+        []
+    )
+
+    return (
+        <LocationContext.Provider value={value}>
+            {children}
+        </LocationContext.Provider>
+    )
+}
+
 export function useLocation() {
-    const [state, setState] = useState({
-        location: globalHistory.location,
-        navigate: globalHistory.navigate,
-    })
-
-    useEffect(() => {
-        const removeListener = globalHistory.listen(({ location }) => {
-            setState(state => {
-                if (location === state.location) {
-                    return state
-                }
-
-                return {
-                    ...state,
-                    location,
-                }
-            })
-        })
-        return () => {
-            removeListener()
-        }
-    }, [])
-
-    return state
+    return useContext(LocationContext)
 }

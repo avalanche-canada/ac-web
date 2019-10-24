@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Location } from '@reach/router'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
@@ -11,6 +10,7 @@ import Brand from './Brand'
 import Donate from './Donate'
 import { useWindowSize, useBoolean } from 'hooks'
 import LOGO from 'styles/AvalancheCanada.svg'
+import { useLocation } from 'router/hooks'
 
 Layout.propTypes = {
     menu: PropTypes.object,
@@ -20,6 +20,7 @@ Layout.propTypes = {
 }
 
 export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
+    const { location } = useLocation()
     const [isCabinetOpened, showCabinet, hideCabinet] = useBoolean(false)
     const { width } = useWindowSize()
     const fullNavbar = width > 768
@@ -29,31 +30,27 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
     }
 
     return (
-        <Location>
-            {({ location }) => (
-                <div className={styles.Layout}>
-                    <Navbar>
-                        <Brand to={to} title={label} style={style} />
-                        {fullNavbar && (
-                            <ItemSet location={location}>
-                                {menu.children.map(createItem)}
-                                {children}
-                            </ItemSet>
-                        )}
-                        {fullNavbar || <Burger onClick={showCabinet} />}
-                        {donate && <Donate to={donate} />}
-                    </Navbar>
-                    {fullNavbar || (
-                        <Cabinet
-                            location={location}
-                            menu={menu}
-                            show={isCabinetOpened}
-                            onClose={hideCabinet}
-                        />
-                    )}
-                </div>
+        <div className={styles.Layout}>
+            <Navbar>
+                <Brand to={to} title={label} style={style} />
+                {fullNavbar && (
+                    <ItemSet location={location}>
+                        {menu.children.map(createItem)}
+                        {children}
+                    </ItemSet>
+                )}
+                {fullNavbar || <Burger onClick={showCabinet} />}
+                {donate && <Donate to={donate} />}
+            </Navbar>
+            {fullNavbar || (
+                <Cabinet
+                    location={location}
+                    menu={menu}
+                    show={isCabinetOpened}
+                    onClose={hideCabinet}
+                />
             )}
-        </Location>
+        </div>
     )
 }
 

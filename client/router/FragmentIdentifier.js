@@ -1,28 +1,16 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Location } from '@reach/router'
 import { useEventListener } from 'hooks'
+import { useLocation } from './hooks'
 
 FragmentIdentifier.propTypes = {
     hash: PropTypes.string.isRequired,
     children: PropTypes.node.isRequired,
 }
 
-export default function FragmentIdentifier(props) {
-    return (
-        <Location>
-            {({ location }) => (
-                <FragmentIdentifierWithLocation
-                    location={location}
-                    {...props}
-                />
-            )}
-        </Location>
-    )
-}
-
-function FragmentIdentifierWithLocation({ location, hash, children, ...rest }) {
-    const href = `#${hash}`
+export default function FragmentIdentifier({ hash, children, ...rest }) {
+    const { location } = useLocation()
+    const href = '#' + hash
     const anchor = useRef()
     function scroll() {
         if (window.location.hash === href) {

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { supported } from 'utils/mapbox'
+import { useLocation } from 'router/hooks'
 
 // From: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 export function handleOutboundSponsorClick(event) {
@@ -22,7 +23,8 @@ Analytics.propTypes = {
     children: PropTypes.element.isRequired,
 }
 
-export default function Analytics({ location, children }) {
+export default function Analytics({ children }) {
+    const { location } = useLocation()
     useEffect(() => {
         ga('set', 'transport', 'beacon')
         ga('set', MAPBOXGL_SUPPORTED, supported().toString())

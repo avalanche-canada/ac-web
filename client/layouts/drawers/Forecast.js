@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Location } from '@reach/router'
+import { Link } from '@reach/router'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
 import * as components from 'layouts/products/forecast'
@@ -16,6 +16,7 @@ import {
 import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 import { handleForecastTabActivate } from 'services/analytics'
+import { useLocation } from 'router/hooks'
 
 Layout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -80,26 +81,23 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
 
 // Utils and Constants
 function OtherRegions() {
+    const { location } = useLocation()
     const [regions] = useForecastRegionsMetadata()
 
     return (
-        <Location>
-            {({ location }) => (
-                <Shim horizontal as="section">
-                    <h3>Click on a link below to see another forecast:</h3>
-                    <List column={1}>
-                        {regions.map(({ id, name }) => (
-                            <ListItem
-                                key={id}
-                                to={`/map/forecasts/${id}${location.search}`}
-                                replace>
-                                {name}
-                            </ListItem>
-                        ))}
-                    </List>
-                </Shim>
-            )}
-        </Location>
+        <Shim horizontal as="section">
+            <h3>Click on a link below to see another forecast:</h3>
+            <List column={1}>
+                {regions.map(({ id, name }) => (
+                    <ListItem
+                        key={id}
+                        to={`/map/forecasts/${id}${location.search}`}
+                        replace>
+                        {name}
+                    </ListItem>
+                ))}
+            </List>
+        </Shim>
     )
 }
 

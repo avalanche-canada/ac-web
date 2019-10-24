@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Location } from '@reach/router'
+import { Link } from '@reach/router'
 import { List, ListItem } from 'components/page'
 import {
     Header,
@@ -17,6 +17,7 @@ import * as hooks from 'hooks/async/weather'
 import Sponsor from 'layouts/Sponsor'
 import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/station'
+import { useLocation } from 'router/hooks'
 
 WeatherStation.propTypes = {
     id: PropTypes.string.isRequired,
@@ -107,27 +108,24 @@ function Measurements({ id, utcOffset }) {
 }
 
 function StationList() {
+    const { location } = useLocation()
+    const { pathname } = location
+
     return (
         <Async.Provider value={hooks.useStations()}>
             <h3>Click on a link below to see another weather station:</h3>
             <Async.Found>
                 {stations => (
-                    <Location>
-                        {({ location }) => (
-                            <List column={1}>
-                                {stations.map(({ stationId, name }) => (
-                                    <ListItem
-                                        key={stationId}
-                                        to={`${
-                                            location.pathname
-                                        }?panel=weather-stations/${stationId}`}
-                                        replace>
-                                        {name}
-                                    </ListItem>
-                                ))}
-                            </List>
-                        )}
-                    </Location>
+                    <List column={1}>
+                        {stations.map(({ stationId, name }) => (
+                            <ListItem
+                                key={stationId}
+                                to={`${pathname}?panel=weather-stations/${stationId}`}
+                                replace>
+                                {name}
+                            </ListItem>
+                        ))}
+                    </List>
                 )}
             </Async.Found>
         </Async.Provider>
