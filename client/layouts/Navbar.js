@@ -33,7 +33,7 @@ export default function AvalancheCanadaNavbar() {
         event.preventDefault()
 
         logout()
-        navigate('/')
+        navigate('/') // FIXME Should not navigate to "/" all the time
     }
 
     return (
