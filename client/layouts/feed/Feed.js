@@ -220,13 +220,14 @@ const EMPTY_MESSAGES = new Map([
 ])
 const YearOptions = new Map([
     [undefined, 'All years'],
-    ...Array(CURRENT_YEAR - 2012)
+    ...Array(CURRENT_YEAR - 2012) // We are are going back to 2013!
         .fill(CURRENT_YEAR)
         .map((value, index) => value - index)
         .map(year => [year, String(year)]),
 ])
 const MonthsOptions = new Map([
     [undefined, 'All Months'],
+    // ...Array(12, mount=>)
     ['january', 'January'],
     ['february', 'February'],
     ['march', 'March'],
@@ -261,13 +262,11 @@ function isFeaturedPost({ tags }) {
 // That super awesome function could be moved to "hooks/params" to generate handlers...
 // But need some experience with it to know exactly what these handlers should do
 function useChangeHandlerFactory(navigate, stringify) {
-    return useCallback(
-        (key, page) =>
-            useCallback(value => {
-                navigate(stringify({ page, [key]: value }))
-            }, []),
-        [stringify]
-    )
+    return function(key, page) {
+        return function(value) {
+            return navigate(stringify({ page, [key]: value }))
+        }
+    }
 }
 
 // Styles

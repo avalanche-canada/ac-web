@@ -8,6 +8,7 @@ import { ASC, DESC, NONE } from 'constants/sortings'
 export default function useParams(definition) {
     const { location } = useLocation()
     const params = useMemo(() => {
+        console.warn('computing new params...', location.search)
         const params = new URLSearchParams(location.search)
         const values = {}
 
@@ -40,41 +41,47 @@ export default function useParams(definition) {
             ])
         )
     }, [location.search])
-    const stringify = useCallback(
-        query => {
-            const newParams = new URLSearchParams()
 
-            function reducer(params, [key, value]) {
-                // null or undefined
-                if (value == null) {
-                    return params
-                }
-
-                if (key in definition) {
-                    value = definition[key].format(value)
-                }
-
-                if (Array.isArray(value)) {
-                    for (const valeur of value) {
-                        if (valeur != null) {
-                            params.append(key, valeur)
-                        }
-                    }
-                } else if (value != null) {
-                    params.append(key, value)
-                }
-
-                return params
+    function stringify(query) {
+        console.warn('params changed, a new "stringify" created', params, query)
+        function reducer(accumulator, [key, value]) {
+            // null or undefined
+            if (value == null) {
+                return accumulator
             }
 
-            Object.entries({ ...params, ...query }).reduce(reducer, newParams)
+            if (key in definition) {
+                value = definition[key].format(value)
+            }
 
-            const string = newParams.toString()
+            if (Array.isArray(value)) {
+                for (const valeur of value) {
+                    if (valeur != null) {
+                        accumulator.append(key, valeur)
+                    }
+                }
+            } else if (value != null) {
+                accumulator.append(key, value)
+            }
 
-            return string ? '?' + string : string
-        },
-        [params]
-    )
+            return accumulator
+        }
+
+        const newParams = new URLSearchParams()
+
+        Object.entries({ ...params, ...query }).reduce(reducer, newParams)
+
+        const string = newParams.toString()
+
+        return string ? '?' + string : string
+    }
+
+    // const stringify = useMemo(
+    //     () => query => {
+
+    //     },
+    //     [params]
+    // )
 
     return [params, stringify]
 }
