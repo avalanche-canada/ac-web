@@ -22,6 +22,7 @@ WeatherForecast.propTypes = {
 
 export default function WeatherForecast({ date = new Date(), onDateChange }) {
     const [document, pending] = useDocument(mw.forecast(date))
+    const notFound = !pending && !document
     const data = document?.data
 
     return (
@@ -30,12 +31,16 @@ export default function WeatherForecast({ date = new Date(), onDateChange }) {
                 <Entry term="Date" sideBySide>
                     <DayPicker date={date} onChange={onDateChange} />
                 </Entry>
-                <Entry term="Issued at" sideBySide>
-                    {data?.issued || '04:00'} PST/PDT
-                </Entry>
-                <Entry term="Created by" sideBySide>
-                    {data?.handle || 'Loading...'}
-                </Entry>
+                {notFound || (
+                    <Entry term="Issued at" sideBySide>
+                        {data?.issued || '04:00'} PST/PDT
+                    </Entry>
+                )}
+                {notFound || (
+                    <Entry term="Created by" sideBySide>
+                        {pending ? 'Loading...' : data?.handle}
+                    </Entry>
+                )}
             </Metadata>
             {pending ? (
                 <Loading>
