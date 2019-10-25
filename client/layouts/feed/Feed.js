@@ -1,4 +1,5 @@
-import React, { useMemo, useCallback } from 'react'
+import React, { useMemo } from 'react'
+import format from 'date-fns/format'
 import { feed } from 'prismic/params'
 import { Page, Content, Header, Main } from 'components/page'
 import { Loading, Muted } from 'components/text'
@@ -227,19 +228,10 @@ const YearOptions = new Map([
 ])
 const MonthsOptions = new Map([
     [undefined, 'All Months'],
-    // ...Array(12, mount=>)
-    ['january', 'January'],
-    ['february', 'February'],
-    ['march', 'March'],
-    ['april', 'April'],
-    ['may', 'May'],
-    ['june', 'June'],
-    ['july', 'July'],
-    ['august', 'August'],
-    ['september', 'September'],
-    ['october', 'October'],
-    ['november', 'November'],
-    ['december', 'December'],
+    ...Array(12)
+        .fill(0)
+        .map((value, index) => format(new Date(1, index, 1), 'MMMM'))
+        .map(string => [string.toLowerCase(), string]),
 ])
 
 const TimelineOptions = new Map([
