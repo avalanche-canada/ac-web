@@ -116,7 +116,7 @@ Sidebar.propTypes = {
 
 function Sidebar({ title, location, items = [], path }) {
     const { width } = useWindowSize()
-    const [opened, open, close, toggle] = useBoolean(false)
+    const [opened, , close, toggle] = useBoolean(false)
     const tree = (
         <Tree>
             {items

@@ -13,28 +13,32 @@ export function useLazyRef(fn) {
     return ref
 }
 
-export function useBoolean(initialValue) {
-    const [value, set] = useState(initialValue)
+export function useBoolean(initial) {
+    const [bool, toggle] = useToggle(initial)
     const activate = useCallback(() => {
-        set(true)
+        toggle(true)
     }, [])
     const deactivate = useCallback(() => {
-        set(false)
+        toggle(false)
     }, [])
     const reset = useCallback(() => {
-        set(initialValue)
+        toggle(initial)
     }, [])
-    function toggle() {
-        set(!value)
-    }
 
-    return [value, activate, deactivate, toggle, reset, set]
+    return [bool, activate, deactivate, toggle, reset]
 }
 
-export function useToggle(initialValue) {
-    const state = useBoolean(initialValue)
+export function useToggle(initial) {
+    const [bool, set] = useState(initial)
+    const toggle = useCallback(next => {
+        if (typeof next === 'boolean') {
+            set(next)
+        } else {
+            set(currentBool => !currentBool)
+        }
+    }, [])
 
-    return [state[0], state[3]]
+    return [bool, toggle]
 }
 
 export function useTimeout(elapse = 0) {

@@ -5,7 +5,7 @@ import Drawer, { LEFT, RIGHT, Header, Content } from './'
 import { LayerSet, Layer } from './layers'
 import Button from 'components/button'
 import * as TYPES from 'constants/drawers'
-import { useBoolean } from 'hooks'
+import { useBoolean, useToggle } from 'hooks'
 
 const background = {
     backgroundColor: '#7EC0EE',
@@ -32,7 +32,7 @@ Controlled.propTypes = {
 }
 
 function Controlled(props) {
-    const [opened, open, close, toggle] = useBoolean(false)
+    const [opened, , close, toggle] = useBoolean(false)
     const header = (
         <Header onCloseClick={close}>
             <h1>Title</h1>
@@ -50,7 +50,7 @@ function Controlled(props) {
 }
 
 function TwoDrawers() {
-    const [opened, open, close, toggle] = useBoolean(false)
+    const [opened, toggle] = useToggle(false)
     const [width, setWidth] = useState(500)
 
     const header = (
