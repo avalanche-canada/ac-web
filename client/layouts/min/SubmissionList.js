@@ -1,5 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from '@reach/router'
 import subDays from 'date-fns/sub_days'
 import { endOfYesterday } from 'date-fns'
 import differenceInCalendarDays from 'date-fns/difference_in_calendar_days'
@@ -23,7 +24,7 @@ import {
     useForecastRegions,
     useForecastRegionsMetadata,
 } from 'hooks/async/features'
-import { useReports } from 'hooks/async/min'
+import * as min from 'hooks/async/min'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
@@ -39,6 +40,7 @@ import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
 import { useMerge } from 'hooks/async'
+import { useLocation } from 'router/hooks'
 
 SubmissionListLayout.propTypes = {
     navigate: PropTypes.func.isRequired,
@@ -78,7 +80,7 @@ export default function SubmissionListLayout({ navigate }) {
 
     return (
         <Page>
-            <Header title="Mountain Information Network — Submissions" />
+            <Header title="Mountain Information Network — Reports" />
             <Content>
                 <Main>
                     <Form params={params} onParamsChange={handleParamsChange} />
@@ -151,12 +153,13 @@ function Form({ params, onParamsChange }) {
 }
 
 function TableContent(params) {
-    const [submissions = [], pending, errors] = useSubmissions(params)
+    const { location } = useLocation()
+    const [reports = [], pending, errors] = useReports(params)
 
     return (
         <Fragment>
             <TBody>
-                {submissions.map(submission => (
+                {reports.map(submission => (
                     <Row key={submission.subid}>
                         {COLUMNS.map(({ name, style, property }) => (
                             <Cell key={name} style={style}>
@@ -169,19 +172,28 @@ function TableContent(params) {
             <Caption>
                 {pending ? (
                     <Muted>
-                        Loading Mountain Information Network submissions...
+                        Loading Mountain Information Network reports...
                     </Muted>
                 ) : errors.length > 0 ? (
                     <Error>
                         {pluralize('error', errors.length, true)} occured while
                         loading data.
                     </Error>
-                ) : submissions.length === 0 ? (
-                    <Loading>No submissions found.</Loading>
+                ) : reports.length === 0 ? (
+                    <Loading>
+                        No reports found.
+                        {location.search && (
+                            <span>
+                                You can{' '}
+                                <Link to={location.pathname}>
+                                    clear your search criteria
+                                </Link>{' '}
+                                to find more reports.
+                            </span>
+                        )}
+                    </Loading>
                 ) : (
-                    <Muted>
-                        Total of {submissions.length} submissions found.
-                    </Muted>
+                    <Muted>Total of {reports.length} reports found.</Muted>
                 )}
             </Caption>
         </Fragment>
@@ -205,14 +217,14 @@ function FallbackError({ error, onReset, days }) {
 
 // Hooks
 // Combine data fetching, filtering & sorting in one hook
-function useSubmissions(params) {
+function useReports(params) {
     const [[regions, reports], pending, errors] = useMerge(
         useForecastRegions(),
-        useReports(params.days || DAYS)
+        min.useReports(params.days || DAYS)
     )
     let submissions = useMemo(() => {
         if (regions && reports) {
-            return runSubmissionsSpatialAnalysis(reports, regions)
+            return runSpatialAnalysis(reports, regions)
         }
 
         return []
@@ -359,7 +371,7 @@ function createRegionOption({ id, name }) {
 function hasIncident({ obtype }) {
     return obtype === INCIDENT
 }
-function runSubmissionsSpatialAnalysis(reports, { features }) {
+function runSpatialAnalysis(reports, { features }) {
     return reports.map(report => {
         const point = turf.point(report.lnglat)
 
