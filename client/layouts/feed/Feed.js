@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react'
+import { Link } from '@reach/router'
 import format from 'date-fns/format'
 import { feed } from 'prismic/params'
 import { Page, Content, Header, Main } from 'components/page'
@@ -20,6 +21,7 @@ import useParams, {
     SetParam,
     BooleanParam,
 } from 'hooks/params'
+import { useLocation } from 'router/hooks'
 
 export function BlogPostFeed({ navigate }) {
     const [params, stringify] = useParams({
@@ -160,6 +162,7 @@ function FeedLayout({ title, children }) {
     )
 }
 function FeedContent({ params, type, onPageChange }) {
+    const { location } = useLocation()
     const [data = {}, pending] = useSearch(params)
     const { results = [], page, total_pages } = data
     let rearranged = results
@@ -177,7 +180,11 @@ function FeedContent({ params, type, onPageChange }) {
             {pending ? (
                 <Loading />
             ) : results.length === 0 ? (
-                <Muted>{EMPTY_MESSAGES.get(type)}</Muted>
+                <Muted>
+                    No {TYPE_TEXT.get(type)} match your criteria. You can{' '}
+                    <Link to={location.pathname}>reset your criteria</Link> to
+                    find more articles.
+                </Muted>
             ) : null}
             <EntrySet>
                 {rearranged.map(post => (
@@ -214,11 +221,7 @@ function TagsDropdown({ type, value, onChange }) {
 
 // Constants
 const CURRENT_YEAR = new Date().getFullYear()
-const EMPTY_MESSAGES = new Map([
-    [BLOG, 'No blog match your criteria.'],
-    [NEWS, 'No news post match your criteria.'],
-    [EVENT, 'No event match your criteria.'],
-])
+const TYPE_TEXT = new Map([[BLOG, 'blog'], [NEWS, 'news'], [EVENT, 'event']])
 const YearOptions = new Map([
     [undefined, 'All years'],
     ...Array(CURRENT_YEAR - 2012) // We are are going back to 2013!
