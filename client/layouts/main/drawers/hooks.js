@@ -169,7 +169,7 @@ export function useMapClickHandler(map) {
 function useDrawerWidth() {
     const { width } = useWindowSize()
 
-    // TODO Actually, that should implemented in CSS only using percentage and media querries.
+    // TODO Actually, that should implemented in CSS only using percentage and media queries.
 
     return Math.min(500, width) // 500px or smaller.
 }
