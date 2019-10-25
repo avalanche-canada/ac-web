@@ -16,9 +16,16 @@ export function Fallback({ error, navbar, children }) {
                 <Page.Main>
                     <h1>Uh oh! We never thought that would happen...</h1>
                     <Page.Headline>
-                        An error happened on a page you tried to visit.
-                        <Text.Error>{error.message}</Text.Error>
+                        An error occured on the page you are visiting.
+                        <br />
+                        We have been notified about that error and we will try
+                        to fix as soon as possible.
                     </Page.Headline>
+                    <details>
+                        <summary>More details</summary>
+                        <Text.Error>{error.name}</Text.Error>
+                        <Text.Error>{error.message}</Text.Error>
+                    </details>
                     {children}
                 </Page.Main>
             </Page.Error>
