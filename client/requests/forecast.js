@@ -41,15 +41,15 @@ export function regions() {
 
 // Utils
 function buildForecastURL(name, date) {
-    let archive
+    let path = 'forecasts'
 
     if (date && isArchiveBulletinRequest(date)) {
         const data = parseDate(date)
 
-        archive = 'bulletin-archive/' + data.toISOString()
+        path = 'bulletin-archive/' + data.toISOString()
     }
 
-    return utils.path(baseURL, 'forecasts', archive, name + '.json')
+    return utils.path(baseURL, path, name + '.json')
 }
 function isArchiveBulletinRequest(date) {
     date = parseDate(date, 'YYYY-MM-DD')
