@@ -150,12 +150,12 @@ function DefinitionLayout({ uid, tags, data, linkToExternal }) {
             )}
             <SliceZone
                 components={SliceComponents}
-                value={data.content.filter(isImage)}
+                value={data.content.filter(isMedia)}
                 fullscreen
             />
             <SliceZone
                 components={SliceComponents}
-                value={data.content.filter(isNotImage)}
+                value={data.content.filter(isNotMedia)}
             />
             <Related linkToExternal={linkToExternal} items={data.related} />
         </article>
@@ -339,16 +339,16 @@ function isNotBroken({ definition }) {
 function isText({ slice_type }) {
     return slice_type === 'text'
 }
-function isImage({ slice_type }) {
-    return slice_type === 'image'
+function isMedia({ slice_type }) {
+    return slice_type === 'image' || slice_type === 'video'
 }
-function isNotImage({ slice_type }) {
-    return slice_type !== 'image'
+function isNotMedia(props) {
+    return !isMedia(props)
 }
 function createDefinition(definition) {
     const { data, tags } = definition
 
-    const images = data.content.filter(isImage)
+    const images = data.content.filter(isMedia)
     const related = data.related.filter(isNotBroken).filter(isDefinition)
     const texts = data.content.filter(isText)
     const searchables = [
