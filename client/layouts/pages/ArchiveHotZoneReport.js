@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
-import { useAdvisoriesMetadata } from 'hooks/async/features'
 import { Report } from 'layouts/products/hzr'
 import { Page, Content, Header, Main } from 'components/page'
 import { Muted } from 'components/text'
@@ -45,9 +44,12 @@ export default function ArchiveHotZoneReport(props) {
                 <Main>
                     <Metadata>
                         <Entry>
-                            <HotZonesDropdown
+                            <Dropdown
+                                options={AREAS}
                                 value={name}
                                 onChange={handleNameChange}
+                                disabled
+                                placeholder="Select an area"
                             />
                         </Entry>
                         {name && (
@@ -104,21 +106,14 @@ function monthReducer(days, { data }) {
 
     return days
 }
-function HotZonesDropdown({ value, onChange }) {
-    const [areas = [], pending] = useAdvisoriesMetadata()
-
-    return pending ? (
-        'Loading...'
-    ) : (
-        <Dropdown
-            options={new Map(areas.map(createZoneOption))}
-            value={value}
-            onChange={onChange}
-            disabled
-            placeholder="Select an area"
-        />
-    )
-}
+// FIXME Hardcoding areas for now. Need a better way to get historical data
+const AREAS = new Map([
+    ['hankin-evelyn', 'Hankin-Evelyn'],
+    ['kakwa', 'Kakwa'],
+    ['renshaw', 'Renshaw'],
+    ['telkwa', 'Telkwa'],
+    ['yukon', 'Yukon'],
+])
 function ArchiveContent({ name, date }) {
     if (!name) {
         return <Muted>Select an area.</Muted>
@@ -142,7 +137,4 @@ function Advisory({ name, date }) {
             {`No advisory available in ${name} for ${formatDate(date, DATE)}.`}
         </Muted>
     )
-}
-function createZoneOption({ id, name }) {
-    return [id, name]
 }
