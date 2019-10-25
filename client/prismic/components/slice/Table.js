@@ -16,7 +16,6 @@ import { Br } from 'components/misc'
 import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
 import * as Predicates from 'prismic/predicates'
-import { createAction } from 'utils/reducer'
 import { useSearch } from 'prismic/hooks'
 
 PrismicTable.propTypes = {
@@ -26,21 +25,20 @@ PrismicTable.propTypes = {
 export default function PrismicTable({ value }) {
     const columns = value.map(createColumn)
     const type = value?.[0]?.source
-    const initial = {
+    const [state, dispatch] = useReducer(reducer, {
         sorting: [null, NONE],
         pageSize: 10,
         page: 1,
         onSortingChange(...sorting) {
-            dispatch(setSorting(sorting))
+            dispatch([Sorting, sorting])
         },
         onPageSizeChange(pageSize) {
-            dispatch(setPageSize(pageSize))
+            dispatch([PageSize, pageSize])
         },
         onPageChange(page) {
-            dispatch(setPage(page))
+            dispatch([Page, page])
         },
-    }
-    const [state, dispatch] = useReducer(reducer, initial)
+    })
     const orderings = []
     const [name, order] = state.sorting
 
@@ -128,24 +126,24 @@ export default function PrismicTable({ value }) {
 }
 
 // Reducer and actions
-const setSorting = createAction('SORTING')
-const setPageSize = createAction('PAGE_SIZE')
-const setPage = createAction('PAGE')
-function reducer(state, { type, payload }) {
+const Sorting = Symbol('sorting')
+const PageSize = Symbol('pagesize')
+const Page = Symbol('page')
+function reducer(state, [type, payload]) {
     switch (type) {
-        case 'SORTING':
+        case Sorting:
             return {
                 ...state,
                 sorting: payload,
                 page: 1,
             }
-        case 'PAGE_SIZE':
+        case PageSize:
             return {
                 ...state,
                 pageSize: payload,
                 page: 1,
             }
-        case 'PAGE':
+        case Page:
             return {
                 ...state,
                 page: payload,
