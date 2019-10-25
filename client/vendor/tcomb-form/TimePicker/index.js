@@ -1,7 +1,6 @@
 import React, { useReducer } from 'react'
 import PropTypes from 'prop-types'
 import styles from './TimePicker.css'
-import { merger } from 'utils/reducer'
 
 TimePicker.propTypes = {
     value: PropTypes.string,
@@ -84,4 +83,10 @@ export default function TimePicker({
 // Utils
 function padMinute(minute = 0) {
     return String(minute).padStart(2, '0')
+}
+function merger(oldState, newState) {
+    return {
+        ...oldState,
+        ...newState,
+    }
 }

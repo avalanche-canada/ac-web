@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
 import { useAdvisoriesMetadata } from 'hooks/async/features'
@@ -14,7 +14,6 @@ import endOfDay from 'date-fns/end_of_day'
 import eachDay from 'date-fns/each_day'
 import { hotZone } from 'prismic/params'
 import { DATE } from 'utils/date'
-import { merger } from 'utils/reducer'
 import { useDocuments, useDocument } from 'prismic/hooks'
 
 ArchiveHotZoneReport.propTypes = {
@@ -23,22 +22,20 @@ ArchiveHotZoneReport.propTypes = {
 }
 
 export default function ArchiveHotZoneReport(props) {
-    const [{ name, date, month }, setState] = useReducer(
-        merger,
-        Object.assign({}, props, {
-            month: props.date || new Date(),
-        })
-    )
+    const [{ name, date, month }, setState] = useState({
+        ...props,
+        month: props.date || new Date(),
+    })
     function handleNameChange(name) {
-        setState({ name })
+        setState(state => ({ ...state, name }))
         navigateToAdvisory(name, date)
     }
     function handleDateChange(date) {
-        setState({ date })
+        setState(state => ({ ...state, date }))
         navigateToAdvisory(name, date)
     }
     function handleMonthChange(month) {
-        setState({ month })
+        setState(state => ({ ...state, month }))
     }
 
     return (
