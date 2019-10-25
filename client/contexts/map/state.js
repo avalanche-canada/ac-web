@@ -66,7 +66,7 @@ function useErrors() {
 
                     value.get(type).add(error)
 
-                    setValue(new Map(value))
+                    return new Map(value)
                 })
             },
             clear() {
