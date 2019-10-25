@@ -27,12 +27,12 @@ WeatherStation.propTypes = {
 
 export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
     return (
-        <Container>
-            <Navbar>
-                <Sponsor label={null} />
-                <Close onClick={onCloseClick} />
-            </Navbar>
-            <Async.Provider value={hooks.useStation(id)}>
+        <Async.Provider value={hooks.useStation(id)}>
+            <Container>
+                <Navbar>
+                    <Sponsor label={null} />
+                    <Close onClick={onCloseClick} />
+                </Navbar>
                 <Header subject="Weather station">
                     <h1>
                         <Async.Pending>
@@ -83,8 +83,8 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
                         </Async.NotFound>
                     </Content>
                 </Body>
-            </Async.Provider>
-        </Container>
+            </Container>
+        </Async.Provider>
     )
 }
 
