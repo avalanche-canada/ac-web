@@ -27,6 +27,7 @@ import {
 } from './drawers/hooks'
 import { path } from 'utils/url'
 import { captureException } from 'services/sentry'
+import { useMerge } from 'hooks/async'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
@@ -104,8 +105,10 @@ export function useForecastRegions(map) {
 
 export function useForecastMarkers(map) {
     const key = FORECASTS
-    const [metadata, , error] = features.useForecastRegionsMetadata()
-    const [forecasts] = forecast.useForecasts()
+    const [[metadata, forecasts], , errors] = useMerge(
+        features.useForecastRegionsMetadata(),
+        forecast.useForecasts()
+    )
     const { visible } = useLayerState(key)
     const { location, navigate } = useLocation()
     const definitions = useMemo(() => {
@@ -142,9 +145,7 @@ export function useForecastMarkers(map) {
         })
     }, [metadata, forecasts])
 
-    // console.warn(forecasts)
-
-    useMapError(ERRORS.FORECAST, error)
+    useMapError(ERRORS.FORECAST, ...errors)
 
     const markers = useMarkers(map, definitions)
 
@@ -185,8 +186,10 @@ export function useMountainConditionReports(map) {
     const key = MOUNTAIN_CONDITIONS_REPORTS
     const { visible } = useLayerState(key)
     const id = useSearchPanelId('mountain-conditions-reports')
-    const [reports, , error] = mcr.useReports()
-    const [report] = mcr.useReport(id)
+    const [[reports, report], , errors] = useMerge(
+        mcr.useReports(),
+        mcr.useReport(id)
+    )
     const features = useMemo(
         () =>
             createFeatureCollection(
@@ -204,7 +207,7 @@ export function useMountainConditionReports(map) {
         [report]
     )
 
-    useMapError(ERRORS.MOUNTAIN_CONDITIONS_REPORT, error)
+    useMapError(ERRORS.MOUNTAIN_CONDITIONS_REPORT, ...errors)
     useSymbolLayer(map, key, features, visible)
     useSymbolLayer(map, key + '-single', single, visible, STYLES[key].symbol)
 }
@@ -226,9 +229,9 @@ export function useAdvisories(map) {
     const key = HOT_ZONE_REPORTS
     const layer = createLayer(key, key, 'circle')
     const { visible } = useLayerState(key)
-    const [areas, , errorAreas] = features.useAdvisoriesMetadata()
-    const [documents, , errorReports] = prismic.useDocuments(
-        params.hotZone.reports()
+    const [[areas, documents], , errors] = useMerge(
+        features.useAdvisoriesMetadata(),
+        prismic.useDocuments(params.hotZone.reports())
     )
     const advisories = useMemo(() => {
         if (!Array.isArray(areas) || !Array.isArray(documents)) {
@@ -243,8 +246,7 @@ export function useAdvisories(map) {
         return createFeatureCollection(areas, createFeature)
     }, [areas, documents])
 
-    useMapError(ERRORS.ADVISORY, errorAreas)
-    useMapError(ERRORS.ADVISORY, errorReports)
+    useMapError(ERRORS.ADVISORY, ...errors)
 
     useSource(map, key, GEOJSON, advisories)
     useLayer(map, layer, undefined, visible, undefined, EVENTS)
@@ -255,8 +257,10 @@ export function useMountainInformationNetwork(map) {
     const id = useSearchPanelId('mountain-information-network-submissions')
     const { visible, filters } = useLayerState(key)
     const { days, types } = filters
-    const [data, , error] = min.useReports(days)
-    const [report] = min.useReport(id)
+    const [[data, report], , errors] = useMerge(
+        min.useReports(days),
+        min.useReport(id)
+    )
     const [others, incidents] = useMemo(() => {
         const features = (data || [])
             .filter(({ subid }) => subid !== id)
@@ -272,7 +276,7 @@ export function useMountainInformationNetwork(map) {
         [types]
     )
 
-    useMapError(ERRORS.MOUNTAIN_INFORMATION_NETWORK, error)
+    useMapError(ERRORS.MOUNTAIN_INFORMATION_NETWORK, ...errors)
 
     // Incident icons
     key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
@@ -340,15 +344,15 @@ function isNotIncident(feature) {
 }
 
 // Errors handling
-function useMapError(type, error) {
-    const { errors } = useMapState()
+function useMapError(type, ...errors) {
+    const state = useMapState()
 
     useEffect(() => {
-        if (error) {
+        for (const error of errors.filter(Boolean)) {
             captureException(error, { type })
-            errors.add(type, error)
+            state.errors.add(type, error)
         }
-    }, [error])
+    }, errors)
 }
 
 // Utils

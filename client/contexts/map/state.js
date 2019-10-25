@@ -15,12 +15,9 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const errors = useErrors()
     const [zoom, setZoom] = useSessionStorage('zoom', 4.3)
-    const [center, setCenter] = useSessionStorage('center', {
-        lng: -125.15,
-        lat: 54.8,
-    })
+    const [center, setCenter] = useSessionStorage('center', CENTER)
+    const errors = useErrors()
     const value = useMemo(
         () => ({
             zoom: {
@@ -81,6 +78,7 @@ function useErrors() {
     )
 }
 
+// Constants
 export const ERRORS = {
     FORECAST: Symbol('fx'),
     WEATHER_STATION: Symbol('wx'),
@@ -89,6 +87,10 @@ export const ERRORS = {
     ADVISORY: Symbol('advisory'),
     MOUNTAIN_INFORMATION_NETWORK: Symbol('min'),
     MAP: Symbol('map'),
+}
+const CENTER = {
+    lng: -125.15,
+    lat: 54.8,
 }
 
 // Utils

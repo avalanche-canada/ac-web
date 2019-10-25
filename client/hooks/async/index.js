@@ -74,15 +74,19 @@ export function useMerge(...asyncs) {
         return asyncs[0]
     }
 
-    return useMemo(() => asyncs.reduce(mergeReducer, MERGED), [asyncs.flat()])
-}
-const MERGED = [[], false, []]
-function mergeReducer(result, current) {
-    return [
-        [...result[0], current[0]],
-        current[1] || result[1],
-        [...result[2], current[2]].filter(Boolean),
-    ]
+    function factory() {
+        function reducer(result, current) {
+            return [
+                [...result[0], current[0]],
+                current[1] || result[1],
+                [...result[2], current[2]],
+            ]
+        }
+
+        return asyncs.reduce(reducer, [[], false, []])
+    }
+
+    return useMemo(factory, asyncs.flat())
 }
 
 // Reducer

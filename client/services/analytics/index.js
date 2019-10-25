@@ -8,8 +8,6 @@ export function handleOutboundSponsorClick(event) {
     navigation('Outbound Sponsor', event.currentTarget.href)
 }
 
-const HEADERS = ['Danger ratings', 'Problems', 'Details']
-
 export function handleForecastTabActivate(index) {
     navigation('Forecast Tab activation', HEADERS[index])
 }
@@ -38,6 +36,7 @@ export default function Analytics({ children }) {
 
 // Utils and constants
 const { ga } = window
+const HEADERS = ['Danger ratings', 'Problems', 'Details']
 const MAPBOXGL_SUPPORTED = 'dimension1'
 function navigation(...args) {
     ga('send', 'event', 'Navigation', ...args)

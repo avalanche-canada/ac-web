@@ -239,7 +239,7 @@ function useSubmissions(params) {
     submissions = useFilters(submissions, predicates)
     submissions = useSorting(submissions, SORTERS.get(name), order === DESC)
 
-    return [submissions, pending, errors]
+    return [submissions, pending, errors.filter(Boolean)]
 }
 
 // Constants
