@@ -4,7 +4,7 @@ import { Router, Link } from '@reach/router'
 import debounce from 'lodash/debounce'
 import escapeRegExp from 'lodash/escapeRegExp'
 import { memo } from 'utils/react'
-import { FragmentIdentifier } from 'router'
+import FragmentIdentifier from 'router/FragmentIdentifier'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,

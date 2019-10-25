@@ -1,5 +1,7 @@
 import { VANCOUVER_ISLAND, CHIC_CHOCS } from 'constants/forecast/owners'
 
+// FIXME It is useful module, however we should rely on the settings coming from the server.
+
 const externals = new Map([
     ['little-yoho', createParkURL(5)],
     ['banff-yoho-kootenay', createParkURL(1)],

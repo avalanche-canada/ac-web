@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Image } from 'prismic/components/base'
 import { Set, Item } from 'components/social'
-import { FragmentIdentifier } from 'router'
+import FragmentIdentifier from 'router/FragmentIdentifier'
 import styles from './Ambassador.css'
 
 Ambassador.propTypes = {

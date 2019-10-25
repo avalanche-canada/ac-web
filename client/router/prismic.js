@@ -10,7 +10,7 @@ import {
     FATAL_ACCIDENT,
 } from 'constants/prismic'
 
-// TODO Cleanup, I do not
+// TODO Cleanups!
 
 export const feed = {
     uid(type, uid) {

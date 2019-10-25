@@ -1,7 +1,7 @@
 import React from 'react'
 import { Splash } from 'layouts/feed'
 import { StructuredText } from 'prismic/components/base'
-import { FragmentIdentifier } from 'router'
+import FragmentIdentifier from 'router/FragmentIdentifier'
 import Shim from 'components/Shim'
 
 export default function FeedSplash({ value }) {
