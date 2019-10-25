@@ -44,8 +44,6 @@ export async function login(events = new Map()) {
 
 export function logout() {
     Accessor.clear()
-
-    return Promise.resolve()
 }
 
 // Utils

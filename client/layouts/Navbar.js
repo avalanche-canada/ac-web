@@ -32,9 +32,8 @@ export default function AvalancheCanadaNavbar() {
     function handleLogoutClick(event) {
         event.preventDefault()
 
-        logout().then(() => {
-            navigate('/')
-        })
+        logout()
+        navigate('/')
     }
 
     return (
