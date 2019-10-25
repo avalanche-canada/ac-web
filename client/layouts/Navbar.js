@@ -1,6 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { navigate } from '@reach/router'
-import AuthContext from 'contexts/auth'
+import { useAuth } from 'contexts/auth'
 import * as params from 'prismic/params'
 import { Loading } from 'components/text'
 import { STATIC_PAGE } from 'constants/prismic'
@@ -22,7 +22,7 @@ import { useDocument } from 'prismic/hooks'
 menu.children[4].children[1].children = Ambassadors
 
 export default function AvalancheCanadaNavbar() {
-    const { isAuthenticated, profile, login, logout } = useContext(AuthContext)
+    const { isAuthenticated, profile, login, logout } = useAuth()
     const { name, picture } = profile || {}
     function handleLoginClick(event) {
         event.preventDefault()

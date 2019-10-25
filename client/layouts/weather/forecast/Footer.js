@@ -1,10 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './Forecast.css'
 import { Mailto } from 'components/anchors'
-import AuthContext from 'contexts/auth'
+import { useAuth } from 'contexts/auth'
 
 export default function Footer() {
-    const { isAuthenticated } = useContext(AuthContext)
+    const { isAuthenticated } = useAuth()
 
     return (
         <footer className={styles.Footer}>

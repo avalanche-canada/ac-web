@@ -1,4 +1,4 @@
-import React, { createContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import * as auth from 'services/auth/auth0'
 import Accessor from 'services/auth/accessor'
@@ -7,6 +7,7 @@ import { createAction } from 'utils/reducer'
 
 const AuthContext = createContext()
 
+// TODO Remove once not needed anymore
 export default AuthContext
 
 Provider.propTypes = {
@@ -45,6 +46,11 @@ export function Provider({ children }) {
     }, [value.profile])
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+// Hooks
+export function useAuth() {
+    return useContext(AuthContext)
 }
 
 // Actions
