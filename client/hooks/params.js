@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from 'react'
+import { useMemo } from 'react'
 import formatDate from 'date-fns/format'
 import parseDate from 'date-fns/parse'
 import identity from 'lodash/identity'
@@ -8,7 +8,6 @@ import { ASC, DESC, NONE } from 'constants/sortings'
 export default function useParams(definition) {
     const { location } = useLocation()
     const params = useMemo(() => {
-        console.warn('computing new params...', location.search)
         const params = new URLSearchParams(location.search)
         const values = {}
 
@@ -43,7 +42,6 @@ export default function useParams(definition) {
     }, [location.search])
 
     function stringify(query) {
-        console.warn('params changed, a new "stringify" created', params, query)
         function reducer(accumulator, [key, value]) {
             // null or undefined
             if (value == null) {
