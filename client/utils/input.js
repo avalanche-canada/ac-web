@@ -1,18 +1,13 @@
-export function isTypeSupported(type) {
-    if (!SUPORTED.has(type)) {
-        try {
-            const input = document.createElement('input')
+import memoize from './memoize'
 
-            input.setAttribute('type', type)
+export const isTypeSupported = memoize(type => {
+    try {
+        const input = document.createElement('input')
 
-            SUPORTED.set(type, input.type === type)
-        } catch {
-            SUPORTED.set(type, false)
-        }
+        input.setAttribute('type', type)
+
+        return input.type === type
+    } catch {
+        return false
     }
-
-    return SUPORTED.get(type)
-}
-
-// Constants
-const SUPORTED = new Map()
+})
