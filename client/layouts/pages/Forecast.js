@@ -21,6 +21,7 @@ import { handleForecastTabActivate } from 'services/analytics'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import { StructuredText } from 'prismic/components/base'
 import Shim from 'components/Shim'
+import { useMerge } from 'hooks/async'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -30,15 +31,16 @@ ForecastLayout.propTypes = {
 export default function ForecastLayout(props) {
     const { name, date } = props
     const isPrintable = !date || isToday(date)
-    const [region, regionPending] = useForecastRegionMetadata(name)
-    const [forecast, forecastPending, error] = useForecast(name, date)
-    const pending = regionPending || forecastPending
+    const [[region, forecast], pending, [, error]] = useMerge(
+        useForecastRegionMetadata(name),
+        useForecast(name, date)
+    )
     const title = pending ? (
         <Loading component="span" />
-    ) : error?.status === 404 ? (
-        <Warning component="span">{name} forecast not found</Warning>
-    ) : (
+    ) : region ? (
         region.name
+    ) : (
+        <Warning component="span">{name} forecast not found</Warning>
     )
 
     return (
