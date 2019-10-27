@@ -5,26 +5,26 @@ import styles from './Table.css'
 
 PageSizeSelector.propTypes = {
     value: PropTypes.number,
-    max: PropTypes.number,
-    numbers: PropTypes.arrayOf(PropTypes.number),
     onChange: PropTypes.func.isRequired,
+    numbers: PropTypes.arrayOf(PropTypes.number),
+    max: PropTypes.number,
     prefix: PropTypes.string,
     suffix: PropTypes.string,
 }
 
 function PageSizeSelector({
-    max,
     value,
-    prefix = 'Show',
-    suffix = 'entries per page.',
     onChange,
     numbers,
+    max,
+    prefix = 'Show',
+    suffix = 'entries per page.',
 }) {
     if (!Array.isArray(numbers)) {
         if (typeof max === 'number') {
             numbers = NUMBERS.filter(number => number < max)
         } else {
-            numbers = [10, 25, 50]
+            numbers = NUMBERS.slice(0, 3)
         }
     }
 
