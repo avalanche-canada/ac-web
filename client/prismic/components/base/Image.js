@@ -1,10 +1,10 @@
 import React, { Children, useState } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
+import classnames from 'classnames'
+import { useEventListener, useBoolean } from 'hooks'
 import { Credit } from 'components/misc'
 import Hyperlink from './Hyperlink'
-import styles from './Image.css'
-import { useEventListener, useBoolean } from 'hooks'
+import css from './Image.css'
 
 Image.propTypes = {
     url: PropTypes.string.isRequired,
@@ -55,11 +55,11 @@ export default function Image({
     }
 
     const image = (
-        <img ref={handleRef} src={url} alt={alt} className={styles.Image} />
+        <img ref={handleRef} src={url} alt={alt} className={css.Image} />
     )
-    const className = classNames(label, {
-        Figure: !loading,
-        'Figure--Loading': loading,
+    const className = classnames(label, {
+        [css.Figure]: !loading,
+        [css['Figure--Loading']]: loading,
     })
 
     return (
@@ -74,9 +74,6 @@ export default function Image({
         </figure>
     )
 }
-
-// Styles
-const classNames = classnames.bind(styles)
 
 OpenInNewTab.propTypes = {
     children: PropTypes.node.isRequired,

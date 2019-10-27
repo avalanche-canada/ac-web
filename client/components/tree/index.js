@@ -4,16 +4,16 @@ import { Link } from '@reach/router'
 import Button, { SUBTILE } from 'components/button'
 import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'
-import classnames from 'classnames/bind'
-import styles from './Tree.css'
+import classnames from 'classnames'
 import { useLocation } from 'router/hooks'
+import css from './Tree.css'
 
 Tree.propTypes = {
     children: PropTypes.node,
 }
 
 export default function Tree({ children }) {
-    return <div className={styles.Tree}>{children}</div>
+    return <div className={css.Tree}>{children}</div>
 }
 
 Node.propTypes = {
@@ -51,9 +51,9 @@ export function Node({
                 style={getNodeStyle(level)}
                 getProps={getLinkProps}>
                 <div
-                    className={classNames({
-                        NodeControl: true,
-                        Expanded: finalIsExpanded,
+                    className={classnames({
+                        [css.NodeControl]: true,
+                        [css.Expanded]: finalIsExpanded,
                     })}>
                     {hasChildren && (
                         <Control
@@ -65,7 +65,7 @@ export function Node({
                         />
                     )}
                 </div>
-                <div className={styles.Label}>{label}</div>
+                <div className={css.Label}>{label}</div>
             </Link>
             {hasChildren &&
                 finalIsExpanded &&
@@ -95,10 +95,9 @@ function getNodeStyle(level) {
 }
 function getLinkProps({ isPartiallyCurrent }) {
     return {
-        className: classNames({
-            Node: true,
-            Active: isPartiallyCurrent,
+        className: classnames({
+            [css.Node]: true,
+            [css.Active]: isPartiallyCurrent,
         }),
     }
 }
-const classNames = classnames.bind(styles)

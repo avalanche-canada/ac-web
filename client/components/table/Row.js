@@ -1,7 +1,7 @@
 import React, { Children, cloneElement, memo, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
-import styles from './Table.css'
+import classnames from 'classnames'
+import css from './Table.css'
 import { Expand } from 'components/button'
 import { useToggle } from 'hooks'
 
@@ -12,10 +12,10 @@ Row.propTypes = {
 }
 
 function Row({ children, controlled, onClick }) {
-    const className = classNames({
-        Row: true,
-        'Row--Controlled': controlled,
-        'Row--Clickable': typeof onClick === 'function',
+    const className = classnames({
+        [css.Row]: true,
+        [css['Row--Controlled']]: controlled,
+        [css['Row--Clickable']]: typeof onClick === 'function',
     })
 
     return (
@@ -67,4 +67,3 @@ const TR_WITH_BUTTON_PROPS = {
         paddingRight: 36,
     },
 }
-const classNames = classnames.bind(styles)

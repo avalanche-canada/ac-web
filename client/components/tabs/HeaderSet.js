@@ -1,10 +1,10 @@
 import React, { cloneElement, Children } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
+import classnames from 'classnames'
 import { Expand } from 'components/button'
 import { useToggle } from 'hooks'
 import { WHITE } from 'constants/colors'
-import styles from './Tabs.css'
+import css from './Tabs.css'
 
 const COMPACT = 'COMPACT'
 const LOOSE = 'LOOSE'
@@ -25,12 +25,12 @@ export default function HeaderSet({
     activeTab,
 }) {
     const [expanded, toggleExpanded] = useToggle(false)
-    const className = classNames({
-        HeaderSet: true,
-        'HeaderSet--Loose': theme === LOOSE,
-        'HeaderSet--Compact': theme === COMPACT,
-        'HeaderSet--Stacked': stacked,
-        'HeaderSet--Expanded': expanded,
+    const className = classnames({
+        [css.HeaderSet]: true,
+        [css['HeaderSet--Loose']]: theme === LOOSE,
+        [css['HeaderSet--Compact']]: theme === COMPACT,
+        [css['HeaderSet--Stacked']]: stacked,
+        [css['HeaderSet--Expanded']]: expanded,
     })
 
     return (
@@ -73,11 +73,11 @@ export function Header({
     children,
     style,
 }) {
-    const className = classNames({
-        Header: true,
-        'Header--Arrow': arrow,
-        'Header--isActive': isActive,
-        'Header--Disabled': disabled,
+    const className = classnames({
+        [css.Header]: true,
+        [css['Header--Arrow']]: arrow,
+        [css['Header--isActive']]: isActive,
+        [css['Header--Disabled']]: disabled,
     })
 
     return (
@@ -111,5 +111,3 @@ export function ColoredHeader({ color, ...props }) {
 
     return <Header {...props} style={style} />
 }
-
-const classNames = classnames.bind(styles)

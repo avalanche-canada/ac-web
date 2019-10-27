@@ -1,13 +1,14 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import Link from './Link'
-import styles from './Navbar.css'
-import classnames from 'classnames/bind'
+import classnames from 'classnames'
+import css from './Navbar.css'
 
 Item.propTypes = {
     title: PropTypes.node.isRequired,
     isActive: PropTypes.bool,
     onClick: PropTypes.func,
+    // TODO Not sure is this still valid!
     noWrap: PropTypes.bool,
     children: PropTypes.node,
     to: PropTypes.string,
@@ -21,10 +22,10 @@ function Item({
     children,
     to,
 }) {
-    const className = classNames({
-        Item: !isActive,
-        'Item--isActive': isActive,
-        'Item--NoWrap': noWrap,
+    const className = classnames({
+        [css.Item]: !isActive,
+        [css['Item--isActive']]: isActive,
+        [css['Item--NoWrap']]: noWrap,
     })
 
     return (
@@ -38,5 +39,3 @@ function Item({
 }
 
 export default memo(Item, (prev, next) => prev.isActive === next.isActive)
-
-const classNames = classnames.bind(styles)

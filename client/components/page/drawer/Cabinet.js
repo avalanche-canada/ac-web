@@ -2,8 +2,8 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import Backdrop from './Backdrop'
 import SIDE, { LEFT, RIGHT } from './constants/sides'
-import classnames from 'classnames/bind'
-import styles from './Drawer.css'
+import classnames from 'classnames'
+import css from './Drawer.css'
 
 Cabinet.propTypes = {
     children: PropTypes.node.isRequired,
@@ -27,10 +27,10 @@ export default function Cabinet({
         width,
         [side.toLowerCase()]: open ? 0 : -width,
     }
-    const className = classNames({
-        Left: side === LEFT,
-        Right: side === RIGHT,
-        Open: open,
+    const className = classnames({
+        [css.Left]: side === LEFT,
+        [css.Right]: side === RIGHT,
+        [css.Open]: open,
     })
 
     return (
@@ -42,5 +42,3 @@ export default function Cabinet({
         </Fragment>
     )
 }
-
-const classNames = classnames.bind(styles)

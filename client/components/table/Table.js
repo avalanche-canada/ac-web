@@ -1,19 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
-import styles from './Table.css'
+import classnames from 'classnames'
+import css from './Table.css'
 
 Table.propTypes = {
     children: PropTypes.node.isRequired,
+    // TODO Not sure this is still being used
     condensed: PropTypes.bool,
 }
 
 export default function Table({ condensed, children }) {
-    const className = classNames(styles.Table, {
-        Condensed: condensed,
+    const className = classnames(css.Table, {
+        [css.Condensed]: condensed,
     })
 
     return <table className={className}>{children}</table>
 }
-
-const classNames = classnames.bind(styles)

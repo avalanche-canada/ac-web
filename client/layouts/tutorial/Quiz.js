@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { StructuredText } from 'prismic/components/base'
-import styles from './Quiz.css'
-import classnames from 'classnames/bind'
+import css from './Quiz.css'
 
 Quiz.propTypes = {
     primary: PropTypes.shape({
@@ -20,18 +20,18 @@ Quiz.propTypes = {
 export default function Quiz({ items, primary }) {
     const [picked, pick] = useState(null)
     const answer = typeof picked === 'number' ? items[picked] : null
-    const feedbackClassNames = classNames({
-        Feedback: true,
-        FeedbackSuccess: answer && answer.correctness === '100',
-        FeedbackError: answer && answer.correctness === '0',
+    const feedbackClassNames = classnames({
+        [css.Feedback]: true,
+        [css.FeedbackSuccess]: answer && answer.correctness === '100',
+        [css.FeedbackError]: answer && answer.correctness === '0',
     })
 
     return (
         <fieldset>
             <legend>Quiz</legend>
             <label>{primary.question}</label>
-            <div className={styles.Content}>
-                <div className={styles.Choices}>
+            <div className={css.Content}>
+                <div className={css.Choices}>
                     {items.map(({ answer }, index) => (
                         <label key={index}>
                             <input
@@ -53,6 +53,3 @@ export default function Quiz({ items, primary }) {
         </fieldset>
     )
 }
-
-// Styles
-const classNames = classnames.bind(styles)

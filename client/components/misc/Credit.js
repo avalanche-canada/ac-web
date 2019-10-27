@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
+import classnames from 'classnames'
 import { useToggle, useClientRect } from 'hooks'
-import styles from './Credit.css'
+import css from './Credit.css'
 
 Credit.propTypes = {
     children: PropTypes.string.isRequired,
@@ -12,11 +12,11 @@ Credit.propTypes = {
 
 function Credit({ top, compact, children }) {
     const [on, toggle] = useToggle(false)
-    const className = classNames({
-        Credit: true,
-        Compact: compact,
-        Expanded: on,
-        Top: top,
+    const className = classnames({
+        [css.Credit]: true,
+        [css.Compact]: compact,
+        [css.Expanded]: on,
+        [css.Top]: top,
     })
 
     return (
@@ -45,4 +45,3 @@ export default Object.assign(OptimizedCredit, {
 
 // Constants
 const MAGIC_MAX_WIDTH_TO_SHOW_COMPACT_CREDIT = 250
-const classNames = classnames.bind(styles)
