@@ -12,15 +12,7 @@ import Pagination from './Pagination'
 import { DateTime, Range } from 'components/time'
 import { Phone, Mailto } from 'components/anchors'
 import { List, Entry } from 'components/description'
-import {
-    Table,
-    Responsive,
-    TBody,
-    ExpandableRow,
-    Row,
-    Cell,
-    Caption,
-} from 'components/table'
+import { Responsive, ExpandableRow } from 'components/table'
 import { Helper } from 'components/text'
 import { MultiLine } from 'components/misc'
 import { Muted } from 'components/text'
@@ -29,9 +21,9 @@ import { Distance, Tags } from './cells'
 import { LEVELS, MINIMUM_DISTANCE } from '../constants'
 import { NONE, DESC, ASC } from 'constants/sortings'
 import { DATE } from 'utils/date'
-import styles from './Courses.css'
 import { useCourses } from 'hooks/async/ast'
 import { useSorting, usePagination, useFilters } from 'hooks/collection'
+import styles from './Courses.css'
 
 Courses.propTypes = {
     level: PropTypes.oneOf(Array.from(LEVELS.keys())),
@@ -87,22 +79,22 @@ export default function Courses({
     return (
         <Layout title={getTitle(filtered)}>
             <Responsive>
-                <Table>
+                <table>
                     <Header
                         columns={COLUMNS}
                         sorting={sorting}
                         onSortingChange={handleSortingChange}
                         place={place}
                     />
-                    <TBody>{paginated.map(renderRow)}</TBody>
-                    <Caption>
+                    <tbody>{paginated.map(renderRow)}</tbody>
+                    <caption>
                         {pending ? (
                             <Muted>Loading courses...</Muted>
                         ) : (
                             renderEmptyMessage(filtered)
                         )}
-                    </Caption>
-                </Table>
+                    </caption>
+                </table>
             </Responsive>
             {filtered.length > 0 && (
                 <Pagination
@@ -133,16 +125,14 @@ function renderEmptyMessage(courses) {
 function renderRow(row) {
     return (
         <ExpandableRow key={row.id}>
-            <Row>
+            <tr>
                 {COLUMNS.map(({ property, name }) => (
-                    <Cell key={name}>{property(row)}</Cell>
+                    <td key={name}>{property(row)}</td>
                 ))}
-            </Row>
-            <Row>
-                <Cell colSpan={COLUMNS.length + 1}>
-                    {renderControlled(row)}
-                </Cell>
-            </Row>
+            </tr>
+            <tr>
+                <td colSpan={COLUMNS.length + 1}>{renderControlled(row)}</td>
+            </tr>
         </ExpandableRow>
     )
 }
@@ -243,7 +233,11 @@ const COLUMNS = [
         name: 'cost',
         title: 'Cost',
         property({ cost }) {
-            return `${cost.cost} ${cost.currency}`
+            return (
+                <span className={styles.CostCell}>
+                    {cost.cost} {cost.currency}
+                </span>
+            )
         },
     },
 ]

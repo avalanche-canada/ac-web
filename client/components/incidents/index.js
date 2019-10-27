@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react'
 import { Link } from '@reach/router'
 import format from 'date-fns/format'
-import * as t from 'components/table'
+import { Responsive } from 'components/table'
 import { Muted } from 'components/text'
 import { DropdownFromOptions } from 'components/controls'
 import { List, Entry } from 'components/description'
@@ -12,42 +12,42 @@ import styles from './incidents.css'
 
 export function IncidentTable({ incidents }) {
     return (
-        <t.Responsive>
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Date</t.HeaderCell>
-                        <t.HeaderCell>Location</t.HeaderCell>
-                        <t.HeaderCell>Province</t.HeaderCell>
-                        <t.HeaderCell>Activity</t.HeaderCell>
-                        <t.HeaderCell>Involvement</t.HeaderCell>
-                        <t.HeaderCell>Injury</t.HeaderCell>
-                        <t.HeaderCell>Fatal</t.HeaderCell>
-                        <t.HeaderCell />
-                    </t.Row>
-                </t.Header>
-                <t.TBody>
+        <Responsive>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Province</th>
+                        <th>Activity</th>
+                        <th>Involvement</th>
+                        <th>Injury</th>
+                        <th>Fatal</th>
+                        <th />
+                    </tr>
+                </thead>
+                <tbody>
                     {incidents.map(props => (
-                        <t.Row key={props.id}>
-                            <t.Cell>
+                        <tr key={props.id}>
+                            <td>
                                 <span className={styles.DateCell}>
                                     {props.date}
                                 </span>
-                            </t.Cell>
-                            <t.Cell>{props.location}</t.Cell>
+                            </td>
+                            <td>{props.location}</td>
                             <Cell>{props.location_province}</Cell>
-                            <t.Cell>{props.group_activity}</t.Cell>
+                            <td>{props.group_activity}</td>
                             <Cell>{props.num_involved}</Cell>
                             <Cell>{props.num_injured}</Cell>
                             <Cell>{props.num_fatal}</Cell>
-                            <t.Cell>
+                            <td>
                                 <Link to={props.id}>view</Link>
-                            </t.Cell>
-                        </t.Row>
+                            </td>
+                        </tr>
                     ))}
-                </t.TBody>
-            </t.Table>
-        </t.Responsive>
+                </tbody>
+            </table>
+        </Responsive>
     )
 }
 
@@ -152,8 +152,8 @@ function Summary({ incident }) {
 
 function Avalanche({ avalanches }) {
     const rows = avalanches.map((avalanche, i) => (
-        <t.Row key={i}>
-            <t.Cell>{avalanche.observation_date}</t.Cell>
+        <tr key={i}>
+            <td>{avalanche.observation_date}</td>
             <Cell>{avalanche.size}</Cell>
             <Cell>{avalanche.type}</Cell>
             <Cell>{avalanche.trigger}</Cell>
@@ -161,26 +161,26 @@ function Avalanche({ avalanches }) {
             <Cell>{avalanche.aspect}</Cell>
             <Cell suffix="m">{avalanche.slab_width}</Cell>
             <Cell suffix="cm">{avalanche.slab_thickness}</Cell>
-        </t.Row>
+        </tr>
     ))
 
     return (
         <Section title="Avalanches">
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Date/Time</t.HeaderCell>
-                        <t.HeaderCell>Size</t.HeaderCell>
-                        <t.HeaderCell>Type</t.HeaderCell>
-                        <t.HeaderCell>Trigger</t.HeaderCell>
-                        <t.HeaderCell>Elevation</t.HeaderCell>
-                        <t.HeaderCell>Aspect</t.HeaderCell>
-                        <t.HeaderCell>Slab Width</t.HeaderCell>
-                        <t.HeaderCell>Slab Thickness</t.HeaderCell>
-                    </t.Row>
-                </t.Header>
-                <t.TBody>{rows}</t.TBody>
-            </t.Table>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date/Time</th>
+                        <th>Size</th>
+                        <th>Type</th>
+                        <th>Trigger</th>
+                        <th>Elevation</th>
+                        <th>Aspect</th>
+                        <th>Slab Width</th>
+                        <th>Slab Thickness</th>
+                    </tr>
+                </thead>
+                <tbody>{rows}</tbody>
+            </table>
         </Section>
     )
 }
@@ -188,23 +188,21 @@ function Avalanche({ avalanches }) {
 function Weather({ observations, comment }) {
     return (
         <Section title="Weather">
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Present Temp</t.HeaderCell>
-                        <t.HeaderCell>Max Temp</t.HeaderCell>
-                        <t.HeaderCell>Min Temp</t.HeaderCell>
-                        <t.HeaderCell>24hr Trend</t.HeaderCell>
-                        <t.HeaderCell>Wind Speed</t.HeaderCell>
-                        <t.HeaderCell>Wind Direction</t.HeaderCell>
-                        <t.HeaderCell>Sky Condition</t.HeaderCell>
-                        <t.HeaderCell>
-                            Precipitation Type & Intensity
-                        </t.HeaderCell>
-                    </t.Row>
-                </t.Header>
-                <t.TBody>
-                    <t.Row>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Present Temp</th>
+                        <th>Max Temp</th>
+                        <th>Min Temp</th>
+                        <th>24hr Trend</th>
+                        <th>Wind Speed</th>
+                        <th>Wind Direction</th>
+                        <th>Sky Condition</th>
+                        <th>Precipitation Type & Intensity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
                         <Cell>{observations.temp_pressent}</Cell>
                         <Cell>{observations.temp_max}</Cell>
                         <Cell>{observations.temp_min}</Cell>
@@ -213,9 +211,9 @@ function Weather({ observations, comment }) {
                         <Cell>{observations.wind_dir}</Cell>
                         <Cell>{observations.sky}</Cell>
                         <Cell>{observations.precip}</Cell>
-                    </t.Row>
-                </t.TBody>
-            </t.Table>
+                    </tr>
+                </tbody>
+            </table>
             <Comment title="Weather Comment">{comment}</Comment>
         </Section>
     )
@@ -224,24 +222,24 @@ function Weather({ observations, comment }) {
 function Snowpack({ observations, comment }) {
     return (
         <Section title="Snowpack">
-            <t.Table>
-                <t.Header>
-                    <t.Row>
-                        <t.HeaderCell>Snowpack</t.HeaderCell>
-                        <t.HeaderCell>24hr Snow</t.HeaderCell>
-                        <t.HeaderCell>Storm Snow</t.HeaderCell>
-                        <t.HeaderCell>Storm Date</t.HeaderCell>
-                    </t.Row>
-                </t.Header>
-                <t.TBody>
-                    <t.Row>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Snowpack</th>
+                        <th>24hr Snow</th>
+                        <th>Storm Snow</th>
+                        <th>Storm Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
                         <Cell suffix="cm">{observations.hs}</Cell>
                         <Cell suffix="cm">{observations.hn24}</Cell>
                         <Cell suffix="cm">{observations.hst}</Cell>
                         <Cell suffix="cm">{observations.hst_reset}</Cell>
-                    </t.Row>
-                </t.TBody>
-            </t.Table>
+                    </tr>
+                </tbody>
+            </table>
             <Comment title="Snowpack Comment">{comment}</Comment>
         </Section>
     )
@@ -249,16 +247,16 @@ function Snowpack({ observations, comment }) {
 
 function Documents({ docs }) {
     const rows = docs.map((d, i) => (
-        <t.Row key={i}>
-            <t.Cell>{d.date}</t.Cell>
-            <t.Cell>{d.title}</t.Cell>
-            <t.Cell>{d.source}</t.Cell>
-            <t.Cell>
+        <tr key={i}>
+            <td>{d.date}</td>
+            <td>{d.title}</td>
+            <td>{d.source}</td>
+            <td>
                 <a href={incidentsBaseUrl + d.url} target={d.title}>
                     view
                 </a>
-            </t.Cell>
-        </t.Row>
+            </td>
+        </tr>
     ))
 
     return (
@@ -266,17 +264,17 @@ function Documents({ docs }) {
             {rows.length === 0 ? (
                 <Muted>No documents available.</Muted>
             ) : (
-                <t.Table>
-                    <t.Header>
-                        <t.Row>
-                            <t.HeaderCell>Document Date</t.HeaderCell>
-                            <t.HeaderCell>Title</t.HeaderCell>
-                            <t.HeaderCell>Source</t.HeaderCell>
-                            <t.HeaderCell />
-                        </t.Row>
-                    </t.Header>
-                    <t.TBody>{rows}</t.TBody>
-                </t.Table>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Document Date</th>
+                            <th>Title</th>
+                            <th>Source</th>
+                            <th />
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>
             )}
         </Section>
     )
@@ -305,9 +303,7 @@ function Cell({ children, suffix }) {
     }
 
     return (
-        <t.Cell>
-            {children ? [children, suffix].filter(Boolean).join(' ') : '-'}
-        </t.Cell>
+        <td>{children ? [children, suffix].filter(Boolean).join(' ') : '-'}</td>
     )
 }
 

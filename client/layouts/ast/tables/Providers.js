@@ -5,7 +5,7 @@ import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
 import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
-import { Table, Responsive, TBody, Row, Cell, Caption } from 'components/table'
+import { Responsive } from 'components/table'
 import { MINIMUM_DISTANCE } from '../constants'
 import Header from './Header'
 import Pagination from './Pagination'
@@ -16,6 +16,7 @@ import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
 import { Muted } from 'components/text'
 import { useSorting, usePagination } from 'hooks/collection'
+import table from 'styles/table.css'
 
 Providers.propTypes = {
     tags: PropTypes.instanceOf(Set),
@@ -68,7 +69,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
     return (
         <Layout title={getTitle(filtered)}>
             <Responsive>
-                <Table>
+                <table>
                     <Header
                         columns={COLUMNS}
                         onSortingChange={handleSortingChange}
@@ -76,20 +77,22 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                         place={place}
                     />
                     {sponsors.length > 0 && (
-                        <TBody featured title="Our sponsors">
+                        <tbody
+                            data-title="Our sponsors"
+                            className={table.Featured}>
                             {renderRows(sponsors)}
-                        </TBody>
+                        </tbody>
                     )}
-                    <TBody>{renderRows(paginated)}</TBody>
-                    <Caption>
+                    <tbody>{renderRows(paginated)}</tbody>
+                    <caption>
                         {pending ? (
                             <Muted>Loading providers...</Muted>
                         ) : (
                             Array.isArray(filtered) &&
                             renderEmptyMessage(filtered)
                         )}
-                    </Caption>
-                </Table>
+                    </caption>
+                </table>
             </Responsive>
             {Array.isArray(filtered) && (
                 <Pagination
@@ -185,11 +188,11 @@ function renderRows(providers) {
 }
 function renderRow(row) {
     return (
-        <Row key={row.id}>
+        <tr key={row.id}>
             {COLUMNS.map(({ property, name }) => (
-                <Cell key={name}>{property(row)}</Cell>
+                <td key={name}>{property(row)}</td>
             ))}
-        </Row>
+        </tr>
     )
 }
 function getTitle(providers) {

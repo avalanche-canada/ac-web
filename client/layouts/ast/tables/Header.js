@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Row, Header as Base, HeaderCell } from 'components/table'
+import { Sorting } from 'components/button'
+import { FlexContentCell } from 'components/table'
 
 Header.propTypes = {
     columns: PropTypes.array.isRequired,
@@ -20,20 +21,20 @@ export default function Header(props) {
     }
 
     return (
-        <Base>
-            <Row>
+        <thead>
+            <tr>
                 {columns.map(
                     ({ title, name, property, sorting, ...header }) => (
-                        <HeaderCell
-                            key={name}
-                            onSortingChange={onSortingChange.bind(null, name)}
-                            sorting={getSorting(name, sorting)}
-                            {...header}>
+                        <FlexContentCell key={name} {...header}>
                             {typeof title === 'function' ? title(props) : title}
-                        </HeaderCell>
+                            <Sorting
+                                onChange={onSortingChange.bind(null, name)}
+                                sorting={getSorting(name, sorting)}
+                            />
+                        </FlexContentCell>
                     )
                 )}
-            </Row>
-        </Base>
+            </tr>
+        </thead>
     )
 }

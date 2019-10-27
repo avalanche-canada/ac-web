@@ -1,15 +1,7 @@
 import React, { Fragment, useReducer } from 'react'
 import PropTypes from 'prop-types'
-import { Responsive, PageSizeSelector } from 'components/table'
-import {
-    Table,
-    TBody,
-    Header,
-    HeaderCell,
-    Row,
-    Cell,
-    Caption,
-} from 'components/table'
+import { Responsive, PageSizeSelector, FlexContentCell } from 'components/table'
+import { Sorting as SortingButton } from 'components/button'
 import Pagination from 'components/pagination'
 import { Loading, Muted } from 'components/text'
 import { Br } from 'components/misc'
@@ -74,32 +66,33 @@ export default function PrismicTable({ value }) {
         <Fragment>
             <Br />
             <Responsive>
-                <Table bordered>
-                    <Header>
-                        <Row>
+                <table>
+                    <thead>
+                        <tr>
                             {columns.map(column => (
-                                <HeaderCell
-                                    key={column.name}
-                                    sorting={getSorting(column)}
-                                    onSortingChange={state.onSortingChange.bind(
-                                        null,
-                                        column.name
-                                    )}>
+                                <FlexContentCell key={column.name}>
                                     {column.title}
-                                </HeaderCell>
+                                    <SortingButton
+                                        sorting={getSorting(column)}
+                                        onChange={state.onSortingChange.bind(
+                                            null,
+                                            column.name
+                                        )}
+                                    />
+                                </FlexContentCell>
                             ))}
-                        </Row>
-                    </Header>
-                    <TBody>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {results.map(row => (
-                            <Row key={row.id}>
+                            <tr key={row.id}>
                                 {columns.map(({ name, property }) => (
-                                    <Cell key={name}>{property(row.data)}</Cell>
+                                    <td key={name}>{property(row.data)}</td>
                                 ))}
-                            </Row>
+                            </tr>
                         ))}
-                    </TBody>
-                    <Caption>
+                    </tbody>
+                    <caption>
                         {pending ? (
                             <Loading>Loading documents...</Loading>
                         ) : (
@@ -108,8 +101,8 @@ export default function PrismicTable({ value }) {
                                     found.`}
                             </Muted>
                         )}
-                    </Caption>
-                </Table>
+                    </caption>
+                </table>
             </Responsive>
             <PageSizeSelector
                 value={state.pageSize}

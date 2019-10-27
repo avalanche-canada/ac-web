@@ -10,16 +10,7 @@ import Button from 'components/button'
 import { Page, Header, Main, Content } from 'components/page'
 import { Muted, Error, Loading } from 'components/text'
 import { Br } from 'components/misc'
-import {
-    Table,
-    Row,
-    Header as THead,
-    HeaderCell,
-    TBody,
-    Cell,
-    Responsive,
-    Caption,
-} from 'components/table'
+import { Responsive, FlexContentCell } from 'components/table'
 import {
     useForecastRegions,
     useForecastRegionsMetadata,
@@ -39,6 +30,7 @@ import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
+import { Sorting } from 'components/button'
 import { useMerge } from 'hooks/async'
 import { useLocation } from 'router/hooks'
 
@@ -67,14 +59,18 @@ export default function SubmissionListLayout({ navigate }) {
     const { days = DAYS } = params
     const fallback = <FallbackError days={days} onReset={handleReset} />
     function renderHeader({ name, title, style, sorting }) {
-        return (
-            <HeaderCell
-                key={name}
-                style={style}
-                sorting={getSorting(name, sorting, params.sorting)}
-                onSortingChange={order => handleSortingChange(name, order)}>
+        return sorting ? (
+            <FlexContentCell key={name} style={style}>
                 {title}
-            </HeaderCell>
+                <Sorting
+                    sorting={getSorting(name, sorting, params.sorting)}
+                    onChange={order => handleSortingChange(name, order)}
+                />
+            </FlexContentCell>
+        ) : (
+            <th key={name} style={style}>
+                {title}
+            </th>
         )
     }
 
@@ -87,12 +83,12 @@ export default function SubmissionListLayout({ navigate }) {
                     <Br />
                     <ErrorBoundary key={days} fallback={fallback}>
                         <Responsive>
-                            <Table>
-                                <THead>
-                                    <Row>{COLUMNS.map(renderHeader)}</Row>
-                                </THead>
+                            <table>
+                                <thead>
+                                    <tr>{COLUMNS.map(renderHeader)}</tr>
+                                </thead>
                                 <TableContent {...params} />
-                            </Table>
+                            </table>
                         </Responsive>
                     </ErrorBoundary>
                 </Main>
@@ -158,18 +154,18 @@ function TableContent(params) {
 
     return (
         <Fragment>
-            <TBody>
+            <tbody>
                 {reports.map(submission => (
-                    <Row key={submission.subid}>
+                    <tr key={submission.subid}>
                         {COLUMNS.map(({ name, style, property }) => (
-                            <Cell key={name} style={style}>
+                            <td key={name} style={style}>
                                 {property(submission)}
-                            </Cell>
+                            </td>
                         ))}
-                    </Row>
+                    </tr>
                 ))}
-            </TBody>
-            <Caption>
+            </tbody>
+            <caption>
                 {pending ? (
                     <Muted>
                         Loading Mountain Information Network reports...
@@ -195,7 +191,7 @@ function TableContent(params) {
                 ) : (
                     <Muted>Total of {reports.length} reports found.</Muted>
                 )}
-            </Caption>
+            </caption>
         </Fragment>
     )
 }

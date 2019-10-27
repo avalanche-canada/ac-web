@@ -1,17 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import format from 'date-fns/format'
 import { DATE, setUTCOffset } from 'utils/date'
-import {
-    Table,
-    Header,
-    Row,
-    Cell,
-    HeaderCell,
-    TBody,
-    Caption,
-} from 'components/table'
-import styles from './Table.css'
+import css from './Table.css'
+import table from 'styles/table.css'
 
 StationTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -40,36 +33,36 @@ export default function StationTable({
     }, {})
 
     return (
-        <div className={styles.Container}>
-            <div className={styles.Content}>
-                <Table condensed>
-                    <Header>
+        <div className={css.Container}>
+            <div className={css.Content}>
+                <table className={classnames(table.Condensed, table.Bordered)}>
+                    <thead>
                         {headers.map((headers, index) => (
-                            <Row key={index}>
-                                <HeaderCell />
+                            <tr key={index}>
+                                <th />
                                 {headers.map(
                                     ({ title, name, property, ...header }) => (
-                                        <HeaderCell key={name} {...header}>
+                                        <th key={name} {...header}>
                                             {typeof title === 'function'
                                                 ? title()
                                                 : title}
-                                        </HeaderCell>
+                                        </th>
                                     )
                                 )}
-                            </Row>
+                            </tr>
                         ))}
-                    </Header>
+                    </thead>
                     {Object.entries(bodies).map(([title, measurements]) => (
-                        <TBody key={title} title={title} featured>
+                        <tbody key={title} data-title={title}>
                             {measurements.map((measurement, index) => (
-                                <Row key={index}>
+                                <tr key={index}>
                                     {columns.map(renderRow, measurement)}
-                                </Row>
+                                </tr>
                             ))}
-                        </TBody>
+                        </tbody>
                     ))}
-                    <Caption>{caption}</Caption>
-                </Table>
+                    <caption>{caption}</caption>
+                </table>
             </div>
         </div>
     )
@@ -79,17 +72,17 @@ export default function StationTable({
 function renderRow({ property, name, ...props }, index) {
     if (index === 0) {
         return (
-            <HeaderCell key={name}>
+            <th key={name}>
                 {typeof property === 'function'
                     ? property(this)
                     : this[property]}
-            </HeaderCell>
+            </th>
         )
     }
 
     return (
-        <Cell key={name} {...props}>
+        <td key={name} {...props}>
             {typeof property === 'function' ? property(this) : this[property]}
-        </Cell>
+        </td>
     )
 }
