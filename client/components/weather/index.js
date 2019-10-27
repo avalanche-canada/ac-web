@@ -1,3 +1,5 @@
+// TODO All of these components should be moved to "layouts"
+
 import React from 'react'
 import PropTypes from 'prop-types'
 import Forecast from './Forecast'
