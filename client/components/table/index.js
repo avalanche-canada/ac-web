@@ -1,3 +1,5 @@
+// TODO Should move styling to global stylesheet and remove few components
+
 export Table from './Table'
 export Row, { Expandable as ExpandableRow } from './Row'
 export Cell from './Cell'

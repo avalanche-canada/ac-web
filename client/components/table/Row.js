@@ -1,4 +1,4 @@
-import React, { Children, cloneElement, memo, Fragment } from 'react'
+import React, { Children, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import css from './Table.css'
@@ -11,7 +11,7 @@ Row.propTypes = {
     onClick: PropTypes.func,
 }
 
-function Row({ children, controlled, onClick }) {
+export default function Row({ children, controlled, onClick }) {
     const className = classnames({
         [css.Row]: true,
         [css['Row--Controlled']]: controlled,
@@ -24,8 +24,6 @@ function Row({ children, controlled, onClick }) {
         </tr>
     )
 }
-
-export default memo(Row)
 
 Expandable.propTypes = {
     children: PropTypes.arrayOf(PropTypes.instanceOf(Row)).isRequired,
