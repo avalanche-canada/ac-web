@@ -6,6 +6,17 @@
     position: relative;
 }
 
+.Condensed {
+    & .Cell {
+        padding: 0.35em;
+    }
+
+    & .HeaderCell {
+        text-align: center;
+        text-transform: inherit;
+    }
+}
+
 .TBody {
 }
 
