@@ -44,13 +44,22 @@ const AVLAX_ELEV = {
     'btl': 'Btl',
 }
 // Utils
-function transformForecast(forecast) {
-    return Object.assign(forecast, {
-        avalancheSummary: '<p>' + forecast.avalancheSummary + '</p>',
-        snowpackSummary:  '<p>' + forecast.snowpackSummary  + '</p>',
-        weatherForecast:  '<p>' + forecast.weatherForecast  + '</p>',
-        problems: forecast.problems.map(transformProblem),
-        confidence: transformConfidenceLegacy(forecast.confidence),
+function transformForecast(region_id, region_name, item) {
+    var forecast = item.data;
+    return Object.assign({}, {
+        fxType:     'avid',
+        dangerMode: 'Regular season',
+        id:         forecast.reportId,
+        region:     region_id,
+        forecaster: forecast.forecaster,
+
+        avalancheSummary: draftToHtml(forecast.avalancheSummary),
+        snowpackSummary:  draftToHtml(forecast.snowpackSummary),
+        weatherForecast:  draftToHtml(forecast.weatherForecast),
+
+        problems:      forecast.problems.map(transformProblem),
+        confidence:    transformConfidenceLegacy(forecast.confidence),
+
         dangerRatings: forecast.dangerRatings
             .map(transformDangerRating)
             .sort(function(a, b){ return new Date(a.date) - new Date(b.date)}),
@@ -203,8 +212,14 @@ function transformOffseason(region_id, region_name, forecast) {
  * Take a list element that comes from the /v1/public/{lang}/products endpoint
  * and translates it into a valid ac-web JSON forecast.
  */
-function transformAvidItem(region_name, item) {
-    
+function transformAvidItem(region_id, region_name, item) {
+    if(item.productType === 'offseason') {
+        return transformOffseason(region_id, region_name, item);
+    } else if(item.productType === 'forecast') {
+        return transformForecast(region_id, region_name, item);
+    } else {
+        throw new Error("Unsupported AvID productType: " + item.type);
+    }
 }
 
 

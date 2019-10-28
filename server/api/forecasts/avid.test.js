@@ -379,3 +379,218 @@ describe('transforming offseason', function(){
     });
 });
 
+describe('transforming offseason', function(){
+    var avid_fx = {
+       "data" : {
+          "reportId" : "e28fa609-a6a0-4190-9dee-6887709489c8",
+          "validUntil" : "2019-10-30T00:00:00Z",
+          "confidence" : {
+             "rating" : {
+                "display" : "Moderate",
+                "value" : "moderate"
+             },
+             "statements" : [
+                "Uncertainty is due to the timing of the incoming weather system."
+             ]
+          },
+          "snowpackSummary" : {
+             "entityMap" : {},
+             "blocks" : [
+                {
+                   "entityRanges" : [],
+                   "type" : "unstyled",
+                   "inlineStyleRanges" : [],
+                   "depth" : 0,
+                   "key" : "auoub",
+                   "text" : "Snowpack summary",
+                   "data" : {}
+                }
+             ]
+          },
+          "highlights" : {
+             "blocks" : [
+                {
+                   "data" : {},
+                   "inlineStyleRanges" : [],
+                   "text" : "This is the communications part of the thing",
+                   "depth" : 0,
+                   "key" : "3d2d3",
+                   "type" : "unstyled",
+                   "entityRanges" : []
+                }
+             ],
+             "entityMap" : {}
+          },
+          "avalancheSummary" : {
+             "blocks" : [
+                {
+                   "entityRanges" : [],
+                   "type" : "unstyled",
+                   "inlineStyleRanges" : [],
+                   "key" : "7fqvj",
+                   "depth" : 0,
+                   "text" : "Avalanche Summary",
+                   "data" : {}
+                }
+             ],
+             "entityMap" : {}
+          },
+          "region" : "Cariboos",
+          "dangerRatings" : [
+             {
+                "dangerRating" : {
+                   "tln" : {
+                      "display" : "Considerable",
+                      "value" : "considerable"
+                   },
+                   "btl" : {
+                      "value" : "considerable",
+                      "display" : "Considerable"
+                   },
+                   "alp" : {
+                      "value" : "high",
+                      "display" : "High"
+                   }
+                },
+                "date" : "2019-10-30T00:00:00Z"
+             },
+             {
+                "date" : "2019-11-01T00:00:00Z",
+                "dangerRating" : {
+                   "tln" : {
+                      "value" : "moderate",
+                      "display" : "Moderate"
+                   },
+                   "btl" : {
+                      "display" : "Moderate",
+                      "value" : "moderate"
+                   },
+                   "alp" : {
+                      "display" : "Considerable",
+                      "value" : "considerable"
+                   }
+                }
+             },
+             {
+                "dangerRating" : {
+                   "btl" : {
+                      "value" : "moderate",
+                      "display" : "Moderate"
+                   },
+                   "alp" : {
+                      "display" : "Considerable",
+                      "value" : "considerable"
+                   },
+                   "tln" : {
+                      "display" : "Moderate",
+                      "value" : "moderate"
+                   }
+                },
+                "date" : "2019-10-31T00:00:00Z"
+             }
+          ],
+          "weatherForecast" : {
+             "blocks" : [
+                {
+                   "data" : {},
+                   "depth" : 0,
+                   "key" : "91ltr",
+                   "text" : "Weather summary",
+                   "inlineStyleRanges" : [],
+                   "type" : "unstyled",
+                   "entityRanges" : []
+                }
+             ],
+             "entityMap" : {}
+          },
+          "terrainAndTravelAdvice" : [
+             "Remain vigilant for changing conditions."
+          ],
+          "problems" : [
+             {
+                "type" : "Storm Slab",
+                "aspects" : [
+                   {
+                      "display" : "North",
+                      "value" : "n"
+                   },
+                   {
+                      "display" : "Northeast",
+                      "value" : "ne"
+                   },
+                   {
+                      "value" : "e",
+                      "display" : "East"
+                   },
+                   {
+                      "display" : "Southeast",
+                      "value" : "se"
+                   },
+                   {
+                      "display" : "South",
+                      "value" : "s"
+                   },
+                   {
+                      "display" : "Southwest",
+                      "value" : "sw"
+                   },
+                   {
+                      "value" : "w",
+                      "display" : "West"
+                   },
+                   {
+                      "value" : "nw",
+                      "display" : "Northwest"
+                   }
+                ],
+                "expectedSize" : {
+                   "max" : "3",
+                   "min" : "2"
+                },
+                "comment" : {
+                   "blocks" : [
+                      {
+                         "data" : {},
+                         "key" : "3rh49",
+                         "depth" : 0,
+                         "text" : "Avalanche Problem comment",
+                         "inlineStyleRanges" : [],
+                         "type" : "unstyled",
+                         "entityRanges" : []
+                      }
+                   ],
+                   "entityMap" : {}
+                },
+                "elevations" : [
+                   {
+                      "display" : "Alpine",
+                      "value" : "alp"
+                   }
+                ],
+                "likelihood" : {
+                   "display" : "Possible-Likely",
+                   "value" : "likely_possible"
+                }
+             }
+          ],
+          "dateIssued" : "2019-10-29T00:00:00Z",
+          "forecaster" : "Will Harding",
+          "bulletinTitle" : "Cariboos"
+       },
+       "id" : "e28fa609-a6a0-4190-9dee-6887709489c8",
+       "areaId" : "385a4d71-4792-4d67-9539-6bd9ef2e583d",
+       "version" : 3,
+       "productType" : "forecast"
+    };
+
+    test('forecast', function(){
+        var api = avid.transformForecast('cariboos', 'Cariboos', avid_fx);
+        expect(api.dangerMode).toEqual('Regular season');
+        expect(api.fxType).toEqual('avid');
+        expect(api.id).toEqual("e28fa609-a6a0-4190-9dee-6887709489c8");
+        expect(api.region).toEqual('cariboos');
+        expect(api.forecaster).toEqual("Will Harding");
+        expect(api.dangerRatings.length).toEqual(3);
+        //console.log(JSON.stringify(api, null, 2));
+    });
+});
