@@ -14,7 +14,5 @@ export default function Position({ longitude, latitude, precision = 6, dms }) {
         decimalPlaces: dms ? precision - 2 : precision,
     }
 
-    return coords(latitude, longitude)
-        .format(format, options)
-        .replace(/\s/g, '\u00a0')
+    return coords(latitude, longitude).format(format, options)
 }
