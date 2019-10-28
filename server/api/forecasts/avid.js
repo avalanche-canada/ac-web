@@ -52,6 +52,8 @@ function transformForecast(region_id, region_name, item) {
         id:         forecast.reportId,
         region:     region_id,
         forecaster: forecast.forecaster,
+        dateIssued: forecast.dateIssued,
+        validUntil: forecast.validUntil,
 
         avalancheSummary: draftToHtml(forecast.avalancheSummary),
         snowpackSummary:  draftToHtml(forecast.snowpackSummary),

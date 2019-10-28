@@ -382,7 +382,7 @@ describe('transforming offseason', function(){
     });
 });
 
-describe('transforming offseason', function(){
+describe('transforming regular season', function(){
     var avid_fx = {
        "data" : {
           "reportId" : "e28fa609-a6a0-4190-9dee-6887709489c8",
@@ -594,6 +594,7 @@ describe('transforming offseason', function(){
         expect(api.region).toEqual('cariboos');
         expect(api.forecaster).toEqual("Will Harding");
         expect(api.dangerRatings.length).toEqual(3);
-        //console.log(JSON.stringify(api, null, 2));
+        expect(api.dateIssued).toEqual(avid_fx.data.dateIssued);
+        expect(api.validUntil).toEqual(avid_fx.data.validUntil);
     });
 });
