@@ -7,7 +7,7 @@ import {
     useTimeout,
     useFullscreen,
 } from 'hooks'
-import { Image, OpenInNewTab } from 'components/misc'
+import { OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import ButtonSet from './ButtonSet'
 import Button from 'components/button'
@@ -126,7 +126,7 @@ export default function Loop({
                 </Button>
             </div>
             <OpenInNewTab>
-                <Image
+                <img
                     src={url}
                     onError={unload}
                     onLoad={unload}
