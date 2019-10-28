@@ -1,7 +1,7 @@
 @import '../../styles/colors.css';
 
 :root {
-    --border: 1px solid var(--gray-light);
+    --border: 1px solid white;
 }
 
 .Container {
@@ -12,16 +12,13 @@
     }
 
     & > summary {
+        position: relative;
         cursor: pointer;
         list-style: none;
-        background-color: var(--black);
+        background-color: black;
         color: white;
         font-weight: 700;
-        padding: 0 1em;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        line-height: 3em;
+        padding: 1em 3em 1em 1em;
 
         &::-webkit-details-marker {
             display: none;
@@ -29,12 +26,14 @@
 
         &::after {
             content: '';
-            float: right;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 3em;
             background-image: url('../icons/add.svg');
             background-position: center;
             background-repeat: no-repeat;
-            height: 3em;
-            width: 24px;
         }
     }
 
