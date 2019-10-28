@@ -22,10 +22,6 @@ export function Pending({ children }) {
     return usePending() === true ? children : null
 }
 
-Empty.propTypes = {
-    children: PropTypes.node,
-}
-
 Found.propTypes = {
     children: PropTypes.oneOfType([
         PropTypes.func,
@@ -51,6 +47,10 @@ export function Found({ children }) {
 }
 
 // Case for Prismic document. There no concept of NotFound error for Prismic documents.
+Empty.propTypes = {
+    children: PropTypes.node,
+}
+
 export function Empty({ children }) {
     const payload = usePayload()
     const pending = usePending()
