@@ -18,6 +18,21 @@ function fetchParks(region_id) {
     return doFetch(url);
 }
 
+function fetchAvid() {
+    var url = "http://localhost:9000/v1/public/en/products"
+    //var url = 'http://localhost:9000/v1/public/en/products?date=2019-10-25T00:00:00-08:00'
+    return doFetch(url);
+}
+
+function filterAvidByLocation(location_id) {
+    return function(avid_product_list) {
+        avid_product_list = JSON.parse(avid_product_list);
+        return avid_product_list.find(function(product) {
+            return (product.areaId === location_id);
+        });
+    }
+}
+
 
 function doFetch(url) {
     var options = {
@@ -59,4 +74,6 @@ module.exports = {
     fetchAvalx2016:fetchAvalx2016,
     fetchParks:fetchParks,
     doFetch:doFetch,
+    fetchAvid:fetchAvid,
+    filterAvidByLocation:filterAvidByLocation,
 }
