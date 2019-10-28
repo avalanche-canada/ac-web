@@ -1,8 +1,11 @@
 import React from 'react'
 import { Link } from '@reach/router'
 import styles from './Footer.css'
+import { memo } from 'utils/react'
 
-export default function Footer() {
+export default memo.static(Footer)
+
+function Footer() {
     const year = new Date().getFullYear()
 
     return (
