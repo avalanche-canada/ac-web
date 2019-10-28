@@ -68,9 +68,9 @@ describe('genSingleDangerIconSet', function(){
     describe('standard_time', function() {
         test('ratings match the first day', function(){
             var set = icon_set.genSingleDangerIconSet('America/Vancouver', danger_data['standard_time']);
-            expect(set[0].dangerRating.alp).toBe(2);
-            expect(set[0].dangerRating.tln).toBe(3);
-            expect(set[0].dangerRating.btl).toBe(5);
+            expect(set[0].ratings.alp).toBe(2);
+            expect(set[0].ratings.tln).toBe(3);
+            expect(set[0].ratings.btl).toBe(5);
         });
     });
 });
@@ -97,25 +97,26 @@ describe('addIconSet', function(){
 			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
 			expect(newfx.iconSet.length).toEqual(1);
 			expect(newfx.iconSet[0].iconType).toEqual('OFF_SEASON');
-			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+			expect(newfx.iconSet[0].ratings).toBeUndefined();
 		});
 		test('spring', function(){
 			var fx = fx_test_data.spring_conditions;
 			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
 			expect(newfx.iconSet[0].iconType).toEqual('SPRING');
-			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+			expect(newfx.iconSet[0].ratings).toBeUndefined();
 		});
 		test('early season', function(){
 			var fx = fx_test_data.early_season;
 			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
 			expect(newfx.iconSet[0].iconType).toEqual('EARLY_SEASON');
-			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+			expect(newfx.iconSet[0].ratings).toBeUndefined();
 		});
 		test('regular season', function(){
 			var fx = fx_test_data.regular_season;
 			var newfx = icon_set.addStaticIcons('America/Vancouver', fx);
 			expect(newfx.iconSet.length).toEqual(1);
 			expect(newfx.iconSet[0].iconType).toEqual('RATINGS');
+            expect(newfx.iconSet[0].ratings).toBeDefined();
 		});
 	});
 	describe('moving', function(){
@@ -124,19 +125,19 @@ describe('addIconSet', function(){
 			var newfx = icon_set.addMovingIcons('America/Vancouver', fx);
 			expect(newfx.iconSet.length).toEqual(1);
 			expect(newfx.iconSet[0].iconType).toEqual('OFF_SEASON');
-			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+			expect(newfx.iconSet[0].ratings).toBeUndefined();
 		});
 		test('spring', function(){
 			var fx = fx_test_data.spring_conditions;
 			var newfx = icon_set.addMovingIcons('America/Vancouver', fx);
 			expect(newfx.iconSet[0].iconType).toEqual('SPRING');
-			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+			expect(newfx.iconSet[0].ratings).toBeUndefined();
 		});
 		test('early season', function(){
 			var fx = fx_test_data.early_season;
 			var newfx = icon_set.addMovingIcons('America/Vancouver', fx);
 			expect(newfx.iconSet[0].iconType).toEqual('EARLY_SEASON');
-			expect(newfx.iconSet[0].dangerRating).toBeUndefined();
+			expect(newfx.iconSet[0].ratings).toBeUndefined();
 		});
 		test('regular season', function(){
 			var fx = fx_test_data.regular_season;
@@ -144,6 +145,7 @@ describe('addIconSet', function(){
 			expect(newfx.iconSet.length).toEqual(3);
 			newfx.iconSet.forEach(function(rr){
 				expect(rr.iconType).toEqual('RATINGS');
+                expect(rr.ratings).toBeDefined();
 			});
 		});
 	});

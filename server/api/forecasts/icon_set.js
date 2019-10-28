@@ -34,17 +34,17 @@ function genMovingDangerIconSet(region_tz, dangerRatings) {
     return [
         { from: START_DATE,
           to: days[1],
-          dangerRating: ratingsToInts(dangerRatings[0].dangerRating),
+          ratings: ratingsToInts(dangerRatings[0].dangerRating),
           iconType: 'RATINGS' },
 
         { from: days[1],
           to: days[2],
-          dangerRating: ratingsToInts(dangerRatings[1].dangerRating),
+          ratings: ratingsToInts(dangerRatings[1].dangerRating),
           iconType: 'RATINGS' },
 
         { from: days[2],
           to: END_DATE,
-          dangerRating: ratingsToInts(dangerRatings[2].dangerRating),
+          ratings: ratingsToInts(dangerRatings[2].dangerRating),
           iconType: 'RATINGS' },
     ];
 }
@@ -53,7 +53,7 @@ function genSingleDangerIconSet(region_tz, dangerRatings) {
     return [
         { from: START_DATE,
           to: END_DATE,
-          dangerRating: ratingsToInts(dangerRatings[0].dangerRating),
+          ratings: ratingsToInts(dangerRatings[0].dangerRating),
           iconType: 'RATINGS' },
     ];
 }
