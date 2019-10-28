@@ -41,6 +41,15 @@ export function Node({
     const hasChildren = Children.count(children) > 0
     const finalIsExpanded =
         expanded || (pathname.includes(link) && !pathname.endsWith(link))
+    function getLinkProps({ isPartiallyCurrent }) {
+        return {
+            className: classnames({
+                [css.Node]: true,
+                [css.Active]: isPartiallyCurrent,
+                [css['Node--Level' + level]]: true,
+            }),
+        }
+    }
 
     return (
         <Fragment>
@@ -48,7 +57,6 @@ export function Node({
                 to={link || '#'}
                 title={title}
                 onClick={onClick}
-                style={getNodeStyle(level)}
                 getProps={getLinkProps}>
                 <div
                     className={classnames({
@@ -86,18 +94,4 @@ function Control(props) {
             <ChevronRight color={GRAY} />
         </Button>
     )
-}
-// TODO Just use regular class
-function getNodeStyle(level) {
-    return {
-        paddingLeft: level * 15,
-    }
-}
-function getLinkProps({ isPartiallyCurrent }) {
-    return {
-        className: classnames({
-            [css.Node]: true,
-            [css.Active]: isPartiallyCurrent,
-        }),
-    }
 }

@@ -15,6 +15,22 @@
     }
 }
 
+.Node--Level1 {
+    padding-left: 15px;
+}
+.Node--Level2 {
+    padding-left: 30px;
+}
+.Node--Level3 {
+    padding-left: 45px;
+}
+.Node--Level4 {
+    padding-left: 60px;
+}
+.Node--Level5 {
+    padding-left: 75px;
+}
+
 .NodeControl {
     min-width: 37px;
 }
