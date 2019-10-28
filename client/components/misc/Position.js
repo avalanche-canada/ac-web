@@ -10,9 +10,7 @@ Position.propTypes = {
 
 export default function Position({ longitude, latitude, precision = 6, dms }) {
     const format = dms ? 'FFf' : 'f'
-    const options = {
-        decimalPlaces: dms ? precision - 2 : precision,
-    }
+    const decimalPlaces = dms ? precision - 2 : precision
 
-    return coords(latitude, longitude).format(format, options)
+    return coords(latitude, longitude).format(format, { decimalPlaces })
 }
