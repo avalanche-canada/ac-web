@@ -1,4 +1,4 @@
-import React, { Children, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { useEventListener, useBoolean } from 'hooks'
@@ -72,20 +72,5 @@ export default function Image({
             {(copyright || credit) && <Credit>{credit || copyright}</Credit>}
             {children}
         </figure>
-    )
-}
-
-OpenInNewTab.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-export function OpenInNewTab({ children }) {
-    const child = Children.only(children)
-    const { url, alt } = child.props
-
-    return (
-        <a href={url} title={alt} target={alt}>
-            {child}
-        </a>
     )
 }
