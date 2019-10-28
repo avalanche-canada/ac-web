@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Tag.css'
 
@@ -15,10 +15,6 @@ Tag.propTypes = {
     as: PropTypes.string,
 }
 
-export function Tag({ as = 'li', children }) {
-    const props = {
-        className: styles.Item,
-    }
-
-    return createElement(as, props, children)
+export function Tag({ as: As = 'li', children }) {
+    return <As className={styles.Item}>{children}</As>
 }
