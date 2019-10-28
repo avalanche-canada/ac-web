@@ -1,4 +1,6 @@
-import isMapboxSupported from '@mapbox/mapbox-gl-supported'
+import mapbox from 'mapbox-gl'
 import memoize from 'utils/memoize'
 
-export const supported = memoize(isMapboxSupported)
+export const supported = memoize(failIfMajorPerformanceCaveat =>
+    mapbox.supported(failIfMajorPerformanceCaveat)
+)
