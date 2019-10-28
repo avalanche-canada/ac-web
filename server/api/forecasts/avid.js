@@ -183,6 +183,7 @@ function transformOffseason(region_id, region_name, forecast) {
         'summer': 'Off season',
 	};
     return Object.assign({}, OFFSEASON_FX_TEMPLATE, {
+        fxType:     'avid',
         id:         forecast.data.id,
         region:     region_id,
         dangerMode: avid_to_avcan[forecast.data.season.value],

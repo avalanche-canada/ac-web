@@ -353,6 +353,7 @@ describe('transforming offseason', function(){
     test('spring', function(){
         var api = avid.transformOffseason('south-columbia', 'South Columbia', spring);
         expect(api.dangerMode).toEqual('Spring situation');
+        expect(api.fxType).toEqual('avid');
         expect(api.id).toEqual("cf93f4a2-6c5c-40b8-9bb3-a9728f697585");
         expect(api.region).toEqual('south-columbia');
         expect(api.forecaster).toEqual("Will Harding");
@@ -362,6 +363,7 @@ describe('transforming offseason', function(){
     test('fall', function(){
         var api = avid.transformOffseason('north-columbia', 'North Columbia', fall);
         expect(api.dangerMode).toEqual('Early season');
+        expect(api.fxType).toEqual('avid');
         expect(api.id).toEqual("3d52e60c-a7ac-40ea-8748-9bf0a14fb8dc");
         expect(api.region).toEqual('north-columbia');
         expect(api.forecaster).toEqual("Will Harding");
@@ -371,6 +373,7 @@ describe('transforming offseason', function(){
     test('summer', function(){
         var api = avid.transformOffseason('purcells', 'Purcells', summer);
         expect(api.dangerMode).toEqual('Off season');
+        expect(api.fxType).toEqual('avid');
         expect(api.id).toEqual("55fe3052-9c10-4566-99ec-546f221362ea");
         expect(api.region).toEqual('purcells');
         expect(api.forecaster).toEqual("Will Harding");
