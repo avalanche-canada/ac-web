@@ -223,6 +223,13 @@ function transformAvidItem(region_id, region_name, item) {
 }
 
 
+function parseAvid(region_id, region_name) {
+    return function(item) {
+        return transformAvidItem(region_id, region_name, item);
+    }
+}
+
+
 var OFFSEASON_FX_TEMPLATE = {
   "id": "",
   "region": "",
@@ -249,6 +256,7 @@ var OFFSEASON_DANGER_TEMPLATE = {
 };
 
 module.exports = {
+    parseAvid                 : parseAvid,
     transformForecast         : transformForecast,
     transformDangerRating     : transformDangerRating,
     transformConfidence       : transformConfidence,

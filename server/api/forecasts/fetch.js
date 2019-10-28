@@ -19,8 +19,8 @@ function fetchParks(region_id) {
 }
 
 function fetchAvid() {
-    var url = "http://localhost:9000/v1/public/en/products"
-    //var url = 'http://localhost:9000/v1/public/en/products?date=2019-10-25T00:00:00-08:00'
+    //var url = "http://localhost:9000/v1/public/en/products"
+    var url = 'http://localhost:9000/v1/public/en/products?date=2019-11-01T00:00:00-08:00'
     return doFetch(url);
 }
 
