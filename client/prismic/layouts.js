@@ -23,7 +23,6 @@ StaticPage.propTypes = {
 }
 
 export function StaticPage({ uid, title }) {
-    const className = `${STATIC_PAGE}-${uid}`
     const props = {
         ...params.uid(STATIC_PAGE, uid),
         fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
@@ -34,7 +33,7 @@ export function StaticPage({ uid, title }) {
 
     return (
         <Async.Provider value={useDocument(props)}>
-            <Page className={className}>
+            <Page className={`${STATIC_PAGE}-${uid}`}>
                 <Async.Found>
                     {({ data }) =>
                         data.banner?.url ? <Banner {...data.banner} /> : null
