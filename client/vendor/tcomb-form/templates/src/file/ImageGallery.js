@@ -88,21 +88,24 @@ export default class ImageGallery extends Component {
 function read(file, index) {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
-            Object.assign(new FileReader(), {
-                onload(event) {
-                    return resolve({
-                        url: event.target.result,
-                        name: file.name,
-                    })
-                },
-                onerror(event) {
-                    return reject(
-                        new Error(
-                            `Error reading ${file.name}: ${event.target.result}`
-                        )
+            const reader = new FileReader()
+
+            reader.onload = event => {
+                resolve({
+                    url: event.target.result,
+                    name: file.name,
+                })
+            }
+
+            reader.onerror = event => {
+                reject(
+                    new Error(
+                        `Error reading ${file.name}: ${event.target.result}`
                     )
-                },
-            }).readAsDataURL(file)
+                )
+            }
+
+            reader.readAsDataURL(file)
         }, index + 10)
     })
 }
