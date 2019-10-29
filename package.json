@@ -18,6 +18,7 @@
         "debug": "^2.1.3",
         "dedent": "^0.6.0",
         "dotenv": "~0.4.0",
+        "draftjs-to-html": "^0.8.4",
         "dynamodb-doc": "github:awslabs/dynamodb-document-js-sdk",
         "entities": "^1.1.2",
         "errorhandler": "~1.0.0",

@@ -1,3 +1,6 @@
+var draftToHtml =  require('draftjs-to-html');
+var dateFns = require('date-fns');
+
 const ASSETS = 'https://www.avalanche.ca/assets/images/';
 
 const RATINGS = {
@@ -41,13 +44,24 @@ const AVLAX_ELEV = {
     'btl': 'Btl',
 }
 // Utils
-function transformForecast(forecast) {
-    return Object.assign(forecast, {
-        avalancheSummary: '<p>' + forecast.avalancheSummary + '</p>',
-        snowpackSummary:  '<p>' + forecast.snowpackSummary  + '</p>',
-        weatherForecast:  '<p>' + forecast.weatherForecast  + '</p>',
-        problems: forecast.problems.map(transformProblem),
-        confidence: transformConfidenceLegacy(forecast.confidence),
+function transformForecast(region_id, region_name, item) {
+    var forecast = item.data;
+    return Object.assign({}, {
+        fxType:     'avid',
+        dangerMode: 'Regular season',
+        id:         forecast.reportId,
+        region:     region_id,
+        forecaster: forecast.forecaster,
+        dateIssued: forecast.dateIssued,
+        validUntil: forecast.validUntil,
+
+        avalancheSummary: draftToHtml(forecast.avalancheSummary),
+        snowpackSummary:  draftToHtml(forecast.snowpackSummary),
+        weatherForecast:  draftToHtml(forecast.weatherForecast),
+
+        problems:      forecast.problems.map(transformProblem),
+        confidence:    transformConfidenceLegacy(forecast.confidence),
+
         dangerRatings: forecast.dangerRatings
             .map(transformDangerRating)
             .sort(function(a, b){ return new Date(a.date) - new Date(b.date)}),
@@ -56,6 +70,7 @@ function transformForecast(forecast) {
         avidTerrainAndTravel: forecast.terrainAndTravelAdvice,
     })
 }
+
 function transformDangerRating(dangerRating) {
     return {
         date: dangerRating.date,
@@ -161,10 +176,94 @@ function expectedSizeIcon(size) {
     ].join('')
 }
 
+function transformOffseason(region_id, region_name, forecast) {
+    // from icon_set.js
+    var END_DATE = '9999-12-31T00:00:00Z';
+	var avid_to_avcan = {
+		'fall':   'Early season',
+        'spring': 'Spring situation',
+        'summer': 'Off season',
+	};
+    return Object.assign({}, OFFSEASON_FX_TEMPLATE, {
+        fxType:     'avid',
+        id:         forecast.data.id,
+        region:     region_id,
+        dangerMode: avid_to_avcan[forecast.data.season.value],
+        forecaster: forecast.data.forecaster,
+        dateIssued: forecast.data.dateIssued,
+        validUntil: END_DATE,
+        bulletinTitle: "Avalanche Bulletin - " + region_name,
+        highlights: forecast.data.headline.display,
+        
+        weatherForecast:  draftToHtml(forecast.data.weatherSummary),
+        dangerRatings: [1,2,3].map(function(i){
+            var d = new Date(forecast.data.dateIssued);
+            d = dateFns.addDays(d, i);
+
+            return Object.assign({}, OFFSEASON_DANGER_TEMPLATE, {
+                date: d.toISOString()
+            });
+        }),
+        
+        // AvID Extras
+        avidOffseasonComment: draftToHtml(forecast.data.comment),
+        avidOffseasonMessage: '<p>' + forecast.data.offSeasonMessage + '</p>',
+    });
+}
+
+/*
+ * Take a list element that comes from the /v1/public/{lang}/products endpoint
+ * and translates it into a valid ac-web JSON forecast.
+ */
+function transformAvidItem(region_id, region_name, item) {
+    if(item.productType === 'offseason') {
+        return transformOffseason(region_id, region_name, item);
+    } else if(item.productType === 'forecast') {
+        return transformForecast(region_id, region_name, item);
+    } else {
+        throw new Error("Unsupported AvID productType: " + item.type);
+    }
+}
+
+
+function parseAvid(region_id, region_name) {
+    return function(item) {
+        return transformAvidItem(region_id, region_name, item);
+    }
+}
+
+
+var OFFSEASON_FX_TEMPLATE = {
+  "id": "",
+  "region": "",
+  "forecaster": "",
+  "dateIssued": "",
+  "validUntil": "",
+  "bulletinTitle": "",
+  "highlights": "",
+  "confidence": " - ",
+  "dangerRatings": [],
+  "problems": [],
+  "avalancheSummary": "",
+  "snowpackSummary": "",
+  "weatherForecast": "",
+  "dangerMode": "Off season"
+};
+var OFFSEASON_DANGER_TEMPLATE = {
+  "date": "2017-07-14T00:00:00",
+  "dangerRating": {
+	"alp": "N/A:No Rating",
+	"tln": "N/A:No Rating",
+	"btl": "N/A:No Rating"
+  }
+};
+
 module.exports = {
-    transformForecast     : transformForecast,
-    transformDangerRating : transformDangerRating,
-    transformConfidence   : transformConfidence,
-    transformConfidenceLegacy   : transformConfidenceLegacy,
-    transformProblem      : transformProblem,
+    parseAvid                 : parseAvid,
+    transformForecast         : transformForecast,
+    transformDangerRating     : transformDangerRating,
+    transformConfidence       : transformConfidence,
+    transformConfidenceLegacy : transformConfidenceLegacy,
+    transformProblem          : transformProblem,
+    transformOffseason        : transformOffseason,
 }
