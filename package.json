@@ -177,6 +177,7 @@
         "build": "rm -rf dist && npm run build:js && npm run build:css",
         "build:js": "BABEL_ENV=dist babel client -d dist --copy-files",
         "build:css": "postcss \"dist/**/*.css\" --replace",
+        "build:frontend": "rm -rf ./scripts/frontend/dist && webpack --config ./scripts/frontend/webpack.config.js",
         "prepublishOnly": "npm run build",
         "start": "node server/app.js",
         "start-dev": "node server/app-dev.js",
