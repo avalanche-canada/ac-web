@@ -11,6 +11,7 @@ export function LocationProvider({ children }) {
 
     useEffect(
         () =>
+            // Returns the "unlisten"
             globalHistory.listen(({ location }) => {
                 setValue(value => ({ ...value, location }))
             }),
