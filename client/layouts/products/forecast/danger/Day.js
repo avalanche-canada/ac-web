@@ -34,7 +34,7 @@ export default function Day({ date, mountain, ...ratings }) {
             <header className={styles.Title}>
                 <DayElement value={date} />
             </header>
-            {mountain & (width > 400) ? (
+            {mountain && width > 400 ? (
                 <DangerCard
                     {...ratings}
                     showTravelAdvice={width > 600}

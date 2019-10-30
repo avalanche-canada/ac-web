@@ -1,6 +1,9 @@
 import polyfills from 'polyfills'
 import application from 'application'
-import 'services/sentry'
+import { supported } from 'utils/mapbox'
+import init from 'services/sentry'
+
+init(supported())
 
 index(window)
 

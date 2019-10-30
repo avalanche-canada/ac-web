@@ -1,13 +1,17 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 
-import { supported } from 'utils/mapbox'
+export default function init(mapboxglSupported) {
+    Sentry.init({
+        dsn: 'https://3988f0f0f90f494cac5a2dbe256a5f2e@sentry.io/99286',
+    })
 
-Sentry.init({ dsn: 'https://3988f0f0f90f494cac5a2dbe256a5f2e@sentry.io/99286' })
-
-Sentry.withScope(scope => {
-    scope.setExtra('mapboxgl.supported', supported())
-})
+    if (typeof mapboxglSupported === 'boolean') {
+        Sentry.withScope(scope => {
+            scope.setExtra('mapboxgl.supported', mapboxglSupported)
+        })
+    }
+}
 
 export function captureException(error, context) {
     Sentry.withScope(scope => {
