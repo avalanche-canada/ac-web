@@ -1,11 +1,5 @@
 @custom-media --full-width (width > 420px);
 
-.Table {
-}
-
-.DaySet {
-}
-
 .Day {
     border-bottom: 2px solid white;
 }

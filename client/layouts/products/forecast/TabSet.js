@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { useForecast } from './Context'
-import { Table, Day, DaySet, Condition, Confidence, Advice } from './danger'
+import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import DetailSet from './DetailSet'
 import ProblemSet from './problem'
+import NoRatings from 'constants/forecast/mode'
 
 export default function TabSet(props) {
     const forecast = useForecast()
 
-    return forecast ? (
+    if (!forecast) {
+        return null
+    }
+
+    const { dangerMode, problems } = forecast
+
+    return (
         <Tabs {...props}>
             <HeaderSet>
                 <Header>Danger ratings</Header>
@@ -17,29 +24,30 @@ export default function TabSet(props) {
             </HeaderSet>
             <PanelSet>
                 <Panel>
-                    <Condition mode={forecast.dangerMode} />
-                    <Table mode={forecast.dangerMode}>
-                        <DaySet>
-                            {forecast.dangerRatings.map(
-                                ({ date, dangerRating }, index) => (
-                                    <Day
-                                        key={index}
-                                        date={date}
-                                        {...dangerRating}
-                                    />
-                                )
-                            )}
-                        </DaySet>
-                        <Confidence {...forecast.confidence} />
-                        {forecast.avidTerrainAndTravelAdvice && (
-                            <Advice>
-                                {forecast.avidTerrainAndTravelAdvice}
-                            </Advice>
-                        )}
-                    </Table>
+                    {NoRatings.has(dangerMode) ? (
+                        <Condition mode={dangerMode} />
+                    ) : (
+                        <Fragment>
+                            <DaySet>
+                                {forecast.dangerRatings.map(
+                                    ({ date, dangerRating }, index) => (
+                                        <Day
+                                            key={index}
+                                            date={date}
+                                            {...dangerRating}
+                                        />
+                                    )
+                                )}
+                            </DaySet>
+                            <Confidence {...forecast.confidence} />
+                        </Fragment>
+                    )}
+                    {forecast.avidTerrainAndTravelAdvice && (
+                        <Advice>{forecast.avidTerrainAndTravelAdvice}</Advice>
+                    )}
                 </Panel>
                 <Panel>
-                    <ProblemSet problems={forecast.problems} />
+                    <ProblemSet problems={problems} />
                 </Panel>
                 <Panel>
                     <DetailSet
@@ -50,5 +58,5 @@ export default function TabSet(props) {
                 </Panel>
             </PanelSet>
         </Tabs>
-    ) : null
+    )
 }

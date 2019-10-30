@@ -69,7 +69,6 @@ function parse(forecast) {
 
     const dateIssued = parseDate(forecast.dateIssued)
     const validUntil = parseDate(forecast.validUntil)
-    // const untilFurhterNotice = validUntil < dateIssued
     const {
         dangerRatings = [],
         dangerMode,
