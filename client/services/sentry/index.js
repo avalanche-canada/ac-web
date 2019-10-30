@@ -3,11 +3,6 @@
 
 import { supported } from 'utils/mapbox'
 
-const Sentry = window.Sentry || {
-    init() {},
-    withScope() {},
-}
-
 Sentry.init({ dsn: 'https://3988f0f0f90f494cac5a2dbe256a5f2e@sentry.io/99286' })
 
 Sentry.withScope(scope => {
