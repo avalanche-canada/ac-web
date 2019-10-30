@@ -4,7 +4,7 @@ import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import DetailSet from './DetailSet'
 import ProblemSet from './problem'
-import NoRatings from 'constants/forecast/mode'
+import NoRatingModes from 'constants/forecast/mode'
 
 export default function TabSet(props) {
     const forecast = useForecast()
@@ -13,7 +13,7 @@ export default function TabSet(props) {
         return null
     }
 
-    const { dangerMode, problems } = forecast
+    const { dangerMode, problems, confidence } = forecast
 
     return (
         <Tabs {...props}>
@@ -24,7 +24,7 @@ export default function TabSet(props) {
             </HeaderSet>
             <PanelSet>
                 <Panel>
-                    {NoRatings.has(dangerMode) ? (
+                    {NoRatingModes.has(dangerMode) ? (
                         <Condition mode={dangerMode} />
                     ) : (
                         <Fragment>
@@ -39,7 +39,9 @@ export default function TabSet(props) {
                                     )
                                 )}
                             </DaySet>
-                            <Confidence {...forecast.confidence} />
+                            <Confidence level={confidence.level}>
+                                {confidence.comment}
+                            </Confidence>
                         </Fragment>
                     )}
                     {forecast.avidTerrainAndTravelAdvice && (

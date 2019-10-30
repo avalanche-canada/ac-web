@@ -4,15 +4,15 @@ import Summary from '../Summary'
 
 Confidence.propTypes = {
     level: PropTypes.string.isRequired,
-    comment: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
 }
 
-export default function Confidence({ level, comment }) {
+export default function Confidence({ level, children }) {
     return (
         <Summary title="Confidence">
             <dl>
                 <dt>{level}</dt>
-                <dd>{comment}</dd>
+                <dd>{children}</dd>
             </dl>
         </Summary>
     )

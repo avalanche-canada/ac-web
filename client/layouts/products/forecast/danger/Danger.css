@@ -2,15 +2,13 @@
 
 .Day {
     border-bottom: 2px solid white;
-}
 
-.FirstDay {
-    composes: Day;
+    &:first-child {
+        border-bottom-width: 4px;
 
-    border-bottom-width: 4px;
-
-    & .Title {
-        font-size: 1.25em;
+        & .Title {
+            font-size: 1.25em;
+        }
     }
 }
 

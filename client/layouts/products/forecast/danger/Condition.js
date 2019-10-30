@@ -1,28 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
+    Texts,
+    EARLY_SEASON,
     SPRING,
     SUMMER,
     OFF,
-    EARLY_SEASON,
-    Texts,
 } from 'constants/forecast/mode'
 import { Generic } from 'prismic/layouts'
 import { domain } from 'assets/config.json'
 import styles from './Danger.css'
 
-//TODO(wnh): Remove either SUMMER or OFF because they are the same
-const HANDLED = new Set([SUMMER, SPRING, OFF, EARLY_SEASON])
-
 Condition.propTypes = {
-    mode: PropTypes.oneOf(Array.from(HANDLED)).isRequired,
+    mode: PropTypes.oneOf([EARLY_SEASON, SPRING, SUMMER, OFF]).isRequired,
 }
 
 export default function Condition({ mode }) {
-    if (!HANDLED.has(mode)) {
-        return null
-    }
-
     const text = Texts.get(mode)
 
     return (

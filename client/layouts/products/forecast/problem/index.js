@@ -17,6 +17,7 @@ export default function ProblemSet({ problems }) {
     return problems.map(renderProblem)
 }
 
+// Utils components
 Problem.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
