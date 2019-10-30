@@ -13,7 +13,17 @@ export default function TabSet(props) {
         return null
     }
 
-    const { dangerMode, problems, confidence } = forecast
+    const {
+        dangerMode,
+        problems,
+        confidence,
+        avidConfidence,
+        avidTerrainAndTravelAdvice,
+        dangerRatings,
+        avalancheSummary,
+        snowpackSummary,
+        weatherForecast,
+    } = forecast
 
     return (
         <Tabs {...props}>
@@ -29,7 +39,7 @@ export default function TabSet(props) {
                     ) : (
                         <Fragment>
                             <DaySet>
-                                {forecast.dangerRatings.map(
+                                {dangerRatings.map(
                                     ({ date, dangerRating }, index) => (
                                         <Day
                                             key={index}
@@ -42,10 +52,21 @@ export default function TabSet(props) {
                             <Confidence level={confidence.level}>
                                 {confidence.comment}
                             </Confidence>
+                            {avidConfidence && (
+                                <Confidence level={avidConfidence.rating}>
+                                    <ul>
+                                        {avidConfidence.statements.map(
+                                            (statement, index) => (
+                                                <li key={index}>{statement}</li>
+                                            )
+                                        )}
+                                    </ul>
+                                </Confidence>
+                            )}
                         </Fragment>
                     )}
-                    {forecast.avidTerrainAndTravelAdvice && (
-                        <Advice>{forecast.avidTerrainAndTravelAdvice}</Advice>
+                    {avidTerrainAndTravelAdvice && (
+                        <Advice>{avidTerrainAndTravelAdvice}</Advice>
                     )}
                 </Panel>
                 <Panel>
@@ -53,9 +74,9 @@ export default function TabSet(props) {
                 </Panel>
                 <Panel>
                     <DetailSet
-                        avalanche={forecast.avalancheSummary}
-                        snowpack={forecast.snowpackSummary}
-                        weather={forecast.weatherForecast}
+                        avalanche={avalancheSummary}
+                        snowpack={snowpackSummary}
+                        weather={weatherForecast}
                     />
                 </Panel>
             </PanelSet>
