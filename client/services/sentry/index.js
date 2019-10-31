@@ -1,5 +1,11 @@
-/* eslint-disable no-undef */
 /* eslint-disable no-console */
+
+const Sentry = window.Sentry || {
+    init() {},
+    withScope() {},
+    captureException() {},
+    captureMessage() {},
+}
 
 export default function init(mapboxglSupported) {
     Sentry.init({
