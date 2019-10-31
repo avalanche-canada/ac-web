@@ -5,7 +5,7 @@ import Headline from './Headline'
 import { Ribbon } from 'components/misc'
 import styles from './Page.css'
 
-// TODO: No header tag if there is no headline
+// TODO: No header tag if there is no more than a "heading" tag
 
 Section.propTypes = {
     children: PropTypes.node.isRequired,
