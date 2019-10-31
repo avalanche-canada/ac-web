@@ -14,7 +14,6 @@ export function Provider({ children }) {
         setLayers(resetLayers(layers))
     }, [])
 
-    // TODO Not sure "useMemo" helps!
     const value = useMemo(() => {
         return {
             layers,
