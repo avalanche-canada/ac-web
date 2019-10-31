@@ -18,7 +18,9 @@ function HeaderLink(props) {
 function createLink({ label, header, headline, ...rest }, index) {
     const hasHeader = header === true || typeof headline === 'string'
     const Component = hasHeader
-        ? typeof rest.to === 'string' ? HeaderLink : Header
+        ? typeof rest.to === 'string'
+            ? HeaderLink
+            : Header
         : Link
     const props = {
         ...rest,
@@ -78,11 +80,11 @@ function sectionsReducer(children) {
     }, [])
 }
 
-export function createItem({ id, label, noWrap, children, to }, index) {
+export function createItem({ id, label, children, to }, index) {
     const key = `${id}-${index}`
 
     return (
-        <Item key={key} title={label} noWrap={noWrap} to={to}>
+        <Item key={key} title={label} to={to}>
             {children && (
                 <Menu>{sectionsReducer(children).map(createSection)}</Menu>
             )}

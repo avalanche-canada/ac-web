@@ -96,10 +96,6 @@
     }
 }
 
-.Item--NoWrap {
-    white-space: nowrap;
-}
-
 .Burger--Container {
     flex: 1 0;
     height: 100%;

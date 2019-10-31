@@ -305,7 +305,6 @@ module.exports = {
         {
             id: String(id++),
             label: 'About',
-            noWrap: true,
             children: [
                 {
                     id: String(id++),

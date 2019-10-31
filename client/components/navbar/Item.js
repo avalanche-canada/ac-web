@@ -8,24 +8,14 @@ Item.propTypes = {
     title: PropTypes.node.isRequired,
     isActive: PropTypes.bool,
     onClick: PropTypes.func,
-    // TODO Not sure is this still valid!
-    noWrap: PropTypes.bool,
     children: PropTypes.node,
     to: PropTypes.string,
 }
 
-function Item({
-    isActive = false,
-    title,
-    onClick,
-    noWrap = false,
-    children,
-    to,
-}) {
+function Item({ isActive = false, title, onClick, children, to }) {
     const className = classnames({
         [css.Item]: !isActive,
         [css['Item--isActive']]: isActive,
-        [css['Item--NoWrap']]: noWrap,
     })
 
     return (
