@@ -71,9 +71,6 @@
     }
 }
 
-.Forecast {
-}
-
 .Footer {
     & dl {
         display: flex;
