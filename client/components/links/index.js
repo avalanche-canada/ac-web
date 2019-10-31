@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import classnames from 'classnames'
 import { supported } from 'utils/mapbox'
-import styles from 'styles/typography.css'
+import typography from 'styles/typography.css'
 import * as utils from 'utils/min'
 
 Home.propTypes = {
@@ -19,7 +19,10 @@ export function Home({
     ...props
 }) {
     return (
-        <Link className={classnames(styles.Back, className)} to={to} {...props}>
+        <Link
+            className={classnames(typography.Back, className)}
+            to={to}
+            {...props}>
             {children}
         </Link>
     )
