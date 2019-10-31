@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { useForecast } from './Context'
 import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
+import { InnerHTML } from 'components/misc'
 import DetailSet from './DetailSet'
 import ProblemSet from './problem'
 import NoRatingModes from 'constants/forecast/mode'
@@ -23,6 +24,8 @@ export default function TabSet(props) {
         avalancheSummary,
         snowpackSummary,
         weatherForecast,
+        avidOffseasonMessage,
+        avidOffseasonComment,
     } = forecast
 
     return (
@@ -35,7 +38,19 @@ export default function TabSet(props) {
             <PanelSet>
                 <Panel>
                     {NoRatingModes.has(dangerMode) ? (
-                        <Condition mode={dangerMode} />
+                        <Condition
+                            mode={dangerMode}
+                            message={
+                                avidOffseasonMessage && (
+                                    <InnerHTML>
+                                        {avidOffseasonMessage}
+                                    </InnerHTML>
+                                )
+                            }>
+                            {avidOffseasonComment && (
+                                <InnerHTML>{avidOffseasonComment}</InnerHTML>
+                            )}
+                        </Condition>
                     ) : (
                         <Fragment>
                             <DaySet>

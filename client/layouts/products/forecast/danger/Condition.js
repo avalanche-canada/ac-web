@@ -13,9 +13,11 @@ import styles from './Danger.css'
 
 Condition.propTypes = {
     mode: PropTypes.oneOf([EARLY_SEASON, SPRING, SUMMER, OFF]).isRequired,
+    message: PropTypes.element,
+    children: PropTypes.element,
 }
 
-export default function Condition({ mode }) {
+export default function Condition({ mode, message, children }) {
     const text = Texts.get(mode)
 
     return (
@@ -28,8 +30,9 @@ export default function Condition({ mode }) {
                 src={ICON_URLS.get(mode)}
             />
             <div className={styles.ConditionContent}>
-                <Generic uid={PRISMIC_UIDS.get(mode)} />
+                {message || <Generic uid={PRISMIC_UIDS.get(mode)} />}
             </div>
+            {children}
         </div>
     )
 }
