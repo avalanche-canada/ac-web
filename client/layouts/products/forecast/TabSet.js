@@ -18,7 +18,7 @@ export default function TabSet(props) {
         problems,
         confidence,
         avidConfidence,
-        avidTerrainAndTravelAdvice,
+        avidTerrainAndTravel,
         dangerRatings,
         avalancheSummary,
         snowpackSummary,
@@ -49,9 +49,11 @@ export default function TabSet(props) {
                                     )
                                 )}
                             </DaySet>
-                            <Confidence level={confidence.level}>
-                                {confidence.comment}
-                            </Confidence>
+                            {confidence?.level && (
+                                <Confidence level={confidence.level}>
+                                    {confidence.comment}
+                                </Confidence>
+                            )}
                             {avidConfidence && (
                                 <Confidence level={avidConfidence.rating}>
                                     <ul>
@@ -65,8 +67,16 @@ export default function TabSet(props) {
                             )}
                         </Fragment>
                     )}
-                    {avidTerrainAndTravelAdvice && (
-                        <Advice>{avidTerrainAndTravelAdvice}</Advice>
+                    {avidTerrainAndTravel && (
+                        <Advice>
+                            <ul>
+                                {avidTerrainAndTravel.map(
+                                    (statement, index) => (
+                                        <li key={index}>{statement}</li>
+                                    )
+                                )}
+                            </ul>
+                        </Advice>
                     )}
                 </Panel>
                 <Panel>

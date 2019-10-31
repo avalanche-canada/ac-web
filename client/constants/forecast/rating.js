@@ -9,7 +9,7 @@ export const NO_RATING = 'NO_RATING'
 
 export const LEVELS = [NO_RATING, LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME]
 
-export default new Set([LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING])
+export default new Set(LEVELS)
 
 export const TravelAdvices = new Map([
     [EXTREME, 'Avoid all avalanche terrain.'],
