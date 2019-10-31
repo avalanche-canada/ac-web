@@ -148,6 +148,6 @@ const TO_MODES = new Map([
     ['Off season', Modes.OFF_SEASON],
     // I saw "Summer situation" somewhere a long time ago! I am not taking chances, convert it to OFF
     ['Summer situation', Modes.OFF_SEASON],
-    ['Spring situation', Modes.SPRING],
+    ['Spring situation', Modes.SPRING_SITUATION],
     ['Early season', Modes.EARLY_SEASON],
 ])

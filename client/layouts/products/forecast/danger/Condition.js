@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import {
     Texts,
     EARLY_SEASON,
-    SPRING,
+    SPRING_SITUATION,
     OFF_SEASON,
 } from 'constants/forecast/mode'
 import { Generic } from 'prismic/layouts'
@@ -11,7 +11,8 @@ import { domain } from 'assets/config.json'
 import styles from './Danger.css'
 
 Condition.propTypes = {
-    mode: PropTypes.oneOf([EARLY_SEASON, SPRING, OFF_SEASON]).isRequired,
+    mode: PropTypes.oneOf([EARLY_SEASON, SPRING_SITUATION, OFF_SEASON])
+        .isRequired,
     message: PropTypes.element,
     children: PropTypes.element,
 }
@@ -40,11 +41,11 @@ export default function Condition({ mode, message, children }) {
 const IMAGES = domain + 'images/'
 const ICON_URLS = new Map([
     [EARLY_SEASON, IMAGES + 'early_season_icon.svg'],
-    [SPRING, IMAGES + 'spring_situation_icon.svg'],
+    [SPRING_SITUATION, IMAGES + 'spring_situation_icon.svg'],
     [OFF_SEASON, IMAGES + 'summer_conditions_icon.svg'],
 ])
 const PRISMIC_UIDS = new Map([
     [EARLY_SEASON, 'forecast-early-season-message'],
-    [SPRING, 'forecast-spring-conditions-message'],
+    [SPRING_SITUATION, 'forecast-spring-conditions-message'],
     [OFF_SEASON, 'forecast-off-season-message'],
 ])

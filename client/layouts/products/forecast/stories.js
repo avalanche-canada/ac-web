@@ -116,7 +116,7 @@ storiesOf('Forecast', module)
     ))
     .add('Condition', () => <Condition />)
     .add('Summer Condition', () => <Condition mode={Modes.SUMMER} />)
-    .add('Spring Condition', () => <Condition mode={Modes.SPRING} />)
+    .add('Spring Condition', () => <Condition mode={Modes.SPRING_SITUATION} />)
     .add('Panels', () => (
         <div>
             <Panel header="Danger Ratings Explained">
