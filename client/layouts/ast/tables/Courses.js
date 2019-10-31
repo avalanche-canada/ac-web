@@ -6,16 +6,13 @@ import * as turf from '@turf/helpers'
 import isSameDay from 'date-fns/is_same_day'
 import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
 import addDays from 'date-fns/add_days'
-import Layout from './Layout'
-import Header from './Header'
-import Pagination from './Pagination'
+import { Layout, Header, Title, Caption, Pagination } from './utils'
 import { DateTime, Range } from 'components/time'
 import { Phone, Mailto } from 'components/anchors'
 import { List, Entry } from 'components/description'
 import { Responsive, ExpandableRow } from 'components/table'
 import { Helper } from 'components/text'
 import { MultiLine } from 'components/misc'
-import { Muted } from 'components/text'
 import Shim from 'components/Shim'
 import { Distance, Tags } from './cells'
 import { LEVELS, MINIMUM_DISTANCE } from '../constants'
@@ -23,6 +20,7 @@ import { NONE, DESC, ASC } from 'constants/sortings'
 import { DATE } from 'utils/date'
 import { useCourses } from 'hooks/async/ast'
 import { useSorting, usePagination, useFilters } from 'hooks/collection'
+import * as Async from 'contexts/async'
 import styles from './Courses.css'
 
 Courses.propTypes = {
@@ -44,9 +42,9 @@ export default function Courses({
     place,
     onParamsChange,
 }) {
-    // TODO Adds error handling!
     const [name = null, order = NONE] = sorting
-    const [courses = [], pending] = useCourses()
+    const context = useCourses()
+    const [courses = []] = context
     const [page, setPage] = useState(1)
     const all = useMemo(() => {
         return courses.map(course => ({
@@ -75,53 +73,50 @@ export default function Courses({
     useEffect(() => {
         setPage(1)
     }, [level, from, to, tags, sorting])
+    const count = filtered.length
 
     return (
-        <Layout title={getTitle(filtered)}>
-            <Responsive>
-                <table>
-                    <Header
-                        columns={COLUMNS}
-                        sorting={sorting}
-                        onSortingChange={handleSortingChange}
-                        place={place}
+        <Async.Provider value={context}>
+            <Layout
+                title={
+                    <Title
+                        type="courses"
+                        count={count}
+                        total={courses.length}
                     />
-                    <tbody>{paginated.map(renderRow)}</tbody>
-                    <caption>
-                        {pending ? (
-                            <Muted>Loading courses...</Muted>
-                        ) : (
-                            renderEmptyMessage(filtered)
-                        )}
-                    </caption>
-                </table>
-            </Responsive>
-            {filtered.length > 0 && (
-                <Pagination
-                    count={filtered.length}
-                    page={page}
-                    onChange={setPage}
-                />
-            )}
-        </Layout>
+                }>
+                <Responsive>
+                    <table>
+                        <Header
+                            columns={COLUMNS}
+                            sorting={sorting}
+                            onSortingChange={handleSortingChange}
+                            place={place}
+                        />
+                        <tbody>{paginated.map(renderRow)}</tbody>
+                        <Caption type="courses" empty={count === 0}>
+                            <div>
+                                No courses match your criteria, consider finding
+                                a provider on the{' '}
+                                <Link to="/training/providers">
+                                    providers page
+                                </Link>{' '}
+                                to contact directly. You can also{' '}
+                                <Link to="/training/courses">
+                                    reset your criteria
+                                </Link>
+                                .
+                            </div>
+                        </Caption>
+                    </table>
+                </Responsive>
+                <Pagination count={count} page={page} onChange={setPage} />
+            </Layout>
+        </Async.Provider>
     )
 }
 
 // Utils
-function getTitle(courses) {
-    return courses.length > 0
-        ? `All courses (${courses.length})`
-        : 'All courses'
-}
-function renderEmptyMessage(courses) {
-    return courses.length ? null : (
-        <div>
-            No courses match your criteria, consider finding a provider on the{' '}
-            <Link to="/training/providers">providers page</Link> to contact
-            directly.
-        </div>
-    )
-}
 function renderRow(row) {
     return (
         <ExpandableRow key={row.id}>
@@ -201,9 +196,7 @@ const COLUMNS = [
         title({ place }) {
             return place ? (
                 <Helper
-                    title={`Straight line between ${
-                        place.text
-                    } and the course.`}>
+                    title={`Straight line between ${place.text} and the course.`}>
                     Distance
                 </Helper>
             ) : (

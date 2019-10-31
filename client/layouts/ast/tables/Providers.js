@@ -7,15 +7,13 @@ import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
 import { Responsive } from 'components/table'
 import { MINIMUM_DISTANCE } from '../constants'
-import Header from './Header'
-import Pagination from './Pagination'
-import Layout from './Layout'
+import { Layout, Header, Title, Caption, Pagination } from './utils'
 import { Helper } from 'components/text'
 import { useProviders } from 'hooks/async/ast'
 import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
-import { Muted } from 'components/text'
 import { useSorting, usePagination } from 'hooks/collection'
+import * as Async from 'contexts/async'
 import table from 'styles/table.css'
 
 Providers.propTypes = {
@@ -26,10 +24,10 @@ Providers.propTypes = {
 }
 
 export default function Providers({ tags, sorting, place, onParamsChange }) {
-    // TODO Adds error handling
     const [name, order] = sorting || []
     const [page, setPage] = useState(1)
-    const [providers = [], pending] = useProviders()
+    const context = useProviders()
+    const [providers = []] = context
     const all = useMemo(() => {
         return providers.map(provider => ({
             ...provider,
@@ -66,42 +64,50 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
         setPage(1)
     }, [tags, place, sorting])
 
+    const count = filtered.length + sponsors.length
+
     return (
-        <Layout title={getTitle(filtered)}>
-            <Responsive>
-                <table>
-                    <Header
-                        columns={COLUMNS}
-                        onSortingChange={handleSortingChange}
-                        sorting={sorting}
-                        place={place}
-                    />
-                    {sponsors.length > 0 && (
-                        <tbody
-                            data-title="Our sponsors"
-                            className={table.Featured}>
-                            {renderRows(sponsors)}
-                        </tbody>
-                    )}
-                    <tbody>{renderRows(paginated)}</tbody>
-                    <caption>
-                        {pending ? (
-                            <Muted>Loading providers...</Muted>
-                        ) : (
-                            Array.isArray(filtered) &&
-                            renderEmptyMessage(filtered)
+        <Async.Provider value={context}>
+            <Layout
+                title={
+                    <Title
+                        type="providers"
+                        count={count}
+                        total={providers.length}></Title>
+                }>
+                <Responsive>
+                    <table>
+                        <Header
+                            columns={COLUMNS}
+                            onSortingChange={handleSortingChange}
+                            sorting={sorting}
+                            place={place}
+                        />
+                        {sponsors.length > 0 && (
+                            <tbody
+                                data-title="Our sponsors"
+                                className={table.Featured}>
+                                {renderRows(sponsors)}
+                            </tbody>
                         )}
-                    </caption>
-                </table>
-            </Responsive>
-            {Array.isArray(filtered) && (
-                <Pagination
-                    count={filtered.length}
-                    page={page}
-                    onChange={setPage}
-                />
-            )}
-        </Layout>
+                        <tbody>{renderRows(paginated)}</tbody>
+                        <Caption type="providers" empty={count === 0}>
+                            <div>
+                                No providers match your criteria, consider
+                                finding a course on the{' '}
+                                <Link to="/training/courses">courses page</Link>
+                                . You can also{' '}
+                                <Link to="/training/providers">
+                                    reset your criteria
+                                </Link>
+                                .
+                            </div>
+                        </Caption>
+                    </table>
+                </Responsive>
+                <Pagination count={count} page={page} onChange={setPage} />
+            </Layout>
+        </Async.Provider>
     )
 }
 
@@ -144,9 +150,7 @@ const COLUMNS = [
         title({ place }) {
             return place ? (
                 <Helper
-                    title={`Straight line between ${
-                        place.text
-                    } and the provider.`}>
+                    title={`Straight line between ${place.text} and the provider.`}>
                     Distance
                 </Helper>
             ) : (
@@ -175,30 +179,14 @@ const COLUMNS = [
 ]
 
 // Utils
-function renderEmptyMessage({ length }) {
-    return length === 0 ? (
-        <div>
-            No providers match your criteria, consider finding a course on the{' '}
-            <Link to="/training/courses">courses page</Link>.
-        </div>
-    ) : null
-}
 function renderRows(providers) {
-    return providers.map(renderRow)
-}
-function renderRow(row) {
-    return (
+    return providers.map(row => (
         <tr key={row.id}>
             {COLUMNS.map(({ property, name }) => (
                 <td key={name}>{property(row)}</td>
             ))}
         </tr>
-    )
-}
-function getTitle(providers) {
-    return providers.length > 0
-        ? `All providers (${providers.length})`
-        : 'All providers'
+    ))
 }
 
 const TERM_STYLE = {
