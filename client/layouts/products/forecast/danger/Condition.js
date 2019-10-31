@@ -25,23 +25,24 @@ export default function Condition({ mode }) {
                 className={styles.ConditionIcon}
                 title={text}
                 alt={text}
-                src={ICONS.get(mode)}
+                src={ICON_URLS.get(mode)}
             />
             <div className={styles.ConditionContent}>
-                <Generic uid={UIDS.get(mode)} />
+                <Generic uid={PRISMIC_UIDS.get(mode)} />
             </div>
         </div>
     )
 }
 
 // Constants
-const ICONS = new Map([
-    [EARLY_SEASON, `${domain}images/early_season_icon.svg`],
-    [SPRING, `${domain}images/spring_situation_icon.svg`],
-    [SUMMER, `${domain}images/summer_conditions_icon.svg`],
-    [OFF, `${domain}images/summer_conditions_icon.svg`],
+const IMAGES = domain + 'images/'
+const ICON_URLS = new Map([
+    [EARLY_SEASON, IMAGES + 'early_season_icon.svg'],
+    [SPRING, IMAGES + 'spring_situation_icon.svg'],
+    [SUMMER, IMAGES + 'summer_conditions_icon.svg'],
+    [OFF, IMAGES + 'summer_conditions_icon.svg'],
 ])
-const UIDS = new Map([
+const PRISMIC_UIDS = new Map([
     [EARLY_SEASON, 'forecast-early-season-message'],
     [SPRING, 'forecast-spring-conditions-message'],
     [SUMMER, 'forecast-summer-conditions-message'],

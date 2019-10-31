@@ -1,3 +1,5 @@
+// TODO Remove the one that does not exist anymore! Which one?
+
 export const OFF = 'OFF'
 export const SUMMER = 'SUMMER'
 export const SPRING = 'SPRING'
