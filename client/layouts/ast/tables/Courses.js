@@ -95,18 +95,14 @@ export default function Courses({
                         />
                         <tbody>{paginated.map(renderRow)}</tbody>
                         <Caption type="courses" empty={count === 0}>
-                            <div>
-                                No courses match your criteria, consider finding
-                                a provider on the{' '}
-                                <Link to="/training/providers">
-                                    providers page
-                                </Link>{' '}
-                                to contact directly. You can also{' '}
-                                <Link to="/training/courses">
-                                    reset your criteria
-                                </Link>
-                                .
-                            </div>
+                            No courses match your criteria, consider finding a
+                            provider on the{' '}
+                            <Link to="/training/providers">providers page</Link>{' '}
+                            to contact directly. You can also{' '}
+                            <Link to="/training/courses">
+                                reset your criteria
+                            </Link>
+                            .
                         </Caption>
                     </table>
                 </Responsive>
