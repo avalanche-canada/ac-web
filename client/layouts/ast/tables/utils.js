@@ -6,6 +6,7 @@ import { FlexContentCell } from 'components/table'
 import PaginationComponent from 'components/pagination'
 import { Muted } from 'components/text'
 import * as Async from 'contexts/async'
+import typography from 'components/text/Text.css'
 
 Header.propTypes = {
     columns: PropTypes.array.isRequired,
@@ -123,9 +124,9 @@ ErrorDetails.propTypes = {
 
 export function ErrorDetails({ type, error }) {
     return (
-        <details>
+        <details className={typography.Error}>
             <summary>An error happened while loading the {type}...</summary>
-            {error.message}
+            <p>{error.message}</p>
         </details>
     )
 }
