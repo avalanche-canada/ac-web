@@ -110,7 +110,7 @@ export function Caption({ type, empty, children }) {
                 <ErrorDetails type={type} />
             </Async.Error>
             <Async.Pending>
-                <Muted>Loading providers...</Muted>
+                <Muted>Loading {type}...</Muted>
             </Async.Pending>
             <Async.Found>{empty && children}</Async.Found>
         </caption>
