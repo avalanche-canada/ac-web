@@ -146,7 +146,8 @@ const TO_RATINGS = new Map([
 ])
 const TO_MODES = new Map([
     ['Off season', Modes.OFF],
-    ['Summer situation', Modes.SUMMER],
+    // I saw "Summer situation" somewhere a long time ago! I am not taking chances, convert it to OFF
+    ['Summer situation', Modes.OFF],
     ['Spring situation', Modes.SPRING],
     ['Early season', Modes.EARLY_SEASON],
 ])
