@@ -35,7 +35,7 @@ import {
 } from './layers'
 import styles from './Map.css'
 
-export default (supported() ? Wrapper : UnsupportedMap)
+export default supported() ? Wrapper : UnsupportedMap
 
 function Wrapper() {
     return (
@@ -196,7 +196,7 @@ function ErrorDialog({ opened, close }) {
                         {pluralize('error', errors.total, true) + ' occured.'}
                     </strong>{' '}
                     You can still use the map. However, some data might be
-                    missing and behavour not working as expected. Click on the
+                    missing and behaviour not working as expected. Click on the
                     arrow for more details.
                 </p>
                 {Array.from(errors.value.entries()).map(([type, errors]) => (
