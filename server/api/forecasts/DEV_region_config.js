@@ -38,27 +38,56 @@ function addMovingIcons(tz) { return function(fx) { return icon_set.addMovingIco
 var AVCAN = {
     'northwest-coastal': {
         metadata: reg_properties['northwest-coastal'],
-        fetchNow: function() { return fetch.fetchAvalx2019(16).then(parseAvalx('northwest-coastal')) .then(addStaticIcons('America/Vancouver')); },
+        fetchNow: function() { 
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('afbfd8d9-6c0b-41e1-9451-8b1f66168aef'))
+                        .then(avid.parseAvid('northwest-coastal', 'Northwest - Coastal'))
+                        .then(addStaticIcons('America/Vancouver')); 
+        },
     },
     'northwest-inland': {
         metadata: reg_properties['northwest-inland'],
-        fetchNow: function(){ return fetch.fetchAvalx2019(17).then(parseAvalx('northwest-inland')).then(addStaticIcons('America/Vancouver')); },
-    },
+        fetchNow: function(){ 
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('79422b9a-add7-41d5-b042-4aab53f7c191'))
+                        .then(avid.parseAvid('northwest-inland', 'Northwest - Inland'))
+                        .then(addStaticIcons('America/Vancouver')); 
+                    },
+                },
     'sea-to-sky': {
         metadata: reg_properties['sea-to-sky'],
-        fetchNow: function(){ return fetch.fetchAvalx2019(14).then(parseAvalx('sea-to-sky')).then(addStaticIcons('America/Vancouver')); },
+        fetchNow: function(){ 
+            
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('91a91bf7-1965-4288-88f5-36d6f1a93017'))
+                        .then(avid.parseAvid('sea-to-sky', 'Sea to Sky'))
+                        .then(addStaticIcons('America/Vancouver')); 
+
+        },
     },
     'south-coast-inland': {
         metadata: reg_properties['south-coast-inland'],
-        fetchNow: function(){ return fetch.fetchAvalx2019(15).then(parseAvalx('south-coast-inland')).then(addStaticIcons('America/Vancouver')); },
-    },
+        fetchNow: function(){ 
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('812626e5-4860-4d7b-bf7f-ab92ed7d0719'))
+                        .then(avid.parseAvid('south-coast-inland', 'South Coast - Inland'))
+                        .then(addStaticIcons('America/Vancouver')); 
+                    },
+                },
     'south-coast': {
         metadata: reg_properties['south-coast'],
         fetchNow: function(){ return fetch.fetchAvalx2019(8).then(parseAvalx('south-coast')).then(addStaticIcons('America/Vancouver')); },
     },
     'north-rockies': {
         metadata: reg_properties['north-rockies'],
-        fetchNow: function(){ return fetch.fetchAvalx2016(9).then(parseAvalx('north-rockies')).then(addMovingIcons('America/Vancouver')); },
+        fetchNow: function(){ 
+            
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('71e52e86-8a5d-4512-aa63-c0b433544a92'))
+                        .then(avid.parseAvid('north-rockies', 'North Rockies'))
+                        .then(addStaticIcons('America/Vancouver')); 
+            
+        },
     },
     'cariboos': {
         metadata: reg_properties['cariboos'],
@@ -100,15 +129,25 @@ var AVCAN = {
     },
     'yukon': {
         metadata: reg_properties['yukon'],
-        fetchNow: function(){ return fetch.fetchAvalx2019(20).then(parseAvalx('yukon')).then(addMovingIcons('America/Vancouver')); },
-    },
-};
-
-
+        fetchNow: function(){ 
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('d67af35a-9544-4f69-a0e8-721c3ad66906'))
+                        .then(avid.parseAvid('yukon', 'Yukon'))
+                        .then(addStaticIcons('America/Vancouver')); 
+                    },
+                },
+            };
+            
+            
 var KCOUNTRY =  {
     'kananaskis': {
-        fetchNow: function(){ return fetch.fetchAvalx2016(7).then(parseAvalx('kananaskis')).then(addStaticIcons('America/Edmonton')); },
         metadata: reg_properties['kananaskis'],
+        fetchNow: function(){ 
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('b9714237-ddd9-4d54-9233-ff46e0668065'))
+                        .then(avid.parseAvid('kananaskis', 'Kananaskis'))
+                        .then(addStaticIcons('America/Vancouver')); 
+        },
     },
 };
 
