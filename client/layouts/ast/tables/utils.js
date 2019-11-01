@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from '@reach/router'
 import * as Page from 'components/page'
 import { Sorting } from 'components/button'
 import { FlexContentCell } from 'components/table'
@@ -51,17 +52,20 @@ Title.propTypes = {
 }
 
 export function Title({ type, count, total }) {
-    const title = 'All ' + type
+    const all = 'All ' + type
+    const title = total === 0 ? all : `${all} (${total})`
 
-    if (total === 0) {
-        return title
-    }
-
-    if (count === total) {
-        return `${title} (${total})`
-    }
-
-    return `${title} (${count} of ${total})`
+    return (
+        <Fragment>
+            {title}
+            {count !== total ? (
+                <small>
+                    Currently showing {count} {type},{' '}
+                    <Link to={`/training/${type}`}>reset your criteria</Link>.
+                </small>
+            ) : null}
+        </Fragment>
+    )
 }
 
 Layout.propTypes = {

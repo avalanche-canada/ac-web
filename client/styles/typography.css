@@ -9,3 +9,9 @@
         }
     }
 }
+
+h1 > small {
+    display: block;
+    color: var(--gray);
+    font-size: 65%;
+}
