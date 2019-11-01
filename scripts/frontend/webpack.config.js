@@ -3,7 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { resolve } = require('../../webpack.common.config')
 
 module.exports = {
-    mode: 'none',
+    mode: 'production',
     entry: {
         avid: path.resolve(__dirname, 'avid.js'),
     },
