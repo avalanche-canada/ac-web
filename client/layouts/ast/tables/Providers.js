@@ -92,14 +92,19 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                         )}
                         <tbody>{renderRows(paginated)}</tbody>
                         <Caption type="providers" empty={count === 0}>
-                            No providers match your criteria, consider finding a
-                            course on the{' '}
-                            <Link to="/training/courses">courses page</Link>.
-                            You can also{' '}
-                            <Link to="/training/providers">
-                                reset your criteria
-                            </Link>
-                            .
+                            <p>
+                                No providers match your criteria, consider
+                                finding a course on the{' '}
+                                <Link to="/training/courses">courses page</Link>
+                                .
+                            </p>
+                            <p>
+                                You can also{' '}
+                                <Link to="/training/providers">
+                                    reset your criteria
+                                </Link>{' '}
+                                to see them all.
+                            </p>
                         </Caption>
                     </table>
                 </Responsive>

@@ -73,6 +73,7 @@ export default function Courses({
     useEffect(() => {
         setPage(1)
     }, [level, from, to, tags, sorting])
+
     const count = filtered.length
 
     return (
@@ -95,14 +96,21 @@ export default function Courses({
                         />
                         <tbody>{paginated.map(renderRow)}</tbody>
                         <Caption type="courses" empty={count === 0}>
-                            No courses match your criteria, consider finding a
-                            provider on the{' '}
-                            <Link to="/training/providers">providers page</Link>{' '}
-                            to contact directly. You can also{' '}
-                            <Link to="/training/courses">
-                                reset your criteria
-                            </Link>
-                            .
+                            <p>
+                                No courses match your criteria, consider finding
+                                a provider on the{' '}
+                                <Link to="/training/providers">
+                                    providers page
+                                </Link>{' '}
+                                to contact directly.
+                            </p>
+                            <p>
+                                You can also{' '}
+                                <Link to="/training/courses">
+                                    reset your criteria
+                                </Link>{' '}
+                                to see them all.
+                            </p>
                         </Caption>
                     </table>
                 </Responsive>
