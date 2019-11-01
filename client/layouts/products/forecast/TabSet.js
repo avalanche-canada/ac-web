@@ -64,12 +64,7 @@ export default function TabSet(props) {
                                     )
                                 )}
                             </DaySet>
-                            {confidence?.level && (
-                                <Confidence level={confidence.level}>
-                                    {confidence.comment}
-                                </Confidence>
-                            )}
-                            {avidConfidence && (
+                            {avidConfidence ? (
                                 <Confidence level={avidConfidence.rating}>
                                     <ul>
                                         {avidConfidence.statements.map(
@@ -79,6 +74,11 @@ export default function TabSet(props) {
                                         )}
                                     </ul>
                                 </Confidence>
+                            ):(
+                                <Confidence level={confidence.level}>
+                                    {confidence.comment}
+                                </Confidence>
+
                             )}
                         </Fragment>
                     )}

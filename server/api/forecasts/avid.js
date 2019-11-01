@@ -55,6 +55,8 @@ function transformForecast(region_id, region_name, item) {
         dateIssued: forecast.dateIssued,
         validUntil: forecast.validUntil,
 
+        highlights: draftToHtml(forecast.highlights),
+
         avalancheSummary: draftToHtml(forecast.avalancheSummary),
         snowpackSummary:  draftToHtml(forecast.snowpackSummary),
         weatherForecast:  draftToHtml(forecast.weatherForecast),
@@ -116,7 +118,7 @@ function transformProblem(prob) {
         likelihood: prob.likelihood.display,
         aspects: prob.aspects.map(function(a){ return a.value.toUpperCase(); }),
         elevations: prob.elevations.map(function(e){ return AVLAX_ELEV[e.value]}),
-        comment: "", //TODO
+        comment: draftToHtml(prob.comment),
         icons: {
             elevations:   elevationsIcon(prob.elevations),
             aspects:      aspectsIcon(prob.aspects),

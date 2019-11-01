@@ -13,7 +13,6 @@ var Prismic = require('prismic.io');
 var webcache = require('./webcache');
 
 var regions = require('../../data/season').forecast_regions;
-var region_config = require('./region_config');
 
 router.param('region', function(req, res, next) {
     req.region = _.find(regions.features, { id: req.params.region });

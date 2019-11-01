@@ -5,6 +5,7 @@ var WebCacheRedis = require('../../lib/webcache-redis');
 
 var config = require('../../config/environment');
 var region_config = require('./region_config')
+// var region_config = require('./DEV_region_config')
 
 // XXX: es6-promiseRequired to polyfill the cache-manager package
 // When upgrading to a new version of node this may not be required
