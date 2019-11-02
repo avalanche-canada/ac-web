@@ -55,7 +55,8 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                     )}
                 </h1>
             </Header>
-            <Body>
+            {/* To mount/remount the tabs, so the first tab appears and scroll gets reset as the name changes */}
+            <Body key={name}>
                 {forecastPending ? (
                     <Shim all>
                         <Muted>Loading avalanche forecast...</Muted>
@@ -67,7 +68,6 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                             <components.Headline />
                         </Shim>
                         <components.TabSet
-                            key={name} // To mount/remount the tabs, so the first tab appears as the name changes
                             onTabChange={handleForecastTabActivate}
                         />
                         <components.Footer />
