@@ -75,7 +75,9 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
                                     id={id}
                                     utcOffset={station.utcOffset}
                                 />
-                                <Footer />
+                                <Shim horizontal>
+                                    <Footer />
+                                </Shim>
                             </Fragment>
                         )}
                     </Async.Found>
