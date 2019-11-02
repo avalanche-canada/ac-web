@@ -4,7 +4,6 @@ import {
     Header,
     Container,
     Body,
-    Content,
     Navbar,
     Close,
     DisplayOnMap,
@@ -16,6 +15,7 @@ import { Metadata, Entry } from 'components/metadata'
 import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import { useDocument } from 'prismic/hooks'
+import Shim from 'components/Shim'
 
 FatalAccident.propTypes = {
     id: PropTypes.string.isRequired,
@@ -49,7 +49,7 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
                 )}
             </Header>
             <Body>
-                <Content>
+                <Shim horizontal>
                     {pending ? (
                         <Loading>
                             Loading fatal recreational accident...
@@ -71,7 +71,7 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
                             anymore.
                         </Muted>
                     )}
-                </Content>
+                </Shim>
             </Body>
         </Container>
     )

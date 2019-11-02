@@ -1,13 +1,14 @@
 import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import { memo } from 'utils/react'
-import { Container, Body, Content, Navbar, Close } from 'components/page/drawer'
+import { Container, Body, Navbar, Close } from 'components/page/drawer'
 import * as components from 'components/page/drawer/layers'
 import { useLayer } from 'contexts/layers'
 import * as Layers from 'constants/drawers'
 import * as Icons from 'components/icons'
 import { NAMES } from 'constants/min'
 import { Dropdown, Option } from 'components/controls'
+import Shim from 'components/Shim'
 
 Menu.propTypes = {
     onCloseClick: PropTypes.func.isRequired,
@@ -20,7 +21,7 @@ function Menu({ onCloseClick }) {
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Body>
-                <Content>
+                <Shim horizontal>
                     <components.LayerSet title="Analysis">
                         <Layer id={Layers.FORECASTS} />
                         <Layer id={Layers.HOT_ZONE_REPORTS} />
@@ -46,7 +47,7 @@ function Menu({ onCloseClick }) {
                         <Layer id={Layers.FATAL_ACCIDENT} />
                         <Layer id={Layers.MOUNTAIN_CONDITIONS_REPORTS} />
                     </components.LayerSet>
-                </Content>
+                </Shim>
             </Body>
         </Container>
     )

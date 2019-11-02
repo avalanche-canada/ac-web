@@ -7,12 +7,12 @@ import {
     Container,
     Body,
     Navbar,
-    Content,
     Close,
     DisplayOnMap,
 } from 'components/page/drawer'
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Loading, Warning } from 'components/text'
+import Shim from 'components/Shim'
 import * as Async from 'contexts/async'
 import * as hooks from 'hooks/async/weather'
 import Sponsor from 'layouts/Sponsor'
@@ -62,26 +62,26 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
                     </h1>
                 </Header>
                 <Body>
-                    <Content>
-                        <Async.Pending>
-                            <Loading />
-                        </Async.Pending>
-                        <Async.Found>
-                            {station => (
-                                <Fragment>
+                    <Async.Pending>
+                        <Loading />
+                    </Async.Pending>
+                    <Async.Found>
+                        {station => (
+                            <Fragment>
+                                <Shim horizontal>
                                     <Metadata {...station} />
-                                    <Measurements
-                                        id={id}
-                                        utcOffset={station.utcOffset}
-                                    />
-                                    <Footer />
-                                </Fragment>
-                            )}
-                        </Async.Found>
-                        <Async.NotFound>
-                            <StationList />
-                        </Async.NotFound>
-                    </Content>
+                                </Shim>
+                                <Measurements
+                                    id={id}
+                                    utcOffset={station.utcOffset}
+                                />
+                                <Footer />
+                            </Fragment>
+                        )}
+                    </Async.Found>
+                    <Async.NotFound>
+                        <StationList />
+                    </Async.NotFound>
                 </Body>
             </Container>
         </Async.Provider>

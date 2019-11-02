@@ -12,7 +12,6 @@ import {
     Navbar,
     Close,
     Banner,
-    Content,
 } from 'components/page/drawer'
 import {
     Footer,
@@ -22,6 +21,7 @@ import {
     Media,
 } from 'layouts/products/mcr'
 import { WHITE } from 'constants/colors'
+import Shim from 'components/Shim'
 
 MountainConditionsReport.propTypes = {
     id: PropTypes.string.isRequired,
@@ -80,7 +80,7 @@ export default function MountainConditionsReport({
                         <Location>{locationDescription}</Location>
                         {user && <Submitter {...user} groups={groups} />}
                     </Header>
-                    <Content>
+                    <Shim horizontal>
                         {pending && (
                             <Loading>
                                 Loading Mountain Conditions Report...
@@ -93,7 +93,7 @@ export default function MountainConditionsReport({
                             </Muted>
                         )}
                         <Footer />
-                    </Content>
+                    </Shim>
                 </Fragment>
             </Body>
         </Container>
