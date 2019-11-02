@@ -67,6 +67,7 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                             <components.Headline />
                         </Shim>
                         <components.TabSet
+                            key={name} // To mount/remount the tabs, so the first tab appears as the name changes
                             onTabChange={handleForecastTabActivate}
                         />
                         <components.Footer />
