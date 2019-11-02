@@ -2,11 +2,17 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
-import { Navbar, Header, Container, Body, Close } from 'components/page/drawer'
+import {
+    Navbar,
+    Header,
+    Container,
+    Body,
+    Close,
+    DisplayOnMap,
+} from 'components/page/drawer'
 import * as components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { Muted, Warning, Loading } from 'components/text'
 import { useForecast } from 'hooks/async/forecast'
 import {

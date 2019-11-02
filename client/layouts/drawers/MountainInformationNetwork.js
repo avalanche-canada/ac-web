@@ -1,13 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import { Container, Header, Body, Navbar, Close } from 'components/page/drawer'
+import {
+    Container,
+    Header,
+    Body,
+    Navbar,
+    Close,
+    DisplayOnMap,
+} from 'components/page/drawer'
 import Shim from 'components/Shim'
 import { Submission, Metadata, TabSet, Gallery } from 'layouts/products/min'
 import { Loading } from 'components/text'
 import { path } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { point } from '@turf/helpers'
 import { useReport } from 'hooks/async/min'
 

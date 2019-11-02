@@ -9,13 +9,13 @@ import {
     Navbar,
     Content,
     Close,
+    DisplayOnMap,
 } from 'components/page/drawer'
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Loading, Warning } from 'components/text'
 import * as Async from 'contexts/async'
 import * as hooks from 'hooks/async/weather'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import * as utils from 'utils/station'
 import { useLocation } from 'router/hooks'
 

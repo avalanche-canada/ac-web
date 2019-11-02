@@ -7,6 +7,7 @@ import {
     Content,
     Navbar,
     Close,
+    DisplayOnMap,
 } from 'components/page/drawer'
 import { point } from '@turf/helpers'
 import { Loading, Muted } from 'components/text'
@@ -14,7 +15,6 @@ import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
 import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
-import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
 import { useDocument } from 'prismic/hooks'
 
 FatalAccident.propTypes = {
