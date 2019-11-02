@@ -229,6 +229,22 @@ export function useMounted() {
     return mounted.current
 }
 
+export function useScroll(ref) {
+    const [position, setPosition] = useState([0, 0]) // Could set position after mounted
+    const handler = useCallback(
+        throttle(event => {
+            const { scrollLeft, scrollTop } = event.target
+
+            setPosition([scrollTop, scrollLeft])
+        }, 250),
+        []
+    )
+
+    useEventListener('scroll', handler, ref.current)
+
+    return position
+}
+
 // Utils
 function getWindowSize() {
     return {
