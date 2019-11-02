@@ -1,37 +1,26 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-import throttle from 'lodash/throttle'
-import noop from 'lodash/noop'
 import styles from './Drawer.css'
-
-// TODO Improve that component with the container
+import { useScroll } from 'hooks'
 
 Body.propTypes = {
     children: PropTypes.node,
     onScroll: PropTypes.func,
 }
 
-export default function Body({ children, onScroll = noop, ...props }) {
-    const ref = useRef()
-    const handleScroll = useMemo(() => {
-        return throttle(() => {
-            if (!ref?.current) {
-                return
-            }
-
-            const { scrollLeft, scrollTop } = ref.current
-
-            onScroll({ left: scrollLeft, top: scrollTop })
-        }, 250)
-    })
+export default function Body({ children }) {
+    const ref = useRef(null)
+    const [x] = useScroll(ref)
+    const style = x > 0 ? TOP_BORDER : null
 
     return (
-        <div
-            {...props}
-            ref={ref}
-            onScroll={handleScroll}
-            className={styles.Body}>
+        <div ref={ref} className={styles.Body} style={style}>
             {children}
         </div>
     )
+}
+
+// Styles
+const TOP_BORDER = {
+    borderTopColor: 'rgba(0, 0, 0, 0.15)',
 }

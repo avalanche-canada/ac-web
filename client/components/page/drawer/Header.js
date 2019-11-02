@@ -1,20 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Drawer.css'
 import Subject from './Subject'
+import styles from './Drawer.css'
 
 Header.propTypes = {
     subject: PropTypes.string,
     children: PropTypes.node,
-    showBorder: PropTypes.bool,
     style: PropTypes.object,
 }
 
-export default function Header({ subject, children, showBorder, style }) {
-    const className = showBorder ? styles.HeaderWithBorder : styles.Header
-
+export default function Header({ subject, children, ...props }) {
     return (
-        <header className={className} style={style}>
+        <header {...props} className={styles.Header}>
             {subject && <Subject>{subject}</Subject>}
             {children}
         </header>

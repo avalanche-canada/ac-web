@@ -75,7 +75,6 @@
 
 .Header {
     padding: 1em 1.25em 0;
-    border-bottom: solid 1px transparent;
 
     & > h1 {
         display: flex;
@@ -88,12 +87,6 @@
     }
 }
 
-.HeaderWithBorder {
-    composes: Header;
-
-    border-bottom-color: rgba(0, 0, 0, 0.15);
-}
-
 .Content {
     padding: 0 1.25em;
 }
@@ -104,6 +97,7 @@
     overflow-x: hidden;
     min-height: 0;
     padding: 0;
+    border-top: solid 1px transparent;
 }
 
 @media screen and (min-width: 480px) {
