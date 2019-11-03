@@ -11,6 +11,8 @@ export function useMap(ref, options) {
     const [map, setMap] = useState()
 
     useEffect(() => {
+        // TODO Should we test the existance of ref.current? Or it will be always available?
+
         const instance = new mapbox.Map({
             style: STYLES.default,
             ...options,

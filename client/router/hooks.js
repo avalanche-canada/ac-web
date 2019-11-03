@@ -13,7 +13,16 @@ export function LocationProvider({ children }) {
         () =>
             // Returns the "unlisten"
             globalHistory.listen(({ location }) => {
-                setValue(value => ({ ...value, location }))
+                setValue(value => {
+                    if (value.location.key === location.key) {
+                        return value // Returning the same state do not trigger a rerender
+                    }
+
+                    return {
+                        ...value,
+                        location,
+                    }
+                })
             }),
         []
     )
