@@ -1,8 +1,7 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import {
-    Container,
     Header,
     Body,
     Navbar,
@@ -31,7 +30,7 @@ export default function MountainInformationNetwork({
     const [report, pending] = useReport(id)
 
     return (
-        <Container>
+        <Fragment>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
@@ -64,6 +63,6 @@ export default function MountainInformationNetwork({
                     <Gallery />
                 </Submission>
             </Body>
-        </Container>
+        </Fragment>
     )
 }

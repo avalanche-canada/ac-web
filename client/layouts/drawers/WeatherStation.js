@@ -4,7 +4,6 @@ import { Link } from '@reach/router'
 import { List, ListItem } from 'components/page'
 import {
     Header,
-    Container,
     Body,
     Navbar,
     Close,
@@ -28,64 +27,58 @@ WeatherStation.propTypes = {
 export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
     return (
         <Async.Provider value={hooks.useStation(id)}>
-            <Container>
-                <Navbar>
-                    <Sponsor label={null} />
-                    <Close onClick={onCloseClick} />
-                </Navbar>
-                <Header subject="Weather station">
-                    <h1>
-                        <Async.Pending>
-                            <Loading component="span" />
-                        </Async.Pending>
-                        <Async.Found>
-                            {station => (
-                                <Fragment>
-                                    <Link to={utils.path(id)}>
-                                        {station.name}
-                                    </Link>
-                                    <DisplayOnMap
-                                        onClick={() => {
-                                            onLocateClick(
-                                                utils.geometry(station)
-                                            )
-                                        }}
-                                    />
-                                </Fragment>
-                            )}
-                        </Async.Found>
-                        <Async.NotFound>
-                            <Warning component="span">
-                                Weather station #{id} not found
-                            </Warning>
-                        </Async.NotFound>
-                    </h1>
-                </Header>
-                <Body>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={onCloseClick} />
+            </Navbar>
+            <Header subject="Weather station">
+                <h1>
                     <Async.Pending>
-                        <Loading />
+                        <Loading component="span" />
                     </Async.Pending>
                     <Async.Found>
                         {station => (
                             <Fragment>
-                                <Shim horizontal>
-                                    <Metadata {...station} />
-                                </Shim>
-                                <Measurements
-                                    id={id}
-                                    utcOffset={station.utcOffset}
+                                <Link to={utils.path(id)}>{station.name}</Link>
+                                <DisplayOnMap
+                                    onClick={() => {
+                                        onLocateClick(utils.geometry(station))
+                                    }}
                                 />
-                                <Shim horizontal>
-                                    <Footer />
-                                </Shim>
                             </Fragment>
                         )}
                     </Async.Found>
                     <Async.NotFound>
-                        <StationList />
+                        <Warning component="span">
+                            Weather station #{id} not found
+                        </Warning>
                     </Async.NotFound>
-                </Body>
-            </Container>
+                </h1>
+            </Header>
+            <Body>
+                <Async.Pending>
+                    <Loading />
+                </Async.Pending>
+                <Async.Found>
+                    {station => (
+                        <Fragment>
+                            <Shim horizontal>
+                                <Metadata {...station} />
+                            </Shim>
+                            <Measurements
+                                id={id}
+                                utcOffset={station.utcOffset}
+                            />
+                            <Shim horizontal>
+                                <Footer />
+                            </Shim>
+                        </Fragment>
+                    )}
+                </Async.Found>
+                <Async.NotFound>
+                    <StationList />
+                </Async.NotFound>
+            </Body>
         </Async.Provider>
     )
 }

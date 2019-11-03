@@ -15,13 +15,7 @@ import SliceComponents from 'prismic/components/slice/rework'
 import { Loading } from 'components/text'
 import Pager, { Previous, Next } from 'components/pager'
 import Shim from 'components/Shim'
-import Drawer, {
-    Close,
-    Body,
-    Navbar,
-    Header,
-    Container,
-} from 'components/page/drawer'
+import Drawer, { Close, Body, Navbar, Header } from 'components/page/drawer'
 import { Menu } from 'components/icons'
 import { Warning } from 'components/text'
 import ATESExercise from './ATESExercise'
@@ -143,13 +137,11 @@ function Sidebar({ title, location, items = [], path }) {
                 width={0.75 * width}
                 backdrop
                 onCloseClick={close}>
-                <Container>
-                    <Navbar>
-                        <Close onClick={close} />
-                    </Navbar>
-                    <Header subject={title} style={HEADER_STYLE} />
-                    <Body>{tree}</Body>
-                </Container>
+                <Navbar>
+                    <Close onClick={close} />
+                </Navbar>
+                <Header subject={title} style={HEADER_STYLE} />
+                <Body>{tree}</Body>
             </Drawer>
         </Fragment>
     )

@@ -17,7 +17,7 @@ import {
     useFlyTo,
     useFitBounds,
 } from './hooks'
-import styles from 'styles/components.css'
+import styles from 'components/page/drawer/Drawer.css'
 
 export function Menu() {
     const { opened, close } = useMenu()
@@ -51,7 +51,7 @@ export function Primary({ map }) {
 
     return (
         <Drawer side={RIGHT} open={opened} width={width}>
-            <Router className={styles.MatchParent}>
+            <Router className={styles.HackForTheRouter}>
                 <Forecast
                     path="forecasts/:name"
                     onCloseClick={close}

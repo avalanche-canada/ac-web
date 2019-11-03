@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import * as Hzr from 'layouts/products/hzr'
 import {
-    Container,
     Navbar,
     Header,
     Body,
@@ -40,7 +39,7 @@ export default function HotZoneReportDrawer({
     }
 
     return (
-        <Container>
+        <Fragment>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
@@ -80,6 +79,6 @@ export default function HotZoneReportDrawer({
                     </Hzr.Report>
                 )}
             </Body>
-        </Container>
+        </Fragment>
     )
 }

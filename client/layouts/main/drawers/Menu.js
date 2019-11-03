@@ -1,7 +1,7 @@
-import React, { Children, cloneElement } from 'react'
+import React, { Children, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { memo } from 'utils/react'
-import { Container, Body, Navbar, Close } from 'components/page/drawer'
+import { Body, Navbar, Close } from 'components/page/drawer'
 import * as components from 'components/page/drawer/layers'
 import { useLayer } from 'contexts/layers'
 import * as Layers from 'constants/drawers'
@@ -16,7 +16,7 @@ Menu.propTypes = {
 
 function Menu({ onCloseClick }) {
     return (
-        <Container>
+        <Fragment>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
@@ -49,7 +49,7 @@ function Menu({ onCloseClick }) {
                     </components.LayerSet>
                 </Shim>
             </Body>
-        </Container>
+        </Fragment>
     )
 }
 

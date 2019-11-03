@@ -5,14 +5,7 @@ import { useReport } from 'hooks/async/mcr'
 import { Loading, Muted } from 'components/text'
 import { InnerHTML } from 'components/misc'
 import { Locate } from 'components/button'
-import {
-    Header,
-    Container,
-    Body,
-    Navbar,
-    Close,
-    Banner,
-} from 'components/page/drawer'
+import { Header, Body, Navbar, Close, Banner } from 'components/page/drawer'
 import {
     Footer,
     Submitter,
@@ -48,7 +41,7 @@ export default function MountainConditionsReport({
     } = report
 
     return (
-        <Container>
+        <Fragment>
             <Body>
                 <Navbar style={NAVBAR_STYLE}>
                     <Close
@@ -96,7 +89,7 @@ export default function MountainConditionsReport({
                     </Shim>
                 </Fragment>
             </Body>
-        </Container>
+        </Fragment>
     )
 }
 

@@ -11,7 +11,6 @@ import { Home } from 'components/links'
 import Welcome from './panels/Welcome'
 import Drawer, {
     Header,
-    Container,
     Navbar,
     Body,
     DisplayOnMap,
@@ -134,7 +133,7 @@ export default class TripPlannerLayout extends PureComponent {
     }
     renderRightDrawer() {
         return (
-            <Container>
+            <Fragment>
                 <Navbar>
                     <Close onClick={this.handleRightCloseClick} />
                 </Navbar>
@@ -142,7 +141,7 @@ export default class TripPlannerLayout extends PureComponent {
                 <Body>
                     <Forecast id={this.state.region.id} />
                 </Body>
-            </Container>
+            </Fragment>
         )
     }
     renderLeftDrawer(withRegion) {
@@ -159,7 +158,7 @@ export default class TripPlannerLayout extends PureComponent {
         )
 
         return (
-            <Container>
+            <Fragment>
                 <Navbar style={NAVBAR_STYLE}>
                     <Home style={HOME_STYLE}>Back to main map</Home>
                     <Close onClick={this.handleLeftCloseClick} />
@@ -179,7 +178,7 @@ export default class TripPlannerLayout extends PureComponent {
                     {withRegion && this.renderRegionHeader()}
                     {withRegion && <Forecast id={region.id} />}
                 </Body>
-            </Container>
+            </Fragment>
         )
     }
     renderDrawers({ width }) {

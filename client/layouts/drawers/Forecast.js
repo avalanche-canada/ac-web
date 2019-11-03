@@ -5,7 +5,6 @@ import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import {
     Navbar,
     Header,
-    Container,
     Body,
     Close,
     DisplayOnMap,
@@ -30,12 +29,15 @@ Layout.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
+// "key" in <Body> to mount/remount the tabs, so the first tab appears and
+// scroll gets reset as the name changes
+
 export default function Layout({ name, onCloseClick, onLocateClick }) {
     const [region, regionPending] = useForecastRegionMetadata(name)
     const [forecast, forecastPending] = useForecast(name)
 
     return (
-        <Container>
+        <Fragment>
             <Navbar>
                 <SPAW name={name} />
                 <Sponsor label={null} />
@@ -61,7 +63,6 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                     )}
                 </h1>
             </Header>
-            {/* To mount/remount the tabs, so the first tab appears and scroll gets reset as the name changes */}
             <Body key={name}>
                 {forecastPending ? (
                     <Shim all>
@@ -82,7 +83,7 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                     <OtherRegions />
                 )}
             </Body>
-        </Container>
+        </Fragment>
     )
 }
 

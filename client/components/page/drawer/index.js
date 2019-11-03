@@ -8,7 +8,7 @@ import styles from './Drawer.css'
 export const LEFT = 'LEFT'
 export const RIGHT = 'RIGHT'
 
-Cabinet.propTypes = {
+Drawer.propTypes = {
     children: PropTypes.node.isRequired,
     side: PropTypes.oneOf([LEFT, RIGHT]),
     open: PropTypes.bool,
@@ -17,7 +17,7 @@ Cabinet.propTypes = {
     onCloseClick: PropTypes.func,
 }
 
-export default function Cabinet({
+export default function Drawer({
     open = false,
     side = LEFT,
     width = 250,
@@ -58,15 +58,6 @@ export function Body({ children }) {
 
     return (
         <div ref={ref} className={styles.Body} style={style}>
-            {children}
-        </div>
-    )
-}
-
-// TODO Could probably remove that component
-export function Container({ children, ...props }) {
-    return (
-        <div {...props} className={styles.Container}>
             {children}
         </div>
     )

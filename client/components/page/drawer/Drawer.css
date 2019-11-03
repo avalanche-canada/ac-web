@@ -7,10 +7,18 @@
     right: 0;
     bottom: 0;
     left: 0;
-    height: calc(100vh - 75px);
     z-index: 11;
+    height: calc(100vh - 75px);
+    display: flex;
+    flex-direction: column;
     background-color: white;
     box-sizing: border-box;
+}
+
+.HackForTheRouter {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .Left {
@@ -34,13 +42,6 @@
     &.Open {
         box-shadow: -4px 0 8px color-mod(black alpha(25%));
     }
-}
-
-.Container {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    position: relative;
 }
 
 .Navbar {

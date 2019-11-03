@@ -2,7 +2,6 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Header,
-    Container,
     Body,
     Navbar,
     Close,
@@ -27,7 +26,7 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
     const [document, pending] = useDocument(fatal.accident(id))
 
     return (
-        <Container>
+        <Fragment>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
@@ -73,6 +72,6 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
                     )}
                 </Shim>
             </Body>
-        </Container>
+        </Fragment>
     )
 }
