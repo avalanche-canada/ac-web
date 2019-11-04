@@ -52,35 +52,17 @@ export default function TabSet(props) {
                             )}
                         </Condition>
                     ) : (
-                        <Fragment>
-                            <DaySet>
-                                {dangerRatings.map(
-                                    ({ date, dangerRating }, index) => (
-                                        <Day
-                                            key={index}
-                                            date={date}
-                                            {...dangerRating}
-                                        />
-                                    )
-                                )}
-                            </DaySet>
-                            {avidConfidence ? (
-                                <Confidence level={avidConfidence.rating}>
-                                    <ul>
-                                        {avidConfidence.statements.map(
-                                            (statement, index) => (
-                                                <li key={index}>{statement}</li>
-                                            )
-                                        )}
-                                    </ul>
-                                </Confidence>
-                            ):(
-                                <Confidence level={confidence.level}>
-                                    {confidence.comment}
-                                </Confidence>
-
+                        <DaySet>
+                            {dangerRatings.map(
+                                ({ date, dangerRating }, index) => (
+                                    <Day
+                                        key={index}
+                                        date={date}
+                                        {...dangerRating}
+                                    />
+                                )
                             )}
-                        </Fragment>
+                        </DaySet>
                     )}
                     {avidTerrainAndTravel && (
                         <Advice>
@@ -103,6 +85,21 @@ export default function TabSet(props) {
                         snowpack={snowpackSummary}
                         weather={weatherForecast}
                     />
+                    {avidConfidence ? (
+                        <Confidence level={avidConfidence.rating}>
+                            <ul>
+                                {avidConfidence.statements.map(
+                                    (statement, index) => (
+                                        <li key={index}>{statement}</li>
+                                    )
+                                )}
+                            </ul>
+                        </Confidence>
+                    ) : (
+                        <Confidence level={confidence.level}>
+                            {confidence.comment}
+                        </Confidence>
+                    )}
                 </Panel>
             </PanelSet>
         </Tabs>
