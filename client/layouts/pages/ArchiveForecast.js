@@ -71,17 +71,15 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
 
 // Utils
 function RegionDropdown({ value, onChange }) {
-    const [regions, pending] = useForecastRegionsMetadata()
+    const [regions = [], pending] = useForecastRegionsMetadata()
 
-    return pending ? (
-        'Loading...'
-    ) : (
+    return (
         <Dropdown
             options={new Map(regions.map(createRegionOption))}
             value={value}
             onChange={onChange}
-            disabled
-            placeholder="Select a region"
+            disabled={pending}
+            placeholder={pending ? 'Loading...' : 'Select a region'}
         />
     )
 }
