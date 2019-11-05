@@ -1,13 +1,13 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { Router, Redirect } from '@reach/router'
-import Forecast from 'layouts/pages/Forecast'
-import ForecastRegionList from 'layouts/ForecastRegionList'
-import ArchiveForecast from 'layouts/pages/ArchiveForecast'
 import parse from 'date-fns/parse'
 import isAfter from 'date-fns/is_after'
 import isValid from 'date-fns/is_valid'
 import isPast from 'date-fns/is_past'
 import endOfYesterday from 'date-fns/end_of_yesterday'
+import Forecast from 'layouts/pages/Forecast'
+import ForecastRegionList from 'layouts/ForecastRegionList'
+import Bundle from 'components/Bundle'
 import externals, { open } from 'router/externals'
 import { DateParam } from 'hooks/params'
 import { path } from 'utils/url'
@@ -47,7 +47,7 @@ function ForecastRoute({ name, date }) {
 
     return <Forecast name={name} />
 }
-// TODO Lazy load that component!
+const ArchiveForecast = lazy(() => import('layouts/pages/ArchiveForecast'))
 function ArchiveForecastRoute({ name, date, navigate }) {
     if (date && isAfter(parse(date), endOfYesterday())) {
         return <Redirect to={`/forecasts/${name}`} />
@@ -62,10 +62,12 @@ function ArchiveForecastRoute({ name, date, navigate }) {
     }
 
     return (
-        <ArchiveForecast
-            name={name}
-            date={DateParam.parse(date)}
-            onParamsChange={handleParamsChange}
-        />
+        <Bundle>
+            <ArchiveForecast
+                name={name}
+                date={DateParam.parse(date)}
+                onParamsChange={handleParamsChange}
+            />
+        </Bundle>
     )
 }
