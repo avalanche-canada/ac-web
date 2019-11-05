@@ -16,11 +16,11 @@ export default function ForecastLayout() {
     return (
         <Router>
             <ForecastRegionList path="/" />
+            <ForecastRoute path=":name" />
+            <ForecastRoute path=":name/:date" />
             <ArchiveForecastRoute path="archives" />
             <ArchiveForecastRoute path="archives/:name" />
             <ArchiveForecastRoute path="archives/:name/:date" />
-            <ForecastRoute path=":name" />
-            <ForecastRoute path=":name/:date" />
         </Router>
     )
 }
@@ -47,6 +47,7 @@ function ForecastRoute({ name, date }) {
 
     return <Forecast name={name} />
 }
+// TODO Lazy load that component!
 function ArchiveForecastRoute({ name, date, navigate }) {
     if (date && isAfter(parse(date), endOfYesterday())) {
         return <Redirect to={`/forecasts/${name}`} />

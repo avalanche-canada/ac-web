@@ -23,6 +23,9 @@ import {
 } from 'constants/forecast/owners'
 import { handleForecastTabActivate } from 'services/analytics'
 
+// TODO Lazy load that component
+// TODO Start some kind legacy layouts
+
 ArchiveForecast.propTypes = {
     name: PropTypes.string,
     date: PropTypes.instanceOf(Date),
