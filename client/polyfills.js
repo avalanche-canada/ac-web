@@ -1,3 +1,4 @@
+// Should be loaded using script, but scripts load async and Promise.all is used in dynamic imports by webpack.
 import 'core-js/features/promise'
 
 export default async function polyfills(self) {

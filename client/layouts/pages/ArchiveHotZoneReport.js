@@ -106,7 +106,7 @@ function monthReducer(days, { data }) {
 
     return days
 }
-// FIXME Hardcoding areas for now. Need a better way to get historical data
+// FIXME Hardcoding areas for now. Need a better way to get historical data.
 const AREAS = new Map([
     ['hankin-evelyn', 'Hankin-Evelyn'],
     ['kakwa', 'Kakwa'],
