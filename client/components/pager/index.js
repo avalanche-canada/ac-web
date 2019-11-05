@@ -1,12 +1,21 @@
-import React, { memo } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button from 'components/button'
 import styles from './Pager.css'
 import { WHITE } from 'constants/colors'
 
-export default function Pager({ children }) {
-    return <nav className={styles.Container}>{children}</nav>
+Pager.propTypes = {
+    children: PropTypes.element,
+}
+
+export default function Pager({ children, ...props }) {
+    return (
+        <nav {...props} className={styles.Container}>
+            {children}
+        </nav>
+    )
 }
 
 export const Previous = withNavigation(
@@ -23,7 +32,7 @@ export const Next = withNavigation(
 
 // Utils, HOC
 function withNavigation(defaultSubtitle, className, icon) {
-    return memo(function Navigation({
+    return function Navigation({
         title,
         children,
         subtitle = defaultSubtitle,
@@ -44,5 +53,5 @@ function withNavigation(defaultSubtitle, className, icon) {
                 <Button className={styles.Icon}>{icon}</Button>
             </Link>
         )
-    })
+    }
 }

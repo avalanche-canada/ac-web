@@ -1,29 +1,33 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import isToday from 'date-fns/is_today'
 import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
+import subDays from 'date-fns/sub_days'
+import addDays from 'date-fns/add_days'
 import { useForecast } from 'hooks/async/forecast'
 import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
 } from 'hooks/async/features'
 import { Page, Content, Header, Main } from 'components/page'
-import * as components from 'layouts/products/forecast'
+import * as Components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
 import { Muted, Loading } from 'components/text'
 import { Warning } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
+import { DateElement } from 'components/time'
 import Shim from 'components/Shim'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
+import Pager, { Previous, Next } from 'components/pager'
 import externals from 'router/externals'
 import {
     PARKS_CANADA,
     CHIC_CHOCS,
     VANCOUVER_ISLAND,
 } from 'constants/forecast/owners'
-import { handleForecastTabActivate } from 'services/analytics'
-
-// TODO Start some kind legacy layouts
+import * as urls from 'utils/url'
+import { DateParam } from 'hooks/params'
 
 ArchiveForecast.propTypes = {
     name: PropTypes.string,
@@ -116,20 +120,11 @@ function ForecastContent({ name, date, children }) {
     const [forecast, pending] = useForecast(name, date)
 
     return (
-        <components.Provider value={forecast}>
+        <Components.Provider value={forecast}>
             {pending && <Loading>Loading forecast...</Loading>}
-            <components.Metadata />
-            <Shim vertical>
-                <components.ArchiveWarning date={date} />
-            </Shim>
-            <components.Headline />
-            <components.TabSet onTabChange={handleForecastTabActivate} />
-            <components.Footer>
-                <Footer.DangerRatings />
-                <Footer.Disclaimer />
-            </components.Footer>
+            {forecast && <ForecastLayout date={date} />}
             {children}
-        </components.Provider>
+        </Components.Provider>
     )
 }
 function createRegionOption({ id, name }) {
@@ -161,4 +156,56 @@ function getWarningUrl({ type, url, externalUrl }, date) {
         default:
             return null
     }
+}
+
+/*
+    LEGACY LAYOUTS
+    - "More details can be found on the Mountain Weather Forecast" got removed on November Xth, 2019
+    - "Confidence" has moved the "Danger Ratings" tab to the "Details" tab for the AvCan forecast, so all forecasets we are showing     on the website. 
+    - 
+
+    TODO Need a way to implement these rendering strategies nicely. 
+*/
+
+function ForecastLayout({ date }) {
+    return (
+        <Fragment>
+            <Components.Metadata />
+            <Shim top>
+                <Warning>This is an archived avalanche bulletin.</Warning>
+            </Shim>
+            <Components.Headline />
+            <Components.TabSet />
+            <ForecastPager date={date} />
+            <Components.Footer>
+                <Footer.DangerRatings />
+                <Footer.Disclaimer />
+            </Components.Footer>
+        </Fragment>
+    )
+}
+
+function ForecastPager({ date }) {
+    const { region } = Components.useForecast()
+    const previous = subDays(date, 1)
+    const next = addDays(date, 1)
+
+    return (
+        <Pager>
+            <Previous to={createLink(region, previous)}>
+                <DateElement value={previous} />
+            </Previous>
+            <Next to={createLink(region, next)}>
+                <DateElement value={next} />
+            </Next>
+        </Pager>
+    )
+}
+
+function createLink(region, date) {
+    if (isToday(date)) {
+        return urls.path('/forecasts', region)
+    }
+
+    return urls.path('/forecasts', 'archives', region, DateParam.format(date))
 }

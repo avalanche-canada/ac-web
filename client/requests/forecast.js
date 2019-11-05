@@ -92,10 +92,6 @@ function parse(forecast) {
         dangerMode: TO_MODES.get(dangerMode),
         dateIssued,
         validUntil,
-        // TODO: Should come from the server. Impossible to compute locally
-        isArchived:
-            isBefore(dateIssued, new Date()) &&
-            isBefore(validUntil, new Date()),
         dangerRatings: dangerRatings
             .map(transformDangerRating)
             .map(fixDangerRatingDates),
