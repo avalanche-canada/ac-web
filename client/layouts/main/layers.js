@@ -124,7 +124,7 @@ export function useForecastMarkers(map) {
             Object.assign(element, {
                 src:
                     type === 'link'
-                        ? ICONS.get('LINK')
+                        ? ICONS.get('LINK').call()
                         : createForecastIconURL(forecasts[id]),
                 width: 50,
                 height: 50,
