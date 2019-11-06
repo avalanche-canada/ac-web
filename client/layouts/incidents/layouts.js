@@ -7,6 +7,7 @@ import Pagination from 'components/pagination'
 import { Responsive } from 'components/table'
 import { List, Entry } from 'components/description'
 import { DropdownFromOptions } from 'components/controls'
+import Shim from 'components/Shim'
 import { incidentsBaseUrl } from 'requests/config.json'
 import styles from './incidents.css'
 
@@ -38,11 +39,13 @@ function IncidentsList() {
             ) : (
                 <Fragment>
                     <IncidentTable incidents={payload.results} />
-                    <Pagination
-                        total={payload.count / 50}
-                        active={page}
-                        onChange={setPage}
-                    />
+                    <Shim vertical>
+                        <Pagination
+                            total={payload.count / 50}
+                            active={page}
+                            onChange={setPage}
+                        />
+                    </Shim>
                 </Fragment>
             )}
         </Fragment>
