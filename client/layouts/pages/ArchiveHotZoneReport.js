@@ -15,8 +15,6 @@ import { hotZone } from 'prismic/params'
 import { DATE } from 'utils/date'
 import { useDocuments, useDocument } from 'prismic/hooks'
 
-// TODO Lazy load that component!
-
 ArchiveHotZoneReport.propTypes = {
     name: PropTypes.string,
     date: PropTypes.instanceOf(Date),
