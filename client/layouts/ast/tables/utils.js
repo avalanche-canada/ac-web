@@ -7,6 +7,7 @@ import { FlexContentCell } from 'components/table'
 import PaginationComponent from 'components/pagination'
 import { Muted } from 'components/text'
 import * as Async from 'contexts/async'
+import { pluralize } from 'utils/string'
 import typography from 'components/text/Text.css'
 
 Header.propTypes = {
@@ -52,7 +53,8 @@ Title.propTypes = {
 }
 
 export function Title({ type, count, total }) {
-    const all = 'All ' + type
+    const pluralized = pluralize(type, 2)
+    const all = 'All ' + pluralized
     const title = total === 0 ? all : `${all} (${total})`
 
     return (
@@ -60,8 +62,11 @@ export function Title({ type, count, total }) {
             {title}
             {count !== total ? (
                 <small>
-                    Currently showing {count} {type},{' '}
-                    <Link to={`/training/${type}`}>reset your criteria</Link>.
+                    Currently showing {pluralize(type, count, true)},{' '}
+                    <Link to={`/training/${pluralized}`}>
+                        reset your criteria
+                    </Link>
+                    .
                 </small>
             ) : null}
         </Fragment>
@@ -108,13 +113,15 @@ Caption.propTypes = {
 }
 
 export function Caption({ type, empty, children }) {
+    const pluralized = pluralize(type, 2)
+
     return (
         <caption>
             <Async.Error>
                 <ErrorDetails type={type} />
             </Async.Error>
             <Async.Pending>
-                <Muted>Loading {type}...</Muted>
+                <Muted>Loading {pluralized}...</Muted>
             </Async.Pending>
             <Async.Found>{empty && children}</Async.Found>
         </caption>
@@ -127,9 +134,13 @@ ErrorDetails.propTypes = {
 }
 
 export function ErrorDetails({ type, error }) {
+    const pluralized = pluralize(type, 2)
+
     return (
         <details className={typography.Error}>
-            <summary>An error happened while loading the {type}...</summary>
+            <summary>
+                An error happened while loading the {pluralized}...
+            </summary>
             <p>{error.message}</p>
         </details>
     )

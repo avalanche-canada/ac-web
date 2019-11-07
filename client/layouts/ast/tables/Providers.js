@@ -71,7 +71,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
             <Layout
                 title={
                     <Title
-                        type="providers"
+                        type="provider"
                         count={count}
                         total={providers.length}></Title>
                 }>
@@ -91,7 +91,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                             </tbody>
                         )}
                         <tbody>{renderRows(paginated)}</tbody>
-                        <Caption type="providers" empty={count === 0}>
+                        <Caption type="provider" empty={count === 0}>
                             <p>
                                 No providers match your criteria, consider
                                 finding a course on the{' '}

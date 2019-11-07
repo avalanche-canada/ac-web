@@ -80,11 +80,7 @@ export default function Courses({
         <Async.Provider value={context}>
             <Layout
                 title={
-                    <Title
-                        type="courses"
-                        count={count}
-                        total={courses.length}
-                    />
+                    <Title type="course" count={count} total={courses.length} />
                 }>
                 <Responsive>
                     <table>
@@ -95,7 +91,7 @@ export default function Courses({
                             place={place}
                         />
                         <tbody>{paginated.map(renderRow)}</tbody>
-                        <Caption type="courses" empty={count === 0}>
+                        <Caption type="course" empty={count === 0}>
                             <p>
                                 No courses match your criteria, consider finding
                                 a provider on the{' '}
