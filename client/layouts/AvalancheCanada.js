@@ -93,6 +93,11 @@ function AvalancheCanada() {
                             <Ast path="training/*" />
                             <StaticPage path="careers" uid="careers" />
                             <StaticPage
+                                path="start-here"
+                                uid="start-here"
+                                title="Start here"
+                            />
+                            <StaticPage
                                 path="about"
                                 uid="about"
                                 title="About"

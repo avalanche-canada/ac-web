@@ -165,6 +165,29 @@ module.exports = {
             id: String(id++),
             label: 'Learn',
             children: [
+                {
+                    id: String(id++),
+                    label: 'Fresh to the Backcountry?',
+                    header: true,
+                    to: '/start-here',
+                    children: [
+                        {
+                            id: String(id++),
+                            label: 'What is avalanche terrain?',
+                            to: '/start-here#avalanche-terrain',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'What are avalanche conditions?',
+                            to: '/start-here#weather-factors',
+                        },
+                        {
+                            id: String(id++),
+                            label: 'What does snowpack instability look like?',
+                            to: '/start-here#instability-signs',
+                        },
+                    ],
+                },
                 Object.assign({}, AvCanTrainingCourses, { id: String(id++) }),
                 {
                     id: String(id++),
