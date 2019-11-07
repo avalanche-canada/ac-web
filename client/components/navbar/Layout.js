@@ -3,14 +3,14 @@ import PropTypes from 'prop-types'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
-import styles from './Navbar.css'
 import Burger from './Burger'
 import ItemSet from './ItemSet'
 import Brand from './Brand'
 import Donate from './Donate'
 import { useWindowSize, useBoolean } from 'hooks'
-import LOGO from 'styles/AvalancheCanada.svg'
 import { useLocation } from 'router/hooks'
+import LOGO from 'styles/AvalancheCanada.svg'
+import styles from './Navbar.css'
 
 Layout.propTypes = {
     menu: PropTypes.object,
@@ -50,7 +50,6 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
             </Navbar>
             {fullNavbar || (
                 <Cabinet
-                    location={location}
                     menu={menu}
                     show={isCabinetOpened}
                     onClose={hideCabinet}
