@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
@@ -28,6 +28,12 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
     const style = {
         backgroundImage: `url("${logo}")`,
     }
+
+    useEffect(() => {
+        if (isCabinetOpened) {
+            hideCabinet()
+        }
+    }, [location])
 
     return (
         <div className={styles.Layout}>

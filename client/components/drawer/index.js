@@ -1,32 +1,25 @@
-import React, { useState, useEffect, memo } from 'react'
+import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
 import { findNode, getPath, getParent } from 'utils/tree'
+import { useWindowSize } from 'hooks'
 import Drawer from './Drawer'
 import styles from './Drawer.css'
-import { useWindowSize } from 'hooks'
 
 Layout.propTypes = {
     menu: PropTypes.object,
     show: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
-    location: PropTypes.object.isRequired,
 }
 
-function Layout({ menu, location, ...props }) {
+function Layout({ menu, ...props }) {
     const [node, setNode] = useState(null)
-
-    useEffect(() => {
-        props.onClose()
-    }, [location])
 
     return <Container root={menu} node={node} {...props} setNode={setNode} />
 }
 
 export default memo(
     Layout,
-    (prevProps, nextProps) =>
-        prevProps.show === nextProps.show &&
-        prevProps.location === nextProps.location
+    (prevProps, nextProps) => prevProps.show === nextProps.show
 )
 
 Container.propTypes = {
