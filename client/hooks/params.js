@@ -74,13 +74,6 @@ export default function useParams(definition) {
         return string ? '?' + string : string
     }
 
-    // const stringify = useMemo(
-    //     () => query => {
-
-    //     },
-    //     [params]
-    // )
-
     return [params, stringify]
 }
 
