@@ -36,7 +36,6 @@ export function Legend({ children }) {
 
 Control.propTypes = {
     children: PropTypes.node.isRequired,
-    // TODO Not sure we need the property anymore
     horizontal: PropTypes.bool,
     bordered: PropTypes.bool,
 }

@@ -22,6 +22,7 @@ export function courses() {
 function pluckResults({ results }) {
     return results
 }
+// FIXME This should be done on the server!
 function filterOutPastCourses(courses) {
     const now = new Date()
 
