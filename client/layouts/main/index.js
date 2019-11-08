@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect, Fragment } from 'react'
+import React, { useState, useEffect, Fragment } from 'react'
 import { Link, Match } from '@reach/router'
 import { supported } from 'utils/mapbox'
 import UnsupportedMap from './UnsupportedMap'
@@ -22,7 +22,6 @@ import Button from 'components/button'
 import { Error } from 'components/text'
 import Shim from 'components/Shim'
 import { useMapClickHandler } from './drawers/hooks'
-import { useLocation } from 'router/hooks'
 import { Map as MapComponent, useNavigationControl } from 'hooks/mapbox'
 import {
     useForecastRegions,
@@ -52,7 +51,6 @@ function Wrapper() {
 function Main() {
     const [map, setMap] = useState(null)
     const handleMapClick = useMapClickHandler(map)
-    const { location, navigate } = useLocation()
     const { zoom, center, errors } = useMapState()
     const options = { zoom: zoom.value, center: center.value }
 
@@ -82,23 +80,6 @@ function Main() {
         }
     }, [map, handleMapClick])
 
-    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
-    const openExternalForecast = useCallback(
-        ({ match }) => {
-            if (!match) {
-                return null
-            }
-
-            const { name } = match
-
-            if (externals.has(name)) {
-                open(name)
-                navigate('/map' + location.search)
-            }
-        },
-        [location.search]
-    )
-
     useNavigationControl(map)
 
     useForecastRegions(map)
@@ -117,7 +98,22 @@ function Main() {
             <Menu />
             <ToggleMenu />
             <LinkControlSet />
-            <Match path="forecasts/:name">{openExternalForecast}</Match>
+            <Match path="forecasts/:name">
+                {({ match, location, navigate }) => {
+                    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
+
+                    if (!match) {
+                        return null
+                    }
+
+                    const { name } = match
+
+                    if (externals.has(name)) {
+                        open(name)
+                        navigate('/map' + location.search)
+                    }
+                }}
+            </Match>
         </div>
     )
 }
