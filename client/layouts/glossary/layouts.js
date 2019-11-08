@@ -61,7 +61,7 @@ const GlossarySidebar = memo.static(function GlossarySidebar() {
 })
 
 function Glossary({ location, navigate }) {
-    // TODO Use "hooks/params"
+    // TODO Use "hooks/params"? Maybe.
     const params = new URLSearchParams(location.search)
     const [term, setTerm] = useState(params.has('q') ? params.get('q') : '')
     const [document, pending] = useDocument(glossary.glossary())

@@ -9,7 +9,7 @@ import * as Predicates from 'prismic/predicates'
 import * as types from 'constants/prismic'
 
 // TODO: Find a way to reduce this file size and KEEP it easy to read
-// Should it be splited into different modules
+// Should it be splited into different modules?
 
 export function uid(type, uid) {
     return {

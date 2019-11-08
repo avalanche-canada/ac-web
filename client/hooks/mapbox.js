@@ -12,7 +12,7 @@ export function useMap(ref, options) {
 
     useEffect(() => {
         // TODO Should we test the existance of ref.current? Or it will be always available?
-        // https://sentry.io/organizations/avalanche-canada/issues/1311359631/?project=99286&query=is%3Aunresolved&statsPeriod=90d
+        // https://sentry.io/organizations/avalanche-canada/issues/1311359631
 
         const instance = new mapbox.Map({
             style: STYLES.default,
