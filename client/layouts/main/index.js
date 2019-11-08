@@ -98,27 +98,26 @@ function Main() {
             <Menu />
             <ToggleMenu />
             <LinkControlSet />
-            <Match path="forecasts/:name">
-                {({ match, location, navigate }) => {
-                    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
-
-                    if (!match) {
-                        return null
-                    }
-
-                    const { name } = match
-
-                    if (externals.has(name)) {
-                        open(name)
-                        navigate('/map' + location.search)
-                    }
-                }}
-            </Match>
+            <Match path="forecasts/:name">{openExternalForecast}</Match>
         </div>
     )
 }
 
 // Utils
+function openExternalForecast({ match, location, navigate }) {
+    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
+
+    if (!match) {
+        return null
+    }
+
+    const { name } = match
+
+    if (externals.has(name)) {
+        open(name)
+        navigate('/map' + location.search)
+    }
+}
 function LinkControlSet() {
     return (
         <div className={styles.LinkControlSet}>
