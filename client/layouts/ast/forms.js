@@ -38,11 +38,7 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
                     options={LEVELS}
                 />
             </Control>
-            <DateRangeControl
-                from={from}
-                to={to}
-                onChange={range => onParamsChange(range)}
-            />
+            <DateRangeControl from={from} to={to} onChange={onParamsChange} />
             <Control>
                 <DropdownFromOptions
                     multiple
@@ -119,8 +115,18 @@ function DateRangeControl({ from, to, onChange }) {
     const showClear = from && to
     const [mouseEntered, setMouseEntered] = useState(null)
     const [opened, show, hide] = useBoolean(from && !to)
+    const value = formatDateRange(from, to)
     function reset() {
-        onChange({ from: null, to: null })
+        // https://github.com/gpbl/react-day-picker/issues/804
+        ref.current.setState(
+            {
+                value: '',
+                typedValue: '',
+            },
+            () => {
+                onChange({ from: null, to: null })
+            }
+        )
     }
 
     return (
@@ -128,8 +134,7 @@ function DateRangeControl({ from, to, onChange }) {
             <DayPickerInput
                 ref={ref}
                 style={{ flex: 1 }}
-                className={styles.DayPickerInput}
-                value={formatDateRange(from, to)}
+                value={value}
                 showOverlay={opened}
                 formatDate={formatDate}
                 placeholder="Date range"
@@ -160,11 +165,6 @@ function DateRangeControl({ from, to, onChange }) {
                         }
                     },
                     onDayClick(day) {
-                        if (from && to && day >= from && day <= to) {
-                            reset()
-                            return
-                        }
-
                         if (isSelectingFirstDay(from, to, day)) {
                             setMouseEntered(null)
                             onChange({
