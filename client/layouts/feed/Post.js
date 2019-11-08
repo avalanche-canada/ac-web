@@ -24,6 +24,7 @@ export default function Post(props) {
     const [post, pending] = useDocument(params.uid(type, uid))
 
     if (!pending && !post) {
+        // Document not found, redirect to the list
         return <Redirect to={feed.type(type)} />
     }
 
