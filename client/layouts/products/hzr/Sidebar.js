@@ -6,18 +6,12 @@ import { Sidebar, Contact, Follow, Share, Item } from 'components/sidebar'
 import * as utils from 'utils/hzr'
 import { FORECASTERS } from 'constants/emails'
 
-// TODO Rename to Advisory
-
-HotZoneReportSidebar.propTypes = {
+AdvisorySidebar.propTypes = {
     shareable: PropTypes.bool,
     children: PropTypes.node,
 }
 
-export default function HotZoneReportSidebar({
-    shareable,
-    children,
-    ...props
-}) {
+export default function AdvisorySidebar({ shareable, children, ...props }) {
     return (
         <Sidebar {...props}>
             {children}
