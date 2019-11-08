@@ -48,7 +48,7 @@ function SponsorRoute({ name, label }) {
     return (
         <Sponsor
             label={label}
-            name={document?.data?.name}
+            name={document?.data?.name || name}
             logo={document?.data?.['image-229']}
             url={document?.data?.url}>
             {pending && <Loading />}
