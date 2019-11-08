@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
+import { Link, Redirect } from '@reach/router'
 import { Loading } from 'components/text'
 import * as params from 'prismic/params'
 import { Page, Content, Header, Main, Headline, Aside } from 'components/page'
@@ -23,10 +23,9 @@ export default function Post(props) {
     const { type, uid } = props
     const [post, pending] = useDocument(params.uid(type, uid))
 
-    // TODO Post not found, redirecting to feed page or showing information to the user
-    // if (!pending && !post) {
-    //     return <Redirect to={feed.type(type)} />
-    // }
+    if (!pending && !post) {
+        return <Redirect to={feed.type(type)} />
+    }
 
     return (
         <Page>
