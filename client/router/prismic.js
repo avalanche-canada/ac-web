@@ -8,8 +8,6 @@ import {
     FATAL_ACCIDENT,
 } from 'constants/prismic'
 
-// TODO Cleanups!
-
 export const feed = {
     uid(type, uid) {
         return path(feed.type(type), uid)
