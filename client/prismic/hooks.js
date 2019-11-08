@@ -61,7 +61,7 @@ function merge(...values) {
     return values.reduce(
         (value, current) => [
             current[0], // the last payload that we care, see calls above!
-            current[1] || value[1] || false, // pending
+            current[1] || value[1] || !current[0], // pending
             value[2] || current[2], // error
         ],
         []
