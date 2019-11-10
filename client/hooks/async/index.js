@@ -3,7 +3,7 @@ import { useMounted } from 'hooks'
 import { Memory } from 'services/cache'
 
 export function useAsync(
-    fn,
+    asyncFunction,
     params = [],
     initialState = [undefined, true, null]
 ) {
@@ -19,20 +19,18 @@ export function useAsync(
 
         controller.current = createAbortController()
 
-        fn.apply(null, [...params, controller.current.signal])
-            .then(data => {
-                if (!mounted) {
+        asyncFunction
+            .apply(null, params.concat(controller.current.signal))
+            .then(data => [Fulfilled, data], error => [Rejected, error])
+            .then(values => {
+                const { aborted } = controller.current.signal || {}
+
+                // FIXME Not sure what to do with aborted request
+                if (!mounted || aborted) {
                     return
                 }
 
-                const { aborted } = controller.current.signal || {}
-
-                dispatch([Fulfilled, aborted ? undefined : data])
-            })
-            .catch(error => {
-                if (mounted) {
-                    dispatch([Rejected, error])
-                }
+                dispatch(values)
             })
 
         return () => {
