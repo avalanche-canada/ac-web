@@ -117,6 +117,7 @@ function reducer(state, [type, payload]) {
 }
 function createAbortController() {
     try {
+        // eslint-disable-next-line no-undef
         return new AbortController()
     } catch {
         return {
