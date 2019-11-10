@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { Link, Match } from '@reach/router'
+import { Link, Match, Redirect } from '@reach/router'
 import { supported } from 'utils/mapbox'
 import UnsupportedMap from './UnsupportedMap'
 import { Warning } from 'components/icons'
@@ -104,19 +104,16 @@ function Main() {
 }
 
 // Utils
-function openExternalForecast({ match, location, navigate }) {
+function openExternalForecast({ match, location }) {
     // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
 
-    if (!match) {
+    if (!match || !externals.has(match.name)) {
         return null
     }
 
-    const { name } = match
+    open(match.name)
 
-    if (externals.has(name)) {
-        open(name)
-        navigate('/map' + location.search)
-    }
+    return <Redirect to={'/map' + location.search} />
 }
 function LinkControlSet() {
     return (
