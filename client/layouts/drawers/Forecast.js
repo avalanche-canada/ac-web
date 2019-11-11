@@ -26,16 +26,16 @@ import * as Async from 'contexts/async'
 import shim from 'components/Shim.css'
 import typography from 'components/text/Text.css'
 
-Layout.propTypes = {
+ForeastLayout.propTypes = {
     name: PropTypes.string.isRequired,
     onCloseClick: PropTypes.func.isRequired,
     onLocateClick: PropTypes.func.isRequired,
 }
 
-// "key" in <Body> to mount/remount the tabs, so the first tab appears and
-// scroll gets reset as the name changes
+export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
+    // "key" in <Body> to mount/remount the tabs, so the first tab appears and
+    // scroll gets reset as the name changes
 
-export default function Layout({ name, onCloseClick, onLocateClick }) {
     return (
         <Fragment>
             <Navbar>

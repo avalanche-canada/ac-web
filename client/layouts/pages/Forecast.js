@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import isToday from 'date-fns/is_today'
 import { useForecast } from 'hooks/async/forecast'
 import {
@@ -15,42 +16,48 @@ import {
     List,
     ListItem,
 } from 'components/page'
-import { Muted, Loading, Warning } from 'components/text'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import { StructuredText } from 'prismic/components/base'
 import Shim from 'components/Shim'
-import { useMerge } from 'hooks/async'
+import shim from 'components/Shim.css'
+import * as Async from 'contexts/async'
+import typography from 'components/text/Text.css'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
     date: PropTypes.instanceOf(Date),
 }
 
-export default function ForecastLayout(props) {
-    const { name, date } = props
+export default function ForecastLayout({ name, date }) {
     const isPrintable = !date || isToday(date)
-    const [[region, forecast], pending, [, error]] = useMerge(
-        useForecastRegionMetadata(name),
-        useForecast(name, date)
-    )
-    const title = pending ? (
-        <Loading component="span" />
-    ) : region ? (
-        region.name
-    ) : (
-        <Warning component="span">{name} forecast not found</Warning>
-    )
 
     return (
         <Page>
-            <Header title={title} />
+            <Async.Provider value={useForecastRegionMetadata(name)}>
+                <Header title={<Title name={name} />} />
+            </Async.Provider>
             <Content>
                 <Main>
-                    {pending && <Muted>Loading forecast data...</Muted>}
-                    {forecast && <ForecastContent value={forecast} />}
-                    {error && <OtherRegions />}
+                    <Async.Provider value={useForecast(name, date)}>
+                        <Async.Pending>
+                            <p className={typography.Muted}>
+                                Loading forecast...
+                            </p>
+                        </Async.Pending>
+                        <Async.Found>
+                            <ForecastContent name={name} />
+                        </Async.Found>
+                        <Async.FirstError>
+                            <Async.NotFound>
+                                <OtherRegions />
+                            </Async.NotFound>
+                            <Async.Error>
+                                <ForecastErrorDetails />
+                            </Async.Error>
+                        </Async.FirstError>
+                    </Async.Provider>
                 </Main>
                 <Aside>
                     {name === 'kananaskis' ? (
@@ -65,9 +72,32 @@ export default function ForecastLayout(props) {
 }
 
 // Util components
-function ForecastContent({ value }) {
+function ForecastErrorDetails({ error }) {
     return (
-        <components.Provider value={value}>
+        <details className={classnames(typography.Error, shim.all)}>
+            <summary>An error happened while loading forecast.</summary>
+            <p>{error.message}</p>
+        </details>
+    )
+}
+function Title({ name }) {
+    return (
+        <Fragment>
+            <Async.Pending>
+                <span className={typography.Muted}>Loading...</span>
+            </Async.Pending>
+            <Async.Found>{region => region.name}</Async.Found>
+            <Async.Empty>
+                <span className={typography.Warning}>
+                    {name} forecast not found
+                </span>
+            </Async.Empty>
+        </Fragment>
+    )
+}
+function ForecastContent({ name, payload }) {
+    return (
+        <components.Provider value={payload}>
             <components.Metadata />
             <SPAW name={name} />
             <components.Headline />
