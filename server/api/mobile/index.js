@@ -71,15 +71,29 @@ StatusMessage.prototype.test = function(params) {
 const APP = 'ca.avalanche.mobile.v2'
 const IOS = 'ios'
 const ANDROID = 'android'
+const STORE_URLS = {
+    ios: 'itms-apps://apps.apple.com/ca/app/avalanche-canada/id1440069335',
+    android:
+        'https://play.google.com/store/apps/details?id=ca.avalanche.mobile.v2',
+}
+const STORE_PROMPTS = {
+    ios: 'Update the AvCan app in the App Store',
+    android: 'Update the AvCan app in Google Play',
+}
+
 const MESSAGES = [
-    new StatusMessage(
-        new StatusParams(APP, '1.4.2', IOS),
-        'New Application version released',
-        '<h1>New application version released.</h1><p>A change to the application requires you to install the latest version of the application.</p><a href="https://google.ca">Test for link</a>'
-    ),
-    new StatusMessage(
-        new StatusParams(APP, '1.4.2', ANDROID),
-        'New Application version released',
-        '<h1>New application version released.</h1><p>A change to the application requires you to install the latest version of the application.</p><a href="https://google.ca">Test for link</a>'
-    ),
+    createRelease150Message(IOS),
+    createRelease150Message(ANDROID),
 ]
+
+function createRelease150Message(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '1.5.0', platform),
+        'New application released for season 2019-2020',
+        '<h1>A new Avalanche Canada mobile app has been released for the 2019-2020 season</h1><p>Our app has undergone a major update for the 2019-20 season. The update adds the North Rockies and Yukon as full forecast regions and makes some minor changes to the way information is shown in the forecasts.</p><a href="' +
+            STORE_URLS[platform] +
+            '">' +
+            STORE_PROMPTS[platform] +
+            '  ></a>'
+    )
+}
