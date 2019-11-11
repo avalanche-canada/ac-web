@@ -37,9 +37,7 @@ export function StaticPage({ uid, title }) {
         <Async.Provider value={useDocument(props)}>
             <Page className={`${STATIC_PAGE}-${uid}`}>
                 <Async.Found>
-                    {({ data }) =>
-                        data.banner?.url ? <Banner {...data.banner} /> : null
-                    }
+                    <PageBanner />
                 </Async.Found>
                 <Header title={<Title>{title}</Title>} />
                 <Content>
@@ -174,4 +172,9 @@ function PageAside({ payload }) {
     } else {
         return null
     }
+}
+function PageBanner({ payload }) {
+    const { banner } = payload.data
+
+    return banner?.url ? <Banner {...banner} /> : null
 }
