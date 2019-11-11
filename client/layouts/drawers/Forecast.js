@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { Link } from '@reach/router'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
 import {
@@ -12,7 +13,6 @@ import {
 import * as components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
-import { Muted, Warning, Loading } from 'components/text'
 import { useForecast } from 'hooks/async/forecast'
 import {
     useForecastRegionsMetadata,
@@ -22,6 +22,9 @@ import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 import { handleForecastTabActivate } from 'services/analytics'
 import { useLocation } from 'router/hooks'
+import * as Async from 'contexts/async'
+import shim from 'components/Shim.css'
+import typography from 'components/text/Text.css'
 
 Layout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -33,9 +36,6 @@ Layout.propTypes = {
 // scroll gets reset as the name changes
 
 export default function Layout({ name, onCloseClick, onLocateClick }) {
-    const [region, regionPending] = useForecastRegionMetadata(name)
-    const [forecast, forecastPending] = useForecast(name)
-
     return (
         <Fragment>
             <Navbar>
@@ -44,50 +44,71 @@ export default function Layout({ name, onCloseClick, onLocateClick }) {
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Header subject="Avalanche Forecast">
-                <h1>
-                    {regionPending ? (
-                        <Loading component="span" />
-                    ) : region ? (
-                        <Fragment>
-                            <Link to={`/forecasts/${name}`}>{region.name}</Link>
-                            <DisplayOnMap
-                                onClick={() =>
-                                    onLocateClick(utils.geometry(region))
-                                }
+                <Async.Provider value={useForecastRegionMetadata(name)}>
+                    <h1>
+                        <Async.Pending>
+                            <span className={typography.Muted}>
+                                Loading ...
+                            </span>
+                        </Async.Pending>
+                        <Async.Found>
+                            <ForecastRegionHeader
+                                onLocateClick={onLocateClick}
                             />
-                        </Fragment>
-                    ) : (
-                        <Warning component="span">
-                            Forecast {name} not found
-                        </Warning>
-                    )}
-                </h1>
+                        </Async.Found>
+                        <Async.Empty>
+                            <span className={typography.Warning}>
+                                Forecast {name} not found
+                            </span>
+                        </Async.Empty>
+                    </h1>
+                </Async.Provider>
             </Header>
             <Body key={name}>
-                {forecastPending ? (
-                    <Shim all>
-                        <Muted>Loading avalanche forecast...</Muted>
-                    </Shim>
-                ) : forecast ? (
-                    <components.Provider value={forecast}>
-                        <Shim horizontal>
-                            <components.Metadata />
-                            <components.Headline />
-                        </Shim>
-                        <components.TabSet
-                            onTabChange={handleForecastTabActivate}
-                        />
-                        <components.Footer />
-                    </components.Provider>
-                ) : (
-                    <OtherRegions />
-                )}
+                <Async.Provider value={useForecast(name)}>
+                    <Async.Pending>
+                        <p className={classnames(typography.Muted, shim.all)}>
+                            Loading avalanche forecast...
+                        </p>
+                    </Async.Pending>
+                    <Async.Found>
+                        <Forecast />
+                    </Async.Found>
+                    <Async.FirstError>
+                        <Async.NotFound>
+                            <OtherRegions />
+                        </Async.NotFound>
+                        <Async.Error>
+                            <ForecastErrorDetails />
+                        </Async.Error>
+                    </Async.FirstError>
+                </Async.Provider>
             </Body>
         </Fragment>
     )
 }
 
 // Utils and Constants
+function ForecastErrorDetails({ error }) {
+    return (
+        <details className={classnames(typography.Error, shim.all)}>
+            <summary>An error happened while loading forecast.</summary>
+            <p>{error.message}</p>
+        </details>
+    )
+}
+function Forecast({ payload }) {
+    return (
+        <components.Provider value={payload}>
+            <Shim horizontal>
+                <components.Metadata />
+                <components.Headline />
+            </Shim>
+            <components.TabSet onTabChange={handleForecastTabActivate} />
+            <components.Footer />
+        </components.Provider>
+    )
+}
 function OtherRegions() {
     const { location } = useLocation()
     const [regions] = useForecastRegionsMetadata()
@@ -116,5 +137,17 @@ function SPAW({ name }) {
                 <SPAWComponent link={link} style={{ flex: 1, padding: 0 }} />
             )}
         </SPAWContainer>
+    )
+}
+function ForecastRegionHeader({ payload, onLocateClick }) {
+    const { id, name } = payload
+
+    return (
+        <Fragment>
+            <Link to={`/forecasts/${id}`}>{name}</Link>
+            <DisplayOnMap
+                onClick={() => onLocateClick(utils.geometry(payload))}
+            />
+        </Fragment>
     )
 }

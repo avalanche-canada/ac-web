@@ -46,7 +46,11 @@ export function Found({ children }) {
         : children
 }
 
-// Case for Prismic document. There no concept of NotFound error for Prismic documents.
+/*
+    Case for Prismic document. 
+    Prismic has no concept of NotFound error 
+    or any other async hooks that use cached value
+*/
 Empty.propTypes = {
     children: PropTypes.node,
 }
