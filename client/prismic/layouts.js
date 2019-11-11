@@ -16,6 +16,7 @@ import { StructuredText, SliceZone } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
 import { useDocument } from './hooks'
 import * as Async from 'contexts/async'
+import { ErrorDetails } from 'components/application'
 
 StaticPage.propTypes = {
     uid: PropTypes.string.isRequired,
@@ -23,6 +24,7 @@ StaticPage.propTypes = {
 }
 
 export function StaticPage({ uid, title }) {
+    const summary = `An error happened while getting document ${title || uid}.`
     const props = {
         ...params.uid(STATIC_PAGE, uid),
         fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
@@ -42,32 +44,20 @@ export function StaticPage({ uid, title }) {
                 <Header title={<Title>{title}</Title>} />
                 <Content>
                     <Pending title={title} />
-                    <Async.Empty>
-                        <Main>
+                    <Main>
+                        <Async.Empty>
                             <Error>Document {title || uid} not found.</Error>
-                        </Main>
-                    </Async.Empty>
+                        </Async.Empty>
+                        <Async.Found>
+                            <StaticPageBody />
+                        </Async.Found>
+                    </Main>
                     <Async.Found>
-                        {({ data }) => (
-                            <Main>
-                                {data.headline && (
-                                    <Headline>{data.headline}</Headline>
-                                )}
-                                {Array.isArray(data.content) && (
-                                    <SliceZone value={data.content} />
-                                )}
-                            </Main>
-                        )}
-                    </Async.Found>
-                    <Async.Found>
-                        {({ data }) => <PageAside {...data} />}
+                        <PageAside />
                     </Async.Found>
                     <Async.FirstError>
                         <Async.HTTPError>
-                            <Error>
-                                An error happened while getting document{' '}
-                                {title || uid}.
-                            </Error>
+                            <ErrorDetails summary={summary}></ErrorDetails>
                         </Async.HTTPError>
                         <Async.Throw />
                     </Async.FirstError>
@@ -91,7 +81,7 @@ export function GenericPage({ uid, title }) {
                     <Pending title={title} />
                     <Main>
                         <Async.Found>
-                            <Body />
+                            <GenericBody />
                         </Async.Found>
                         <Async.FirstError>
                             <Async.Empty>
@@ -119,15 +109,25 @@ export function Generic({ uid }) {
                 <Loading />
             </Async.Pending>
             <Async.Found>
-                <Body />
+                <GenericBody />
             </Async.Found>
         </Async.Provider>
     )
 }
 
 // Util components
-function Body({ payload }) {
+function GenericBody({ payload }) {
     return <StructuredText value={payload.data.body} />
+}
+function StaticPageBody({ payload }) {
+    const { headline, content } = payload.data
+
+    return (
+        <Fragment>
+            {headline && <Headline>{headline}</Headline>}
+            {Array.isArray(content) && <SliceZone value={content} />}
+        </Fragment>
+    )
 }
 function Title({ children = null }) {
     return (
@@ -150,7 +150,9 @@ function Pending({ title }) {
         </Async.Pending>
     )
 }
-function PageAside({ sharing, following, contacting, sidebar = [], contact }) {
+function PageAside({ payload }) {
+    let { sharing, following, contacting, sidebar = [], contact } = payload
+
     sharing = sharing === 'Yes'
     following = following === 'Yes'
     contacting = contacting === 'Yes'
