@@ -21,6 +21,7 @@ import {
 import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 import { handleForecastTabActivate } from 'services/analytics'
+import { ErrorDetails } from 'components/application'
 import { useLocation } from 'router/hooks'
 import * as Async from 'contexts/async'
 import shim from 'components/Shim.css'
@@ -79,7 +80,10 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                             <OtherRegions />
                         </Async.NotFound>
                         <Async.Error>
-                            <ForecastErrorDetails />
+                            <ErrorDetails
+                                summary="An error happened while loading forecast."
+                                className={shim.all}
+                            />
                         </Async.Error>
                     </Async.FirstError>
                 </Async.Provider>
@@ -89,14 +93,6 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
 }
 
 // Utils and Constants
-function ForecastErrorDetails({ error }) {
-    return (
-        <details className={classnames(typography.Error, shim.all)}>
-            <summary>An error happened while loading forecast.</summary>
-            <p>{error.message}</p>
-        </details>
-    )
-}
 function Forecast({ payload }) {
     return (
         <components.Provider value={payload}>

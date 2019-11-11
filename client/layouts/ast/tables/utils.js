@@ -5,10 +5,10 @@ import * as Page from 'components/page'
 import { Sorting } from 'components/button'
 import { FlexContentCell } from 'components/table'
 import PaginationComponent from 'components/pagination'
+import { ErrorDetails } from 'components/application'
 import { Muted } from 'components/text'
 import * as Async from 'contexts/async'
 import { pluralize } from 'utils/string'
-import typography from 'components/text/Text.css'
 
 Header.propTypes = {
     columns: PropTypes.array.isRequired,
@@ -114,34 +114,17 @@ Caption.propTypes = {
 
 export function Caption({ type, empty, children }) {
     const pluralized = pluralize(type, 2)
+    const summary = `An error happened while loading the ${pluralized}...`
 
     return (
         <caption>
             <Async.Error>
-                <ErrorDetails type={type} />
+                <ErrorDetails summary={summary} />
             </Async.Error>
             <Async.Pending>
                 <Muted>Loading {pluralized}...</Muted>
             </Async.Pending>
             <Async.Found>{empty && children}</Async.Found>
         </caption>
-    )
-}
-
-ErrorDetails.propTypes = {
-    type: PropTypes.string.isRequired,
-    error: PropTypes.instanceOf(Error),
-}
-
-export function ErrorDetails({ type, error }) {
-    const pluralized = pluralize(type, 2)
-
-    return (
-        <details className={typography.Error}>
-            <summary>
-                An error happened while loading the {pluralized}...
-            </summary>
-            <p>{error.message}</p>
-        </details>
     )
 }

@@ -24,6 +24,7 @@ import Shim from 'components/Shim'
 import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
 import typography from 'components/text/Text.css'
+import { ErrorDetails } from 'components/application'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -54,7 +55,10 @@ export default function ForecastLayout({ name, date }) {
                                 <OtherRegions />
                             </Async.NotFound>
                             <Async.Error>
-                                <ForecastErrorDetails />
+                                <ErrorDetails
+                                    summary="An error happened while loading forecast."
+                                    className={shim.all}
+                                />
                             </Async.Error>
                         </Async.FirstError>
                     </Async.Provider>
@@ -72,14 +76,6 @@ export default function ForecastLayout({ name, date }) {
 }
 
 // Util components
-function ForecastErrorDetails({ error }) {
-    return (
-        <details className={classnames(typography.Error, shim.all)}>
-            <summary>An error happened while loading forecast.</summary>
-            <p>{error.message}</p>
-        </details>
-    )
-}
 function Title({ name }) {
     return (
         <Fragment>

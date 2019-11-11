@@ -19,8 +19,9 @@ import { useBoolean, useEventListener } from 'hooks'
 import Dialog, { Header, Footer, Body } from 'components/dialog'
 import { Close } from 'components/button'
 import Button from 'components/button'
-import { Error } from 'components/text'
+import { ErrorDetails } from 'components/application'
 import Shim from 'components/Shim'
+import shim from 'components/Shim.css'
 import { useMapClickHandler } from './drawers/hooks'
 import { Map as MapComponent, useNavigationControl } from 'hooks/mapbox'
 import {
@@ -33,6 +34,7 @@ import {
     useForecastMarkers,
 } from './layers'
 import styles from './Map.css'
+import typography from 'components/text/Text.css'
 
 export default supported() ? Wrapper : UnsupportedMap
 
@@ -192,16 +194,16 @@ function ErrorDialog({ opened, close }) {
                     arrow for more details.
                 </p>
                 {Array.from(errors.value.entries()).map(([type, errors]) => (
-                    <details
-                        className={styles.ErrorDetails}
-                        key={type.description}>
-                        <Error component="summary">{SUMMARIES.get(type)}</Error>
-                        <ul>
+                    <ErrorDetails
+                        key={type.description}
+                        summary={SUMMARIES.get(type)}
+                        className={shim.vertical}>
+                        <ul className={typography.Initial}>
                             {Array.from(errors).map((error, index) => (
                                 <li key={index}>{error.message}</li>
                             ))}
                         </ul>
-                    </details>
+                    </ErrorDetails>
                 ))}
             </Body>
             <Footer>
