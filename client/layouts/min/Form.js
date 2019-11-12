@@ -204,7 +204,7 @@ export default class SubmissionForm extends Component {
                                 onChange={this.handleChange}
                             />
                             {error && (
-                                <Error component="details">
+                                <Error as="details">
                                     <summary>
                                         An error happened while submitting your
                                         report.
@@ -218,9 +218,7 @@ export default class SubmissionForm extends Component {
                                         and cooperation!{' '}
                                         <Mailto
                                             email={SUPPORT}
-                                            subject={`Problem submitting report: ${
-                                                value.required.title
-                                            }`}
+                                            subject={`Problem submitting report: ${value.required.title}`}
                                         />
                                     </p>
                                     <p>

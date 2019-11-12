@@ -28,6 +28,10 @@ export function Footer({ children }) {
     return <footer className={styles.Footer}>{children}</footer>
 }
 
+Content.propTypes = {
+    children: PropTypes.node.isRequired,
+}
+
 export function Content({ children, ...props }) {
     return (
         <div {...props} className={styles.Content}>
@@ -205,7 +209,8 @@ export function ListItem({ children, to, ...link }) {
     )
 }
 
-// Pages
+// Layouts
+// TODO Should me moved to layouts
 Error.propTypes = {
     children: PropTypes.node.isRequired,
 }
@@ -258,7 +263,7 @@ export function Loading({ title, children }) {
         <Page>
             <Content>
                 <Main>
-                    <Text.Loading component="h1">{title}</Text.Loading>
+                    <Text.Loading as="h1">{title}</Text.Loading>
                     {children}
                 </Main>
             </Content>

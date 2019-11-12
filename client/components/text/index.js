@@ -12,12 +12,8 @@ export const Helper = createText('span', styles.Helper)
 export const Warning = createText('p', styles.Warning)
 
 // Factory
-function createText(component, className, text) {
-    return function Text({
-        component: Component = component,
-        children = text,
-        ...props
-    }) {
+function createText(as, className, text) {
+    return function Text({ as: Component = as, children = text, ...props }) {
         return (
             <Component {...props} className={className}>
                 {children}

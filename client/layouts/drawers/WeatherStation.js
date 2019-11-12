@@ -34,7 +34,7 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
             <Header subject="Weather station">
                 <h1>
                     <Async.Pending>
-                        <Loading component="span" />
+                        <Loading as="span" />
                     </Async.Pending>
                     <Async.Found>
                         {station => (
@@ -49,7 +49,7 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
                         )}
                     </Async.Found>
                     <Async.NotFound>
-                        <Warning component="span">
+                        <Warning as="span">
                             Weather station #{id} not found
                         </Warning>
                     </Async.NotFound>
