@@ -81,6 +81,10 @@ export function useFlyTo(map) {
 
     return useCallback(
         (geometryOrFeature, zoom = 13) => {
+            if (!map) {
+                return
+            }
+
             map.flyTo({
                 center: getCoord(geometryOrFeature),
                 zoom,
@@ -95,6 +99,10 @@ export function useFitBounds(map) {
 
     return useCallback(
         geometryOrFeature => {
+            if (!map) {
+                return
+            }
+
             map.fitBounds(bbox(geometryOrFeature), {
                 offset,
                 padding: 75,
