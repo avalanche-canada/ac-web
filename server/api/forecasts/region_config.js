@@ -1,10 +1,10 @@
-var _ = require('lodash');
-var xml2js = require('xml2js');
-var Q = require('q');
-
+var _        = require('lodash');
+var xml2js   = require('xml2js');
+var Q        = require('q');
 var fetch    = require('./fetch');
 var avalx    = require('./avalx');
 var icon_set = require('./icon_set');
+var addDays  = require('date-fns/add_days');
 
 var reg_metadata = require('../../data/season')
 
@@ -14,9 +14,6 @@ var regs_by_id = _.keyBy(reg_metadata.forecast_regions.features, function(r) {
 var reg_properties = _.mapValues(regs_by_id, function(r) {
     return r.properties
 })
-var xml_parser = new xml2js.Parser();
-
-function noop() {}
 
 function parseAvalx(region_id) {
     return function(data) {
@@ -38,8 +35,17 @@ function parseAvalx(region_id) {
 function addStaticIcons(tz) { return function(fx) { return icon_set.addStaticIcons(tz, fx); } }
 function addMovingIcons(tz) { return function(fx) { return icon_set.addMovingIcons(tz, fx); } }
 function addOwner(owner)    { return function(fx) { return Object.assign({}, fx, {owner: owner}); } }
-
-function consoledir(val) { console.dir(val); return val; }
+function fixAvalxDangerRatingDates(offset) {
+    return function(fx) {
+        return Object.assign({}, fx, {
+            dangerRatings: fx.dangerRatings.map(function(dangerRating, index) {
+                return Object.assign({}, dangerRating, {
+                    date: addDays(fx.dateIssued, index + offset),
+                })
+            })
+        });
+    }
+}
 
 var AVCAN = {
     'northwest-coastal': {
@@ -47,6 +53,7 @@ var AVCAN = {
         fetchNow: function() {
             return fetch.fetchAvalx2019(16)
                 .then(parseAvalx('northwest-coastal'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -56,6 +63,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(17)
                 .then(parseAvalx('northwest-inland'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -65,6 +73,7 @@ var AVCAN = {
         fetchNow: function(){ 
             return fetch.fetchAvalx2019(14)
                 .then(parseAvalx('sea-to-sky'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -74,6 +83,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(15)
                 .then(parseAvalx('south-coast-inland'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -83,6 +93,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(8)
                 .then(parseAvalx('south-coast'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -90,8 +101,9 @@ var AVCAN = {
     'north-rockies': {
         metadata: reg_properties['north-rockies'],
         fetchNow: function(){
-            return fetch.fetchAvalx2016(9)
+            return fetch.fetchAvalx2019(9)
                 .then(parseAvalx('north-rockies'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addMovingIcons('America/Vancouver'));
         },
@@ -101,6 +113,7 @@ var AVCAN = {
         fetchNow: function() {
             return fetch.fetchAvalx2019(19)
                 .then(parseAvalx('cariboos'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -110,6 +123,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(18)
                 .then(parseAvalx('north-columbia'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -119,6 +133,7 @@ var AVCAN = {
         fetchNow: function(){ 
             return fetch.fetchAvalx2019(10)
                 .then(parseAvalx('south-columbia'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -128,6 +143,7 @@ var AVCAN = {
         fetchNow: function(){ 
             return fetch.fetchAvalx2019(11)
                 .then(parseAvalx('purcells'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -137,6 +153,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(6)
                 .then(parseAvalx('kootenay-boundary'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -146,6 +163,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(13)
                 .then(parseAvalx('south-rockies'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -155,6 +173,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(12)
                 .then(parseAvalx('lizard-range'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -164,6 +183,7 @@ var AVCAN = {
         fetchNow: function(){
             return fetch.fetchAvalx2019(20)
                 .then(parseAvalx('yukon'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addMovingIcons('America/Vancouver'));
         },
@@ -177,6 +197,7 @@ var KCOUNTRY =  {
         fetchNow: function(){
             return fetch.fetchAvalx2016(7)
                 .then(parseAvalx('kananaskis'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('avalanche-canada'))
                 .then(addStaticIcons('America/Edmonton'));
         },
@@ -192,6 +213,7 @@ var PARKS = {
         fetchNow: function(){
             return fetch.fetchParks(3)
                 .then(parseAvalx('glacier'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('parks-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
@@ -201,6 +223,7 @@ var PARKS = {
         fetchNow: function(){
             return fetch.fetchParks(5)
                 .then(parseAvalx('little-yoho'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('parks-canada'))
                 .then(addStaticIcons('America/Edmonton'));
         },
@@ -210,6 +233,7 @@ var PARKS = {
         fetchNow: function(){
             return fetch.fetchParks(1)
                 .then(parseAvalx('banff-yoho-kootenay'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('parks-canada'))
                 .then(addStaticIcons('America/Edmonton'));
         },
@@ -219,6 +243,7 @@ var PARKS = {
         fetchNow: function(){
             return fetch.fetchParks(2)
                 .then(parseAvalx('jasper'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('parks-canada'))
                 .then(addStaticIcons('America/Edmonton'));
         },
@@ -228,6 +253,7 @@ var PARKS = {
         fetchNow: function(){
             return fetch.fetchParks(4)
                 .then(parseAvalx('waterton'))
+                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('parks-canada'))
                 .then(addStaticIcons('America/Edmonton'));
         },

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { useForecast } from './Context'
 import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'

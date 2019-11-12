@@ -1,5 +1,4 @@
 import parseDate from 'date-fns/parse'
-import addDays from 'date-fns/add_days'
 import isBefore from 'date-fns/is_before'
 import isValid from 'date-fns/is_valid'
 import startOfToday from 'date-fns/start_of_today'
@@ -78,23 +77,13 @@ function parse(forecast) {
         weatherForecast,
     } = forecast
 
-    // TODO(wnh): Clean this up and merge it into either the server side or the
-    // transformDangerRating function
-    function fixDangerRatingDates(dangerRating, index) {
-        return Object.assign({}, dangerRating, {
-            date: addDays(dateIssued, index + 1),
-        })
-    }
-
     return {
         ...forecast,
         confidence: asConfidenceObject(confidence),
         dangerMode: TO_MODES.get(dangerMode),
         dateIssued,
         validUntil,
-        dangerRatings: dangerRatings
-            .map(transformDangerRating)
-            .map(fixDangerRatingDates),
+        dangerRatings: dangerRatings.map(transformDangerRating),
         avalancheSummary: trim(avalancheSummary),
         snowpackSummary: trim(snowpackSummary),
         weatherForecast: trim(weatherForecast),
@@ -124,7 +113,7 @@ function transformDangerRating({ date, dangerRating }) {
     }
 }
 
-// Utils
+// More utils
 function trim(text) {
     return typeof text === 'string' ? text.trim() : text
 }
@@ -142,7 +131,7 @@ const TO_RATINGS = new Map([
 ])
 const TO_MODES = new Map([
     ['Off season', Modes.OFF_SEASON],
-    // I saw "Summer situation" somewhere a long time ago! I am not taking chances, convert it to OFF
+    // I saw "Summer situation" somewhere a long time ago! I am not taking chances, convert it to "OFF_SEASON"
     ['Summer situation', Modes.OFF_SEASON],
     ['Spring situation', Modes.SPRING_SITUATION],
     ['Early season', Modes.EARLY_SEASON],
