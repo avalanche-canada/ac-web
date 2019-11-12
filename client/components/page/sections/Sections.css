@@ -1,16 +1,12 @@
-@import "../../../styles/colors.css";
+@import '../../../styles/colors.css';
 
 @custom-media --splash-column (width < 860px);
 
-.Splash {
+.Container {
     margin: 2em 0;
 }
 
-.Splash--Header {
-
-}
-
-.Splash--Content {
+.Content {
     display: flex;
 
     & > * {

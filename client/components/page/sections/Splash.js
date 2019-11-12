@@ -10,12 +10,12 @@ Splash.propTypes = {
 
 export default function Splash({ title, children }) {
     return (
-        <section className={styles.Splash}>
-            <header className={styles['Splash--Header']}>
+        <section className={styles.Container}>
+            <header>
                 {title && <h1>{title}</h1>}
                 <Br ribbon />
             </header>
-            <div className={styles['Splash--Content']}>{children}</div>
+            <div className={styles.Content}>{children}</div>
         </section>
     )
 }
