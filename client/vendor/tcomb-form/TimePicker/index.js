@@ -5,75 +5,50 @@ import styles from './TimePicker.css'
 TimePicker.propTypes = {
     value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    onKeyDown: PropTypes.func,
-    onFocus: PropTypes.func,
-    step: PropTypes.number,
-    autoFocus: PropTypes.bool,
 }
 
-export default function TimePicker({
-    value = '',
-    onChange,
-    onKeyDown,
-    onFocus,
-    step,
-    autoFocus,
-}) {
+export default function TimePicker({ value = '', onChange }) {
     const [{ hour, minute }, setState] = useReducer(merger, {
         hour: value.split(':')[0] || 0,
-        minute: padMinute(value.split(':')[1]),
+        minute: value.split(':')[1].padStart(2, '0'),
     })
     function handleHourChange(event) {
-        let hour = Number(event.target.value)
+        const hour = event.target.value
 
-        if (hour > 23 || hour < 0) {
-            hour = 0
-        }
-
-        setState({ hour })
+        setState({
+            hour: Number(hour),
+        })
         onChange(`${hour}:${minute}`)
     }
     function handleMinuteChange(event) {
-        let minute = Number(event.target.value)
+        const minute = event.target.value
 
-        if (minute > 59 || minute < 0) {
-            minute = 0
-        }
-
-        minute = padMinute(minute)
-
-        setState({ minute })
+        setState({
+            minute: Number(minute),
+        })
         onChange(`${hour}:${minute}`)
     }
 
     return (
         <div className={styles.Container}>
             <label title="Hour" className={styles.Hour}>
-                <input
-                    value={hour}
-                    name="time-picker-hour"
-                    onChange={handleHourChange}
-                    onKeyDown={onKeyDown}
-                    type="number"
-                    min="0"
-                    max="23"
-                    onFocus={onFocus}
-                    autoFocus={autoFocus}
-                />
+                <select value={hour} onChange={handleHourChange}>
+                    {HOURS.map(hour => (
+                        <option key={hour} value={hour}>
+                            {hour}
+                        </option>
+                    ))}
+                </select>
                 <span className={styles.Label}>Hour</span>
             </label>
             <label title="Minute" className={styles.Minute}>
-                <input
-                    value={minute}
-                    name="time-picker-minute"
-                    onChange={handleMinuteChange}
-                    onKeyDown={onKeyDown}
-                    type="number"
-                    min="0"
-                    max="59"
-                    step={step}
-                    onFocus={onFocus}
-                />
+                <select value={minute} onChange={handleMinuteChange}>
+                    {MINUTES.map(minute => (
+                        <option key={minute} value={minute}>
+                            {minute}
+                        </option>
+                    ))}
+                </select>
                 <span className={styles.Label}>Minute</span>
             </label>
         </div>
@@ -81,9 +56,12 @@ export default function TimePicker({
 }
 
 // Utils
-function padMinute(minute = 0) {
-    return String(minute).padStart(2, '0')
-}
+const HOURS = Array(24)
+    .fill(null)
+    .map((value, index) => String(index))
+const MINUTES = Array(60 / 5)
+    .fill(null)
+    .map((value, index) => String(index * 5).padStart(2, '0'))
 function merger(oldState, newState) {
     return {
         ...oldState,

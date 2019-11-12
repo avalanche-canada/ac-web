@@ -1,11 +1,11 @@
 import React from 'react'
 import t from 'tcomb-form/lib'
 import en from 'tcomb-form/lib/i18n/en'
+import parse from 'date-fns/parse'
 import templates, { pickers } from './templates/src'
 import Picker from './Picker'
 import GeoPositionControl from './GeoPosition'
 import { isTypeSupported } from 'utils/input'
-import parse from 'date-fns/parse'
 
 // Date
 class DateFactory extends t.form.Textbox {
