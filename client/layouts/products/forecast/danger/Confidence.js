@@ -8,6 +8,10 @@ Confidence.propTypes = {
 }
 
 export default function Confidence({ level, children }) {
+    if (!level && !children) {
+        return null
+    }
+
     return (
         <Summary title="Confidence">
             <dl>
