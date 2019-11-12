@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
@@ -258,9 +258,7 @@ export function Loading({ title, children }) {
         <Page>
             <Content>
                 <Main>
-                    <h1>
-                        <Text.Loading>{title}</Text.Loading>
-                    </h1>
+                    <Text.Loading component="h1">{title}</Text.Loading>
                     {children}
                 </Main>
             </Content>
