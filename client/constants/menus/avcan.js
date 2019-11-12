@@ -2,12 +2,12 @@ let id = 0
 
 const Gear = {
     id: String(id++),
-    label: 'Essential Gear',
+    label: 'Essential gear',
     to: '/gear',
 }
 const TripPlanner = {
     id: String(id++),
-    label: 'Trip Planner',
+    label: 'Trip planner',
     to: '/planning/trip-planner',
 }
 const Dangerator = {
@@ -17,12 +17,12 @@ const Dangerator = {
 }
 const ForecastRegionsListView = {
     id: String(id++),
-    label: 'Forecast Regions List View',
+    label: 'Forecast regions list view',
     to: '/forecasts',
 }
 const WeatherStationsListView = {
     id: String(id++),
-    label: 'Weather Stations List View',
+    label: 'Weather stations list view',
     to: '/weather/stations',
 }
 const MountainWeatherForecast = {
@@ -32,7 +32,7 @@ const MountainWeatherForecast = {
 }
 const ForecasterBlog = {
     id: String(id++),
-    label: 'Forecasters’ Blogs',
+    label: 'Forecasters’ blogs',
     to: '/blogs?category=forecaster+blog',
 }
 const AvCanTrainingCourses = {
@@ -80,7 +80,7 @@ const AvCanTrainingCourses = {
 }
 const MountainInformationNetworkListView = {
     id: String(id++),
-    label: 'MIN Reports List View',
+    label: 'MIN reports list view',
     to: '/mountain-information-network/submissions',
 }
 const MountainInformationNetwork = {
@@ -91,17 +91,17 @@ const MountainInformationNetwork = {
     children: [
         {
             id: String(id++),
-            label: 'How to GET Information?',
+            label: 'How to GET information?',
             to: '/mountain-information-network#get-information',
         },
         {
             id: String(id++),
-            label: 'How to GIVE Information?',
+            label: 'How to GIVE information?',
             to: '/mountain-information-network#give-information',
         },
         {
             id: String(id++),
-            label: 'Create a Report',
+            label: 'Create a report',
             to: '/mountain-information-network/submit',
         },
         MountainInformationNetworkListView,
@@ -144,17 +144,17 @@ module.exports = {
                     children: [
                         {
                             id: String(id++),
-                            label: 'Forecast Archive',
+                            label: 'Forecast archive',
                             to: '/forecasts/archives',
                         },
                         {
                             id: String(id++),
-                            label: 'Avalanche Advisory Archive',
+                            label: 'Avalanche advisory archive',
                             to: '/advisories/archives',
                         },
                         {
                             id: String(id++),
-                            label: 'Avalanche Incident Database',
+                            label: 'Avalanche incident database',
                             to: '/incidents',
                         },
                     ],
@@ -197,7 +197,7 @@ module.exports = {
                     children: [
                         {
                             id: String(id++),
-                            label: 'Online Avalanche Tutorial',
+                            label: 'Online avalanche tutorial',
                             to: '/tutorial',
                         },
                         {
@@ -235,22 +235,22 @@ module.exports = {
                     children: [
                         {
                             id: String(id++),
-                            label: 'Teaching Guidelines',
+                            label: 'Teaching guidelines',
                             to: '/youth#teaching-guidelines',
                         },
                         {
                             id: String(id++),
-                            label: 'Our Programs',
+                            label: 'Our programs',
                             to: '/youth#programs',
                         },
                         {
                             id: String(id++),
-                            label: 'Curriculum & Resources',
+                            label: 'Curriculum & resources',
                             to: '/youth#curriculum',
                         },
                         {
                             id: String(id++),
-                            label: 'External Programs',
+                            label: 'External programs',
                             to: '/youth#external-programs',
                         },
                     ],
@@ -270,12 +270,12 @@ module.exports = {
                     children: [
                         {
                             id: String(id++),
-                            label: 'Avalanche Basics',
+                            label: 'Avalanche basics',
                             to: '/sled#avalanche-basics',
                         },
                         {
                             id: String(id++),
-                            label: 'Featured Resources',
+                            label: 'Featured resources',
                             to: '/sled#featured-resources',
                         },
                         {
@@ -315,13 +315,13 @@ module.exports = {
                     id: String(id++),
                     to: '/news',
                     label: 'News',
-                    headline: 'Visit our latest News.',
+                    headline: 'Visit our latest news.',
                 },
                 {
                     id: String(id++),
                     to: '/events',
                     label: 'Events',
-                    headline: 'Visit our upcoming Events.',
+                    headline: 'Visit our upcoming events.',
                 },
             ],
         },
@@ -337,32 +337,32 @@ module.exports = {
                     children: [
                         {
                             id: String(id++),
-                            label: 'Annual Reports',
+                            label: 'Annual reports',
                             to: '/about#annual-reports',
                         },
                         {
                             id: String(id++),
-                            label: 'The Aspect Newsletter',
+                            label: 'The Aspect newsletter',
                             to: '/about#newsletters',
                         },
                         {
                             id: String(id++),
-                            label: 'Board of Directors',
+                            label: 'Board of directors',
                             to: '/about#board',
                         },
                         {
                             id: String(id++),
-                            label: 'Our Staff',
+                            label: 'Our staff',
                             to: '/about#staff',
                         },
                         {
                             id: String(id++),
-                            label: 'Service Awards',
+                            label: 'Service awards',
                             to: '/about#awards',
                         },
                         {
                             id: String(id++),
-                            label: 'Contact Us',
+                            label: 'Contact us',
                             to: '/about#contact-us',
                         },
                         {
@@ -380,18 +380,18 @@ module.exports = {
                 },
                 {
                     id: String(id++),
-                    label: 'Sponsors & Collaborators',
+                    label: 'Sponsors & collaborators',
                     header: true,
                     to: '/sponsors',
                     children: [
                         {
                             id: String(id++),
-                            label: 'Program Partners',
+                            label: 'Program partners',
                             to: 'sponsors#partner',
                         },
                         {
                             id: String(id++),
-                            label: 'Premier Sponsors',
+                            label: 'Premier sponsors',
                             to: 'sponsors#funding',
                         },
                         {
@@ -406,12 +406,12 @@ module.exports = {
                         },
                         {
                             id: String(id++),
-                            label: 'Government Partners',
+                            label: 'Government partners',
                             to: 'collaborators#government',
                         },
                         {
                             id: String(id++),
-                            label: 'Other Agencies and Organizations',
+                            label: 'Other agencies and organizations',
                             to: 'collaborators#other',
                         },
                     ],
