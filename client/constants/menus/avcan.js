@@ -197,7 +197,7 @@ module.exports = {
                     children: [
                         {
                             id: String(id++),
-                            label: 'Online Avalanche Tutorial',
+                            label: 'Online avalanche tutorial',
                             to: '/tutorial',
                         },
                         {
