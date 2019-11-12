@@ -149,7 +149,7 @@ function Pending({ title }) {
     )
 }
 function PageAside({ payload }) {
-    let { sharing, following, contacting, sidebar = [], contact } = payload
+    let { sharing, following, contacting, sidebar = [], contact } = payload.data
 
     sharing = sharing === 'Yes'
     following = following === 'Yes'
