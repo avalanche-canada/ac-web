@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import Summary from '../Summary'
 
 Confidence.propTypes = {
-    level: PropTypes.string.isRequired,
-    children: PropTypes.node.isRequired,
+    level: PropTypes.string,
+    children: PropTypes.node,
 }
 
 export default function Confidence({ level, children }) {
