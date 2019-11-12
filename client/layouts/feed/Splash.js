@@ -7,8 +7,6 @@ import EntrySet from './EntrySet'
 import { feed } from 'prismic/params'
 import { useDocuments } from 'prismic/hooks'
 
-// TODO Move this to prismic/feed or something like that
-
 FeedSplash.propTypes = {
     type: PropTypes.string.isRequired,
     tags: PropTypes.arrayOf(PropTypes.string),
