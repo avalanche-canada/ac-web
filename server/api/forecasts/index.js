@@ -97,7 +97,7 @@ router.get('/ALL.json', function(req, res) {
         );
         res.status(200).json(fs);
     }).catch(function(err){
-        logger.error("error retrieving forecases:",  err)
+        logger.error("error retrieving forecasts:",  err)
         res.status(500).json({err: "Error getting forecasts"});
     }).done();
 });
