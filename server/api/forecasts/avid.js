@@ -140,7 +140,7 @@ function aspectsIcon(aspects) {
         ASSETS,
         'Compass/compass-',
         ASPECT_ORDER.map(function(a){ 
-            return _boolTo01(aspect_vals.includes(a)); 
+            return _boolTo01(aspect_vals.indexOf(a) > -1); 
         }).join('-'),
         '_EN.png',
     ].join('')
@@ -153,7 +153,7 @@ function elevationsIcon(elevations) {
         ASSETS,
         'Elevation/Elevation-',
         ELEV_ORDER.map(function(e){
-            return _boolTo01(elevation_vals.includes(e))
+            return _boolTo01(elevation_vals.indexOf(e) > -1)
         }).join('-'),
         '_EN.png',
     ].join('')
