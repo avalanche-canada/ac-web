@@ -20,14 +20,6 @@ export function Page({ children, className, ...props }) {
     )
 }
 
-Footer.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-export function Footer({ children }) {
-    return <footer className={styles.Footer}>{children}</footer>
-}
-
 Content.propTypes = {
     children: PropTypes.node.isRequired,
 }
