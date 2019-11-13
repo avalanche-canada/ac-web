@@ -153,15 +153,8 @@ export function Aside({ children, ...props }) {
     )
 }
 
-Nav.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-export function Nav({ children }) {
-    return <nav className={styles.Nav}>{children}</nav>
-}
-
 // List
+// TODO Could be moved to another module
 List.propTypes = {
     children: PropTypes.node,
     column: PropTypes.number,
