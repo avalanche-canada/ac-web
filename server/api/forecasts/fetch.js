@@ -22,15 +22,19 @@ function fetchAvid() {
     //var url = "http://localhost:9000/v1/public/en/products"
     // var url = 'http://localhost:9000/v1/public/en/products?date=2019-11-01T00:00:00-08:00'
     var url = "http://avid-beta.avalanche.ca/v1/public/en/products"
+
     return doFetch(url);
 }
 
 function filterAvidByLocation(location_id) {
     return function(avid_product_list) {
         avid_product_list = JSON.parse(avid_product_list);
-        return avid_product_list.find(function(product) {
+
+        var product = avid_product_list.find(function(product) {
             return (product.areaId === location_id);
         });
+        
+        return product;
     }
 }
 
