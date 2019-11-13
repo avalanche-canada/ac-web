@@ -28,13 +28,26 @@ function fetchAvid() {
 
 function filterAvidByLocation(location_id) {
     return function(avid_product_list) {
+        // This is a string because it is the only common format between XML and JSON
         avid_product_list = JSON.parse(avid_product_list);
-
+        
         var product = avid_product_list.find(function(product) {
             return (product.areaId === location_id);
         });
+        avid_product_list = avid_product_list.filter(function(product) {
+            return product.productType === 'forecast' || product.productType === 'offseason'
+        });
+
+
+        if (!product) {
+            throw new Error('No product available for location=' + location_id);
+        }
         
-        return product;
+        if (product.productType === 'forecast' || product.productType === 'offseason') {
+            return product;
+        }
+        
+        throw new Error('Incorrect product type for location=' + location_id + ' productType=' + product.productType);
     }
 }
 
