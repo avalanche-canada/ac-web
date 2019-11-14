@@ -16,6 +16,7 @@ export function useMap(ref, options) {
 
         const instance = new mapbox.Map({
             style: STYLES.default,
+            dragRotate: false,
             ...options,
             container: ref.current,
         })
