@@ -12,6 +12,11 @@ import Sponsor from 'layouts/Sponsor'
 import { notFound } from 'services/analytics'
 import styles from './Page.css'
 
+Page.propTypes = {
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string.isRequired,
+}
+
 export function Page({ children, className, ...props }) {
     return (
         <div {...props} className={classnames(styles.Page, className)}>
