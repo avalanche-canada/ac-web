@@ -77,7 +77,10 @@ function doFetch(url) {
                     url,
                     response.statusCode
                 );
-                reject(response);
+                // TODO Create a custom error type that contains the 
+                //      whole resposne. Useful later if we would like 
+                //      access to headers or other, more specific data
+                reject(new Error('doFetch request_error url=' + url+ ' responseCode=' + response.statusCode));
             } else {
                 logger.debug('doFetch success url=%s', url);
                 resolve(data);
