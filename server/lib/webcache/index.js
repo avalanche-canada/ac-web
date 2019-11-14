@@ -66,8 +66,8 @@ WebCache.prototype.refresh = function () {
                 return {key: item.key, result: result};
             })
             .catch(function(err){
-                logger.debug('fetch failure key=%s', item.key);
-                logger.error(err)
+                logger.debug('fetch-failure key=%s', item.key);
+                logger.error('fetch-failure', err.message);
                 return Promise.reject({key: item.key, err: err});
             });
         return p;
