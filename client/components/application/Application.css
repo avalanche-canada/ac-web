@@ -1,7 +1,3 @@
-@custom-media --medium-screen-width (width > 600px);
-@custom-media --large-screen-width (width > 800px);
-@custom-media --xlarge-screen-width (width > 1000px);
-
 .Application {
     height: 100%;
     position: relative;
