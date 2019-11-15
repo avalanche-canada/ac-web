@@ -195,7 +195,7 @@ function transformOffseason(region_id, region_name, forecast) {
         dateIssued: forecast.data.dateIssued,
         validUntil: END_DATE,
         bulletinTitle: "Avalanche Bulletin - " + region_name,
-        highlights: forecast.data.headline.display,
+        highlights: draftToHtml(forecast.data.headline),
         
         weatherForecast:  draftToHtml(forecast.data.weatherSummary),
         dangerRatings: [1,2,3].map(function(i){

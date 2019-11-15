@@ -1,51 +1,57 @@
-var rp = require('request-promise')
-var logger = require('../../../logger')
-var PrismicDOM = require('prismic-dom')
+var logger = require('../../../logger');
+var PrismicDOM = require('prismic-dom');
+var fetch = require('../fetch');
 
 module.exports = {
     fetch: function(region) {
         if (!IDS_TO_NAMES.hasOwnProperty(region)) {
-            logger.debug('prismic avalanche forecast %s not available.', region)
-
-            return
+            logger.debug('prismic avalanche forecast %s not available.', region);
+    
+            return;
         }
+    
+        var name = IDS_TO_NAMES[region];
+        logger.debug('fetching prismic avalanche forecast %s', name);
+    
+        return fetch.doFetch(API).then(function(payload) {
+            payload = JSON.parse(payload);
 
-        const name = IDS_TO_NAMES[region]
-        logger.debug('fetching prismic avalanche forecast %s', name)
-
-        return rp(API).then(payload => {
-            var ref = payload.refs.find(ref => ref.isMasterRef).ref
-            var url = [
+            var ref = payload.refs.find(function(ref) {
+                return ref.isMasterRef;
+            }).ref;
+            var urls = [
                 API,
-                '/search?ref=',
+                '/documents/search?ref=',
                 ref,
-                '&q=[',
-                '[at(my.avalanche-forecast.region,"',
+                '&q=[[at(my.avalanche-forecast.region,"',
                 name,
-                '"]',
-                ']',
-            ]
-
-            return rp(url.join('')).then(payload => payload.results[0])
+                '")]]',
+                '&q=[[date.after(my.avalanche-forecast.validFrom,"',
+                getCurrentDateTime(),
+                '")]]',
+                '&orderings=[my.avalanche-forecast.validFrom desc, document.last_publication_date desc]',
+            ];
+    
+            return fetch.doFetch(urls.join('')).then(function(payload) {
+                payload = JSON.parse(payload);
+                
+                return payload.results[0];
+            });
         })
     },
-    parse: function({
-        id,
-        data,
-        first_publication_date,
-        /* last_publication_date is the date document has been republished! */
-    }) {
-        var confidence = data.confidence[0]
+    parse: function(document) {
+        var data = document.data;
+        var confidence = data.confidence[0];
 
         return {
-            id: id,
+            id: document.id,
             region: forecastRegionFromName(data.region),
-            fxFormat: 'avid',
+            fxType: 'prismic',
             forecaster: data.forecaster,
-            dateIssued: first_publication_date,
-            validUntil: data.validUntil,
-            bulletinTitle: data.region,
-            highlights: PrismicDOM.RichText.asText(data.headline),
+            dateIssued: data.validFrom,
+            validUntil: data.validTo,
+            bulletinTitle: 'Avalanche Bulletin - ' + data.region,
+            highlights: PrismicDOM.RichText.asHtml(data.headline),
             confidence:
                 confidence.level +
                 ' - ' +
@@ -77,60 +83,90 @@ module.exports = {
 }
 
 // Utils
+function pad(number) {
+    if ( number < 10 ) {
+      return '0' + number;
+    }
+    return number;
+  }
+function getCurrentDateTime() {
+    var now = new Date();
+    
+    return now.getUTCFullYear() +
+    '-' + pad( now.getUTCMonth() + 1 ) +
+    '-' + pad( now.getUTCDate() ) +
+    'T' + pad( now.getUTCHours() ) +
+    ':' + pad( now.getUTCMinutes() ) +
+    ':' + pad( now.getUTCSeconds() ) +
+    // '.' + (now.getUTCMilliseconds() / 1000).toFixed(3).slice(2, 5) +
+    'Z';
+}
 function createProblem(slice) {
-    var data = slice.primary
-    var min = data.minSize
-    var max = data.maxSize
+    var ASPECTS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
+    var data = slice.primary;
+    var min = data.minSize;
+    var max = data.maxSize;
+    var likelihood = data.likelihood;
     function isYes(key) {
-        return data[key] === 'Yes'
+        return data[key] === 'Yes';
     }
 
     return {
         type: slice.slice_type,
         elevations: ['Alp', 'Tln', 'Btl'].filter(isYes),
-        aspects: ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'].filter(isYes),
-        likelihood: data.likelihood,
+        aspects: ASPECTS.filter(isYes),
+        likelihood: likelihood,
         expectedSize: {
             min: min,
             max: max,
         },
         icons: {
-            aspects:
-                'https://www.avalanche.ca/assets/images/Compass/compass-' +
-                '-' +
-                '-' +
-                '-' +
-                '-' +
-                '-' +
-                '-' +
-                '-' +
-                '_EN.png',
-            elevations:
-                'https://www.avalanche.ca/assets/images/Elevation/Elevation-' +
-                '-' +
-                '-' +
-                '_EN.png',
-            expectedSize:
-                'https://www.avalanche.ca/assets/images/size/Size-' +
-                '-' +
-                '_EN.png',
-            likelihood:
-                'https://www.avalanche.ca/assets/images/Likelihood/Likelihood-' +
-                '_EN.png',
+            aspects: [
+                ASSETS, 
+                'Compass/compass-', 
+                ASPECTS.map(function(ASPECT) {
+                    return Number(data[ASPECT] === 'Yes');
+                }).join('-'), 
+                '_EN.png'
+            ].join(''),
+            // ORDER matters, do not reorder the elevations array below
+            elevations: [
+                ASSETS, 
+                'Elevation/Elevation-', 
+                [ "Btl", "Tln", "Alp" ].map(function(ELEVATION) {
+                    return Number(data[ELEVATION] === 'Yes');
+                }).join('-'),
+                '_EN.png'
+            ].join(''),
+            expectedSize: [
+                ASSETS, 
+                'size/Size-', 
+                min.replace('.', ''), 
+                '-', 
+                max.replace('.', ''), 
+                '_EN.png'
+            ].join(''),
+            likelihood: [
+                ASSETS, 
+                'Likelihood/Likelihood-', 
+                AVALX_LIKELIHOOD_ICON[likelihood], 
+                '_EN.png'
+            ].join('')
         },
         comment: PrismicDOM.RichText.asHtml(data.comments),
         travelAndTerrainAdvice: '',
     }
 }
 function pluckText(item) {
-    return item.text
+    return item.text;
 }
 function forecastRegionFromName(region) {
-    return Object.keys(IDS_TO_NAMES).find(key => IDS_TO_NAMES[key] === region)
+    return Object.keys(IDS_TO_NAMES).find(key => IDS_TO_NAMES[key] === region);
 }
 
 // CONSTANTS
-var API = 'https://avalancheca.cdn.prismic.io/api/v2'
+var ASSETS = 'https://www.avalanche.ca/assets/images/';
+var API = 'https://avalancheca.cdn.prismic.io/api/v2';
 var IDS_TO_NAMES = {
     cariboos: 'Cariboos',
     kananaskis: 'Kananaskis Country, Alberta Parks',
@@ -147,7 +183,7 @@ var IDS_TO_NAMES = {
     'south-columbia': 'South Columbia',
     'south-rockies': 'South Rockies',
     yukon: 'Yukon',
-}
+};
 var DANGER_RATINGS = {
     Low: '1:Low',
     Moderate: '2:Moderate',
@@ -155,4 +191,15 @@ var DANGER_RATINGS = {
     High: '4:High',
     Extreme: '5:Extreme',
     'No Rating': 'N/A:No Rating',
-}
+};
+var AVALX_LIKELIHOOD_ICON = {
+    'Certain': 8,
+    'Certain - Very Likely': 8,
+    'Very Likely': 7,
+    'Very Likely - Likely': 6,
+    'Likely': 5,
+    'Likely - Possible': 4,
+    'Possible': 3,
+    'Possible - Unlikely': 2,
+    'Unlikely': 1,
+};

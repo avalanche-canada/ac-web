@@ -5,6 +5,7 @@ var logger = require('../../logger');
 var fetch    = require('./fetch');
 var avalx    = require('./avalx');
 var avid    = require('./avid');
+var prismic = require('./prismic');
 var icon_set = require('./icon_set');
 var reg_metadata = require('../../data/season')
 var addDays  = require('date-fns/add_days');
@@ -168,11 +169,16 @@ var AVCAN = {
             //             .then(fixAvalxDangerRatingDates(1))
             //             .then(addStaticIcons('America/Vancouver')); 
 
-            return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('cc561c27-ce92-4b6d-ab90-ce2224459a88'))
-                        .then(avid.parseAvid('cariboos', 'Cariboos'))
-                        .then(addOwner('avalanche-canada'))
-                        .then(addStaticIcons('America/Vancouver')); 
+            return prismic.fetch('cariboos')
+                          .then(prismic.parse)
+                          .then(addOwner('cariboos'))
+                          .then(addStaticIcons('America/Vancouver'))
+            
+            // return fetch.fetchAvid()
+            //             .then(fetch.filterAvidByLocation('cc561c27-ce92-4b6d-ab90-ce2224459a88'))
+            //             .then(avid.parseAvid('cariboos', 'Cariboos'))
+            //             .then(addOwner('avalanche-canada'))
+            //             .then(addStaticIcons('America/Vancouver')); 
         },
     },
     'north-columbia': {
