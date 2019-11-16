@@ -94,6 +94,8 @@ function createRelease150Message(platform) {
             STORE_URLS[platform] +
             '">' +
             STORE_PROMPTS[platform] +
-            '</a>'
+            '</a>',
+            undefined,
+            'warning'
     )
 }
