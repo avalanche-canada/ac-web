@@ -130,17 +130,17 @@ var AVCAN = {
     'south-coast': {
         metadata: reg_properties['south-coast'],
         fetchNow: function() { 
-            return fetch.fetchAvalx2019(8)
-                        .then(parseAvalx('south-coast'))
-                        .then(fixAvalxDangerRatingDates(1))
-                        .then(addOwner('avalanche-canada'))
-                        .then(addStaticIcons('America/Vancouver')); 
-
-            // return fetch.fetchAvid()
-            //             .then(fetch.filterAvidByLocation('0c257b42-8c78-4743-a29b-20d2e8071f3a'))
-            //             .then(avid.parseAvid('south-coast', 'South Coast'))
+            // return fetch.fetchAvalx2019(8)
+            //             .then(parseAvalx('south-coast'))
+            //             .then(fixAvalxDangerRatingDates(1))
             //             .then(addOwner('avalanche-canada'))
             //             .then(addStaticIcons('America/Vancouver')); 
+
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('0c257b42-8c78-4743-a29b-20d2e8071f3a'))
+                        .then(avid.parseAvid('south-coast', 'South Coast'))
+                        .then(addOwner('avalanche-canada'))
+                        .then(addStaticIcons('America/Vancouver')); 
         },
     },
     'north-rockies': {
@@ -169,16 +169,16 @@ var AVCAN = {
             //             .then(fixAvalxDangerRatingDates(1))
             //             .then(addStaticIcons('America/Vancouver')); 
 
-            return prismic.fetch('cariboos')
-                          .then(prismic.parse)
-                          .then(addOwner('cariboos'))
-                          .then(addStaticIcons('America/Vancouver'))
+            // return prismic.fetch('cariboos')
+            //               .then(prismic.parse)
+            //               .then(addOwner('cariboos'))
+            //               .then(addStaticIcons('America/Vancouver'))
             
-            // return fetch.fetchAvid()
-            //             .then(fetch.filterAvidByLocation('cc561c27-ce92-4b6d-ab90-ce2224459a88'))
-            //             .then(avid.parseAvid('cariboos', 'Cariboos'))
-            //             .then(addOwner('avalanche-canada'))
-            //             .then(addStaticIcons('America/Vancouver')); 
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('cc561c27-ce92-4b6d-ab90-ce2224459a88'))
+                        .then(avid.parseAvid('cariboos', 'Cariboos'))
+                        .then(addOwner('avalanche-canada'))
+                        .then(addStaticIcons('America/Vancouver')); 
         },
     },
     'north-columbia': {
@@ -195,17 +195,24 @@ var AVCAN = {
                         .then(avid.parseAvid('north-columbia', 'North Columbia'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
-        }
-    },
+                    }
+                },
     'south-columbia': {
         metadata: reg_properties['south-columbia'],
         fetchNow: function() { 
-            return fetch.fetchAvalx2019(10)
-            .then(parseAvalx('south-columbia'))
-            .then(addOwner('avalanche-canada'))
-            .then(fixAvalxDangerRatingDates(1))
-            .then(addStaticIcons('America/Vancouver')); },
+            return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation('0f7dd79e-b212-408d-9fe1-22e8c73e2983'))
+                        .then(avid.parseAvid('south-columbia', 'South Columbia'))
+                        .then(addOwner('avalanche-canada'))
+                        .then(addStaticIcons('America/Vancouver')); 
+
+            // return fetch.fetchAvalx2019(10)
+            //             .then(parseAvalx('south-columbia'))
+            //             .then(addOwner('avalanche-canada'))
+            //             .then(fixAvalxDangerRatingDates(1))
+            //             .then(addStaticIcons('America/Vancouver')); 
         },
+    },
     'purcells': {
         metadata: reg_properties['purcells'],
         fetchNow: function() { 
