@@ -180,7 +180,7 @@ function expectedSizeIcon(size) {
 
 function transformOffseason(region_id, region_name, forecast) {
     // from icon_set.js
-    var END_DATE = '9999-12-31T00:00:00Z';
+    var END_DATE = '0001-12-31T00:00:00Z';
 	var avid_to_avcan = {
 		'fall':   'Early season',
         'spring': 'Spring situation',
