@@ -58,8 +58,8 @@ const AvCanTrainingCourses = {
         },
         {
             id: String(id++),
-            label: 'Avalanche Skills Training 2',
-            to: '/training#ast2',
+            label: 'Companion Rescue Skills',
+            to: '/training#crs',
         },
         {
             id: String(id++),
@@ -68,8 +68,13 @@ const AvCanTrainingCourses = {
         },
         {
             id: String(id++),
-            label: 'Companion Rescue Skills',
-            to: '/training#crs',
+            label: 'AST 1+',
+            to: '/training#ast1+',
+        },
+        {
+            id: String(id++),
+            label: 'Avalanche Skills Training 2',
+            to: '/training#ast2',
         },
         {
             id: String(id++),
