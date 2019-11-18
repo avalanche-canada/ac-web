@@ -8,6 +8,8 @@ import { Responsive } from 'components/table'
 import { List, Entry } from 'components/description'
 import { DropdownFromOptions } from 'components/controls'
 import Shim from 'components/Shim'
+import { ErrorDetails } from 'components/application'
+import * as Async from 'contexts/async'
 import { incidentsBaseUrl } from 'requests/config.json'
 import styles from './incidents.css'
 
@@ -25,30 +27,32 @@ function IncidentsList() {
     const [filters, setFilters] = useState({})
     const from = filters.from ? seasonToFrom(filters.from) : undefined
     const to = filters.to ? seasonToTo(filters.to) : undefined
-    const [payload, pending] = hooks.useIncidents(page, from, to)
     function handlerFiltersChange(filters) {
         setFilters(filters)
         setPage(1)
     }
 
     return (
-        <Fragment>
+        <Async.Provider value={hooks.useIncidents(page, from, to)}>
             <IncidentFilters values={filters} onChange={handlerFiltersChange} />
-            {pending ? (
-                <Loading />
-            ) : (
-                <Fragment>
-                    <IncidentTable incidents={payload.results} />
-                    <Shim vertical>
-                        <Pagination
-                            total={payload.count / 50}
-                            active={page}
-                            onChange={setPage}
-                        />
-                    </Shim>
-                </Fragment>
-            )}
-        </Fragment>
+            <Async.Pending>
+                <Loading>Loading incidents...</Loading>
+            </Async.Pending>
+            <Async.Found>
+                {payload => (
+                    <Fragment>
+                        <IncidentTable incidents={payload.results} />
+                        <Shim vertical>
+                            <Pagination
+                                total={payload.count / 50}
+                                active={page}
+                                onChange={setPage}
+                            />
+                        </Shim>
+                    </Fragment>
+                )}
+            </Async.Found>
+        </Async.Provider>
     )
 }
 
@@ -94,26 +98,38 @@ function IncidentTable({ incidents }) {
 }
 
 function IncidentDetails({ id }) {
-    const [incident, pending] = hooks.useIncident(id)
-
-    return pending ? (
-        <Loading />
-    ) : incident ? (
-        <article>
-            <Summary incident={incident} />
-            <Avalanche avalanches={incident.avalanche_obs} />
-            <Weather
-                observations={incident.weather_obs}
-                comment={incident.weather_comment}
-            />
-            <Snowpack
-                observations={incident.snowpack_obs}
-                comment={incident.snowpack_comment}
-            />
-            <Documents docs={incident.documents} />
-        </article>
-    ) : (
-        <Warning>Incident #{id} not found</Warning>
+    return (
+        <Async.Provider value={hooks.useIncident(id)}>
+            <Async.Pending>
+                <Loading>Loading incident...</Loading>
+            </Async.Pending>
+            <Async.Found>
+                {incident => (
+                    <article>
+                        <Summary incident={incident} />
+                        <Avalanche avalanches={incident.avalanche_obs} />
+                        <Weather
+                            observations={incident.weather_obs}
+                            comment={incident.weather_comment}
+                        />
+                        <Snowpack
+                            observations={incident.snowpack_obs}
+                            comment={incident.snowpack_comment}
+                        />
+                        <Documents docs={incident.documents} />
+                    </article>
+                )}
+            </Async.Found>
+            <Async.FirstError>
+                <Async.NotFound>
+                    <Warning>Incident #{id} not found</Warning>
+                </Async.NotFound>
+                <Async.Error>
+                    <ErrorDetails summary="An error occured while loading incident." />
+                </Async.Error>
+                <Async.Throw />
+            </Async.FirstError>
+        </Async.Provider>
     )
 }
 
