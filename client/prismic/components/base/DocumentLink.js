@@ -26,18 +26,16 @@ function Title({ type, uid }) {
         return <Loading />
     }
 
-    if (!document?.data?.title) {
-        return null
-    }
+    if (document?.data) {
+        const { title } = document.data
 
-    const { title } = document.data
+        if (typeof title === 'string') {
+            return title
+        }
 
-    if (typeof title == 'string') {
-        return title
-    }
-
-    if (Array.isArray(title)) {
-        return title[0].text // <StructuredText>
+        if (Array.isArray(title)) {
+            return title[0].text // <StructuredText>
+        }
     }
 
     return null
