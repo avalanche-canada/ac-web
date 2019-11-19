@@ -280,17 +280,17 @@ var KCOUNTRY =  {
     'kananaskis': {
         metadata: reg_properties['kananaskis'],
         fetchNow: function(){
-            // return fetch
-            //     .fetchAvid()
-            //     .then(fetch.filterAvidByLocation('69c3043f-ab2d-4508-b144-78ac4f745159'))
-            //     .then(avid.parseAvid('kananaskis', 'Kananaskis Country'))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'))
-            return fetch.fetchAvalx2016(7)
-                .then(parseAvalx('kananaskis'))
-                .then(fixAvalxDangerRatingDates(1))
+            return fetch
+                .fetchAvid()
+                .then(fetch.filterAvidByLocation('69c3043f-ab2d-4508-b144-78ac4f745159'))
+                .then(avid.parseAvid('kananaskis', 'Kananaskis Country'))
                 .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Edmonton'));
+                .then(addStaticIcons('America/Vancouver'))
+            // return fetch.fetchAvalx2016(7)
+            //     .then(parseAvalx('kananaskis'))
+            //     .then(fixAvalxDangerRatingDates(1))
+            //     .then(addOwner('avalanche-canada'))
+            //     .then(addStaticIcons('America/Edmonton'));
         },
     },
 };
