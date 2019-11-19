@@ -1,5 +1,6 @@
-@media (hover: hover) {
-    [data-tooltip] {
+@media (hover: none) and (pointer: coarse) {
+    [data-tooltip]:after,
+    [data-tooltip]:before {
         display: none;
     }
 }
