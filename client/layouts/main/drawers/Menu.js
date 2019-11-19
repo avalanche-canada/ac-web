@@ -1,6 +1,5 @@
 import React, { Children, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { memo } from 'utils/react'
 import { Body, Navbar, Close } from 'components/page/drawer'
 import * as components from 'components/page/drawer/layers'
 import { useLayer } from 'contexts/layers'
@@ -14,7 +13,7 @@ Menu.propTypes = {
     onCloseClick: PropTypes.func.isRequired,
 }
 
-function Menu({ onCloseClick }) {
+export default function Menu({ onCloseClick }) {
     return (
         <Fragment>
             <Navbar>
@@ -52,8 +51,6 @@ function Menu({ onCloseClick }) {
         </Fragment>
     )
 }
-
-export default memo.static(Menu)
 
 // Util components
 Layer.propTypes = {
