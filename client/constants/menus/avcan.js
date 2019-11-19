@@ -352,13 +352,13 @@ module.exports = {
                         },
                         {
                             id: id++,
-                            label: 'Board of directors',
-                            to: '/about#board',
+                            label: 'Our staff',
+                            to: '/about#staff',
                         },
                         {
                             id: id++,
-                            label: 'Our staff',
-                            to: '/about#staff',
+                            label: 'Board of directors',
+                            to: '/about#board',
                         },
                         {
                             id: id++,
