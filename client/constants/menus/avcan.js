@@ -397,27 +397,27 @@ module.exports = {
                         {
                             id: String(id++),
                             label: 'Premier sponsors',
-                            to: 'sponsors#funding',
+                            to: 'sponsors#premier',
                         },
                         {
                             id: String(id++),
                             label: 'Supporters',
-                            to: 'sponsors#supplier',
+                            to: 'sponsors#supporter',
                         },
                         {
                             id: String(id++),
                             label: 'Contributors',
-                            to: 'sponsors#associate',
+                            to: 'sponsors#contributors',
                         },
                         {
                             id: String(id++),
                             label: 'Government partners',
-                            to: 'collaborators#government',
+                            to: 'collaborators#government-partners',
                         },
                         {
                             id: String(id++),
                             label: 'Other agencies and organizations',
-                            to: 'collaborators#other',
+                            to: 'collaborators#agencies',
                         },
                     ],
                 },
