@@ -1,0 +1,70 @@
+
+article
+  header
+    h1 #{forecast.bulletinTitle}
+    p
+      b Date Issued:
+      date(datetime=forecast.dateIssued) #{dates.issued}
+    p
+      b Valid Until:
+      date(datetime=forecast.validUntil) #{dates.until}
+    p
+      b Forecaster:
+      | #{forecast.forecaster}
+  section
+    p !{forecast.highlights}
+    table(style='border-spacing:0px; border-color: black; border-collapse: collapse; ')
+      thead
+        tr
+          th
+            th #{ dates.day0 }
+          th #{ dates.day1 }
+          th #{ dates.day2 }
+        tbody
+          tr
+            td(style='background-color: #ddeefa') Alpine
+            td(style='background-color: #{ratingColors.day0.alp}') #{ forecast.dangerRatings[0].dangerRating.alp.replace(':', ' ') }
+            td(style='background-color: #{ratingColors.day1.alp}') #{ forecast.dangerRatings[1].dangerRating.alp.replace(':', ' ') }
+            td(style='background-color: #{ratingColors.day2.alp}') #{ forecast.dangerRatings[2].dangerRating.alp.replace(':', ' ') }
+          tr
+            td(style='background-color: #d1d9a3') Treeline
+            td(style='background-color: #{ratingColors.day0.tln}') #{ forecast.dangerRatings[0].dangerRating.tln.replace(':', ' ') }
+            td(style='background-color: #{ratingColors.day1.tln}') #{ forecast.dangerRatings[1].dangerRating.tln.replace(':', ' ') }
+            td(style='background-color: #{ratingColors.day2.tln}') #{ forecast.dangerRatings[2].dangerRating.tln.replace(':', ' ') }
+          tr
+            td(style='background-color: #aebfac') Below Treeline
+            td(style='background-color: #{ratingColors.day0.btl}') #{ forecast.dangerRatings[0].dangerRating.btl.replace(':', ' ') }
+            td(style='background-color: #{ratingColors.day1.btl}') #{ forecast.dangerRatings[1].dangerRating.btl.replace(':', ' ') }
+            td(style='background-color: #{ratingColors.day2.btl}') #{ forecast.dangerRatings[2].dangerRating.btl.replace(':', ' ') }
+
+    caption
+      strong Confidence: #{ forecast.avidConfidence.rating }
+      ul
+        for cc in forecast.avidConfidence.statements
+          li #{cc}
+
+
+    h3 Travel and Terrain Advice
+    ul
+      for tt in forecast.avidTerrainAndTravel
+        li #{tt}
+
+    for problem in forecast.problems
+      div.problem
+        h2 #{ problem.type }
+        .image-container
+          img(src="#{problem.icons.elevations}")
+        .image-container
+          img(src="#{problem.icons.aspects}")
+        .image-container
+          img(src="#{problem.icons.likelihood}")
+        .image-container
+          img(src="#{problem.icons.expectedSize}")
+
+    h2 Forecast Details
+    h3 Avalanche Summary
+    p !{forecast.avalancheSummary}
+    h3 Snowpack Summary
+    p !{forecast.snowpackSummary}
+    h3 Weather Forecast
+    p !{forecast.weatherForecast}

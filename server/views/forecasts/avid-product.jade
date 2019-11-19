@@ -1,0 +1,9 @@
+if forecast.dangerMode == "Early season"
+  include avid-offseason.jade
+else if forecast.dangerMode == "Spring situation"
+  include avid-offseason.jade
+else if forecast.dangerMode == "Off season"
+  include avid-offseason.jade
+else
+  include avid-forecast.jade
+
