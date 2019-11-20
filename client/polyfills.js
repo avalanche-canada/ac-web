@@ -29,6 +29,10 @@ export default async function polyfills(self) {
     if (!urlSearchParamsSupported(self)) {
         await import('url-search-params-polyfill')
     }
+
+    if (typeof self.HTMLDetailsElement === 'undefined') {
+        await import('details-element-polyfill')
+    }
 }
 
 // Utils
