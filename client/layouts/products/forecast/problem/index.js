@@ -79,7 +79,7 @@ function TopicSet({ children }) {
     const className = classnames({
         [styles.TopicSet]: true,
         [styles['TopicSet--2PerRow']]: width > 300 && width < 675,
-        [styles['TopicSet--4PerRow']]: width > 675,
+        [styles['TopicSet--4PerRow']]: width >= 675,
     })
 
     return (
