@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { InnerHTML } from 'components/misc'
 import classnames from 'classnames'
+import { InnerHTML } from 'components/misc'
 import { useClientRect } from 'hooks'
 import styles from './Problem.css'
 
@@ -51,11 +51,7 @@ Comment.propTypes = {
 }
 
 function Comment({ children }) {
-    return (
-        <div className={styles.Comment}>
-            <InnerHTML>{children}</InnerHTML>
-        </div>
-    )
+    return <InnerHTML className={styles.Comment}>{children}</InnerHTML>
 }
 
 Topic.propTypes = {
@@ -82,8 +78,8 @@ function TopicSet({ children }) {
     const [{ width }, ref] = useClientRect({ width: window.innerWidth })
     const className = classnames({
         [styles.TopicSet]: true,
-        [styles['TopicSet--2PerRow']]: width > 300 && width < 650,
-        [styles['TopicSet--4PerRow']]: width > 650,
+        [styles['TopicSet--2PerRow']]: width > 300 && width < 675,
+        [styles['TopicSet--4PerRow']]: width > 675,
     })
 
     return (

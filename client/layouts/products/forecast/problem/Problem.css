@@ -78,14 +78,32 @@
     border: 1px solid var(--background-color);
 }
 
-.FullWidthSubSection {
+.SubSection {
     composes: import SubSection from '../Forecast.css';
+    composes: import Border from '../Forecast.css';
 
-    flex: 100%;
+    color: var(--gray-dark);
+}
+
+.Comment {
+    composes: SubSection;
+
+    border-top: none;
+
+    & > * {
+        margin: 0;
+
+        &:not(:empty) {
+            padding: 1em;
+        }
+    }
+}
+
+.Advice {
+    composes: SubSection;
 
     & > div {
         padding: 1em;
-        color: var(--gray-dark);
 
         & > * {
             margin: 0;
@@ -94,17 +112,4 @@
             padding-left: 1.5em;
         }
     }
-}
-
-.Comment {
-    composes: FullWidthSubSection;
-    composes: import Border from '../Forecast.css';
-
-    border-top: none;
-}
-
-.Advice {
-    composes: FullWidthSubSection;
-    composes: import SubSection from '../Forecast.css';
-    composes: import Border from '../Forecast.css';
 }
