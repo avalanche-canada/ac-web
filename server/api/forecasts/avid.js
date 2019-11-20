@@ -46,6 +46,7 @@ const AVLAX_ELEV = {
 // Utils
 function transformForecast(region_id, region_name, item) {
     var forecast = item.data;
+
     return Object.assign({}, {
         fxType:     'avid',
         dangerMode: 'Regular season',
@@ -55,11 +56,11 @@ function transformForecast(region_id, region_name, item) {
         dateIssued: forecast.dateIssued,
         validUntil: forecast.validUntil,
 
-        highlights: draftToHtml(forecast.highlights),
+        highlights: draftToHtml(forecast.highlights).replace(/\n/g, ''),
 
-        avalancheSummary: draftToHtml(forecast.avalancheSummary),
-        snowpackSummary:  draftToHtml(forecast.snowpackSummary),
-        weatherForecast:  draftToHtml(forecast.weatherForecast),
+        avalancheSummary: draftToHtml(forecast.avalancheSummary).replace(/\n/g, ''),
+        snowpackSummary:  draftToHtml(forecast.snowpackSummary).replace(/\n/g, ''),
+        weatherForecast:  draftToHtml(forecast.weatherForecast).replace(/\n/g, ''),
 
         problems:      forecast.problems.map(transformProblem),
         confidence:    transformConfidenceLegacy(forecast.confidence),
@@ -118,7 +119,7 @@ function transformProblem(prob) {
         likelihood: prob.likelihood.display,
         aspects: prob.aspects.map(function(a){ return a.value.toUpperCase(); }),
         elevations: prob.elevations.map(function(e){ return AVLAX_ELEV[e.value]}),
-        comment: draftToHtml(prob.comment),
+        comment: draftToHtml(prob.comment).replace(/\n/g, ''),
         icons: {
             elevations:   elevationsIcon(prob.elevations),
             aspects:      aspectsIcon(prob.aspects),
@@ -185,21 +186,23 @@ function transformOffseason(region_id, region_name, forecast) {
 		'fall':   'Early season',
         'spring': 'Spring situation',
         'summer': 'Off season',
-	};
+    };
+    var data = forecast.data;
+    
     return Object.assign({}, OFFSEASON_FX_TEMPLATE, {
         fxType:     'avid',
-        id:         forecast.data.id,
+        id:         data.id,
         region:     region_id,
-        dangerMode: avid_to_avcan[forecast.data.season.value],
-        forecaster: forecast.data.forecaster,
-        dateIssued: forecast.data.dateIssued,
+        dangerMode: avid_to_avcan[data.season.value],
+        forecaster: data.forecaster,
+        dateIssued: data.dateIssued,
         validUntil: END_DATE,
         bulletinTitle: "Avalanche Bulletin - " + region_name,
-        highlights: draftToHtml(forecast.data.headline),
+        highlights: draftToHtml(data.headline).replace(/\n/g, ''),
         
-        weatherForecast:  draftToHtml(forecast.data.weatherSummary),
+        weatherForecast:  draftToHtml(data.weatherSummary).replace(/\n/g, ''),
         dangerRatings: [1,2,3].map(function(i){
-            var d = new Date(forecast.data.dateIssued);
+            var d = new Date(data.dateIssued);
             d = dateFns.addDays(d, i);
 
             return Object.assign({}, OFFSEASON_DANGER_TEMPLATE, {
@@ -208,8 +211,8 @@ function transformOffseason(region_id, region_name, forecast) {
         }),
         
         // AvID Extras
-        avidOffseasonComment: draftToHtml(forecast.data.comment),
-        avidOffseasonMessage: '<p>' + forecast.data.offSeasonMessage + '</p>',
+        avidOffseasonComment: draftToHtml(data.comment).replace(/\n/g, ''),
+        avidOffseasonMessage: '<p>' + data.offSeasonMessage + '</p>',
     });
 }
 
