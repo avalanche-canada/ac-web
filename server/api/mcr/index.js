@@ -14,6 +14,9 @@ var router = express.Router();
 
 var AC_MCR_URL = config.AC_MCR_HOST + '/sapi/public';
 
+//TODO(wnh): Find a better way of not breaking when a single error happens
+var MCR_BAD_UIDS = ['0', '1138'];
+
 router.get('/', function(req, res) {
     //TODO(wnh): Clean this up a bit
     mcr_cache.cache.wrap(
@@ -89,8 +92,8 @@ function error(res, err) {
 
 function getReportAndUser(node, cb) {
     //TODO(wnh): Remove this when the query API goes live
-    if (node.uid === '0') {
-        logger.warn('Skipping Report with user 0', {
+    if (MCR_BAD_UIDS.indexOf(node.uid) !== -1) {
+        logger.warn('Skipping Report with user ' + node.uid, {
             action: 'MCR::getReportAndUser',
             nid: node.nid,
         });
