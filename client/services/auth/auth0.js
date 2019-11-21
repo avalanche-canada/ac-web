@@ -1,6 +1,6 @@
 import { PRIMARY } from 'constants/colors'
 import logo from 'styles/AvalancheCanada.svg'
-import { clientId, domain } from './config.json'
+import config from './config.json'
 import Accessor from './accessor'
 
 export async function resume(hash) {
@@ -55,8 +55,10 @@ async function lock() {
         return import('auth0-lock').then(({ default: Auth0Lock }) => {
             const { hash, origin } = document.location
             const params = new URLSearchParams(hash.replace(/^\#/, ''))
+            const { clientId, domain, configurationBaseUrl } = config
 
             LOCK = new Auth0Lock(clientId, domain, {
+                configurationBaseUrl,
                 closable: true,
                 autoclose: false,
                 avatar: true,
