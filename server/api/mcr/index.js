@@ -142,7 +142,7 @@ function getJSON(path, qs, cb) {
         if (resp.statusCode !== 200) {
             logger.warn('MCR::getJSON', {
                 msg: 'non 200 from MCR api',
-                status_code: resp.status_code,
+                status_code: resp.statusCode,
                 req_path: path,
             });
             return cb(new Error('Uable to contact upstream api'));
@@ -224,7 +224,7 @@ function getUser(user_id, cb) {
 }
 
 function __getUser(user_id, cb) {
-    logger.debug('MCR::getUser(user_id=%d', user_id);
+    logger.debug('MCR::getUser(user_id=%d)', user_id);
     var path = '/user/' + user_id + '.json';
     return getJSON(path, {}, function(err, data) {
         if (err) {
