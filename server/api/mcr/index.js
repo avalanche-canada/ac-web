@@ -14,9 +14,6 @@ var router = express.Router();
 
 var AC_MCR_URL = config.AC_MCR_HOST + '/sapi/public';
 
-//TODO(wnh): Find a better way of not breaking when a single error happens
-var MCR_BAD_UIDS = ['0', '1138'];
-
 router.get('/', function(req, res) {
     //TODO(wnh): Clean this up a bit
     mcr_cache.cache.wrap(
@@ -90,26 +87,27 @@ function error(res, err) {
         .end();
 }
 
+/*
+ * Gets the report data and user profile for a given MCR "node".
+ * Retuns `undefined` and logs a warning if there is an error fetching either
+ * part.
+ */
 function getReportAndUser(node, cb) {
-    //TODO(wnh): Remove this when the query API goes live
-    if (MCR_BAD_UIDS.indexOf(node.uid) !== -1) {
-        logger.warn('Skipping Report with user ' + node.uid, {
-            action: 'MCR::getReportAndUser',
-            nid: node.nid,
+    return getReport(node.nid, function(err_report, value_report){
+        getUser(node.uid, function(err_user, value_user){
+           if (err_report || err_user) {
+               logger.warn('MRC::getReportAndUser skipping due to error',
+                   {node_id: node.nid, user_id: node.uid,
+                    err_report:err_report, err_user:err_user.toString()});
+               cb(null, undefined);
+           } else {
+               cb(null, {
+                    report: value_report,
+                    user:   value_user,
+               });
+           }
         });
-        return cb(null, undefined);
-    }
-    return async.parallel(
-        {
-            report: function(_cb) {
-                return getReport(node.nid, _cb);
-            },
-            user: function(_cb) {
-                return getUser(node.uid, _cb);
-            },
-        },
-        cb
-    );
+    });
 }
 
 function getNodeList(cb) {
