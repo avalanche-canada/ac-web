@@ -12,12 +12,12 @@ export default function Confidence({ level, children }) {
         return null
     }
 
-    return (
-        <Summary title="Confidence">
-            <dl>
-                <dt>{level}</dt>
-                <dd>{children}</dd>
-            </dl>
-        </Summary>
+    const title = (
+        <dl>
+            <dt>Confidence</dt>
+            <dd>{level}</dd>
+        </dl>
     )
+
+    return <Summary title={title}>{children}</Summary>
 }

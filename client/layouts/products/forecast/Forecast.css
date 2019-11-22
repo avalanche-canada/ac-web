@@ -59,15 +59,19 @@
 }
 
 .Summary {
-    & dl {
+    & h3 > dl {
+        margin: 0;
         display: inline-flex;
-        margin: 0 0 1em 0;
-    }
-    & dt {
-        font-weight: 700;
-    }
-    & dd {
-        margin-left: 0.5em;
+
+        & dt::after {
+            content: ': ';
+            white-space: pre;
+        }
+
+        & dd {
+            margin: 0;
+            font-style: italic;
+        }
     }
 }
 
