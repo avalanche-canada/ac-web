@@ -13,30 +13,27 @@ Metadata.propTypes = {
 
 export function Metadata({ children, ...props }) {
     return (
-        <div {...props} className={css.Metadata}>
+        <dl {...props} className={css.Metadata}>
             {children}
-        </div>
+        </dl>
     )
 }
 
 Entry.propTypes = {
     term: PropTypes.string,
     children: PropTypes.node.isRequired,
-    sideBySide: PropTypes.bool,
+    horizontal: PropTypes.bool,
     className: PropTypes.string,
 }
 
-export function Entry({ term, children, sideBySide, className, ...props }) {
-    className = classnames(className, {
-        [css.Entry]: !sideBySide,
-        [css['Entry--SideBySide']]: sideBySide,
-    })
+export function Entry({ term, children, horizontal, className, ...props }) {
+    className = classnames(className, css.Entry, horizontal && css.Horizontal)
 
     return (
-        <dl {...props} className={className}>
+        <div {...props} className={className}>
             <dt className={css.Term}>{term}</dt>
             <dd className={css.Description}>{children}</dd>
-        </dl>
+        </div>
     )
 }
 
@@ -56,7 +53,7 @@ export function LocationEntry({
     const [on, toggle] = useToggle()
 
     return (
-        <Entry term={term} onClick={toggle} className={css.LocationEntry}>
+        <Entry term={term} onClick={toggle} className={css.Toggleable}>
             <Position
                 longitude={longitude}
                 latitude={latitude}

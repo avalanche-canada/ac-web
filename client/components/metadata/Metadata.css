@@ -26,9 +26,7 @@
     text-transform: uppercase;
 }
 
-.Entry--SideBySide {
-    composes: Entry;
-
+.Horizontal {
     flex-direction: row;
     align-items: center;
 
@@ -50,7 +48,7 @@
     font-weight: 700;
 }
 
-.LocationEntry {
+.Toggleable {
     cursor: pointer;
 }
 

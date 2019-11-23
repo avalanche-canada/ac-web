@@ -28,16 +28,16 @@ export default function WeatherForecast({ date = new Date(), onDateChange }) {
     return (
         <Article>
             <Metadata>
-                <Entry term="Date" sideBySide>
+                <Entry term="Date" horizontal>
                     <DayPicker date={date} onChange={onDateChange} />
                 </Entry>
                 {notFound || (
-                    <Entry term="Issued at" sideBySide>
+                    <Entry term="Issued at" horizontal>
                         {data?.issued || '04:00'} PST/PDT
                     </Entry>
                 )}
                 {notFound || (
-                    <Entry term="Created by" sideBySide>
+                    <Entry term="Created by" horizontal>
                         {pending ? 'Loading...' : data?.handle}
                     </Entry>
                 )}

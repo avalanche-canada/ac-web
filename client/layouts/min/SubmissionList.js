@@ -116,19 +116,19 @@ function Form({ params, onParamsChange }) {
 
     return (
         <Metadata>
-            <Entry term="From" sideBySide>
+            <Entry term="From" horizontal>
                 <DayPicker
                     date={from}
                     onChange={handleFromDateChange}
                     disabledDays={{ after: endOfYesterday() }}
                 />
             </Entry>
-            <Entry term="To" sideBySide>
+            <Entry term="To" horizontal>
                 <Shim left>
                     <DateElement />
                 </Shim>
             </Entry>
-            <Entry term="Reports" sideBySide>
+            <Entry term="Reports" horizontal>
                 <Dropdown
                     value={params.types}
                     onChange={handleTypesChange}
@@ -136,7 +136,7 @@ function Form({ params, onParamsChange }) {
                     placeholder="Show all"
                 />
             </Entry>
-            <Entry term="Regions" sideBySide>
+            <Entry term="Regions" horizontal>
                 <Dropdown
                     value={params.regions}
                     onChange={handleRegionsChange}
