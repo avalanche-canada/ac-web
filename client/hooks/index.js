@@ -34,7 +34,7 @@ export function useToggle(initial) {
         if (typeof next === 'boolean') {
             set(next)
         } else {
-            set(currentBool => !currentBool)
+            set(current => !current)
         }
     }, [])
 
