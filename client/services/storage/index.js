@@ -2,7 +2,8 @@ class Storage {
     constructor(access) {
         try {
             // Use a function to access the storage.
-            // Some browsers (i.e. Google) throw when trying to access the storage.
+            // Some browsers (i.e. Google) throw when trying to access the storage
+            // if full or for security restrictions
             const storage = access()
             const key = '99999'
 
