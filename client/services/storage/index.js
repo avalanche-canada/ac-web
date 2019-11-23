@@ -1,7 +1,7 @@
 class Storage {
     constructor(access) {
         try {
-            // Use a function to access the srtorage.
+            // Use a function to access the storage.
             // Some browsers (i.e. Google) throw when trying to access the storage.
             const storage = access()
             const key = '99999'
