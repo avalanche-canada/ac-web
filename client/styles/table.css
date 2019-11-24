@@ -12,9 +12,14 @@ thead {
     & > tr:last-child {
         border-bottom: none;
     }
+
     &:after {
         content: '';
         display: block;
+    }
+
+    & th {
+        line-height: 2.5em;
     }
 }
 
@@ -91,6 +96,10 @@ caption {
         padding: 0.35em;
         text-align: center;
         text-transform: inherit;
+    }
+
+    & thead th {
+        line-height: initial;
     }
 }
 
