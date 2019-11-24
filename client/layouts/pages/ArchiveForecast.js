@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import formatDate from 'date-fns/format'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
@@ -26,8 +25,8 @@ import {
     CHIC_CHOCS,
     VANCOUVER_ISLAND,
 } from 'constants/forecast/owners'
-import * as urls from 'utils/url'
 import { DateParam } from 'hooks/params'
+import * as urls from 'utils/url'
 
 ArchiveForecast.propTypes = {
     name: PropTypes.string,
@@ -147,9 +146,9 @@ function getWarningUrl({ type, url, externalUrl }, date) {
             const [path, search] = externalUrl.split('?')
             const params = new URLSearchParams(search)
 
-            params.set('d', formatDate(date, 'YYYY-MM-DD'))
+            params.set('d', DateParam.format(date))
 
-            return [path, params.toString()].join('?')
+            return urls.appendParams(path, params)
         }
         case 'link':
             return url.replace('http://avalanche.ca', '')
@@ -207,5 +206,5 @@ function createLink(region, date) {
         return urls.path('/forecasts', region)
     }
 
-    return urls.path('/forecasts', 'archives', region, DateParam.format(date))
+    return urls.path('/forecasts/archives', region, DateParam.format(date))
 }

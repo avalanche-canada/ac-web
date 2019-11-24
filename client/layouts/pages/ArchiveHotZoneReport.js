@@ -1,19 +1,20 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
-import { Report } from 'layouts/products/hzr'
+import startOfDay from 'date-fns/start_of_day'
+import endOfDay from 'date-fns/end_of_day'
+import eachDay from 'date-fns/each_day'
 import { Page, Content, Header, Main } from 'components/page'
 import { Muted } from 'components/text'
 import { Loading } from 'components/text'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
-import formatDate from 'date-fns/format'
-import startOfDay from 'date-fns/start_of_day'
-import endOfDay from 'date-fns/end_of_day'
-import eachDay from 'date-fns/each_day'
+import { DateElement } from 'components/time'
+import { Report } from 'layouts/products/hzr'
 import { hotZone } from 'prismic/params'
-import { DATE } from 'utils/date'
 import { useDocuments, useDocument } from 'prismic/hooks'
+import { DateParam } from 'hooks/params'
+import * as urls from 'utils/url'
 
 ArchiveHotZoneReport.propTypes = {
     name: PropTypes.string,
@@ -87,14 +88,7 @@ function AdvisoryDayPicker({ name, date, month, onDateChange, onMonthChange }) {
     )
 }
 function navigateToAdvisory(name, date) {
-    const paths = [
-        '/advisories',
-        'archives',
-        name,
-        date && formatDate(date, 'YYYY-MM-DD'),
-    ]
-
-    navigate(paths.filter(Boolean).join('/'))
+    navigate(urls.path('/advisories/archives', name, DateParam.format(date)))
 }
 function monthReducer(days, { data }) {
     const start = startOfDay(data.dateOfIssue)
@@ -134,7 +128,7 @@ function Advisory({ name, date }) {
         <Report value={document} />
     ) : (
         <Muted>
-            {`No advisory available in ${name} for ${formatDate(date, DATE)}.`}
+            No advisory available in {name} for <DateElement value={date} />.
         </Muted>
     )
 }

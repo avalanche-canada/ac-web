@@ -40,13 +40,12 @@ export function appendParams(url, params) {
         return url
     }
 
-    const search = new URLSearchParams(clean(params))
+    const search =
+        params instanceof URLSearchParams
+            ? params
+            : new URLSearchParams(clean(params))
 
-    if (search.keys().next().value) {
-        return url + '?' + search.toString()
-    }
-
-    return url
+    return [url, search.toString()].filter(Boolean).join('?')
 }
 
 export function path(...chunks) {
