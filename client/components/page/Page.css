@@ -36,7 +36,8 @@
 .Main {
     flex: 1 0 70%;
     height: 100%;
-    /*  HACK: avalanche.ca/youth was overflowing and overflow hidden was not
+    /*  
+        HACK: avalanche.ca/youth was overflowing and overflow hidden was not
         working on avalanche.ca/forecasts/archives.
         http://stackoverflow.com/questions/12022288/how-to-keep-a-flex-item-from-overflowing-due-to-its-text
     */
