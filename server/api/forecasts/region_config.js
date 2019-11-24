@@ -304,7 +304,7 @@ var PARKS = {
         fetchNow: function(){
             return fetch.fetchParks(3)
                 .then(parseAvalx('glacier'))
-                .then(fixAvalxDangerRatingDates(1))
+                .then(fixAvalxDangerRatingDates(0))
                 .then(addOwner('parks-canada'))
                 .then(addStaticIcons('America/Vancouver'));
         },
