@@ -9,8 +9,10 @@ import { List, Entry } from 'components/description'
 import { DropdownFromOptions } from 'components/controls'
 import Shim from 'components/Shim'
 import { ErrorDetails } from 'components/application'
+import { Br } from 'components/misc'
 import * as Async from 'contexts/async'
 import { incidentsBaseUrl } from 'requests/config.json'
+import { Metadata, Entry as MetadataEntry } from 'components/metadata'
 import styles from './incidents.css'
 
 export default function Layout() {
@@ -41,6 +43,7 @@ function IncidentsList() {
             <Async.Found>
                 {payload => (
                     <Fragment>
+                        <Br />
                         <IncidentTable incidents={payload.results} />
                         <Shim vertical>
                             <Pagination
@@ -163,26 +166,24 @@ function IncidentFilters({ onChange, values }) {
     }
 
     return (
-        <div className={styles.Filters}>
-            <div>
-                <label>From:</label>
+        <Metadata>
+            <MetadataEntry term="From" horizontal>
                 <DropdownFromOptions
                     onChange={handleChangeFrom}
                     value={from}
                     placeholder="From"
                     options={froms}
                 />
-            </div>
-            <div>
-                <label>To:</label>
+            </MetadataEntry>
+            <MetadataEntry term="To" horizontal>
                 <DropdownFromOptions
                     onChange={handleChangeTo}
                     value={to}
                     placeholder="To"
                     options={tos}
                 />
-            </div>
-        </div>
+            </MetadataEntry>
+        </Metadata>
     )
 }
 

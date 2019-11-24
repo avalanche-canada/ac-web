@@ -12,14 +12,3 @@
 .DateCell {
     white-space: nowrap;
 }
-
-.Filters {
-    display: flex;
-}
-.Filters > * {
-    flex: 1;
-}
-
-.Filters label {
-    padding-left: 1em;
-}
