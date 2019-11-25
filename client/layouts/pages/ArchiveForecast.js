@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
+import isAfter from 'date-fns/is_after'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
@@ -111,6 +112,19 @@ function ForecastSwitch(props) {
 
     if (externals.has(name)) {
         return warning
+    }
+
+    if (isAfter(date, new Date(2019, 10, 21))) {
+        return (
+            <Shim vertical>
+                <Warning>
+                    As we are currently transitionning to a new forecasting
+                    software, archived bulletins for{' '}
+                    <DateElement value={date} /> are currently not available.
+                    <Shim top>It will be back soon!</Shim>
+                </Warning>
+            </Shim>
+        )
     }
 
     return <ForecastContent {...props}>{warning}</ForecastContent>
