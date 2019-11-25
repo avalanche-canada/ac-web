@@ -358,6 +358,7 @@ describe('transforming offseason', function(){
         expect(api.region).toEqual('south-columbia');
         expect(api.forecaster).toEqual("Will Harding");
         expect(api.dangerRatings.length).toEqual(3);
+        expect(api.bulletinTitle).toMatch(/ - South Columbia/)
         //console.dir(api);
     });
     test('fall', function(){
@@ -368,6 +369,7 @@ describe('transforming offseason', function(){
         expect(api.region).toEqual('north-columbia');
         expect(api.forecaster).toEqual("Will Harding");
         expect(api.dangerRatings.length).toEqual(3);
+        expect(api.bulletinTitle).toMatch(/ - North Columbia/)
         //console.dir(api);
     });
     test('summer', function(){
@@ -378,6 +380,7 @@ describe('transforming offseason', function(){
         expect(api.region).toEqual('purcells');
         expect(api.forecaster).toEqual("Will Harding");
         expect(api.dangerRatings.length).toEqual(3);
+        expect(api.bulletinTitle).toMatch(/ - Purcells/)
         //console.dir(api);
     });
 });
@@ -594,6 +597,7 @@ describe('transforming regular season', function(){
         expect(api.region).toEqual('cariboos');
         expect(api.forecaster).toEqual("Will Harding");
         expect(api.dangerRatings.length).toEqual(3);
+        expect(api.bulletinTitle).toMatch(/ - Cariboos/)
         expect(api.dateIssued).toEqual(avid_fx.data.dateIssued);
         expect(api.validUntil).toEqual(avid_fx.data.validUntil);
     });

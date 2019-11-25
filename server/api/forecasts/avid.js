@@ -55,6 +55,7 @@ function transformForecast(region_id, region_name, item) {
         forecaster: forecast.forecaster,
         dateIssued: forecast.dateIssued,
         validUntil: forecast.validUntil,
+        bulletinTitle: "Avalanche Bulletin - " + region_name,
 
         highlights: draftToHtml(forecast.highlights).replace(/\n/g, ''),
 
