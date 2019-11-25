@@ -128,7 +128,8 @@ router.get('/:region.:format', function(req, res) {
         case 'rss':
             locals = avalx.getTableLocals(req.forecast.json);
             //TODO(wnh): Assert the failure mode for this hits the top level error handler
-            return res.render('forecasts/forecast-rss', locals);
+            return res.header('Content-Type','application/rss+xml')
+                      .render('forecasts/forecast-rss', locals);
             break;
 
         case 'html':
