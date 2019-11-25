@@ -20,13 +20,13 @@ export default function Bundle({ children, fallback = <Text.Loading /> }) {
 }
 
 function Error({ error }) {
-    if (error.name === 'ChunkLoadError') {
-        return (
-            <ErrorPage
-                title="A new version of this page is available!"
-                headline="Press the button below to reload it"
-            />
-        )
+    if (
+        error.name === 'ChunkLoadError' ||
+        error.message.startsWith('Loading CSS chunk')
+    ) {
+        window.location.reload(true)
+
+        return null
     }
 
     if (error instanceof SyntaxError) {
