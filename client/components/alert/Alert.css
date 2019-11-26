@@ -9,14 +9,13 @@
 .Content {
     flex: 1;
 
-    padding: 1em;
+    margin: 1em;
     font-weight: 700;
     text-align: center;
     white-space: pre-wrap;
 
     & a[href] {
         color: white;
-        /* text-decoration: underline; */
     }
 }
 
@@ -38,9 +37,6 @@ a[href] {
         &:after {
             content: '\A0\203A';
         }
-        /* &:hover {
-            text-decoration: underline;
-        } */
     }
 }
 
@@ -60,11 +56,10 @@ a[href] {
     composes: Alert;
 
     background-color: var(--warning);
+    color: var(--gray-darker);
 
-    &,
-    & a,
-    & button {
-        color: var(--gray-darker);
+    & .Content a {
+        color: var(--primary);
     }
 }
 
