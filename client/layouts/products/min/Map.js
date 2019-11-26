@@ -1,12 +1,16 @@
-import React, { createElement, useEffect, useState } from 'react'
-import mapbox from 'mapbox-gl/dist/mapbox-gl'
+import React, { createElement, useState, useMemo } from 'react'
 import StaticMap from 'components/map/StaticMap'
 import minWithIncident from 'components/icons/min/min-pin-with-incident.png'
 import { INCIDENT } from 'constants/min'
 import { useReport } from './Context'
 import { supported } from 'utils/mapbox'
 import min from 'components/icons/min/min-pin.png'
-import { Map, useFullscreenControl, useNavigationControl } from 'hooks/mapbox'
+import {
+    Map,
+    useFullscreenControl,
+    useNavigationControl,
+    useMarker,
+} from 'hooks/mapbox'
 
 export default function ContextMap() {
     const report = useReport()
@@ -15,58 +19,50 @@ export default function ContextMap() {
         return null
     }
 
-    const { title, lnglat } = report
-    const withIncident = report.obs.some(hasIncident)
-    const src = withIncident ? minWithIncident : min
+    const { title, lnglat, obs } = report
+    const src = obs.some(hasIncident) ? minWithIncident : min
 
     return createElement(supported() ? DynamicMap : FallbackMap, {
         center: lnglat,
         src,
         title,
         zoom: 8,
+        height: 200,
     })
 }
 
-function FallbackMap({ center, zoom, src, title }) {
-    const [lng, lat] = center
+function FallbackMap({ center, zoom, src, title, height }) {
+    const [longitude, latitude] = center
     const url = 'https://www.avalanche.ca/' + src
-    const overlay = `url-${encodeURIComponent(url)}(${lng},${lat})`
+    const overlay = `url-${encodeURIComponent(url)}(${longitude},${latitude})`
 
     return (
         <StaticMap
             zoom={zoom}
-            longitude={lng}
-            latitude={lat}
-            height={HEIGHT}
+            longitude={longitude}
+            latitude={latitude}
+            height={height}
             overlay={overlay}
             title={title}
         />
     )
 }
 
-function DynamicMap({ center, zoom, src, title }) {
+function DynamicMap({ center, zoom, src, title, height }) {
+    const style = { height }
     const [map, setMap] = useState(null)
-    const element = Object.assign(document.createElement('img'), {
-        src,
-        title,
-        width: 20,
-    })
+    const options = useMemo(
+        () => ({
+            element: Object.assign(document.createElement('img'), {
+                src,
+                title,
+                width: 20,
+            }),
+        }),
+        [src, title]
+    )
 
-    useEffect(() => {
-        if (!map) {
-            return
-        }
-
-        const marker = new mapbox.Marker({ element })
-
-        marker.setLngLat(center)
-        marker.addTo(map)
-    }, [map])
-
-    const style = {
-        height: HEIGHT + 'px',
-    }
-
+    useMarker(map, center, options)
     useNavigationControl(map)
     useFullscreenControl(map)
 
@@ -74,7 +70,6 @@ function DynamicMap({ center, zoom, src, title }) {
 }
 
 // Constants & utils
-const HEIGHT = 175
 function hasIncident(observation) {
     return observation.obtype === INCIDENT
 }
