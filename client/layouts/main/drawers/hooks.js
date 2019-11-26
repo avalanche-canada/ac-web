@@ -138,7 +138,10 @@ export function useMapClickHandler(map) {
                     properties.cluster_id,
                     (error, zoom) => {
                         if (error) {
-                            return // We do not really care if there is an error
+                            // We do not really care if there is an error,
+                            // we will just zoom in a bit so user receives a
+                            // feedback to the click on the cluster!
+                            zoom = map.getZoom() + 1
                         }
 
                         flyTo(geometry, zoom)
@@ -149,6 +152,7 @@ export function useMapClickHandler(map) {
 
                 if (externalUrl) {
                     window.open(externalUrl, name)
+
                     return // We are not navigating to the external location
                 }
 
