@@ -28,6 +28,7 @@ import {
 } from 'constants/forecast/owners'
 import { DateParam } from 'hooks/params'
 import * as urls from 'utils/url'
+import { Link } from '@reach/router'
 
 ArchiveForecast.propTypes = {
     name: PropTypes.string,
@@ -118,10 +119,15 @@ function ForecastSwitch(props) {
         return (
             <Shim vertical>
                 <Warning>
-                    As we are currently transitionning to a new forecasting
-                    software, archived bulletins for{' '}
-                    <DateElement value={date} /> are currently not available.
-                    <Shim top>It will be back soon!</Shim>
+                    <p>
+                        Archived avalanche bulletins for{' '}
+                        <DateElement value={date} /> are currently not available
+                        as we are transitionning to a new forecasting software.
+                    </p>
+                    <p>
+                        You can <Link to="/about#contact-us">contact us</Link>{' '}
+                        for more details.
+                    </p>
                 </Warning>
             </Shim>
         )
