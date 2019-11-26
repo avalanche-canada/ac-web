@@ -15,7 +15,7 @@ import inside from '@turf/inside'
 import * as turf from '@turf/helpers'
 import bboxPolygon from '@turf/bbox-polygon'
 
-export default (supported() ? GeoPosition : Null)
+export default supported() ? GeoPosition : Null
 
 GeoPosition.propTypes = {
     onChange: PropTypes.func,
@@ -31,6 +31,7 @@ function GeoPosition({ longitude, latitude, onChange }) {
 
         element.src = place
 
+        // Use "useMarker", but it is a specific use case, more tests need to be done
         const marker = new mapbox.Marker({ element, draggable: true })
 
         marker.on('dragend', () => {
