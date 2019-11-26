@@ -136,6 +136,13 @@ export function useMarkers(map, definitions) {
     return markers
 }
 
+export function useMarker(map, lnglat, options) {
+    const definition = [lnglat, options]
+    const definitions = useMemo(() => [definition], definition)
+
+    return useMarkers(map, definitions)[0]
+}
+
 export function useNavigationControl(map, props, position) {
     return useControl(
         map,
