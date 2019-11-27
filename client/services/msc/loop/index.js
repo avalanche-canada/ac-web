@@ -202,7 +202,7 @@ function formatCurrentConditionsUrl(type, date) {
         year,
         month,
         day,
-        [id, year + month + day, `${hour}${minute}Z.${extension}`].join('_'),
+        [id, year + month + day, hour + minute + 'Z.' + extension].join('_'),
     ].join('/')
 }
 
