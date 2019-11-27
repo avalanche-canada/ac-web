@@ -256,11 +256,9 @@ export function useMountainInformationNetwork(map) {
     let key = MOUNTAIN_INFORMATION_NETWORK
     const { visible, filters } = useLayerState(key)
     const { days, types } = filters
-    const [data, pending, errorReports] = min.useReports(days)
+    const [data = EMPTY_ARRAY, pending, errorReports] = min.useReports(days)
     const [others, incidents] = useMemo(() => {
-        const features = (data || []).map(
-            createMountainInformationNetworkFeature
-        )
+        const features = data.map(createMountainInformationNetworkFeature)
 
         return [
             turf.featureCollection(features.filter(isNotIncident)),
@@ -497,6 +495,7 @@ const TITLES = new Map([
     [FORECASTS, 'forecast'],
 ])
 const EMPTY_FEATURE_COLLECTION = turf.featureCollection([])
+const EMPTY_ARRAY = []
 
 // Styles
 const STYLES = {
