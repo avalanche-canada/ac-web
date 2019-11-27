@@ -254,58 +254,65 @@ export function useAdvisories(map) {
 
 export function useMountainInformationNetwork(map) {
     let key = MOUNTAIN_INFORMATION_NETWORK
-    const id = useSearchPanelId('mountain-information-network-submissions')
     const { visible, filters } = useLayerState(key)
     const { days, types } = filters
-    const [[data, report], , errors] = useMerge(
-        min.useReports(days),
-        min.useReport(id)
-    )
+    const [data, pending, errorReports] = min.useReports(days)
     const [others, incidents] = useMemo(() => {
-        const features = (data || [])
-            .filter(({ subid }) => subid !== id)
-            .map(createMountainInformationNetworkFeature)
+        const features = (data || []).map(
+            createMountainInformationNetworkFeature
+        )
 
         return [
             turf.featureCollection(features.filter(isNotIncident)),
             turf.featureCollection(features.filter(isIncident)),
         ]
-    }, [data, id])
+    }, [data])
     const filter = useMemo(
         () => createMountainInformationNetworkFilter(types),
         [types]
     )
 
-    useMapError(ERRORS.MOUNTAIN_INFORMATION_NETWORK, ...errors)
-
     // Incident icons
     key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
     let style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
     let layer = createLayer(key, key, 'symbol', style)
+
     useSource(map, key, GEOJSON, incidents)
     useLayer(map, layer, undefined, visible, filter, EVENTS)
 
     // Other icons
     key = MOUNTAIN_INFORMATION_NETWORK
     layer = createLayer(key, key, 'symbol')
+
     useSource(map, key, CLUSTER, others)
     useLayer(map, layer, undefined, visible, filter, EVENTS)
 
     // Active report, because a report could be filtered out by the filters...
     key = MOUNTAIN_INFORMATION_NETWORK + '-active-report'
     style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
-    const activeReport = useMemo(
-        () =>
-            turf.featureCollection(
-                [report]
-                    .filter(Boolean)
-                    .map(createMountainInformationNetworkFeature)
-            ),
-        [report]
-    )
     layer = createLayer(key, key, 'symbol', style)
+
+    let id = useSearchPanelId('mountain-information-network-submissions')
+
+    if (!pending) {
+        id = data.some(({ subid }) => subid === id) ? null : id
+    }
+
+    const [report, , errorReport] = min.useReport(id)
+    const activeReport = useMemo(() => {
+        if (!report) {
+            return EMPTY_FEATURE_COLLECTION
+        }
+
+        return turf.featureCollection([
+            createMountainInformationNetworkFeature(report),
+        ])
+    }, [report])
+
     useSource(map, key, GEOJSON, activeReport)
     useLayer(map, layer, undefined, true, undefined, EVENTS)
+
+    useMapError(ERRORS.MOUNTAIN_INFORMATION_NETWORK, errorReports, errorReport)
 }
 
 // Utils for MIN
