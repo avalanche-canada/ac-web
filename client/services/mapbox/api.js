@@ -1,12 +1,11 @@
 import { ACCESS_TOKEN, USENAME, API, STYLE_IDS } from './config'
-import { Revelstoke } from 'constants/map/locations'
 import { path } from 'utils/url'
 
 export function createStyleUrl({
     styleId = STYLE_IDS.default,
     overlay,
-    longitude = Revelstoke.longitude,
-    latitude = Revelstoke.latitude,
+    longitude = -118.2, // ~Revelstoke
+    latitude = 50, // ~Revelstoke
     zoom = 10,
     bearing = 0,
     pitch = 0,
