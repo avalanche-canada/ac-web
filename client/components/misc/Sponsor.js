@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import styles from './Sponsor.css'
-import { handleOutboundSponsorClick } from 'services/analytics'
 import { forceHttps } from 'utils/url'
+import { handleOutboundSponsorClick } from 'services/analytics'
+import styles from './Sponsor.css'
 
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
@@ -11,6 +11,8 @@ Sponsor.propTypes = {
     label: PropTypes.string,
     children: PropTypes.node,
 }
+
+// FIXME No need to use data list here! <figure> is more appropriate!
 
 function Sponsor({ name, logo, url, label = 'Brought to you by', children }) {
     return (
