@@ -1,12 +1,10 @@
 @import '../../styles/colors.css';
 
-@custom-media --as-vertical (width > 500px);
+@custom-media --as-vertical (width > 600px);
 
 .Container {
     display: flex;
-    flex-direction: row;
     align-items: center;
-
     text-align: center;
     margin: 0;
 
@@ -21,22 +19,18 @@
     font-weight: 700;
     font-size: 0.75em;
     text-transform: uppercase;
-    margin-bottom: 0.5em;
 
     @media (--as-vertical) {
         width: auto;
         margin-right: auto;
         margin-left: auto;
+        margin-bottom: 0.25em;
     }
 }
 
 .Logo {
     flex: 1;
     margin: 0 auto;
-
-    & img {
-        max-width: 150px;
-        display: block;
-        margin: 0 auto;
-    }
+    max-width: 150px;
+    display: block;
 }

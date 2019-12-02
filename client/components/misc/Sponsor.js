@@ -12,24 +12,25 @@ Sponsor.propTypes = {
     children: PropTypes.node,
 }
 
-// FIXME No need to use data list here! <figure> is more appropriate!
-
 function Sponsor({ name, logo, url, label = 'Brought to you by', children }) {
     return (
         <a
             href={url}
             target={name}
             title={name}
+            className={styles.Container}
             onClick={handleOutboundSponsorClick}>
-            <dl className={styles.Container}>
-                {label && <dt className={styles.Label}>{label}</dt>}
-                {logo && (
-                    <dd className={styles.Logo}>
-                        <img src={forceHttps(logo)} alt={name} title={name} />
-                    </dd>
-                )}
-                {children}
-            </dl>
+            {label && <span className={styles.Label}>{label}</span>}
+            {logo ? (
+                <img
+                    src={forceHttps(logo)}
+                    alt={name}
+                    title={name}
+                    className={styles.Logo}
+                />
+            ) : (
+                children
+            )}
         </a>
     )
 }
