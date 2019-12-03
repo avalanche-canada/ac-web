@@ -115,24 +115,6 @@ function ForecastSwitch(props) {
         return warning
     }
 
-    if (isAfter(date, new Date(2019, 10, 21))) {
-        return (
-            <Shim vertical>
-                <Warning>
-                    <p>
-                        Archived avalanche bulletins for{' '}
-                        <DateElement value={date} /> are currently not available
-                        as we are transitionning to a new forecasting software.
-                    </p>
-                    <p>
-                        You can <Link to="/about#contact-us">contact us</Link>{' '}
-                        for more details.
-                    </p>
-                </Warning>
-            </Shim>
-        )
-    }
-
     return <ForecastContent {...props}>{warning}</ForecastContent>
 }
 function ForecastContent({ name, date, children }) {
