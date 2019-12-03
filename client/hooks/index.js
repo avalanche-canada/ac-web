@@ -56,7 +56,7 @@ export function useTimeout(elapse = 0) {
 }
 
 export function useWindowSize(wait = 250) {
-    const [size, setSize] = useState(getWindowSize())
+    const [size, setSize] = useSafeState(getWindowSize())
     const handleResize = useCallback(
         throttle(() => {
             setSize(getWindowSize())
@@ -260,4 +260,15 @@ function getFullscreenElement() {
         document.webkitFullscreenElement ||
         document.msFullscreenElement
     )
+}
+function useSafeState(initialState) {
+    const mounted = useMounted()
+    const [state, setState] = useState(initialState)
+    const setStateSafely = useCallback(state => {
+        if (mounted.current) {
+            setState(state)
+        }
+    }, [])
+
+    return [state, setStateSafely]
 }
