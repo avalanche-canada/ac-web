@@ -217,16 +217,17 @@ export function useFullscreen() {
 }
 
 export function useMounted() {
-    const mounted = useRef(true)
+    const mounted = useRef(false)
 
-    useEffect(
-        () => () => {
+    useEffect(() => {
+        mounted.current = true
+
+        return () => {
             mounted.current = false
-        },
-        []
-    )
+        }
+    }, [])
 
-    return mounted.current
+    return mounted
 }
 
 export function useScroll(ref) {

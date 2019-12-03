@@ -26,7 +26,7 @@ export function useAsync(
                 const { aborted } = controller.current.signal || {}
 
                 // FIXME Not sure what to do with aborted request
-                if (!mounted || aborted) {
+                if (!mounted.current || aborted) {
                     return
                 }
 
