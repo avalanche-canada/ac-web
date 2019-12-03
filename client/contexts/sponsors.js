@@ -10,7 +10,12 @@ Provider.propTypes = {
 
 export function Provider({ children }) {
     const date = DateParam.format(new Date())
-    const [sponsors] = useCacheAsync(requests.sponsors, [date], {})
+    const [sponsors = EMPTY] = useCacheAsync(
+        requests.sponsors,
+        [date],
+        undefined,
+        'sponsors'
+    )
 
     return (
         <SponsorsContext.Provider value={sponsors}>
@@ -19,12 +24,11 @@ export function Provider({ children }) {
     )
 }
 
-function useSponsors() {
-    return useContext(SponsorsContext)
-}
-
 export function useSponsor(name) {
-    return useSponsors()[name] || name
+    const sponsors = useContext(SponsorsContext)
+
+    return sponsors[name] || name
 }
 
 const SponsorsContext = createContext()
+const EMPTY = {}
