@@ -15,7 +15,9 @@ export default class ErrorBoundary extends Component {
         capture: true,
     }
     static getDerivedStateFromError(error) {
-        return { error }
+        return {
+            error: isRedirect(error) ? null : error,
+        }
     }
     state = {}
     componentDidCatch(error, extra) {
