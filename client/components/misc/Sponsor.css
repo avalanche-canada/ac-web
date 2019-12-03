@@ -29,7 +29,7 @@
 }
 
 .Logo {
-    flex: 1;
+    flex: 1 0 auto;
     margin: 0 auto;
     max-height: 50px;
     display: block;
