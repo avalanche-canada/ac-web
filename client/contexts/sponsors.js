@@ -1,9 +1,8 @@
-import React, { createContext, useContext, useEffect } from 'react'
+import React, { createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
 import * as requests from 'requests/static'
 import { useCacheAsync } from 'hooks/async'
 import { DateParam } from 'hooks/params'
-import { useLocalStorage } from 'hooks'
 
 Provider.propTypes = {
     children: PropTypes.element,
@@ -11,17 +10,10 @@ Provider.propTypes = {
 
 export function Provider({ children }) {
     const date = DateParam.format(new Date())
-    const [SPONSORS, set] = useLocalStorage('sponsors', {})
-    const [sponsors] = useCacheAsync(requests.sponsors, [date])
-
-    useEffect(() => {
-        if (sponsors) {
-            set(sponsors)
-        }
-    }, [sponsors])
+    const [sponsors] = useCacheAsync(requests.sponsors, [date], {})
 
     return (
-        <SponsorsContext.Provider value={sponsors || SPONSORS}>
+        <SponsorsContext.Provider value={sponsors}>
             {children}
         </SponsorsContext.Provider>
     )
