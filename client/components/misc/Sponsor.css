@@ -31,6 +31,6 @@
 .Logo {
     flex: 1;
     margin: 0 auto;
-    max-width: 150px;
+    max-height: 50px;
     display: block;
 }
