@@ -43,9 +43,7 @@ export default function LoginComplete(props) {
             auth.resume(hash)
                 .then(props => {
                     setTimeout(() => {
-                        navigate(props?.state || '/', {
-                            replace: true,
-                        })
+                        navigate(props?.state || '/')
                     }, 1500)
                 })
                 .catch(error => {
