@@ -14,7 +14,7 @@ LoginComplete.propTypes = {
 export default function LoginComplete(props) {
     const [error, setError] = useState(null)
     const auth = useAuth()
-    function navigate(to) {
+    function navigate(to = '/') {
         props.navigate(to, {
             repace: true,
         })
@@ -27,7 +27,7 @@ export default function LoginComplete(props) {
                 [
                     'hide',
                     () => {
-                        navigate('/')
+                        navigate()
                     },
                 ],
             ])
@@ -43,7 +43,7 @@ export default function LoginComplete(props) {
             auth.resume(hash)
                 .then(props => {
                     setTimeout(() => {
-                        navigate(props?.state || '/')
+                        navigate(props?.state)
                     }, 1500)
                 })
                 .catch(error => {
@@ -51,7 +51,7 @@ export default function LoginComplete(props) {
                     setError(error)
                 })
         } else {
-            navigate('/')
+            navigate()
         }
     }, [])
 
