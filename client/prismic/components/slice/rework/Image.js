@@ -19,7 +19,7 @@ Image.propTypes = {
 
 export default function Image({ primary, fullscreen }) {
     const { image, caption, credit } = primary
-    const [ref, , , toggle] = useFullscreen()
+    const [ref, , , toggle, enabled] = useFullscreen()
 
     return (
         <Media>
@@ -30,7 +30,7 @@ export default function Image({ primary, fullscreen }) {
                         <StructuredText value={caption} />
                     </Caption>
                 )}
-                {fullscreen && (
+                {fullscreen && enabled && (
                     <Button
                         kind={INCOGNITO}
                         className={styles.Fullscreen}
