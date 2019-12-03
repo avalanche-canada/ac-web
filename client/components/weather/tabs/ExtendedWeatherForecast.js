@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import GramSet, { Location } from './gram'
 import ExceedanceProbability from './ExceedanceProbability'
 import { carte, epsgram, spaghetti } from 'services/msc/naefs'
+import { OpenInNewTab } from 'components/misc'
 import Loop from 'components/loop'
 
 ExtendedWeatherForecast.propTypes = {
@@ -43,19 +44,27 @@ export default function ExtendedWeatherForecast({ date }) {
                 <GramSet>
                     <Location>
                         <header>Terrace</header>
-                        <img src={epsgram({ code: 'yxt', date })} />
+                        <OpenInNewTab>
+                            <img src={epsgram({ code: 'yxt', date })} />
+                        </OpenInNewTab>
                     </Location>
                     <Location>
                         <header>Prince George</header>
-                        <img src={epsgram({ code: 'yxs', date })} />
+                        <OpenInNewTab>
+                            <img src={epsgram({ code: 'yxs', date })} />
+                        </OpenInNewTab>
                     </Location>
                     <Location>
                         <header>Vancouver</header>
-                        <img src={epsgram({ code: 'yvr', date })} />
+                        <OpenInNewTab>
+                            <img src={epsgram({ code: 'yvr', date })} />
+                        </OpenInNewTab>
                     </Location>
                     <Location>
                         <header>Revelstoke</header>
-                        <img src={epsgram({ code: 'yrv', date })} />
+                        <OpenInNewTab>
+                            <img src={epsgram({ code: 'yrv', date })} />
+                        </OpenInNewTab>
                     </Location>
                 </GramSet>
             </Section>

@@ -180,6 +180,10 @@ export function useFullscreen() {
     const enter = useCallback(() => {
         const { current } = ref
 
+        if (!current || !document.fullscreenEnabled) {
+            return
+        }
+
         try {
             if (current.requestFullscreen) {
                 current.requestFullscreen()
@@ -213,7 +217,7 @@ export function useFullscreen() {
         getFullscreenElement() ? exit() : enter()
     }, [enter])
 
-    return [ref, enter, exit, toggle]
+    return [ref, enter, exit, toggle, document.fullscreenEnabled]
 }
 
 export function useMounted() {
