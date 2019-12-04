@@ -52,6 +52,16 @@ h6 {
         }
     }
 
+    /* http://nicolasgallagher.com/jump-links-and-viewport-positioning/demo/#method-B */
+    /* Pseudo-element spacer to take up some room above the header to fit better into the viewport */
+    /* Does work well on Chrome & Safari. There is a bit too much room on Firefox (see below css rule to fix that on Firefox) */
+    & > a[href^='#']:before {
+        content: '';
+        display: block;
+        height: 4em;
+        margin: -4em 0 0;
+    }
+
     & > a:not([href^='#']) {
         &:after {
             /* \00a0 == &nbsp; */

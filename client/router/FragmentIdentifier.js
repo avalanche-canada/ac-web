@@ -15,14 +15,6 @@ export default function FragmentIdentifier({ hash, children, ...rest }) {
     function scroll() {
         if (window.location.hash === href) {
             anchor.current.scrollIntoView(true)
-
-            const { scrollY } = window
-
-            if (scrollY) {
-                setTimeout(() => {
-                    window.scroll(0, scrollY - 90) // Magic number: navbar height!
-                })
-            }
         }
     }
 
