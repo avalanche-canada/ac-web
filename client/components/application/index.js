@@ -1,19 +1,14 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import * as Page from 'components/page'
 import * as Text from 'components/text'
 import Navbar from 'components/navbar'
 import typography from 'components/text/Text.css'
-import styles from './Application.css'
-
-export default function Application({ children }) {
-    return <div className={styles.Application}>{children}</div>
-}
 
 export function Fallback({ error, navbar, children }) {
     return (
-        <Application>
+        <Fragment>
             {navbar || <Navbar />}
             <Page.Error>
                 <Page.Main>
@@ -32,7 +27,7 @@ export function Fallback({ error, navbar, children }) {
                     {children}
                 </Page.Main>
             </Page.Error>
-        </Application>
+        </Fragment>
     )
 }
 

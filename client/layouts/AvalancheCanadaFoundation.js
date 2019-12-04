@@ -1,6 +1,5 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import { Router } from '@reach/router'
-import Application from 'components/application'
 import SPAW from './SPAW'
 import Footer from 'components/footer'
 import Null from 'components/Null'
@@ -14,7 +13,7 @@ import { StaticPage } from 'prismic/layouts'
 
 export default function AvalancheCanadaFoundation() {
     return (
-        <Application>
+        <Fragment>
             <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
             <SPAW />
             <Router>
@@ -51,7 +50,7 @@ export default function AvalancheCanadaFoundation() {
                 <Null path="/" />
                 <Footer default />
             </Router>
-        </Application>
+        </Fragment>
     )
 }
 
