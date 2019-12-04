@@ -8,10 +8,11 @@
 
 .Image {
     display: block;
+    width: 100%;
+    height: auto;
     margin: 0 auto;
     opacity: 1;
     transition: opacity 1s;
-    max-width: 100%;
 }
 
 .Figure--Loading {

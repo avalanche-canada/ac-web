@@ -30,6 +30,7 @@ export default function Image({
     url,
     alt,
     copyright,
+    dimensions,
     credit,
     linkTo,
     label,
@@ -55,7 +56,13 @@ export default function Image({
     }
 
     const image = (
-        <img ref={handleRef} src={url} alt={alt} className={css.Image} />
+        <img
+            ref={handleRef}
+            src={url}
+            alt={alt}
+            className={css.Image}
+            {...dimensions}
+        />
     )
     const className = classnames(label, {
         [css.Figure]: !loading,
