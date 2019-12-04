@@ -43,6 +43,7 @@ function AvalancheCanada() {
                         <Router primary={false}>
                             <Main path="/" />
                             <Main path="map/*" />
+                            <Redirect from="/cac/*" to="/" />
                             <Redirect
                                 from="/map/ates"
                                 to="/planning/trip-planner"

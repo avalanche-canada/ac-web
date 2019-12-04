@@ -1,6 +1,6 @@
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
-import { Router, Redirect } from '@reach/router'
+import { Router } from '@reach/router'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import ErrorBoundary from 'components/ErrorBoundary'
@@ -18,7 +18,6 @@ export default function application() {
                     <Analytics>
                         <ScrollTo>
                             <Router primary={false}>
-                                <Redirect from="/cac/*" to="/" />
                                 <AvalancheCanada path="/*" />
                                 <AvalancheCanadaFoundation path="foundation/*" />
                             </Router>
