@@ -41,6 +41,7 @@ export function useToggle(initial) {
     return [bool, toggle]
 }
 
+// TODO Improve that hook, the siganature should be the same as "setTimeout"
 export function useTimeout(elapse = 0) {
     const [ready, setReady] = useBoolean(false)
 
