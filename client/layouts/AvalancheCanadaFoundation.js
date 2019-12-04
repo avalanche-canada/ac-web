@@ -46,7 +46,7 @@ export default function AvalancheCanadaFoundation() {
                 <Funds path="funds/*" />
                 <NotFound default />
             </Router>
-            <Router>
+            <Router primary={false}>
                 <Null path="/" />
                 <Footer default />
             </Router>
