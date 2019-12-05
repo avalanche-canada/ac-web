@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Highlight from 'components/highlight'
 import { Danger, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { spaw } from 'prismic/params'
@@ -21,13 +20,11 @@ export default function SPAW() {
     const { link, description } = document.data
 
     return (
-        <Highlight>
-            <Link {...link}>
-                <Alert onDismiss={handleDismiss}>
-                    <StructuredText value={description} />
-                </Alert>
-            </Link>
-        </Highlight>
+        <Link {...link}>
+            <Alert onDismiss={handleDismiss}>
+                <StructuredText value={description} />
+            </Alert>
+        </Link>
     )
 }
 

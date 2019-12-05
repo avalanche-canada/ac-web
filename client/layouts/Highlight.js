@@ -1,5 +1,4 @@
 import React from 'react'
-import Highlight from 'components/highlight'
 import { forType, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { highlight } from 'prismic/params'
@@ -27,9 +26,5 @@ export default function HighlightLayout() {
         </Alert>
     )
 
-    return (
-        <Highlight>
-            {link ? <Link {...link}>{content}</Link> : content}
-        </Highlight>
-    )
+    return link ? <Link {...link}>{content}</Link> : content
 }
