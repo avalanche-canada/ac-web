@@ -61,10 +61,8 @@ Error.propTypes = {
 export function Error({ children, className, ...rest }) {
     return (
         <Screen className={classnames(styles.Error, className)} {...rest}>
-            <Content>
-                {children}
-                <Credit>Kroschel Films</Credit>
-            </Content>
+            {children}
+            <Credit>Kroschel Films</Credit>
         </Screen>
     )
 }
@@ -74,31 +72,27 @@ export function NotFound({ location, navbar }) {
 
     return (
         <Error navbar={navbar}>
-            <Main>
-                <h1>
-                    This is an avalanche size 404 error...
-                    <small>
-                        The page you are looking for has not been found.
-                    </small>
-                </h1>
-                <ButtonSet>
-                    <Link to="/" className={styles.Link}>
-                        Forecasts
-                    </Link>
-                    <Link to="/training" className={styles.Link}>
-                        Training
-                    </Link>
-                    <Link to="/news" className={styles.Link}>
-                        Latest news
-                    </Link>
-                    <Link to="/events" className={styles.Link}>
-                        Upcoming events
-                    </Link>
-                    <Link to="/blogs" className={styles.Link}>
-                        Our blog
-                    </Link>
-                </ButtonSet>
-            </Main>
+            <h1>
+                This is an avalanche size 404 error...
+                <small>The page you are looking for has not been found.</small>
+            </h1>
+            <ButtonSet>
+                <Link to="/" className={styles.Link}>
+                    Forecasts
+                </Link>
+                <Link to="/training" className={styles.Link}>
+                    Training
+                </Link>
+                <Link to="/news" className={styles.Link}>
+                    Latest news
+                </Link>
+                <Link to="/events" className={styles.Link}>
+                    Upcoming events
+                </Link>
+                <Link to="/blogs" className={styles.Link}>
+                    Our blog
+                </Link>
+            </ButtonSet>
         </Error>
     )
 }
@@ -155,11 +149,10 @@ export function UnsupportedMap({
 }) {
     return (
         <Error>
-            <Main>
-                <h1>Uh oh! You never thought that would happen...</h1>
-                <Headline>
-                    {headline}
-                    <br />
+            <h1>Uh oh! You never thought that would happen...</h1>
+            <div>
+                <p>{headline}</p>
+                <p>
                     We suggest you{' '}
                     <a href="//outdatedbrowser.com" target="_blank">
                         update your browser
@@ -169,16 +162,8 @@ export function UnsupportedMap({
                         enabled
                     </a>
                     .
-                </Headline>
-                <p />
-                <ButtonSet>
-                    {Array.from(links, ([link, text]) => (
-                        <Link key={link} className={styles.Link} to={link}>
-                            {text}
-                        </Link>
-                    ))}
-                </ButtonSet>
-                <Headline>
+                </p>
+                <p>
                     If you need help or have questions, do not hesitate to send
                     us an{' '}
                     <Mailto
@@ -190,8 +175,15 @@ export function UnsupportedMap({
                         email
                     </Mailto>
                     .
-                </Headline>
-            </Main>
+                </p>
+            </div>
+            <ButtonSet>
+                {Array.from(links, ([link, text]) => (
+                    <Link key={link} className={styles.Link} to={link}>
+                        {text}
+                    </Link>
+                ))}
+            </ButtonSet>
         </Error>
     )
 }
@@ -199,24 +191,20 @@ export function UnsupportedMap({
 export function Fallback({ error, navbar, children }) {
     return (
         <Error navbar={navbar}>
-            <Main>
-                <h1>
-                    Uh oh! We never thought that would happen...
-                    <small>
-                        An error occured on the page you are visiting.
-                    </small>
-                </h1>
-                <Headline>
-                    We have been notified about that error and we will try to
-                    fix as soon as possible.
-                </Headline>
-                <details>
-                    <summary>More details</summary>
-                    <Text.Error>{error.name}</Text.Error>
-                    <Text.Error>{error.message}</Text.Error>
-                </details>
-                {children}
-            </Main>
+            <h1>
+                Uh oh! We never thought that would happen...
+                <small>An error occured on the page you are visiting.</small>
+            </h1>
+            <p>
+                We have been notified about that error and we will try to fix as
+                soon as possible.
+            </p>
+            <details>
+                <summary>More details</summary>
+                <Text.Error>{error.name}</Text.Error>
+                <Text.Error>{error.message}</Text.Error>
+            </details>
+            {children}
         </Error>
     )
 }

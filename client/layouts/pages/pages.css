@@ -57,15 +57,17 @@
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
-    }
 
-    & h1 > small {
-        margin: 1em 0;
-        color: var(--gray-darker);
-    }
+        & > h1 > small {
+            margin: 1em 0;
+            color: var(--gray-darker);
+        }
 
-    & .Headline {
-        font-size: 1.25rem;
+        & > p {
+            font-size: 1.25em;
+            font-weight: 700;
+            margin: 2em;
+        }
     }
 
     &:after {
