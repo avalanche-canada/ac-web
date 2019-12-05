@@ -42,8 +42,8 @@ module.exports = {
                         },
                         {
                             id: id++,
-                            label: 'Honourary Directors',
-                            to: '/foundation/about#honourary',
+                            label: 'Honorary Directors',
+                            to: '/foundation/about#honorary',
                         },
                         {
                             id: id++,
