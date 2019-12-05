@@ -59,6 +59,11 @@
         align-items: center;
     }
 
+    & h1 > small {
+        margin: 1em 0;
+        color: var(--gray-darker);
+    }
+
     & .Headline {
         font-size: 1.25rem;
     }

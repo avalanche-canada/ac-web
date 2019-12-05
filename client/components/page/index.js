@@ -8,6 +8,7 @@ import FragmentIdentifier from 'router/FragmentIdentifier'
 import Sponsor from 'layouts/Sponsor'
 import styles from './Page.css'
 
+// TODO Perhaps remove that component
 Content.propTypes = {
     children: PropTypes.node.isRequired,
 }

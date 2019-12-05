@@ -57,7 +57,7 @@ Error.propTypes = {
     className: PropTypes.string,
 }
 
-// TODO Simplify usage of the page component, <Content> might not be required
+// TODO Simplify usage of the page component, <Content> might not be required and need a nicier page.
 export function Error({ children, className, ...rest }) {
     return (
         <Screen className={classnames(styles.Error, className)} {...rest}>
@@ -75,27 +75,29 @@ export function NotFound({ location, navbar }) {
     return (
         <Error navbar={navbar}>
             <Main>
-                <h1>This is an avalanche size 404 error...</h1>
-                <div>
-                    <h2>The page you are looking for has not been found.</h2>
-                    <ButtonSet>
-                        <Link to="/" className={styles.Link}>
-                            Forecasts
-                        </Link>
-                        <Link to="/training" className={styles.Link}>
-                            Training
-                        </Link>
-                        <Link to="/news" className={styles.Link}>
-                            Latest news
-                        </Link>
-                        <Link to="/events" className={styles.Link}>
-                            Upcoming events
-                        </Link>
-                        <Link to="/blogs" className={styles.Link}>
-                            Our blog
-                        </Link>
-                    </ButtonSet>
-                </div>
+                <h1>
+                    This is an avalanche size 404 error...
+                    <small>
+                        The page you are looking for has not been found.
+                    </small>
+                </h1>
+                <ButtonSet>
+                    <Link to="/" className={styles.Link}>
+                        Forecasts
+                    </Link>
+                    <Link to="/training" className={styles.Link}>
+                        Training
+                    </Link>
+                    <Link to="/news" className={styles.Link}>
+                        Latest news
+                    </Link>
+                    <Link to="/events" className={styles.Link}>
+                        Upcoming events
+                    </Link>
+                    <Link to="/blogs" className={styles.Link}>
+                        Our blog
+                    </Link>
+                </ButtonSet>
             </Main>
         </Error>
     )
@@ -198,10 +200,13 @@ export function Fallback({ error, navbar, children }) {
     return (
         <Error navbar={navbar}>
             <Main>
-                <h1>Uh oh! We never thought that would happen...</h1>
+                <h1>
+                    Uh oh! We never thought that would happen...
+                    <small>
+                        An error occured on the page you are visiting.
+                    </small>
+                </h1>
                 <Headline>
-                    An error occured on the page you are visiting.
-                    <br />
                     We have been notified about that error and we will try to
                     fix as soon as possible.
                 </Headline>
