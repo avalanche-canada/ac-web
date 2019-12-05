@@ -54,11 +54,12 @@ export function Screen({ footer, navbar = <Navbar />, className, children }) {
 // Layouts components
 Error.propTypes = {
     children: PropTypes.node.isRequired,
+    className: PropTypes.string,
 }
 
-export function Error({ children }) {
+export function Error({ children, className, ...rest }) {
     return (
-        <Screen className={styles.Error}>
+        <Screen className={classnames(styles.Error, className)} {...rest}>
             <Content>
                 {children}
                 <Credit>Kroschel Films</Credit>
@@ -67,11 +68,11 @@ export function Error({ children }) {
     )
 }
 
-export function NotFound({ location }) {
+export function NotFound({ location, navbar }) {
     notFound(location)
 
     return (
-        <Error>
+        <Error navbar={navbar}>
             <Main>
                 <h1>This is an avalanche size 404 error...</h1>
                 <div>
