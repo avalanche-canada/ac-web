@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
@@ -193,28 +193,24 @@ export function UnsupportedMap({
     )
 }
 
-// TODO Reuse existing page layouts
 export function Fallback({ error, navbar, children }) {
     return (
-        <Fragment>
-            {navbar || <Navbar />}
-            <Error>
-                <Main>
-                    <h1>Uh oh! We never thought that would happen...</h1>
-                    <Headline>
-                        An error occured on the page you are visiting.
-                        <br />
-                        We have been notified about that error and we will try
-                        to fix as soon as possible.
-                    </Headline>
-                    <details>
-                        <summary>More details</summary>
-                        <Text.Error>{error.name}</Text.Error>
-                        <Text.Error>{error.message}</Text.Error>
-                    </details>
-                    {children}
-                </Main>
-            </Error>
-        </Fragment>
+        <Error navbar={navbar}>
+            <Main>
+                <h1>Uh oh! We never thought that would happen...</h1>
+                <Headline>
+                    An error occured on the page you are visiting.
+                    <br />
+                    We have been notified about that error and we will try to
+                    fix as soon as possible.
+                </Headline>
+                <details>
+                    <summary>More details</summary>
+                    <Text.Error>{error.name}</Text.Error>
+                    <Text.Error>{error.message}</Text.Error>
+                </details>
+                {children}
+            </Main>
+        </Error>
     )
 }

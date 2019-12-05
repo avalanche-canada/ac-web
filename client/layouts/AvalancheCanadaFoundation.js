@@ -16,8 +16,10 @@ import styles from './AvalancheCanadaFoundation.css'
 // TODO: Could have an AvCan Foundation not found page, not just the AvCan one
 
 export default function AvalancheCanadaFoundation() {
+    const fallback = <Pages.Fallback navbar={<FoundationNavbar />} />
+
     return (
-        <Boundary fallback={<FoundationNavbar />}>
+        <Boundary fallback={fallback}>
             <Router>
                 <Home path="/" />
                 <StaticPage path="about" uid="foundation-about" title="About" />
