@@ -1,15 +1,55 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { Link } from '@reach/router'
-import { Page, Header, Main, Content, Headline, Section } from 'components/page'
+import { Header, Main, Content, Headline, Section } from 'components/page'
 import * as Text from 'components/text'
 import { ButtonSet } from 'components/button'
-import { notFound } from 'services/analytics'
 import { Credit } from 'components/misc'
 import { Mailto } from 'components/anchors'
-import Navbar from 'components/navbar'
+import Footer from 'components/footer'
+import Navbar from 'layouts/Navbar'
+import SPAW from 'layouts/SPAW'
+import Highlight from 'layouts/Highlight'
+import { notFound } from 'services/analytics'
 import { supported } from 'utils/mapbox'
 import styles from './pages.css'
+
+// High level components
+export function Page({
+    footer = <Footer />,
+    navbar = <Navbar />,
+    className,
+    children,
+}) {
+    return (
+        <div className={classnames(styles.Page, className)}>
+            <header>{navbar}</header>
+            <div>
+                <div>
+                    <SPAW />
+                    <Highlight />
+                    {children}
+                </div>
+                {footer}
+            </div>
+        </div>
+    )
+}
+
+export function Screen({ footer, navbar = <Navbar />, className, children }) {
+    return (
+        <div className={classnames(styles.Screen, className)}>
+            <header>
+                {navbar}
+                <SPAW />
+                <Highlight />
+            </header>
+            <main>{children}</main>
+            {footer}
+        </div>
+    )
+}
 
 // Layouts components
 Error.propTypes = {
@@ -18,12 +58,12 @@ Error.propTypes = {
 
 export function Error({ children }) {
     return (
-        <Page className={styles.Error}>
+        <Screen className={styles.Error}>
             <Content>
                 {children}
                 <Credit>Kroschel Films</Credit>
             </Content>
-        </Page>
+        </Screen>
     )
 }
 
@@ -59,6 +99,7 @@ export function NotFound({ location }) {
     )
 }
 
+// TODO Review that!!!
 export function Loading({ title, children }) {
     return (
         <Page>

@@ -1,5 +1,46 @@
 @import '../../styles/colors.css';
 
+.Page {
+    & > header {
+        position: fixed;
+        z-index: 2;
+        width: 100%;
+        top: 0;
+    }
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 5em);
+        margin-top: 5em;
+
+        & > div {
+            flex: 1;
+        }
+
+        & > footer {
+            flex: none;
+        }
+    }
+}
+
+.Screen {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+
+    & > header,
+    & > footer {
+        flex: 0 0 auto;
+    }
+
+    & > main {
+        position: relative;
+        flex: 1;
+    }
+}
+
 .Error {
     min-height: 100%;
     height: calc(100vh - 75px);
