@@ -7,7 +7,6 @@ import {
     useFullscreenControl,
     useGeolocateControl,
 } from 'hooks/mapbox'
-import Null from 'components/Null'
 import { supported } from 'utils/mapbox'
 import place from 'components/icons/place.svg'
 import styles from './GeoPosition.css'
@@ -117,4 +116,8 @@ function areValidCoordinates(longitude, latitude) {
 
 function round(number) {
     return Math.round(number * 100000) / 100000
+}
+
+function Null() {
+    return null
 }
