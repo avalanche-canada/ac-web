@@ -5,7 +5,7 @@ import * as Page from 'components/page'
 import { Sorting } from 'components/button'
 import { FlexContentCell } from 'components/table'
 import PaginationComponent from 'components/pagination'
-import { ErrorDetails } from 'components/application'
+import { Details } from 'components/error'
 import { Muted } from 'components/text'
 import * as Async from 'contexts/async'
 import { pluralize } from 'utils/string'
@@ -119,7 +119,7 @@ export function Caption({ type, empty, children }) {
     return (
         <caption>
             <Async.Error>
-                <ErrorDetails summary={summary} />
+                <Details summary={summary} />
             </Async.Error>
             <Async.Pending>
                 <Muted>Loading {pluralized}...</Muted>

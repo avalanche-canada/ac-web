@@ -1,9 +1,11 @@
-import { Component, cloneElement } from 'react'
+import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { isRedirect } from '@reach/router'
 import { captureException } from 'services/sentry'
+import typography from 'components/text/Text.css'
 
-export default class ErrorBoundary extends Component {
+export class Boundary extends Component {
     static propTypes = {
         children: PropTypes.element.isRequired,
         fallback: PropTypes.element.isRequired,
@@ -41,4 +43,26 @@ export default class ErrorBoundary extends Component {
 
         return this.state.error ? cloneElement(fallback, this.state) : children
     }
+}
+
+Details.propTypes = {
+    error: PropTypes.instanceOf(Error),
+    className: PropTypes.string,
+    summary: PropTypes.string,
+    children: PropTypes.node,
+}
+
+export function Details({
+    error,
+    className,
+    summary = 'An error occured.',
+    children,
+}) {
+    return (
+        <details className={classnames(typography.Error, className)}>
+            <summary>{summary}</summary>
+            {error && <p>{error.message}</p>}
+            {children}
+        </details>
+    )
 }

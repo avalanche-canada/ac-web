@@ -16,7 +16,7 @@ import { StructuredText, SliceZone } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
 import { useDocument } from './hooks'
 import * as Async from 'contexts/async'
-import { ErrorDetails } from 'components/application'
+import { Details } from 'components/error'
 
 StaticPage.propTypes = {
     uid: PropTypes.string.isRequired,
@@ -55,7 +55,7 @@ export function StaticPage({ uid, title }) {
                     </Async.Found>
                     <Async.FirstError>
                         <Async.HTTPError>
-                            <ErrorDetails summary={summary}></ErrorDetails>
+                            <Details summary={summary}></Details>
                         </Async.HTTPError>
                         <Async.Throw />
                     </Async.FirstError>

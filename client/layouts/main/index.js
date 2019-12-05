@@ -19,7 +19,7 @@ import { useBoolean, useEventListener } from 'hooks'
 import Dialog, { Header, Footer, Body } from 'components/dialog'
 import { Close } from 'components/button'
 import Button from 'components/button'
-import { ErrorDetails } from 'components/application'
+import { Details } from 'components/error'
 import Shim from 'components/Shim'
 import shim from 'components/Shim.css'
 import { useMapClickHandler } from './drawers/hooks'
@@ -194,7 +194,7 @@ function ErrorDialog({ opened, close }) {
                     arrow for more details.
                 </p>
                 {Array.from(errors.value.entries()).map(([type, errors]) => (
-                    <ErrorDetails
+                    <Details
                         key={type.description}
                         summary={SUMMARIES.get(type)}
                         className={shim.vertical}>
@@ -203,7 +203,7 @@ function ErrorDialog({ opened, close }) {
                                 <li key={index}>{error.message}</li>
                             ))}
                         </ul>
-                    </ErrorDetails>
+                    </Details>
                 ))}
             </Body>
             <Footer>

@@ -8,7 +8,7 @@ import { Responsive } from 'components/table'
 import { List, Entry } from 'components/description'
 import { DropdownFromOptions } from 'components/controls'
 import Shim from 'components/Shim'
-import { ErrorDetails } from 'components/application'
+import { Details } from 'components/error'
 import { Br } from 'components/misc'
 import * as Async from 'contexts/async'
 import { incidentsBaseUrl } from 'requests/config.json'
@@ -128,7 +128,7 @@ function IncidentDetails({ id }) {
                     <Warning>Incident #{id} not found</Warning>
                 </Async.NotFound>
                 <Async.Error>
-                    <ErrorDetails summary="An error occured while loading incident." />
+                    <Details summary="An error occured while loading incident." />
                 </Async.Error>
                 <Async.Throw />
             </Async.FirstError>

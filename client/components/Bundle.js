@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import PropTypes from 'prop-types'
-import ErrorBoundary from 'components/ErrorBoundary'
+import { Boundary as ErrorBoundary } from 'components/error'
 import * as Text from 'components/text'
 import * as Page from 'components/page'
 import * as Layouts from 'layouts/pages'
