@@ -2,13 +2,13 @@ import React from 'react'
 import { useAdvisoriesMetadata } from 'hooks/async/features'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
-import Page from 'layouts/Page'
+import { Layout } from 'layouts/pages'
 
 export default function HotZoneList() {
     const [areas, pending] = useAdvisoriesMetadata()
 
     return (
-        <Page
+        <Layout
             title="Avalanche Advisories"
             headline={
                 areas.length > 0 ? (
@@ -28,6 +28,6 @@ export default function HotZoneList() {
                     )
                 })}
             </List>
-        </Page>
+        </Layout>
     )
 }

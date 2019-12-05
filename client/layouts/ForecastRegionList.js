@@ -2,14 +2,14 @@ import React from 'react'
 import { useForecastRegionsMetadata } from 'hooks/async/features'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
-import Page from 'layouts/Page'
+import { Layout } from 'layouts/pages'
 import externals from 'router/externals'
 
 export default function ForecastRegionList() {
     const [regions, pending] = useForecastRegionsMetadata()
 
     return (
-        <Page
+        <Layout
             title="Forecast regions"
             headline="Click on a link below to read the avalanche bulletin.">
             {pending && <Loading />}
@@ -25,6 +25,6 @@ export default function ForecastRegionList() {
                     )
                 })}
             </List>
-        </Page>
+        </Layout>
     )
 }
