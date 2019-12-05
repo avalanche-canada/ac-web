@@ -57,6 +57,7 @@ Error.propTypes = {
     className: PropTypes.string,
 }
 
+// TODO Simplify usage of the page component, <Content> might not be required
 export function Error({ children, className, ...rest }) {
     return (
         <Screen className={classnames(styles.Error, className)} {...rest}>
