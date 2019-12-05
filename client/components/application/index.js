@@ -3,14 +3,17 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import * as Page from 'components/page'
 import * as Text from 'components/text'
+import * as Layouts from 'layouts/pages'
 import Navbar from 'components/navbar'
 import typography from 'components/text/Text.css'
 
+// TODO Reuse existing page layouts
+// TODO Move these to layouts
 export function Fallback({ error, navbar, children }) {
     return (
         <Fragment>
             {navbar || <Navbar />}
-            <Page.Error>
+            <Layouts.Error>
                 <Page.Main>
                     <h1>Uh oh! We never thought that would happen...</h1>
                     <Page.Headline>
@@ -26,7 +29,7 @@ export function Fallback({ error, navbar, children }) {
                     </details>
                     {children}
                 </Page.Main>
-            </Page.Error>
+            </Layouts.Error>
         </Fragment>
     )
 }

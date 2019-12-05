@@ -1,7 +1,7 @@
 import React, { lazy } from 'react'
 import { supported } from 'utils/mapbox'
 import Bundle from 'components/Bundle'
-import { Loading } from 'components/page'
+import { Loading } from 'layouts/pages'
 import Unsupported from './Unsupported'
 
 const Layout = lazy(() => import('./Layout'))

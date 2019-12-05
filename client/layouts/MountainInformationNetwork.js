@@ -3,7 +3,7 @@ import { Router } from '@reach/router'
 import Bundle from 'components/Bundle'
 import Submission from 'layouts/min/Submission'
 import { StaticPage } from 'prismic/layouts'
-import { Loading } from 'components/page'
+import { Loading } from 'layouts/pages'
 
 export default function MountainInformationNetwork() {
     return (

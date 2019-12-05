@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { Link, Match, Redirect } from '@reach/router'
 import { supported } from 'utils/mapbox'
-import UnsupportedMap from './UnsupportedMap'
+import { UnsupportedMap } from 'layouts/pages'
 import { Warning } from 'components/icons'
 import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
 import externals, { open } from 'router/externals'

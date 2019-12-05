@@ -3,11 +3,11 @@ import { Router } from '@reach/router'
 import SPAW from './SPAW'
 import Footer from 'components/footer'
 import Null from 'components/Null'
-import { NotFound } from 'components/page'
+import { NotFound } from 'layouts/pages'
 import Navbar from 'components/navbar'
+import { StaticPage } from 'prismic/layouts'
 import logo from 'styles/AvalancheCanadaFoundation.svg'
 import menu from /* preval */ '../constants/menus/foundation'
-import { StaticPage } from 'prismic/layouts'
 
 // TODO: Could have an AvCan Foundation not found page, not just a regular one
 

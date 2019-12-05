@@ -1,0 +1,62 @@
+@import '../../styles/colors.css';
+
+.Error {
+    min-height: 100%;
+    height: calc(100vh - 75px);
+    color: var(--black);
+    text-align: center;
+
+    & main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    & .Headline {
+        font-size: 1.25rem;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url('//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+    & h1 {
+        font-size: 2.5em;
+    }
+
+    & br {
+        line-height: 1.5;
+    }
+}
+
+.UnsupportedMap {
+    composes: Error;
+
+    height: auto;
+
+    & section {
+        text-align: left;
+        margin: 0 1em;
+    }
+
+    & ul {
+        font-size: 1.25em;
+    }
+}
+
+.Link {
+    composes: import Large from '../../components/button/Button.css';
+    composes: import Primary from '../../components/button/Button.css';
+}

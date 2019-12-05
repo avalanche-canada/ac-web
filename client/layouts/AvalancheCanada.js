@@ -20,7 +20,7 @@ import TripPlanner from './TripPlanner'
 import * as Feed from './feed'
 import Glossary from 'layouts/glossary'
 import ErrorBoundary from 'components/ErrorBoundary'
-import * as Page from 'components/page'
+import { NotFound } from 'layouts/pages'
 import { ButtonSet } from 'components/button'
 import { Provider as SponsorsMetadataProvider } from 'contexts/sponsors'
 import { Provider as AuthProvider } from 'contexts/auth'
@@ -28,7 +28,7 @@ import { StaticPage, GenericPage } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 import { path } from 'utils/min'
-import styles from 'components/page/Page.css'
+import styles from 'layouts/pages/pages.css'
 
 function AvalancheCanada() {
     return (
@@ -170,7 +170,7 @@ function AvalancheCanada() {
                             title="Terms of use"
                         />
                         <Pages path="pages/*" />
-                        <Page.NotFound default />
+                        <NotFound default />
                     </Router>
                     <Router primary={false}>
                         <Null path="/" />

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import ErrorBoundary from 'components/ErrorBoundary'
 import * as Text from 'components/text'
 import * as Page from 'components/page'
+import * as Layouts from 'layouts/pages'
 import Button, { ButtonSet } from 'components/button'
-import styles from 'components/page/Page.css'
+import styles from 'layouts/pages/pages.css'
 
 Bundle.propTypes = {
     children: PropTypes.element.isRequired,
@@ -36,6 +37,7 @@ function Error({ error }) {
     throw error
 }
 
+// TODO Reuse existig page layouts!
 function ErrorPage({
     title = 'Uh oh! We never thought that would happen...',
     headline = 'An error happened while loading this page.',
@@ -46,12 +48,12 @@ function ErrorPage({
     }
 
     return (
-        <Page.Error>
+        <Layouts.Error>
             <Page.Main>
                 <h1>{title}</h1>
                 <Page.Headline>
                     {headline}
-                    {message && <Text.Error>{error.message}</Text.Error>}
+                    {message && <Text.Error>{message}</Text.Error>}
                 </Page.Headline>
                 <ButtonSet>
                     <Button onClick={reload} className={styles.Link}>
@@ -59,6 +61,6 @@ function ErrorPage({
                     </Button>
                 </ButtonSet>
             </Page.Main>
-        </Page.Error>
+        </Layouts.Error>
     )
 }

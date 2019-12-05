@@ -2,14 +2,11 @@ import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
-import * as Text from 'components/text'
 import { Credit } from 'components/misc'
-import { ButtonSet } from 'components/button'
 import { Ribbon } from 'components/misc'
 import { useWindowSize } from 'hooks'
 import FragmentIdentifier from 'router/FragmentIdentifier'
 import Sponsor from 'layouts/Sponsor'
-import { notFound } from 'services/analytics'
 import styles from './Page.css'
 
 Page.propTypes = {
@@ -196,67 +193,5 @@ export function ListItem({ children, to, ...link }) {
                 </Link>
             )}
         </li>
-    )
-}
-
-// Layouts
-// TODO Should me moved to layouts
-Error.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-export function Error({ children }) {
-    return (
-        <Page className={styles.Error}>
-            <Content>
-                {children}
-                <Credit>Kroschel Films</Credit>
-            </Content>
-        </Page>
-    )
-}
-
-export function NotFound({ location }) {
-    notFound(location)
-
-    return (
-        <Error>
-            <Main>
-                <h1>This is an avalanche size 404 error...</h1>
-                <div>
-                    <h2>The page you are looking for has not been found.</h2>
-                    <ButtonSet>
-                        <Link to="/" className={styles.Link}>
-                            Forecasts
-                        </Link>
-                        <Link to="/training" className={styles.Link}>
-                            Training
-                        </Link>
-                        <Link to="/news" className={styles.Link}>
-                            Latest news
-                        </Link>
-                        <Link to="/events" className={styles.Link}>
-                            Upcoming events
-                        </Link>
-                        <Link to="/blogs" className={styles.Link}>
-                            Our blog
-                        </Link>
-                    </ButtonSet>
-                </div>
-            </Main>
-        </Error>
-    )
-}
-
-export function Loading({ title, children }) {
-    return (
-        <Page>
-            <Content>
-                <Main>
-                    <Text.Loading as="h1">{title}</Text.Loading>
-                    {children}
-                </Main>
-            </Content>
-        </Page>
     )
 }
