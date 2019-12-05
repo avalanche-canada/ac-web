@@ -19,10 +19,6 @@
     }
 }
 
-.Page {
-    position: relative;
-}
-
 .Content {
     composes: RestrictFullPageWidth;
     height: 100%;

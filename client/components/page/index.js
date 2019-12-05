@@ -1,6 +1,5 @@
 import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 import { Link } from '@reach/router'
 import { Credit } from 'components/misc'
 import { Ribbon } from 'components/misc'
@@ -11,15 +10,10 @@ import styles from './Page.css'
 
 Page.propTypes = {
     children: PropTypes.node.isRequired,
-    className: PropTypes.string.isRequired,
 }
 
-export function Page({ children, className, ...props }) {
-    return (
-        <div {...props} className={classnames(styles.Page, className)}>
-            {children}
-        </div>
-    )
+export function Page({ children, ...props }) {
+    return <div {...props}>{children}</div>
 }
 
 Content.propTypes = {
