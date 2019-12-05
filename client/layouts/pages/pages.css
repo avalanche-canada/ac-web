@@ -49,8 +49,6 @@
 }
 
 .Error {
-    min-height: 100%;
-    height: calc(100vh - 5em);
     color: var(--black);
     text-align: center;
 
