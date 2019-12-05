@@ -24,6 +24,13 @@
     }
 }
 
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    /* Hack for IE11 */
+    .Page > div > div {
+        flex-basis: auto;
+    }
+}
+
 .Screen {
     display: flex;
     flex-direction: column;
