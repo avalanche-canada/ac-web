@@ -6,7 +6,7 @@
 }
 
 .NewsAndEvents {
-    & > div > header {
+    & > div > div > header {
         &:before,
         &:after {
             display: none;
