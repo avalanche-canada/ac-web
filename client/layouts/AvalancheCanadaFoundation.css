@@ -1,0 +1,15 @@
+.Home {
+    & :global(.image-gallery-image > img) {
+        height: calc(100vh - 5em);
+        object-fit: cover;
+    }
+}
+
+.NewsAndEvents {
+    & > div > header {
+        &:before,
+        &:after {
+            display: none;
+        }
+    }
+}

@@ -1,0 +1,43 @@
+.Ambassadors {
+    & h1,
+    & h2,
+    & h3,
+    & h4,
+    & h5,
+    & h6 {
+        & > a[href^='#']:before {
+            height: 5em;
+            margin-top: -5em;
+
+            @supports (-moz-appearance: meterbar) {
+                & {
+                    height: 4em;
+                    margin-top: -4em;
+                }
+            }
+        }
+    }
+}
+
+.Sled {
+    & main > section:first-of-type {
+        font-size: 1.5rem;
+        line-height: 1.5;
+        margin: 0 3em;
+
+        & ul:not([class]) {
+            list-style: none;
+            padding-left: 0;
+
+            & > li > strong,
+            a {
+                font-size: 1.15em;
+            }
+        }
+
+        & header {
+            color: var(--primary);
+            text-transform: uppercase;
+        }
+    }
+}

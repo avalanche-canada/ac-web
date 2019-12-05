@@ -1,12 +1,8 @@
 import React from 'react'
 import { memo } from 'utils/react'
 import { Router, Redirect } from '@reach/router'
-import Null from 'components/Null'
 import LoginComplete from './LoginComplete'
 import Navbar from './Navbar'
-import SPAW from './SPAW'
-import Highlight from './Highlight'
-import Footer from 'components/footer'
 import Main from 'layouts/main'
 import Tutorial from './tutorial'
 import Ast from './ast'
@@ -27,16 +23,14 @@ import { StaticPage, GenericPage } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 import { path } from 'utils/min'
-import styles from 'layouts/pages/pages.css'
+import layouts from 'layouts/pages/pages.css'
+import styles from './AvalancheCanada.css'
 
 function AvalancheCanada() {
     return (
         <AuthProvider>
             <SponsorsMetadataProvider>
                 <ErrorBoundary fallback={<AvCanFallback />}>
-                    <Navbar />
-                    <SPAW />
-                    <Highlight />
                     {/* FIXME: Make it primary. With primary clicking a region on the map make the map jumping. */}
                     <Router primary={false}>
                         <Main path="/" />
@@ -121,7 +115,12 @@ function AvalancheCanada() {
                             uid="information"
                             title="Information"
                         />
-                        <StaticPage path="sled" uid="sled" title="Sled" />
+                        <StaticPage
+                            path="sled"
+                            uid="sled"
+                            title="Sled"
+                            className={styles.Sled}
+                        />
                         <StaticPage path="youth" uid="youth" title="Youth" />
                         <StaticPage
                             path="gear"
@@ -147,6 +146,7 @@ function AvalancheCanada() {
                             path="ambassadors"
                             uid="ambassadors"
                             title="Ambassadors"
+                            className={styles.Ambassadors}
                         />
                         <StaticPage
                             path="sponsors"
@@ -171,12 +171,6 @@ function AvalancheCanada() {
                         <Pages path="pages/*" />
                         <NotFound default />
                     </Router>
-                    <Router primary={false}>
-                        <Null path="/" />
-                        <Null path="map/*" />
-                        <Null path="planning/trip-planner" />
-                        <Footer default />
-                    </Router>
                 </ErrorBoundary>
             </SponsorsMetadataProvider>
         </AuthProvider>
@@ -185,23 +179,24 @@ function AvalancheCanada() {
 
 export default memo.static(AvalancheCanada)
 
+// TODO Move that component
 function AvCanFallback(props) {
     return (
         <Fallback navbar={<Navbar />} {...props}>
             <ButtonSet>
-                <a href="/" className={styles.Link}>
+                <a href="/" className={layouts.Link}>
                     Forecasts
                 </a>
-                <a href="/training" className={styles.Link}>
+                <a href="/training" className={layouts.Link}>
                     Training
                 </a>
-                <a href="/news" className={styles.Link}>
+                <a href="/news" className={layouts.Link}>
                     Latest news
                 </a>
-                <a href="/events" className={styles.Link}>
+                <a href="/events" className={layouts.Link}>
                     Upcoming events
                 </a>
-                <a href="/blogs" className={styles.Link}>
+                <a href="/blogs" className={layouts.Link}>
                     Our blog
                 </a>
             </ButtonSet>
