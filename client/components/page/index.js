@@ -8,14 +8,6 @@ import FragmentIdentifier from 'router/FragmentIdentifier'
 import Sponsor from 'layouts/Sponsor'
 import styles from './Page.css'
 
-Page.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-export function Page({ children, ...props }) {
-    return <div {...props}>{children}</div>
-}
-
 Content.propTypes = {
     children: PropTypes.node.isRequired,
 }
