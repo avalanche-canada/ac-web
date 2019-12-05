@@ -5,7 +5,7 @@ import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import ErrorBoundary from 'components/ErrorBoundary'
 import Analytics from 'services/analytics'
-import { Fallback } from 'components/application'
+import { Fallback } from 'layouts/pages'
 import { LocationProvider } from 'router/hooks'
 
 import 'styles'
