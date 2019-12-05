@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { Link, Match, Redirect } from '@reach/router'
 import { supported } from 'utils/mapbox'
-import { UnsupportedMap } from 'layouts/pages'
+import { UnsupportedMap, Screen } from 'layouts/pages'
 import { Warning } from 'components/icons'
 import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
 import externals, { open } from 'router/externals'
@@ -93,15 +93,19 @@ function Main() {
     useForecastMarkers(map)
 
     return (
-        <div className={styles.Layout}>
-            <MapComponent ref={setMap} options={options} />
+        <Screen>
+            <MapComponent
+                ref={setMap}
+                options={options}
+                className={styles.Map}
+            />
             <Primary map={map} />
             <Secondary map={map} />
             <Menu />
             <ToggleMenu />
             <LinkControlSet />
             <Match path="forecasts/:name">{openExternalForecast}</Match>
-        </div>
+        </Screen>
     )
 }
 

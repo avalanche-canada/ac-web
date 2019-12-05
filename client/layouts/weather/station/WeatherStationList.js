@@ -3,12 +3,12 @@ import { useStations } from 'hooks/async/weather'
 import {
     List,
     ListItem,
-    Page,
     Header,
     Content,
     Main,
     Headline,
 } from 'components/page'
+import { Page } from 'layouts/pages'
 import { Loading, Error } from 'components/text'
 import * as Async from 'contexts/async'
 import { path } from 'utils/station'

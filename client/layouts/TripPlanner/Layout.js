@@ -19,9 +19,10 @@ import Drawer, {
     LEFT,
 } from 'components/page/drawer'
 import * as utils from 'utils/region'
-import styles from './TripPlanner.css'
 import { useWindowSize } from 'hooks'
 import { Provider as MapStateProvider } from 'contexts/map/state'
+import { Screen } from 'layouts/pages'
+import styles from './TripPlanner.css'
 
 // TODO: Could use Context to simplify implementation
 // TODO: Could use state machine to simplify implementation
@@ -229,7 +230,7 @@ export default class TripPlannerLayout extends PureComponent {
     }
     render() {
         return (
-            <div className={styles.Layout}>
+            <Screen>
                 <MapStateProvider>
                     <Map
                         {...this.state}
@@ -239,7 +240,7 @@ export default class TripPlannerLayout extends PureComponent {
                     <Window>{props => this.renderDrawers(props)}</Window>
                     <Regions>{this.setData}</Regions>
                 </MapStateProvider>
-            </div>
+            </Screen>
         )
     }
 }

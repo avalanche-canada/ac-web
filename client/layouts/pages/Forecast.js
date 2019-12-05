@@ -6,15 +6,8 @@ import {
     useForecastRegionsMetadata,
     useForecastRegionMetadata,
 } from 'hooks/async/features'
-import {
-    Page,
-    Header,
-    Content,
-    Main,
-    Aside,
-    List,
-    ListItem,
-} from 'components/page'
+import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
+import { Page } from 'layouts/pages'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'

@@ -1,9 +1,10 @@
 import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Match, Router } from '@reach/router'
-import { Page, Content, Banner, Main } from 'components/page'
 import classnames from 'classnames'
+import { Link, Match, Router } from '@reach/router'
+import { Content, Banner, Main } from 'components/page'
 import { Container, Set, Item } from 'components/pill'
+import { Page } from 'layouts/pages'
 import * as forms from './forms'
 import * as tables from './tables'
 import useParams, {

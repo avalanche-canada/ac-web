@@ -2,7 +2,8 @@ import React, { Fragment, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect } from '@reach/router'
 import { tutorial } from 'prismic/params'
-import * as Page from 'components/page'
+import * as PageComponents from 'components/page'
+import { Page } from 'layouts/pages'
 import { Warning as Alert } from 'components/alert'
 import Tree, { Node } from 'components/tree'
 import { SliceZone } from 'prismic/components/base'
@@ -61,13 +62,13 @@ export default function Layout(props) {
                     currently working on improvements so stay tuned for updates!
                 </Alert>
             )}
-            <Page.Page>
-                <Page.Content>
+            <Page>
+                <PageComponents.Content>
                     <LocaleProvider value={context}>
                         <LayoutContent {...props} />
                     </LocaleProvider>
-                </Page.Content>
-            </Page.Page>
+                </PageComponents.Content>
+            </Page>
         </Fragment>
     )
 }
@@ -122,11 +123,11 @@ function Sidebar({ title, location, items = [], path }) {
     useEffect(close, [location.pathname])
 
     return width > 860 ? (
-        <Page.Aside style={ASIDE_STYLE}>
+        <PageComponents.Aside style={ASIDE_STYLE}>
             <Shim vertical right>
                 {tree}
             </Shim>
-        </Page.Aside>
+        </PageComponents.Aside>
     ) : (
         <Fragment>
             <Button kind={SUBTILE} onClick={toggle} style={BUTTON_STYLE}>
@@ -152,14 +153,14 @@ function Content({ children }) {
     const params = new URLSearchParams(location.search)
 
     return (
-        <Page.Main style={CONTENT_STYLE}>
+        <PageComponents.Main style={CONTENT_STYLE}>
             {children}
             <Router>
                 <Home path="/" />
                 <Tutorial path="/*" />
             </Router>
             {params.has('uid') && <Redirector uid={params.get('uid')} />}
-        </Page.Main>
+        </PageComponents.Main>
     )
 }
 

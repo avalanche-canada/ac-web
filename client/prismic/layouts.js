@@ -2,15 +2,8 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import * as params from 'prismic/params'
 import { STATIC_PAGE, SPONSOR } from 'constants/prismic'
-import {
-    Page,
-    Content,
-    Header,
-    Headline,
-    Main,
-    Banner,
-    Aside,
-} from 'components/page'
+import { Content, Header, Headline, Main, Banner, Aside } from 'components/page'
+import { Page } from 'layouts/pages'
 import { Loading, Error } from 'components/text'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
@@ -23,44 +16,47 @@ StaticPage.propTypes = {
     title: PropTypes.string,
 }
 
-export function StaticPage({ uid, title }) {
+export function StaticPage({ uid, title, ...props }) {
+    return (
+        <Page {...props}>
+            <Static uid={uid} title={title} />
+        </Page>
+    )
+}
+
+export function Static({ uid, title }) {
     const summary = `An error happened while getting document ${title || uid}.`
     const props = {
         ...params.uid(STATIC_PAGE, uid),
         fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
     }
 
-    // classes are defined in prismic.css, kind of a hack to have full control
-    // styling pages.
-
     return (
         <Async.Provider value={useDocument(props)}>
-            <Page className={`${STATIC_PAGE}-${uid}`}>
-                <Async.Found>
-                    <PageBanner />
-                </Async.Found>
-                <Header title={<Title>{title}</Title>} />
-                <Content>
-                    <Pending title={title} />
-                    <Main>
-                        <Async.Empty>
-                            <Error>Document {title || uid} not found.</Error>
-                        </Async.Empty>
-                        <Async.Found>
-                            <StaticPageBody />
-                        </Async.Found>
-                    </Main>
+            <Async.Found>
+                <PageBanner />
+            </Async.Found>
+            <Header title={<Title>{title}</Title>} />
+            <Content>
+                <Pending title={title} />
+                <Main>
+                    <Async.Empty>
+                        <Error>Document {title || uid} not found.</Error>
+                    </Async.Empty>
                     <Async.Found>
-                        <PageAside />
+                        <StaticPageBody />
                     </Async.Found>
-                    <Async.FirstError>
-                        <Async.HTTPError>
-                            <Details summary={summary}></Details>
-                        </Async.HTTPError>
-                        <Async.Throw />
-                    </Async.FirstError>
-                </Content>
-            </Page>
+                </Main>
+                <Async.Found>
+                    <PageAside />
+                </Async.Found>
+                <Async.FirstError>
+                    <Async.HTTPError>
+                        <Details summary={summary}></Details>
+                    </Async.HTTPError>
+                    <Async.Throw />
+                </Async.FirstError>
+            </Content>
         </Async.Provider>
     )
 }

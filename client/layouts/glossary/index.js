@@ -1,6 +1,7 @@
 import React, { lazy } from 'react'
 import Bundle from 'components/Bundle'
-import { Page, Header } from 'components/page'
+import { Header } from 'components/page'
+import { Page } from 'layouts/pages'
 
 const Glossary = lazy(() => import('./layouts'))
 

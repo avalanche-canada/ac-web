@@ -1,18 +1,7 @@
 @import '../../styles/colors.css';
 
-.Layout {
-    position: relative;
-    height: calc(100vh - 75px);
-    overflow: hidden;
-
-    & > :global(.mapboxgl-map) {
-        position: absolute;
-        z-index: 0;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
+.Map {
+    height: 100%;
 }
 
 .LinkControlSet {

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import {
     List,
     ListItem,
-    Page,
     Content,
     Header,
     Main,
     Headline,
 } from 'components/page'
+import { Page } from 'layouts/pages'
 import { Metadata, Station, Footer } from 'components/weather/station'
 import { Error, Loading, Warning } from 'components/text'
 import * as hooks from 'hooks/async/weather'
