@@ -7,12 +7,13 @@ import { Boundary as ErrorBoundary } from 'components/error'
 import Analytics from 'services/analytics'
 import { Fallback } from 'layouts/pages'
 import { LocationProvider } from 'router/hooks'
+import Navbar from 'components/navbar'
 
 import 'styles'
 
 export default function application() {
     ReactDOM.render(
-        <ErrorBoundary fallback={<Fallback />}>
+        <ErrorBoundary fallback={<Fallback navbar={<Navbar />} />}>
             <LocationProvider>
                 <StrictMode>
                     <Analytics>

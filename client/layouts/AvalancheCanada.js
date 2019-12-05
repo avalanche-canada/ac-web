@@ -2,7 +2,6 @@ import React from 'react'
 import { memo } from 'utils/react'
 import { Router, Redirect } from '@reach/router'
 import LoginComplete from './LoginComplete'
-import Navbar from './Navbar'
 import Main from 'layouts/main'
 import Tutorial from './tutorial'
 import Ast from './ast'
@@ -182,7 +181,7 @@ export default memo.static(AvalancheCanada)
 // TODO Move that component
 function AvCanFallback(props) {
     return (
-        <Fallback navbar={<Navbar />} {...props}>
+        <Fallback {...props}>
             <ButtonSet>
                 <a href="/" className={layouts.Link}>
                     Forecasts

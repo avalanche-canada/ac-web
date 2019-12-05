@@ -13,7 +13,8 @@ import menu from /* preval */ '../constants/menus/foundation'
 import logo from 'styles/AvalancheCanadaFoundation.svg'
 import styles from './AvalancheCanadaFoundation.css'
 
-// TODO: Could have an AvCan Foundation not found page, not just the AvCan one
+// TODO Could have an AvCan Foundation not found page, not just the AvCan one
+// TODO Should provide some museful links to the fallback page
 
 export default function AvalancheCanadaFoundation() {
     const fallback = <Pages.Fallback navbar={<FoundationNavbar />} />
