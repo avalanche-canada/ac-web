@@ -7,8 +7,6 @@ html {
 }
 
 body {
-    min-height: 100vh;
-    position: relative;
     margin: 0;
     font-family: Arial, sans-serif;
     font-size: 15px;
@@ -25,16 +23,6 @@ body {
 @media screen and (max-width: 480px) {
     body {
         font-size: 12px;
-    }
-}
-
-:global(#app) {
-    height: 100vh;
-    padding-top: 50px;
-    box-sizing: border-box;
-
-    @media (--full-nav-height) {
-        padding-top: 75px;
     }
 }
 
