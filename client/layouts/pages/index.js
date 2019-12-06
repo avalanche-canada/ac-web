@@ -124,10 +124,7 @@ export function Layout({ title, headline, children }) {
             <Header title={title} />
             <Content>
                 <Main>
-                    <Section>
-                        {headline && <Headline>{headline}</Headline>}
-                        {children}
-                    </Section>
+                    <Section headline={headline}>{children}</Section>
                 </Main>
             </Content>
         </Page>

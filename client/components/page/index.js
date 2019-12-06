@@ -1,4 +1,4 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Credit } from 'components/misc'
@@ -33,14 +33,15 @@ Section.propTypes = {
 export function Section({
     headline,
     children,
+    // TODO Review that prop
     level = 1,
+    // TODO Review if being used!
     ribbon,
     hash,
     title,
 }) {
     // TODO: No header tag if there is no more than a "heading" tag
-
-    const header = `h${level + 1}`
+    const Heading = `h${level + 1}`
 
     if (hash) {
         title = <FragmentIdentifier hash={hash}>{title}</FragmentIdentifier>
@@ -52,7 +53,7 @@ export function Section({
                 <Ribbon caption={ribbon}>{title}</Ribbon>
             ) : (
                 <header>
-                    {createElement(header, null, title)}
+                    <Heading>{title}</Heading>
                     {headline && <Headline>{headline}</Headline>}
                 </header>
             )}
@@ -123,6 +124,7 @@ export function Header({ title, children }) {
 }
 
 export function Headline({ children, ...props }) {
+    // TODO Should a <strong> instead of a <div>
     return (
         <div {...props} className={styles.Headline}>
             {children}

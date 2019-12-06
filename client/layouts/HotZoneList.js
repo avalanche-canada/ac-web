@@ -16,7 +16,7 @@ export default function HotZoneList() {
                 ) : pending ? (
                     <Loading />
                 ) : (
-                    'There is currently no Avalanche Advisory available.'
+                    'There is currently no Avalanche Advisories available.'
                 )
             }>
             <List>
