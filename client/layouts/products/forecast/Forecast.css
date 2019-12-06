@@ -1,7 +1,5 @@
 @import '../../../styles/colors.css';
 
-@custom-media --full-width (width > 320px);
-
 :root {
     --background-color: var(--gray-lighter);
     --border-color: var(--gray-lighter);
@@ -19,7 +17,7 @@
     text-align: center;
     font-weight: 700;
     font-size: 1.5em;
-    
+
     & p {
         margin: 0.75em 0;
     }
