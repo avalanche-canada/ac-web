@@ -4,6 +4,7 @@ import Bundle from 'components/Bundle'
 import Submission from 'layouts/min/Submission'
 import { StaticPage } from 'prismic/layouts'
 import { Loading } from 'layouts/pages'
+import styles from './AvalancheCanada.css'
 
 export default function MountainInformationNetwork() {
     return (
@@ -25,6 +26,7 @@ export default function MountainInformationNetwork() {
                 path="/"
                 uid="mountain-information-network-overview"
                 title="Mountain Information Network — Overview"
+                className={styles.MINOverview}
             />
         </Router>
     )

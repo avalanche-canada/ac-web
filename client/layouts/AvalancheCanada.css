@@ -41,3 +41,27 @@
         }
     }
 }
+
+.MINOverview {
+    & main section:first-of-type {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        grid-gap: 1em;
+        align-items: center;
+
+        & > header {
+            grid-column: 1 / span 2;
+        }
+
+        & > p {
+            grid-column: 1 / span 2;
+            margin: -2em 0 0 3em;
+        }
+
+        & > figure {
+            height: 2em;
+            width: 2em;
+            margin-top: -0.5em;
+        }
+    }
+}
