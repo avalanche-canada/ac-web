@@ -1,7 +1,7 @@
 import React, { useState, memo } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { findNode, getPath, getParent } from 'utils/tree'
-import { useWindowSize } from 'hooks'
 import Drawer from './Drawer'
 import styles from './Drawer.css'
 
@@ -31,15 +31,12 @@ Container.propTypes = {
 }
 
 function Container({ show = false, node, onClose, root, setNode }) {
-    const { width } = useWindowSize()
     const path = getPath(root, node)
     const context = { setNode, root, onClose }
     const drawers = path.reverse().map(createDrawer, context)
-    const transform = `translateX(${show ? 0 : -width}px)`
-    const style = {
-        transform,
-        WebkitTransform: transform,
-    }
+    const className = classnames(styles.Container, {
+        [styles.Open]: show,
+    })
     function handleContainerClick(event) {
         const { target, currentTarget } = event
 
@@ -51,10 +48,7 @@ function Container({ show = false, node, onClose, root, setNode }) {
     }
 
     return (
-        <div
-            style={style}
-            className={styles.Container}
-            onClick={handleContainerClick}>
+        <div className={className} onClick={handleContainerClick}>
             {drawers.map(drawer => (
                 <Drawer key={drawer.id} {...drawer} />
             ))}
