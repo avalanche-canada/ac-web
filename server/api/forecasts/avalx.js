@@ -787,12 +787,16 @@ function getNowcastStyles(forecast) {
 
 function getTableLocals(forecast) {
     var ratingColors = getForecastTableColors(forecast);
+    var date0 = moment(forecast.dangerRatings[0].date);
+    var date1 = moment(forecast.dangerRatings[1].date);
+    var date2 = moment(forecast.dangerRatings[2].date);
+
     var dates = {
         issued: moment(forecast.dateIssued).format('ddd, DD MMM YYYY HH:mm'),
         until: moment(forecast.validUntil).format('ddd, DD MMM YYYY HH:mm'),
-        day0: moment.utc(forecast.dangerRatings[0].date).format('ddd, DD MMM'),
-        day1: moment.utc(forecast.dangerRatings[1].date).format('ddd, DD MMM'),
-        day2: moment.utc(forecast.dangerRatings[2].date).format('ddd, DD MMM'),
+        day0: date0.format('ddd, DD MMM'),
+        day1: date1.format('ddd, DD MMM'),
+        day2: date2.format('ddd, DD MMM'),
     };
 
     return {
