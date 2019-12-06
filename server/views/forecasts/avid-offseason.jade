@@ -4,10 +4,10 @@ article
     h1 #{forecast.bulletinTitle}
     p
       b Date Issued:
-      date(datetime=forecast.dateIssued) #{dates.issued}
+      time(datetime=forecast.dateIssued) #{dates.issued}
     p
       b Valid Until:
-      date(datetime=forecast.validUntil) #{dates.until}
+      time(datetime=forecast.validUntil) #{dates.until}
     p
       b Forecaster:
       | #{forecast.forecaster}
