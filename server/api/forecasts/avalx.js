@@ -787,13 +787,17 @@ function getNowcastStyles(forecast) {
 
 function getTableLocals(forecast) {
     var ratingColors = getForecastTableColors(forecast);
-    var date0 = moment(forecast.dangerRatings[0].date);
-    var date1 = moment(forecast.dangerRatings[1].date);
-    var date2 = moment(forecast.dangerRatings[2].date);
+    // FIXME "America/Vancouver" is used as timezone for all forecast regions 
+    // and further fixes are required to work properly for all forecast regions. 
+    // Kanaskis, Jasper, ... are in different timezones
+    var tz = 'America/Vancouver';
+    var date0 = moment.tz(forecast.dangerRatings[0].date, tz);
+    var date1 = moment.tz(forecast.dangerRatings[1].date, tz);
+    var date2 = moment.tz(forecast.dangerRatings[2].date, tz);
 
     var dates = {
-        issued: moment(forecast.dateIssued).format('ddd, DD MMM YYYY HH:mm'),
-        until: moment(forecast.validUntil).format('ddd, DD MMM YYYY HH:mm'),
+        issued: moment.tz(forecast.dateIssued, tz).format('ddd, DD MMM YYYY HH:mm'),
+        until: moment.tz(forecast.validUntil, tz).format('ddd, DD MMM YYYY HH:mm'),
         day0: date0.format('ddd, DD MMM'),
         day1: date1.format('ddd, DD MMM'),
         day2: date2.format('ddd, DD MMM'),
