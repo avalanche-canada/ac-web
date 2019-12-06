@@ -1,32 +1,34 @@
 @import '../../../styles/colors.css';
 @import '../../../styles/Textures.css';
 
-.Drawer {
-    position: fixed;
-    top: 5em;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 11;
-    display: flex;
-    flex-direction: column;
-    background-color: white;
-    box-sizing: border-box;
-}
-
-.HackForTheRouter {
+.Content {
     height: 100%;
     display: flex;
     flex-direction: column;
 }
 
+.Drawer {
+    composes: Content;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 11;
+    background: white;
+    box-shadow: none;
+    transition: transform 0.5s ease-out, box-shadow 0.5s ease-out;
+    max-width: 500px;
+    width: 100%;
+}
+
 .Left {
     composes: Drawer;
 
-    right: auto;
-    transition: left 0.5s ease-out;
+    left: 0;
+    transform: translateX(-100%);
 
     &.Open {
+        transform: translateX(0);
         box-shadow: 4px 0 8px color-mod(black alpha(25%));
     }
 }
@@ -34,11 +36,11 @@
 .Right {
     composes: Drawer;
 
-    left: auto;
-    z-index: 11;
-    transition: right 0.5s ease-out;
+    right: 0;
+    transform: translateX(100%);
 
     &.Open {
+        transform: translateX(0);
         box-shadow: -4px 0 8px color-mod(black alpha(25%));
     }
 }

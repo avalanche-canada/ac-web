@@ -45,13 +45,13 @@ export function ToggleMenu() {
 }
 
 export function Primary({ map }) {
-    const { opened, width, close } = usePrimaryDrawerParams()
+    const { opened, close } = usePrimaryDrawerParams()
     const flyTo = useFlyTo(map)
     const fitBounds = useFitBounds(map)
 
     return (
-        <Drawer side={RIGHT} open={opened} width={width}>
-            <Router className={styles.HackForTheRouter}>
+        <Drawer side={RIGHT} open={opened}>
+            <Router className={styles.Content}>
                 <Forecast
                     path="forecasts/:name"
                     onCloseClick={close}
@@ -72,7 +72,7 @@ export function Primary({ map }) {
 }
 
 export function Secondary({ map }) {
-    const { type, id, opened, width, close } = useSecondaryDrawerParams()
+    const { type, id, opened, close } = useSecondaryDrawerParams()
     const onLocateClick = useFlyTo(map)
     const props = {
         id,
@@ -84,7 +84,7 @@ export function Secondary({ map }) {
         : null
 
     return (
-        <Drawer open={opened} width={width} side={LEFT}>
+        <Drawer open={opened} side={LEFT}>
             {children}
         </Drawer>
     )

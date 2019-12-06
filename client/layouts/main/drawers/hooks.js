@@ -8,7 +8,6 @@ import * as TYPES from 'constants/drawers'
 
 export function usePrimaryDrawerParams() {
     const { location, navigate } = useLocation()
-    const width = useDrawerWidth()
     const params = useMemo(() => {
         const [, type, id] = location.pathname
             .split('/')
@@ -29,18 +28,16 @@ export function usePrimaryDrawerParams() {
     return useMemo(
         () => ({
             ...params,
-            width,
             close() {
                 navigate('/map' + location.search)
             },
         }),
-        [params, width, location.search]
+        [params, location.search]
     )
 }
 
 export function useSecondaryDrawerParams() {
     const { location, navigate } = useLocation()
-    const width = useDrawerWidth()
     const params = useMemo(() => {
         const params = new URLSearchParams(location.search)
 
@@ -63,17 +60,16 @@ export function useSecondaryDrawerParams() {
             id,
             opened: true,
         }
-    }, [location.search, width])
+    }, [location.search])
 
     return useMemo(
         () => ({
             ...params,
-            width,
             close() {
                 navigate(location.pathname)
             },
         }),
-        [params, width, location.pathname]
+        [params, location.pathname]
     )
 }
 export function useFlyTo(map) {
@@ -178,17 +174,12 @@ export function useMapClickHandler(map) {
 }
 
 // Utils
-function useDrawerWidth() {
-    const { width } = useWindowSize()
-
-    // TODO Actually, that should implemented in CSS only using percentage and media queries.
-
-    return Math.min(500, width) // 500px or smaller.
-}
 function useMapOffset() {
-    const width = useDrawerWidth()
     const primary = usePrimaryDrawerParams()
     const secondary = useSecondaryDrawerParams()
+    let { width } = useWindowSize()
+
+    width = Math.min(500, width)
 
     return useMemo(() => {
         let x = 0

@@ -20,16 +20,13 @@ Drawer.propTypes = {
 export default function Drawer({
     open = false,
     side = LEFT,
-    width = 250,
+    width,
     backdrop = false,
     onCloseClick,
     children,
 }) {
     const withBackdrop = open && backdrop
-    const style = {
-        width,
-        [side.toLowerCase()]: open ? 0 : -width,
-    }
+    const style = { width }
     const className = classnames({
         [styles.Left]: side === LEFT,
         [styles.Right]: side === RIGHT,
