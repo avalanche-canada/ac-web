@@ -48,9 +48,7 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                 <Async.Provider value={useForecastRegionMetadata(name)}>
                     <h1>
                         <Async.Pending>
-                            <span className={typography.Muted}>
-                                Loading ...
-                            </span>
+                            <span className={typography.Muted}>Loading...</span>
                         </Async.Pending>
                         <Async.Found>
                             <ForecastRegionHeader
@@ -135,6 +133,7 @@ function SPAW({ name }) {
         </SPAWContainer>
     )
 }
+
 function ForecastRegionHeader({ payload, onLocateClick }) {
     const { id, name } = payload
 

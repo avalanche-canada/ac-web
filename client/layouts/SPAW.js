@@ -3,17 +3,14 @@ import PropTypes from 'prop-types'
 import { Danger, OneLiner } from 'components/alert'
 import { Link, StructuredText } from 'prismic/components/base'
 import { spaw } from 'prismic/params'
-import { useSessionStorage } from 'hooks'
+import { useVisibility } from 'hooks/session'
 import { useDocument } from 'prismic/hooks'
 
 export default function SPAW() {
     const [document] = useSPAW()
-    const [hidden, setHidden] = useSessionStorage('spaw-hidden', false)
-    function handleDismiss() {
-        setHidden(true)
-    }
+    const [visible, hide] = useVisibility('spaw')
 
-    if (!document || hidden) {
+    if (!document || !visible) {
         return null
     }
 
@@ -21,7 +18,7 @@ export default function SPAW() {
 
     return (
         <Link {...link}>
-            <Alert onDismiss={handleDismiss}>
+            <Alert onDismiss={hide}>
                 <StructuredText value={description} />
             </Alert>
         </Link>
