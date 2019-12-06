@@ -177,26 +177,26 @@ export function useMapClickHandler(map) {
 function useMapOffset() {
     const primary = usePrimaryDrawerParams()
     const secondary = useSecondaryDrawerParams()
-    let { width } = useWindowSize()
-
-    width = Math.min(500, width)
+    const size = useWindowSize()
+    const width = Math.min(500, size.width)
 
     return useMemo(() => {
         let x = 0
 
-        if (primary.opened) {
+        if (primary.opened && size.width > WIDTH_TO_START_ADD_MAP_OFFSET) {
             x -= width / 4
         }
 
-        if (secondary.opened) {
+        if (secondary.opened && size.width > WIDTH_TO_START_ADD_MAP_OFFSET) {
             x += width / 4
         }
 
         return [x, 0]
-    }, [width, primary.opened, secondary.opened])
+    }, [size.width, primary.opened, secondary.opened])
 }
 
 // Constants
+const WIDTH_TO_START_ADD_MAP_OFFSET = 750
 const BLANK_PARAMS = {
     opened: false,
     type: null,
