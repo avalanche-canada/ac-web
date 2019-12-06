@@ -4,12 +4,14 @@ import { Article } from 'components/page'
 import Tutorial from '../Tutorial'
 import { Loop } from 'components/weather'
 
+// TODO Short titles should come from the metadata!
+
 export default function HourlyPrecipitation() {
     return (
         <Article title="Hourly Precipitation">
             <Tabs>
                 <HeaderSet>
-                    <Header>BC HR</Header>
+                    <Header>BC/AB HR</Header>
                     <Header>South Coast HR</Header>
                     <Header>South Interior HR</Header>
                     <Header>Type R</Header>

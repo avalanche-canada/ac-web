@@ -100,13 +100,12 @@
         "notes": []
     },
     "AC_HRDPS_BC_wms-1hr-precip": {
-        "id": "AC_HRDPS_BC_wms-1hr-precip",
+        "id": "AC_HRDPS_BC_1hr-precip",
         "title": "Precipitation 1h HR BC",
-        "shortTitle": "BC HR",
+        "shortTitle": "BC/AB HR",
         "runs": [6, 18],
         "updates": [2, 14],
         "hours": [
-            0,
             1,
             2,
             3,
@@ -148,7 +147,13 @@
             39,
             40,
             41,
-            42
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48
         ],
         "extension": "jpg",
         "notes": []
@@ -366,7 +371,13 @@
             39,
             40,
             41,
-            42
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48
         ],
         "extension": "jpg",
         "notes": []
@@ -539,7 +550,13 @@
             39,
             40,
             41,
-            42
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48
         ],
         "extension": "jpg",
         "notes": []
