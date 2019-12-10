@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import styles from './Ribbon.css'
 
 Ribbon.propTypes = {
-    children: PropTypes.string.isRequired,
     caption: PropTypes.string,
+    children: PropTypes.string.isRequired,
 }
 
 export default function Ribbon({ children, caption = 'From the reel' }) {
