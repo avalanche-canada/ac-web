@@ -389,17 +389,17 @@ function createForecastIconURL({ iconSet }) {
 
     return createURL(icon)
 }
-const GRAPHICS = '/api/forecasts/graphics/'
+const GRAPHICS = '/api/forecasts/graphics'
 const ICONS = new Map([
     [
         'RATINGS',
         ({ ratings: { alp, tln, btl } }) =>
-            GRAPHICS + path(alp, tln, btl, 'danger-rating-icon.svg'),
+            path(GRAPHICS, alp, tln, btl, 'danger-rating-icon.svg'),
     ],
-    ['SPRING', () => GRAPHICS + 'spring.svg'],
-    ['OFF_SEASON', () => GRAPHICS + 'off-season.svg'],
-    ['EARLY_SEASON', () => GRAPHICS + 'early-season.svg'],
-    ['LINK', () => GRAPHICS + 'link.svg'],
+    ['SPRING', () => path(GRAPHICS, 'spring.svg')],
+    ['OFF_SEASON', () => path(GRAPHICS, 'off-season.svg')],
+    ['EARLY_SEASON', () => path(GRAPHICS, 'early-season.svg')],
+    ['LINK', () => path(GRAPHICS, 'link.svg')],
 ])
 function handleMouseMove({ target, features }) {
     // This is the best way to handle title!
