@@ -1,6 +1,4 @@
 var assert = require('assert');
-
-var datefns = require('date-fns');
 var moment = require('moment-timezone');
 
 var AVCAN_TO_INT = {
@@ -26,7 +24,7 @@ function genMovingDangerIconSet(region_tz, dangerRatings) {
     var days = dangerRatings.map(function(rating){
         // Take only the date part as the time and TZ info is not actually
         // intended for use
-        var only_date = rating.date.split("T")[0];
+        var only_date = rating.date.toISOString().split("T")[0];
         var d = moment.tz(only_date, region_tz);
         return d.utc().toISOString();
     });
@@ -92,7 +90,7 @@ function addIcon(type_fn, region_tz, forecast){
     } else if (forecast.dangerMode ===  "Spring situation") {
         iconSet = staticSet('SPRING');
     } else {
-        assert(false, "Uknown forecast danger mode:" + forecast.dangerMode);
+        assert(false, "Unknown forecast danger mode:" + forecast.dangerMode);
     }
     return Object.assign({}, forecast, {iconSet: iconSet});
 

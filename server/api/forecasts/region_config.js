@@ -138,7 +138,7 @@ var AVCAN = {
                 .then(fetch.filterAvidByLocation(avid_mappings.byName['north-rockies']))
                 .then(avid.parseAvid('north-rockies', 'North Rockies'))
                 .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
+                .then(addMovingIcons('America/Vancouver'))
             // return fetch.fetchAvalx2019(9)
             //     .then(parseAvalx('north-rockies'))
             //     .then(fixAvalxDangerRatingDates(1))
@@ -266,7 +266,7 @@ var AVCAN = {
                 .then(fetch.filterAvidByLocation(avid_mappings.byName['yukon']))
                 .then(avid.parseAvid('yukon', 'Yukon'))
                 .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
+                .then(addMovingIcons('America/Vancouver'))
             // return fetch.fetchAvalx2019(20)
             //     .then(parseAvalx('yukon'))
             //     .then(fixAvalxDangerRatingDates(1))
@@ -347,7 +347,7 @@ var PARKS = {
                 .then(parseAvalx('waterton'))
                 .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('parks-canada'))
-                .then(addStaticIcons('America/Edmonton'));
+                .then(addMovingIcons('America/Edmonton'));
         },
     },
 };
