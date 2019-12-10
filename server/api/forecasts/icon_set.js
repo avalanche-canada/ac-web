@@ -22,9 +22,16 @@ function genMovingDangerIconSet(region_tz, dangerRatings) {
     assert(dangerRatings.length === 3, 'Need 3 danger ratings');
 
     var days = dangerRatings.map(function(rating){
+        const date = rating.date;
+
+        // TODO Review the logic here. We rely on whatever the caller does on the data before. AvalX parses dates when the AvID one does not. 
+        if (date instanceof Date) {
+            date = date.toISOString()
+        }
+        
         // Take only the date part as the time and TZ info is not actually
         // intended for use
-        var only_date = rating.date.toISOString().split("T")[0];
+        var only_date = date.split("T")[0];
         var d = moment.tz(only_date, region_tz);
         return d.utc().toISOString();
     });
