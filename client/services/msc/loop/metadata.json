@@ -197,7 +197,7 @@
     "AC_RDPS_CAN-W_3hr-precip-clds-th-slp": {
         "id": "AC_RDPS_CAN-W_3hr-precip-clds-th-slp",
         "title": "Surface_Maps_0-48h_R",
-        "shortTitle": "048 Hours",
+        "shortTitle": "0-48 Hours",
         "runs": [0, 6, 12, 18],
         "updates": [3, 9, 15, 21],
         "hours": [
@@ -280,7 +280,7 @@
     "AC_GDPS_EPA_tpw": {
         "id": "AC_GDPS_EPA_tpw",
         "title": "Precipitable Water (G)",
-        "shortTitle": "Precipitable water",
+        "shortTitle": "Precipitable Water",
         "runs": [0, 12],
         "updates": [9, 21],
         "hours": [
@@ -647,8 +647,8 @@
     },
     "AC_SAT_BC_ir-vis": {
         "id": "AC_SAT_BC_ir-vis",
-        "title": "IR-Vis Canada West",
-        "shortTitle": "IR-VIS BC",
+        "title": "IR-VIS Canada West",
+        "shortTitle": "IR-VIS Canada West",
         "minutes": [
             0, 
             30, 
@@ -706,7 +706,7 @@
     "AC_SAT_CAN-W-CST_ir-redtop": {
         "id": "AC_SAT_CAN-W-CST_ir-redtop",
         "title": "IR - Canada West",
-        "shortTitle": "IR West Coast",
+        "shortTitle": "IR - Canada West",
         "minutes": [
             0, 
             30, 
@@ -1028,8 +1028,8 @@
     },
     "AC_SAT_BC_visible": {
         "id": "AC_SAT_BC_visible",
-        "title": "Visible",
-        "shortTitle": "VIS BC",
+        "title": "1km VIS BC",
+        "shortTitle": "1km VIS BC",
         "minutes": [
             0,
             60,
@@ -1253,7 +1253,7 @@
     "AC_PLOT_BC_actual-temps": {
         "id": "AC_PLOT_BC_actual-temps",
         "title": "Temperatures-MSLP",
-        "shortTitle": "Temperatures",
+        "shortTitle": "Actual Temperatures",
         "minutes": [
             0,
             60,
