@@ -27,18 +27,22 @@ export function getNotes(type) {
 }
 
 function getForecastNotes({ updates }) {
-    updates = updates
-        .map(update => new Date(Date.UTC(0, 0, 0, Math.floor(update), update % Math.floor(update) * 60)))
+    const hours = updates
+        .map(update => {
+            const hours = Math.floor(update)
+            const minutes = (update - hours) * 60
+
+            return new Date(Date.UTC(0, 0, 0, hours, minutes))
+        })
         .map(date => date.toLocaleTimeString().substring(0, 5))
         .sort()
-
-    const last = updates.pop()
+    const last = hours.pop()
 
     return [
         [
             'Updated at approximately',
-            updates.join(', '),
-            updates.length && '&',
+            hours.join(', '),
+            hours.length && '&',
             last,
             'every day.',
         ]
@@ -156,7 +160,12 @@ async function computeCurrentConditionsUrls({
         dates = dates.splice(dates.length - amount)
     }
 
-    return dates.map(date => formatCurrentConditionsUrl(type, date))
+    const urls = dates.map(date => formatCurrentConditionsUrl(type, date))
+
+    // TODO Remove the conversion to Set and then from Array.
+    // Did that to remove the duplicate image urls at midnight. 
+    
+    return Array.from(new Set(urls))
 }
 
 export function formatForecastUrl(type, date, run, hour) {
