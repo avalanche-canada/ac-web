@@ -28,7 +28,7 @@ export function getNotes(type) {
 
 function getForecastNotes({ updates }) {
     updates = updates
-        .map(update => new Date(Date.UTC(0, 0, 0, update)))
+        .map(update => new Date(Date.UTC(0, 0, 0, Math.floor(update), update % Math.floor(update) * 60)))
         .map(date => date.toLocaleTimeString().substring(0, 5))
         .sort()
 
