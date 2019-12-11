@@ -268,6 +268,9 @@ export function Satellite() {
                     <LoopHeader id='AC_SAT_EPA_water-vapour-jet' />
                     <LoopHeader id='AC_SAT_BC_ir-vis' />
                     <LoopHeader id='AC_SAT_BC_visible' />
+                    <LoopHeader id='AC_SAT_BC-S-CST_visible' />
+                    <LoopHeader id='AC_SAT_BC-S-INT_visible' />
+                    <LoopHeader id='AC_SAT_Alberta-Rockies_visible' />
                     <Header>Tutorials</Header>
                 </HeaderSet>
                 <PanelSet>
@@ -275,21 +278,18 @@ export function Satellite() {
                         <Loop
                             type="AC_SAT_CAN-W-CST_ir-redtop"
                             interval={200}
-                            amount={24}
                         />
                     </Panel>
                     <Panel>
                         <Loop
                             type="AC_SAT_EPA_ir-redtop"
                             interval={200}
-                            amount={24}
                         />
                     </Panel>
                     <Panel>
                         <Loop
                             type="AC_SAT_EPA_water-vapour-jet"
                             interval={200}
-                            amount={24}
                         />
                     </Panel>
                     <Panel>
@@ -297,6 +297,15 @@ export function Satellite() {
                     </Panel>
                     <Panel>
                         <Loop type="AC_SAT_BC_visible" interval={200} />
+                    </Panel>
+                    <Panel>
+                        <Loop type="AC_SAT_BC-S-CST_visible" interval={200} />
+                    </Panel>
+                    <Panel>
+                        <Loop type="AC_SAT_BC-S-INT_visible" interval={200} />
+                    </Panel>
+                    <Panel>
+                        <Loop type="AC_SAT_Alberta-Rockies_visible" interval={200} />
                     </Panel>
                     <Panel>
                         <Tutorial uid="satellite" />
