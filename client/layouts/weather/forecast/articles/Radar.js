@@ -12,6 +12,7 @@ export default function Radar() {
                     <Header>BC Mosaic</Header>
                     <Header>South Coast</Header>
                     <Header>South Interior</Header>
+                    <Header>Alberta Rockies</Header>
                     <Header>Tutorials</Header>
                 </HeaderSet>
                 <PanelSet>
@@ -32,6 +33,13 @@ export default function Radar() {
                     <Panel>
                         <Loop
                             type="AC_RADAR_BC-S-INT_precip-rate"
+                            interval={200}
+                            amount={18}
+                        />
+                    </Panel>
+                    <Panel>
+                        <Loop
+                            type="AC_RADAR_Alberta-Rockies_precip-rate"
                             interval={200}
                             amount={18}
                         />

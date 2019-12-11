@@ -12,6 +12,7 @@ export default function Precipitation12h() {
                     <Header>BC R</Header>
                     <Header>South Coast HR</Header>
                     <Header>South Interior HR</Header>
+                    <Header>Alberta Rockies</Header>
                     <Header>Tutorials</Header>
                 </HeaderSet>
                 <PanelSet>
@@ -23,6 +24,9 @@ export default function Precipitation12h() {
                     </Panel>
                     <Panel>
                         <Loop type="AC_HRDPS_BC-S-Int_12hr-precip" withNotes />
+                    </Panel>
+                    <Panel>
+                        <Loop type="AC_HRDPS_Alberta-Rockies_12hr-precip" withNotes />
                     </Panel>
                     <Panel>
                         <Tutorial uid="12h-precipitation" />

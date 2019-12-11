@@ -14,6 +14,7 @@ export default function HourlyPrecipitation() {
                     <Header>BC/AB HR</Header>
                     <Header>South Coast HR</Header>
                     <Header>South Interior HR</Header>
+                    <Header>Alberta Rockies HR</Header>
                     <Header>Type R</Header>
                     <Header>Tutorials</Header>
                 </HeaderSet>
@@ -35,6 +36,13 @@ export default function HourlyPrecipitation() {
                     <Panel>
                         <Loop
                             type="AC_HRDPS_BC-S-Int_1hr-precip"
+                            interval={500}
+                            withNotes
+                        />
+                    </Panel>
+                    <Panel>
+                        <Loop
+                            type="AC_HRDPS_Alberta-Rockies_1hr-precip"
                             interval={500}
                             withNotes
                         />
