@@ -183,7 +183,7 @@ export function SurfaceMaps() {
 
 export function OtherMaps() {
     return (
-        <Article title="500mb & Precipitable Water">
+        <Article title="500 mb & Precipitable Water">
             <Tabs>
                 <HeaderSet>
                     <LoopHeader id='AC_GDPS_EPA_clds-th-500hts' />
