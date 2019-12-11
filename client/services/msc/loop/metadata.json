@@ -701,7 +701,7 @@
             1440
         ],
         "extension": "jpg",
-        "notes": ["Visible imagery not available at night."]
+        "notes": ["Visible imagery not available at night.", "A new image is added to the loop every 30 minutes."]
     },
     "AC_SAT_CAN-W-CST_ir-redtop": {
         "id": "AC_SAT_CAN-W-CST_ir-redtop",
@@ -758,7 +758,8 @@
             1410, 
             1440
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 30 minutes."]
     },
     "AC_RADAR_BC-S-INT_precip-rate": {
         "id": "AC_RADAR_BC-S-INT_precip-rate",
@@ -910,7 +911,8 @@
             1420,
             1430
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 10 minutes."]
     },
     "AC_SAT_EPA_water-vapour-jet": {
         "id": "AC_SAT_EPA_water-vapour-jet",
@@ -967,7 +969,8 @@
             1410, 
             1440
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 30 minutes."]
     },
     "AC_SAT_EPA_ir-redtop": {
         "id": "AC_SAT_EPA_ir-redtop",
@@ -1024,7 +1027,8 @@
             1410, 
             1440
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 30 minutes."]
     },
     "AC_SAT_BC_visible": {
         "id": "AC_SAT_BC_visible",
@@ -1057,7 +1061,7 @@
             1380
         ],
         "extension": "jpg",
-        "notes": ["Visible imagery not available at night."]
+        "notes": ["Visible imagery not available at night.", "A new image is added to the loop every 60 minutes."]
     },
     "AC_SAT_BC-S-CST_visible": {
         "id": "AC_SAT_BC-S-CST_visible",
@@ -1115,7 +1119,7 @@
             1440
         ],
         "extension": "jpg",
-        "notes": ["Visible imagery not available at night."]
+        "notes": ["Visible imagery not available at night.", "A new image is added to the loop every 30 minutes."]
     },
     "AC_SAT_BC-S-INT_visible": {
         "id": "AC_SAT_BC-S-INT_visible",
@@ -1173,7 +1177,7 @@
             1440
         ],
         "extension": "jpg",
-        "notes": ["Visible imagery not available at night."]
+        "notes": ["Visible imagery not available at night.", "A new image is added to the loop every 30 minutes."]
     },
     "AC_SAT_Alberta-Rockies_visible": {
         "id": "AC_SAT_Alberta-Rockies_visible",
@@ -1231,7 +1235,7 @@
             1440
         ],
         "extension": "jpg",
-        "notes": ["Visible imagery not available at night."]
+        "notes": ["Visible imagery not available at night.", "A new image is added to the loop every 30 minutes."]
     },
     "AC_PLOT_BC_weather-warnings": {
         "id": "AC_PLOT_BC_weather-warnings",
@@ -1263,14 +1267,13 @@
             1410
         ],
         "extension": "png",
-        "notes": []
+        "notes": ["A new image is added to the loop every 30 minutes."]
     },
     "AC_PLOT_BC_precip-24hr": {
         "id": "AC_PLOT_BC_precip-24hr",
         "title": "Precip_Past_24h_Estimate_bc",
         "minutes": [360],
-        "extension": "png",
-        "notes": []
+        "extension": "png"
     },
     "AC_RADAR_BC-S-CST_precip-rate": {
         "id": "AC_RADAR_BC-S-CST_precip-rate",
@@ -1422,7 +1425,8 @@
             1420,
             1430
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 10 minutes."]
     },
     "AC_PLOT_BC_actual-temps": {
         "id": "AC_PLOT_BC_actual-temps",
@@ -1454,7 +1458,8 @@
             1320,
             1380
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 60 minutes."]
     },
     "AC_RADAR_BC_precip-rate": {
         "id": "AC_RADAR_BC_precip-rate",
@@ -1606,7 +1611,8 @@
             1420,
             1430
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 10 minutes."]
     },
     "AC_RADAR_Alberta-Rockies_precip-rate": {
         "id": "AC_RADAR_Alberta-Rockies_precip-rate",
@@ -1758,6 +1764,7 @@
             1420,
             1430
         ],
-        "extension": "jpg"
+        "extension": "jpg",
+        "notes": ["A new image is added to the loop every 10 minutes."]
     }
 }
