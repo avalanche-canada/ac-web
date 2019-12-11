@@ -2,7 +2,6 @@ import { domain } from '../config.json'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
-import formatDate from 'date-fns/format'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
 import { loadImage } from 'utils/promise'
 import metadata from './metadata.json'
@@ -18,7 +17,7 @@ export function getNotes(type) {
         throw new Error(`Loop of type=${type} not recognized.`)
     }
 
-    const { notes } = metadata[type]
+    const { notes = [] } = metadata[type]
 
     if (isForecast(metadata[type])) {
         return getForecastNotes(metadata[type]).concat(notes)
@@ -29,33 +28,23 @@ export function getNotes(type) {
 
 function getForecastNotes({ updates }) {
     updates = updates
-        .map(update => {
-            const date = new Date()
-
-            date.setHours(update)
-            date.setMinutes(0)
-
-            return date
-        })
-        .sort(hourSorter)
-        .map(date => formatDate(date, 'HH[:]mm'))
+        .map(update => new Date(Date.UTC(0, 0, 0, update)))
+        .map(date => date.toLocaleTimeString().substring(0, 5))
+        .sort()
 
     const last = updates.pop()
 
     return [
-        `Updated at approximately ${updates.join(', ')} & ${last} every day.`,
+        [
+            'Updated at approximately',
+            updates.join(', '),
+            updates.length && '&',
+            last,
+            'every day.',
+        ]
+            .filter(Boolean)
+            .join(' '),
     ]
-}
-
-function hourSorter(left, right) {
-    if (left.getHours() > right.getHours()) {
-        return 1
-    }
-    if (left.getHours() > right.getHours()) {
-        return -1
-    }
-
-    return 0
 }
 
 export async function computeUrls(props, maxAttempts = MAX_ATTEMPTS) {

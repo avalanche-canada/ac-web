@@ -4,7 +4,7 @@
         "title": "500mb_0-144h_G",
         "shortTitle": "500mb",
         "runs": [0, 12],
-        "updates": [9, 21],
+        "updates": [1, 21],
         "hours": [
             12,
             18,
@@ -37,7 +37,7 @@
         "title": "Precipitation Type 3h R",
         "shortTitle": "Precipitation Type",
         "runs": [0, 6, 12, 18],
-        "updates": [3, 9, 15, 21],
+        "updates": [1, 7, 13, 19],
         "hours": [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45, 48],
         "extension": "jpg"
     },
@@ -46,7 +46,7 @@
         "title": "Temperatures Surface HR",
         "shortTitle": "Surface HR",
         "runs": [6, 12],
-        "updates": [2, 14],
+        "updates": [6, 18],
         "hours": [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
         "extension": "jpg"
     },
@@ -90,7 +90,7 @@
         "title": "Precipitation 12hr High Resolution South Coast",
         "shortTitle": "South Coast",
         "runs": [6, 18],
-        "updates": [2, 14],
+        "updates": [7.25, 19.25],
         "hours": [12, 18, 24, 30, 36, 42, 48],
         "extension": "jpg"
     },
@@ -99,7 +99,7 @@
         "title": "Precipitation 1h HR BC",
         "shortTitle": "BC/AB",
         "runs": [6, 18],
-        "updates": [2, 14],
+        "updates": [7.25, 19.25],
         "hours": [
             1,
             2,
@@ -156,7 +156,7 @@
         "id": "AC_GDPS_BC_850-temp",
         "shortTitle": "1500m G",
         "runs": [0, 12],
-        "updates": [9, 21],
+        "updates": [1, 13],
         "hours": [
             0,
             6,
@@ -190,7 +190,7 @@
         "id": "AC_GDPS_BC_850-temp",
         "shortTitle": "1500m 4pm G",
         "runs": [0],
-        "updates": [9],
+        "updates": [1],
         "hours": [0, 24, 48, 72, 96, 120, 144],
         "extension": "jpg"
     },
@@ -199,7 +199,7 @@
         "title": "Surface_Maps_0-48h_R",
         "shortTitle": "0-48 Hours",
         "runs": [0, 6, 12, 18],
-        "updates": [3, 9, 15, 21],
+        "updates": [1, 7, 13, 19],
         "hours": [
             0,
             3,
@@ -226,7 +226,7 @@
         "title": "Temperatures Surface HR",
         "shortTitle": "Surface HR",
         "runs": [6, 12],
-        "updates": [2, 14],
+        "updates": [6, 18],
         "hours": [
             0,
             1,
@@ -282,7 +282,7 @@
         "title": "Precipitable Water (G)",
         "shortTitle": "Precipitable Water",
         "runs": [0, 12],
-        "updates": [9, 21],
+        "updates": [1, 13],
         "hours": [
             0,
             6,
@@ -317,7 +317,7 @@
         "title": "Precipitation 1h HR SI",
         "shortTitle": "South Interior",
         "runs": [6, 18],
-        "updates": [2, 14],
+        "updates": [7.25, 19.15],
         "hours": [
             1,
             2,
@@ -375,7 +375,7 @@
         "title": "Marine Winds - R",
         "shortTitle": "Surface R",
         "runs": [0, 6, 12, 18],
-        "updates": [3, 9, 15, 21],
+        "updates": [1, 7, 13, 19],
         "hours": [
             0,
             3,
@@ -402,7 +402,7 @@
         "title": "Precipitation 12hr High Resolution South Interior",
         "shortTitle": "South Interior",
         "runs": [6, 18],
-        "updates": [2, 14],
+        "updates": [7.25, 19.25],
         "hours": [12, 18, 24, 30, 36, 42, 48],
         "extension": "jpg"
     },
@@ -411,7 +411,7 @@
         "title": "Precipitation 12hr High Resolution Alberta Rockies",
         "shortTitle": "Alberta Rockies",
         "runs": [6, 18],
-        "updates": [2, 14],
+        "updates": [7.25, 19.25],
         "hours": [12, 18, 24, 30, 36, 42, 48],
         "extension": "jpg"
     },
@@ -420,7 +420,7 @@
         "title": "Winds 2500m - G",
         "shortTitle": "2500m G",
         "runs": [0, 12],
-        "updates": [9, 21],
+        "updates": [1, 13],
         "hours": [
             0,
             6,
@@ -455,7 +455,7 @@
         "title": "Winds 1500m - G",
         "shortTitle": "1500m G",
         "runs": [0, 12],
-        "updates": [9, 21],
+        "updates": [1, 13],
         "hours": [
             0,
             6,
@@ -489,8 +489,8 @@
         "id": "AC_RDPS_BC_12hr-precip",
         "title": "Precipitation 12hr R BC",
         "shortTitle": "BC/AB",
-        "runs": [0, 6, 12, 18],
-        "updates": [3, 9, 15, 21],
+        "runs": [6, 18],
+        "updates": [7.25, 19.25],
         "hours": [12, 18, 24, 30, 36, 42, 48],
         "extension": "jpg"
     },
@@ -499,7 +499,7 @@
         "title": "Precipitation 1hr HR South Coast",
         "shortTitle": "South Coast",
         "runs": [6, 18],
-        "updates": [2, 14],
+        "updates": [7.25, 19.25],
         "hours": [
             1,
             2,
@@ -557,7 +557,7 @@
         "title": "Precipitation 1h HR Alberta Rockies",
         "shortTitle": "Alberta Rockies",
         "runs": [6, 18],
-        "updates": [2, 14],
+        "updates": [7.25, 19.25],
         "hours": [
             1,
             2,
@@ -615,7 +615,7 @@
         "title": "Freezing Level R",
         "shortTitle": "Freezing Level R",
         "runs": [0, 6, 12, 18],
-        "updates": [3, 9, 15, 21],
+        "updates": [1, 7, 13, 19],
         "hours": [
             0,
             3,
@@ -641,7 +641,7 @@
         "id": "AC_GDPS_BC_850-temp",
         "shortTitle": "1500m 4am G",
         "runs": [0],
-        "updates": [9],
+        "updates": [1],
         "hours": [12, 36, 60, 84, 108, 132],
         "extension": "jpg"
     },
