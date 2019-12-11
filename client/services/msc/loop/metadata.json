@@ -2,9 +2,9 @@
     "AC_GDPS_EPA_clds-th-500hts": {
         "id": "AC_GDPS_EPA_clds-th-500hts",
         "title": "500mb_0-144h_G",
-        "shortTitle": "500mb",
+        "shortTitle": "500 mb",
         "runs": [0, 12],
-        "updates": [1, 21],
+        "updates": [5, 17],
         "hours": [
             12,
             18,
@@ -46,7 +46,7 @@
         "title": "Temperatures Surface HR",
         "shortTitle": "Surface HR",
         "runs": [6, 12],
-        "updates": [6, 18],
+        "updates": [0, 10],
         "hours": [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
         "extension": "jpg"
     },
@@ -156,7 +156,7 @@
         "id": "AC_GDPS_BC_850-temp",
         "shortTitle": "1500m G",
         "runs": [0, 12],
-        "updates": [1, 13],
+        "updates": [5, 17],
         "hours": [
             0,
             6,
@@ -190,7 +190,7 @@
         "id": "AC_GDPS_BC_850-temp",
         "shortTitle": "1500m 4pm G",
         "runs": [0],
-        "updates": [1],
+        "updates": [17],
         "hours": [0, 24, 48, 72, 96, 120, 144],
         "extension": "jpg"
     },
@@ -226,7 +226,7 @@
         "title": "Temperatures Surface HR",
         "shortTitle": "Surface HR",
         "runs": [6, 12],
-        "updates": [6, 18],
+        "updates": [0, 10],
         "hours": [
             0,
             1,
@@ -282,7 +282,7 @@
         "title": "Precipitable Water (G)",
         "shortTitle": "Precipitable Water",
         "runs": [0, 12],
-        "updates": [1, 13],
+        "updates": [5, 17],
         "hours": [
             0,
             6,
@@ -375,7 +375,7 @@
         "title": "Marine Winds - R",
         "shortTitle": "Surface R",
         "runs": [0, 6, 12, 18],
-        "updates": [1, 7, 13, 19],
+        "updates": [5, 11, 17, 23],
         "hours": [
             0,
             3,
@@ -420,7 +420,7 @@
         "title": "Winds 2500m - G",
         "shortTitle": "2500m G",
         "runs": [0, 12],
-        "updates": [1, 13],
+        "updates": [5, 17],
         "hours": [
             0,
             6,
@@ -455,7 +455,7 @@
         "title": "Winds 1500m - G",
         "shortTitle": "1500m G",
         "runs": [0, 12],
-        "updates": [1, 13],
+        "updates": [5, 17],
         "hours": [
             0,
             6,
@@ -615,7 +615,7 @@
         "title": "Freezing Level R",
         "shortTitle": "Freezing Level R",
         "runs": [0, 6, 12, 18],
-        "updates": [1, 7, 13, 19],
+        "updates": [5, 11, 17, 23],
         "hours": [
             0,
             3,
@@ -641,7 +641,7 @@
         "id": "AC_GDPS_BC_850-temp",
         "shortTitle": "1500m 4am G",
         "runs": [0],
-        "updates": [1],
+        "updates": [17],
         "hours": [12, 36, 60, 84, 108, 132],
         "extension": "jpg"
     },
