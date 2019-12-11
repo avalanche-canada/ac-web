@@ -21,7 +21,6 @@ export default class Loop extends PureComponent {
         amount: PropTypes.number,
         moveDay: PropTypes.bool,
         interval: PropTypes.number,
-        withNotes: PropTypes.bool,
     }
     // TODO: We should not use state here. Should be stateless and meomize
     state = {
@@ -69,7 +68,7 @@ export default class Loop extends PureComponent {
         )
     }
     handleFulfilled = urls => {
-        const { type, withNotes } = this.props
+        const { type } = this.props
         let startsAt
 
         if (metadata.hasOwnProperty(type)) {
@@ -81,7 +80,7 @@ export default class Loop extends PureComponent {
             isLoading: false,
             isError: false,
             urls,
-            notes: withNotes ? getNotes(type) : null,
+            notes: getNotes(type),
             startsAt,
         })
     }
