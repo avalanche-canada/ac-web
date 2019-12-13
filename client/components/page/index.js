@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { Credit } from 'components/misc'
 import { Ribbon } from 'components/misc'
 import { useWindowSize } from 'hooks'
-import FragmentIdentifier from 'router/FragmentIdentifier'
+import { useLocation } from 'router/hooks'
 import Sponsor from 'layouts/Sponsor'
 import styles from './Page.css'
 
@@ -40,12 +40,7 @@ export function Section({
     hash,
     title,
 }) {
-    // TODO: No header tag if there is no more than a "heading" tag
-    const Heading = `h${level + 1}`
-
-    if (hash) {
-        title = <FragmentIdentifier hash={hash}>{title}</FragmentIdentifier>
-    }
+    const as = `h${level + 1}`
 
     return (
         <section className={styles.Section}>
@@ -53,12 +48,58 @@ export function Section({
                 <Ribbon caption={ribbon}>{title}</Ribbon>
             ) : (
                 <header>
-                    <Heading>{title}</Heading>
+                    <Heading as={as} hash={hash}>
+                        {title}
+                    </Heading>
                     {headline && <Headline>{headline}</Headline>}
                 </header>
             )}
             {children}
         </section>
+    )
+}
+
+// This component handles hash changes that are triggered by the router...
+// Because the router does not trigger an "hashchange", this component is quite important
+// Regular "hashchange" events are handle by the browser as expected.
+export function Heading({ as: As = 'h2', hash, children }) {
+    const href = '#' + hash
+    const heading = useRef()
+    const { location } = useLocation()
+
+    if (hash) {
+        children = <a href={href}>{children}</a>
+    }
+
+    useLayoutEffect(() => {
+        if (!hash || location.hash !== href) {
+            return
+        }
+
+        const { current } = heading
+
+        current.scrollIntoView()
+
+        // "setTimeout" to make sure it does not intefere with the browser,
+        // when it move to a page, tries to find an anchor, does not find it,
+        // so scroll position is set to the top of the page.
+        // I do not know how to fix that without involving some weird logics with "hashchange" event.
+        // To see it in actions, comment out the code,
+        // In Chrome (using the navbar),
+        //   - go to ambassadors page
+        //   - then the main map
+        //   - back to ambassadors page to #aleks-klassen
+        // Boom! The page will not scroll.
+        // 75ms is a magic number ;(
+        setTimeout(() => {
+            current.scrollIntoView()
+        }, 75)
+    }, [location.hash, href])
+
+    return (
+        <As id={hash} ref={heading} className={styles.Heading}>
+            {children}
+        </As>
     )
 }
 

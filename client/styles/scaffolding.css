@@ -40,27 +40,6 @@ h6 {
         }
     }
 
-    /* http://nicolasgallagher.com/jump-links-and-viewport-positioning/demo/#method-B */
-    /* Pseudo-element spacer to take up some room above the header to fit better into the viewport */
-    /* See <FragmentIndentifier>, there was a 75px offset before when scrolling into the view */
-    /* This way, it affects all anchor not only the <FragmentIdentifier> */
-    /* The nice thing about that, we can easily override the behavior for the Ambassadors page */
-    /* Does work well on Chrome & Safari. 
-    /* There is a bit too much room on Firefox (see below css rule to fix that on Firefox) */
-    /* & > a[href^='#']:before {
-        content: '';
-        display: block;
-        height: 4em;
-        margin: -4em 0 0;
-
-        @supports (-moz-appearance: meterbar) {
-            & {
-                height: 3em;
-                margin-top: -3em;
-            }
-        }
-    } */
-
     & > a:not([href^='#']) {
         &:after {
             /* \00a0 == &nbsp; */

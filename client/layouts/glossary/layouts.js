@@ -4,12 +4,11 @@ import { Router, Link } from '@reach/router'
 import debounce from 'lodash/debounce'
 import escapeRegExp from 'lodash/escapeRegExp'
 import { memo } from 'utils/react'
-import FragmentIdentifier from 'router/FragmentIdentifier'
 import Sidebar, {
     Item as SidebarItem,
     Header as SidebarHeader,
 } from 'components/sidebar'
-import { Main, Content, Aside, Headline } from 'components/page'
+import { Main, Content, Aside, Headline, Heading } from 'components/page'
 import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
@@ -131,16 +130,8 @@ function DefinitionLayout({ uid, tags, data, linkToExternal }) {
     const { title } = data
 
     return (
-        <article className={styles.Definition}>
-            <h2>
-                {linkToExternal ? (
-                    title
-                ) : (
-                    <FragmentIdentifier hash={uid} title={title}>
-                        {title}
-                    </FragmentIdentifier>
-                )}
-            </h2>
+        <Fragment>
+            <Heading hash={linkToExternal ? null : uid}>{title}</Heading>
             {tags.length > 0 && (
                 <TagSet>
                     {tags.map((tag, index) => (
@@ -148,17 +139,19 @@ function DefinitionLayout({ uid, tags, data, linkToExternal }) {
                     ))}
                 </TagSet>
             )}
-            <SliceZone
-                components={SliceComponents}
-                value={data.content.filter(isMedia)}
-                fullscreen
-            />
-            <SliceZone
-                components={SliceComponents}
-                value={data.content.filter(isNotMedia)}
-            />
-            <Related linkToExternal={linkToExternal} items={data.related} />
-        </article>
+            <article className={styles.Definition}>
+                <SliceZone
+                    components={SliceComponents}
+                    value={data.content.filter(isMedia)}
+                    fullscreen
+                />
+                <SliceZone
+                    components={SliceComponents}
+                    value={data.content.filter(isNotMedia)}
+                />
+                <Related linkToExternal={linkToExternal} items={data.related} />
+            </article>
+        </Fragment>
     )
 }
 
@@ -309,16 +302,16 @@ Section.propTypes = {
 
 function Section({ letter, definitions }) {
     return (
-        <section className={styles.Section}>
-            <h1>
-                <FragmentIdentifier hash={letter}>
-                    {letter.toUpperCase()}
-                </FragmentIdentifier>
-            </h1>
-            {definitions.map(definition => (
-                <DefinitionLayout key={definition.uid} {...definition} />
-            ))}
-        </section>
+        <Fragment>
+            <Heading as="h1" hash={letter}>
+                {letter.toUpperCase()}
+            </Heading>
+            <section className={styles.Section}>
+                {definitions.map(definition => (
+                    <DefinitionLayout key={definition.uid} {...definition} />
+                ))}
+            </section>
+        </Fragment>
     )
 }
 

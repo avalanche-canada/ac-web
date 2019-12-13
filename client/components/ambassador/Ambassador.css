@@ -2,8 +2,12 @@
 
 @custom-media --side-by-side (width > 700px);
 
-.Ambassador {
+.Container {
     margin: 3em 0;
+
+    & h2 {
+        text-align: center;
+    }
 }
 
 .Banner {
@@ -42,10 +46,6 @@
 
 .Content {
     order: 1;
-
-    & > h2 {
-        text-align: center;
-    }
 
     @media (--side-by-side) {
         flex: 2 0;
