@@ -1,5 +1,12 @@
 @custom-media --side-by-side (width > 580px);
 
+.Page {
+    & h2,
+    & h1 {
+        clear: both;
+    }
+}
+
 .Section {
     clear: both;
 }
