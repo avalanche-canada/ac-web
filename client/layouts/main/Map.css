@@ -1,7 +1,8 @@
 @import '../../styles/colors.css';
 
 .Map {
-    height: 100%;
+    /* Used to be height: 100%, but older Safari does not apply 100% height, so this is a workaround */
+    height: calc(100vh - 5em);
 }
 
 .LinkControlSet {
