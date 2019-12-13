@@ -47,7 +47,7 @@ h6 {
     /* The nice thing about that, we can easily override the behavior for the Ambassadors page */
     /* Does work well on Chrome & Safari. 
     /* There is a bit too much room on Firefox (see below css rule to fix that on Firefox) */
-    & > a[href^='#']:before {
+    /* & > a[href^='#']:before {
         content: '';
         display: block;
         height: 4em;
@@ -59,7 +59,7 @@ h6 {
                 margin-top: -3em;
             }
         }
-    }
+    } */
 
     & > a:not([href^='#']) {
         &:after {
