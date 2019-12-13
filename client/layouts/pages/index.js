@@ -18,8 +18,8 @@ import styles from './pages.css'
 
 // High level components
 export function Page({
-    footer = <Footer />,
     navbar = <Navbar />,
+    footer = <Footer />,
     className,
     children,
 }) {
@@ -38,7 +38,7 @@ export function Page({
     )
 }
 
-export function Screen({ footer, navbar = <Navbar />, className, children }) {
+export function Screen({ navbar = <Navbar />, footer, className, children }) {
     return (
         <div className={classnames(styles.Screen, className)}>
             <header>
