@@ -22,7 +22,7 @@ function genMovingDangerIconSet(region_tz, dangerRatings) {
     assert(dangerRatings.length === 3, 'Need 3 danger ratings');
 
     var days = dangerRatings.map(function(rating){
-        const date = rating.date;
+        var date = rating.date;
 
         // TODO Review the logic here. We rely on whatever the caller does on the data before. AvalX parses dates when the AvID one does not. 
         if (date instanceof Date) {
