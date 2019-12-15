@@ -37,6 +37,7 @@ function parseAvalx(region_id) {
 function addStaticIcons(tz) { return function(fx) { return icon_set.addStaticIcons(tz, fx); } }
 function addMovingIcons(tz) { return function(fx) { return icon_set.addMovingIcons(tz, fx); } }
 function addOwner(owner)    { return function(fx) { return Object.assign({}, fx, {owner: owner}); } }
+// TODO Need to review the need for that function, perhaps we do not need anymore. 
 function fixAvalxDangerRatingDates(offset) {
     return function(fx) {
         return Object.assign({}, fx, {
@@ -345,9 +346,9 @@ var PARKS = {
         fetchNow: function(){
             return fetch.fetchParks(4)
                 .then(parseAvalx('waterton'))
-                .then(fixAvalxDangerRatingDates(1))
                 .then(addOwner('parks-canada'))
-                .then(addMovingIcons('America/Edmonton'));
+                .then(addMovingIcons('America/Edmonton'))
+                .then(fixAvalxDangerRatingDates(1));
         },
     },
 };
