@@ -73,6 +73,8 @@ get('/blogs/:uid', blogPost);
 get('/news/:uid', newsPost);
 get('/events/:uid', eventPost);
 
+get('/spaw/:uid', spaw);
+
 //TODO(wnh): add all static pages here stuff
 get('/membership', staticPage('membership-overview'));
 get('/youth', staticPage('youth'));
@@ -227,6 +229,26 @@ function newsPost(req, res) {
                         ['og:title', title],
                         ['og:description', headline],
                         ['og:image', img && img.url],
+                    ])
+                );
+        }
+    );
+}
+function spaw(req, res) {
+    singleItem(
+        res,
+        Prismic.Predicates.at('my.spaw.uid', req.params.uid),
+        {},
+        function(doc) {
+            var description = doc.getText('spaw.description');
+
+            res
+                .status(200)
+                .send(
+                    renderTags([
+                        ['og:title', 'Special Public Avalanche Warning'],
+                        ['og:description', description],
+                        ['og:image', 'https://www.avalanche.ca/assets/images/spaw.jpg'],
                     ])
                 );
         }
