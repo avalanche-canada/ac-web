@@ -248,7 +248,7 @@ function spaw(req, res) {
                     renderTags([
                         ['og:title', 'Special Public Avalanche Warning'],
                         ['og:description', description],
-                        ['og:image', 'https://www.avalanche.ca/assets/images/spaw.jpg'],
+                        ['og:image', 'https://res.cloudinary.com/avalanche-ca/image/upload/v1459287746/website/AvCan_SPAW_icon.jpg'],
                     ])
                 );
         }
