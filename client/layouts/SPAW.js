@@ -23,8 +23,6 @@ export default function SPAW() {
         return null
     }
 
-    const to = '/spaw/' + document.id
-
     return (
         <Match path="/spaw/*">
             {({ match }) =>
@@ -72,18 +70,18 @@ export function Alert({ children, linkable, ...rest }) {
         return alert
     }
 
-    const to = url.path('/spaw', spaw?.id)
+    const to = url.path('/spaw', spaw?.uid)
 
     return <Link to={to}>{alert}</Link>
 }
 
 export function Page(props) {
-    const id = props['*']
+    const uid = props['*']
     const value = useSPAW()
     const [spaw] = value
 
-    if (!id && spaw) {
-        const to = '/spaw/' + spaw.id
+    if (!uid && spaw) {
+        const to = '/spaw/' + spaw.uid
 
         return <Redirect to={to} />
     }
