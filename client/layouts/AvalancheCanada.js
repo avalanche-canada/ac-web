@@ -22,6 +22,7 @@ import { StaticPage, GenericPage } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 import { path } from 'utils/min'
+import { Page as SPAW } from './SPAW'
 import layouts from 'layouts/pages/pages.css'
 import styles from './AvalancheCanada.css'
 
@@ -34,6 +35,7 @@ function AvalancheCanada() {
                     <Router primary={false}>
                         <Main path="/" />
                         <Main path="map/*" />
+                        <SPAW path="spaw/*" />
                         <Redirect from="/cac/*" to="/" />
                         <Redirect
                             from="/map/ates"

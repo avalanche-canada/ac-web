@@ -1,0 +1,6 @@
+@import '../styles/colors.css';
+
+.Tag {
+    background-color: var(--danger);
+    color: white;
+}
