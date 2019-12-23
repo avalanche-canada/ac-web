@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
-import { Header, Main, Content, Headline, Section } from 'components/page'
+import { Header, Main, Content, Section } from 'components/page'
 import * as Text from 'components/text'
 import { ButtonSet } from 'components/button'
 import { Credit } from 'components/misc'
@@ -13,12 +13,13 @@ import SPAW from 'layouts/SPAW'
 import Highlight from 'layouts/Highlight'
 import { notFound } from 'services/analytics'
 import { supported } from 'utils/mapbox'
+import { SUPPORT } from 'constants/emails'
 import styles from './pages.css'
 
 // High level components
 export function Page({
-    footer = <Footer />,
     navbar = <Navbar />,
+    footer = <Footer />,
     className,
     children,
 }) {
@@ -37,7 +38,7 @@ export function Page({
     )
 }
 
-export function Screen({ footer, navbar = <Navbar />, className, children }) {
+export function Screen({ navbar = <Navbar />, footer, className, children }) {
     return (
         <div className={classnames(styles.Screen, className)}>
             <header>
@@ -164,7 +165,7 @@ export function UnsupportedMap({
                     If you need help or have questions, do not hesitate to send
                     us an{' '}
                     <Mailto
-                        email="kguillotte@avalanche.ca,wharding@avalanche.ca"
+                        email={SUPPORT}
                         subject="Unsupported map"
                         body={`\n\n\nMapBox GL supported: ${supported()}\nNavigator: ${
                             navigator.userAgent

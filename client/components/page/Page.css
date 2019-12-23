@@ -115,6 +115,20 @@
     }
 }
 
+.Heading[id] {
+    &:before {
+        /* 
+            Took some inspiration from:
+                - http://nicolasgallagher.com/jump-links-and-viewport-positioning
+                - https://reactjs.org/docs website by itself
+        */
+        content: '';
+        display: block;
+        padding-top: 6rem;
+        margin-top: -6rem;
+    }
+}
+
 .Headline {
     font-size: 1rem;
 }

@@ -11,7 +11,6 @@ import { Page } from 'layouts/pages'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
-import { StructuredText } from 'prismic/components/base'
 import Shim from 'components/Shim'
 import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
@@ -113,17 +112,9 @@ function OtherRegions() {
 function SPAW({ name }) {
     return (
         <SPAWContainer name={name}>
-            {({ document }) => {
-                const { link, description } = document.data
-
-                return (
-                    <Shim top>
-                        <SPAWComponent link={link}>
-                            <StructuredText value={description} />
-                        </SPAWComponent>
-                    </Shim>
-                )
-            }}
+            <Shim top>
+                <SPAWComponent linkable />
+            </Shim>
         </SPAWContainer>
     )
 }

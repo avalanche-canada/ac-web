@@ -127,9 +127,9 @@ function OtherRegions() {
 function SPAW({ name }) {
     return (
         <SPAWContainer name={name}>
-            {({ link }) => (
-                <SPAWComponent link={link} style={{ flex: 1, padding: 0 }} />
-            )}
+            <SPAWComponent style={{ flex: 1, padding: 0 }}>
+                Special Public Avalanche Warning
+            </SPAWComponent>
         </SPAWContainer>
     )
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import styles from './Tag.css'
 
 TagSet.propTypes = {
@@ -13,8 +14,9 @@ export function TagSet({ children }) {
 Tag.propTypes = {
     children: PropTypes.node.isRequired,
     as: PropTypes.string,
+    className: PropTypes.string,
 }
 
-export function Tag({ as: As = 'li', children }) {
-    return <As className={styles.Item}>{children}</As>
+export function Tag({ as: As = 'li', className, children }) {
+    return <As className={classnames(styles.Item, className)}>{children}</As>
 }
