@@ -3,6 +3,8 @@ import { Router, Redirect } from '@reach/router'
 import Bundle from 'components/Bundle'
 import WeatherStation from './station/WeatherStation'
 import WeatherStationList from './station/WeatherStationList'
+import { Page } from 'layouts/pages'
+import { Main, Content, Header } from 'components/page'
 
 export default function Weather() {
     return (
@@ -11,17 +13,38 @@ export default function Weather() {
             <MountainWeatherForecast path="forecast/*" />
             <WeatherStationList path="stations" />
             <WeatherStation path="stations/:id" />
+            <WeatherGlossary path="glossary" uid="weather" />
         </Router>
     )
 }
 
 // Subroutes
 const MountainWeather = lazy(() => import('./forecast/MountainWeather'))
+const Glossary = lazy(() =>
+    import('layouts/glossary/layouts').then(glossary =>
+        Promise.resolve({ default: glossary.Glossary })
+    )
+)
 
 function MountainWeatherForecast(props) {
     return (
         <Bundle>
             <MountainWeather {...props} />
         </Bundle>
+    )
+}
+
+function WeatherGlossary(props) {
+    return (
+        <Page>
+            <Header title="Weather Glossary" />
+            <Content>
+                <Main>
+                    <Bundle>
+                        <Glossary {...props} />
+                    </Bundle>
+                </Main>
+            </Content>
+        </Page>
     )
 }

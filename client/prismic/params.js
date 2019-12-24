@@ -151,10 +151,10 @@ export function spaw() {
 }
 
 export const glossary = {
-    glossary() {
+    glossary(id = 'glossary') {
         return {
             ...FETCH_DEFINITION_TITLE_OPTIONS,
-            ...uid(types.GLOSSARY, 'glossary'),
+            ...uid(types.GLOSSARY, id),
         }
     },
     definition(id) {
