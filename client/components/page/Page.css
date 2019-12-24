@@ -43,11 +43,6 @@
         padding: 0;
     }
 
-    & > .Headline {
-        margin: 1.5em 0;
-        font-weight: 700;
-    }
-
     @media (--side-by-side) {
         box-sizing: border-box;
     }
@@ -131,6 +126,8 @@
 
 .Headline {
     font-size: 1rem;
+    margin: 1.5em 0;
+    font-weight: 700;
 }
 
 .Section {
