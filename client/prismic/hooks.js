@@ -3,6 +3,7 @@ import * as api from './api'
 import request, { empty } from 'utils/fetch'
 import { FR } from 'constants/locale'
 import { useCacheAsync, createKey } from 'hooks/async'
+import { spaw } from 'prismic/params'
 
 export function useSearch({ predicates, locale, ...options }) {
     if (LANGUAGES.has(locale)) {
@@ -50,6 +51,10 @@ export function useDefinitions() {
     const definitions = useCacheAsync(fn, params, undefined, key)
 
     return merge(ref, definitions)
+}
+
+export function useSPAW() {
+    return useDocument(spaw())
 }
 
 // Utils & constants

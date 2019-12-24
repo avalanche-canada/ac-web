@@ -9,9 +9,8 @@ import * as Async from 'contexts/async'
 import { Loading } from 'components/text'
 import { Tag } from 'components/tag'
 import { Page as PageLayout } from 'layouts/pages'
-import { spaw } from 'prismic/params'
 import { useVisibility } from 'hooks/session'
-import { useDocument } from 'prismic/hooks'
+import { useSPAW } from 'prismic/hooks'
 import * as url from 'utils/url'
 import styles from './SPAW.css'
 
@@ -140,9 +139,4 @@ export function Page(props) {
             </Async.Provider>
         </PageLayout>
     )
-}
-
-// Utils
-function useSPAW() {
-    return useDocument(spaw())
 }
