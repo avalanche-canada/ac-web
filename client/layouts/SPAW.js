@@ -79,7 +79,7 @@ export function Page(props) {
     const value = useSPAW()
     const [spaw] = value
 
-    if (!uid && spaw) {
+    if (spaw && spaw.uid !== uid) {
         const to = '/spaw/' + spaw.uid
 
         return <Redirect to={to} />
