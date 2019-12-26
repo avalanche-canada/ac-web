@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
+import Link from './Link'
 import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
 import Burger from './Burger'
 import ItemSet from './ItemSet'
 import Brand from './Brand'
-import Donate from './Donate'
 import { useWindowSize, useBoolean } from 'hooks'
 import { useLocation } from 'router/hooks'
 import LOGO from 'styles/AvalancheCanada.svg'
@@ -56,6 +56,15 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
                 />
             )}
         </div>
+    )
+}
+
+// Utils
+function Donate(props) {
+    return (
+        <Link {...props} className={styles.Donate}>
+            Donate
+        </Link>
     )
 }
 
