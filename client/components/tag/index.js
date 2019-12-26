@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import styles from './Tag.css'
@@ -13,10 +13,14 @@ export function TagSet({ children }) {
 
 Tag.propTypes = {
     children: PropTypes.node.isRequired,
-    as: PropTypes.string,
+    as: PropTypes.oneOf([PropTypes.string, PropTypes.object]),
     className: PropTypes.string,
 }
 
-export function Tag({ as: As = 'li', className, children }) {
-    return <As className={classnames(styles.Item, className)}>{children}</As>
+export function Tag({ as = 'li', className, children, ...rest }) {
+    const props = Object.assign(rest, {
+        className: classnames(styles.Item, className),
+    })
+
+    return createElement(as, props, children)
 }
