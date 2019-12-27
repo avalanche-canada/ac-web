@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Link from './Link'
-import Navbar from './Navbar'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
 import Burger from './Burger'
@@ -37,7 +36,7 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
 
     return (
         <div className={styles.Layout}>
-            <Navbar>
+            <nav className={styles.Navbar}>
                 <Brand to={to} title={label} style={style} />
                 {fullNavbar && (
                     <ItemSet location={location}>
@@ -47,7 +46,7 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
                 )}
                 {fullNavbar || <Burger onClick={showCabinet} />}
                 {donate && <Donate to={donate} />}
-            </Navbar>
+            </nav>
             {fullNavbar || (
                 <Cabinet
                     menu={menu}
