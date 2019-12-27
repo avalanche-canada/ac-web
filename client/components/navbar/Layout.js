@@ -38,13 +38,14 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
         <div className={styles.Layout}>
             <nav className={styles.Navbar}>
                 <Brand to={to} title={label} style={style} />
-                {fullNavbar && (
+                {fullNavbar ? (
                     <ItemSet location={location}>
                         {menu.children.map(createItem)}
                         {children}
                     </ItemSet>
+                ) : (
+                    <Burger onClick={showCabinet} />
                 )}
-                {fullNavbar || <Burger onClick={showCabinet} />}
                 {donate && <Donate to={donate} />}
             </nav>
             {fullNavbar || (
