@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import Link from './Link'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
-import Burger from './Burger'
 import ItemSet from './ItemSet'
-import Brand from './Brand'
+import { Menu } from 'components/icons'
+import Button, { INCOGNITO } from '../button'
 import { useWindowSize, useBoolean } from 'hooks'
 import { useLocation } from 'router/hooks'
 import LOGO from 'styles/AvalancheCanada.svg'
@@ -65,6 +65,25 @@ function Donate(props) {
         <Link {...props} className={styles.Donate}>
             Donate
         </Link>
+    )
+}
+function Brand({ children, ...props }) {
+    return (
+        <Link className={styles.Brand} {...props}>
+            {children}
+        </Link>
+    )
+}
+function Burger({ onClick }) {
+    return (
+        <div className={styles['Burger--Container']}>
+            <Button
+                kind={INCOGNITO}
+                className={styles.Burger}
+                onClick={onClick}>
+                <Menu width={32} height={32} />
+            </Button>
+        </div>
     )
 }
 
