@@ -171,7 +171,7 @@ var AVCAN = {
 
             // return prismic.fetch('cariboos')
             //               .then(prismic.parse)
-            //               .then(addOwner('cariboos'))
+            //               .then(addOwner('avalanche-canada'))
             //               .then(addStaticIcons('America/Vancouver'))
             
             return fetch.fetchAvid()
