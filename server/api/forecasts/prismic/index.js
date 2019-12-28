@@ -12,27 +12,29 @@ module.exports = {
     
         var name = IDS_TO_NAMES[region];
         logger.debug('fetching prismic avalanche forecast %s', name);
-    
+        
         return fetch.doFetch(API).then(function(payload) {
             payload = JSON.parse(payload);
-
+            
             var ref = payload.refs.find(function(ref) {
                 return ref.isMasterRef;
             }).ref;
-            var urls = [
+            var url = [
                 API,
                 '/documents/search?ref=',
                 ref,
                 '&q=[[at(my.avalanche-forecast.region,"',
                 name,
                 '")]]',
-                '&q=[[date.after(my.avalanche-forecast.validFrom,"',
+                '&q=[[date.before(my.avalanche-forecast.validFrom,"',
                 getCurrentDateTime(),
                 '")]]',
                 '&orderings=[my.avalanche-forecast.validFrom desc, document.last_publication_date desc]',
-            ];
+            ].join('');
+
+            logger.debug('fetching prismic avalanche forecast at %s', url);
     
-            return fetch.doFetch(urls.join('')).then(function(payload) {
+            return fetch.doFetch(url).then(function(payload) {
                 payload = JSON.parse(payload);
                 
                 return payload.results[0];
