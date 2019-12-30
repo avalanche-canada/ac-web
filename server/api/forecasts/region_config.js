@@ -136,55 +136,53 @@ var TEST_REGIONS = {
 };
 
 function get(region, timezone) {
-    function createConfig(fetch) {
+    function createConfig(fetchNow) {
         return {
             metadata: reg_properties[region],
-            fetchNow: function() {
-                return fetch
-            }
+            fetchNow: fetchNow
         }
     }
     
     return {
         prismic: function() {
-            return createConfig(
-                prismic.fetch(region)
+            return createConfig(function() {
+                return prismic.fetch(region)
                         .then(prismic.parse)
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons(timezone))
-            )
+            })
         },
         avid: function(name) {
-            return createConfig(
-                fetch.fetchAvid()
+            return createConfig(function() {
+                return fetch.fetchAvid()
                         .then(fetch.filterAvidByLocation(avid_mappings.byName[region]))
                         .then(avid.parseAvid(region, name))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons(timezone))
-            )
+            })
         },
         avalx: function(avalxRegionId, offset) {
             offset = typeof offset === 'number' ? offset : 1
 
-            return createConfig(
-                fetch.fetchAvalx2019(avalxRegionId)
+            return createConfig(function() {
+                return fetch.fetchAvalx2019(avalxRegionId)
                     .then(parseAvalx(region))
                     .then(fixAvalxDangerRatingDates(offset))
                     .then(addOwner('avalanche-canada'))
                     .then(addStaticIcons(timezone))
-            )
+            })
         },
         parks: function(regionId, offset, createIconSet) {
             createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
             offset = typeof offset === 'number' ? offset : 1
 
-            return createConfig(
-                fetch.fetchParks(regionId)
+            return createConfig(function() {
+                return fetch.fetchParks(regionId)
                     .then(parseAvalx(region))
                     .then(fixAvalxDangerRatingDates(offset))
                     .then(addOwner('parks-canada'))
                     .then(createIconSet(timezone))
-            )
+            })
         }
     }
 }
