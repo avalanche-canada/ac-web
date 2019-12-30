@@ -43,8 +43,8 @@
     },
     "AC_HRDPS_BC_sfc-temp-3hr-freq": {
         "id": "AC_HRDPS_BC_sfc-temp",
-        "title": "Temperatures Surface HR",
-        "shortTitle": "Surface HR",
+        "title": "Temperatures Surface",
+        "shortTitle": "Surface",
         "runs": [6, 12],
         "updates": [10, 24],
         "hours": [0, 3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
@@ -96,7 +96,7 @@
     },
     "AC_HRDPS_BC_wms-1hr-precip": {
         "id": "AC_HRDPS_BC_1hr-precip",
-        "title": "Precipitation 1h HR BC",
+        "title": "Precipitation 1h BC/AB",
         "shortTitle": "BC/AB",
         "runs": [6, 18],
         "updates": [7.25, 19.25],
@@ -154,7 +154,7 @@
     },
     "AC_GDPS_BC_850-temp": {
         "id": "AC_GDPS_BC_850-temp",
-        "shortTitle": "1500m G",
+        "shortTitle": "1500m",
         "runs": [0, 12],
         "updates": [5, 17],
         "hours": [
@@ -188,7 +188,7 @@
     },
     "AC_GDPS_BC_850-temp-4pm": {
         "id": "AC_GDPS_BC_850-temp",
-        "shortTitle": "1500m 4pm G",
+        "shortTitle": "1500m 4pm",
         "runs": [0],
         "updates": [17],
         "hours": [0, 24, 48, 72, 96, 120, 144],
@@ -223,8 +223,8 @@
     },
     "AC_HRDPS_BC_sfc-temp": {
         "id": "AC_HRDPS_BC_sfc-temp",
-        "title": "Temperatures Surface HR",
-        "shortTitle": "Surface HR",
+        "title": "Temperatures Surface",
+        "shortTitle": "Surface",
         "runs": [6, 12],
         "updates": [0, 10],
         "hours": [
@@ -314,7 +314,7 @@
     },
     "AC_HRDPS_BC-S-Int_1hr-precip": {
         "id": "AC_HRDPS_BC-S-Int_1hr-precip",
-        "title": "Precipitation 1h HR SI",
+        "title": "Precipitation 1h South Interior",
         "shortTitle": "South Interior",
         "runs": [6, 18],
         "updates": [7.25, 19.15],
@@ -417,8 +417,8 @@
     },
     "AC_GDPS_BC_750-winds": {
         "id": "AC_GDPS_BC_750-winds",
-        "title": "Winds 2500m - G",
-        "shortTitle": "2500m G",
+        "title": "Winds 2500m",
+        "shortTitle": "2500m",
         "runs": [0, 12],
         "updates": [5, 17],
         "hours": [
@@ -452,8 +452,8 @@
     },
     "AC_GDPS_BC_850-winds": {
         "id": "AC_GDPS_BC_850-winds",
-        "title": "Winds 1500m - G",
-        "shortTitle": "1500m G",
+        "title": "Winds 1500m",
+        "shortTitle": "1500m",
         "runs": [0, 12],
         "updates": [5, 17],
         "hours": [
@@ -496,7 +496,7 @@
     },
     "AC_HRDPS_BC-S-Cst_1hr-precip": {
         "id": "AC_HRDPS_BC-S-Cst_1hr-precip",
-        "title": "Precipitation 1hr HR South Coast",
+        "title": "Precipitation 1hr South Coast",
         "shortTitle": "South Coast",
         "runs": [6, 18],
         "updates": [7.25, 19.25],
@@ -554,7 +554,7 @@
     },
     "AC_HRDPS_Alberta-Rockies_1hr-precip": {
         "id": "AC_HRDPS_Alberta-Rockies_1hr-precip",
-        "title": "Precipitation 1h HR Alberta Rockies",
+        "title": "Precipitation 1h Alberta Rockies",
         "shortTitle": "Alberta Rockies",
         "runs": [6, 18],
         "updates": [7.25, 19.25],
@@ -639,7 +639,7 @@
     },
     "AC_GDPS_BC_850-temp-4am": {
         "id": "AC_GDPS_BC_850-temp",
-        "shortTitle": "1500m 4am G",
+        "shortTitle": "1500m 4am",
         "runs": [0],
         "updates": [17],
         "hours": [12, 36, 60, 84, 108, 132],
