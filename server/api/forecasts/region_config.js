@@ -67,7 +67,7 @@ var AVCAN = {
     'south-coast': get('south-coast').avid('South Coast'),
     // .prismic()
     // .avalx(8)
-    'north-rockies': get('north-rockies').avid('North Rockies'),
+    'north-rockies': get('north-rockies').avid('North Rockies', addMovingIcons),
     // .prismic()
     // .avalx(9)
     'cariboos': get('cariboos').avid('Cariboos'),
@@ -91,7 +91,7 @@ var AVCAN = {
     'lizard-range': get('lizard-range').avid('Lizard-Flathead'),
     // .prismic()
     // .avalx(12)
-    'yukon': get('yukon').avid('Yukon')
+    'yukon': get('yukon').avid('Yukon', addMovingIcons)
     // .prismic()
     // .avalx(20)
 };
