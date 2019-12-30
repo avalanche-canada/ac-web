@@ -144,32 +144,37 @@ function get(region, timezone) {
     }
     
     return {
-        prismic: function() {
+        prismic: function(createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
             return createConfig(function() {
                 return prismic.fetch(region)
                         .then(prismic.parse)
                         .then(addOwner('avalanche-canada'))
-                        .then(addStaticIcons(timezone))
+                        .then(createIconSet(timezone))
             })
         },
-        avid: function(name) {
+        avid: function(name, createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
             return createConfig(function() {
                 return fetch.fetchAvid()
                         .then(fetch.filterAvidByLocation(avid_mappings.byName[region]))
                         .then(avid.parseAvid(region, name))
                         .then(addOwner('avalanche-canada'))
-                        .then(addStaticIcons(timezone))
+                        .then(createIconSet(timezone))
             })
         },
-        avalx: function(avalxRegionId, offset) {
+        avalx: function(avalxRegionId, offset, createIconSet) {
             offset = typeof offset === 'number' ? offset : 1
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
 
             return createConfig(function() {
                 return fetch.fetchAvalx2019(avalxRegionId)
                     .then(parseAvalx(region))
                     .then(fixAvalxDangerRatingDates(offset))
                     .then(addOwner('avalanche-canada'))
-                    .then(addStaticIcons(timezone))
+                    .then(createIconSet(timezone))
             })
         },
         parks: function(regionId, offset, createIconSet) {
