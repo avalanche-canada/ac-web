@@ -36,7 +36,6 @@ function AvalancheCanada() {
                         <Main path="/" />
                         <Main path="map/*" />
                         <SPAW path="spaw/*" />
-                        <Redirect from="/cac/*" to="/" />
                         <Redirect
                             from="/map/ates"
                             to="/planning/trip-planner"

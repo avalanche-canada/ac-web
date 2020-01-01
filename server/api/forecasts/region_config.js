@@ -3,7 +3,8 @@ var xml2js   = require('xml2js');
 var Q        = require('q');
 var fetch    = require('./fetch');
 var avalx    = require('./avalx');
-var avid    = require('./avid');
+var avid     = require('./avid');
+var prismic  = require('./prismic');
 var icon_set = require('./icon_set');
 var addDays  = require('date-fns/add_days');
 
@@ -51,306 +52,64 @@ function fixAvalxDangerRatingDates(offset) {
 }
 
 var AVCAN = {
-    'northwest-coastal': {
-        metadata: reg_properties['northwest-coastal'],
-        fetchNow: function() {
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['northwest-coastal']))
-                .then(avid.parseAvid('northwest-coastal', 'Northwest Coastal'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(16)
-            //     .then(parseAvalx('northwest-coastal'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'northwest-inland': {
-        metadata: reg_properties['northwest-inland'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['northwest-inland']))
-                .then(avid.parseAvid('northwest-inland', 'Northwest Inland'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(17)
-            //     .then(parseAvalx('northwest-inland'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'sea-to-sky': {
-        metadata: reg_properties['sea-to-sky'],
-        fetchNow: function(){ 
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['sea-to-sky']))
-                .then(avid.parseAvid('sea-to-sky', 'Sea to Sky'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(14)
-            //     .then(parseAvalx('sea-to-sky'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'south-coast-inland': {
-        metadata: reg_properties['south-coast-inland'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['south-coast-inland']))
-                .then(avid.parseAvid('south-coast-inland', 'South Coast Inland'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(15)
-            //     .then(parseAvalx('south-coast-inland'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'south-coast': {
-        metadata: reg_properties['south-coast'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['south-coast']))
-                .then(avid.parseAvid('south-coast', 'South Coast'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(8)
-            //     .then(parseAvalx('south-coast'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'north-rockies': {
-        metadata: reg_properties['north-rockies'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['north-rockies']))
-                .then(avid.parseAvid('north-rockies', 'North Rockies'))
-                .then(addOwner('avalanche-canada'))
-                .then(addMovingIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(9)
-            //     .then(parseAvalx('north-rockies'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addMovingIcons('America/Vancouver'));
-        },
-    },
-    'cariboos': {
-        metadata: reg_properties['cariboos'],
-        fetchNow: function() {
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['cariboos']))
-                .then(avid.parseAvid('cariboos', 'Cariboos'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(19)
-            //     .then(parseAvalx('cariboos'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'north-columbia': {
-        metadata: reg_properties['north-columbia'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['north-columbia']))
-                .then(avid.parseAvid('north-columbia', 'North Columbia'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(18)
-            //     .then(parseAvalx('north-columbia'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'south-columbia': {
-        metadata: reg_properties['south-columbia'],
-        fetchNow: function(){ 
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['south-columbia']))
-                .then(avid.parseAvid('south-columbia', 'South Columbia'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(10)
-            //     .then(parseAvalx('south-columbia'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'purcells': {
-        metadata: reg_properties['purcells'],
-        fetchNow: function(){ 
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['purcells']))
-                .then(avid.parseAvid('purcells', 'Purcells'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(11)
-            //     .then(parseAvalx('purcells'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'kootenay-boundary': {
-        metadata: reg_properties['kootenay-boundary'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['kootenay-boundary']))
-                .then(avid.parseAvid('kootenay-boundary', 'Kootenay-Boundary'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(6)
-            //     .then(parseAvalx('kootenay-boundary'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'south-rockies': {
-        metadata: reg_properties['south-rockies'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['south-rockies']))
-                .then(avid.parseAvid('south-rockies', 'South Rockies'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(13)
-            //     .then(parseAvalx('south-rockies'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'lizard-range': {
-        metadata: reg_properties['lizard-range'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['lizard-range']))
-                .then(avid.parseAvid('lizard-range', 'Lizard-Flathead'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(12)
-            //     .then(parseAvalx('lizard-range'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'yukon': {
-        metadata: reg_properties['yukon'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['yukon']))
-                .then(avid.parseAvid('yukon', 'Yukon'))
-                .then(addOwner('avalanche-canada'))
-                .then(addMovingIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2019(20)
-            //     .then(parseAvalx('yukon'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addMovingIcons('America/Vancouver'));
-        },
-    },
+    'northwest-coastal': get('northwest-coastal').avid('Northwest Coastal'),
+    // .prismic()
+    // .avalx(16)
+    'northwest-inland': get('northwest-inland').avid('Northwest Inland'),
+    // .prismic()
+    // .avalx(17)
+    'sea-to-sky': get('sea-to-sky').avid('Sea to Sky'),
+    // .prismic()
+    // .avalx(14)
+    'south-coast-inland': get('south-coast-inland').avid('South Coast Inland'),
+    // .prismic()
+    // .avalx(15)
+    'south-coast': get('south-coast').avid('South Coast'),
+    // .prismic()
+    // .avalx(8)
+    'north-rockies': get('north-rockies').avid('North Rockies', addMovingIcons),
+    // .prismic()
+    // .avalx(9)
+    'cariboos': get('cariboos').avid('Cariboos'),
+    // .prismic()
+    // .avalx(19)
+    'north-columbia': get('north-columbia').avid('North Columbia'),
+    // .prismic()
+    // .avalx(18)
+    'south-columbia': get('south-columbia').avid('South Columbia'),
+    // .prismic()
+    // .avalx(10)
+    'purcells': get('purcells').avid('Purcells'),
+    // .prismic()
+    // .avalx(11)
+    'kootenay-boundary': get('kootenay-boundary').avid('Kootenay-Boundary'),
+    // .prismic()
+    // .avalx(6)
+    'south-rockies': get('south-rockies').avid('South Rockies'),
+    // .prismic()
+    // .avalx(13)
+    'lizard-range': get('lizard-range').avid('Lizard-Flathead'),
+    // .prismic()
+    // .avalx(12)
+    'yukon': get('yukon').avid('Yukon', addMovingIcons)
+    // .prismic()
+    // .avalx(20)
 };
 
 
 var KCOUNTRY =  {
-    'kananaskis': {
-        metadata: reg_properties['kananaskis'],
-        fetchNow: function(){
-            return fetch
-                .fetchAvid()
-                .then(fetch.filterAvidByLocation(avid_mappings.byName['kananaskis']))
-                .then(avid.parseAvid('kananaskis', 'Kananaskis Country'))
-                .then(addOwner('avalanche-canada'))
-                .then(addStaticIcons('America/Vancouver'))
-            // return fetch.fetchAvalx2016(7)
-            //     .then(parseAvalx('kananaskis'))
-            //     .then(fixAvalxDangerRatingDates(1))
-            //     .then(addOwner('avalanche-canada'))
-            //     .then(addStaticIcons('America/Edmonton'));
-        },
-    },
+    'kananaskis': get('kananaskis', 'America/Edmonton').avid('Kananaskis Country')
+    // .prismic()
+    // .avalx(20)
 };
 
 
-// PARKS
-
 var PARKS = {
-    'glacier': {
-        metadata: reg_properties['glacier'],
-        fetchNow: function(){
-            return fetch.fetchParks(3)
-                .then(parseAvalx('glacier'))
-                .then(fixAvalxDangerRatingDates(0))
-                .then(addOwner('parks-canada'))
-                .then(addStaticIcons('America/Vancouver'));
-        },
-    },
-    'little-yoho': {
-        metadata: reg_properties['little-yoho'],
-        fetchNow: function(){
-            return fetch.fetchParks(5)
-                .then(parseAvalx('little-yoho'))
-                .then(fixAvalxDangerRatingDates(1))
-                .then(addOwner('parks-canada'))
-                .then(addStaticIcons('America/Edmonton'));
-        },
-    },
-    'banff-yoho-kootenay': {
-        metadata: reg_properties['banff-yoho-kootenay'],
-        fetchNow: function(){
-            return fetch.fetchParks(1)
-                .then(parseAvalx('banff-yoho-kootenay'))
-                .then(fixAvalxDangerRatingDates(1))
-                .then(addOwner('parks-canada'))
-                .then(addStaticIcons('America/Edmonton'));
-        },
-    },
-    'jasper': {
-        metadata: reg_properties['jasper'],
-        fetchNow: function(){
-            return fetch.fetchParks(2)
-                .then(parseAvalx('jasper'))
-                .then(fixAvalxDangerRatingDates(1))
-                .then(addOwner('parks-canada'))
-                .then(addStaticIcons('America/Edmonton'));
-        },
-    },
-    'waterton': {
-        metadata: reg_properties['waterton'],
-        fetchNow: function(){
-            return fetch.fetchParks(4)
-                .then(parseAvalx('waterton'))
-                .then(addOwner('parks-canada'))
-                .then(addMovingIcons('America/Edmonton'))
-                .then(fixAvalxDangerRatingDates(1));
-        },
-    },
+    'glacier': get('glacier').parks(3, 0),
+    'little-yoho': get('little-yoho', 'America/Edmonton').parks(5),
+    'banff-yoho-kootenay': get('banff-yoho-kootenay', 'America/Edmonton').parks(1),
+    'jasper': get('jasper', 'America/Edmonton').parks(2),
+    'waterton': get('waterton', 'America/Edmonton').parks(4, 1, addMovingIcons),
 };
 
 var LINKS = {
@@ -376,6 +135,62 @@ var TEST_REGIONS = {
     }
 };
 
+function get(region, timezone) {
+    function createConfig(fetchNow) {
+        return {
+            metadata: reg_properties[region],
+            fetchNow: fetchNow
+        }
+    }
+    
+    return {
+        prismic: function(createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
+            return createConfig(function() {
+                return prismic.fetch(region)
+                        .then(prismic.parse)
+                        .then(addOwner('avalanche-canada'))
+                        .then(createIconSet(timezone))
+            })
+        },
+        avid: function(name, createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
+            return createConfig(function() {
+                return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation(avid_mappings.byName[region]))
+                        .then(avid.parseAvid(region, name))
+                        .then(addOwner('avalanche-canada'))
+                        .then(createIconSet(timezone))
+            })
+        },
+        avalx: function(avalxRegionId, offset, createIconSet) {
+            offset = typeof offset === 'number' ? offset : 1
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
+            return createConfig(function() {
+                return fetch.fetchAvalx2019(avalxRegionId)
+                    .then(parseAvalx(region))
+                    .then(fixAvalxDangerRatingDates(offset))
+                    .then(addOwner('avalanche-canada'))
+                    .then(createIconSet(timezone))
+            })
+        },
+        parks: function(regionId, offset, createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+            offset = typeof offset === 'number' ? offset : 1
+
+            return createConfig(function() {
+                return fetch.fetchParks(regionId)
+                    .then(parseAvalx(region))
+                    .then(fixAvalxDangerRatingDates(offset))
+                    .then(addOwner('parks-canada'))
+                    .then(createIconSet(timezone))
+            })
+        }
+    }
+}
 
 module.exports = {
     cached_regions: Object.assign({}, AVCAN, KCOUNTRY, PARKS),

@@ -2,7 +2,10 @@
 
 .Map {
     /* Used to be height: 100%, but older Safari does not apply 100% height, so this is a workaround */
-    height: calc(100vh - 5em);
+    /* height: calc(100vh - 5em); */
+    /* min-height: 100%; */
+    display: flex;
+    flex: 1;
 }
 
 .LinkControlSet {

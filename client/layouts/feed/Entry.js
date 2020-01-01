@@ -9,6 +9,7 @@ import { feed } from 'router/prismic'
 import styles from './Feed.css'
 
 // TODO Should be moved to /layouts
+// Build a fully generic component
 
 Entry.propTypes = {
     tags: PropTypes.arrayOf(PropTypes.string),
@@ -51,6 +52,30 @@ function Entry({ type, uid, tags, data }) {
                             <TagTitle value={tag} />
                         </Tag>
                     ))}
+                </TagSet>
+            </div>
+        </div>
+    )
+}
+
+export function SPAW({ description, shortlede, start }) {
+    return (
+        <div className={styles['Entry--Featured']}>
+            <div className={styles.Image}>
+                <img src="https://res.cloudinary.com/avalanche-ca/image/upload/v1459287746/website/AvCan_SPAW_icon.jpg" />
+            </div>
+            <div className={styles.Content}>
+                <h2>
+                    <Link to="/spaw">{description[0].text}</Link>
+                </h2>
+                <StructuredText value={shortlede}></StructuredText>
+                <ul className={styles.Metadata}>
+                    <li>
+                        <DateElement value={start} />
+                    </li>
+                </ul>
+                <TagSet>
+                    <Tag>Special Public Avalanche Warning</Tag>
                 </TagSet>
             </div>
         </div>

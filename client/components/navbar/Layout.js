@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import Navbar from './Navbar'
+import Link from './Link'
 import Cabinet from 'components/drawer'
 import { createItem } from './Factories'
-import Burger from './Burger'
 import ItemSet from './ItemSet'
-import Brand from './Brand'
-import Donate from './Donate'
+import { Menu } from 'components/icons'
+import Button, { INCOGNITO } from '../button'
 import { useWindowSize, useBoolean } from 'hooks'
 import { useLocation } from 'router/hooks'
 import LOGO from 'styles/AvalancheCanada.svg'
@@ -37,17 +36,18 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
 
     return (
         <div className={styles.Layout}>
-            <Navbar>
+            <nav className={styles.Navbar}>
                 <Brand to={to} title={label} style={style} />
-                {fullNavbar && (
+                {fullNavbar ? (
                     <ItemSet location={location}>
                         {menu.children.map(createItem)}
                         {children}
                     </ItemSet>
+                ) : (
+                    <Burger onClick={showCabinet} />
                 )}
-                {fullNavbar || <Burger onClick={showCabinet} />}
                 {donate && <Donate to={donate} />}
-            </Navbar>
+            </nav>
             {fullNavbar || (
                 <Cabinet
                     menu={menu}
@@ -55,6 +55,34 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
                     onClose={hideCabinet}
                 />
             )}
+        </div>
+    )
+}
+
+// Utils
+function Donate(props) {
+    return (
+        <Link {...props} className={styles.Donate}>
+            Donate
+        </Link>
+    )
+}
+function Brand({ children, ...props }) {
+    return (
+        <Link className={styles.Brand} {...props}>
+            {children}
+        </Link>
+    )
+}
+function Burger({ onClick }) {
+    return (
+        <div className={styles['Burger--Container']}>
+            <Button
+                kind={INCOGNITO}
+                className={styles.Burger}
+                onClick={onClick}>
+                <Menu width={32} height={32} />
+            </Button>
         </div>
     )
 }

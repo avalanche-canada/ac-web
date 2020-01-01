@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Redirect } from '@reach/router'
+import { Link, Redirect, Match } from '@reach/router'
 import { Loading } from 'components/text'
 import * as params from 'prismic/params'
 import { Content, Header, Main, Headline, Aside } from 'components/page'
@@ -11,7 +11,9 @@ import TagTitle from './TagTitle'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
 import { FEED } from 'constants/prismic'
+import { Br } from 'components/misc'
 import { TagSet, Tag } from 'components/tag'
+import { Generic } from 'prismic/layouts'
 import { feed } from 'router/prismic'
 import { useDocument } from 'prismic/hooks'
 
@@ -37,6 +39,16 @@ export default function Post(props) {
                     {pending && <Loading />}
                     {post && <PostMetadata {...post} />}
                     {post && <PostContent {...post} />}
+                    <Match path="/blogs/*">
+                        {({ match }) =>
+                            match ? (
+                                <Fragment>
+                                    <Br />
+                                    <Generic uid="blog-footer" />
+                                </Fragment>
+                            ) : null
+                        }
+                    </Match>
                 </Main>
                 <Aside>
                     <Sidebar {...props} />

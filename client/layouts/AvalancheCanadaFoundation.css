@@ -1,6 +1,17 @@
 .Home {
+    & :global(.image-gallery),
+    & :global(.image-gallery-content),
+    & :global(.image-gallery-slide-wrapper),
+    & :global(.image-gallery-swipe),
+    & :global(.image-gallery-slides),
+    & :global(.image-gallery-slide),
+    & :global(.image-gallery-image) {
+        display: flex;
+        height: 100vh;
+        width: 100vw;
+    }
+
     & :global(.image-gallery-image > img) {
-        height: calc(100vh - 5em);
         object-fit: cover;
     }
 }

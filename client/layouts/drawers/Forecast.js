@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
-import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
+import { Tag } from 'layouts/SPAW'
 import {
     Navbar,
     Header,
@@ -40,7 +40,6 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
     return (
         <Fragment>
             <Navbar>
-                <SPAW name={name} />
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
@@ -124,25 +123,23 @@ function OtherRegions() {
     )
 }
 
-function SPAW({ name }) {
-    return (
-        <SPAWContainer name={name}>
-            <SPAWComponent style={{ flex: 1, padding: 0 }}>
-                Special Public Avalanche Warning
-            </SPAWComponent>
-        </SPAWContainer>
-    )
-}
-
 function ForecastRegionHeader({ payload, onLocateClick }) {
     const { id, name } = payload
 
     return (
         <Fragment>
-            <Link to={`/forecasts/${id}`}>{name}</Link>
+            <div style={HEADER_STYLE}>
+                <Tag region={id} as={Link} to="/spaw" />
+                <Link to={`/forecasts/${id}`}>{name}</Link>
+            </div>
             <DisplayOnMap
                 onClick={() => onLocateClick(utils.geometry(payload))}
             />
         </Fragment>
     )
+}
+
+const HEADER_STYLE = {
+    display: 'flex',
+    alignItems: 'center',
 }

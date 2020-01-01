@@ -95,12 +95,8 @@ function useStorage(storage, key, defaultValue = null) {
         setValue(value)
         storage.set(key, value)
     }
-    function remove() {
-        setValue(null)
-        storage.remove(key)
-    }
 
-    return [value, set, remove]
+    return [value, set]
 }
 
 export function useLocalStorage(key, defaultValue) {

@@ -13,10 +13,6 @@
 }
 
 .Navbar {
-    height: 100%;
-}
-
-.Navigation {
     display: flex;
     justify-content: space-between;
     align-items: center;

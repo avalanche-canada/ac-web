@@ -10,12 +10,12 @@ import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
-import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
-import Shim from 'components/Shim'
+import { Tag } from 'layouts/SPAW'
 import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
 import typography from 'components/text/Text.css'
 import { Details } from 'components/error'
+import { Link } from '@reach/router'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -73,7 +73,9 @@ function Title({ name }) {
             <Async.Pending>
                 <span className={typography.Muted}>Loading...</span>
             </Async.Pending>
-            <Async.Found>{region => region.name}</Async.Found>
+            <Async.Found>
+                <ForecastHeader />
+            </Async.Found>
             <Async.Empty>
                 <span className={typography.Warning}>
                     {name} forecast not found
@@ -82,11 +84,10 @@ function Title({ name }) {
         </Fragment>
     )
 }
-function ForecastContent({ name, payload }) {
+function ForecastContent({ payload }) {
     return (
         <components.Provider value={payload}>
             <components.Metadata />
-            <SPAW name={name} />
             <components.Headline />
             <components.TabSet onTabChange={handleForecastTabActivate} />
             <components.Footer />
@@ -109,12 +110,11 @@ function OtherRegions() {
         </Fragment>
     )
 }
-function SPAW({ name }) {
+function ForecastHeader({ payload: { name, id } }) {
     return (
-        <SPAWContainer name={name}>
-            <Shim top>
-                <SPAWComponent linkable />
-            </Shim>
-        </SPAWContainer>
+        <Fragment>
+            <Tag region={id} as={Link} to="/spaw" />
+            {name}
+        </Fragment>
     )
 }

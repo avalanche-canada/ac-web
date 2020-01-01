@@ -8,13 +8,13 @@ import { Loading, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import Pagination from 'components/pagination'
 import EntrySet from './EntrySet'
-import Entry from './Entry'
+import Entry, { SPAW } from './Entry'
 import TagTitle from './TagTitle'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { ControlSet, Control } from 'components/form'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
 import { GRAY_LIGHTEST } from 'constants/colors'
-import { useSearch, useTags } from 'prismic/hooks'
+import { useSearch, useTags, useSPAW } from 'prismic/hooks'
 import useParams, {
     NumberParam,
     StringParam,
@@ -165,6 +165,7 @@ function FeedLayout({ title, children }) {
 function FeedContent({ params, type, onPageChange }) {
     const { location } = useLocation()
     const [data = {}, pending] = useSearch(params)
+    const [spaw] = useSPAW()
     const { results = [], page, total_pages } = data
     let rearranged = results
 
@@ -188,6 +189,7 @@ function FeedContent({ params, type, onPageChange }) {
                 </Muted>
             ) : null}
             <EntrySet>
+                {Boolean(spaw && type === NEWS) && <SPAW {...spaw.data}></SPAW>}
                 {rearranged.map(post => (
                     <Entry key={post.uid} {...post} />
                 ))}

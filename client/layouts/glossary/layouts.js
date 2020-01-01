@@ -3,11 +3,7 @@ import PropTypes from 'prop-types'
 import { Router, Link } from '@reach/router'
 import debounce from 'lodash/debounce'
 import escapeRegExp from 'lodash/escapeRegExp'
-import { memo } from 'utils/react'
-import Sidebar, {
-    Item as SidebarItem,
-    Header as SidebarHeader,
-} from 'components/sidebar'
+import * as Sidebar from 'components/sidebar'
 import { Main, Content, Aside, Headline, Heading } from 'components/page'
 import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
@@ -29,41 +25,38 @@ export default function Layout() {
                 </Router>
             </Main>
             <Aside>
-                <Router primary={false}>
-                    <GlossarySidebar path="/" />
-                </Router>
+                <GlossarySidebar />
             </Aside>
         </Content>
     )
 }
 
-const GlossarySidebar = memo.static(function GlossarySidebar() {
+function GlossarySidebar() {
     return (
-        <Sidebar>
-            <SidebarHeader>Related links</SidebarHeader>
-            <SidebarItem>
+        <Sidebar.default>
+            <Sidebar.Header>Related links</Sidebar.Header>
+            <Sidebar.Item>
                 <a
                     href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
                     target="ICAR">
                     ICAR Glossary
                 </a>
-            </SidebarItem>
-            <SidebarItem>
+            </Sidebar.Item>
+            <Sidebar.Item>
                 <a
                     href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
                     target="LexiqueLexicon">
                     Lexique Avalanche - Avalanche Lexicon
                 </a>
-            </SidebarItem>
-        </Sidebar>
+            </Sidebar.Item>
+        </Sidebar.default>
     )
-})
+}
 
-function Glossary({ location, navigate }) {
-    // TODO Use "hooks/params"? Maybe.
+export function Glossary({ location, navigate, uid }) {
     const params = new URLSearchParams(location.search)
     const [term, setTerm] = useState(params.has('q') ? params.get('q') : '')
-    const [document, pending] = useDocument(glossary.glossary())
+    const [document, pending] = useDocument(glossary.glossary(uid))
 
     useEffect(() => {
         const { hash } = location
