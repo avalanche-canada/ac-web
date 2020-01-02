@@ -44,7 +44,7 @@ export function MountainInformationNetwork({ id, children, ...props }) {
 export function mountainInformationNetwork(id) {
     return supported()
         ? `/map?panel=mountain-information-network-submissions/${id}`
-        : utils.path(id)
+        : utils.submission(id)
 }
 
 Forecast.propTypes = {

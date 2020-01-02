@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import {
@@ -10,9 +10,10 @@ import {
 } from 'components/page/drawer'
 import Shim from 'components/Shim'
 import { Submission, Metadata, TabSet, Gallery } from 'layouts/products/min'
-import { Loading } from 'components/text'
-import { path } from 'utils/min'
+import { Loading, Warning } from 'components/text'
+import { submission } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
+import { Provider, Pending, Found, NotFound } from 'contexts/async'
 import { point } from '@turf/helpers'
 import { useReport } from 'hooks/async/min'
 
@@ -27,42 +28,60 @@ export default function MountainInformationNetwork({
     onCloseClick,
     onLocateClick,
 }) {
-    const [report, pending] = useReport(id)
-
     return (
-        <Fragment>
+        <Provider value={useReport(id)}>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Header subject="Mountain Information Network">
-                <h1>
-                    <Link to={path(id)}>
-                        {report?.title || (pending ? 'Loading...' : null)}
-                    </Link>
-                    {report && (
-                        <DisplayOnMap
-                            onClick={() => onLocateClick(point(report.lnglat))}
-                        />
-                    )}
-                </h1>
+                <Pending>
+                    <Loading as="h1" />
+                </Pending>
+                <Found>
+                    <ReportTitle onLocateClick={onLocateClick} />
+                </Found>
+                <NotFound>
+                    <Warning as="h1">Report not found.</Warning>
+                </NotFound>
             </Header>
             <Body>
-                <Submission value={report}>
-                    <Shim horizontal>
-                        {pending && (
-                            <Loading>
-                                Loading Mountain Information Network reports...
-                            </Loading>
-                        )}
-                        <Metadata />
-                    </Shim>
-                    <Shim vertical>
-                        <TabSet />
-                    </Shim>
-                    <Gallery />
-                </Submission>
+                <Shim horizontal>
+                    <Pending>
+                        <Loading>
+                            Loading Mountain Information Network report...
+                        </Loading>
+                    </Pending>
+                    <NotFound>
+                        <p>Report with id {id} has not been found.</p>
+                    </NotFound>
+                </Shim>
+                <Found>
+                    {report => (
+                        <Submission value={report}>
+                            <Shim horizontal>
+                                <Metadata />
+                            </Shim>
+                            <Shim vertical>
+                                <TabSet />
+                            </Shim>
+                            <Gallery />
+                        </Submission>
+                    )}
+                </Found>
             </Body>
-        </Fragment>
+        </Provider>
+    )
+}
+
+// Utils
+function ReportTitle({ onLocateClick, payload }) {
+    return (
+        <h1>
+            <Link to={submission(payload.subid)}>{payload.title}</Link>
+            <DisplayOnMap
+                onClick={() => onLocateClick(point(payload.lnglat))}
+            />
+        </h1>
     )
 }

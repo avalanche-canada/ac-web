@@ -14,6 +14,14 @@ const AsyncContext = createContext()
 export const { Provider } = AsyncContext
 
 // Components
+Payload.propTypes = {
+    children: PropTypes.node,
+}
+
+export function Payload({ children }) {
+    return render(children, usePayload())
+}
+
 Pending.propTypes = {
     children: PropTypes.node,
 }
@@ -37,13 +45,7 @@ export function Found({ children }) {
         return null
     }
 
-    if (typeof children === 'function') {
-        return children(payload)
-    }
-
-    return isValidElement(children)
-        ? cloneElement(children, { payload })
-        : children
+    return render(children, payload)
 }
 
 /*
@@ -165,4 +167,13 @@ function useAsyncContext(index) {
     const context = useContext(AsyncContext)
 
     return context[index]
+}
+function render(children, payload) {
+    if (typeof children === 'function') {
+        return children(payload)
+    }
+
+    return isValidElement(children)
+        ? cloneElement(children, { payload })
+        : children
 }

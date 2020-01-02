@@ -21,7 +21,7 @@ import { Provider as AuthProvider } from 'contexts/auth'
 import { StaticPage, GenericPage } from 'prismic/layouts'
 import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
-import { path } from 'utils/min'
+import * as min from 'utils/min'
 import { Page as SPAW } from './SPAW'
 import layouts from 'layouts/pages/pages.css'
 import styles from './AvalancheCanada.css'
@@ -252,16 +252,16 @@ function StaticPagePages() {
             <Redirect from="training" to="/training" />
             <Redirect
                 from="mountain-information-network-overview"
-                to="/mountain-information-network"
+                to={min.path()}
             />
             <Redirect
                 from="mountain-information-network-submission-guidelines"
-                to="/mountain-information-network/submission-guidelines"
+                to={min.path('submission-guidelines')}
             />
             <Redirect from="about" to="/about" />
             <Redirect
                 from="mountain-information-network-faq"
-                to="/mountain-information-network/faq"
+                to={min.path('faq')}
             />
             <Redirect from="ambassadors" to="/ambassadors" />
             <Redirect from="sponsors" to="/sponsors" />
@@ -282,9 +282,9 @@ function GenericPages() {
 function MIN() {
     return (
         <Router>
-            <Redirect from="submissions/:id" to={path(':id')} />
-            <Redirect from=":page" to="/mountain-information-network/:page" />
-            <Redirect from="/" to="/mountain-information-network" />
+            <Redirect from="submissions/:id" to={min.submission(':id')} />
+            <Redirect from=":page" to={min.path(':page')} />
+            <Redirect from="/" to={min.path()} />
         </Router>
     )
 }
