@@ -60,11 +60,12 @@ article
           img(src="#{problem.icons.likelihood}")
         .image-container
           img(src="#{problem.icons.expectedSize}")
+        div !{problem.comment}
 
     h2 Forecast Details
     h3 Avalanche Summary
-    p !{forecast.avalancheSummary}
+    div !{forecast.avalancheSummary}
     h3 Snowpack Summary
-    p !{forecast.snowpackSummary}
+    div !{forecast.snowpackSummary}
     h3 Weather Forecast
-    p !{forecast.weatherForecast}
+    div !{forecast.weatherForecast}
