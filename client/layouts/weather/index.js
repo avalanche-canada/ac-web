@@ -5,6 +5,7 @@ import WeatherStation from './station/WeatherStation'
 import WeatherStationList from './station/WeatherStationList'
 import { Page } from 'layouts/pages'
 import { Main, Content, Header } from 'components/page'
+import styles from 'layouts/glossary/Glossary.css'
 
 export default function Weather() {
     return (
@@ -36,7 +37,7 @@ function MountainWeatherForecast(props) {
 
 function WeatherGlossary(props) {
     return (
-        <Page>
+        <Page className={styles.Page}>
             <Header title="Weather Glossary" />
             <Content>
                 <Main>
