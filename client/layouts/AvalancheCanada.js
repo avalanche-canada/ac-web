@@ -74,11 +74,7 @@ function AvalancheCanada() {
                         <Incidents path="incidents/*" />
                         <MIN path="min/*" />
                         <MountainInformationNetwork path="mountain-information-network/*" />
-                        <Redirect
-                            from="/submit"
-                            to="/mountain-information-network/submit"
-                        />
-
+                        <Redirect from="/submit" to={min.path('submit')} />
                         <Weather path="weather/*" />
                         <Ast path="training/*" />
                         <StaticPage path="careers" uid="careers" />
