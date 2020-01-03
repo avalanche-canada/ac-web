@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { memo } from 'utils/react'
 import {
-    Sidebar as Base,
+    Sidebar,
     Contact,
     Follow,
     Share,
@@ -13,15 +13,15 @@ import {
 } from 'components/sidebar'
 import { FORECASTERS } from 'constants/emails'
 
-Sidebar.propTypes = {
+ForecastSidebar.propTypes = {
     isPrintable: PropTypes.bool.isRequired,
 }
 
-function Sidebar({ isPrintable, ...props }) {
+function ForecastSidebar({ isPrintable, ...props }) {
     const { pathname, origin } = document.location
 
     return (
-        <Base {...props}>
+        <Sidebar {...props}>
             <Item>
                 <Link to="/weather">Your daily Mountain Weather Forecast</Link>
             </Item>
@@ -41,8 +41,8 @@ function Sidebar({ isPrintable, ...props }) {
             <Contact email={FORECASTERS} />
             <RSSFeed url={`${origin}/api${pathname}.rss`} />
             {isPrintable && <Print url={`${origin}/api${pathname}.html`} />}
-        </Base>
+        </Sidebar>
     )
 }
 
-export default memo.static(Sidebar)
+export default memo.static(ForecastSidebar)
