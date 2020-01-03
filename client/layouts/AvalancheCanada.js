@@ -239,6 +239,7 @@ function Pages() {
 function StaticPagePages() {
     return (
         <Router>
+            <Redirect from="education" to="/education" />
             <Redirect from="careers" to="/careers" />
             <Redirect from="planning" to="/planning" />
             <Redirect from="decision-making" to="/planning/decision-making" />
