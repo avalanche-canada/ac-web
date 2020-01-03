@@ -20,8 +20,6 @@ ForecastSidebar.propTypes = {
 }
 
 function ForecastSidebar({ isPrintable, ...props }) {
-    const { pathname, origin } = document.location
-
     return (
         <Sidebar {...props}>
             <Item>
@@ -41,8 +39,8 @@ function ForecastSidebar({ isPrintable, ...props }) {
             <Follow />
             <Share />
             <Contact email={FORECASTERS} />
-            <RSSFeed url={`${origin}/api${pathname}.rss`} />
-            {isPrintable && <Print url={`${origin}/api${pathname}.html`} />}
+            <RSSFeed url={createExternalForecastURL('rss')} />
+            {isPrintable && <Print url={createExternalForecastURL('html')} />}
         </Sidebar>
     )
 }
@@ -50,7 +48,6 @@ function ForecastSidebar({ isPrintable, ...props }) {
 export default memo.static(ForecastSidebar)
 
 export function Kananaskis() {
-    const { pathname, origin } = document.location
     const EMAIL = 'avalanche.safety@gov.ab.ca'
 
     return (
@@ -102,7 +99,14 @@ export function Kananaskis() {
                 email={EMAIL}
                 title="Email the Kananaskis Country Public Safety Section"
             />
-            <RSSFeed url={`${origin}/api${pathname}.rss`} />
+            <RSSFeed url={createExternalForecastURL('rss')} />
         </Sidebar>
     )
+}
+
+// Utils
+function createExternalForecastURL(extension) {
+    const { pathname, origin } = document.location
+
+    return `${origin}/api${pathname}.${extension}`
 }
