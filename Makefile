@@ -37,7 +37,7 @@ webpack-dev:
 
 zip: build
 	cd dist && zip -r ../$(ZIPNAME) *
-	cd dist && zip -r ../$(ZIPNAME) .ebextensions
+	cd dist && zip -r ../$(ZIPNAME) .ebextensions .dockerignore
 
 push-dev: zip
 	aws --profile=$(AWS_PROFILE) s3 cp $(ZIPNAME) s3://$(S3_BUCKET)/$(ZIPNAME)
@@ -65,6 +65,7 @@ server-copy:
 	cp package.json $(DIST)
 	cp -R server $(DIST)
 	cp -R .ebextensions $(DIST)
+	cp Dockerfile Dockerrun.aws.json .dockerignore $(DIST)
 
 DEV_PURGE_COUNT=50
 
