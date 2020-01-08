@@ -155,6 +155,11 @@ function AvalancheCanada() {
                             title="Collaborators"
                         />
                         <StaticPage
+                            path="inreach"
+                            uid="inreach"
+                            title="Kakwa avalanche forecasts via inReach"
+                        />
+                        <StaticPage
                             path="privacy-policy"
                             uid="privacy-policy"
                             title="Privacy Policy"
