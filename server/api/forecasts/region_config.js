@@ -136,6 +136,7 @@ var TEST_REGIONS = {
 };
 
 function get(region, timezone) {
+    timezone = typeof timezone === 'string' ? timezone : 'America/Vancouver';
     function createConfig(fetchNow) {
         return {
             metadata: reg_properties[region],
@@ -184,9 +185,9 @@ function get(region, timezone) {
             return createConfig(function() {
                 return fetch.fetchParks(regionId)
                     .then(parseAvalx(region))
+                    .then(createIconSet(timezone))
                     .then(fixAvalxDangerRatingDates(offset))
                     .then(addOwner('parks-canada'))
-                    .then(createIconSet(timezone))
             })
         }
     }
