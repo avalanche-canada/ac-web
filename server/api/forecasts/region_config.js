@@ -173,9 +173,9 @@ function get(region, timezone) {
             return createConfig(function() {
                 return fetch.fetchAvalx2019(avalxRegionId)
                     .then(parseAvalx(region))
+                    .then(createIconSet(timezone))
                     .then(fixAvalxDangerRatingDates(offset))
                     .then(addOwner('avalanche-canada'))
-                    .then(createIconSet(timezone))
             })
         },
         parks: function(regionId, offset, createIconSet) {
