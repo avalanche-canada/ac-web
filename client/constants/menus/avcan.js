@@ -385,7 +385,7 @@ module.exports = {
                 },
                 {
                     id: id++,
-                    label: 'Sponsors & collaborators',
+                    label: 'Sponsors & Collaborators',
                     header: true,
                     to: '/sponsors',
                     children: [
