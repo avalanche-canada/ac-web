@@ -392,32 +392,32 @@ module.exports = {
                         {
                             id: id++,
                             label: 'Program partners',
-                            to: 'sponsors#partner',
+                            to: '/sponsors#partner',
                         },
                         {
                             id: id++,
                             label: 'Premier sponsors',
-                            to: 'sponsors#premier',
+                            to: '/sponsors#premier',
                         },
                         {
                             id: id++,
                             label: 'Supporters',
-                            to: 'sponsors#supporter',
+                            to: '/sponsors#supporter',
                         },
                         {
                             id: id++,
                             label: 'Contributors',
-                            to: 'sponsors#contributors',
+                            to: '/sponsors#contributors',
                         },
                         {
                             id: id++,
                             label: 'Government partners',
-                            to: 'collaborators#government-partners',
+                            to: '/collaborators#government-partners',
                         },
                         {
                             id: id++,
                             label: 'Other agencies and organizations',
-                            to: 'collaborators#agencies',
+                            to: '/collaborators#agencies',
                         },
                     ],
                 },
