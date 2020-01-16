@@ -12,5 +12,6 @@ from node:8.16.2
 copy --from=build /app-build/dist /app
 workdir /app
 run npm install --production
+expose 9000
 cmd ["npm", "--production", "start"]
 
