@@ -1,206 +1,165 @@
-import React, { Component } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
 import isSameDay from 'date-fns/is_same_day'
-import Container from 'containers/ast/Courses'
-import Layout from './Layout'
-import Header from './Header'
-import Pagination from './Pagination'
+import areRangesOverlapping from 'date-fns/are_ranges_overlapping'
+import addDays from 'date-fns/add_days'
+import { Layout, Header, Title, Caption, Pagination } from './utils'
 import { DateTime, Range } from 'components/time'
 import { Phone, Mailto } from 'components/anchors'
 import { List, Entry } from 'components/description'
-import {
-    Table,
-    Responsive,
-    TBody,
-    ExpandableRow,
-    Row,
-    Cell,
-    Caption,
-} from 'components/table'
+import { Responsive, ExpandableRow } from 'components/table'
 import { Helper } from 'components/text'
 import { MultiLine } from 'components/misc'
-import ErrorBoundary from 'components/ErrorBoundary'
-import { Pending } from 'components/fetch'
-import { Paginated, Sorted } from 'components/collection'
-import { Error, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import { Distance, Tags } from './cells'
 import { LEVELS, MINIMUM_DISTANCE } from '../constants'
-import { NONE, DESC } from 'constants/sortings'
+import { NONE, DESC, ASC } from 'constants/sortings'
 import { DATE } from 'utils/date'
+import { useCourses } from 'hooks/async/ast'
+import { useSorting, usePagination, useFilters } from 'hooks/collection'
+import * as Async from 'contexts/async'
 import styles from './Courses.css'
 
-export default class Courses extends Component {
-    static propTypes = {
-        level: PropTypes.oneOf(Array.from(LEVELS.keys())),
-        from: PropTypes.instanceOf(Date),
-        to: PropTypes.instanceOf(Date),
-        tags: PropTypes.instanceOf(Set),
-        sorting: PropTypes.arrayOf(PropTypes.string),
-        place: PropTypes.object,
-        onParamsChange: PropTypes.func.isRequired,
-    }
-    state = {
-        page: 1,
-    }
-    handleSortingChange = (name, order) => {
-        this.props.onParamsChange({
+Courses.propTypes = {
+    level: PropTypes.oneOf(Array.from(LEVELS.keys())),
+    from: PropTypes.instanceOf(Date),
+    to: PropTypes.instanceOf(Date),
+    tags: PropTypes.instanceOf(Set),
+    sorting: PropTypes.arrayOf(PropTypes.string),
+    place: PropTypes.object,
+    onParamsChange: PropTypes.func.isRequired,
+}
+
+export default function Courses({
+    level,
+    from,
+    to,
+    tags,
+    sorting,
+    place,
+    onParamsChange,
+}) {
+    const [name = null, order = NONE] = sorting
+    const context = useCourses()
+    const [courses = []] = context
+    const [page, setPage] = useState(1)
+    const all = useMemo(() => {
+        return courses.map(course => ({
+            ...course,
+            distance: place
+                ? Math.max(
+                      Math.round(distance(turf.point(course.loc), place)),
+                      MINIMUM_DISTANCE
+                  )
+                : null,
+        }))
+    }, [courses, place])
+    const sorted = useSorting(all, SORTERS.get(order).get(name))
+    const filtered = useFilters(
+        sorted,
+        getPredicates({ level, from, to, tags })
+    )
+    const paginated = usePagination(filtered, page)
+
+    function handleSortingChange(name, order) {
+        onParamsChange({
             sorting: order === NONE ? null : [name, order],
         })
     }
-    handlePageChange = page => {
-        this.setState({ page })
-    }
-    getTitle(courses) {
-        return Array.isArray(courses)
-            ? `All courses (${courses.length})`
-            : 'All courses'
-    }
-    componentDidUpdate({ level, from, to, tags, sorting }) {
-        if (
-            this.props.level !== level ||
-            this.props.from !== from ||
-            this.props.to !== to ||
-            this.props.tags !== tags ||
-            this.props.sorting !== sorting
-        ) {
-            this.setState({ page: 1 })
-        }
-    }
-    renderEmptyMessage(courses) {
-        return courses.length ? null : (
-            <div>
-                No courses match your criteria, consider finding a provider on
-                the <Link to="/training/providers">providers page</Link> to
-                contact directly.
-            </div>
-        )
-    }
-    renderRow = row => {
-        return (
-            <ExpandableRow key={row.id}>
-                <Row>
-                    {COLUMNS.map(({ property, name }) => (
-                        <Cell key={name}>{property(row)}</Cell>
-                    ))}
-                </Row>
-                <Row>
-                    <Cell colSpan={COLUMNS.length + 1}>
-                        {this.renderControlled(row)}
-                    </Cell>
-                </Row>
-            </ExpandableRow>
-        )
-    }
-    renderControlled({ description, provider }) {
-        const { name, website, email, phone, loc_description } = provider
 
-        return (
-            <div className={styles.Controlled}>
-                <Shim right>
-                    <List inline>
-                        <Entry term="Description">
-                            <MultiLine>{description}</MultiLine>
-                        </Entry>
-                    </List>
-                </Shim>
-                <List>
-                    <Entry term="Name">{name}</Entry>
-                    <Entry term="Website">
-                        <a href={website} target={name}>
-                            {website}
-                        </a>
-                    </Entry>
-                    <Entry term="Email">
-                        <Mailto email={email} />
-                    </Entry>
-                    <Entry term="Phone">
-                        <Phone phone={phone} />
-                    </Entry>
-                    <Entry term="Location">{loc_description}</Entry>
-                </List>
-            </div>
-        )
-    }
-    renderRows = courses => {
-        return courses.map(this.renderRow)
-    }
-    renderBody = courses => {
-        if (courses.length === 0) {
-            return null
-        }
+    useEffect(() => {
+        setPage(1)
+    }, [level, from, to, tags, sorting])
 
-        const { sorting, place } = this.props
-        const { page } = this.state
-        const [name, order] = sorting || ['dates'] // If no sorting defined, sorting is done on 'dates' by default
+    const count = filtered.length
 
-        if (place) {
-            courses = courses.map(course => ({
-                ...course,
-                distance: Math.max(Math.round(distance(turf.point(course.loc), place)), MINIMUM_DISTANCE),
-            }))
-        }
-
-        return (
-            <TBody>
-                <Sorted
-                    values={courses}
-                    sorter={SORTERS.get(name)}
-                    reverse={order === DESC}>
-                    <Paginated page={page}>{this.renderRows}</Paginated>
-                </Sorted>
-            </TBody>
-        )
-    }
-    renderPagination = courses => {
-        return (
-            <Pagination
-                count={courses.length}
-                page={this.state.page}
-                onChange={this.handlePageChange}
-            />
-        )
-    }
-    renderContent = ({ courses }) => {
-        return (
-            <Layout title={this.getTitle(courses)}>
+    return (
+        <Async.Provider value={context}>
+            <Layout
+                title={
+                    <Title type="course" count={count} total={courses.length} />
+                }>
                 <Responsive>
-                    <Table>
+                    <table>
                         <Header
                             columns={COLUMNS}
-                            sorting={this.props.sorting}
-                            onSortingChange={this.handleSortingChange}
-                            place={this.props.place}
+                            sorting={sorting}
+                            onSortingChange={handleSortingChange}
+                            place={place}
                         />
-                        {Array.isArray(courses) && this.renderBody(courses)}
-                        <Caption>
-                            <Pending>
-                                <Muted>Loading courses...</Muted>
-                            </Pending>
-                            {Array.isArray(courses) &&
-                                this.renderEmptyMessage(courses)}
+                        <tbody>{paginated.map(renderRow)}</tbody>
+                        <Caption type="course" empty={count === 0}>
+                            <p>
+                                No courses match your criteria, consider finding
+                                a provider on the{' '}
+                                <Link to="/training/providers">
+                                    providers page
+                                </Link>{' '}
+                                to contact directly.
+                            </p>
+                            <p>
+                                You can also{' '}
+                                <Link to="/training/courses">
+                                    reset your criteria
+                                </Link>{' '}
+                                to see them all.
+                            </p>
                         </Caption>
-                    </Table>
+                    </table>
                 </Responsive>
-                {Array.isArray(courses) && this.renderPagination(courses)}
+                <Pagination count={count} page={page} onChange={setPage} />
             </Layout>
-        )
-    }
-    render() {
-        const { level, from, to, tags } = this.props
-        const fallback = <Error>An error happened while loading courses.</Error>
+        </Async.Provider>
+    )
+}
 
-        return (
-            <ErrorBoundary fallback={fallback}>
-                <Container level={level} from={from} to={to} tags={tags}>
-                    {this.renderContent}
-                </Container>
-            </ErrorBoundary>
-        )
-    }
+// Utils
+function renderRow(row) {
+    return (
+        <ExpandableRow key={row.id}>
+            <tr>
+                {COLUMNS.map(({ property, name }) => (
+                    <td key={name}>{property(row)}</td>
+                ))}
+            </tr>
+            <tr>
+                <td colSpan={COLUMNS.length + 1}>{renderControlled(row)}</td>
+            </tr>
+        </ExpandableRow>
+    )
+}
+function renderControlled({ description, provider }) {
+    const { name, website, email, phone, loc_description } = provider
+
+    return (
+        <div className={styles.Controlled}>
+            <Shim right>
+                <List inline>
+                    <Entry term="Description">
+                        <MultiLine>{description}</MultiLine>
+                    </Entry>
+                </List>
+            </Shim>
+            <List>
+                <Entry term="Name">{name}</Entry>
+                <Entry term="Website">
+                    <a href={website} target={name}>
+                        {website}
+                    </a>
+                </Entry>
+                <Entry term="Email">
+                    <Mailto email={email} />
+                </Entry>
+                <Entry term="Phone">
+                    <Phone phone={phone} />
+                </Entry>
+                <Entry term="Location">{loc_description}</Entry>
+            </List>
+        </div>
+    )
 }
 
 // Utils
@@ -237,9 +196,7 @@ const COLUMNS = [
         title({ place }) {
             return place ? (
                 <Helper
-                    title={`Straight line between ${
-                        place.text
-                    } and the course.`}>
+                    title={`Straight line between ${place.text} and the course.`}>
                     Distance
                 </Helper>
             ) : (
@@ -269,18 +226,46 @@ const COLUMNS = [
         name: 'cost',
         title: 'Cost',
         property({ cost }) {
-            return `${cost.cost} ${cost.currency}`
+            return (
+                <span className={styles.CostCell}>
+                    {cost.cost} {cost.currency}
+                </span>
+            )
         },
     },
 ]
 const SORTERS = new Map([
-    ['provider', (a, b) => sortByName(a, b) || sortByDate(a, b)],
     [
-        'distance',
-        (a, b) => sortByDistance(a, b) || sortByDate(a, b) || sortByName(a, b),
+        ASC,
+        new Map([
+            ['provider', (a, b) => sortByName(a, b) || sortByDate(a, b)],
+            [
+                'distance',
+                (a, b) =>
+                    sortByDistance(a, b) ||
+                    sortByDate(a, b) ||
+                    sortByName(a, b),
+            ],
+            ['dates', (a, b) => sortByDate(a, b) || sortByName(a, b)],
+        ]),
     ],
-    ['dates', (a, b) => sortByDate(a, b) || sortByName(a, b)],
+    [
+        DESC,
+        new Map([
+            ['provider', (a, b) => sortByName(b, a) || sortByDate(a, b)],
+            [
+                'distance',
+                (a, b) =>
+                    sortByDistance(b, a) ||
+                    sortByDate(a, b) ||
+                    sortByName(a, b),
+            ],
+            ['dates', (a, b) => sortByDate(b, a) || sortByName(a, b)],
+        ]),
+    ],
+    [NONE, new Map()],
 ])
+
 function sortByDate(a, b) {
     return new Date(a.date_start) - new Date(b.date_start)
 }
@@ -291,4 +276,28 @@ function sortByName(a, b) {
     return a.provider.name.localeCompare(b.provider.name, 'en', {
         sensitivity: 'base',
     })
+}
+const PREDICATES = new Map([
+    ['level', ({ level }) => course => course.level === level],
+    [
+        'tags',
+        ({ tags = new Set() }) => course =>
+            tags.size === 0 ? true : course.tags.some(tag => tags.has(tag)),
+    ],
+    [
+        'to',
+        ({ from, to }) => ({ date_start, date_end }) =>
+            areRangesOverlapping(from, addDays(to, 1), date_start, date_end),
+    ],
+])
+function getPredicates(props) {
+    return Object.entries(props).reduce((filters, [key, value]) => {
+        if (value && PREDICATES.has(key)) {
+            const predicate = PREDICATES.get(key)
+
+            filters.push(predicate(props))
+        }
+
+        return filters
+    }, [])
 }

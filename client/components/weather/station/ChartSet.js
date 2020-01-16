@@ -5,10 +5,10 @@ import Snow from './charts/Snow'
 import Temperature from './charts/Temperature'
 import Wind from './charts/Wind'
 import { getDateExtent } from './utils'
-import ErrorBoundary from 'components/ErrorBoundary'
+import { Boundary as ErrorBoundary } from 'components/error'
 import { Error } from 'components/text'
 import styles from './Station.css'
-import { useRatio } from 'utils/react/hooks'
+import { useRatio } from 'hooks'
 
 ChartSet.propTypes = {
     measurements: PropTypes.arrayOf(PropTypes.object).isRequired,

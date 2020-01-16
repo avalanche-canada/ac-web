@@ -1,22 +1,20 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import distance from '@turf/distance'
 import * as turf from '@turf/helpers'
-import ErrorBoundary from 'components/ErrorBoundary'
-import { Pending } from 'components/fetch'
 import { Mailto, Phone } from 'components/anchors'
 import { List, Term, Definition } from 'components/description'
-import { Table, Responsive, TBody, Row, Cell, Caption } from 'components/table'
-import Header from './Header'
-import Pagination from './Pagination'
-import Layout from './Layout'
+import { Responsive } from 'components/table'
+import { MINIMUM_DISTANCE } from '../constants'
+import { Layout, Header, Title, Caption, Pagination } from './utils'
 import { Helper } from 'components/text'
-import { Paginated, Sorted } from 'components/collection'
-import Container from 'containers/ast/Providers'
+import { useProviders } from 'hooks/async/ast'
 import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
-import { Error, Muted } from 'components/text'
+import { useSorting, usePagination } from 'hooks/collection'
+import * as Async from 'contexts/async'
+import table from 'styles/table.css'
 
 Providers.propTypes = {
     tags: PropTypes.instanceOf(Set),
@@ -26,38 +24,36 @@ Providers.propTypes = {
 }
 
 export default function Providers({ tags, sorting, place, onParamsChange }) {
-    const fallback = <Error>An error happened while loading providers.</Error>
+    const [name, order] = sorting || []
     const [page, setPage] = useState(1)
-    function renderBodies(providers) {
-        if (providers.length === 0) {
-            return null
+    const context = useProviders()
+    const [providers = []] = context
+    const all = useMemo(() => {
+        return providers.map(provider => ({
+            ...provider,
+            distance: place
+                ? Math.max(
+                      Math.round(distance(turf.point(provider.loc), place)),
+                      MINIMUM_DISTANCE
+                  )
+                : null,
+        }))
+    }, [providers, place])
+    const [sponsors, others] = useMemo(() => {
+        return [all.filter(isSponsor), all.filter(isNotSponsor)]
+    }, [all])
+    const filtered = useMemo(() => {
+        if (tags.size > 0) {
+            return others.filter(provider =>
+                provider.tags.some(tag => tags.has(tag))
+            )
         }
 
-        const [name, order] = sorting || []
+        return others
+    }, [others, tags])
+    const sorted = useSorting(filtered, SORTERS.get(name), order === DESC)
+    const paginated = usePagination(sorted, page)
 
-        if (place) {
-            providers = providers.map(provider => ({
-                ...provider,
-                distance: distance(turf.point(provider.loc), place),
-            }))
-        }
-
-        return (
-            <Fragment>
-                <TBody featured title="Our sponsors">
-                    {renderRows(providers.filter(isSponsor))}
-                </TBody>
-                <TBody>
-                    <Sorted
-                        values={providers.filter(isNotSponsor)}
-                        sorter={SORTERS.get(name)}
-                        reverse={order === DESC}>
-                        <Paginated page={page}>{renderRows}</Paginated>
-                    </Sorted>
-                </TBody>
-            </Fragment>
-        )
-    }
     function handleSortingChange(name, order) {
         onParamsChange({
             sorting: order === NONE ? null : [name, order],
@@ -68,41 +64,53 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
         setPage(1)
     }, [tags, place, sorting])
 
+    const count = filtered.length + sponsors.length
+
     return (
-        <ErrorBoundary fallback={fallback}>
-            <Container tags={tags}>
-                {({ providers }) => (
-                    <Layout title={getTitle(providers)}>
-                        <Responsive>
-                            <Table>
-                                <Header
-                                    columns={COLUMNS}
-                                    onSortingChange={handleSortingChange}
-                                    sorting={sorting}
-                                    place={place}
-                                />
-                                {Array.isArray(providers) &&
-                                    renderBodies(providers)}
-                                <Caption>
-                                    <Pending>
-                                        <Muted>Loading providers...</Muted>
-                                    </Pending>
-                                    {Array.isArray(providers) &&
-                                        renderEmptyMessage(providers)}
-                                </Caption>
-                            </Table>
-                        </Responsive>
-                        {Array.isArray(providers) && (
-                            <Pagination
-                                count={providers.length}
-                                page={page}
-                                onChange={setPage}
-                            />
+        <Async.Provider value={context}>
+            <Layout
+                title={
+                    <Title
+                        type="provider"
+                        count={count}
+                        total={providers.length}></Title>
+                }>
+                <Responsive>
+                    <table>
+                        <Header
+                            columns={COLUMNS}
+                            onSortingChange={handleSortingChange}
+                            sorting={sorting}
+                            place={place}
+                        />
+                        {sponsors.length > 0 && (
+                            <tbody
+                                data-title="Our sponsors"
+                                className={table.Featured}>
+                                {renderRows(sponsors)}
+                            </tbody>
                         )}
-                    </Layout>
-                )}
-            </Container>
-        </ErrorBoundary>
+                        <tbody>{renderRows(paginated)}</tbody>
+                        <Caption type="provider" empty={count === 0}>
+                            <p>
+                                No providers match your criteria, consider
+                                finding a course on the{' '}
+                                <Link to="/training/courses">courses page</Link>
+                                .
+                            </p>
+                            <p>
+                                You can also{' '}
+                                <Link to="/training/providers">
+                                    reset your criteria
+                                </Link>{' '}
+                                to see them all.
+                            </p>
+                        </Caption>
+                    </table>
+                </Responsive>
+                <Pagination count={count} page={page} onChange={setPage} />
+            </Layout>
+        </Async.Provider>
     )
 }
 
@@ -145,9 +153,7 @@ const COLUMNS = [
         title({ place }) {
             return place ? (
                 <Helper
-                    title={`Straight line between ${
-                        place.text
-                    } and the provider.`}>
+                    title={`Straight line between ${place.text} and the provider.`}>
                     Distance
                 </Helper>
             ) : (
@@ -176,34 +182,17 @@ const COLUMNS = [
 ]
 
 // Utils
-function renderEmptyMessage({ length }) {
-    return length === 0 ? (
-        <div>
-            No providers match your criteria, consider finding a course on the{' '}
-            <Link to="/training/courses">courses page</Link>.
-        </div>
-    ) : null
-}
 function renderRows(providers) {
-    return providers.map(renderRow)
-}
-function renderRow(row) {
-    return (
-        <Row key={row.id}>
+    return providers.map(row => (
+        <tr key={row.id}>
             {COLUMNS.map(({ property, name }) => (
-                <Cell key={name}>{property(row)}</Cell>
+                <td key={name}>{property(row)}</td>
             ))}
-        </Row>
-    )
-}
-function getTitle(providers) {
-    return Array.isArray(providers)
-        ? `All providers (${providers.length})`
-        : 'All providers'
+        </tr>
+    ))
 }
 
 const TERM_STYLE = {
-    // minWidth: 75,
     flex: '0 1 25%',
 }
 const DEFINITION_STYLE = {
@@ -231,13 +220,20 @@ function Anchor({ href }) {
 function isSponsor({ is_sponsor }) {
     return is_sponsor
 }
-function isNotSponsor({ is_sponsor }) {
-    return !is_sponsor
+function isNotSponsor(provider) {
+    return !isSponsor(provider)
 }
 const SORTERS = new Map([
     [
         'provider',
-        (a, b) => a.name.localeCompare(b.name, 'en', { sensitivity: 'base' }),
+        function sortByName(a, b) {
+            return a.name.localeCompare(b.name, 'en', { sensitivity: 'base' })
+        },
     ],
-    ['distance', (a, b) => a.distance - b.distance],
+    [
+        'distance',
+        function sortByDistance(a, b) {
+            return a.distance - b.distance
+        },
+    ],
 ])

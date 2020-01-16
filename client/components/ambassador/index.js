@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Image } from 'prismic/components/base'
+import { Heading } from 'components/page'
 import { Set, Item } from 'components/social'
-import { FragmentIdentifier } from 'router'
+import { Image } from 'prismic/components/base'
 import styles from './Ambassador.css'
 
 Ambassador.propTypes = {
@@ -27,7 +27,8 @@ export default function Ambassador({
     }
 
     return (
-        <section className={styles.Ambassador}>
+        <section className={styles.Container}>
+            <Heading hash={hash}>{fullName}</Heading>
             <div className={styles.Biography}>
                 <div className={styles.Avatar}>
                     {avatar && <Image {...avatar} />}
@@ -37,14 +38,7 @@ export default function Ambassador({
                         ))}
                     </Set>
                 </div>
-                <div className={styles.Content}>
-                    <h2>
-                        <FragmentIdentifier hash={hash}>
-                            {fullName}
-                        </FragmentIdentifier>
-                    </h2>
-                    {children}
-                </div>
+                <div className={styles.Content}>{children}</div>
             </div>
             {banner && <Image className={styles.Banner} {...banner} />}
         </section>

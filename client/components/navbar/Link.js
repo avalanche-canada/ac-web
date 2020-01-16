@@ -14,8 +14,8 @@ Anchor.propTypes = {
     style: PropTypes.object,
 }
 
-function Anchor({ to = '#', className, children, ...props }) {
-    props.className = classnames(styles.Link, className)
+function Anchor({ to = '#', children, ...props }) {
+    props.className = classnames(styles.Link, props.className)
 
     if (isExternal(to)) {
         return (

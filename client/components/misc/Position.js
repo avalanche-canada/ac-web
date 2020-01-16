@@ -1,4 +1,3 @@
-import { memo } from 'react'
 import PropTypes from 'prop-types'
 import coords from 'formatcoords'
 
@@ -9,20 +8,9 @@ Position.propTypes = {
     precision: PropTypes.number,
 }
 
-function Position({ longitude, latitude, precision = 8, dms }) {
+export default function Position({ longitude, latitude, precision = 6, dms }) {
     const format = dms ? 'FFf' : 'f'
-    const options = {
-        latLonSeparator: SEPARATOR,
-        decimalPlaces: precision,
-    }
-    const position = coords(latitude, longitude)
-        .format(format, options)
-        .replace(/\s/g, '\u00a0')
+    const decimalPlaces = dms ? precision - 2 : precision
 
-    return position.replace(SEPARATOR, ' ')
+    return coords(latitude, longitude).format(format, { decimalPlaces })
 }
-
-export default memo(Position)
-
-// Constants
-const SEPARATOR = ':'

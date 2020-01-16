@@ -1,24 +1,24 @@
 import decode from 'jwt-decode'
-import { LocalStorage } from 'services/storage'
+import { Local as Storage } from 'services/storage'
 
 class AuthAccessor {
     get profile() {
-        return STORAGE.get('profile', null)
+        return Storage.get('profile', null)
     }
     set profile(profile) {
-        STORAGE.set('profile', profile)
+        Storage.set('profile', profile)
     }
     get accessToken() {
-        return STORAGE.get('accessToken', null)
+        return Storage.get('accessToken', null)
     }
     set accessToken(accessToken) {
-        STORAGE.set('accessToken', accessToken)
+        Storage.set('accessToken', accessToken)
     }
     get idToken() {
-        return STORAGE.get('idToken', null)
+        return Storage.get('idToken', null)
     }
     set idToken(idToken) {
-        STORAGE.set('idToken', idToken)
+        Storage.set('idToken', idToken)
     }
     get isAuthenticated() {
         if (!this.idToken) {
@@ -35,12 +35,10 @@ class AuthAccessor {
         return new Date() < expiryDate
     }
     clear() {
-        STORAGE.remove('accessToken')
-        STORAGE.remove('idToken')
-        STORAGE.remove('profile')
+        Storage.remove('accessToken')
+        Storage.remove('idToken')
+        Storage.remove('profile')
     }
 }
-
-const STORAGE = LocalStorage.create()
 
 export default new AuthAccessor()

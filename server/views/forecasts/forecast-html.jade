@@ -8,4 +8,7 @@ html
   body
     style
       include forecast.css
-    include forecast.jade
+    if forecast.fxType == "avid"
+      include avid-product.jade
+    else
+      include forecast.jade

@@ -1,12 +1,10 @@
 import React, { lazy } from 'react'
-import PropTypes from 'prop-types'
 import { Router } from '@reach/router'
 import Bundle from 'components/Bundle'
-import Submission from 'layouts/Submission'
-import SubmissionList from 'layouts/SubmissionList'
+import Submission from 'layouts/min/Submission'
 import { StaticPage } from 'prismic/layouts'
-import { Loading } from 'components/page'
-import * as utils from 'utils/search'
+import { Loading } from 'layouts/pages'
+import styles from './AvalancheCanada.css'
 
 export default function MountainInformationNetwork() {
     return (
@@ -28,12 +26,15 @@ export default function MountainInformationNetwork() {
                 path="/"
                 uid="mountain-information-network-overview"
                 title="Mountain Information Network — Overview"
+                className={styles.MINOverview}
             />
         </Router>
     )
 }
 
-const SubmitContainer = lazy(() => import('containers/min/Form'))
+// Code splitted subroutes
+const SubmitContainer = lazy(() => import('layouts/min/Form'))
+const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
 
 function Submit(props) {
     return (
@@ -43,30 +44,10 @@ function Submit(props) {
     )
 }
 
-Submissions.propTypes = {
-    location: PropTypes.object.isRequired,
-    navigate: PropTypes.func.isRequired,
-}
-
-function Submissions({ location, navigate }) {
-    const { days, types, regions, sorting } = utils.parse(location.search)
-    const params = {
-        days: utils.toNumber(days),
-        types: utils.toSet(types),
-        regions: utils.toSet(regions),
-        sorting: utils.parseSorting(sorting),
-    }
-    async function handleParamsChange(moreParams) {
-        const search = Object.assign({}, params, moreParams)
-        const to = utils.stringify({
-            ...search,
-            sorting: search.sorting
-                ? utils.formatSorting(search.sorting)
-                : undefined,
-        })
-
-        await navigate(to)
-    }
-
-    return <SubmissionList {...params} onParamsChange={handleParamsChange} />
+function Submissions({ navigate }) {
+    return (
+        <Bundle fallback={<Loading />}>
+            <SubmissionList navigate={navigate} />
+        </Bundle>
+    )
 }

@@ -56,7 +56,27 @@ push-dev: zip
 	  --environment-name avalanche-canada-dev \
 	  --version-label "$(LABEL)"
 
-	echo pushed to http://avalanche-canada-dev.elasticbeanstalk.com/
+	echo pushed to http://dev.avalanche.ca/
+
+
+push-qa: zip
+	aws --profile=$(AWS_PROFILE) s3 cp $(ZIPNAME) s3://$(S3_BUCKET)/$(ZIPNAME)
+
+	aws elasticbeanstalk create-application-version \
+	  --profile $(AWS_PROFILE) \
+	  --region us-west-2 \
+	  --application-name avalanche-canada \
+	  --version-label $(LABEL) \
+	  --source-bundle S3Bucket=$(S3_BUCKET),S3Key=$(ZIPNAME) \
+	  --description 'custom git build'
+
+	aws elasticbeanstalk update-environment \
+	  --profile $(AWS_PROFILE) \
+	  --region us-west-2 \
+	  --environment-name avalanche-canada-qa \
+	  --version-label "$(LABEL)"
+
+	echo pushed to http://qa.avalanche.ca/
 
 
 server-copy:

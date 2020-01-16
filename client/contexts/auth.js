@@ -1,12 +1,12 @@
-import React, { createContext, useReducer, useEffect } from 'react'
+import React, { createContext, useReducer, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import * as auth from 'services/auth/auth0'
 import Accessor from 'services/auth/accessor'
 import { setUserContext } from 'services/sentry'
-import { createAction } from 'utils/reducer'
 
 const AuthContext = createContext()
 
+// TODO Remove once not needed anymore
 export default AuthContext
 
 Provider.propTypes = {
@@ -20,21 +20,19 @@ export function Provider({ children }) {
         async login(events) {
             const { profile } = await auth.login(events)
 
-            dispatch(login(profile))
+            dispatch([Login, profile])
         },
         async resume(hash) {
             const data = await auth.resume(hash)
 
-            dispatch(resume(data.profile))
+            dispatch([Resume, data.profile])
 
             return data
         },
-        async logout() {
-            await auth.logout()
+        logout() {
+            auth.logout()
 
-            return Promise.resolve().then(() => {
-                dispatch(logout())
-            })
+            dispatch([Logout])
         },
     })
 
@@ -47,21 +45,25 @@ export function Provider({ children }) {
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-// Actions
-const login = createAction('LOGIN')
-const resume = createAction('RESUME')
-const logout = createAction('LOGOUT')
+// Hooks
+export function useAuth() {
+    return useContext(AuthContext)
+}
+
 // Reducer
-function reducer(state, { type, payload }) {
+const Login = Symbol('login')
+const Resume = Symbol('resume')
+const Logout = Symbol('logout')
+function reducer(state, [type, payload]) {
     switch (type) {
-        case 'LOGIN':
-        case 'RESUME':
+        case Login:
+        case Resume:
             return {
                 ...state,
                 isAuthenticated: true,
                 profile: payload,
             }
-        case 'LOGOUT':
+        case Logout:
             return {
                 ...state,
                 isAuthenticated: false,

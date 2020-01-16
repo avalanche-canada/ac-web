@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import { useBoolean } from 'utils/react/hooks'
+import { useBoolean } from 'hooks'
 
 Picker.propTypes = {
     onChange: PropTypes.func.isRequired,

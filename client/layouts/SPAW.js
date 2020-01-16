@@ -1,78 +1,138 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Highlight from 'components/highlight'
+import React, { Fragment } from 'react'
+import { Link, Match, Redirect } from '@reach/router'
 import { Danger, OneLiner } from 'components/alert'
-import { Link, StructuredText } from 'prismic/components/base'
-import { Document } from 'prismic/containers'
-import { spaw } from 'prismic/params'
-import { useSessionStorage } from 'utils/react/hooks'
+import { StructuredText } from 'prismic/components/base'
+import * as Pages from 'components/page'
+import * as Sidebars from 'components/sidebar'
+import * as Async from 'contexts/async'
+import { Loading } from 'components/text'
+import { Tag as BaseTag } from 'components/tag'
+import { Page as PageLayout } from 'layouts/pages'
+import { useVisibility } from 'hooks/session'
+import { useSPAW } from 'prismic/hooks'
+import * as url from 'utils/url'
+import styles from './SPAW.css'
 
-export default function SPAW() {
-    const [hidden, setHidden] = useSessionStorage(
-        'spaw-hidden',
-        false,
-        Boolean,
-        String
-    )
-    function handleDismiss() {
-        setHidden(true)
+export default function Alert() {
+    const [spaw] = useSPAW()
+    const [visible, hide] = useVisibility('spaw')
+
+    if (!spaw || !visible) {
+        return null
     }
 
     return (
-        <Document {...spaw()}>
-            {({ document }) => {
-                if (!document || hidden) {
+        <Match path="/spaw/*">
+            {({ match }) => {
+                if (match) {
                     return null
                 }
 
-                const { link, description } = document.data
-
                 return (
-                    <Highlight>
-                        <Link {...link}>
-                            <Alert onDismiss={handleDismiss}>
-                                <StructuredText value={description} />
-                            </Alert>
-                        </Link>
-                    </Highlight>
+                    <Link to={url.path('/spaw', spaw.uid)}>
+                        <Danger onDismiss={hide}>
+                            <OneLiner>
+                                <StructuredText value={spaw.data.description} />
+                            </OneLiner>
+                        </Danger>
+                    </Link>
                 )
             }}
-        </Document>
+        </Match>
     )
 }
 
-Region.propTypes = {
-    name: PropTypes.string.isRequired,
-    children: PropTypes.func.isRequired,
-}
+export function Page(props) {
+    const uid = props['*']
+    const value = useSPAW()
+    const [spaw] = value
 
-export function Region({ name, children }) {
+    if (spaw && spaw.uid !== uid) {
+        const to = '/spaw/' + spaw.uid
+
+        return <Redirect to={to} />
+    }
+
     return (
-        <Document {...spaw()}>
-            {({ document }) =>
-                document && document.data[name] === 'Yes'
-                    ? children({ document })
-                    : null
-            }
-        </Document>
+        <PageLayout>
+            <Async.Provider value={value}>
+                <Pages.Header
+                    title={
+                        <Fragment>
+                            <Async.Found>
+                                <Tag>In effect</Tag>
+                            </Async.Found>
+                            Special Public Avalanche Warning
+                        </Fragment>
+                    }
+                />
+                <Pages.Content>
+                    <Pages.Main>
+                        <Pages.Headline>
+                            <Async.Pending>
+                                <Loading />
+                            </Async.Pending>
+                            <Async.Empty>
+                                There is currently no Special Public Avalanche
+                                Warning in effect.
+                            </Async.Empty>
+                            <Async.Found>
+                                {spaw => (
+                                    <StructuredText
+                                        value={spaw.data.description}
+                                    />
+                                )}
+                            </Async.Found>
+                        </Pages.Headline>
+                        <Async.Found>
+                            {spaw => (
+                                <StructuredText value={spaw.data.content} />
+                            )}
+                        </Async.Found>
+                    </Pages.Main>
+                    <Pages.Aside>
+                        <Sidebars.Sidebar>
+                            {/* <Sidebars.Item>
+                                    <Link to="/spaw/faq">What is a SPAW?</Link>
+                                </Sidebars.Item> */}
+                            <Sidebars.Contact />
+                            <Async.Found>
+                                <Sidebars.Share />
+                            </Async.Found>
+                        </Sidebars.Sidebar>
+                    </Pages.Aside>
+                </Pages.Content>
+            </Async.Provider>
+        </PageLayout>
     )
 }
 
-Alert.propTypes = {
-    link: PropTypes.object,
-    children: PropTypes.node,
+export function Tag({ children, as = 'strong', region, ...props }) {
+    if (region) {
+        return (
+            <Region id={region}>
+                <Tag as={as} {...props}>
+                    {children}
+                </Tag>
+            </Region>
+        )
+    }
+
+    return (
+        <BaseTag as={as} className={styles.Tag} {...props}>
+            {children || (
+                <Fragment>
+                    <abbr title="Special Public Avalanche Warning">SPAW</abbr>{' '}
+                    In Effect
+                </Fragment>
+            )}
+        </BaseTag>
+    )
 }
 
-export function Alert({
-    children = 'Special Public Avalanche Warning',
-    link,
-    ...rest
-}) {
-    const content = (
-        <Danger {...rest}>
-            <OneLiner>{children}</OneLiner>
-        </Danger>
-    )
+// Utils
+function Region({ id, children }) {
+    const [document] = useSPAW()
 
-    return link ? <Link {...link}>{content}</Link> : content
+    return document?.data?.[id] === 'Yes' ? children : null
 }

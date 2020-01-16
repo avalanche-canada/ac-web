@@ -1,16 +1,21 @@
-import React, { memo } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import * as Hzr from 'layouts/products/hzr'
-import { Container, Navbar, Header, Body, Close } from 'components/page/drawer'
+import {
+    Navbar,
+    Header,
+    Body,
+    Close,
+    DisplayOnMap,
+} from 'components/page/drawer'
 import { Loading } from 'components/text'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
-import { Document } from 'prismic/containers'
-import { HotZone } from 'containers/features'
+import { useAdvisoryMetadata } from 'hooks/async/features'
 import { hotZone } from 'prismic/params'
 import * as utils from 'utils/hzr'
+import { useDocument } from 'prismic/hooks'
 
 HotZoneReportDrawer.propTypes = {
     name: PropTypes.string.isRequired,
@@ -18,71 +23,62 @@ HotZoneReportDrawer.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function HotZoneReportDrawer({ name, onCloseClick, onLocateClick }) {
-    return (
-        <Document {...hotZone.report(name)}>
-            {({ document, pending }) => (
-                <Container>
-                    <Navbar>
-                        <Sponsor label={null} />
-                        <Close onClick={onCloseClick} />
-                    </Navbar>
-                    <Header subject="Avalanche Advisory">
-                        <HotZone name={name}>
-                            {({ data }) => {
-                                const title = utils.title({
-                                    pending,
-                                    report: document,
-                                    hotZone: data,
-                                })
+export default function HotZoneReportDrawer({
+    name,
+    onCloseClick,
+    onLocateClick,
+}) {
+    const [area, areaPending] = useAdvisoryMetadata(name)
+    const [report, reportPending] = useDocument(hotZone.report(name))
+    function title(report, docPending) {
+        if (areaPending || docPending) {
+            return 'Loading...'
+        }
 
-                                return (
-                                    <h1>
-                                        {document ? (
-                                            <Link to={`/advisories/${name}`}>
-                                                {title}
-                                            </Link>
-                                        ) : (
-                                            <span>{title}</span>
-                                        )}
-                                        <DisplayOnMap
-                                            onClick={() =>
-                                                onLocateClick(
-                                                    utils.geometry(data)
-                                                )
-                                            }
-                                        />
-                                    </h1>
-                                )
-                            }}
-                        </HotZone>
-                    </Header>
-                    <Body>
-                        {pending ? (
-                            <Shim horizontal>
-                                <Loading />
-                            </Shim>
-                        ) : (
-                            <Hzr.Report value={document}>
-                                <Shim horizontal>
-                                    <Hzr.Metadata shareable />
-                                    <Hzr.Header />
-                                </Shim>
-                                <Hzr.Gallery />
-                                <Hzr.CriticalFactors />
-                                <Hzr.TerrainAndTravelAdvice />
-                                <Hzr.TerrainAdviceSet />
-                                <Hzr.Footer />
-                            </Hzr.Report>
-                        )}
-                    </Body>
-                </Container>
-            )}
-        </Document>
+        return utils.title({ region: name, report, hotZone: area })
+    }
+
+    return (
+        <Fragment>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={onCloseClick} />
+            </Navbar>
+            <Header subject="Avalanche Advisory">
+                <h1>
+                    {report ? (
+                        <Link to={`/advisories/${name}`}>
+                            {title(report, reportPending)}
+                        </Link>
+                    ) : (
+                        <span>{title(report, reportPending)}</span>
+                    )}
+                    {area && (
+                        <DisplayOnMap
+                            onClick={() => onLocateClick(utils.geometry(area))}
+                        />
+                    )}
+                </h1>
+            </Header>
+            <Body>
+                {reportPending ? (
+                    <Shim horizontal>
+                        <Loading />
+                    </Shim>
+                ) : (
+                    <Hzr.Report value={report}>
+                        <Shim horizontal>
+                            <Hzr.Metadata shareable />
+                            <Hzr.Header />
+                        </Shim>
+                        <Hzr.Gallery />
+                        <Hzr.CriticalFactors />
+                        <Hzr.TerrainAndTravelAdvice />
+                        <Hzr.TerrainAdviceSet />
+                        <Hzr.Footer />
+                    </Hzr.Report>
+                )}
+            </Body>
+        </Fragment>
     )
 }
-
-export default memo(
-    HotZoneReportDrawer,
-    (prev, next) => prev.name === next.name
-)

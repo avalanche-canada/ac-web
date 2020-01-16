@@ -1,7 +1,7 @@
 import { clean } from 'utils/object'
 
 export function href(url) {
-    if (avalancheCanadaPathRegex.test(url)) {
+    if (isAvalancheCanada(url)) {
         return url.replace(avalancheCanadaPathRegex, '') || '/'
     }
 
@@ -16,25 +16,38 @@ export function isExternal(path) {
     return isExternalRegExp.test(path)
 }
 
-export const avalancheCanadaPathRegex = /^(http|https):\/\/(www.|)avalanche.ca/
-export const isExternalRegExp = new RegExp('^(https|http)://')
+export function isAvalancheCanada(path) {
+    if (typeof path !== 'string') {
+        return false
+    }
+
+    return avalancheCanadaPathRegex.test(path)
+}
+
+const avalancheCanadaPathRegex = /^(http|https):\/\/(www.|)avalanche.ca/
+const isExternalRegExp = new RegExp('^(https|http)://')
 
 export function forceHttps(url) {
     return typeof url === 'string' ? url.replace(/^http:/, 'https:') : url
 }
 
 export function build(path, params, base = document.location.origin) {
-    let url = base + path
+    return appendParams(base + path, params)
+}
 
-    if (params) {
-        const search = new URLSearchParams(clean(params))
-
-        url = `${url}?${search.toString()}`
+export function appendParams(url, params) {
+    if (!params) {
+        return url
     }
 
-    return url
+    const search =
+        params instanceof URLSearchParams
+            ? params
+            : new URLSearchParams(clean(params))
+
+    return [url, search.toString()].filter(Boolean).join('?')
 }
 
 export function path(...chunks) {
-    return chunks.filter(Boolean).join('/')
+    return chunks.filter(chunk => chunk != null).join('/')
 }

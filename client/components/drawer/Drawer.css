@@ -12,7 +12,12 @@
     bottom: 0;
     left: 0;
     overflow: hidden;
+    transform: translateX(-100%);
     transition: transform 0.5s ease-in-out;
+
+    &.Open {
+        transform: translateX(0);
+    }
 }
 
 .Drawer {

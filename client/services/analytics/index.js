@@ -1,13 +1,12 @@
 import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { supported } from 'utils/mapbox'
+import { useLocation } from 'router/hooks'
 
 // From: https://developers.google.com/analytics/devguides/collection/analyticsjs/events
 export function handleOutboundSponsorClick(event) {
     navigation('Outbound Sponsor', event.currentTarget.href)
 }
-
-const HEADERS = ['Danger ratings', 'Problems', 'Details']
 
 export function handleForecastTabActivate(index) {
     navigation('Forecast Tab activation', HEADERS[index])
@@ -18,11 +17,11 @@ export function notFound({ pathname }) {
 }
 
 Analytics.propTypes = {
-    location: PropTypes.object.isRequired,
     children: PropTypes.element.isRequired,
 }
 
-export default function Analytics({ location, children }) {
+export default function Analytics({ children }) {
+    const { location } = useLocation()
     useEffect(() => {
         ga('set', 'transport', 'beacon')
         ga('set', MAPBOXGL_SUPPORTED, supported().toString())
@@ -37,6 +36,7 @@ export default function Analytics({ location, children }) {
 
 // Utils and constants
 const { ga } = window
+const HEADERS = ['Danger ratings', 'Problems', 'Details']
 const MAPBOXGL_SUPPORTED = 'dimension1'
 function navigation(...args) {
     ga('send', 'event', 'Navigation', ...args)

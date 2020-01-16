@@ -6,8 +6,8 @@ import {
     useEventListener,
     useTimeout,
     useFullscreen,
-} from 'utils/react/hooks'
-import { Image, OpenInNewTab } from 'components/misc'
+} from 'hooks'
+import { OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import ButtonSet from './ButtonSet'
 import Button from 'components/button'
@@ -30,7 +30,13 @@ export default function Loop({
     dwell = 2000,
     startsAt,
 }) {
-    const [fullscreen, , , toggleFullscreen] = useFullscreen()
+    const [
+        fullscreen,
+        ,
+        ,
+        toggleFullscreen,
+        fullscreenAvailable,
+    ] = useFullscreen()
     const max = urls.length - 1
     const [loading, load, unload] = useBoolean(false)
     const [playing, play, pause, toggle] = useBoolean(false)
@@ -121,12 +127,14 @@ export default function Loop({
                     )}
                     {cursor + 1} of {max + 1}
                 </div>
-                <Button onClick={toggleFullscreen}>
-                    <Icon color={WHITE} />
-                </Button>
+                {fullscreenAvailable && (
+                    <Button onClick={toggleFullscreen}>
+                        <Icon color={WHITE} />
+                    </Button>
+                )}
             </div>
             <OpenInNewTab>
-                <Image
+                <img
                     src={url}
                     onError={unload}
                     onLoad={unload}

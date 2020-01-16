@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
-import { useToggle } from 'utils/react/hooks'
+import classnames from 'classnames'
+import { useToggle } from 'hooks'
 import { Expand } from 'components/button'
-import styles from './Layer.css'
+import css from './Layer.css'
 
 Layer.propTypes = {
     title: PropTypes.string.isRequired,
@@ -15,9 +15,9 @@ Layer.propTypes = {
 
 export default function Layer({ title, visible, icon, onClick, children }) {
     const [expanded, toggle] = useToggle(false)
-    const className = classNames({
-        Layer: !visible,
-        'Layer--Visible': visible,
+    const className = classnames({
+        [css.Layer]: !visible,
+        [css['Layer--Visible']]: visible,
     })
     function handleExpandClick(event) {
         event.stopPropagation()
@@ -27,9 +27,9 @@ export default function Layer({ title, visible, icon, onClick, children }) {
 
     return (
         <div className={className}>
-            <div className={styles.Header} onClick={onClick}>
+            <div className={css.Header} onClick={onClick}>
                 {icon}
-                <span className={styles.Title}>{title}</span>
+                <span className={css.Title}>{title}</span>
                 {children && (
                     <Expand
                         chevron
@@ -42,5 +42,3 @@ export default function Layer({ title, visible, icon, onClick, children }) {
         </div>
     )
 }
-
-const classNames = classnames.bind(styles)

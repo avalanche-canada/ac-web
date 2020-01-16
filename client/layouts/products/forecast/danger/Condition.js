@@ -1,28 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {
-    SPRING,
-    SUMMER,
-    OFF,
-    EARLY_SEASON,
     Texts,
+    EARLY_SEASON,
+    SPRING_SITUATION,
+    OFF_SEASON,
 } from 'constants/forecast/mode'
 import { Generic } from 'prismic/layouts'
 import { domain } from 'assets/config.json'
 import styles from './Danger.css'
 
-//TODO(wnh): Remove either SUMMER or OFF because they are the same
-const HANDLED = new Set([SUMMER, SPRING, OFF, EARLY_SEASON])
-
 Condition.propTypes = {
-    mode: PropTypes.oneOf(Array.from(HANDLED)).isRequired,
+    mode: PropTypes.oneOf([EARLY_SEASON, SPRING_SITUATION, OFF_SEASON])
+        .isRequired,
+    message: PropTypes.element,
+    children: PropTypes.element,
 }
 
-export default function Condition({ mode }) {
-    if (!HANDLED.has(mode)) {
-        return null
-    }
-
+export default function Condition({ mode, message, children }) {
     const text = Texts.get(mode)
 
     return (
@@ -32,25 +27,25 @@ export default function Condition({ mode }) {
                 className={styles.ConditionIcon}
                 title={text}
                 alt={text}
-                src={ICONS.get(mode)}
+                src={ICON_URLS.get(mode)}
             />
             <div className={styles.ConditionContent}>
-                <Generic uid={UIDS.get(mode)} />
+                {message || <Generic uid={PRISMIC_UIDS.get(mode)} />}
             </div>
+            {children}
         </div>
     )
 }
 
 // Constants
-const ICONS = new Map([
-    [EARLY_SEASON, `${domain}images/early_season_icon.svg`],
-    [SPRING, `${domain}images/spring_situation_icon.svg`],
-    [SUMMER, `${domain}images/summer_conditions_icon.svg`],
-    [OFF, `${domain}images/summer_conditions_icon.svg`],
+const IMAGES = domain + 'images/'
+const ICON_URLS = new Map([
+    [EARLY_SEASON, IMAGES + 'early_season_icon.svg'],
+    [SPRING_SITUATION, IMAGES + 'spring_situation_icon.svg'],
+    [OFF_SEASON, IMAGES + 'summer_conditions_icon.svg'],
 ])
-const UIDS = new Map([
+const PRISMIC_UIDS = new Map([
     [EARLY_SEASON, 'forecast-early-season-message'],
-    [SPRING, 'forecast-spring-conditions-message'],
-    [SUMMER, 'forecast-summer-conditions-message'],
-    [OFF, 'forecast-off-season-message'],
+    [SPRING_SITUATION, 'forecast-spring-conditions-message'],
+    [OFF_SEASON, 'forecast-off-season-message'],
 ])

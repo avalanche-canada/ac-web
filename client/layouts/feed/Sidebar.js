@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import { Documents } from 'prismic/containers'
-import { feed } from 'prismic/params'
 import Sidebar, { Header, Item } from 'components/sidebar'
 import { Loading } from 'components/text'
-import { EVENT, NEWS, BLOG, FEED } from 'constants/prismic'
+import { feed } from 'prismic/params'
 import { pathname } from 'router/prismic'
+import { useDocuments } from 'prismic/hooks'
+import { EVENT, NEWS, BLOG, FEED } from 'constants/prismic'
 
 FeedSidebar.propTypes = {
     type: PropTypes.oneOf(FEED).isRequired,
@@ -14,23 +14,13 @@ FeedSidebar.propTypes = {
 }
 
 export default function FeedSidebar(props) {
+    const [documents = [], pending] = useDocuments(feed.sidebar(props))
+
     return (
         <Sidebar share follow>
-            <Documents {...feed.sidebar(props)}>
-                {({ pending, documents }) => {
-                    if (!pending && documents?.length === 0) {
-                        return null
-                    }
-
-                    return (
-                        <Fragment>
-                            <Header>{Headers.get(props.type)}</Header>
-                            {pending && <Loading />}
-                            {documents && documents.map(renderItem)}
-                        </Fragment>
-                    )
-                }}
-            </Documents>
+            <Header>{Headers.get(props.type)}</Header>
+            {pending && <Loading />}
+            {documents.map(renderItem)}
         </Sidebar>
     )
 }

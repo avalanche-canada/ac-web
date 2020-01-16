@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import memoize from 'lodash/memoize'
+import classnames from 'classnames'
 import * as Icons from 'components/icons'
 import styles from './Social.css'
 
@@ -13,10 +13,10 @@ Item.propTypes = {
     link: PropTypes.string.isRequired,
     title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     children: PropTypes.node,
-    style: PropTypes.object,
+    className: PropTypes.string,
 }
 
-export function Item({ link, title, children, style }) {
+export function Item({ link, title, children, className }) {
     const provider = getProvider(link)
     const name = PROVIDER_NAMES.get(provider)
 
@@ -28,11 +28,10 @@ export function Item({ link, title, children, style }) {
 
     return (
         <a
-            className={styles.Item}
+            className={classnames(styles.Item, className)}
             target="_blank"
             href={link}
-            title={title}
-            style={style}>
+            title={title}>
             {PROVIDER_ICONS.get(provider)}
             {children}
         </a>
@@ -51,7 +50,7 @@ export function Set({ children, ...props }) {
 export function createShareUrls(url) {
     return Array.from(SHARE_URL_CREATORS, ([_provider, create]) => create(url))
 }
-const getProvider = memoize(url => {
+function getProvider(url) {
     for (const [provider, regex] of PROVIDER_REGEXES) {
         if (regex.test(url)) {
             return provider
@@ -59,7 +58,7 @@ const getProvider = memoize(url => {
     }
 
     return null
-})
+}
 
 // Constants
 const PROVIDER_REGEXES = new Map([

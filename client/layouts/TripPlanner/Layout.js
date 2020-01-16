@@ -3,7 +3,7 @@ import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import { getGeom } from '@turf/invariant'
 import { Link } from '@reach/router'
-import { Regions } from 'containers/features'
+import { useForecastRegionsMetadata } from 'hooks/async/features'
 import Map from './Map'
 import TripPlanning from './TripPlanning'
 import Forecast from './Forecast'
@@ -11,7 +11,6 @@ import { Home } from 'components/links'
 import Welcome from './panels/Welcome'
 import Drawer, {
     Header,
-    Container,
     Navbar,
     Body,
     DisplayOnMap,
@@ -20,8 +19,10 @@ import Drawer, {
     LEFT,
 } from 'components/page/drawer'
 import * as utils from 'utils/region'
+import { useWindowSize } from 'hooks'
+import { Provider as MapStateProvider } from 'contexts/map/state'
+import { Screen } from 'layouts/pages'
 import styles from './TripPlanner.css'
-import { useWindowSize } from 'utils/react/hooks'
 
 // TODO: Could use Context to simplify implementation
 // TODO: Could use state machine to simplify implementation
@@ -91,8 +92,8 @@ export default class TripPlannerLayout extends PureComponent {
     handleDateChange = date => {
         this.setState({ date })
     }
-    handleMapLoad = ({ target }) => {
-        this.map = target
+    handleMapLoad = map => {
+        this.map = map
     }
     fitBounds = geometry => {
         this.map.fitBounds(bbox(geometry), {
@@ -133,7 +134,7 @@ export default class TripPlannerLayout extends PureComponent {
     }
     renderRightDrawer() {
         return (
-            <Container>
+            <Fragment>
                 <Navbar>
                     <Close onClick={this.handleRightCloseClick} />
                 </Navbar>
@@ -141,7 +142,7 @@ export default class TripPlannerLayout extends PureComponent {
                 <Body>
                     <Forecast id={this.state.region.id} />
                 </Body>
-            </Container>
+            </Fragment>
         )
     }
     renderLeftDrawer(withRegion) {
@@ -158,7 +159,7 @@ export default class TripPlannerLayout extends PureComponent {
         )
 
         return (
-            <Container>
+            <Fragment>
                 <Navbar style={NAVBAR_STYLE}>
                     <Home style={HOME_STYLE}>Back to main map</Home>
                     <Close onClick={this.handleLeftCloseClick} />
@@ -178,7 +179,7 @@ export default class TripPlannerLayout extends PureComponent {
                     {withRegion && this.renderRegionHeader()}
                     {withRegion && <Forecast id={region.id} />}
                 </Body>
-            </Container>
+            </Fragment>
         )
     }
     renderDrawers({ width }) {
@@ -229,15 +230,17 @@ export default class TripPlannerLayout extends PureComponent {
     }
     render() {
         return (
-            <div className={styles.Layout}>
-                <Map
-                    {...this.state}
-                    onLoad={this.handleMapLoad}
-                    onFeaturesSelect={this.handleFeaturesSelect}
-                />
-                <Window>{props => this.renderDrawers(props)}</Window>
-                <Regions>{this.setData}</Regions>
-            </div>
+            <Screen>
+                <MapStateProvider>
+                    <Map
+                        {...this.state}
+                        onLoad={this.handleMapLoad}
+                        onFeaturesSelect={this.handleFeaturesSelect}
+                    />
+                    <Window>{props => this.renderDrawers(props)}</Window>
+                    <Regions>{this.setData}</Regions>
+                </MapStateProvider>
+            </Screen>
         )
     }
 }
@@ -246,6 +249,12 @@ export default class TripPlannerLayout extends PureComponent {
 // TODO Remove that <Window> component
 function Window({ children }) {
     return children(useWindowSize())
+}
+// TODO Remove that component once converted to functionnal component
+function Regions({ children }) {
+    const [data, pending] = useForecastRegionsMetadata()
+
+    return children({ data, pending })
 }
 const NAVBAR_STYLE = {
     justifyContent: 'space-between',

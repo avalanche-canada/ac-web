@@ -1,4 +1,4 @@
-import { status } from 'services/fetch/utils'
+import request from 'utils/fetch'
 import { build } from 'utils/url'
 
 export function mapToSizeFactory(width = 100, height = 100) {
@@ -19,5 +19,5 @@ export function getByTag(tag, options = {}) {
     const path = `/vendor/cloudinary/resources/image/tags/${tag.trim()}`
     const url = build(path, params)
 
-    return fetch(url).then(status)
+    return request(url)
 }

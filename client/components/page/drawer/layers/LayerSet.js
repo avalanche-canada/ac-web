@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Subject from '../Subject'
+import { Subject } from '../'
 import styles from './Layer.css'
 
 LayerSet.propTypes = {

@@ -1,217 +1,127 @@
-import React, { Component, memo, createRef } from 'react'
-import PropTypes from 'prop-types'
-import { Link, Match } from '@reach/router'
+import React, { useState, useEffect, Fragment } from 'react'
+import { Link, Match, Redirect } from '@reach/router'
 import { supported } from 'utils/mapbox'
-import bbox from '@turf/bbox'
-import * as turf from '@turf/helpers'
-import * as react from 'utils/react'
-import Base from './Map'
-import UnsupportedMap from './UnsupportedMap'
-import { captureException } from 'services/sentry'
+import { UnsupportedMap, Screen } from 'layouts/pages'
 import { Warning } from 'components/icons'
-import Primary from './Primary'
-import Secondary from './Secondary'
-import { Menu, ToggleMenu } from './drawers'
+import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
 import externals, { open } from 'router/externals'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
-import * as TYPES from 'constants/drawers'
+import {
+    Provider as MapStateProvider,
+    useMapState,
+    ERRORS,
+} from 'contexts/map/state'
 import { isTouchable } from 'utils/device'
+import { pluralize } from 'utils/string'
+import keycodes from 'constants/keycodes'
+import { useBoolean, useEventListener } from 'hooks'
+import Dialog, { Header, Footer, Body } from 'components/dialog'
+import { Close } from 'components/button'
+import Button from 'components/button'
+import { Details } from 'components/error'
+import Shim from 'components/Shim'
+import shim from 'components/Shim.css'
+import { useMapClickHandler } from './drawers/hooks'
+import { Map as MapComponent, useNavigationControl } from 'hooks/mapbox'
+import {
+    useForecastRegions,
+    useWeatherStations,
+    useMountainConditionReports,
+    useFatalAccidents,
+    useAdvisories,
+    useMountainInformationNetwork,
+    useForecastMarkers,
+} from './layers'
 import styles from './Map.css'
+import typography from 'components/text/Text.css'
 
-const MAX_DRAWER_WIDTH = 500
+export default supported() ? Wrapper : UnsupportedMap
 
-export default class Main extends Component {
-    static propTypes = {
-        navigate: PropTypes.func.isRequired,
-        location: PropTypes.object.isRequired,
-    }
-    state = {
-        hasError: false,
-        width: Math.min(MAX_DRAWER_WIDTH, window.innerWidth),
-    }
-    primary = createRef()
-    secondary = createRef()
-    flyTo() {}
-    fitBounds() {}
-    getSource() {}
-    get offset() {
-        const { width } = this.state
-        let x = 0
+function Wrapper() {
+    return (
+        <LayersProvider>
+            <MenuProvider>
+                <MapStateProvider>
+                    <Main />
+                </MapStateProvider>
+            </MenuProvider>
+        </LayersProvider>
+    )
+}
 
-        if (this.primary?.current?.opened) {
-            x -= width / 2
-        }
+function Main() {
+    const [map, setMap] = useState(null)
+    const handleMapClick = useMapClickHandler(map)
+    const { zoom, center, errors } = useMapState()
+    const options = { zoom: zoom.value, center: center.value }
 
-        if (this.secondary?.current?.opened) {
-            x += width / 2
-        }
-
-        return [x, 0]
-    }
-    handleError = error => {
-        this.setState({ hasError: true }, () => {
-            captureException(error)
-        })
-    }
-    handleLoad = ({ target }) => {
-        Object.assign(this, {
-            flyTo(center) {
-                target.flyTo({
-                    center,
-                    zoom: 13,
-                    offset: this.offset,
-                })
-            },
-            fitBounds(geometry) {
-                target.fitBounds(bbox(geometry), {
-                    offset: this.offset,
-                    padding: 75,
-                    speed: 2.5,
-                })
-            },
-            getSource(id) {
-                return target.getSource(id)
-            },
-        })
-
-        target.on('resize', this.handleResize)
-    }
-    handleFeatureClick = feature => {
-        const { properties } = feature
-
-        if (properties.cluster) {
-            const source = this.getSource(feature.source)
-
-            source.getClusterLeaves(
-                feature.properties.cluster_id,
-                null,
-                null,
-                (error, features) => {
-                    if (error) {
-                        // We do not really care if there is an error
-                        return
-                    }
-
-                    this.fitBounds(turf.featureCollection(features))
-                }
-            )
-        } else {
-            const { type, id } = properties
-
-            if (type === TYPES.FORECASTS && externals.has(id)) {
-                open(id)
-                return
-            }
-
-            let { pathname, search } = this.props.location
-
-            if (PATHS.has(type)) {
-                pathname = `${PATHS.get(type)}/${id}`
-            }
-
-            if (SEARCHS.has(type)) {
-                search = `?panel=${SEARCHS.get(type)}/${id}`
-            }
-
-            this.props.navigate(pathname + search)
-        }
-    }
-    handleMarkerClick = id => {
-        if (externals.has(id)) {
-            open(id)
+    // Initialize map with listeners
+    useEffect(() => {
+        if (!map) {
             return
         }
 
-        const { location } = this.props
-        const path = `${PATHS.get(TYPES.FORECASTS)}/${id}`
-
-        this.props.navigate(path + location.search)
-    }
-    handleResize = event => {
-        const { clientWidth } = event.target.getContainer()
-
-        this.setState({
-            width: Math.min(MAX_DRAWER_WIDTH, clientWidth),
+        map.on('zoomend', () => zoom.set(map.getZoom()))
+        map.on('moveend', () => center.set(map.getCenter()))
+        map.on('error', ({ error }) => {
+            errors.add(ERRORS.MAP, error)
         })
-    }
-    handleLocateClick = ({ geometry }) => {
-        if (geometry.type === 'Point') {
-            this.flyTo(geometry.coordinates)
-        } else {
-            this.fitBounds(geometry)
-        }
-    }
-    openExternalForecast = ({ match }) => {
-        if (match) {
-            const { name } = match
+    }, [map])
 
-            if (externals.has(name)) {
-                const { location, navigate } = this.props
-
-                open(name)
-
-                navigate(location.search)
-            }
+    // Initialize map click handler whenever "map" and the "listener" change
+    useEffect(() => {
+        if (!map) {
+            return
         }
 
-        return null
-    }
-    handlePrimaryCloseClick = () => {
-        const { navigate, location } = this.props
+        map.on('click', handleMapClick)
 
-        navigate(location.search)
-    }
-    handleSecondaryCloseClick = () => {
-        const { navigate, location } = this.props
-
-        navigate(location.pathname)
-    }
-    render() {
-        if (!supported()) {
-            return <UnsupportedMap />
+        return () => {
+            map.off('click', handleMapClick)
         }
+    }, [map, handleMapClick])
 
-        const { width, hasError } = this.state
+    useNavigationControl(map)
 
-        return (
-            <LayersProvider>
-                <MenuProvider>
-                    <div className={styles.Layout}>
-                        <Base
-                            onError={this.handleError}
-                            onLoad={this.handleLoad}
-                            onFeatureClick={this.handleFeatureClick}
-                            onMarkerClick={this.handleMarkerClick}
-                        />
-                        <Primary
-                            ref={this.primary}
-                            width={width}
-                            onLocateClick={this.handleLocateClick}
-                            onCloseClick={this.handlePrimaryCloseClick}
-                        />
-                        <Secondary
-                            ref={this.secondary}
-                            width={width}
-                            onLocateClick={this.handleLocateClick}
-                            onCloseClick={this.handleSecondaryCloseClick}
-                        />
-                        <Menu />
-                        <ToggleMenu />
-                        <LinkControlSet>
-                            {hasError && <ErrorIndicator />}
-                        </LinkControlSet>
-                        <Match path="forecasts/:name">
-                            {this.openExternalForecast}
-                        </Match>
-                    </div>
-                </MenuProvider>
-            </LayersProvider>
-        )
-    }
+    useForecastRegions(map)
+    useWeatherStations(map)
+    useMountainConditionReports(map)
+    useFatalAccidents(map)
+    useAdvisories(map)
+    useMountainInformationNetwork(map)
+    useForecastMarkers(map)
+
+    return (
+        <Screen>
+            <MapComponent
+                ref={setMap}
+                options={options}
+                className={styles.Map}
+            />
+            <Primary map={map} />
+            <Secondary map={map} />
+            <Menu />
+            <ToggleMenu />
+            <LinkControlSet />
+            <Match path="forecasts/:name">{openExternalForecast}</Match>
+        </Screen>
+    )
 }
 
-const LinkControlSet = memo(function LinkControlSet({ children }) {
+// Utils
+function openExternalForecast({ match, location }) {
+    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
+
+    if (!match || !externals.has(match.name)) {
+        return null
+    }
+
+    open(match.name)
+
+    return <Redirect to={'/map' + location.search} />
+}
+function LinkControlSet() {
     return (
         <div className={styles.LinkControlSet}>
             <Link
@@ -226,41 +136,104 @@ const LinkControlSet = memo(function LinkControlSet({ children }) {
                 data-tooltip="Visit the Mountain&#xa;Weather Forecast"
                 data-tooltip-placement="right"
             />
-            {children}
+            <ErrorIndicator />
         </div>
     )
-})
+}
+function ErrorIndicator() {
+    const [opened, open, close] = useBoolean(false)
+    const { errors } = useMapState()
+    const { total } = errors
 
-const ErrorIndicator = react.memo.static(function ErrorIndicator() {
+    if (total === 0) {
+        return null
+    }
+
+    const message = [
+        pluralize('error', total, true),
+        'happened.',
+        isTouchable ? 'Tap' : 'Click',
+        'for more details.',
+    ].join(' ')
+
+    return (
+        <Fragment>
+            <button
+                onClick={open}
+                className={styles.Error}
+                data-tooltip={message}
+                data-tooltip-placement="right">
+                <Warning inverse />
+            </button>
+            <ErrorDialog opened={opened} close={close} />
+        </Fragment>
+    )
+}
+function ErrorDialog({ opened, close }) {
+    const { errors } = useMapState()
+
     function reload() {
         window.location.reload(true)
     }
 
-    return (
-        <button
-            onClick={reload}
-            className={styles.Error}
-            data-tooltip={`An error happened while initializing the map.&#xa;Therefore, some
-            functionnalities might not be available.&#xa;${
-                isTouchable ? 'Tap' : 'Click'
-            } to reload the map.`}
-            data-tooltip-placement="right">
-            <Warning inverse />
-        </button>
-    )
-})
+    useEventListener('keyup', event => {
+        if (keycodes.esc === event.keyCode) {
+            close()
+        }
+    })
 
-// Constants
-const PATHS = new Map([
-    [TYPES.HOT_ZONE_REPORTS, 'advisories'],
-    [TYPES.FORECASTS, 'forecasts'],
-])
-const SEARCHS = new Map([
-    [TYPES.WEATHER_STATION, 'weather-stations'],
+    return (
+        <Dialog open={opened}>
+            <Header>
+                Uh oh! We never thought that would happen...
+                <Close onClick={close} />
+            </Header>
+            <Body>
+                <p>
+                    <strong>
+                        {pluralize('error', errors.total, true) + ' occured.'}
+                    </strong>{' '}
+                    You can still use the map. However, some data might be
+                    missing and behaviour not working as expected. Click on the
+                    arrow for more details.
+                </p>
+                {Array.from(errors.value.entries()).map(([type, errors]) => (
+                    <Details
+                        key={type.description}
+                        summary={SUMMARIES.get(type)}
+                        className={shim.vertical}>
+                        <ul className={typography.Initial}>
+                            {Array.from(errors).map((error, index) => (
+                                <li key={index}>{error.message}</li>
+                            ))}
+                        </ul>
+                    </Details>
+                ))}
+            </Body>
+            <Footer>
+                <Shim right>
+                    <Button onClick={reload}>Reload the page</Button>
+                </Shim>
+                <Button onClick={close}>Close</Button>
+            </Footer>
+        </Dialog>
+    )
+}
+
+const PREFIX = 'A problem happened while loading '
+const SUFFIX = ' data on the map'
+const SUMMARIES = new Map([
+    [ERRORS.MAP, 'A problem happened while showing the map'],
+    [ERRORS.FORECAST, PREFIX + 'forecast' + SUFFIX],
+    [ERRORS.WEATHER_STATION, PREFIX + 'weather station' + SUFFIX],
     [
-        TYPES.MOUNTAIN_INFORMATION_NETWORK,
-        'mountain-information-network-submissions',
+        ERRORS.MOUNTAIN_CONDITIONS_REPORT,
+        PREFIX + 'Mountain Conditions' + SUFFIX,
     ],
-    [TYPES.FATAL_ACCIDENT, 'fatal-accidents'],
-    [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'mountain-conditions-reports'],
+    [ERRORS.INCIDENT, PREFIX + 'incident' + SUFFIX],
+    [ERRORS.ADVISORY, PREFIX + 'advisory' + SUFFIX],
+    [
+        ERRORS.MOUNTAIN_INFORMATION_NETWORK,
+        PREFIX + 'Monutain Information Network (MIN)' + SUFFIX,
+    ],
 ])

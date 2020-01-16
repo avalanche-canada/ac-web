@@ -25,13 +25,15 @@ router.get('/', function(req, res) {
                         return cb(err);
                     }
                     var fmt_reports = reports
-                        .filter(notUndefined)
+                        .filter(Boolean)
                         .map(function(ru) {
                             return mcr_format.formatReportFull(
                                 ru.report,
                                 ru.user
                             );
-                        });
+                        })
+                        // "formatReportFull" can return "undefined"
+                        .filter(Boolean);
                     fmt_reports = fmt_reports.filter(filterToSevenDays);
                     cb(null, fmt_reports);
                 });
@@ -56,10 +58,6 @@ function filterToSevenDays(report) {
     }
     var diff = differenceInDays(new Date(), report.dates[0]);
     return diff <= config.MCR_LIMIT_DAYS;
-}
-
-function notUndefined(x) {
-    return typeof x !== 'undefined';
 }
 
 router.get('/:report_id', function(req, res) {
@@ -89,26 +87,27 @@ function error(res, err) {
         .end();
 }
 
+/*
+ * Gets the report data and user profile for a given MCR "node".
+ * Retuns `undefined` and logs a warning if there is an error fetching either
+ * part.
+ */
 function getReportAndUser(node, cb) {
-    //TODO(wnh): Remove this when the query API goes live
-    if (node.uid === '0') {
-        logger.warn('Skipping Report with user 0', {
-            action: 'MCR::getReportAndUser',
-            nid: node.nid,
+    return getReport(node.nid, function(err_report, value_report){
+        getUser(node.uid, function(err_user, value_user){
+           if (err_report || err_user) {
+               logger.warn('MRC::getReportAndUser skipping due to error',
+                   {node_id: node.nid, user_id: node.uid,
+                    err_report:err_report, err_user:err_user.toString()});
+               cb(null, undefined);
+           } else {
+               cb(null, {
+                    report: value_report,
+                    user:   value_user,
+               });
+           }
         });
-        return cb(null, undefined);
-    }
-    return async.parallel(
-        {
-            report: function(_cb) {
-                return getReport(node.nid, _cb);
-            },
-            user: function(_cb) {
-                return getUser(node.uid, _cb);
-            },
-        },
-        cb
-    );
+    });
 }
 
 function getNodeList(cb) {
@@ -141,7 +140,7 @@ function getJSON(path, qs, cb) {
         if (resp.statusCode !== 200) {
             logger.warn('MCR::getJSON', {
                 msg: 'non 200 from MCR api',
-                status_code: resp.status_code,
+                status_code: resp.statusCode,
                 req_path: path,
             });
             return cb(new Error('Uable to contact upstream api'));
@@ -223,7 +222,7 @@ function getUser(user_id, cb) {
 }
 
 function __getUser(user_id, cb) {
-    logger.debug('MCR::getUser(user_id=%d', user_id);
+    logger.debug('MCR::getUser(user_id=%d)', user_id);
     var path = '/user/' + user_id + '.json';
     return getJSON(path, {}, function(err, data) {
         if (err) {

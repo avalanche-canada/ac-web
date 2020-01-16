@@ -1,24 +1,28 @@
 import React from 'react'
 import { Router } from '@reach/router'
-import Application from 'components/application'
-import SPAW from './SPAW'
-import Footer from 'components/footer'
-import Null from 'components/Null'
-import { NotFound } from 'components/page'
 import Navbar from 'components/navbar'
-import logo from 'styles/AvalancheCanadaFoundation.svg'
+import { SliceZone } from 'prismic/components/base'
+import { Boundary } from 'components/error'
+import { Static } from 'prismic/layouts'
+import * as Pages from 'layouts/pages'
+import { useDocument } from 'prismic/hooks'
+import * as params from 'prismic/params'
+import { STATIC_PAGE } from 'constants/prismic'
+import * as Async from 'contexts/async'
 import menu from /* preval */ '../constants/menus/foundation'
-import { StaticPage } from 'prismic/layouts'
+import logo from 'styles/AvalancheCanadaFoundation.svg'
+import styles from './AvalancheCanadaFoundation.css'
 
-// TODO: Could have an AvCan Foundation not found page, not just a regular one
+// TODO Could have an AvCan Foundation not found page, not just the AvCan one
+// TODO Should provide some museful links to the fallback page
 
 export default function AvalancheCanadaFoundation() {
+    const fallback = <Pages.Fallback navbar={<FoundationNavbar />} />
+
     return (
-        <Application>
-            <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
-            <SPAW />
+        <Boundary fallback={fallback}>
             <Router>
-                <StaticPage path="/" uid="foundation-home" />
+                <Home path="/" />
                 <StaticPage path="about" uid="foundation-about" title="About" />
                 <StaticPage
                     path="programs"
@@ -38,6 +42,7 @@ export default function AvalancheCanadaFoundation() {
                 <StaticPage
                     path="news-and-events"
                     uid="foundation-news-and-events"
+                    className={styles.NewsAndEvents}
                 />
                 <StaticPage
                     path="donate"
@@ -45,13 +50,9 @@ export default function AvalancheCanadaFoundation() {
                     title="Donate to Public Avalanche Safety"
                 />
                 <Funds path="funds/*" />
-                <NotFound default />
+                <Pages.NotFound default navbar={<FoundationNavbar />} />
             </Router>
-            <Router>
-                <Null path="/" />
-                <Footer default />
-            </Router>
-        </Application>
+        </Boundary>
     )
 }
 
@@ -82,4 +83,31 @@ function Funds() {
             <StaticPage path="issw" uid="issw-fund" title="ISSW Fund" />
         </Router>
     )
+}
+
+// Page components
+function Home() {
+    const value = useDocument(params.uid(STATIC_PAGE, 'foundation-home'))
+
+    return (
+        <Pages.Screen navbar={<FoundationNavbar />} className={styles.Home}>
+            <Async.Provider value={value}>
+                <Async.Found>
+                    {paylod => <SliceZone value={paylod.data.content} />}
+                </Async.Found>
+            </Async.Provider>
+        </Pages.Screen>
+    )
+}
+function StaticPage({ uid, title, className }) {
+    return (
+        <Pages.Page navbar={<FoundationNavbar />} className={className}>
+            <Static uid={uid} title={title} />
+        </Pages.Page>
+    )
+}
+
+// Page items
+function FoundationNavbar() {
+    return <Navbar logo={logo} menu={menu} donate="/foundation/donate" />
 }

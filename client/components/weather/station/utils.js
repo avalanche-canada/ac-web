@@ -1,5 +1,4 @@
 import formatDate from 'date-fns/format'
-import memoize from 'lodash/memoize'
 
 export function getDateExtent(data) {
     const dates = data.map(observation => observation.measurementDateTime)
@@ -19,10 +18,6 @@ export function formatHours(date, index) {
 
     return formatDate(date, format)
 }
-
-export const formatForUnit = memoize(function(unit) {
-    return value => `${value} ${unit}`
-})
 
 export const scatterEvents = [
     {

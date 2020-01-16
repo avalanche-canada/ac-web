@@ -1,228 +1,154 @@
-import React, { PureComponent } from 'react'
-import { Documents, Tags } from 'prismic/containers'
+import React, { useMemo } from 'react'
+import { Link } from '@reach/router'
+import format from 'date-fns/format'
 import { feed } from 'prismic/params'
-import { Page, Content, Header, Main } from 'components/page'
-import { stringify } from 'utils/search'
+import { Content, Header, Main } from 'components/page'
+import { Page } from 'layouts/pages'
 import { Loading, Muted } from 'components/text'
 import Shim from 'components/Shim'
 import Pagination from 'components/pagination'
 import EntrySet from './EntrySet'
-import Entry from './Entry'
+import Entry, { SPAW } from './Entry'
 import TagTitle from './TagTitle'
-
 import { DropdownFromOptions as Dropdown } from 'components/controls'
 import { ControlSet, Control } from 'components/form'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
 import { GRAY_LIGHTEST } from 'constants/colors'
+import { useSearch, useTags, useSPAW } from 'prismic/hooks'
+import useParams, {
+    NumberParam,
+    StringParam,
+    PageParam,
+    SetParam,
+    BooleanParam,
+} from 'hooks/params'
+import { useLocation } from 'router/hooks'
 
-// FIXME: Do not parse params, just use them from this.props.location.search
+export function BlogPostFeed({ navigate }) {
+    const [params, stringify] = useParams({
+        page: PageParam,
+        year: NumberParam,
+        month: StringParam,
+        category: StringParam,
+    })
+    const changeHandler = useChangeHandlerFactory(navigate, stringify)
 
-export class NorthRockiesBlogFeed extends PureComponent {
-    state = {
-        page: 1,
-    }
-    handlePageChange = page => this.setState({ page })
-    renderContent = renderContent.bind(this, BLOG)
-    render() {
-        const { page } = this.state
-        const category = 'north-rockies'
-
-        return (
-            <Documents {...feed.blog({ category, page })}>
-                {this.renderContent}
-            </Documents>
-        )
-    }
+    return (
+        <FeedLayout title="Blogs">
+            <ControlSet horizontal>
+                <Control style={CONTROL_STYLE}>
+                    <Dropdown
+                        value={params.category}
+                        onChange={changeHandler('category', 1)}
+                        options={CategoryOptions}
+                        placeholder={CategoryOptions.get()}
+                    />
+                </Control>
+                <Control style={CONTROL_STYLE}>
+                    <Dropdown
+                        value={params.year}
+                        onChange={changeHandler('year', 1)}
+                        options={YearOptions}
+                        placeholder={YearOptions.get()}
+                    />
+                </Control>
+                <Control style={CONTROL_STYLE}>
+                    <Dropdown
+                        value={params.month}
+                        onChange={changeHandler('month', 1)}
+                        options={MonthsOptions}
+                        placeholder={MonthsOptions.get()}
+                    />
+                </Control>
+            </ControlSet>
+            <FeedContent
+                params={feed.blog(params)}
+                type={BLOG}
+                onPageChange={changeHandler('page')}
+            />
+        </FeedLayout>
+    )
 }
 
-export class BlogPostFeed extends PureComponent {
-    state = this.parseParams(this.props.location.search)
-    parseParams(search) {
-        const params = new URLSearchParams(search)
+export function NewsFeed({ navigate }) {
+    const [params, stringify] = useParams({
+        page: PageParam,
+        year: NumberParam,
+        month: StringParam,
+        tags: SetParam,
+    })
+    const changeHandler = useChangeHandlerFactory(navigate, stringify)
 
-        return {
-            page: params.has('page') ? Number(params.get('page')) : 1,
-            year: params.has('year') ? Number(params.get('year')) : undefined,
-            month: params.get('month'),
-            category: params.get('category'),
-        }
-    }
-    componentDidUpdate({ location }) {
-        if (location.search !== this.props.location.search) {
-            this.setState(this.parseParams(this.props.location.search))
-        }
-    }
-    handleYearChange = handleYearChange.bind(this)
-    handleMonthChange = handleMonthChange.bind(this)
-    handleCategoryChange = handleCategoryChange.bind(this)
-    handlePageChange = handlePageChange.bind(this)
-    renderContent = renderContent.bind(this, BLOG)
-    render() {
-        const { category, year, month } = this.state
-
-        return (
-            <FeedLayout title="Blogs">
-                <ControlSet horizontal>
-                    <Control style={CONTROL_STYLE}>
-                        <Dropdown
-                            value={category}
-                            onChange={this.handleCategoryChange}
-                            options={CategoryOptions}
-                            placeholder={CategoryOptions.get()}
-                        />
-                    </Control>
-                    <Control style={CONTROL_STYLE}>
-                        <Dropdown
-                            value={year}
-                            onChange={this.handleYearChange}
-                            options={YearOptions}
-                            placeholder={YearOptions.get()}
-                        />
-                    </Control>
-                    <Control style={CONTROL_STYLE}>
-                        <Dropdown
-                            value={month}
-                            onChange={this.handleMonthChange}
-                            options={MonthsOptions}
-                            placeholder={MonthsOptions.get()}
-                        />
-                    </Control>
-                </ControlSet>
-                <Documents {...feed.blog(this.state)}>
-                    {this.renderContent}
-                </Documents>
-            </FeedLayout>
-        )
-    }
+    return (
+        <FeedLayout title="Recent news">
+            <ControlSet horizontal>
+                <Control style={CONTROL_STYLE}>
+                    <Dropdown
+                        value={params.year}
+                        onChange={changeHandler('year', 1)}
+                        options={YearOptions}
+                        placeholder={YearOptions.get()}
+                    />
+                </Control>
+                <Control style={CONTROL_STYLE}>
+                    <Dropdown
+                        value={params.month}
+                        onChange={changeHandler('month', 1)}
+                        options={MonthsOptions}
+                        placeholder={MonthsOptions.get()}
+                    />
+                </Control>
+                <Control style={CONTROL_STYLE}>
+                    <TagsDropdown
+                        type={NEWS}
+                        value={params.tags}
+                        onChange={changeHandler('tags', 1)}
+                    />
+                </Control>
+            </ControlSet>
+            <FeedContent
+                type={NEWS}
+                params={feed.news(params)}
+                onPageChange={changeHandler('page')}
+            />
+        </FeedLayout>
+    )
 }
 
-export class NewsFeed extends PureComponent {
-    state = this.parseParams(this.props.location.search)
-    parseParams(search) {
-        const params = new URLSearchParams(search)
+export function EventFeed({ navigate }) {
+    const [params, stringify] = useParams({
+        page: PageParam,
+        past: BooleanParam,
+        tags: SetParam,
+    })
+    const changeHandler = useChangeHandlerFactory(navigate, stringify)
 
-        return {
-            page: params.has('page') ? Number(params.get('page')) : 1,
-            year: params.has('year') ? Number(params.get('year')) : undefined,
-            month: params.get('month'),
-            tags: params.has('tags')
-                ? new Set(sanitizeTags(params.getAll('tags')))
-                : new Set(),
-        }
-    }
-    componentDidUpdate({ location }) {
-        if (location.search !== this.props.location.search) {
-            this.setState(this.parseParams(this.props.location.search))
-        }
-    }
-    handleYearChange = handleYearChange.bind(this)
-    handleMonthChange = handleMonthChange.bind(this)
-    handleTagChange = handleTagChange.bind(this)
-    handlePageChange = handlePageChange.bind(this)
-    renderContent = renderContent.bind(this, NEWS)
-    render() {
-        const { year, month, tags } = this.state
-
-        return (
-            <FeedLayout title="Recent news">
-                <ControlSet horizontal>
-                    <Control style={CONTROL_STYLE}>
-                        <Dropdown
-                            value={year}
-                            onChange={this.handleYearChange}
-                            options={YearOptions}
-                            placeholder={YearOptions.get()}
-                        />
-                    </Control>
-                    <Control style={CONTROL_STYLE}>
-                        <Dropdown
-                            value={month}
-                            onChange={this.handleMonthChange}
-                            options={MonthsOptions}
-                            placeholder={MonthsOptions.get()}
-                        />
-                    </Control>
-                    <Control style={CONTROL_STYLE}>
-                        <Tags type={NEWS}>
-                            {props => (
-                                <Dropdown
-                                    value={tags}
-                                    onChange={this.handleTagChange}
-                                    options={convertTagsToOptions(props.tags)}
-                                    placeholder="All tags"
-                                />
-                            )}
-                        </Tags>
-                    </Control>
-                </ControlSet>
-                <Documents {...feed.news(this.state)}>
-                    {this.renderContent}
-                </Documents>
-            </FeedLayout>
-        )
-    }
-}
-
-export class EventFeed extends PureComponent {
-    state = this.parseParams(this.props.location.search)
-    parseParams(search) {
-        const params = new URLSearchParams(search)
-
-        return {
-            page: params.has('page') ? Number(params.get('page')) : 1,
-            timeline: params.has('timeline')
-                ? params.get('timeline') === PAST
-                    ? PAST
-                    : UPCOMING
-                : UPCOMING,
-            tags: params.has('tags')
-                ? new Set(sanitizeTags(params.getAll('tags')))
-                : new Set(),
-        }
-    }
-    componentDidUpdate({ location }) {
-        if (location.search !== this.props.location.search) {
-            this.setState(this.parseParams(this.props.location.search))
-        }
-    }
-    handleTimelineChange = handleTimelineChange.bind(this)
-    handleTagChange = handleTagChange.bind(this)
-    handlePageChange = handlePageChange.bind(this)
-    renderContent = renderContent.bind(this, EVENT)
-    render() {
-        const { timeline, tags, page } = this.state
-
-        return (
-            <FeedLayout title="Events">
-                <ControlSet horizontal>
-                    <Control style={CONTROL_STYLE}>
-                        <Dropdown
-                            value={timeline}
-                            onChange={this.handleTimelineChange}
-                            options={TimelineOptions}
-                            placeholder={TimelineOptions.get()}
-                        />
-                    </Control>
-                    <Control style={CONTROL_STYLE}>
-                        <Tags type={EVENT}>
-                            {props => (
-                                <Dropdown
-                                    value={new Set(tags)}
-                                    onChange={this.handleTagChange}
-                                    options={convertTagsToOptions(props.tags)}
-                                    placeholder="All tags"
-                                />
-                            )}
-                        </Tags>
-                    </Control>
-                </ControlSet>
-                <Documents
-                    {...feed.events({ tags, past: timeline === PAST, page })}>
-                    {this.renderContent}
-                </Documents>
-            </FeedLayout>
-        )
-    }
+    return (
+        <FeedLayout title="Events">
+            <ControlSet horizontal>
+                <Control style={CONTROL_STYLE}>
+                    <Dropdown
+                        value={params.past}
+                        onChange={changeHandler('past', 1)}
+                        options={TimelineOptions}
+                        placeholder={TimelineOptions.get(params.past)}
+                    />
+                </Control>
+                <Control style={CONTROL_STYLE}>
+                    <TagsDropdown
+                        type={EVENT}
+                        value={params.tags}
+                        onChange={changeHandler('tags', 1)}
+                    />
+                </Control>
+            </ControlSet>
+            <FeedContent
+                type={EVENT}
+                params={feed.events(params)}
+                onPageChange={changeHandler('page')}
+            />
+        </FeedLayout>
+    )
 }
 
 // Components
@@ -236,76 +162,87 @@ function FeedLayout({ title, children }) {
         </Page>
     )
 }
+function FeedContent({ params, type, onPageChange }) {
+    const { location } = useLocation()
+    const [data = {}, pending] = useSearch(params)
+    const [spaw] = useSPAW()
+    const { results = [], page, total_pages } = data
+    let rearranged = results
 
-function FeedContent({
-    loading,
-    documents,
-    page,
-    totalPages,
-    onPageChange,
-    type,
-}) {
-    if (page === 1 && documents && documents.some(isFeaturedPost)) {
-        const featured = documents.find(isFeaturedPost)
+    if (page === 1 && rearranged.some(isFeaturedPost)) {
+        const featured = rearranged.find(isFeaturedPost)
 
-        documents = documents.filter(post => featured !== post)
+        rearranged = rearranged.filter(post => featured !== post)
 
-        documents.unshift(featured)
+        rearranged.unshift(featured)
     }
 
     return (
         <Shim vertical>
-            {loading ? (
+            {pending ? (
                 <Loading />
-            ) : documents?.length === 0 ? (
-                <Muted>{EMPTY_MESSAGES.get(type)}</Muted>
+            ) : results.length === 0 ? (
+                <Muted>
+                    No {TYPE_TEXT.get(type)} match your criteria. You can{' '}
+                    <Link to={location.pathname}>reset your criteria</Link> to
+                    find more articles.
+                </Muted>
             ) : null}
-            {documents && <EntrySet>{documents.map(renderEntry)}</EntrySet>}
+            <EntrySet>
+                {Boolean(spaw && type === NEWS) && <SPAW {...spaw.data}></SPAW>}
+                {rearranged.map(post => (
+                    <Entry key={post.uid} {...post} />
+                ))}
+            </EntrySet>
             <Pagination
                 active={page}
                 onChange={onPageChange}
-                total={totalPages}
+                total={total_pages}
             />
         </Shim>
+    )
+}
+function TagsDropdown({ type, value, onChange }) {
+    const [tags] = useTags(type)
+    const options = useMemo(
+        () =>
+            new Map(
+                Array.from(tags || [], tag => [tag, <TagTitle value={tag} />])
+            ),
+        [tags]
+    )
+
+    return (
+        <Dropdown
+            value={value}
+            onChange={onChange}
+            options={options}
+            placeholder="All tags"
+        />
     )
 }
 
 // Constants
 const CURRENT_YEAR = new Date().getFullYear()
-const EMPTY_MESSAGES = new Map([
-    [BLOG, 'No blog match your criteria.'],
-    [NEWS, 'No news post match your criteria.'],
-    [EVENT, 'No event match your criteria.'],
-])
+const TYPE_TEXT = new Map([[BLOG, 'blog'], [NEWS, 'news'], [EVENT, 'event']])
 const YearOptions = new Map([
     [undefined, 'All years'],
-    ...Array(CURRENT_YEAR - 2012)
+    ...Array(CURRENT_YEAR - 2012) // We are are going back to 2013!
         .fill(CURRENT_YEAR)
         .map((value, index) => value - index)
         .map(year => [year, String(year)]),
 ])
 const MonthsOptions = new Map([
     [undefined, 'All Months'],
-    ['january', 'January'],
-    ['february', 'February'],
-    ['march', 'March'],
-    ['april', 'April'],
-    ['may', 'May'],
-    ['june', 'June'],
-    ['july', 'July'],
-    ['august', 'August'],
-    ['september', 'September'],
-    ['october', 'October'],
-    ['november', 'November'],
-    ['december', 'December'],
+    ...Array(12)
+        .fill(0)
+        .map((value, index) => format(new Date(1, index, 1), 'MMMM'))
+        .map(string => [string.toLowerCase(), string]),
 ])
 
-const PAST = 'past'
-const UPCOMING = 'upcoming'
-
 const TimelineOptions = new Map([
-    [UPCOMING, 'Upcoming events'],
-    [PAST, 'Past events'],
+    [false, 'Upcoming events'],
+    [true, 'Past events'],
 ])
 const CategoryOptions = new Map([
     ['forecaster blog', 'Forecaster blog'],
@@ -316,56 +253,18 @@ const CategoryOptions = new Map([
 ])
 
 // Utils
-function renderEntry(post) {
-    return <Entry key={post.uid} {...post} />
-}
-function serialize() {
-    const { page } = this.state
-    const search = stringify({
-        ...this.state,
-        page: page > 1 ? page : undefined,
-    })
-
-    this.props.navigate(search)
-}
-function sanitizeTags(tags) {
-    return typeof tags === 'string' ? [tags] : tags
-}
-function handleYearChange(year) {
-    this.setState({ year, page: 1 }, serialize)
-}
-function handleMonthChange(month) {
-    this.setState({ month, page: 1 }, serialize)
-}
-function handleCategoryChange(category) {
-    this.setState({ category, page: 1 }, serialize)
-}
-function handlePageChange(page) {
-    this.setState({ page }, serialize)
-}
-function handleTagChange(tags) {
-    this.setState({ tags, page: 1 }, serialize)
-}
-function handleTimelineChange(timeline) {
-    this.setState({ timeline, page: 1 }, serialize)
-}
-function renderContent(type, { pending, documents, page, total_pages }) {
-    return (
-        <FeedContent
-            type={type}
-            loading={pending}
-            documents={documents}
-            page={page}
-            totalPages={total_pages}
-            onPageChange={this.handlePageChange}
-        />
-    )
-}
-function convertTagsToOptions(tags) {
-    return new Map(Array.from(tags, tag => [tag, <TagTitle value={tag} />]))
-}
 function isFeaturedPost({ tags }) {
     return tags.includes('featured')
+}
+
+// That super awesome function could be moved to "hooks/params" to generate handlers...
+// But need some experience with it to know exactly what these handlers should do
+function useChangeHandlerFactory(navigate, stringify) {
+    return function(key, page) {
+        return function(value) {
+            return navigate(stringify({ page, [key]: value }))
+        }
+    }
 }
 
 // Styles

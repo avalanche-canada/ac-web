@@ -15,8 +15,12 @@ var avalx = require('../forecasts/avalx');
 var logger = require('../../logger');
 var pg_utils = require('../../lib/pg_utils');
 
+var avid = require('./avid')
+
 var BULLETIN_NOT_FOUND = 'BULLETIN_NOT_FOUND';
+
 var NEW_AVALX_START_DATE = '2016-10-01';
+var AVID_START_DATE      = '2019-11-22';
 
 
 const db_config = pg_utils.configFromUrl(config.BULLETIN_ARCHIVE_DB);
@@ -174,12 +178,15 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
         }
     }
     var avalxFn = undefined;
-    if (date.isBefore(NEW_AVALX_START_DATE)) {
-        logger.debug('BULLETIN_ARCHIVE - Using OLD avalx');
-        avalxFn = oldAvalx;
-    } else {
+    if (date.isAfter(AVID_START_DATE)) {
+        logger.debug('BULLETIN_ARCHIVE - Using AvID');
+        avalxFn = avid.getAvid;
+    } else if (date.isAfter(NEW_AVALX_START_DATE)) {
         logger.debug('BULLETIN_ARCHIVE - Using NEW avalx');
         avalxFn = newAvalx;
+    } else {
+        logger.debug('BULLETIN_ARCHIVE - Using OLD avalx');
+        avalxFn = oldAvalx;
     }
     return avalxFn(req.params.region, req.params.date, function(err, data){
         logger.debug("running from the unified callback!")

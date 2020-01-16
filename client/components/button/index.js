@@ -1,9 +1,6 @@
-import React, { createElement } from 'react'
-import * as router from '@reach/router'
-import classnames from 'classnames/bind'
+import React from 'react'
 import Button from './Button'
 import { TERTIARY } from './kinds'
-import styles from './Button.css'
 
 export default from './Button'
 
@@ -22,18 +19,3 @@ export function Reset(props) {
 export function Submit(props) {
     return <Button {...props} type="submit" />
 }
-
-export function Link({ children, chevron, ...props }) {
-    return createElement(
-        router.Link,
-        Object.assign(props, {
-            className: classNames({
-                Primary: true,
-                Chevron: chevron,
-            }),
-        }),
-        children
-    )
-}
-
-const classNames = classnames.bind(styles)

@@ -1,21 +1,20 @@
-import React, { Fragment, memo } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import {
     Header,
-    Container,
     Body,
-    Content,
     Navbar,
     Close,
+    DisplayOnMap,
 } from 'components/page/drawer'
 import { point } from '@turf/helpers'
 import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
-import { Document } from 'prismic/containers'
 import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
-import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
+import { useDocument } from 'prismic/hooks'
+import Shim from 'components/Shim'
 
 FatalAccident.propTypes = {
     id: PropTypes.string.isRequired,
@@ -23,66 +22,56 @@ FatalAccident.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function FatalAccident({ id, onCloseClick, onLocateClick }) {
-    return (
-        <Document {...fatal.accident(id)}>
-            {({ document, pending }) => (
-                <Container>
-                    <Navbar>
-                        <Close onClick={onCloseClick} />
-                    </Navbar>
-                    <Header subject="Fatal Recreational Accident">
-                        {document && (
-                            <h1>
-                                <span>{document.data.title}</span>
-                                <DisplayOnMap
-                                    onClick={() => {
-                                        const {
-                                            longitude,
-                                            latitude,
-                                        } = document.data.location
+export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
+    const [document, pending] = useDocument(fatal.accident(id))
 
-                                        onLocateClick(
-                                            point([longitude, latitude])
-                                        )
-                                    }}
-                                />
-                            </h1>
-                        )}
-                    </Header>
-                    <Body>
-                        <Content>
-                            {pending ? (
-                                <Loading>
-                                    Loading fatal recreational accident...
-                                </Loading>
-                            ) : document ? (
-                                <Fragment>
-                                    <Metadata>
-                                        <Entry term="Accident date">
-                                            <DateTime
-                                                value={
-                                                    document.data.dateOfAccident
-                                                }
-                                            />
-                                        </Entry>
-                                    </Metadata>
-                                    <StructuredText
-                                        value={document.data.content}
+    return (
+        <Fragment>
+            <Navbar>
+                <Close onClick={onCloseClick} />
+            </Navbar>
+            <Header subject="Fatal Recreational Accident">
+                {document && (
+                    <h1>
+                        <span>{document.data.title}</span>
+                        <DisplayOnMap
+                            onClick={() => {
+                                const {
+                                    longitude,
+                                    latitude,
+                                } = document.data.location
+
+                                onLocateClick(point([longitude, latitude]))
+                            }}
+                        />
+                    </h1>
+                )}
+            </Header>
+            <Body>
+                <Shim horizontal>
+                    {pending ? (
+                        <Loading>
+                            Loading fatal recreational accident...
+                        </Loading>
+                    ) : document ? (
+                        <Fragment>
+                            <Metadata>
+                                <Entry term="Accident date">
+                                    <DateTime
+                                        value={document.data.dateOfAccident}
                                     />
-                                </Fragment>
-                            ) : (
-                                <Muted>
-                                    Fatal recreational accident "{id}" is not
-                                    available anymore.
-                                </Muted>
-                            )}
-                        </Content>
-                    </Body>
-                </Container>
-            )}
-        </Document>
+                                </Entry>
+                            </Metadata>
+                            <StructuredText value={document.data.content} />
+                        </Fragment>
+                    ) : (
+                        <Muted>
+                            Fatal recreational accident "{id}" is not available
+                            anymore.
+                        </Muted>
+                    )}
+                </Shim>
+            </Body>
+        </Fragment>
     )
 }
-
-export default memo(FatalAccident, (prev, next) => prev.id === next.id)

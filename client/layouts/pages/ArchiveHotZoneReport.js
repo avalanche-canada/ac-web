@@ -1,21 +1,21 @@
-import React, { useReducer, Fragment } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { navigate } from '@reach/router'
-import { HotZones } from 'containers/features'
-import { Report } from 'layouts/products/hzr'
-import { Page, Content, Header, Main } from 'components/page'
+import startOfDay from 'date-fns/start_of_day'
+import endOfDay from 'date-fns/end_of_day'
+import eachDay from 'date-fns/each_day'
+import { Content, Header, Main } from 'components/page'
+import { Page } from 'layouts/pages'
 import { Muted } from 'components/text'
 import { Loading } from 'components/text'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
-import formatDate from 'date-fns/format'
-import startOfDay from 'date-fns/start_of_day'
-import endOfDay from 'date-fns/end_of_day'
-import eachDay from 'date-fns/each_day'
-import { Document, Documents } from 'prismic/containers'
+import { DateElement } from 'components/time'
+import { Report } from 'layouts/products/hzr'
 import { hotZone } from 'prismic/params'
-import { DATE } from 'utils/date'
-import { merger } from 'utils/reducer'
+import { useDocuments, useDocument } from 'prismic/hooks'
+import { DateParam } from 'hooks/params'
+import * as urls from 'utils/url'
 
 ArchiveHotZoneReport.propTypes = {
     name: PropTypes.string,
@@ -23,22 +23,20 @@ ArchiveHotZoneReport.propTypes = {
 }
 
 export default function ArchiveHotZoneReport(props) {
-    const [{ name, date, month }, setState] = useReducer(
-        merger,
-        Object.assign({}, props, {
-            month: props.date || new Date(),
-        })
-    )
+    const [{ name, date, month }, setState] = useState({
+        ...props,
+        month: props.date || new Date(),
+    })
     function handleNameChange(name) {
-        setState({ name })
+        setState(state => ({ ...state, name }))
         navigateToAdvisory(name, date)
     }
     function handleDateChange(date) {
-        setState({ date })
+        setState(state => ({ ...state, date }))
         navigateToAdvisory(name, date)
     }
     function handleMonthChange(month) {
-        setState({ month })
+        setState(state => ({ ...state, month }))
     }
 
     return (
@@ -48,9 +46,12 @@ export default function ArchiveHotZoneReport(props) {
                 <Main>
                     <Metadata>
                         <Entry>
-                            <HotZonesDropdown
+                            <Dropdown
+                                options={AREAS}
                                 value={name}
                                 onChange={handleNameChange}
+                                disabled
+                                placeholder="Select an area"
                             />
                         </Entry>
                         {name && (
@@ -74,35 +75,21 @@ export default function ArchiveHotZoneReport(props) {
 
 // Utils
 function AdvisoryDayPicker({ name, date, month, onDateChange, onMonthChange }) {
-    return (
-        <Documents {...hotZone.reports.monthly(name, month)}>
-            {({ documents = [] }) => {
-                const days = documents.reduce(monthReducer, new Set())
+    const [documents = []] = useDocuments(hotZone.reports.monthly(name, month))
+    const days = documents.reduce(monthReducer, new Set())
 
-                return (
-                    <DayPicker
-                        date={date}
-                        placeholder="Select a date"
-                        onChange={onDateChange}
-                        onMonthChange={onMonthChange}
-                        disabledDays={day =>
-                            !days.has(startOfDay(day).getTime())
-                        }
-                    />
-                )
-            }}
-        </Documents>
+    return (
+        <DayPicker
+            date={date}
+            placeholder="Select a date"
+            onChange={onDateChange}
+            onMonthChange={onMonthChange}
+            disabledDays={day => !days.has(startOfDay(day).getTime())}
+        />
     )
 }
 function navigateToAdvisory(name, date) {
-    const paths = [
-        '/advisories',
-        'archives',
-        name,
-        date && formatDate(date, 'YYYY-MM-DD'),
-    ]
-
-    navigate(paths.filter(Boolean).join('/'))
+    navigate(urls.path('/advisories/archives', name, DateParam.format(date)))
 }
 function monthReducer(days, { data }) {
     const start = startOfDay(data.dateOfIssue)
@@ -114,25 +101,14 @@ function monthReducer(days, { data }) {
 
     return days
 }
-function HotZonesDropdown({ value, onChange }) {
-    return (
-        <HotZones all>
-            {({ data }) =>
-                data ? (
-                    <Dropdown
-                        options={new Map(data.map(createZoneOption))}
-                        value={value}
-                        onChange={onChange}
-                        disabled
-                        placeholder="Select an area"
-                    />
-                ) : (
-                    'Loading...'
-                )
-            }
-        </HotZones>
-    )
-}
+// FIXME Hardcoding areas for now. Need a better way to get historical data.
+const AREAS = new Map([
+    ['hankin-evelyn', 'Hankin-Evelyn'],
+    ['kakwa', 'Kakwa'],
+    ['renshaw', 'Renshaw'],
+    ['telkwa', 'Telkwa'],
+    ['yukon', 'Yukon'],
+])
 function ArchiveContent({ name, date }) {
     if (!name) {
         return <Muted>Select an area.</Muted>
@@ -142,28 +118,18 @@ function ArchiveContent({ name, date }) {
         return <Muted>Select a date for the {name} area.</Muted>
     }
 
-    if (name && date) {
-        return (
-            <Document {...hotZone.report(name, date)}>
-                {({ document, pending }) => (
-                    <Fragment>
-                        {pending ? (
-                            <Loading />
-                        ) : document ? null : (
-                            <Muted>
-                                {`No advisory available in ${name} for ${formatDate(
-                                    date,
-                                    DATE
-                                )}.`}
-                            </Muted>
-                        )}
-                        <Report value={document} />
-                    </Fragment>
-                )}
-            </Document>
-        )
-    }
+    return <Advisory name={name} date={date} />
 }
-function createZoneOption({ id, name }) {
-    return [id, name]
+function Advisory({ name, date }) {
+    const [document, pending] = useDocument(hotZone.report(name, date))
+
+    return pending ? (
+        <Loading />
+    ) : document ? (
+        <Report value={document} />
+    ) : (
+        <Muted>
+            No advisory available in {name} for <DateElement value={date} />.
+        </Muted>
+    )
 }

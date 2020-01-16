@@ -8,7 +8,6 @@ import Menu from './Menu'
 import Section from './Section'
 import Header from './Header'
 import Link from './Link'
-import ColumnSet from './ColumnSet'
 
 const avatar = 'https://avatars1.githubusercontent.com/u/744011?v=3&s=40'
 const onBurgerClick = action('onBurgerClick')

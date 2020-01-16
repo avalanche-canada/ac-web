@@ -1,3 +1,3 @@
 export Splash from './Splash'
-export Post, { NorthRockies } from './Post'
-export { BlogPostFeed, NewsFeed, EventFeed, NorthRockiesBlogFeed } from './Feed'
+export Post from './Post'
+export { BlogPostFeed, NewsFeed, EventFeed } from './Feed'

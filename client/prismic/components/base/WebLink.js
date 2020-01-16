@@ -1,12 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import {
-    avalancheCanadaPathRegex,
-    isExternalRegExp,
-    forceHttps,
-    href,
-} from 'utils/url'
+import { isAvalancheCanada, isExternal, forceHttps, href } from 'utils/url'
 
 // TODO: Rework links props. Should be simplified.
 // Links are used in StructuredText and as standalone types.
@@ -18,7 +13,7 @@ WebLink.propTypes = {
 }
 
 export default function WebLink({ children, url, ...props }) {
-    if (avalancheCanadaPathRegex.test(url)) {
+    if (isAvalancheCanada(url)) {
         if (FXResourcesRegex.test(url)) {
             return (
                 <a {...props} href={forceHttps(url)} target="fxresources">
@@ -40,7 +35,7 @@ export default function WebLink({ children, url, ...props }) {
         }
     }
 
-    const target = isExternalRegExp.test(url) ? '_blank' : undefined
+    const target = isExternal(url) ? '_blank' : undefined
 
     return (
         <a href={url} target={target} {...props}>

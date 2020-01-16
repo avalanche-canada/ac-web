@@ -1,7 +1,7 @@
 export Sponsor from './Sponsor'
 export Ribbon from './Ribbon'
 export InnerHTML from './InnerHTML'
-export Image, { OpenInNewTab } from './Image'
+export { OpenInNewTab } from './Image'
 export Position from './Position'
 export Credit from './Credit'
 export Br from './Br'

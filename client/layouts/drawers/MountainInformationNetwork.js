@@ -1,15 +1,21 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
-import { Container, Header, Body, Navbar, Close } from 'components/page/drawer'
+import {
+    Header,
+    Body,
+    Navbar,
+    Close,
+    DisplayOnMap,
+} from 'components/page/drawer'
 import Shim from 'components/Shim'
 import { Submission, Metadata, TabSet, Gallery } from 'layouts/products/min'
-import { Loading } from 'components/text'
-import { Report } from 'containers/min'
-import { path } from 'utils/min'
+import { Loading, Warning } from 'components/text'
+import { submission } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
-import DisplayOnMap from 'components/page/drawer/DisplayOnMap'
+import { Provider, Pending, Found, NotFound } from 'contexts/async'
 import { point } from '@turf/helpers'
+import { useReport } from 'hooks/async/min'
 
 MountainInformationNetwork.propTypes = {
     id: PropTypes.string.isRequired,
@@ -17,38 +23,43 @@ MountainInformationNetwork.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function MountainInformationNetwork({ id, onCloseClick, onLocateClick }) {
+export default function MountainInformationNetwork({
+    id,
+    onCloseClick,
+    onLocateClick,
+}) {
     return (
-        <Report id={id}>
-            {({ pending, data }) => (
-                <Container>
-                    <Navbar>
-                        <Sponsor label={null} />
-                        <Close onClick={onCloseClick} />
-                    </Navbar>
-                    <Header subject="Mountain Information Network">
-                        <h1>
-                            <Link to={path(id)}>
-                                {data?.title || (pending ? 'Loading...' : null)}
-                            </Link>
-                            {data && (
-                                <DisplayOnMap
-                                    onClick={() =>
-                                        onLocateClick(point(data.lnglat))
-                                    }
-                                />
-                            )}
-                        </h1>
-                    </Header>
-                    <Body>
-                        <Submission value={data}>
+        <Provider value={useReport(id)}>
+            <Navbar>
+                <Sponsor label={null} />
+                <Close onClick={onCloseClick} />
+            </Navbar>
+            <Header subject="Mountain Information Network">
+                <Pending>
+                    <Loading as="h1" />
+                </Pending>
+                <Found>
+                    <ReportTitle onLocateClick={onLocateClick} />
+                </Found>
+                <NotFound>
+                    <Warning as="h1">Report not found.</Warning>
+                </NotFound>
+            </Header>
+            <Body>
+                <Shim horizontal>
+                    <Pending>
+                        <Loading>
+                            Loading Mountain Information Network report...
+                        </Loading>
+                    </Pending>
+                    <NotFound>
+                        <p>Report with id {id} has not been found.</p>
+                    </NotFound>
+                </Shim>
+                <Found>
+                    {report => (
+                        <Submission value={report}>
                             <Shim horizontal>
-                                {pending && (
-                                    <Loading>
-                                        Loading Mountain Information Network
-                                        reports...
-                                    </Loading>
-                                )}
                                 <Metadata />
                             </Shim>
                             <Shim vertical>
@@ -56,14 +67,21 @@ function MountainInformationNetwork({ id, onCloseClick, onLocateClick }) {
                             </Shim>
                             <Gallery />
                         </Submission>
-                    </Body>
-                </Container>
-            )}
-        </Report>
+                    )}
+                </Found>
+            </Body>
+        </Provider>
     )
 }
 
-export default memo(
-    MountainInformationNetwork,
-    (prev, next) => prev.id === next.id
-)
+// Utils
+function ReportTitle({ onLocateClick, payload }) {
+    return (
+        <h1>
+            <Link to={submission(payload.subid)}>{payload.title}</Link>
+            <DisplayOnMap
+                onClick={() => onLocateClick(point(payload.lnglat))}
+            />
+        </h1>
+    )
+}

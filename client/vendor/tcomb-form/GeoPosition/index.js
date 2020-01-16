@@ -1,133 +1,103 @@
-import React, { Component } from 'react'
+import React, { useRef, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
-import { supported } from 'utils/mapbox'
 import {
-    Map,
-    Marker,
-    NavigationControl,
-    GeolocateControl,
-    FullscreenControl,
-} from 'components/map'
-import styles from './GeoPosition.css'
+    useMap,
+    useNavigationControl,
+    useFullscreenControl,
+    useGeolocateControl,
+} from 'hooks/mapbox'
+import { supported } from 'utils/mapbox'
 import place from 'components/icons/place.svg'
+import styles from './GeoPosition.css'
+import inside from '@turf/inside'
+import * as turf from '@turf/helpers'
+import bboxPolygon from '@turf/bbox-polygon'
 
-// TODO: Simplify implementation. Make it stateless. And smarter when it gets new coordinates.
-// Better to wait until we redesign the MIN form
+export default supported() ? GeoPosition : Null
 
-export default class GeoPosition extends Component {
-    static propTypes = {
-        onChange: PropTypes.func,
-        longitude: PropTypes.number,
-        latitude: PropTypes.number,
-        allowFullscreen: PropTypes.bool,
-    }
-    static defaultProps = {
-        allowFullscreen: true,
-    }
-    state = {
-        map: null,
-        lngLat: null,
-    }
-    constructor(props) {
-        super(props)
+GeoPosition.propTypes = {
+    onChange: PropTypes.func,
+    longitude: PropTypes.number,
+    latitude: PropTypes.number,
+}
 
-        const { longitude, latitude } = props
+function GeoPosition({ longitude, latitude, onChange }) {
+    const ref = useRef()
+    const map = useMap(ref, { zoom: 2.9, center: [-125.15, 54.8] })
+    const marker = useMemo(() => {
+        const element = document.createElement('img')
 
-        if (areValidCoordinates(longitude, latitude)) {
-            /* eslint-disable react/no-direct-mutation-state */
-            this.state.lngLat = new mapbox.LngLat(longitude, latitude)
-            /* eslint-disable react/no-direct-mutation-state */
-        }
+        element.src = place
 
-        this.element = document.createElement('img')
+        // Use "useMarker", but it is a specific use case, more tests need to be done
+        const marker = new mapbox.Marker({ element, draggable: true })
 
-        Object.assign(this.element, {
-            src: place,
-            ondragstart(event) {
-                event.preventDefault()
-            },
-        })
-    }
-    handleLoad = event => {
-        const map = event.target
+        marker.on('dragend', () => {
+            const { lng, lat } = marker.getLngLat()
 
-        map.on('click', this.handleClick)
-
-        this.setState({ map })
-    }
-    setLngLat(lngLat, callback) {
-        this.setState({ lngLat }, callback)
-    }
-    handleClick = ({ lngLat, target }) => {
-        this.setLngLat(lngLat, () => {
-            const { lng, lat } = lngLat.wrap()
-
-            target.easeTo({
-                center: lngLat,
-            })
-
-            this.props.onChange({
+            onChange({
                 longitude: round(lng),
                 latitude: round(lat),
             })
         })
-    }
-    componentDidUpdate(prevProps) {
-        const { longitude, latitude } = this.props
 
-        if (
-            (prevProps.longitude === longitude &&
-                prevProps.latitude === latitude) ||
-            !areValidCoordinates(longitude, latitude)
-        ) {
+        return marker
+    }, [])
+
+    useNavigationControl(map)
+    useFullscreenControl(map)
+    useGeolocateControl(map, {
+        fitBoundsOptions: {
+            maxZoom: 10,
+        },
+    })
+
+    useEffect(() => {
+        if (!map) {
             return
         }
 
-        const center = new mapbox.LngLat(longitude, latitude)
+        map.on('click', ({ lngLat }) => {
+            const { lng, lat } = lngLat.wrap()
 
-        this.setLngLat(center, () => {
-            const { map } = this.state
-            if (map) {
-                map.flyTo({
-                    center,
-                    speed: 1,
-                })
-            }
+            onChange({
+                longitude: round(lng),
+                latitude: round(lat),
+            })
         })
-    }
-    render() {
-        if (!supported()) {
-            return null
+    }, [map])
+
+    useEffect(() => {
+        if (!map) {
+            return
         }
 
-        const { lngLat } = this.state
-        const { allowFullscreen } = this.props
+        if (!areValidCoordinates(longitude, latitude)) {
+            return
+        }
 
-        return (
-            <div className={styles.Container}>
-                <Map
-                    style="default"
-                    zoom={2.9}
-                    center={[-125.15, 54.8]}
-                    maxBounds={null} // We allow everybody to use it if they want. Interesting to see post from Japan!
-                    onLoad={this.handleLoad}>
-                    {lngLat && (
-                        <Map.With>
-                            <Marker lngLat={lngLat} element={this.element} />
-                        </Map.With>
-                    )}
-                    {allowFullscreen && <FullscreenControl />}
-                    <NavigationControl />
-                    <GeolocateControl
-                        fitBoundsOptions={{
-                            maxZoom: 10,
-                        }}
-                    />
-                </Map>
-            </div>
-        )
-    }
+        const lngLat = new mapbox.LngLat(longitude, latitude)
+        const bounds = map.getBounds()
+        const polygon = bboxPolygon(bounds.toArray().flat())
+        const point = turf.point(lngLat.toArray())
+
+        marker.setLngLat(lngLat)
+        marker.addTo(map)
+
+        if (!inside(point, polygon)) {
+            map.flyTo({
+                center: lngLat,
+                speed: 1,
+            })
+        }
+    }, [map, longitude, latitude])
+
+    return (
+        <div className={styles.Container}>
+            <div ref={ref} />
+        </div>
+    )
 }
 
 // Utils
@@ -146,4 +116,8 @@ function areValidCoordinates(longitude, latitude) {
 
 function round(number) {
     return Math.round(number * 100000) / 100000
+}
+
+function Null() {
+    return null
 }

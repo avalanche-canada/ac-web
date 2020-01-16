@@ -1,17 +1,21 @@
-import React, { createContext, useContext, useMemo } from 'react'
+import React, { createContext, useContext, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import * as LAYER_IDS from 'constants/drawers'
-import { useLocalStorage } from 'utils/react/hooks'
+import { useLocalStorage } from 'hooks'
 
 Provider.propTypes = {
     children: PropTypes.element,
 }
 
 export function Provider({ children }) {
-    const [layers, setLayers] = useLocalStorage('layers', LAYERS, decode)
+    const [layers, setLayers] = useLocalStorage('layers', LAYERS)
 
-    const value = useMemo(
-        () => ({
+    useEffect(() => {
+        setLayers(resetLayers(layers))
+    }, [])
+
+    const value = useMemo(() => {
+        return {
             layers,
             toggle(id) {
                 setLayers({
@@ -34,9 +38,8 @@ export function Provider({ children }) {
                     },
                 })
             },
-        }),
-        [layers]
-    )
+        }
+    }, [layers])
 
     return (
         <LayersContext.Provider value={value}>
@@ -45,40 +48,30 @@ export function Provider({ children }) {
     )
 }
 
-Layer.propTypes = {
-    id: PropTypes.oneOf(LAYER_IDS.default).isRequired,
-    children: PropTypes.func.isRequired,
+// Hooks
+export function useLayers() {
+    return useContext(LayersContext)
 }
 
-export function Layer({ id, children }) {
-    const { layers, toggle, setFilterValue } = useContext(LayersContext)
+export function useLayer(id) {
+    const { layers, toggle, setFilterValue } = useLayers()
 
-    return children({
-        ...layers[id],
-        toggle() {
-            toggle(id)
-        },
-        setFilterValue(name, value) {
-            setFilterValue(id, name, value)
-        },
-    })
-}
-
-// TODO: To remove when consumer of <Layers> component gets converted to a function component
-Layers.propTypes = {
-    children: PropTypes.func.isRequired,
-}
-
-export function Layers({ children }) {
-    const { layers } = useContext(LayersContext)
-
-    return children(layers)
+    return useMemo(
+        () => ({
+            ...layers[id],
+            toggle() {
+                toggle(id)
+            },
+            setFilterValue(name, value) {
+                setFilterValue(id, name, value)
+            },
+        }),
+        [layers, id]
+    )
 }
 
 // Utils & constants
-function decode(string) {
-    const data = JSON.parse(string)
-
+function resetLayers(data) {
     // TODO Simplify the implementation: only few properties need to be transfered, also LAYERS should be deeply cloned!
 
     return {
@@ -128,4 +121,5 @@ const LAYERS = {
         visible: false,
     },
 }
-const LayersContext = createContext(LAYER_IDS)
+
+const LayersContext = createContext(LAYERS)

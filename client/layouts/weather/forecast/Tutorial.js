@@ -1,24 +1,20 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Loading } from 'components/text'
 import { StructuredText } from 'prismic/components/base'
-import { Document } from 'prismic/containers'
 import { mw } from 'prismic/params'
+import { useDocument } from 'prismic/hooks'
 
 Tutorial.propTypes = {
     uid: PropTypes.string.isRequired,
 }
 
 export default function Tutorial({ uid }) {
-    return <Document {...mw.tutorial(uid)}>{children}</Document>
-}
+    const [document, pending] = useDocument(mw.tutorial(uid))
 
-// Utils
-function children({ pending, document }) {
-    return (
-        <Fragment>
-            {pending && <Loading>Loading tutorial...</Loading>}
-            {document && <StructuredText value={document.data.tutorial} />}
-        </Fragment>
+    return pending ? (
+        <Loading>Loading tutorial...</Loading>
+    ) : (
+        <StructuredText value={document?.data?.tutorial} />
     )
 }

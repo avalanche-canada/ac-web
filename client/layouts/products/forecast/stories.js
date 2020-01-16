@@ -1,6 +1,5 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
-import styles from './Forecast.css'
 import { Table, Day, Condition } from './danger'
 import addDays from 'date-fns/add_days'
 import { Problem, Topic, Advice, Comment } from './problem'
@@ -13,7 +12,7 @@ import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
 import * as Modes from 'constants/forecast/mode'
 
 function Forecast({ children }) {
-    return <section className={styles.Forecast}>{children}</section>
+    return <section>{children}</section>
 }
 
 const ICONS = {
@@ -117,7 +116,7 @@ storiesOf('Forecast', module)
     ))
     .add('Condition', () => <Condition />)
     .add('Summer Condition', () => <Condition mode={Modes.SUMMER} />)
-    .add('Spring Condition', () => <Condition mode={Modes.SPRING} />)
+    .add('Spring Condition', () => <Condition mode={Modes.SPRING_SITUATION} />)
     .add('Panels', () => (
         <div>
             <Panel header="Danger Ratings Explained">

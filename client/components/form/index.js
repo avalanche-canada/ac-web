@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
-import styles from './Form.css'
+import classnames from 'classnames'
+import css from './Form.css'
 
 Form.propTypes = {
     children: PropTypes.node.isRequired,
@@ -10,7 +10,7 @@ Form.propTypes = {
 
 export function Form({ children, style }) {
     return (
-        <form className={styles.Form} style={style}>
+        <form className={css.Form} style={style}>
             {children}
         </form>
     )
@@ -23,7 +23,7 @@ Fieldset.propTypes = {
 }
 
 export default function Fieldset({ children }) {
-    return <fieldset className={styles.Fieldset}>{children}</fieldset>
+    return <fieldset className={css.Fieldset}>{children}</fieldset>
 }
 
 Legend.propTypes = {
@@ -31,7 +31,7 @@ Legend.propTypes = {
 }
 
 export function Legend({ children }) {
-    return <legend className={styles.Legend}>{children}</legend>
+    return <legend className={css.Legend}>{children}</legend>
 }
 
 Control.propTypes = {
@@ -41,10 +41,10 @@ Control.propTypes = {
 }
 
 export function Control({ children, horizontal, bordered, ...props }) {
-    const className = classNames({
-        Control: !horizontal,
-        'Control--Horizontal': horizontal,
-        Border: bordered,
+    const className = classnames({
+        [css.Control]: !horizontal,
+        [css['Control--Horizontal']]: horizontal,
+        [css.Border]: bordered,
     })
 
     return (
@@ -62,8 +62,5 @@ ControlSet.propTypes = {
 export function ControlSet({ horizontal, children }) {
     const className = horizontal ? 'ControlSet--Horizontal' : 'ControlSet'
 
-    return <div className={styles[className]}>{children}</div>
+    return <div className={css[className]}>{children}</div>
 }
-
-// Styles
-const classNames = classnames.bind(styles)

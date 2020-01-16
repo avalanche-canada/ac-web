@@ -1,29 +1,18 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import Biography from 'components/biography'
 import { StructuredText } from 'prismic/components/base'
-import { Documents } from 'prismic/containers'
 import { Loading } from 'components/text'
 import * as params from 'prismic/params'
+import { useDocuments } from 'prismic/hooks'
 
 export default function StaffSet({ value }) {
-    const ids = value.map(pluckId)
+    const ids = value.map(({ staff }) => staff.id)
+    const [documents = [], pending] = useDocuments(params.ids(ids))
 
-    return <Documents {...params.ids(ids)}>{renderChildren}</Documents>
+    return pending ? <Loading /> : documents.map(renderItem)
 }
 
 // Utils
-function pluckId({ staff }) {
-    return staff.id
-}
-function renderChildren({ pending, documents = [] }) {
-    return (
-        <Fragment>
-            {pending && <Loading />}
-            {documents.map(renderItem)}
-        </Fragment>
-    )
-}
-
 function renderItem({ id, data: { biography, avatar, ...props } }) {
     return (
         <Biography key={id} avatar={avatar?.url} {...props}>

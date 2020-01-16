@@ -3,24 +3,17 @@ import PropTypes from 'prop-types'
 import { Router, Link } from '@reach/router'
 import debounce from 'lodash/debounce'
 import escapeRegExp from 'lodash/escapeRegExp'
-import { memo } from 'utils/react'
-import { FragmentIdentifier } from 'router'
-import Sidebar, {
-    Item as SidebarItem,
-    Header as SidebarHeader,
-} from 'components/sidebar'
-import { Main, Content, Aside, Headline } from 'components/page'
+import * as Sidebar from 'components/sidebar'
+import { Main, Content, Aside, Headline, Heading } from 'components/page'
 import { Loading } from 'components/text'
 import { TagSet, Tag } from 'components/tag'
 import { Muted } from 'components/text'
 import { Search } from 'components/form'
-import { Document } from 'prismic/containers'
 import { glossary } from 'prismic/params'
-import { useDocuments } from 'prismic/hooks'
+import { useDocument, useDefinitions } from 'prismic/hooks'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
-import Edit from 'prismic/Edit'
 
 export default function Layout() {
     return (
@@ -32,96 +25,89 @@ export default function Layout() {
                 </Router>
             </Main>
             <Aside>
-                <Router primary={false}>
-                    <GlossarySidebar path="/" />
-                </Router>
+                <GlossarySidebar />
             </Aside>
         </Content>
     )
 }
 
-const GlossarySidebar = memo.static(function GlossarySidebar() {
+function GlossarySidebar() {
     return (
-        <Sidebar>
-            <SidebarHeader>Related links</SidebarHeader>
-            <SidebarItem>
+        <Sidebar.default>
+            <Sidebar.Header>Related links</Sidebar.Header>
+            <Sidebar.Item>
                 <a
                     href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
                     target="ICAR">
                     ICAR Glossary
                 </a>
-            </SidebarItem>
-            <SidebarItem>
+            </Sidebar.Item>
+            <Sidebar.Item>
                 <a
                     href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
                     target="LexiqueLexicon">
                     Lexique Avalanche - Avalanche Lexicon
                 </a>
-            </SidebarItem>
-        </Sidebar>
+            </Sidebar.Item>
+        </Sidebar.default>
     )
-})
+}
 
-function Glossary({ location, navigate }) {
+export function Glossary({ location, navigate, uid }) {
     const params = new URLSearchParams(location.search)
     const [term, setTerm] = useState(params.has('q') ? params.get('q') : '')
+    const [document, pending] = useDocument(glossary.glossary(uid))
 
     useEffect(() => {
+        const { hash } = location
+
         if (term) {
             params.set('q', term)
 
-            navigate('?' + params.toString())
+            navigate('?' + params.toString() + hash)
         } else {
-            navigate('')
+            navigate(hash)
         }
     }, [term])
 
-    return (
-        <Document {...glossary.glossary()}>
-            {({ document, pending }) => (
-                <Fragment>
-                    {pending && <Loading />}
-                    {document && (
-                        <Fragment>
-                            <Edit position="fixed" id={document.id} />
-                            <Headline>
-                                <StructuredText
-                                    value={document.data.headline}
-                                />
-                            </Headline>
-                            <Search
-                                onChange={debounce(setTerm, 500)}
-                                value={term}
-                                placeholder="Search for a definition"
-                            />
-                            <GlossaryContent
-                                layout={document.data}
-                                term={term}
-                            />
-                        </Fragment>
-                    )}
-                </Fragment>
-            )}
-        </Document>
-    )
+    if (pending) {
+        return <Loading />
+    }
+
+    if (document) {
+        return (
+            <Fragment>
+                <Headline>
+                    <StructuredText value={document.data.headline} />
+                </Headline>
+                <Search
+                    onChange={debounce(setTerm, 500)}
+                    value={term}
+                    placeholder="Search for a definition"
+                />
+                <GlossaryContent layout={document.data} term={term} />
+            </Fragment>
+        )
+    }
+
+    return null
 }
 
 Definition.propTypes = {
     uid: PropTypes.string.isRequired,
 }
 function Definition({ uid }) {
-    return (
-        <Document {...glossary.definition(uid)}>
-            {({ pending, document }) => (
-                <Fragment>
-                    {pending && <Loading />}
-                    {document && (
-                        <DefinitionLayout linkToExternal {...document} />
-                    )}
-                </Fragment>
-            )}
-        </Document>
-    )
+    const [document, pending] = useDocument(glossary.definition(uid))
+
+    if (pending) {
+        return <Loading />
+    }
+
+    if (document) {
+        return <DefinitionLayout linkToExternal {...document} />
+    }
+
+    return null
 }
 
 // Util layouts
@@ -133,21 +119,12 @@ DefinitionLayout.propTypes = {
     data: PropTypes.object.isRequired,
 }
 
-function DefinitionLayout({ id, uid, tags, data, linkToExternal }) {
+function DefinitionLayout({ uid, tags, data, linkToExternal }) {
     const { title } = data
 
     return (
-        <article className={styles.Definition}>
-            <h2>
-                {linkToExternal ? (
-                    title
-                ) : (
-                    <FragmentIdentifier hash={uid} title={title}>
-                        {title}
-                    </FragmentIdentifier>
-                )}
-            </h2>
-            <Edit id={id} position="absolute" />
+        <Fragment>
+            <Heading hash={linkToExternal ? null : uid}>{title}</Heading>
             {tags.length > 0 && (
                 <TagSet>
                     {tags.map((tag, index) => (
@@ -155,17 +132,19 @@ function DefinitionLayout({ id, uid, tags, data, linkToExternal }) {
                     ))}
                 </TagSet>
             )}
-            <SliceZone
-                components={SliceComponents}
-                value={data.content.filter(isImage)}
-                fullscreen
-            />
-            <SliceZone
-                components={SliceComponents}
-                value={data.content.filter(isNotImage)}
-            />
-            <Related linkToExternal={linkToExternal} items={data.related} />
-        </article>
+            <article className={styles.Definition}>
+                <SliceZone
+                    components={SliceComponents}
+                    value={data.content.filter(isMedia)}
+                    fullscreen
+                />
+                <SliceZone
+                    components={SliceComponents}
+                    value={data.content.filter(isNotMedia)}
+                />
+                <Related linkToExternal={linkToExternal} items={data.related} />
+            </article>
+        </Fragment>
     )
 }
 
@@ -218,7 +197,7 @@ function LetterTag({ letter }) {
 }
 
 function useDefaultSections(layout = {}) {
-    const [definitions, loading] = useDocuments(glossary.definitions())
+    const [definitions = [], pending] = useDefinitions()
     const definitionsByUID = useMemo(() => {
         return Array.isArray(definitions)
             ? definitions.reduce(
@@ -252,7 +231,7 @@ function useDefaultSections(layout = {}) {
         )
     }, [layout, definitionsByUID])
 
-    return [sections, loading]
+    return [sections, pending]
 }
 
 function GlossaryContent({ layout, term }) {
@@ -316,16 +295,16 @@ Section.propTypes = {
 
 function Section({ letter, definitions }) {
     return (
-        <section className={styles.Section}>
-            <h1>
-                <FragmentIdentifier hash={letter}>
-                    {letter.toUpperCase()}
-                </FragmentIdentifier>
-            </h1>
-            {definitions.map(definition => (
-                <DefinitionLayout key={definition.uid} {...definition} />
-            ))}
-        </section>
+        <Fragment>
+            <Heading as="h1" hash={letter}>
+                {letter.toUpperCase()}
+            </Heading>
+            <section className={styles.Section}>
+                {definitions.map(definition => (
+                    <DefinitionLayout key={definition.uid} {...definition} />
+                ))}
+            </section>
+        </Fragment>
     )
 }
 
@@ -346,16 +325,16 @@ function isNotBroken({ definition }) {
 function isText({ slice_type }) {
     return slice_type === 'text'
 }
-function isImage({ slice_type }) {
-    return slice_type === 'image'
+function isMedia({ slice_type }) {
+    return slice_type === 'image' || slice_type === 'video'
 }
-function isNotImage({ slice_type }) {
-    return slice_type !== 'image'
+function isNotMedia(props) {
+    return !isMedia(props)
 }
 function createDefinition(definition) {
     const { data, tags } = definition
 
-    const images = data.content.filter(isImage)
+    const images = data.content.filter(isMedia)
     const related = data.related.filter(isNotBroken).filter(isDefinition)
     const texts = data.content.filter(isText)
     const searchables = [

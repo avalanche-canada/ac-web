@@ -1,147 +1,25 @@
-@import '../../styles/colors.css';
-
-.Table {
-    width: 100%;
-    border-collapse: collapse;
-    position: relative;
-}
-
-.Condensed {
-    & .Cell {
-        padding: 0.35em;
-    }
-
-    & .HeaderCell {
-        text-align: center;
-        text-transform: inherit;
-    }
-}
-
-.TBody {
-}
-
-.TBody--Featured {
-    composes: TBody;
-
-    & .Cell {
-        background-color: var(--gray-lightest);
-    }
-
-    &:last-child {
-        border-bottom: 5px solid black;
-    }
-
-    & > .Row {
-        font-weight: 700;
-        border-bottom-color: white;
-    }
-
-    & > .Row--Controlled {
-        font-weight: inherit;
-    }
-
-    & > .Row:first-child {
-        border-top: 2em solid black;
-    }
-
-    &:before {
-        content: attr(data-title);
-        position: absolute;
-        left: 0;
-        right: 0;
-        z-index: 1;
-        line-height: 2em;
-        padding: 0 0.25em;
-        text-transform: uppercase;
-        color: white;
-        background-color: black;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-
-.Row {
-    border-bottom: 2px solid var(--gray-lighter);
-}
-
-.Row--Controlled {
-    composes: Row;
-
-    background-color: var(--gray-lightest);
-}
-
-.Row--Clickable {
-    cursor: pointer;
-
-    &:hover {
-        background-color: var(--gray-lighter);
-    }
-}
-
-.Cell {
-    color: var(--gray-darker);
-    padding: 0.75em;
-    position: relative;
-    vertical-align: middle;
-    text-align: left;
-    box-sizing: border-box;
-
-    & button {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-    }
-}
-
-.Header {
-    border-bottom: 2px solid var(--gray-lighter);
-
-    & > tr:last-child {
-        border-bottom: none;
-    }
-    &:after {
-        content: '';
-        display: block;
-    }
-}
-
-.HeaderCell {
-    composes: Cell;
-
-    white-space: nowrap;
-    border-left: 2px solid var(--gray-lighter);
-    color: var(--gray);
-    font-weight: 700;
-    text-transform: uppercase;
-
-    &:first-child {
-        border-left: none;
-    }
-}
-
-.HeaderCell--Sortable {
-    composes: HeaderCell;
-
-    padding-right: 36px;
-}
-
 .Responsive {
     /* From Bootstrap */
     min-height: 0.01%;
     overflow-x: auto;
 }
 
-.Caption {
-    caption-side: bottom;
-    text-align: left;
-    color: var(--gray);
-    padding: 1em;
-}
-
 .PageSizeSelector {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+}
+
+.FlexContentCell {
+    padding-right: 0;
+
+    & > div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.ControlledRow {
+    background-color: var(--gray-lightest);
 }

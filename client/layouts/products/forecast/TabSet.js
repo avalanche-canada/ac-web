@@ -1,14 +1,34 @@
 import React from 'react'
 import { useForecast } from './Context'
-import { Table, Day, DaySet, Condition, Confidence } from './danger'
+import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
+import { InnerHTML } from 'components/misc'
 import DetailSet from './DetailSet'
 import ProblemSet from './problem'
+import NoRatingModes from 'constants/forecast/mode'
 
 export default function TabSet(props) {
     const forecast = useForecast()
 
-    return forecast ? (
+    if (!forecast) {
+        return null
+    }
+
+    const {
+        dangerMode,
+        problems,
+        confidence,
+        avidConfidence,
+        avidTerrainAndTravel,
+        dangerRatings,
+        avalancheSummary,
+        snowpackSummary,
+        weatherForecast,
+        avidOffseasonMessage,
+        avidOffseasonComment,
+    } = forecast
+
+    return (
         <Tabs {...props}>
             <HeaderSet>
                 <Header>Danger ratings</Header>
@@ -17,10 +37,23 @@ export default function TabSet(props) {
             </HeaderSet>
             <PanelSet>
                 <Panel>
-                    <Condition mode={forecast.dangerMode} />
-                    <Table mode={forecast.dangerMode}>
+                    {NoRatingModes.has(dangerMode) ? (
+                        <Condition
+                            mode={dangerMode}
+                            message={
+                                avidOffseasonMessage && (
+                                    <InnerHTML>
+                                        {avidOffseasonMessage}
+                                    </InnerHTML>
+                                )
+                            }>
+                            {avidOffseasonComment && (
+                                <InnerHTML>{avidOffseasonComment}</InnerHTML>
+                            )}
+                        </Condition>
+                    ) : (
                         <DaySet>
-                            {forecast.dangerRatings.map(
+                            {dangerRatings.map(
                                 ({ date, dangerRating }, index) => (
                                     <Day
                                         key={index}
@@ -30,20 +63,45 @@ export default function TabSet(props) {
                                 )
                             )}
                         </DaySet>
-                        <Confidence {...forecast.confidence} />
-                    </Table>
+                    )}
+                    {avidTerrainAndTravel && (
+                        <Advice>
+                            <ul>
+                                {avidTerrainAndTravel.map(
+                                    (statement, index) => (
+                                        <li key={index}>{statement}</li>
+                                    )
+                                )}
+                            </ul>
+                        </Advice>
+                    )}
                 </Panel>
                 <Panel>
-                    <ProblemSet problems={forecast.problems} />
+                    <ProblemSet problems={problems} />
                 </Panel>
                 <Panel>
                     <DetailSet
-                        avalanche={forecast.avalancheSummary}
-                        snowpack={forecast.snowpackSummary}
-                        weather={forecast.weatherForecast}
+                        avalanche={avalancheSummary}
+                        snowpack={snowpackSummary}
+                        weather={weatherForecast}
                     />
+                    {avidConfidence ? (
+                        <Confidence level={avidConfidence.rating}>
+                            <ul>
+                                {avidConfidence.statements.map(
+                                    (statement, index) => (
+                                        <li key={index}>{statement}</li>
+                                    )
+                                )}
+                            </ul>
+                        </Confidence>
+                    ) : (
+                        <Confidence level={confidence.level}>
+                            {confidence.comment}
+                        </Confidence>
+                    )}
                 </Panel>
             </PanelSet>
         </Tabs>
-    ) : null
+    )
 }

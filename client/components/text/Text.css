@@ -4,6 +4,10 @@
     color: var(--gray);
 }
 
+.Initial {
+    color: var(--gray-darker);
+}
+
 .Loading {
     color: var(--gray);
 }

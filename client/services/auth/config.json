@@ -1,4 +1,5 @@
 {
-    "domain": "avalancheca.auth0.com",
-    "clientId": "mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC"
+    "domain": "auth.avalanche.ca",
+    "clientId": "mcgzglbFk2g1OcjOfUZA1frqjZdcsVgC",
+    "configurationBaseUrl": "https://cdn.auth0.com"
 }

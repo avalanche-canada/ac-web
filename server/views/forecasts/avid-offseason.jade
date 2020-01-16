@@ -1,0 +1,48 @@
+
+article
+  header
+    h1 #{forecast.bulletinTitle}
+    p
+      b Date Issued:
+      time(datetime=forecast.dateIssued) #{dates.issued}
+    p
+      b Valid Until:
+      time(datetime=forecast.validUntil) #{dates.until}
+    p
+      b Forecaster:
+      | #{forecast.forecaster}
+  section
+    p !{forecast.highlights}
+
+    h2 Early Season: #{ dates.day0 }
+    div(style="display:flex;align-items:center")
+      div(style="flex:1")
+        if forecast.dangerMode == 'Early season'
+          img(src="http://www.avalanche.ca/assets/images/early_season_icon.svg")
+        else if forecast.dangerMode == 'Off season'
+          img(src="http://www.avalanche.ca/assets/images/summer_conditions_icon.svg")
+        else if forecast.dangerMode == 'Spring situation'
+          img(src="http://www.avalanche.ca/assets/images/spring_situation_icon.svg")
+      div(style="flex:2")
+        !{forecast.avidOffseasonMessage}
+
+
+    for problem in forecast.problems
+      div.problem
+        h2 #{ problem.type }
+        .image-container
+          img(src="#{problem.icons.elevations}")
+        .image-container
+          img(src="#{problem.icons.aspects}")
+        .image-container
+          img(src="#{problem.icons.likelihood}")
+        .image-container
+          img(src="#{problem.icons.expectedSize}")
+        div
+          strong Travel and Terrain Advice
+          p !{ problem.travelAndTerrainAdvice }
+
+    h2 Forecast Details
+    p !{forecast.avidOffSeasonComment}
+    h3 Weather Forecast
+    p !{forecast.weatherForecast}

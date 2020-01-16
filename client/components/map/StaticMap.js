@@ -1,15 +1,17 @@
-import React, { useState, useRef, useEffect, Children } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash/debounce'
 import { createStyleUrl } from 'services/mapbox/api'
-import { PRIMARY } from 'constants/colors'
-import Marker from './Marker'
-import { useEventListener } from 'utils/react/hooks'
+import { useEventListener } from 'hooks'
 
 StaticMap.propTypes = {
+    title: PropTypes.string,
     tracked: PropTypes.bool,
     styleId: PropTypes.string,
-    overlay: PropTypes.arrayOf(PropTypes.string),
+    overlay: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.string),
+        PropTypes.string,
+    ]),
     longitude: PropTypes.number,
     latitude: PropTypes.number,
     zoom: PropTypes.number,
@@ -21,18 +23,7 @@ StaticMap.propTypes = {
     retina: PropTypes.bool,
 }
 
-export function Managed({ children, center, ...props }) {
-    return (
-        <StaticMap
-            {...props}
-            longitude={center.lng}
-            latitude={center.lat}
-            overlay={createOverlay(children)}
-        />
-    )
-}
-
-export default function StaticMap({ tracked, ...props }) {
+export default function StaticMap({ tracked, title, ...props }) {
     const ref = useRef(null)
     const [url, setUrl] = useState(null)
     function resizeHandler() {
@@ -50,25 +41,9 @@ export default function StaticMap({ tracked, ...props }) {
         tracked ? debounce(resizeHandler, 500) : () => {}
     )
 
-    return <div ref={ref}>{url && <img src={url} />}</div>
-}
-
-// Utils
-function createOverlay(children) {
-    return Children.toArray(children)
-        .filter(Boolean)
-        .filter(({ type }) => type === Marker)
-        .map(({ props }) => {
-            const { lng, lat } = props.lngLat
-            try {
-                const url = new URL(props.element.src)
-
-                url.protocol = 'https'
-                url.host = 'www.avalanche.ca'
-
-                return `url-${encodeURIComponent(url.href)}(${lng},${lat})`
-            } catch {
-                return `pin-s+${PRIMARY.substr(1)}(${lng},${lat})`
-            }
-        })
+    return (
+        <div ref={ref} title={title}>
+            {url && <img src={url} />}
+        </div>
+    )
 }

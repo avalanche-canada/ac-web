@@ -9,7 +9,7 @@ export AvalancheCanada from './AvalancheCanada'
 
 export function AvalancheCanadaFoundation() {
     return (
-        <Bundle>
+        <Bundle fallback={null}>
             <LazyAvalancheCanadaFoundation />
         </Bundle>
     )

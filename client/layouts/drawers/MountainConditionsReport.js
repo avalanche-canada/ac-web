@@ -1,19 +1,11 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { point } from '@turf/helpers'
-import { Report } from 'containers/mcr'
+import { useReport } from 'hooks/async/mcr'
 import { Loading, Muted } from 'components/text'
 import { InnerHTML } from 'components/misc'
 import { Locate } from 'components/button'
-import {
-    Header,
-    Container,
-    Body,
-    Navbar,
-    Close,
-    Banner,
-    Content,
-} from 'components/page/drawer'
+import { Header, Body, Navbar, Close, Banner } from 'components/page/drawer'
 import {
     Footer,
     Submitter,
@@ -22,6 +14,7 @@ import {
     Media,
 } from 'layouts/products/mcr'
 import { WHITE } from 'constants/colors'
+import Shim from 'components/Shim'
 
 MountainConditionsReport.propTypes = {
     id: PropTypes.string.isRequired,
@@ -29,11 +22,26 @@ MountainConditionsReport.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
-    id = Number(id)
+export default function MountainConditionsReport({
+    id,
+    onCloseClick,
+    onLocateClick,
+}) {
+    const [report = {}, pending] = useReport(id)
+    const {
+        locationDescription,
+        permalink,
+        body,
+        title,
+        images,
+        user,
+        dates,
+        groups,
+        location,
+    } = report
 
     return (
-        <Container>
+        <Fragment>
             <Body>
                 <Navbar style={NAVBAR_STYLE}>
                     <Close
@@ -42,81 +50,48 @@ function MountainConditionsReport({ id, onCloseClick, onLocateClick }) {
                         style={CLOSE_BUTTON_STYLE}
                     />
                 </Navbar>
-                <Report id={id}>
-                    {({ data, pending }) => {
-                        const {
-                            locationDescription,
-                            permalink,
-                            body,
-                            title,
-                            images,
-                            user,
-                            dates,
-                            groups,
-                            location,
-                        } = data || {}
-
-                        return (
-                            <Fragment>
-                                <Banner>
-                                    <Media images={images} />
-                                </Banner>
-                                <Header subject="Arc'Teryx Mountain Conditions Report">
-                                    {title && (
-                                        <h1>
-                                            <a
-                                                href={permalink}
-                                                target={permalink}>
-                                                {title}
-                                            </a>
-                                            {Array.isArray(location) && (
-                                                <Locate
-                                                    onClick={() =>
-                                                        onLocateClick(
-                                                            point(location)
-                                                        )
-                                                    }
-                                                />
-                                            )}
-                                        </h1>
-                                    )}
-                                    {Array.isArray(dates) && (
-                                        <DateSet values={dates} />
-                                    )}
-                                    <Location>{locationDescription}</Location>
-                                    {user && (
-                                        <Submitter {...user} groups={groups} />
-                                    )}
-                                </Header>
-                                <Content>
-                                    {pending && (
-                                        <Loading>
-                                            Loading Mountain Conditions
-                                            Report...
-                                        </Loading>
-                                    )}
-                                    {body && <InnerHTML>{body}</InnerHTML>}
-                                    {!pending && !body && (
-                                        <Muted>
-                                            Report #{id} is not available
-                                            anymore.
-                                        </Muted>
-                                    )}
-                                    <Footer />
-                                </Content>
-                            </Fragment>
-                        )
-                    }}
-                </Report>
+                <Fragment>
+                    <Banner>
+                        <Media images={images} />
+                    </Banner>
+                    <Header subject="Arc'Teryx Mountain Conditions Report">
+                        {title && (
+                            <h1>
+                                <a href={permalink} target={permalink}>
+                                    {title}
+                                </a>
+                                {Array.isArray(location) && (
+                                    <Locate
+                                        onClick={() =>
+                                            onLocateClick(point(location))
+                                        }
+                                    />
+                                )}
+                            </h1>
+                        )}
+                        {Array.isArray(dates) && <DateSet values={dates} />}
+                        <Location>{locationDescription}</Location>
+                        {user && <Submitter {...user} groups={groups} />}
+                    </Header>
+                    <Shim horizontal>
+                        {pending && (
+                            <Loading>
+                                Loading Mountain Conditions Report...
+                            </Loading>
+                        )}
+                        {body && <InnerHTML>{body}</InnerHTML>}
+                        {!pending && !body && (
+                            <Muted>
+                                Report #{id} is not available anymore.
+                            </Muted>
+                        )}
+                        <Footer />
+                    </Shim>
+                </Fragment>
             </Body>
-        </Container>
+        </Fragment>
     )
 }
-
-export default memo(
-    MountainConditionsReport,
-    (prev, next) => prev.id === next.id
-)
 
 const NAVBAR_STYLE = {
     position: 'absolute',

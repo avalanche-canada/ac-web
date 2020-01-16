@@ -11,12 +11,15 @@ var WebCacheRedis = function (port, host, options) {
 
 WebCacheRedis.prototype.get = function (key) {
     var get = Q.denodeify(this.client.get.bind(this.client));
-    return get(key);
+    return get(key).then(function(val){
+        return JSON.parse(val);
+    });
 };
 
 WebCacheRedis.prototype.set = function (key, val) {
+    var json_val = JSON.stringify(val);
     var set =  Q.denodeify(this.client.set.bind(this.client));
-    return set(key, val);
+    return set(key, json_val);
 };
 
 module.exports = WebCacheRedis;

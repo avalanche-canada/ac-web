@@ -26,7 +26,7 @@ function WeatherStationMetadata({
             <Entry term="Source">{source}</Entry>
             <LocationEntry longitude={longitude} latitude={latitude} />
             <Entry term="Elevation">
-                <span style={NO_TEXT_TRANSFORM}>{elevation} m</span>
+                <span style={NO_TEXT_TRANSFORM}>{elevation} m.</span>
             </Entry>
             <Entry term="Time zone">
                 UTC-0
@@ -34,10 +34,9 @@ function WeatherStationMetadata({
                 :00
             </Entry>
             {description && <Entry title="Description">{description}</Entry>}
-            {owner &&
-                typeof owner === 'object' && (
-                    <Entry title="Owner">{owner}</Entry>
-                )}
+            {owner && typeof owner === 'object' && (
+                <Entry title="Owner">{owner}</Entry>
+            )}
         </Metadata>
     )
 }

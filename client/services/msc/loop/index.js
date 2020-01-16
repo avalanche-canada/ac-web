@@ -2,7 +2,6 @@ import { domain } from '../config.json'
 import addDays from 'date-fns/add_days'
 import addMinutes from 'date-fns/add_minutes'
 import startOfDay from 'date-fns/start_of_day'
-import formatDate from 'date-fns/format'
 import differenceInMinutes from 'date-fns/difference_in_minutes'
 import { loadImage } from 'utils/promise'
 import metadata from './metadata.json'
@@ -18,7 +17,7 @@ export function getNotes(type) {
         throw new Error(`Loop of type=${type} not recognized.`)
     }
 
-    const { notes } = metadata[type]
+    const { notes = [] } = metadata[type]
 
     if (isForecast(metadata[type])) {
         return getForecastNotes(metadata[type]).concat(notes)
@@ -28,34 +27,28 @@ export function getNotes(type) {
 }
 
 function getForecastNotes({ updates }) {
-    updates = updates
+    const hours = updates
         .map(update => {
-            const date = new Date()
+            const hours = Math.floor(update)
+            const minutes = (update - hours) * 60
 
-            date.setHours(update)
-            date.setMinutes(0)
-
-            return date
+            return new Date(Date.UTC(0, 0, 0, hours, minutes))
         })
-        .sort(hourSorter)
-        .map(date => formatDate(date, 'HH[:]mm'))
-
-    const last = updates.pop()
+        .map(date => date.toLocaleTimeString().substring(0, 5))
+        .sort()
+    const last = hours.pop()
 
     return [
-        `Updated at approximately ${updates.join(', ')} & ${last} every day.`,
+        [
+            'Updated at approximately',
+            hours.join(', '),
+            hours.length && '&',
+            last,
+            'every day.',
+        ]
+            .filter(Boolean)
+            .join(' '),
     ]
-}
-
-function hourSorter(left, right) {
-    if (left.getHours() > right.getHours()) {
-        return 1
-    }
-    if (left.getHours() > right.getHours()) {
-        return -1
-    }
-
-    return 0
 }
 
 export async function computeUrls(props, maxAttempts = MAX_ATTEMPTS) {
@@ -167,7 +160,12 @@ async function computeCurrentConditionsUrls({
         dates = dates.splice(dates.length - amount)
     }
 
-    return dates.map(date => formatCurrentConditionsUrl(type, date))
+    const urls = dates.map(date => formatCurrentConditionsUrl(type, date))
+
+    // TODO Remove the conversion to Set and then from Array.
+    // Did that to remove the duplicate image urls at midnight. 
+    
+    return Array.from(new Set(urls))
 }
 
 export function formatForecastUrl(type, date, run, hour) {
@@ -202,7 +200,7 @@ function formatCurrentConditionsUrl(type, date) {
         year,
         month,
         day,
-        [id, year + month + day, `${hour}${minute}Z.${extension}`].join('_'),
+        [id, year + month + day, hour + minute + 'Z.' + extension].join('_'),
     ].join('/')
 }
 

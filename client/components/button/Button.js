@@ -1,12 +1,11 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
+import classnames from 'classnames'
 import KIND, { ALL as KINDS } from './kinds'
-import styles from './Button.css'
+import css from './Button.css'
 
 const LEFT = 'LEFT'
 const RIGHT = 'RIGHT'
-const classNames = classnames.bind(styles)
 
 Button.propTypes = {
     children: PropTypes.node,
@@ -27,13 +26,14 @@ function Button({
     children,
     ...props
 }) {
-    const className = classNames(props.className, kind, {
-        Active: active,
-        Shadow: shadow,
-        Large: large,
-        ChevronLeft: chevron === LEFT,
-        ChevronRight: chevron === RIGHT,
-        Chevron: chevron === true,
+    const className = classnames(props.className, {
+        [css[kind]]: true,
+        [css.Active]: active,
+        [css.Shadow]: shadow,
+        [css.Large]: large,
+        [css.ChevronLeft]: chevron === LEFT,
+        [css.ChevronRight]: chevron === RIGHT,
+        [css.Chevron]: chevron === true,
     })
 
     return (

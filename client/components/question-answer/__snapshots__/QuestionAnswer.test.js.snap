@@ -1,16 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`question & answer component 1`] = `
-<section>
-  <p
-    className="Question"
-  >
+<details
+  className="Container"
+  open={false}
+>
+  <summary>
     A question
-  </p>
+  </summary>
   <div
-    className="Answer"
+    className="horizontal"
   >
     An answer
   </div>
-</section>
+</details>
 `;

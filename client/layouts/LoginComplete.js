@@ -1,99 +1,86 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import AuthContext from 'contexts/auth'
+import { useAuth } from 'contexts/auth'
 import { captureException } from 'services/sentry'
-import { Loading, Headline } from 'components/page'
+import { Headline } from 'components/page'
+import { Loading } from 'layouts/pages'
 import { Muted, Error } from 'components/text'
 import { Generic } from 'prismic/layouts'
 
-// TODO Rework w/ <Suspense> & HOOKS
+LoginComplete.propTypes = {
+    navigate: PropTypes.func.isRequired,
+    location: PropTypes.object.isRequired,
+}
 
-export default class LoginComplete extends Component {
-    static propTypes = {
-        navigate: PropTypes.func.isRequired,
-        location: PropTypes.object.isRequired,
+export default function LoginComplete(props) {
+    const [error, setError] = useState(null)
+    const auth = useAuth()
+    function navigate(to = '/') {
+        props.navigate(to, {
+            repace: true,
+        })
     }
-    static contextType = AuthContext
-    state = {
-        error: true,
-        showMoreDetails: false,
-    }
-    toggleMoreDetails = () => {
-        this.setState(({ showMoreDetails }) => ({
-            showMoreDetails: !showMoreDetails,
-        }))
-    }
-    login = () => {
-        this.setState({ error: null })
+    function login() {
+        setError(null)
 
-        this.context.login(
+        auth.login(
             new Map([
                 [
                     'hide',
                     () => {
-                        this.navigate('/')
+                        navigate()
                     },
                 ],
             ])
         )
     }
-    navigate(to, timeout = 0) {
-        setTimeout(() => {
-            this.props.navigate(to, {
-                replace: true,
-            })
-        }, timeout)
-    }
-    async componentDidMount() {
-        const { hash } = this.props.location
+
+    useEffect(() => {
+        const { hash } = props.location
 
         if (hash) {
-            try {
-                this.setState({ error: null })
+            setError(null)
 
-                const props = await this.context.resume(hash)
-
-                this.navigate(props?.state || '/', 1500)
-            } catch (error) {
-                captureException(error)
-                this.setState({ error })
-            }
+            auth.resume(hash)
+                .then(props => {
+                    setTimeout(() => {
+                        navigate(props?.state)
+                    }, 1500)
+                })
+                .catch(error => {
+                    captureException(error)
+                    setError(error)
+                })
         } else {
-            this.navigate('/')
+            navigate()
         }
-    }
-    render() {
-        const { error, showMoreDetails } = this.state
+    }, [])
 
-        return (
-            <Loading title="Loggin in progress...">
-                {error ? (
-                    <Fragment>
-                        <Headline>
-                            <Error>
-                                An error happened while login you in. You can
-                                try another{' '}
-                                <a href="#" onClick={this.login}>
-                                    login
-                                </a>
-                                .
-                            </Error>
-                        </Headline>
-                        <Generic uid="login-help" />
-                        <a href="#" onClick={this.toggleMoreDetails}>
-                            {showMoreDetails ? 'Less' : 'More'} details about
-                            the error...
-                        </a>
-                        {showMoreDetails && (
-                            <Error>{JSON.stringify(error, null, 4)}</Error>
-                        )}
-                    </Fragment>
-                ) : (
+    return (
+        <Loading title="Loggin in progress...">
+            {error ? (
+                <Fragment>
                     <Headline>
-                        <Muted>You will be redirected once we are done!</Muted>
+                        <Error>
+                            An error happened while login you in. You can try
+                            another{' '}
+                            <a href="#" onClick={login}>
+                                login
+                            </a>
+                            .
+                        </Error>
                     </Headline>
-                )}
-            </Loading>
-        )
-    }
+                    <Generic uid="login-help" />
+                    <details>
+                        <summary>More details about the error...</summary>
+                        <Error>{JSON.stringify(error, null, 4)}</Error>
+                    </details>
+                </Fragment>
+            ) : (
+                <Headline>
+                    <Muted>You will be redirected once we are done!</Muted>
+                </Headline>
+            )}
+        </Loading>
+    )
 }

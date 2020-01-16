@@ -1,17 +1,11 @@
-import {
-    accessToken,
-    username,
-    protocol,
-    hostname,
-    styleIds,
-} from './config.json'
-import { Revelstoke } from 'constants/map/locations'
+import { ACCESS_TOKEN, USENAME, API, STYLE_IDS } from './config'
+import { path } from 'utils/url'
 
 export function createStyleUrl({
-    styleId = styleIds['2016'],
+    styleId = STYLE_IDS.default,
     overlay,
-    longitude = Revelstoke.longitude,
-    latitude = Revelstoke.latitude,
+    longitude = -118.2, // ~Revelstoke
+    latitude = 50, // ~Revelstoke
     zoom = 10,
     bearing = 0,
     pitch = 0,
@@ -20,22 +14,17 @@ export function createStyleUrl({
     height = 250,
     retina = false,
 } = {}) {
-    let pathname = [
+    return path(
+        API,
         'styles/v1',
-        username,
+        USENAME,
         styleId,
         'static',
-        Array.isArray(overlay) ? overlay.join(',') : false,
-        `${longitude},${latitude},${zoom},${bearing},${pitch}`,
+        Array.isArray(overlay) ? overlay.join(',') : overlay,
+        [longitude, latitude, zoom, bearing, pitch].join(','),
         auto ? 'auto' : false,
         `${width}x${height}`,
-    ]
-        .filter(Boolean)
-        .join('/')
-
-    if (retina) {
-        pathname = pathname + '@2x'
-    }
-
-    return `${protocol}://${hostname}/${pathname}?access_token=${accessToken}`
+        retina ? '@2x' : false,
+        '?access_token=' + ACCESS_TOKEN
+    )
 }

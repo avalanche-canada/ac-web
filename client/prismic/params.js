@@ -9,6 +9,7 @@ import * as Predicates from 'prismic/predicates'
 import * as types from 'constants/prismic'
 
 // TODO: Find a way to reduce this file size and KEEP it easy to read
+// Should it be splited into different modules?
 
 export function uid(type, uid) {
     return {
@@ -47,11 +48,17 @@ export const mw = {
 }
 
 export const tutorial = {
-    article(id) {
-        return uid(types.TUTORIAL_ARTICLE, id)
+    article(id, locale) {
+        return {
+            ...uid(types.TUTORIAL_ARTICLE, id),
+            locale,
+        }
     },
-    home() {
-        return all(types.TUTORIAL)
+    home(locale) {
+        return {
+            ...all(types.TUTORIAL),
+            locale,
+        }
     },
 }
 
@@ -144,10 +151,10 @@ export function spaw() {
 }
 
 export const glossary = {
-    glossary() {
+    glossary(id = 'glossary') {
         return {
             ...FETCH_DEFINITION_TITLE_OPTIONS,
-            ...uid(types.GLOSSARY, 'glossary'),
+            ...uid(types.GLOSSARY, id),
         }
     },
     definition(id) {
@@ -192,10 +199,9 @@ export const feed = {
 
         params.predicates.push(Predicates.not(my(type, 'uid'), uid))
 
-        return {
-            ...params,
+        return Object.assign(params, {
             pageSize: 7,
-        }
+        })
     },
     blog({ year, month, category, page = 1, pageSize = 10 }) {
         const { BLOG } = types
@@ -267,7 +273,7 @@ export const feed = {
     },
 }
 
-export function tags({ type, page = 1 }) {
+export function tags(type, page = 1) {
     return {
         ...all(type),
         fetch: 'document.tags',

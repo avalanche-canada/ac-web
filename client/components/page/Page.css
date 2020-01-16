@@ -19,10 +19,6 @@
     }
 }
 
-.Page {
-    position: relative;
-}
-
 .Content {
     composes: RestrictFullPageWidth;
     height: 100%;
@@ -36,7 +32,8 @@
 .Main {
     flex: 1 0 70%;
     height: 100%;
-    /*  HACK: avalanche.ca/youth was overflowing and overflow hidden was not
+    /*  
+        HACK: avalanche.ca/youth was overflowing and overflow hidden was not
         working on avalanche.ca/forecasts/archives.
         http://stackoverflow.com/questions/12022288/how-to-keep-a-flex-item-from-overflowing-due-to-its-text
     */
@@ -44,11 +41,6 @@
 
     @media (--full-width) {
         padding: 0;
-    }
-
-    & > .Headline {
-        margin: 1.5em 0;
-        font-weight: 700;
     }
 
     @media (--side-by-side) {
@@ -118,8 +110,24 @@
     }
 }
 
+.Heading[id] {
+    &:before {
+        /* 
+            Took some inspiration from:
+                - http://nicolasgallagher.com/jump-links-and-viewport-positioning
+                - https://reactjs.org/docs website by itself
+        */
+        content: '';
+        display: block;
+        padding-top: 6rem;
+        margin-top: -6rem;
+    }
+}
+
 .Headline {
     font-size: 1rem;
+    margin: 1.5em 0;
+    font-weight: 700;
 }
 
 .Section {
@@ -139,70 +147,6 @@
     }
 }
 
-.Nav {
-}
-
-.Background {
-    min-height: 100%;
-    height: calc(100vh - 75px);
-    color: var(--black);
-    text-align: center;
-
-    & .Main {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-    }
-
-    & .Headline {
-        font-size: 1.25rem;
-    }
-
-    &:after {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background-image: url('//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg');
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center;
-        opacity: 0.5;
-        z-index: -1;
-    }
-
-    & h1 {
-        font-size: 2.5em;
-    }
-
-    & br {
-        line-height: 1.5;
-    }
-}
-
-.Error {
-    composes: Page;
-    composes: Background;
-}
-
-.UnsupportedMap {
-    composes: Error;
-
-    height: auto;
-
-    & section {
-        text-align: left;
-        margin: 0 1em;
-    }
-
-    & ul {
-        font-size: 1.25em;
-    }
-}
-
 .List {
     text-align: left;
     font-size: 1.25em;
@@ -214,20 +158,5 @@
 
     @media (--small-width) {
         column-count: 2;
-    }
-}
-
-.Link {
-    composes: import Large from '../button/Button.css';
-    composes: import Primary from '../button/Button.css';
-}
-
-.ContextMap {
-    & :global(.mapboxgl-map) {
-        height: 175px;
-
-        @media (--side-by-side) {
-            height: 225px;
-        }
     }
 }

@@ -1,101 +1,111 @@
 let id = 0
 
 const Gear = {
-    id: String(id++),
-    label: 'Essential Gear',
+    id: id++,
+    label: 'Essential gear',
     to: '/gear',
 }
 const TripPlanner = {
-    id: String(id++),
-    label: 'Trip Planner',
+    id: id++,
+    label: 'Trip planner',
     to: '/planning/trip-planner',
 }
 const Dangerator = {
-    id: String(id++),
+    id: id++,
     label: 'Dangerator',
     to: '/dangerator',
 }
-const Forecasts = {
-    id: String(id++),
-    label: 'Forecast Regions',
+const ForecastRegionsListView = {
+    id: id++,
+    label: 'Forecast regions list view',
     to: '/forecasts',
 }
+const WeatherStationsListView = {
+    id: id++,
+    label: 'Weather stations list view',
+    to: '/weather/stations',
+}
 const MountainWeatherForecast = {
-    id: String(id++),
+    id: id++,
     label: 'Mountain Weather Forecast',
     to: '/weather',
 }
 const ForecasterBlog = {
-    id: String(id++),
-    label: 'Forecasters’ Blogs',
+    id: id++,
+    label: 'Forecasters’ blogs',
     to: '/blogs?category=forecaster+blog',
 }
 const AvCanTrainingCourses = {
-    id: String(id++),
+    id: id++,
     label: 'AvCan Training Courses',
     header: true,
     to: '/training',
     children: [
         {
-            id: String(id++),
+            id: id++,
             label: 'Find a course',
             to: '/training/courses',
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'Find a provider',
             to: '/training/providers',
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'Avalanche Skills Training 1',
             to: '/training#ast1',
         },
         {
-            id: String(id++),
-            label: 'Avalanche Skills Training 2',
-            to: '/training#ast2',
-        },
-        {
-            id: String(id++),
-            label: 'Managing Avalanche Terrain',
-            to: '/training#mat',
-        },
-        {
-            id: String(id++),
+            id: id++,
             label: 'Companion Rescue Skills',
             to: '/training#crs',
         },
         {
-            id: String(id++),
+            id: id++,
+            label: 'Managing Avalanche Terrain',
+            to: '/training#mat',
+        },
+        {
+            id: id++,
+            label: 'AST 1+',
+            to: '/training#ast1+',
+        },
+        {
+            id: id++,
+            label: 'Avalanche Skills Training 2',
+            to: '/training#ast2',
+        },
+        {
+            id: id++,
             label: 'Teaching Avalanche Skills Training',
             to: '/instructing-ast',
         },
     ],
 }
 const MountainInformationNetworkListView = {
-    id: String(id++),
-    label: 'All reports',
+    id: id++,
+    label: 'MIN reports list view',
     to: '/mountain-information-network/submissions',
 }
 const MountainInformationNetwork = {
-    id: String(id++),
+    id: id++,
     label: 'Mountain Information Network',
     header: true,
     to: '/mountain-information-network',
     children: [
         {
-            id: String(id++),
+            id: id++,
             label: 'How to GET information?',
             to: '/mountain-information-network#get-information',
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'How to GIVE information?',
             to: '/mountain-information-network#give-information',
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'Create a report',
             to: '/mountain-information-network/submit',
         },
@@ -103,7 +113,7 @@ const MountainInformationNetwork = {
     ],
 }
 const Planning = {
-    id: String(id++),
+    id: id++,
     label: 'Planning',
     to: '/planning',
     header: true,
@@ -113,42 +123,43 @@ const Planning = {
         TripPlanner,
         Dangerator,
         Gear,
-        Forecasts,
+        ForecastRegionsListView,
+        WeatherStationsListView,
     ],
 }
 
 module.exports = {
-    id: String(id++),
+    id: id++,
     label: 'Avalanche Canada',
     to: '/',
     children: [
         {
-            id: String(id++),
+            id: id++,
             label: 'Backcountry Resources',
             children: [
                 Object.assign({}, MountainInformationNetwork, {
-                    id: String(id++),
+                    id: id++,
                 }),
                 Planning,
                 {
-                    id: String(id++),
+                    id: id++,
                     label: 'Information',
                     to: '/information',
                     header: true,
                     children: [
                         {
-                            id: String(id++),
-                            label: 'Forecast Archive',
+                            id: id++,
+                            label: 'Forecast archive',
                             to: '/forecasts/archives',
                         },
                         {
-                            id: String(id++),
-                            label: 'Avalanche Advisory Archive',
+                            id: id++,
+                            label: 'Avalanche advisory archive',
                             to: '/advisories/archives',
                         },
                         {
-                            id: String(id++),
-                            label: 'Avalanche Incident Database',
+                            id: id++,
+                            label: 'Avalanche incident database',
                             to: '/incidents',
                         },
                     ],
@@ -156,72 +167,95 @@ module.exports = {
             ],
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'Learn',
             children: [
-                Object.assign({}, AvCanTrainingCourses, { id: String(id++) }),
                 {
-                    id: String(id++),
+                    id: id++,
+                    label: 'Fresh to the Backcountry?',
+                    header: true,
+                    to: '/start-here',
+                    children: [
+                        {
+                            id: id++,
+                            label: 'What is avalanche terrain?',
+                            to: '/start-here#avalanche-terrain',
+                        },
+                        {
+                            id: id++,
+                            label: 'What are avalanche conditions?',
+                            to: '/start-here#weather-factors',
+                        },
+                        {
+                            id: id++,
+                            label: 'What does snowpack instability look like?',
+                            to: '/start-here#instability-signs',
+                        },
+                    ],
+                },
+                Object.assign({}, AvCanTrainingCourses, { id: id++ }),
+                {
+                    id: id++,
                     label: 'Online Education',
                     header: true,
                     to: '/education',
                     children: [
                         {
-                            id: String(id++),
-                            label: 'Online Avalanche Tutorial',
+                            id: id++,
+                            label: 'Online avalanche tutorial',
                             to: '/tutorial',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Cours d’avalanche en ligne (français)',
                             to: '/tutoriel',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Glossary',
                             to: '/glossary',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Rescue at Cherry Bowl',
                             to: 'https://avalanche.ca/cherry-bowl',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Land of Thundering Snow',
                             to: 'http://www.landofthunderingsnow.ca',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Videos',
                             to: 'https://vimeo.com/avalanchecanada',
                         },
                     ],
                 },
                 {
-                    id: String(id++),
+                    id: id++,
                     label: 'Youth Education',
                     header: true,
                     to: '/youth',
                     children: [
                         {
-                            id: String(id++),
-                            label: 'Teaching Guidelines',
+                            id: id++,
+                            label: 'Teaching guidelines',
                             to: '/youth#teaching-guidelines',
                         },
                         {
-                            id: String(id++),
-                            label: 'Our Programs',
+                            id: id++,
+                            label: 'Our programs',
                             to: '/youth#programs',
                         },
                         {
-                            id: String(id++),
-                            label: 'Curriculum & Resources',
+                            id: id++,
+                            label: 'Curriculum & resources',
                             to: '/youth#curriculum',
                         },
                         {
-                            id: String(id++),
-                            label: 'External Programs',
+                            id: id++,
+                            label: 'External programs',
                             to: '/youth#external-programs',
                         },
                     ],
@@ -229,169 +263,168 @@ module.exports = {
             ],
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'Snowmobilers',
             to: '/sled',
             children: [
                 {
-                    id: String(id++),
+                    id: id++,
                     label: 'Mountain Sledding',
                     header: true,
                     to: '/sled',
                     children: [
                         {
-                            id: String(id++),
-                            label: 'Avalanche Basics',
+                            id: id++,
+                            label: 'Avalanche basics',
                             to: '/sled#avalanche-basics',
                         },
                         {
-                            id: String(id++),
-                            label: 'Featured Resources',
+                            id: id++,
+                            label: 'Featured resources',
                             to: '/sled#featured-resources',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Throttle Decisions',
                             to: '/sled#throttle-decisions',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'News',
                             to: '/sled#news',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Events',
                             to: '/sled#events',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'SledComm',
                             to: '/sled#sledcomm',
                         },
                     ],
                 },
                 Object.assign({}, MountainInformationNetwork, {
-                    id: String(id++),
+                    id: id++,
                 }),
                 Planning,
-                Object.assign({}, AvCanTrainingCourses, { id: String(id++) }),
+                Object.assign({}, AvCanTrainingCourses, { id: id++ }),
             ],
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'News & Events',
             children: [
                 {
-                    id: String(id++),
+                    id: id++,
                     to: '/news',
                     label: 'News',
-                    headline: 'Visit our latest News.',
+                    headline: 'Visit our latest news.',
                 },
                 {
-                    id: String(id++),
+                    id: id++,
                     to: '/events',
                     label: 'Events',
-                    headline: 'Visit our upcoming Events.',
+                    headline: 'Visit our upcoming events.',
                 },
             ],
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'About',
-            noWrap: true,
             children: [
                 {
-                    id: String(id++),
+                    id: id++,
                     label: 'About',
                     header: true,
                     to: '/about',
                     children: [
                         {
-                            id: String(id++),
-                            label: 'Annual Reports',
+                            id: id++,
+                            label: 'Annual reports',
                             to: '/about#annual-reports',
                         },
                         {
-                            id: String(id++),
-                            label: 'Stakeholder Newsletter',
-                            to: '/about#stakeholdernews',
+                            id: id++,
+                            label: 'The Aspect newsletter',
+                            to: '/about#newsletters',
                         },
                         {
-                            id: String(id++),
-                            label: 'Board of Directors',
-                            to: '/about#board',
-                        },
-                        {
-                            id: String(id++),
-                            label: 'Our Staff',
+                            id: id++,
+                            label: 'Our staff',
                             to: '/about#staff',
                         },
                         {
-                            id: String(id++),
-                            label: 'Service Awards',
+                            id: id++,
+                            label: 'Board of directors',
+                            to: '/about#board',
+                        },
+                        {
+                            id: id++,
+                            label: 'Service awards',
                             to: '/about#awards',
                         },
                         {
-                            id: String(id++),
-                            label: 'Contact Us',
+                            id: id++,
+                            label: 'Contact us',
                             to: '/about#contact-us',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Careers',
                             to: '/careers',
                         },
                     ],
                 },
                 {
-                    id: String(id++),
+                    id: id++,
                     label: 'Ambassadors',
                     header: true,
                     to: '/ambassadors',
                 },
                 {
-                    id: String(id++),
+                    id: id++,
                     label: 'Sponsors & Collaborators',
                     header: true,
                     to: '/sponsors',
                     children: [
                         {
-                            id: String(id++),
-                            label: 'Program Partners',
-                            to: 'sponsors#partner',
+                            id: id++,
+                            label: 'Program partners',
+                            to: '/sponsors#partner',
                         },
                         {
-                            id: String(id++),
-                            label: 'Premier Sponsors',
-                            to: 'sponsors#funding',
+                            id: id++,
+                            label: 'Premier sponsors',
+                            to: '/sponsors#premier',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Supporters',
-                            to: 'sponsors#supplier',
+                            to: '/sponsors#supporter',
                         },
                         {
-                            id: String(id++),
+                            id: id++,
                             label: 'Contributors',
-                            to: 'sponsors#associate',
+                            to: '/sponsors#contributors',
                         },
                         {
-                            id: String(id++),
-                            label: 'Government Partners',
-                            to: 'collaborators#government',
+                            id: id++,
+                            label: 'Government partners',
+                            to: '/collaborators#government-partners',
                         },
                         {
-                            id: String(id++),
-                            label: 'Other Agencies and Organizations',
-                            to: 'collaborators#other',
+                            id: id++,
+                            label: 'Other agencies and organizations',
+                            to: '/collaborators#agencies',
                         },
                     ],
                 },
             ],
         },
         {
-            id: String(id++),
+            id: id++,
             label: 'Store',
             to: 'https://store.avalanche.ca',
         },

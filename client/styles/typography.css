@@ -1,11 +1,17 @@
-@import "./colors.css";
+@import './colors.css';
 
 .Back {
     &:not([href^='#']) {
         &:before {
-            /* \00a0 == &nbsp; */
+            /* \00a0 === &nbsp; */
             content: '‹\00a0';
             color: var(--primary);
         }
     }
+}
+
+h1 > small {
+    display: block;
+    color: var(--gray);
+    font-size: 65%;
 }

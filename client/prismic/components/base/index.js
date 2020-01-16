@@ -1,4 +1,4 @@
-export Image, { OpenInNewTab as OpenImageInNewTab } from './Image'
+export Image from './Image'
 export SliceZone from './SliceZone'
 export StructuredText from './StructuredText'
 export Embed from './Embed'

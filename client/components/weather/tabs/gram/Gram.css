@@ -1,4 +1,4 @@
-@import "../../../../styles/colors.css";
+@import '../../../../styles/colors.css';
 
 .GramSet {
     display: flex;
@@ -10,7 +10,6 @@
     flex: 50%;
     box-sizing: border-box;
     padding: 2em;
-    cursor: pointer;
 
     & > header {
         display: block;

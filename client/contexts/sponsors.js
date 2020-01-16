@@ -1,27 +1,21 @@
-import React, { createContext, useEffect } from 'react'
+import React, { createContext, useContext } from 'react'
 import PropTypes from 'prop-types'
-import formatDate from 'date-fns/format'
-import { resource } from 'api/urls/static'
-import { useLocalStorage, useFetch, useTimeout } from 'utils/react/hooks'
+import * as requests from 'requests/static'
+import { useCacheAsync } from 'hooks/async'
+import { DateParam } from 'hooks/params'
 
 Provider.propTypes = {
     children: PropTypes.element,
 }
 
 export function Provider({ children }) {
-    const ready = useTimeout(999)
-    const [data] = useFetch(ready ? resource('sponsors') : null)
-    const [sponsors, setSponsors] = useLocalStorage('sponsors', SPONSORS)
-
-    useEffect(() => {
-        if (!data) {
-            return
-        }
-
-        const date = formatDate(new Date(), 'YYYY-MM-DD')
-
-        setSponsors(Object.assign({}, data.default, data[date]))
-    }, [data])
+    const date = DateParam.format(new Date())
+    const [sponsors = EMPTY] = useCacheAsync(
+        requests.sponsors,
+        [date],
+        undefined,
+        'sponsors'
+    )
 
     return (
         <SponsorsContext.Provider value={sponsors}>
@@ -30,22 +24,11 @@ export function Provider({ children }) {
     )
 }
 
-const SPONSORS = {
-    About: 'rmr',
-    BlogIndex: 'teck',
-    BlogPage: 'mec',
-    EventIndex: 'varda',
-    EventPage: 'black-diamond',
-    Forecast: 'acf',
-    Gear: 'garmin-inreach',
-    MIN: 'rmr',
-    NewsIndex: 'northface',
-    NewsPage: 'outdoorresearch',
-    Training: 'revelstoke-tourism',
-    Weather: 'cbt',
-    Youth: 'cbt',
+export function useSponsor(name) {
+    const sponsors = useContext(SponsorsContext)
+
+    return sponsors[name] || name
 }
 
 const SponsorsContext = createContext()
-
-export default SponsorsContext
+const EMPTY = {}

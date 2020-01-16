@@ -1,23 +1,22 @@
-import { build, path } from 'utils/url'
+import { appendParams, path } from 'utils/url'
 import {
     EVENT,
     BLOG,
     NEWS,
-    GENERIC,
-    STATIC_PAGE,
     DEFINITION,
     TUTORIAL_ARTICLE,
     FATAL_ACCIDENT,
 } from 'constants/prismic'
 
-// TODO Cleanup, I do not
-
 export const feed = {
     uid(type, uid) {
-        return build(path(FEED_PATHS.get(type), uid), undefined, '/')
+        return path(feed.type(type), uid)
     },
     tags(type, tags) {
-        return build(FEED_PATHS.get(type), { tags }, '/')
+        return appendParams(feed.type(type), { tags })
+    },
+    type(type) {
+        return FEED_PATHS_BY_TYPE.get(type)
     },
 }
 
@@ -27,19 +26,23 @@ export function pathname({ type, uid, lang }) {
         case BLOG:
         case NEWS:
             return feed.uid(type, uid)
-        case GENERIC:
-        case STATIC_PAGE:
-            return `/pages/${type}/${uid}`
-        case TUTORIAL_ARTICLE:
-            return `/${lang === 'fr-ca' ? 'tutoriel' : 'tutorial'}?uid=${uid}`
+        case TUTORIAL_ARTICLE: {
+            const path = lang === 'fr-ca' ? '/tutoriel' : '/tutorial'
+
+            return appendParams(path, { uid })
+        }
         case DEFINITION:
             return `/glossary#${uid}`
         case FATAL_ACCIDENT:
             return `/map?panel=fatal-accidents/${uid}`
         default:
-            return `/pages/${type}/${uid}`
+            return path('/pages', type, uid)
     }
 }
 
 // Constants
-const FEED_PATHS = new Map([[NEWS, 'news'], [BLOG, 'blogs'], [EVENT, 'events']])
+const FEED_PATHS_BY_TYPE = new Map([
+    [NEWS, '/news'],
+    [BLOG, '/blogs'],
+    [EVENT, '/events'],
+])

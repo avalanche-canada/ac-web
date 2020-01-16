@@ -1,5 +1,6 @@
 import React, { lazy } from 'react'
-import { Page, Main, Content, Header } from 'components/page'
+import { Main, Content, Header } from 'components/page'
+import { Page } from 'layouts/pages'
 import Bundle from 'components/Bundle'
 
 const Incidents = lazy(() => import('./layouts'))

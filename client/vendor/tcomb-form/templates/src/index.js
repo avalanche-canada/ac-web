@@ -56,7 +56,7 @@ export const pickers = {
                 value ? format(parse(value), 'YYYY-MM-DDTHH:mm') : ''
         },
         renderContent(locals) {
-            const value = locals.value || new Date()
+            const value = locals.value || createDate()
             const {
                 onChange,
                 attrs: { min, max },
@@ -89,6 +89,13 @@ export const pickers = {
 // Utils
 function formatDate(date) {
     return format(date, DATETIME)
+}
+function createDate() {
+    const date = new Date()
+
+    date.setMinutes(Math.floor(date.getMinutes() / 5) * 5)
+
+    return date
 }
 function OverlayComponent({
     classNames,

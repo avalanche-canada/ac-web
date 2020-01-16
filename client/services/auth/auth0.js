@@ -1,6 +1,6 @@
 import { PRIMARY } from 'constants/colors'
 import logo from 'styles/AvalancheCanada.svg'
-import { clientId, domain } from './config.json'
+import config from './config.json'
 import Accessor from './accessor'
 
 export async function resume(hash) {
@@ -44,8 +44,6 @@ export async function login(events = new Map()) {
 
 export function logout() {
     Accessor.clear()
-
-    return Promise.resolve()
 }
 
 // Utils
@@ -54,33 +52,50 @@ async function lock() {
     if (LOCK) {
         return Promise.resolve(LOCK)
     } else {
-        return import('auth0-lock').then(({ default: Auth0Lock }) => {
-            const { hash, origin } = document.location
-            const params = new URLSearchParams(hash.replace(/^\#/, ''))
+        return import('auth0-lock').then(
+            ({ default: Auth0Lock }) => {
+                const { hash, origin } = document.location
+                const params = new URLSearchParams(hash.replace(/^\#/, ''))
+                const { clientId, domain, configurationBaseUrl } = config
 
-            LOCK = new Auth0Lock(clientId, domain, {
-                closable: true,
-                autoclose: false,
-                avatar: true,
-                auth: {
-                    redirect: true,
-                    redirectUrl: `${origin}/login-complete`,
-                    responseType: 'id_token token',
-                    scope: 'openid email',
-                    state: params.get('state'),
-                },
-                theme: {
-                    primaryColor: PRIMARY,
-                    logo,
-                },
-                socialButtonStyle: 'small',
-                languageDictionary: {
-                    title: '',
-                },
-            })
+                LOCK = new Auth0Lock(clientId, domain, {
+                    configurationBaseUrl,
+                    closable: true,
+                    autoclose: false,
+                    avatar: true,
+                    auth: {
+                        redirect: true,
+                        redirectUrl: `${origin}/login-complete`,
+                        responseType: 'id_token token',
+                        scope: 'openid email',
+                        state: params.get('state'),
+                    },
+                    theme: {
+                        primaryColor: PRIMARY,
+                        logo,
+                    },
+                    socialButtonStyle: 'small',
+                    languageDictionary: {
+                        title: '',
+                    },
+                })
 
-            return LOCK
-        })
+                return LOCK
+            },
+            error => {
+                if (error.name === 'ChunkLoadError') {
+                    window.location.reload(true)
+
+                    // TODO That is not enough, need to reload and open the login screen as well,
+                    // so user will not get too confused. Need to create a "/login" route and then pass the
+                    // current location as parameter.
+
+                    return
+                }
+
+                throw error
+            }
+        )
     }
 }
 function setAuthResult({ idTokenPayload, accessToken, idToken, ...rest }) {

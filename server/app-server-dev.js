@@ -8,6 +8,7 @@ const logger = require('./logger');
 const config = require('./config/environment');
 
 const app = express();
+app.set('view cache', false);
 
 require('./config/express')(app);
 require('./routes')(app);

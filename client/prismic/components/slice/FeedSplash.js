@@ -1,7 +1,7 @@
 import React from 'react'
+import { Heading } from 'components/page'
 import { Splash } from 'layouts/feed'
 import { StructuredText } from 'prismic/components/base'
-import { FragmentIdentifier } from 'router'
 import Shim from 'components/Shim'
 
 export default function FeedSplash({ value }) {
@@ -17,13 +17,9 @@ export default function FeedSplash({ value }) {
     return (
         <Splash type={TYPES.get(type)} tags={tags}>
             <Shim right>
-                {hash ? (
-                    <FragmentIdentifier hash={hash}>
-                        {header}
-                    </FragmentIdentifier>
-                ) : (
-                    header
-                )}
+                <Heading as="div" hash={hash}>
+                    {header}
+                </Heading>
             </Shim>
         </Splash>
     )

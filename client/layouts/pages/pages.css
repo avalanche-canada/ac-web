@@ -1,0 +1,116 @@
+@import '../../styles/colors.css';
+
+.Page {
+    & > header {
+        position: fixed;
+        z-index: 2;
+        width: 100%;
+        top: 0;
+    }
+
+    & > div {
+        display: flex;
+        flex-direction: column;
+        min-height: calc(100vh - 5em);
+        margin-top: 5em;
+
+        & > div {
+            flex: 1;
+        }
+
+        & > footer {
+            flex: none;
+        }
+    }
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    /* Hack for IE11 */
+    .Page > div > div {
+        flex-basis: auto;
+    }
+}
+
+.Screen {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    height: 100vh;
+
+    & > header,
+    & > footer {
+        flex: 0 0 auto;
+    }
+
+    & > main {
+        position: relative;
+        flex: 1;
+        display: flex;
+    }
+}
+
+.Error {
+    color: var(--black);
+    text-align: center;
+
+    & main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        & > h1 > small {
+            margin: 1em 0;
+            color: var(--gray-darker);
+        }
+
+        & > p {
+            font-size: 1.25em;
+            font-weight: 700;
+            margin: 2em;
+        }
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url('//s3-us-west-2.amazonaws.com/ac-assets/images/avalanche-gully.jpg');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+    & h1 {
+        font-size: 2.5em;
+    }
+
+    & br {
+        line-height: 1.5;
+    }
+}
+
+.UnsupportedMap {
+    composes: Error;
+
+    height: auto;
+
+    & section {
+        text-align: left;
+        margin: 0 1em;
+    }
+
+    & ul {
+        font-size: 1.25em;
+    }
+}
+
+.Link {
+    composes: import Large from '../../components/button/Button.css';
+    composes: import Primary from '../../components/button/Button.css';
+}

@@ -9,6 +9,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    margin: 0;
     font-size: 0.85em;
 }
 
@@ -19,16 +20,13 @@
 
     flex: 50%;
     box-sizing: border-box;
-    margin: 0;
     min-height: 3em;
     padding: 0.25em;
     border-bottom: 2px solid var(--border-color);
     text-transform: uppercase;
 }
 
-.Entry--SideBySide {
-    composes: Entry;
-
+.Horizontal {
     flex-direction: row;
     align-items: center;
 
@@ -48,4 +46,12 @@
     margin-left: 0;
     color: var(--gray);
     font-weight: 700;
+}
+
+.Toggleable {
+    cursor: pointer;
+}
+
+.ShareEntryItem {
+    padding: 0 0.5em;
 }

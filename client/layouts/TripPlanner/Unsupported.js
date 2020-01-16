@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import UnsupportedMap from 'layouts/main/UnsupportedMap'
+import { UnsupportedMap } from 'layouts/pages'
 
 export default function Unsupported() {
     const links = new Map([

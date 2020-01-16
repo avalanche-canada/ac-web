@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import { Input } from 'components/controls'
 import { Place, Spinner } from 'components/icons'
 import noop from 'lodash/noop'
-import * as requests from 'services/mapbox/requests'
+import { place as request } from 'services/mapbox/requests'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import { Close } from 'components/button'
 import { PRIMARY } from 'constants/colors'
-import { useFetch, useBoolean } from 'utils/react/hooks'
+import { useBoolean } from 'hooks'
+import { useCacheAsync, createKey } from 'hooks/async'
 import styles from './Geocoder.css'
 
 Geocoder.propTypes = {
@@ -23,7 +24,8 @@ export default function Geocoder({
 }) {
     const [active, activate, deactivate] = useBoolean(false)
     const [term, setTerm] = useState(value || '')
-    const [places, loading] = useFetch(requests.place(term))
+    const key = createKey('mapbox', 'places', term)
+    const [places, loading] = useCacheAsync(request, [term], undefined, key)
     const showClear = !loading && term
     const opened = term && active && places && Array.isArray(places.features)
     function handleChange(event) {

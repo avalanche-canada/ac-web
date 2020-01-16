@@ -22,8 +22,8 @@ export default function MountainInformationNetworkMetadata({ shareable }) {
             <Entry term="Submitted by">{report.user}</Entry>
             <TimestampEntry term="Observations date" value={report.datetime} />
             <LocationEntry
-                longitude={report.latlng[1]}
-                latitude={report.latlng[0]}
+                longitude={report.lnglat[0]}
+                latitude={report.lnglat[1]}
             />
             {shareable && <ShareEntry url={utils.shareUrl(report.subid)} />}
         </Metadata>

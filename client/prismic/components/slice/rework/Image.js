@@ -4,7 +4,7 @@ import { Media, Caption } from 'components/media'
 import { StructuredText, Image as Base } from 'prismic/components/base'
 import Button, { INCOGNITO } from 'components/button'
 import { Fullscreen as Icon } from 'components/icons'
-import { useFullscreen } from 'utils/react/hooks'
+import { useFullscreen } from 'hooks'
 import { PRIMARY } from 'constants/colors'
 import styles from './Image.css'
 
@@ -19,7 +19,7 @@ Image.propTypes = {
 
 export default function Image({ primary, fullscreen }) {
     const { image, caption, credit } = primary
-    const [ref, , , toggle] = useFullscreen()
+    const [ref, , , toggle, enabled] = useFullscreen()
 
     return (
         <Media>
@@ -30,7 +30,7 @@ export default function Image({ primary, fullscreen }) {
                         <StructuredText value={caption} />
                     </Caption>
                 )}
-                {fullscreen && (
+                {fullscreen && enabled && (
                     <Button
                         kind={INCOGNITO}
                         className={styles.Fullscreen}

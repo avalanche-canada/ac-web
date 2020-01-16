@@ -1,24 +1,14 @@
 import React, { Fragment, useReducer } from 'react'
 import PropTypes from 'prop-types'
-import { Responsive, PageSizeSelector } from 'components/table'
-import {
-    Table,
-    TBody,
-    Header,
-    HeaderCell,
-    Row,
-    Cell,
-    Caption,
-} from 'components/table'
+import { Responsive, PageSizeSelector, FlexContentCell } from 'components/table'
+import { Sorting as SortingButton } from 'components/button'
 import Pagination from 'components/pagination'
 import { Loading, Muted } from 'components/text'
 import { Br } from 'components/misc'
-import snakeCase from 'lodash/snakeCase'
 import { NONE, DESC } from 'constants/sortings'
 import { StructuredText } from 'prismic/components/base'
-import { Documents } from 'prismic/containers'
 import * as Predicates from 'prismic/predicates'
-import { createAction } from 'utils/reducer'
+import { useSearch } from 'prismic/hooks'
 
 PrismicTable.propTypes = {
     value: PropTypes.array.isRequired,
@@ -27,29 +17,26 @@ PrismicTable.propTypes = {
 export default function PrismicTable({ value }) {
     const columns = value.map(createColumn)
     const type = value?.[0]?.source
-    const initial = {
+    const [state, dispatch] = useReducer(reducer, {
         sorting: [null, NONE],
         pageSize: 10,
         page: 1,
         onSortingChange(...sorting) {
-            dispatch(setSorting(sorting))
+            dispatch([Sorting, sorting])
         },
         onPageSizeChange(pageSize) {
-            dispatch(setPageSize(pageSize))
+            dispatch([PageSize, pageSize])
         },
         onPageChange(page) {
-            dispatch(setPage(page))
+            dispatch([Page, page])
         },
-    }
-    const [state, dispatch] = useReducer(reducer, initial)
+    })
     const orderings = []
     const [name, order] = state.sorting
 
     if (name && order !== NONE) {
         orderings.push(
-            `my.${type}.${snakeCase(name)} ${
-                order === DESC ? 'desc' : ''
-            }`.trim()
+            `my.${type}.${name} ${order === DESC ? 'desc' : ''}`.trim()
         )
     }
 
@@ -72,86 +59,84 @@ export default function PrismicTable({ value }) {
         }
     }
 
+    const [data = {}, pending] = useSearch(params)
+    const { results = [], total_pages, total_results_size } = data
+
     return (
-        <Documents {...params}>
-            {({ documents = [], pending, total_pages, total_results_size }) => (
-                <Fragment>
-                    <Br />
-                    <Responsive>
-                        <Table bordered>
-                            <Header>
-                                <Row>
-                                    {columns.map(column => (
-                                        <HeaderCell
-                                            key={column.name}
-                                            sorting={getSorting(column)}
-                                            onSortingChange={state.onSortingChange.bind(
-                                                null,
-                                                column.name
-                                            )}>
-                                            {column.title}
-                                        </HeaderCell>
-                                    ))}
-                                </Row>
-                            </Header>
-                            <TBody>
-                                {documents.map(row => (
-                                    <Row key={row.id}>
-                                        {columns.map(({ name, property }) => (
-                                            <Cell key={name}>
-                                                {property(row.data)}
-                                            </Cell>
-                                        ))}
-                                    </Row>
+        <Fragment>
+            <Br />
+            <Responsive>
+                <table>
+                    <thead>
+                        <tr>
+                            {columns.map(column => (
+                                <FlexContentCell key={column.name}>
+                                    {column.title}
+                                    <SortingButton
+                                        sorting={getSorting(column)}
+                                        onChange={state.onSortingChange.bind(
+                                            null,
+                                            column.name
+                                        )}
+                                    />
+                                </FlexContentCell>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {results.map(row => (
+                            <tr key={row.id}>
+                                {columns.map(({ name, property }) => (
+                                    <td key={name}>{property(row.data)}</td>
                                 ))}
-                            </TBody>
-                            <Caption>
-                                {pending ? (
-                                    <Loading>Loading documents...</Loading>
-                                ) : (
-                                    <Muted>
-                                        {`Total of ${total_results_size} documents
+                            </tr>
+                        ))}
+                    </tbody>
+                    <caption>
+                        {pending ? (
+                            <Loading>Loading documents...</Loading>
+                        ) : (
+                            <Muted>
+                                {`Total of ${total_results_size} documents
                                     found.`}
-                                    </Muted>
-                                )}
-                            </Caption>
-                        </Table>
-                    </Responsive>
-                    <PageSizeSelector
-                        value={state.pageSize}
-                        onChange={state.onPageSizeChange}
-                        suffix="documents par page"
-                    />
-                    <Pagination
-                        active={state.page}
-                        onChange={state.onPageChange}
-                        total={total_pages}
-                    />
-                </Fragment>
-            )}
-        </Documents>
+                            </Muted>
+                        )}
+                    </caption>
+                </table>
+            </Responsive>
+            <PageSizeSelector
+                value={state.pageSize}
+                onChange={state.onPageSizeChange}
+                suffix="documents par page"
+            />
+            <Pagination
+                active={state.page}
+                onChange={state.onPageChange}
+                total={total_pages}
+            />
+        </Fragment>
     )
 }
 
 // Reducer and actions
-const setSorting = createAction('SORTING')
-const setPageSize = createAction('PAGE_SIZE')
-const setPage = createAction('PAGE')
-function reducer(state, { type, payload }) {
+const Sorting = Symbol('sorting')
+const PageSize = Symbol('pagesize')
+const Page = Symbol('page')
+function reducer(state, [type, payload]) {
     switch (type) {
-        case 'SORTING':
+        case Sorting:
             return {
                 ...state,
                 sorting: payload,
                 page: 1,
             }
-        case 'PAGE_SIZE':
+        case PageSize:
             return {
                 ...state,
                 pageSize: payload,
                 page: 1,
             }
-        case 'PAGE':
+        case Page:
             return {
                 ...state,
                 page: payload,

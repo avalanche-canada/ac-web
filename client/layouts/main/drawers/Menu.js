@@ -1,26 +1,26 @@
-import React, { Children, cloneElement } from 'react'
+import React, { Children, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { memo } from 'utils/react'
-import { Container, Body, Content, Navbar, Close } from 'components/page/drawer'
+import { Body, Navbar, Close } from 'components/page/drawer'
 import * as components from 'components/page/drawer/layers'
-import * as context from 'contexts/layers'
+import { useLayer } from 'contexts/layers'
 import * as Layers from 'constants/drawers'
 import * as Icons from 'components/icons'
 import { NAMES } from 'constants/min'
 import { Dropdown, Option } from 'components/controls'
+import Shim from 'components/Shim'
 
 Menu.propTypes = {
     onCloseClick: PropTypes.func.isRequired,
 }
 
-function Menu({ onCloseClick }) {
+export default function Menu({ onCloseClick }) {
     return (
-        <Container>
+        <Fragment>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
             <Body>
-                <Content>
+                <Shim horizontal>
                     <components.LayerSet title="Analysis">
                         <Layer id={Layers.FORECASTS} />
                         <Layer id={Layers.HOT_ZONE_REPORTS} />
@@ -46,13 +46,11 @@ function Menu({ onCloseClick }) {
                         <Layer id={Layers.FATAL_ACCIDENT} />
                         <Layer id={Layers.MOUNTAIN_CONDITIONS_REPORTS} />
                     </components.LayerSet>
-                </Content>
+                </Shim>
             </Body>
-        </Container>
+        </Fragment>
     )
 }
-
-export default memo.static(Menu)
 
 // Util components
 Layer.propTypes = {
@@ -61,29 +59,27 @@ Layer.propTypes = {
 }
 
 function Layer({ id, children }) {
+    const { visible, filters, toggle, setFilterValue } = useLayer(id)
+
     return (
-        <context.Layer id={id}>
-            {({ visible, filters, toggle, setFilterValue }) => (
-                <components.Layer
-                    title={TITLES.get(id)}
-                    icon={ICONS.get(id)}
-                    visible={visible}
-                    onClick={toggle}>
-                    {Children.map(children, input => {
-                        const { name, ...props } = input.props
+        <components.Layer
+            title={TITLES.get(id)}
+            icon={ICONS.get(id)}
+            visible={visible}
+            onClick={toggle}>
+            {Children.map(children, input => {
+                const { name, ...props } = input.props
 
-                        Object.assign(props, {
-                            value: filters[name],
-                            onChange(value) {
-                                setFilterValue(name, value)
-                            },
-                        })
+                Object.assign(props, {
+                    value: filters[name],
+                    onChange(value) {
+                        setFilterValue(name, value)
+                    },
+                })
 
-                        return cloneElement(input, props)
-                    })}
-                </components.Layer>
-            )}
-        </context.Layer>
+                return cloneElement(input, props)
+            })}
+        </components.Layer>
     )
 }
 

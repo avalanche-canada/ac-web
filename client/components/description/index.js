@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
-import styles from './Description.css'
+import classnames from 'classnames'
+import css from './Description.css'
 
 Term.propTypes = {
     children: PropTypes.node.isRequired,
@@ -11,7 +11,10 @@ Term.propTypes = {
 }
 
 export function Term({ style, block, className, children }) {
-    className = classNames(className, { Term: true, Block: block })
+    className = classnames(className, {
+        [css.Term]: true,
+        [css.Block]: block,
+    })
 
     return (
         <dt className={className} style={style}>
@@ -28,7 +31,10 @@ Definition.propTypes = {
 }
 
 export function Definition({ className, block, style, children }) {
-    className = classNames(className, { Definition: true, Block: block })
+    className = classnames(className, {
+        [css.Definition]: true,
+        [css.Block]: block,
+    })
 
     return (
         <dd className={className} style={style}>
@@ -59,14 +65,11 @@ List.propTypes = {
 }
 
 export function List({ inline, condensed, bordered, children }) {
-    const className = classNames(styles.List, {
-        Condensed: condensed,
-        Bordered: bordered,
-        Inline: inline,
+    const className = classnames(css.List, {
+        [css.Condensed]: condensed,
+        [css.Bordered]: bordered,
+        [css.Inline]: inline,
     })
 
     return <dl className={className}>{children}</dl>
 }
-
-// Styles
-const classNames = classnames.bind(styles)

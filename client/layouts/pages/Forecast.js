@@ -1,25 +1,21 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import { Forecast } from 'containers/forecast'
-import { Region, Regions } from 'containers/features'
+import { useForecast } from 'hooks/async/forecast'
 import {
-    Page,
-    Header,
-    Content,
-    Main,
-    Aside,
-    List,
-    ListItem,
-} from 'components/page'
-import { Muted, Loading, Warning } from 'components/text'
-import { Pending, Fulfilled } from 'components/fetch'
+    useForecastRegionsMetadata,
+    useForecastRegionMetadata,
+} from 'hooks/async/features'
+import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
+import { Page } from 'layouts/pages'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
-import { NorthRockiesBlogFeed } from 'layouts/feed'
-import { Region as SPAWContainer, Alert as SPAWComponent } from 'layouts/SPAW'
-import { StructuredText } from 'prismic/components/base'
-import Shim from 'components/Shim'
+import { Tag } from 'layouts/SPAW'
+import shim from 'components/Shim.css'
+import * as Async from 'contexts/async'
+import typography from 'components/text/Text.css'
+import { Details } from 'components/error'
+import { Link } from '@reach/router'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -31,50 +27,32 @@ export default function ForecastLayout({ name, date }) {
 
     return (
         <Page>
-            <Region name={name}>
-                {({ pending, data }) => (
-                    <Header
-                        title={
-                            pending ? (
-                                <Loading component="span" />
-                            ) : (
-                                data?.name || (
-                                    <Warning component="span">
-                                        {name} forecast not found
-                                    </Warning>
-                                )
-                            )
-                        }
-                    />
-                )}
-            </Region>
+            <Async.Provider value={useForecastRegionMetadata(name)}>
+                <Header title={<Title name={name} />} />
+            </Async.Provider>
             <Content>
                 <Main>
-                    <Forecast name={name} date={date}>
-                        {props => (
-                            <Fragment>
-                                <Pending>
-                                    <Muted>Loading forecast data...</Muted>
-                                </Pending>
-                                <Fulfilled.Found>
-                                    <components.Provider value={props.data}>
-                                        <components.Metadata />
-                                        <SPAW name={name} />
-                                        <components.Headline />
-                                        <components.TabSet
-                                            onTabChange={
-                                                handleForecastTabActivate
-                                            }
-                                        />
-                                        <components.Footer />
-                                    </components.Provider>
-                                </Fulfilled.Found>
-                                <Fulfilled.NotFound>
-                                    <Regions>{renderRegions}</Regions>
-                                </Fulfilled.NotFound>
-                            </Fragment>
-                        )}
-                    </Forecast>
+                    <Async.Provider value={useForecast(name, date)}>
+                        <Async.Pending>
+                            <p className={typography.Muted}>
+                                Loading forecast...
+                            </p>
+                        </Async.Pending>
+                        <Async.Found>
+                            <ForecastContent name={name} />
+                        </Async.Found>
+                        <Async.FirstError>
+                            <Async.NotFound>
+                                <OtherRegions />
+                            </Async.NotFound>
+                            <Async.Error>
+                                <Details
+                                    summary="An error happened while loading forecast."
+                                    className={shim.all}
+                                />
+                            </Async.Error>
+                        </Async.FirstError>
+                    </Async.Provider>
                 </Main>
                 <Aside>
                     {name === 'kananaskis' ? (
@@ -88,52 +66,55 @@ export default function ForecastLayout({ name, date }) {
     )
 }
 
-export function NorthRockies() {
+// Util components
+function Title({ name }) {
     return (
-        <Page>
-            <Header title="North Rockies" />
-            <Content>
-                <Main>
-                    <SPAW name="north-rockies" />
-                    <NorthRockiesBlogFeed />
-                </Main>
-                <Aside>
-                    <components.Sidebar />
-                </Aside>
-            </Content>
-        </Page>
+        <Fragment>
+            <Async.Pending>
+                <span className={typography.Muted}>Loading...</span>
+            </Async.Pending>
+            <Async.Found>
+                <ForecastHeader />
+            </Async.Found>
+            <Async.Empty>
+                <span className={typography.Warning}>
+                    {name} forecast not found
+                </span>
+            </Async.Empty>
+        </Fragment>
     )
 }
+function ForecastContent({ payload }) {
+    return (
+        <components.Provider value={payload}>
+            <components.Metadata />
+            <components.Headline />
+            <components.TabSet onTabChange={handleForecastTabActivate} />
+            <components.Footer />
+        </components.Provider>
+    )
+}
+function OtherRegions() {
+    const [regions] = useForecastRegionsMetadata()
 
-// Utils
-function renderRegions({ fulfilled, data }) {
-    return fulfilled ? (
+    return (
         <Fragment>
             <h3>Click on a link below to see another forecast:</h3>
             <List column={1}>
-                {data.map(({ id, name }) => (
+                {regions.map(({ id, name }) => (
                     <ListItem key={id} to={`../${id}`} replace>
                         {name}
                     </ListItem>
                 ))}
             </List>
         </Fragment>
-    ) : null
+    )
 }
-function SPAW({ name }) {
+function ForecastHeader({ payload: { name, id } }) {
     return (
-        <SPAWContainer name={name}>
-            {({ document }) => {
-                const { link, description } = document.data
-
-                return (
-                    <Shim top>
-                        <SPAWComponent link={link}>
-                            <StructuredText value={description} />
-                        </SPAWComponent>
-                    </Shim>
-                )
-            }}
-        </SPAWContainer>
+        <Fragment>
+            <Tag region={id} as={Link} to="/spaw" />
+            {name}
+        </Fragment>
     )
 }

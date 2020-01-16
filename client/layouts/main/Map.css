@@ -1,18 +1,11 @@
 @import '../../styles/colors.css';
 
-.Layout {
-    position: relative;
-    height: calc(100vh - 75px);
-    overflow: hidden;
-
-    & > :global(.mapboxgl-map) {
-        position: absolute;
-        z-index: 0;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
+.Map {
+    /* Used to be height: 100%, but older Safari does not apply 100% height, so this is a workaround */
+    /* height: calc(100vh - 5em); */
+    /* min-height: 100%; */
+    display: flex;
+    flex: 1;
 }
 
 .LinkControlSet {

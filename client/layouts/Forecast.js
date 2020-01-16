@@ -1,26 +1,26 @@
-import React from 'react'
-import { Router, Redirect, navigate } from '@reach/router'
-import Forecast, { NorthRockies } from 'layouts/pages/Forecast'
-import ForecastRegionList from 'layouts/ForecastRegionList'
-import ArchiveForecast from 'layouts/pages/ArchiveForecast'
+import React, { lazy } from 'react'
+import { Router, Redirect } from '@reach/router'
 import parse from 'date-fns/parse'
 import isAfter from 'date-fns/is_after'
 import isValid from 'date-fns/is_valid'
 import isPast from 'date-fns/is_past'
 import endOfYesterday from 'date-fns/end_of_yesterday'
+import Forecast from 'layouts/pages/Forecast'
+import ForecastRegionList from 'layouts/ForecastRegionList'
+import Bundle from 'components/Bundle'
 import externals, { open } from 'router/externals'
-import * as utils from 'utils/search'
+import { DateParam } from 'hooks/params'
+import { path } from 'utils/url'
 
 export default function ForecastLayout() {
     return (
         <Router>
             <ForecastRegionList path="/" />
-            <NorthRockies path="north-rockies" />
+            <ForecastRoute path=":name" />
+            <ForecastRoute path=":name/:date" />
             <ArchiveForecastRoute path="archives" />
             <ArchiveForecastRoute path="archives/:name" />
             <ArchiveForecastRoute path="archives/:name/:date" />
-            <ForecastRoute path=":name" />
-            <ForecastRoute path=":name/:date" />
         </Router>
     )
 }
@@ -47,7 +47,8 @@ function ForecastRoute({ name, date }) {
 
     return <Forecast name={name} />
 }
-function ArchiveForecastRoute({ name, date }) {
+const ArchiveForecast = lazy(() => import('layouts/pages/ArchiveForecast'))
+function ArchiveForecastRoute({ name, date, navigate }) {
     if (date && isAfter(parse(date), endOfYesterday())) {
         return <Redirect to={`/forecasts/${name}`} />
     }
@@ -56,18 +57,17 @@ function ArchiveForecastRoute({ name, date }) {
         open(name, date)
     }
 
+    function handleParamsChange({ name, date }) {
+        navigate(path('/forecasts/archives', name, DateParam.format(date)))
+    }
+
     return (
-        <ArchiveForecast
-            name={name}
-            date={utils.parseDate(date)}
-            onParamsChange={handleParamsChange}
-        />
+        <Bundle>
+            <ArchiveForecast
+                name={name}
+                date={DateParam.parse(date)}
+                onParamsChange={handleParamsChange}
+            />
+        </Bundle>
     )
-}
-
-// Utils
-function handleParamsChange({ name, date }) {
-    const path = [name, utils.formatDate(date)].filter(Boolean).join('/')
-
-    navigate(`/forecasts/archives/${path}`)
 }

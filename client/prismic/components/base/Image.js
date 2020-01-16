@@ -1,10 +1,10 @@
-import React, { Children, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
+import classnames from 'classnames'
+import { useEventListener, useBoolean } from 'hooks'
 import { Credit } from 'components/misc'
 import Hyperlink from './Hyperlink'
-import styles from './Image.css'
-import { useEventListener, useBoolean } from 'utils/react/hooks'
+import css from './Image.css'
 
 Image.propTypes = {
     url: PropTypes.string.isRequired,
@@ -30,6 +30,7 @@ export default function Image({
     url,
     alt,
     copyright,
+    dimensions,
     credit,
     linkTo,
     label,
@@ -55,11 +56,17 @@ export default function Image({
     }
 
     const image = (
-        <img ref={handleRef} src={url} alt={alt} className={styles.Image} />
+        <img
+            ref={handleRef}
+            src={url}
+            alt={alt}
+            className={css.Image}
+            {...dimensions}
+        />
     )
-    const className = classNames(label, {
-        Figure: !loading,
-        'Figure--Loading': loading,
+    const className = classnames(label, {
+        [css.Figure]: !loading,
+        [css['Figure--Loading']]: loading,
     })
 
     return (
@@ -72,23 +79,5 @@ export default function Image({
             {(copyright || credit) && <Credit>{credit || copyright}</Credit>}
             {children}
         </figure>
-    )
-}
-
-// Styles
-const classNames = classnames.bind(styles)
-
-OpenInNewTab.propTypes = {
-    children: PropTypes.node.isRequired,
-}
-
-export function OpenInNewTab({ children }) {
-    const child = Children.only(children)
-    const { url, alt } = child.props
-
-    return (
-        <a href={url} title={alt} target={alt}>
-            {child}
-        </a>
     )
 }

@@ -1,29 +1,19 @@
 import React, { useState, Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { Link, Location } from '@reach/router'
-import memoize from 'lodash/memoize'
+import { Link } from '@reach/router'
 import Button, { SUBTILE } from 'components/button'
 import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'
-import classnames from 'classnames/bind'
-import styles from './Tree.css'
+import classnames from 'classnames'
+import { useLocation } from 'router/hooks'
+import css from './Tree.css'
 
 Tree.propTypes = {
     children: PropTypes.node,
 }
 
 export default function Tree({ children }) {
-    return (
-        <div className={styles.Tree}>
-            <Location>
-                {({ location }) =>
-                    Children.map(children, node =>
-                        cloneElement(node, { location })
-                    )
-                }
-            </Location>
-        </div>
-    )
+    return <div className={css.Tree}>{children}</div>
 }
 
 Node.propTypes = {
@@ -34,7 +24,6 @@ Node.propTypes = {
     isExpanded: PropTypes.bool,
     children: PropTypes.arrayOf(PropTypes.node),
     level: PropTypes.number,
-    location: PropTypes.object.isRequired,
 }
 
 export function Node({
@@ -45,13 +34,22 @@ export function Node({
     title,
     onClick,
     label,
-    location,
 }) {
+    const { location } = useLocation()
+    const { pathname } = location
     const [expanded, setExpanded] = useState(isExpanded)
     const hasChildren = Children.count(children) > 0
     const finalIsExpanded =
-        expanded ||
-        (location.pathname.includes(link) && !location.pathname.endsWith(link))
+        expanded || (pathname.includes(link) && !pathname.endsWith(link))
+    function getLinkProps({ isPartiallyCurrent }) {
+        return {
+            className: classnames({
+                [css.Node]: true,
+                [css.Active]: isPartiallyCurrent,
+                [css['Node--Level' + level]]: true,
+            }),
+        }
+    }
 
     return (
         <Fragment>
@@ -59,12 +57,11 @@ export function Node({
                 to={link || '#'}
                 title={title}
                 onClick={onClick}
-                style={getNodeStyle(level)}
                 getProps={getLinkProps}>
                 <div
-                    className={classNames({
-                        NodeControl: true,
-                        Expanded: finalIsExpanded,
+                    className={classnames({
+                        [css.NodeControl]: true,
+                        [css.Expanded]: finalIsExpanded,
                     })}>
                     {hasChildren && (
                         <Control
@@ -76,7 +73,7 @@ export function Node({
                         />
                     )}
                 </div>
-                <div className={styles.Label}>{label}</div>
+                <div className={css.Label}>{label}</div>
             </Link>
             {hasChildren &&
                 finalIsExpanded &&
@@ -98,15 +95,3 @@ function Control(props) {
         </Button>
     )
 }
-const getNodeStyle = memoize(level => ({
-    paddingLeft: level * 15,
-}))
-function getLinkProps({ isPartiallyCurrent }) {
-    return {
-        className: classNames({
-            Node: true,
-            Active: isPartiallyCurrent,
-        }),
-    }
-}
-const classNames = classnames.bind(styles)

@@ -4,7 +4,7 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
     title Avalanche Canada
     description Public Avalanche Forecast
     link http://avalanche.ca
-    atom:link(href='http://avalanche.ca/api/forecast/#{forecast.region}.rss', rel='self', type='application/rss+xml')
+    atom:link(href='https://avalanche.ca/api/forecast/#{forecast.region}.rss', rel='self', type='application/rss+xml')
     pubDate #{dates.issued}:00 -0800
 
     category Canadian Public Avalanche Forecast
@@ -12,6 +12,9 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
         title #{forecast.bulletinTitle}
         link http://avalanche.ca/forecasts/#{forecast.region}
         description <![CDATA[
-            include forecast.jade
+            if forecast.fxType == "avid"
+              include avid-product.jade
+            else
+              include forecast.jade
             | ]]>
         guid(isPermaLink='false') http://avalanche.ca/api/forecast/#{forecast.region}.rss?#{guid}

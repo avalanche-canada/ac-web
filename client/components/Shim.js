@@ -1,7 +1,7 @@
 import { createElement } from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames/bind'
-import styles from './Shim.css'
+import classnames from 'classnames'
+import css from './Shim.css'
 
 Shim.propTypes = {
     children: PropTypes.node,
@@ -17,9 +17,12 @@ Shim.propTypes = {
 }
 
 export default function Shim({ children, as = 'div', className, ...values }) {
-    className = classNames(className, values)
+    className = classnames(
+        className,
+        Object.keys(values)
+            .filter(Boolean)
+            .map(key => css[key])
+    )
 
     return createElement(as, { className }, children)
 }
-
-const classNames = classnames.bind(styles)
