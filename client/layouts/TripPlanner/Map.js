@@ -21,10 +21,10 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
         center: center.value,
         style: STYLES.ates,
     })
-    function setActiveArea(id) {
-        map.setFilter('active-ates-areas', [
+    function setActiveZone(id) {
+        map.setFilter('active-ates-zones', [
             '==',
-            'ATES_ZONE_ID',
+            'id',
             typeof id === 'number' ? id : -1,
         ])
     }
@@ -36,14 +36,14 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
             return
         }
 
-        function queryAreas(point) {
-            return map.queryRenderedFeatures(point, {
-                layers: ATES_AREAS_LAYERS,
-            })
-        }
         function queryZones(point) {
             return map.queryRenderedFeatures(point, {
                 layers: ATES_ZONES_LAYERS,
+            })
+        }
+        function queryAreas(point) {
+            return map.queryRenderedFeatures(point, {
+                layers: ATES_AREAS_LAYERS,
             })
         }
         function queryRegions(point) {
@@ -53,18 +53,18 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
         }
 
         map.on('click', ({ point }) => {
-            const [zone] = queryZones(point)
             const [area] = queryAreas(point)
+            const [zone] = queryZones(point)
             const [region] = queryRegions(point)
 
-            setActiveArea(area ? area.properties.ATES_ZONE_ID : -1)
+            setActiveZone(zone ? zone.properties.id : -1)
 
-            if (zone) {
-                map.fitBounds(bbox(zone.geometry), {
+            if (area) {
+                map.fitBounds(bbox(area.geometry), {
                     padding: 25,
                 })
             } else {
-                onFeaturesSelect({ region, area })
+                onFeaturesSelect({ region, zone })
             }
         })
         map.on('zoomend', () => zoom.set(map.getZoom()))
@@ -88,8 +88,8 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
         }
 
         for (const layer of [
-            ...ATES_AREAS_LAYERS,
             ...ATES_ZONES_LAYERS,
+            ...ATES_AREAS_LAYERS,
             ...FORECAST_LAYERS,
         ]) {
             map.on('mouseenter', layer, handleMouseEnter)
@@ -104,5 +104,5 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
 
 // Constants
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
-const ATES_AREAS_LAYERS = ['ates-terrain']
 const ATES_ZONES_LAYERS = ['ates-zones']
+const ATES_AREAS_LAYERS = ['ates-areas']

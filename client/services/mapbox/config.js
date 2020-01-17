@@ -6,7 +6,7 @@ export const API = 'https://api.mapbox.com'
 
 export const STYLE_IDS = {
     default: 'cjlpguf2l1g0x2rria6jlajrc',
-    ates: 'cjbgz98hyb8l52smx72wh1yzr',
+    ates: 'ck5hgztkc031e1ipp0zykmq1u',
 }
 
 const STYLE_ROOT = 'mapbox://styles/' + USENAME + '/'

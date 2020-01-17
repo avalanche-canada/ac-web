@@ -22,7 +22,6 @@ import * as utils from 'utils/region'
 import { useWindowSize } from 'hooks'
 import { Provider as MapStateProvider } from 'contexts/map/state'
 import { Screen } from 'layouts/pages'
-import styles from './TripPlanner.css'
 
 // TODO: Could use Context to simplify implementation
 // TODO: Could use state machine to simplify implementation
@@ -34,12 +33,12 @@ export default class TripPlannerLayout extends PureComponent {
     }
     handleFeaturesSelect = next => {
         function updater(state) {
-            const area = this.createAreaState(next, state)
+            const zone = this.createZoneState(next, state)
             const region = this.createRegionState(next, state)
 
             return {
-                area,
-                left: Boolean(area),
+                zone,
+                left: Boolean(zone),
                 region,
                 right: Boolean(region),
             }
@@ -47,31 +46,25 @@ export default class TripPlannerLayout extends PureComponent {
 
         this.setState(updater)
     }
-    createAreaState(next, previous) {
+    createZoneState(next, previous) {
         if (
-            (next.area && next.region) ||
-            (next.area &&
+            (next.zone && next.region) ||
+            (next.zone &&
                 previous.region &&
                 previous.region.id === next.region.properties.id)
         ) {
-            const {
-                id,
-                ATES_ZONE_CLASS_CODE,
-                ATES_RECREATION_BNDRY_NAME,
-            } = next.area.properties
+            const { id, area_id, class_code } = next.zone.properties
+            const areas = this.map.querySourceFeatures('composite', {
+                sourceLayer: 'ates-areas',
+                filter: ['==', 'id', area_id],
+            })
+            const [area] = areas
 
             return {
                 id,
-                rating: ATES_ZONE_CLASS_CODE,
-                name: ATES_RECREATION_BNDRY_NAME,
-                features: this.map.querySourceFeatures('composite', {
-                    sourceLayer: 'ates-terrain-7cew5b',
-                    filter: [
-                        '==',
-                        'ATES_RECREATION_BNDRY_NAME',
-                        ATES_RECREATION_BNDRY_NAME,
-                    ],
-                }),
+                rating: class_code,
+                name: area.properties.name,
+                features: areas,
             }
         }
 
@@ -101,7 +94,7 @@ export default class TripPlannerLayout extends PureComponent {
         })
     }
     handleAreaLocateClick = () => {
-        const geometries = this.state.area.features.map(getGeom)
+        const geometries = this.state.zone.features.map(getGeom)
 
         this.fitBounds(geometryCollection(geometries))
     }
@@ -116,7 +109,7 @@ export default class TripPlannerLayout extends PureComponent {
 
         return null
     }
-    handleLeftCloseClick = () => this.setState({ left: false, area: null })
+    handleLeftCloseClick = () => this.setState({ left: false, zone: null })
     handleRightCloseClick = () => this.setState({ right: false })
     renderRegionHeader() {
         const { name, id } = this.state.region
@@ -146,12 +139,12 @@ export default class TripPlannerLayout extends PureComponent {
         )
     }
     renderLeftDrawer(withRegion) {
-        const { area, region } = this.state
+        const { zone, region } = this.state
         const header = (
             <Header subject="Trip Planning">
-                {area && (
+                {zone && (
                     <h1>
-                        <span>{area.name}</span>
+                        <span>{zone.name}</span>
                         <DisplayOnMap onClick={this.handleAreaLocateClick} />
                     </h1>
                 )}
@@ -167,7 +160,7 @@ export default class TripPlannerLayout extends PureComponent {
                 {withRegion || header}
                 <Body>
                     {withRegion && header}
-                    {area ? (
+                    {zone ? (
                         <TripPlanning
                             {...this.state}
                             onElevationChange={this.handleElevationChange}

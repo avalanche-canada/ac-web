@@ -25,7 +25,7 @@ export default class TripPlanning extends Component {
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
         }),
-        area: PropTypes.shape({
+        zone: PropTypes.shape({
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             rating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX]).isRequired,
@@ -65,7 +65,7 @@ export default class TripPlanning extends Component {
             <Fragment>
                 <p>
                     No danger ratings are available to run the TripPlanner in
-                    that area.
+                    that zone.
                 </p>
                 <p>
                     Avalanche Forecast are not produce for every regions, in
@@ -108,7 +108,7 @@ class Content extends Component {
         date: PropTypes.instanceOf(Date),
         onDateChange: PropTypes.func.isRequired,
         forecast: PropTypes.object.isRequired,
-        area: PropTypes.shape({
+        zone: PropTypes.shape({
             id: PropTypes.string.isRequired,
             name: PropTypes.string.isRequired,
             rating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX]).isRequired,
@@ -129,7 +129,7 @@ class Content extends Component {
         return dangerRating
     }
     get danger() {
-        const { rating } = this.props.area
+        const { rating } = this.props.zone
         const dangerRatings = this.activeDangerRatings
 
         if (rating === SIMPLE) {
@@ -159,7 +159,7 @@ class Content extends Component {
                 ) : (
                     <div style={CHART_STYLE}>
                         <Chart
-                            terrain={this.props.area.rating}
+                            terrain={this.props.zone.rating}
                             danger={this.danger}
                         />
                     </div>
