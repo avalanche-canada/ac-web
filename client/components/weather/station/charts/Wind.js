@@ -11,7 +11,6 @@ import {
     VictoryTooltip,
 } from 'victory'
 import { formatHours, scatterEvents } from '../utils'
-import { toCompass } from 'utils/degrees'
 import format from 'date-fns/format'
 import { setUTCOffset } from 'utils/date'
 import theme from './theme'
@@ -83,9 +82,10 @@ function getSpeedAndDirectionLabels({
     x,
     windSpeedAvg,
     windDirAvg,
+    windDirCompass,
     utcOffset,
 }) {
-    return `${windSpeedAvg} km/h\n${windDirAvg} ° (${toCompass(windDirAvg)})\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
+    return `${windSpeedAvg} km/h\n${windDirAvg} ° (${windDirCompass})\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
 }
 
 function getLabels({ x, y, utcOffset }) {
