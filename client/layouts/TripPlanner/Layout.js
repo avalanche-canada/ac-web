@@ -22,6 +22,10 @@ import * as utils from 'utils/region'
 import { useWindowSize } from 'hooks'
 import { Provider as MapStateProvider } from 'contexts/map/state'
 import { Screen } from 'layouts/pages'
+import Button, { SUBTILE } from 'components/button'
+import { Download } from 'components/icons'
+import Dialog from './Download'
+import styles from './TripPlanner.css'
 
 // TODO: Could use Context to simplify implementation
 // TODO: Could use state machine to simplify implementation
@@ -93,10 +97,20 @@ export default class TripPlannerLayout extends PureComponent {
             padding: 25,
         })
     }
-    handleAreaLocateClick = () => {
+    handleZoneLocateClick = () => {
         const geometries = this.state.zone.features.map(getGeom)
 
         this.fitBounds(geometryCollection(geometries))
+    }
+    handleZoneDownloadClick = () => {
+        this.setState({
+            showDownloadDialog: true,
+        })
+    }
+    handleDownloadClose = () => {
+        this.setState({
+            showDownloadDialog: false,
+        })
     }
     handleRegionLocateClick = () => {
         const { id } = this.state.region
@@ -143,10 +157,11 @@ export default class TripPlannerLayout extends PureComponent {
         const header = (
             <Header subject="Trip Planning">
                 {zone && (
-                    <h1>
-                        <span>{zone.name}</span>
-                        <DisplayOnMap onClick={this.handleAreaLocateClick} />
-                    </h1>
+                    <HeaderContent
+                        onLocateClick={this.handleZoneLocateClick}
+                        onDownloadClick={this.handleZoneDownloadClick}>
+                        {zone.name}
+                    </HeaderContent>
                 )}
             </Header>
         )
@@ -222,6 +237,8 @@ export default class TripPlannerLayout extends PureComponent {
         }
     }
     render() {
+        const { showDownloadDialog, zone } = this.state
+
         return (
             <Screen>
                 <MapStateProvider>
@@ -232,6 +249,12 @@ export default class TripPlannerLayout extends PureComponent {
                     />
                     <Window>{props => this.renderDrawers(props)}</Window>
                     <Regions>{this.setData}</Regions>
+                    {showDownloadDialog && (
+                        <Dialog
+                            onClose={this.handleDownloadClose}
+                            zone={zone}
+                        />
+                    )}
                 </MapStateProvider>
             </Screen>
         )
@@ -254,4 +277,21 @@ const NAVBAR_STYLE = {
 }
 const HOME_STYLE = {
     paddingLeft: '1em',
+}
+function HeaderContent({ children, onLocateClick, onDownloadClick }) {
+    return (
+        <h1>
+            <span>{children}</span>
+            <div className={styles.ButtonSet}>
+                <DisplayOnMap onClick={onLocateClick} />
+                <Button
+                    kind={SUBTILE}
+                    data-tooltip="Download ATES data as KMZ"
+                    data-tooltip-placement="left"
+                    onClick={onDownloadClick}>
+                    <Download />
+                </Button>
+            </div>
+        </h1>
+    )
 }

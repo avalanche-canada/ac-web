@@ -98,6 +98,7 @@
         "@turf/helpers": "^5.0.0",
         "@turf/inside": "^4.7.3",
         "@turf/invariant": "^5.0.4",
+        "@xstate/react": "^0.8.1",
         "auth0-lock": "^11.18.1",
         "babel-core": "^7.0.0-bridge.0",
         "babel-eslint": "8.2.6",
@@ -166,7 +167,8 @@
         "webpack-cli": "^3.3.5",
         "webpack-dev-middleware": "^3.7.0",
         "webpack-merge": "^4.1.0",
-        "whatwg-fetch": "^3.0.0"
+        "whatwg-fetch": "^3.0.0",
+        "xstate": "^4.7.6"
     },
     "peerDependencies": {
         "react": "^16.8.1",
