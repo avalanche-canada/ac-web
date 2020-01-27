@@ -1,6 +1,5 @@
-import React from 'react'
-import { memo } from 'utils/react'
-import { Section, Header, Content } from 'components/explanation'
+import React, { Fragment } from 'react'
+import { Entry, Symbol, Name, Description } from 'components/map/legend'
 import Panel from './Panel'
 import Ratings, {
     SIMPLE,
@@ -10,31 +9,30 @@ import Ratings, {
 } from 'constants/forecast/ates'
 import { WHITE, BLACK } from 'constants/forecast/palette'
 
-function TerrainRatingsPanel() {
+export default function TerrainRatingsPanel() {
     return (
         <Panel header="Terrain Ratings Explained">
-            {Array.from(Ratings, rating => (
-                <Section key={rating}>
-                    <Header style={getStyle(rating)}>
-                        {Texts.get(rating)}
-                    </Header>
-                    <Content>
-                        <p>{Descriptions.get(rating)}</p>
-                    </Content>
-                </Section>
-            ))}
+            <Entries />
         </Panel>
     )
 }
 
-export default memo.static(TerrainRatingsPanel)
-
 // Utils
+export function Entries() {
+    return (
+        <Fragment>
+            {Array.from(Ratings, rating => (
+                <Entry key={rating}>
+                    <Symbol style={getStyle(rating)}></Symbol>
+                    <Name>{Texts.get(rating)}</Name>
+                    <Description>{Descriptions.get(rating)}</Description>
+                </Entry>
+            ))}
+        </Fragment>
+    )
+}
 function getStyle(rating) {
     return {
-        padding: '0.5em',
-        margin: 0,
-        color: rating === SIMPLE ? BLACK : WHITE,
         backgroundColor: Palette.get(rating),
     }
 }

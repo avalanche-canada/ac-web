@@ -1,23 +1,25 @@
-import React from 'react'
-import { memo } from 'utils/react'
+import React, { Fragment } from 'react'
 import { Entry, Symbol, Name, Description } from 'components/map/legend'
 import Panel from './Panel'
-import RATINGS, { Texts, Descriptions, Palette } from 'constants/forecast/ates'
 import parking from './parking-11.svg'
 import hut from './hut-11.svg'
 import { Warning } from 'components/icons'
 import { WARNING } from 'constants/colors'
+import { Entries as TerrainRatingsEntries } from './TerrainRatings'
 
-function MapLegend() {
+export default function MapLegend() {
     return (
         <Panel header="Map legend">
-            {Array.from(RATINGS, rating => (
-                <Entry key={rating}>
-                    <Symbol style={getStyle(rating)} />
-                    <Name>{Texts.get(rating)} terrain</Name>
-                    <Description>{Descriptions.get(rating)}</Description>
-                </Entry>
-            ))}
+            <TerrainRatingsEntries />
+            <Entries />
+        </Panel>
+    )
+}
+
+// Constants and utils
+export function Entries() {
+    return (
+        <Fragment>
             <Entry>
                 <Symbol>
                     <Warning color={WARNING} />
@@ -85,18 +87,9 @@ function MapLegend() {
                 </Symbol>
                 <Name>Parking</Name>
             </Entry>
-        </Panel>
+        </Fragment>
     )
 }
-
-export default memo.static(MapLegend)
-
-// Constants and utils
 const LIGHT_BACKGROUND = {
     backgroundColor: '#EBEBEB',
-}
-function getStyle(rating) {
-    return {
-        backgroundColor: Palette.get(rating),
-    }
 }
