@@ -6,7 +6,7 @@ var _ = require('lodash');
 var regions = _.map(feature_metadata['forecast-regions'], function(region, id) {
     var r = {
         title: region.name,
-        icon: '/api/forecasts/graphics/link.svg',
+        icon: region.dangerIconUrl,
     };
     if (region.type == 'link') r.link = region.url;
     if (region.type == 'parks') r.link = region.externalUrl;
