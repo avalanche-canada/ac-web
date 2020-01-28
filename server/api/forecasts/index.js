@@ -202,6 +202,9 @@ router.get('/graphics/:type.svg', function(req, res) {
         case 'early-season':
             file = 'early_season_icon.svg'
             break;
+        case 'install-new-app':
+            file = 'install-new-app.svg'
+            break;
     }
     
     res.header('Cache-Control', 'max-age=' + 30 /* min */ * 60 /* sec */);
