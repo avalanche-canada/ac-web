@@ -24,15 +24,16 @@ function genMovingDangerIconSet(region_tz, dangerRatings) {
     var days = dangerRatings.map(function(rating){
         var date = rating.date;
 
-        // TODO Review the logic here. We rely on whatever the caller does on the data before. AvalX parses dates when the AvID one does not. 
-        if (date instanceof Date) {
-            date = date.toISOString()
+        if (/Z$/.test(date)) {
+            // Convert zulu datetime into local date
+            date = moment.tz(date, region_tz).format('YYYY-MM-DD')
         }
-        
+
         // Take only the date part as the time and TZ info is not actually
         // intended for use
         var only_date = date.split("T")[0];
         var d = moment.tz(only_date, region_tz);
+
         return d.utc().toISOString();
     });
 
