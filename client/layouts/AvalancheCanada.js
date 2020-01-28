@@ -129,6 +129,11 @@ function AvalancheCanada() {
                             title="Go Farther — Get Avalanche Trained"
                         />
                         <StaticPage
+                            path="training/companion-rescue"
+                            uid="companion-rescue"
+                            title="Eight reasons you should take a Companion Rescue Skills course"
+                        />
+                        <StaticPage
                             path="education"
                             uid="education"
                             title="Go Farther — Get Avalanche Trained"
@@ -244,6 +249,7 @@ function Pages() {
 function StaticPagePages() {
     return (
         <Router>
+            <Redirect from="companion-rescue" to="/training/companion-rescue" />
             <Redirect from="education" to="/education" />
             <Redirect from="careers" to="/careers" />
             <Redirect from="planning" to="/planning" />
