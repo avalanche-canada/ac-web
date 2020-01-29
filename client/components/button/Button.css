@@ -11,7 +11,7 @@
     color: white;
     border: none;
     cursor: pointer;
-    line-height: initial;
+    line-height: inherit;
 
     @media print {
         display: none;

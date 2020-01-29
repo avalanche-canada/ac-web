@@ -7,7 +7,7 @@ import { Page } from 'layouts/pages'
 import { Loading, Error } from 'components/text'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
-import { useDocument } from './hooks'
+import { useDocument, useGeneric } from './hooks'
 import * as Async from 'contexts/async'
 import { Details } from 'components/error'
 
@@ -98,7 +98,7 @@ Generic.propTypes = {
 
 export function Generic({ uid }) {
     return (
-        <Async.Provider value={useDocument(params.generic(uid))}>
+        <Async.Provider value={useGeneric(uid)}>
             <Async.Pending>
                 <Loading />
             </Async.Pending>
@@ -110,7 +110,7 @@ export function Generic({ uid }) {
 }
 
 // Util components
-function GenericBody({ payload }) {
+export function GenericBody({ payload }) {
     return <StructuredText value={payload.data.body} />
 }
 function StaticPageBody({ payload }) {
