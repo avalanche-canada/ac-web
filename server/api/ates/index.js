@@ -3,6 +3,7 @@
 const path = require('path');
 var express = require('express');
 var router = express.Router();
+var logger = require('../../logger');
 
 /*
     * jsdoc comments are extra indented because i use indent folding in vi
@@ -15,20 +16,6 @@ const xml_parse_string = require('fast-xml-parser').parse;
 const Client = require('pg').Client;
 const archiver = require('archiver');
 const _ = require('ramda');
-
-const tee = f => x => {
-    f(x);
-    return x;
-};
-
-const trace = tee(console.log);
-const errorTrace = tee(console.error);
-
-const prependedLogging      = p => l => trace(`${p} ${l}`);
-const prependedErrorLogging = p => l => errorTrace(`${p} ${l}`);
-
-const x11Log = prependedLogging('(II)');
-const x11Err = prependedErrorLogging('(EE)');
 
 /**
  * @class
@@ -191,7 +178,7 @@ function KML_query_database(query_object, area_id, client, new_placemark) {
 
         const innerMultiGeometries = geometries => (
                 ('Polygon' in geometries) ? geometries.Polygon.map(new_polygon)
-            : /*         else          */ prependedErrorLogging('non polygon multi geometry?')(geometries)
+            : /*         else          */ logger.error('[ATES/KMZ] non polygon multi geometry?', geometries)
         );
 
         const newMultiGeometry = geometries => ({
@@ -202,7 +189,7 @@ function KML_query_database(query_object, area_id, client, new_placemark) {
         :    ('LineString' in decomposed_geometry) ? new_linestring(decomposed_geometry.LineString) 
         :      (('Polygon' in decomposed_geometry) ? new_polygon(decomposed_geometry.Polygon) 
         : ('MultiGeometry' in decomposed_geometry) ? newMultiGeometry(decomposed_geometry.MultiGeometry)
-        : /*           Else                  */      x11Err(decomposed_geometry));
+        : /*           Else                  */      logger.error('[ATES/KMZ]', 'not supported geometry', JSON.stringify(decomposed_geometry)));
     }
 
     const rowToObject = _.mergeDeepRight({table: query_object.table});
@@ -365,7 +352,7 @@ function promise_KML(area_id, client, queries, new_placemark, styles) {
         const query_promises = queries.map(query => KML_query_database(query, area_id, client, new_placemark));
         Promise.all(query_promises).then(values => {
             values.forEach(wrapped_querys_rows => {
-                trace(wrapped_querys_rows.table);
+                logger.info('[ATES/KMZ]', wrapped_querys_rows.table);
                 if (wrapped_querys_rows.table === 'areas_vw') {
                     doc_name = wrapped_querys_rows.rows[0][1].name;
                 } else if (wrapped_querys_rows.table === 'decision_points') {
@@ -751,12 +738,8 @@ router.get('/:lang/:areaId.kmz', function(req, res) {
         res.attachment(`${areaId}.kmz`);
         make_KMZ_stream(areaId, lang, res, res, client)
             .then(_ => {
-                client.end()
-                x11Log(
-                    JSON.stringify(
-                        req.params
-                    )
-                );
+                client.end();
+                logger.debug('[ATES/KMZ]', JSON.stringify(req.params));
             });
     });
 });
