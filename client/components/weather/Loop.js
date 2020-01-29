@@ -92,6 +92,7 @@ export default class Loop extends PureComponent {
     }
     render() {
         const { date, type, run } = this.props
+        const hideNotes = typeof run === 'number' && date instanceof Date
 
         if (isAfter(date, new Date(2017, 6, 22))) {
             if (type.includes('HRDPS')) {
@@ -123,7 +124,7 @@ export default class Loop extends PureComponent {
                     startsAt={this.state.startsAt}
                     interval={this.props.interval}
                 />
-                <NoteSet notes={notes} />
+                {hideNotes || <NoteSet notes={notes} />}
             </section>
         )
     }
