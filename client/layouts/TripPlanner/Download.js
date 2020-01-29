@@ -9,11 +9,11 @@ import { useGeneric } from 'prismic/hooks'
 import { GenericBody } from 'prismic/layouts'
 import { Loading } from 'components/text'
 
-export default function Download({ zone, onClose }) {
+export default function Download({ name, id, onClose }) {
     const [current, send] = useMachine(DOWNLOAD)
     const { value, nextEvents } = current
     const uid = UIDS.get(value)
-    const prefix = 'Download ATES data for ' + zone.name
+    const prefix = 'Download ATES data for ' + name
     function moveToNext() {
         send('NEXT')
     }
@@ -44,8 +44,8 @@ export default function Download({ zone, onClose }) {
                         )}
                         {value === 'download' && (
                             <a
-                                download={`${zone.name}.kmz`}
-                                href={`/api/ates/en/${zone.id}.kmz`}
+                                download={`${name}.kmz`}
+                                href={`/api/ates/en/${id}.kmz`}
                                 className={button.Primary}>
                                 {prefix}
                             </a>

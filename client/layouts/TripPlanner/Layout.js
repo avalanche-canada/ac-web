@@ -50,29 +50,25 @@ export default class TripPlannerLayout extends PureComponent {
 
         this.setState(updater)
     }
-    createZoneState(next, previous) {
-        if (
-            (next.zone && next.region) ||
-            (next.zone &&
-                previous.region &&
-                previous.region.id === next.region.properties.id)
-        ) {
-            const { id, area_id, class_code } = next.zone.properties
-            const areas = this.map.querySourceFeatures('composite', {
-                sourceLayer: 'ates-areas',
-                filter: ['==', 'id', area_id],
-            })
-            const [area] = areas
-
-            return {
-                id,
-                rating: class_code,
-                name: area.properties.name,
-                features: areas,
-            }
+    createZoneState(next) {
+        if (!next.zone) {
+            return null
         }
 
-        return null
+        const { id, area_id, class_code } = next.zone.properties
+        const areas = this.map.querySourceFeatures('composite', {
+            sourceLayer: 'ates-areas',
+            filter: ['==', 'id', area_id],
+        })
+        const [area] = areas
+
+        return {
+            id,
+            rating: class_code,
+            name: area.properties.name,
+            features: areas,
+            areaId: area_id,
+        }
     }
     createRegionState({ region }) {
         if (region) {
@@ -252,7 +248,8 @@ export default class TripPlannerLayout extends PureComponent {
                     {showDownloadDialog && (
                         <Dialog
                             onClose={this.handleDownloadClose}
-                            zone={zone}
+                            id={zone.areaId}
+                            name={zone.name}
                         />
                     )}
                 </MapStateProvider>
