@@ -21,3 +21,4 @@ tests/screenshots
 tests/failures
 stats.json
 .config.mk
+AC-WEB.code-workspace

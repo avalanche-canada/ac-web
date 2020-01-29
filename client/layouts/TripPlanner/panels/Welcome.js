@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import Panel from './Panel'
-import { Entry, Symbol, Name, Description } from 'components/map/legend'
-import RATINGS, { Texts, Descriptions, Palette } from 'constants/forecast/ates'
 import { isTouchable } from 'utils/device'
+import { Entries as TerrainRatingsEntries } from './TerrainRatings'
+import { Entries as MapLegendEntries } from './MapLegend'
 import styles from '../TripPlanner.css'
 
 export default function Welcome() {
@@ -35,20 +35,9 @@ export function Content() {
                 zoomed in automatically.
             </p>
             <p>ATES are:</p>
-            {Array.from(RATINGS, rating => (
-                <Entry key={rating}>
-                    <Symbol style={getStyle(rating)} />
-                    <Name>{Texts.get(rating)} terrain</Name>
-                    <Description>{Descriptions.get(rating)}</Description>
-                </Entry>
-            ))}
+            <TerrainRatingsEntries />
+            <p>Map legend:</p>
+            <MapLegendEntries />
         </Fragment>
     )
-}
-
-// Utils
-function getStyle(rating) {
-    return {
-        backgroundColor: Palette.get(rating),
-    }
 }

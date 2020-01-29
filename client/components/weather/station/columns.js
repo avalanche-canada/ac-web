@@ -1,5 +1,4 @@
 import { setUTCOffset } from 'utils/date'
-import { toCompass } from 'utils/degrees'
 import format from 'date-fns/format'
 
 const DASH = '—'
@@ -86,7 +85,23 @@ export const WindSpeedAvg = {
 export const WindDirectionAvg = {
     name: 'windDirAvg',
     title: 'Wind Direction Average',
-    property: maybeNull('windDirAvg', wda => `${wda} ° (${toCompass(wda)})`),
+    property({ windDirAvg, windDirCompass }) {
+        if (typeof windDirAvg === 'number') {
+            const value = windDirAvg + ' °'
+
+            if (windDirCompass) {
+                return value + ` (${windDirCompass})`
+            }
+
+            return value
+        }
+
+        if (windDirCompass) {
+            return windDirCompass
+        }
+
+        return DASH
+    },
     style: {
         minWidth: 105,
     },
