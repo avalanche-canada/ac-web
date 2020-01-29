@@ -609,7 +609,13 @@ function get_KML(area_id, lang, client, icon_number, icon_dir_name) {
         }
 
         if (class_code) {
+            const name = CLASS_CODE_NAMES[lang][String(class_code)]
+            const description = CLASS_CODE_DESCRIPTIONS[lang][String(class_code)]
+
             extend_data(placemark, 'class_code', class_code);
+            placemark.push({ name });
+            describe(placemark, description);
+
             styleUrl = style_urls[table][class_code];
         }
 
@@ -754,5 +760,34 @@ router.get('/:lang/:areaId.kmz', function(req, res) {
             });
     });
 });
+
+const CLASS_CODE_NAMES = {
+    en: {
+        1: 'Simple',
+        2: 'Challenging',
+        3: 'Complex'
+    },
+    fr:{
+        1: 'Simple',
+        2: 'Exigeant',
+        3: 'Complexe'
+    }
+};
+
+// TODO Translate these descriptions
+const CLASS_CODE_DESCRIPTIONS = {
+    en: {
+        1: 'Exposure to low angle or primarily forested terrain. Some forest openings may involve the runout zones of infrequent avalanches. Many options to reduce or eliminate exposure. No glacier travel.',
+        2: 'Exposure to well defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist.',
+        3: 'Exposure to multiple overlapping avalanche paths or large expanses of steep, open terrain; multiple avalanche starting zones and terrain traps below; minimal options to reduce exposure. Complicated glacier travel with extensive crevasse bands or icefalls.'
+    
+    },
+    fr: {
+        1: 'Exposure to low angle or primarily forested terrain. Some forest openings may involve the runout zones of infrequent avalanches. Many options to reduce or eliminate exposure. No glacier travel.',
+        2: 'Exposure to well defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist.',
+        3: 'Exposure to multiple overlapping avalanche paths or large expanses of steep, open terrain; multiple avalanche starting zones and terrain traps below; minimal options to reduce exposure. Complicated glacier travel with extensive crevasse bands or icefalls.'
+    
+    }
+}
 
 module.exports = router;
