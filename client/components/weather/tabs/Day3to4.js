@@ -10,6 +10,24 @@ Day3To4.propTypes = {
     children: PropTypes.node,
 }
 
+export default function Day3To4({ date, children }) {
+    return (
+        <Section title={<Title date={date} />}>
+            {children && (
+                <Loop
+                    type="AC_GDPS_EPA_6hr-precip-clds-th-slp"
+                    date={addDays(date, -1)}
+                    run={12}
+                    from={72}
+                    to={120}
+                />
+            )}
+            {children}
+        </Section>
+    )
+}
+
+// Utils
 Title.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
@@ -22,22 +40,5 @@ function Title({ date }) {
         <div>
             <DateElement value={day3} /> and <DateElement value={day4} />
         </div>
-    )
-}
-
-export default function Day3To4({ date, children }) {
-    const loop = {
-        type: 'AC_GDPS_EPA_6hr-precip-clds-th-slp',
-        date: addDays(date, -1),
-        run: 12,
-        from: 72,
-        to: 120,
-    }
-
-    return (
-        <Section title={<Title date={date} />}>
-            {children && <Loop {...loop} />}
-            {children}
-        </Section>
     )
 }
