@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react'
 import Panel from './Panel'
-import { Entry, Symbol, Name, Description } from 'components/map/legend'
-import RATINGS, { Texts, Descriptions, Palette } from 'constants/forecast/ates'
 import { isTouchable } from 'utils/device'
+import { Entries as TerrainRatingsEntries } from './TerrainRatings'
+import { Entries as MapLegendEntries } from './MapLegend'
+import screeenshot  from './download-instructions.jpg'
 import styles from '../TripPlanner.css'
 
 export default function Welcome() {
@@ -35,20 +36,18 @@ export function Content() {
                 zoomed in automatically.
             </p>
             <p>ATES are:</p>
-            {Array.from(RATINGS, rating => (
-                <Entry key={rating}>
-                    <Symbol style={getStyle(rating)} />
-                    <Name>{Texts.get(rating)} terrain</Name>
-                    <Description>{Descriptions.get(rating)}</Description>
-                </Entry>
-            ))}
+            <TerrainRatingsEntries />
+            <p>Map legend:</p>
+            <MapLegendEntries />
+            <p>How to download ATES ratings:</p>
+            <ol>
+                <li>Zoom in on the map to find the area you are looking for.</li>
+                <li>Click on the area. It will show up to the left of the map.</li>
+                <li>Click on the icon with the downward arrow to the right of the area name (see image below).</li>
+                <li>Read each page of the disclaimer and click “OK” to proceed.</li>
+                <li>Click “Download ATES data.”</li>
+            </ol>
+            <img src={screeenshot} alt='Instructions for downloading data' />
         </Fragment>
     )
-}
-
-// Utils
-function getStyle(rating) {
-    return {
-        backgroundColor: Palette.get(rating),
-    }
 }

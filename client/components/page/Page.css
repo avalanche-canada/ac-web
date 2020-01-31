@@ -128,6 +128,8 @@
     font-size: 1rem;
     margin: 1.5em 0;
     font-weight: 700;
+    display: block;
+    font-style: normal;
 }
 
 .Section {

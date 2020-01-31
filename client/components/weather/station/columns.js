@@ -85,21 +85,23 @@ export const WindSpeedAvg = {
 export const WindDirectionAvg = {
     name: 'windDirAvg',
     title: 'Wind Direction Average',
-    property({windDirAvg, windDirCompass}){
-        var rVal = ''
-        if(windDirAvg){
-            rVal += windDirAvg + ` ° `
-        } 
-        if(windDirCompass){
-            rVal += `(${windDirCompass})`
+    property({ windDirAvg, windDirCompass }) {
+        if (typeof windDirAvg === 'number') {
+            const value = windDirAvg + ' °'
+
+            if (windDirCompass) {
+                return value + ` (${windDirCompass})`
+            }
+
+            return value
         }
 
-        if(!windDirAvg && !windDirCompass){
-            rVal += DASH
+        if (windDirCompass) {
+            return windDirCompass
         }
-        // `${wda} ° (${windDirRose})`
-        return rVal
-    },     
+
+        return DASH
+    },
     style: {
         minWidth: 105,
     },

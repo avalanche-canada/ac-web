@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Helmet } from 'react-helmet'
 import * as params from 'prismic/params'
 import { STATIC_PAGE, SPONSOR } from 'constants/prismic'
 import { Content, Header, Headline, Main, Banner, Aside } from 'components/page'
@@ -7,7 +8,7 @@ import { Page } from 'layouts/pages'
 import { Loading, Error } from 'components/text'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import Sidebar from 'components/sidebar'
-import { useDocument } from './hooks'
+import { useDocument, useGeneric } from './hooks'
 import * as Async from 'contexts/async'
 import { Details } from 'components/error'
 
@@ -75,7 +76,7 @@ export function GenericPage({ uid, title }) {
                     <Pending title={title} />
                     <Main>
                         <Async.Found>
-                            <GenericBody />
+                            <GenericContent />
                         </Async.Found>
                         <Async.FirstError>
                             <Async.Empty>
@@ -98,7 +99,7 @@ Generic.propTypes = {
 
 export function Generic({ uid }) {
     return (
-        <Async.Provider value={useDocument(params.generic(uid))}>
+        <Async.Provider value={useGeneric(uid)}>
             <Async.Pending>
                 <Loading />
             </Async.Pending>
@@ -111,13 +112,29 @@ export function Generic({ uid }) {
 
 // Util components
 function GenericBody({ payload }) {
-    return <StructuredText value={payload.data.body} />
-}
-function StaticPageBody({ payload }) {
-    const { headline, content } = payload.data
+    const { body, title } = payload.data
 
     return (
         <Fragment>
+            <Helmet>
+                <title>{title}</title>
+            </Helmet>
+            <StructuredText value={body} />
+        </Fragment>
+    )
+}
+export function GenericContent({ payload }) {
+    return <StructuredText value={payload.data.body} />
+}
+function StaticPageBody({ payload }) {
+    const { headline, content, title } = payload.data
+
+    return (
+        <Fragment>
+            <Helmet>
+                <title>{title}</title>
+                {headline && <meta name="description" content={headline} />}
+            </Helmet>
             {headline && <Headline>{headline}</Headline>}
             {Array.isArray(content) && <SliceZone value={content} />}
         </Fragment>

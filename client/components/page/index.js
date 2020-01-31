@@ -165,11 +165,10 @@ export function Header({ title, children }) {
 }
 
 export function Headline({ children, ...props }) {
-    // TODO Should a <strong> instead of a <div>
     return (
-        <div {...props} className={styles.Headline}>
+        <em {...props} className={styles.Headline}>
             {children}
-        </div>
+        </em>
     )
 }
 

@@ -33,3 +33,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
+.ButtonSet {
+    display: flex;
+}
