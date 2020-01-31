@@ -3,6 +3,7 @@ import Panel from './Panel'
 import { isTouchable } from 'utils/device'
 import { Entries as TerrainRatingsEntries } from './TerrainRatings'
 import { Entries as MapLegendEntries } from './MapLegend'
+import screeenshot  alt='Download screenshot'from './download-screeenshot. alt='Download screenshot'jpg'
 import styles from '../TripPlanner.css'
 
 export default function Welcome() {
@@ -38,6 +39,15 @@ export function Content() {
             <TerrainRatingsEntries />
             <p>Map legend:</p>
             <MapLegendEntries />
+            <p>How to download ATES ratings:</p>
+            <ol>
+                <li>Zoom in on the map to find the area you are looking for.</li>
+                <li>Click on the area. It will show up to the left of the map.</li>
+                <li>Click on the icon with the downward arrow to the right of the area name (see image below).</li>
+                <li>Read each page of the disclaimer and click “OK” to proceed.</li>
+                <li>Click “Download ATES data.”</li>
+            </ol>
+            <img src={screeenshot} alt='Instructions for downloading data' />
         </Fragment>
     )
 }
