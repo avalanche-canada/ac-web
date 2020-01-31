@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { Helmet } from 'react-helmet'
 import * as params from 'prismic/params'
 import { STATIC_PAGE, SPONSOR } from 'constants/prismic'
 import { Content, Header, Headline, Main, Banner, Aside } from 'components/page'
@@ -75,7 +76,7 @@ export function GenericPage({ uid, title }) {
                     <Pending title={title} />
                     <Main>
                         <Async.Found>
-                            <GenericBody />
+                            <GenericContent />
                         </Async.Found>
                         <Async.FirstError>
                             <Async.Empty>
@@ -110,14 +111,30 @@ export function Generic({ uid }) {
 }
 
 // Util components
-export function GenericBody({ payload }) {
-    return <StructuredText value={payload.data.body} />
-}
-function StaticPageBody({ payload }) {
-    const { headline, content } = payload.data
+function GenericBody({ payload }) {
+    const { body, title } = payload.data
 
     return (
         <Fragment>
+            <Helmet>
+                <title>{title}</title>
+            </Helmet>
+            <StructuredText value={body} />
+        </Fragment>
+    )
+}
+export function GenericContent({ payload }) {
+    return <StructuredText value={payload.data.body} />
+}
+function StaticPageBody({ payload }) {
+    const { headline, content, title } = payload.data
+
+    return (
+        <Fragment>
+            <Helmet>
+                <title>{title}</title>
+                {headline && <meta name="description" content={headline} />}
+            </Helmet>
             {headline && <Headline>{headline}</Headline>}
             {Array.isArray(content) && <SliceZone value={content} />}
         </Fragment>

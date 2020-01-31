@@ -6,7 +6,7 @@ import Button, { Close, ButtonSet } from 'components/button'
 import button from 'components/button/Button.css'
 import * as Async from 'contexts/async'
 import { useGeneric } from 'prismic/hooks'
-import { GenericBody } from 'prismic/layouts'
+import { GenericContent } from 'prismic/layouts'
 import { Loading } from 'components/text'
 
 export default function Download({ name, id, onClose }) {
@@ -33,7 +33,7 @@ export default function Download({ name, id, onClose }) {
                         <Loading />
                     </Async.Pending>
                     <Async.Found>
-                        <GenericBody />
+                        <GenericContent />
                     </Async.Found>
                 </Body>
                 <Footer>
