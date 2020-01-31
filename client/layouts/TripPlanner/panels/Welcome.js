@@ -3,7 +3,7 @@ import Panel from './Panel'
 import { isTouchable } from 'utils/device'
 import { Entries as TerrainRatingsEntries } from './TerrainRatings'
 import { Entries as MapLegendEntries } from './MapLegend'
-import screeenshot  alt='Download screenshot'from './download-screeenshot. alt='Download screenshot'jpg'
+import screeenshot  from './download-instructions.jpg'
 import styles from '../TripPlanner.css'
 
 export default function Welcome() {
