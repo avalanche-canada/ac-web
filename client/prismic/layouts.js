@@ -104,25 +104,13 @@ export function Generic({ uid }) {
                 <Loading />
             </Async.Pending>
             <Async.Found>
-                <GenericBody />
+                <GenericContent />
             </Async.Found>
         </Async.Provider>
     )
 }
 
 // Util components
-function GenericBody({ payload }) {
-    const { body, title } = payload.data
-
-    return (
-        <Fragment>
-            <Helmet>
-                <title>{title}</title>
-            </Helmet>
-            <StructuredText value={body} />
-        </Fragment>
-    )
-}
 export function GenericContent({ payload }) {
     return <StructuredText value={payload.data.body} />
 }
