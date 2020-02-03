@@ -122,7 +122,7 @@ function getNodeList(cb) {
 }
 
 function getJSON(path, qs, cb) {
-    return cb(new Error('Unable to contact upstream api'));
+    // return cb(new Error('Unable to contact upstream api'));
 
     return request({ url: AC_MCR_URL + path, qs: qs }, function(
         err,
