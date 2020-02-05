@@ -45,7 +45,7 @@ export default function Download({ name, id, onClose }) {
                         {value === 'download' && (
                             <a
                                 download={`${name}.kmz`}
-                                href={`/api/ates/en/${id}.kmz`}
+                                href={`/api/ates/en/areas/${id}.kmz`}
                                 className={button.Primary}>
                                 {prefix}
                             </a>

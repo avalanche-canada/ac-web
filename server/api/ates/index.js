@@ -724,25 +724,68 @@ function make_KMZ_stream(area_id, lang, output_stream, res, client, icon_number,
     });
 }
 
-router.get('/:lang/:areaId.kmz', function(req, res) {
+router.get('/:lang/areas/:id.kmz', function(req, res) {
     const client = new Client(process.env.ATES_CONNECTION_STRING);
-    const areaId = req.params.areaId;
+    const id = req.params.id;
     const lang = req.params.lang;
     
     client.connect(err => {
         if (err) {
-            console.error(err);
+            logger.error(err);
             throw err;
         }
 
-        res.attachment(`${areaId}.kmz`);
-        make_KMZ_stream(areaId, lang, res, res, client)
+        res.attachment(`${id}.kmz`);
+        make_KMZ_stream(id, lang, res, res, client)
             .then(_ => {
                 client.end();
                 logger.debug('[ATES/KMZ]', JSON.stringify(req.params));
             });
     });
 });
+
+router.get('/:lang/decision-points/:id.json', function(req, res) {
+    const client = new Client(process.env.ATES_CONNECTION_STRING);
+    const id = req.params.id;
+
+    client.connect((error) => {
+        if (error) {
+            logger.error(error);
+            
+            return res.status(500, 'Connection to database impossible.')
+        }
+        
+        const values = [id]
+        const queries = [
+            client.query('SELECT NAME FROM DECISION_POINTS WHERE ID = $1;', values),
+            client.query("SELECT WARNING, TYPE FROM DECISION_POINTS_WARNINGS WHERE DECISION_POINT_ID = $1 AND TYPE = 'Concern' UNION ALL SELECT WARNING, TYPE FROM DECISION_POINTS_WARNINGS WHERE DECISION_POINT_ID = $1 AND TYPE <> 'Concern' ORDER BY TYPE;", values)
+        ]
+        
+        Promise.all(queries)
+        .then((values) => {
+            const point = values[0]
+            const warnings = values[1]
+            
+            client.end()
+            
+            if (point.rowCount === 0) {
+                return res.status(404, 'Decision point not available.')
+            }
+            
+            res.json(Object.assign({}, point.rows[0], {
+                warnings: warnings.rows
+            }))
+        })
+        .catch((error) => {
+            client.end()
+
+            logger.error(error);
+
+            res.status(500, 'Not able able to retreive data from database.');
+        })
+
+    })
+})
 
 const CLASS_CODE_NAMES = {
     en: {

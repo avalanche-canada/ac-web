@@ -5,6 +5,7 @@ import { useMapState } from 'contexts/map/state'
 import styles from './TripPlanner.css'
 import { useNavigationControl, useMap } from 'hooks/mapbox'
 import { STYLES } from 'services/mapbox/config'
+import { Popup } from 'mapbox-gl'
 
 TripPlannerMap.propTypes = {
     area: PropTypes.object,
@@ -51,8 +52,78 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
                 layers: FORECAST_LAYERS,
             })
         }
+        function queryDecisionPoints(point) {
+            return map.queryRenderedFeatures(point, {
+                layers: DECISION_POINTS,
+            })
+        }
 
         map.on('click', ({ point }) => {
+            // TODO Should combine into one query
+            const [decisionPoint] = queryDecisionPoints(point)
+
+            if (decisionPoint) {
+                const { properties, geometry } = decisionPoint
+                const url = `/api/ates/en/decision-points/${properties.id}.json`
+                const popup = new Popup()
+
+                popup
+                    .setLngLat(geometry.coordinates)
+                    .setHTML('<p>Loading information...</p>')
+                    .addTo(map)
+
+                fetch(url)
+                    .then(response => response.json())
+                    .then(
+                        ({ warnings }) => {
+                            let html =
+                                '<p>No information has been found for that decision point.</p>'
+
+                            if (warnings.length > 0) {
+                                warnings = warnings.reduce(
+                                    (warnings, { type, warning }) => {
+                                        if (!(type in warnings)) {
+                                            warnings[type] = []
+                                        }
+
+                                        warnings[type].push(warning)
+
+                                        return warnings
+                                    },
+                                    {}
+                                )
+                                html = Object.entries(warnings).reduce(
+                                    (html, [type, warnings]) =>
+                                        html +
+                                        `
+                                        <section>
+                                            <h3>${type}</h3>
+                                            <ul>
+                                                ${warnings.reduce(
+                                                    (html, warning) =>
+                                                        html +
+                                                        `<li>${warning}</li>`,
+                                                    ''
+                                                )}
+                                            </ul>
+                                        </section>
+                                    `,
+                                    ''
+                                )
+                            }
+
+                            popup.setHTML(html)
+                        },
+                        () => {
+                            const html =
+                                '<p>An error happened while getting decision point information.</p>'
+                            popup.setHTML(html)
+                        }
+                    )
+
+                return
+            }
+
             const [area] = queryAreas(point)
             const [zone] = queryZones(point)
             const [region] = queryRegions(point)
@@ -106,3 +177,4 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
 const ATES_ZONES_LAYERS = ['ates-zones']
 const ATES_AREAS_LAYERS = ['ates-areas']
+const DECISION_POINTS = ['ates-decision-points']
