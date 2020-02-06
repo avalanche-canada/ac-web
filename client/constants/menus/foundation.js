@@ -164,5 +164,10 @@ module.exports = {
                 },
             ],
         },
+        {
+            id: 'donate',
+            label: 'Donate',
+            to: '/foundation/donate',
+        },
     ],
 }

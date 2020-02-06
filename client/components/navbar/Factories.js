@@ -6,11 +6,9 @@ import Header from './Header'
 import Link from './Link'
 import Headline from './Headline'
 
-export function createItem({ id, label, children, to }, index) {
-    const key = `${id}-${index}`
-
+export function createItem({ id, label, children, to }) {
     return (
-        <Item key={key} title={label} to={to}>
+        <Item key={id} id={id} title={label} to={to}>
             {children && (
                 <Menu>{sectionsReducer(children).map(createSection)}</Menu>
             )}

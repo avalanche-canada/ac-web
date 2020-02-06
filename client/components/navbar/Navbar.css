@@ -36,6 +36,7 @@
 }
 
 .Item {
+    flex: 1 0;
     position: relative;
     max-width: 150px;
     height: 100%;
@@ -56,6 +57,30 @@
 
     & svg > path:not([fill='none']) {
         fill: var(--primary);
+    }
+
+    &:global(#donate) {
+        background-color: var(--brand-secondary);
+
+        & > a {
+            color: white;
+        }
+
+        &:hover {
+            background-color: color-mod(var(--brand-secondary) blackness(15%));
+        }
+    }
+
+    &:global(#foundation) {
+        background-color: var(--brand-primary);
+
+        & > a {
+            color: white;
+        }
+
+        &:hover {
+            background-color: color-mod(var(--brand-primary) blackness(15%));
+        }
     }
 }
 
@@ -169,21 +194,6 @@
 
 .UserProfile {
     display: inline-block;
-}
-
-.Donate {
-    border-left: transparent solid 2px;
-    color: white;
-    padding: 0 20px;
-    background-color: var(--brand-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    &:hover {
-        background-color: color-mod(var(--brand-secondary) blackness(15%));
-        color: white;
-    }
 }
 
 .Brand {

@@ -14,11 +14,10 @@ import styles from './Navbar.css'
 Layout.propTypes = {
     menu: PropTypes.object,
     logo: PropTypes.string,
-    donate: PropTypes.string,
     children: PropTypes.node,
 }
 
-export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
+export default function Layout({ menu = MENU, logo = LOGO, children }) {
     const { location } = useLocation()
     const [isCabinetOpened, showCabinet, hideCabinet] = useBoolean(false)
     const { width } = useWindowSize()
@@ -46,7 +45,6 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
                 ) : (
                     <Burger onClick={showCabinet} />
                 )}
-                {donate && <Donate to={donate} />}
             </nav>
             {fullNavbar || (
                 <Cabinet
@@ -60,13 +58,6 @@ export default function Layout({ menu = MENU, logo = LOGO, donate, children }) {
 }
 
 // Utils
-function Donate(props) {
-    return (
-        <Link {...props} className={styles.Donate}>
-            Donate
-        </Link>
-    )
-}
 function Brand({ children, ...props }) {
     return (
         <Link className={styles.Brand} {...props}>

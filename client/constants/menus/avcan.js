@@ -428,5 +428,15 @@ module.exports = {
             label: 'Store',
             to: 'https://store.avalanche.ca',
         },
+        {
+            id: 'donate',
+            label: 'Text to Donate',
+            to: '/donate',
+        },
+        {
+            id: 'foundation',
+            label: 'Foundation',
+            to: '/foundation',
+        },
     ],
 }

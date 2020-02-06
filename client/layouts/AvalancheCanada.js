@@ -112,6 +112,11 @@ function AvalancheCanada() {
                             title="Information"
                         />
                         <StaticPage
+                            path="donate"
+                            uid="donate"
+                            title="Text to donate"
+                        />
+                        <StaticPage
                             path="sled"
                             uid="sled"
                             title="Sled"
