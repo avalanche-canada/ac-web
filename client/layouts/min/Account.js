@@ -37,7 +37,7 @@ export default function Account() {
             <Content>
                 <Main>
                     <Headline>
-                        <p>This is where eventually you will be able to:</p>
+                        <p>This is eventually where you will be able to:</p>
                         <ul>
                             <li>Access the report you have submitted.</li>
                             <li>Remove or edit reports you have submitted.</li>
@@ -57,11 +57,24 @@ export default function Account() {
                 </Main>
                 <Aside>
                     <Sidebar.default>
+                        <Sidebar.Header>Ready?</Sidebar.Header>
                         <Sidebar.Item>
                             <Link to="../submit">Create a report</Link>
                         </Sidebar.Item>
                         <Sidebar.Item>
                             <Link to="../submissions">See all reports</Link>
+                        </Sidebar.Item>
+                        <Sidebar.Header>More questions?</Sidebar.Header>
+                        <Sidebar.Item>
+                            <Link to="../faq">
+                                Mountain Information Network — FAQ
+                            </Link>
+                        </Sidebar.Item>
+                        <Sidebar.Item>
+                            <Link to="../submission-guidelines">
+                                Mountain Information Network — Submission
+                                Guidelines
+                            </Link>
                         </Sidebar.Item>
                     </Sidebar.default>
                 </Aside>
