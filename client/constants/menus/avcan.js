@@ -435,7 +435,7 @@ module.exports = {
         },
         {
             id: 'foundation',
-            label: 'Foundation',
+            label: 'Donate to Foundation',
             to: '/foundation',
         },
     ],
