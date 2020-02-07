@@ -12,6 +12,10 @@
     }
 }
 
+.Login > button {
+    margin: auto;
+}
+
 .Layout {
     display: flex;
     flex-direction: column;

@@ -85,7 +85,7 @@ const AvCanTrainingCourses = {
 }
 const MountainInformationNetworkListView = {
     id: id++,
-    label: 'MIN reports list view',
+    label: 'Reports list view',
     to: '/mountain-information-network/submissions',
 }
 const MountainInformationNetwork = {
@@ -104,12 +104,17 @@ const MountainInformationNetwork = {
             label: 'How to GIVE information?',
             to: '/mountain-information-network#give-information',
         },
+        MountainInformationNetworkListView,
         {
             id: id++,
             label: 'Create a report',
             to: '/mountain-information-network/submit',
         },
-        MountainInformationNetworkListView,
+        {
+            id: id++,
+            label: 'My account',
+            to: '/mountain-information-network/account',
+        },
     ],
 }
 const Planning = {

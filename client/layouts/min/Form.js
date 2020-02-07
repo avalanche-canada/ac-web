@@ -1,7 +1,7 @@
-import React, { Component, createRef } from 'react'
-import { navigate } from '@reach/router'
+import React, { Component, createRef, Fragment } from 'react'
+import { navigate, Link } from '@reach/router'
 import t from 'vendor/tcomb-form'
-import { Header, Main, Content } from 'components/page'
+import { Header, Main, Content, Headline } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as links from 'components/links'
 import OPTIONS from './options'
@@ -18,6 +18,8 @@ import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
 import styles from './Form.css'
 import { clearCachedReports } from 'hooks/async/min'
+import Button from 'components/button/Button'
+import Shim from 'components/Shim'
 
 export default class SubmissionForm extends Component {
     static contextType = AuthContext
@@ -41,19 +43,7 @@ export default class SubmissionForm extends Component {
         }
     }
     async login() {
-        await this.context.login(
-            new Map([
-                [
-                    'hide',
-                    () => {
-                        // Forced to be logged in
-                        if (!this.context.isAuthenticated) {
-                            navigate('/')
-                        }
-                    },
-                ],
-            ])
-        )
+        await this.context.login()
     }
     async componentDidMount() {
         if (!this.context.isAuthenticated) {
@@ -186,53 +176,75 @@ export default class SubmissionForm extends Component {
     }
     render() {
         const { options, type, value, isSubmitting, error } = this.state
+        const { login, profile, isAuthenticated } = this.context
+        const nickname = profile?.user_metadata?.nickname || profile?.nickname
+        const title = (
+            <Fragment>
+                Mountain Information Network — Create report
+                {nickname && (
+                    <small>
+                        Hi <Link to="../account">{nickname}</Link>,
+                    </small>
+                )}
+            </Fragment>
+        )
 
         return (
             <Page>
-                <Header title="Mountain Information Network — Create report" />
+                <Header title={title} />
                 <Content>
                     <Main>
-                        <form
-                            onSubmit={this.handleSubmit}
-                            noValidate
-                            className={styles.Container}>
-                            <t.form.Form
-                                ref={this.form}
-                                value={value}
-                                type={type}
-                                options={options}
-                                disabled={isSubmitting}
-                                onChange={this.handleChange}
-                            />
-                            {error && (
-                                <Error as="details">
-                                    <summary>
-                                        An error happened while submitting your
-                                        report.
-                                    </summary>
-                                    <p>
-                                        An error happened while submitting and
-                                        saving your report to our servers. Do
-                                        not hesitate to contact us to get more
-                                        details so you can have your report
-                                        submitted. Thanks for your understanding
-                                        and cooperation!{' '}
-                                        <Mailto
-                                            email={SUPPORT}
-                                            subject={`Problem submitting report: ${value.required.title}`}
-                                        />
-                                    </p>
-                                    <p>
-                                        {error.name}: {error.message}
-                                    </p>
-                                </Error>
-                            )}
-                            <Submit large disabled={isSubmitting}>
-                                {isSubmitting
-                                    ? 'Submitting your report...'
-                                    : 'Submit your report'}
-                            </Submit>
-                        </form>
+                        {isAuthenticated ? (
+                            <form
+                                onSubmit={this.handleSubmit}
+                                noValidate
+                                className={styles.Container}>
+                                <t.form.Form
+                                    ref={this.form}
+                                    value={value}
+                                    type={type}
+                                    options={options}
+                                    disabled={isSubmitting}
+                                    onChange={this.handleChange}
+                                />
+                                {error && (
+                                    <Error as="details">
+                                        <summary>
+                                            An error happened while submitting
+                                            your report.
+                                        </summary>
+                                        <p>
+                                            An error happened while submitting
+                                            and saving your report to our
+                                            servers. Do not hesitate to contact
+                                            us to get more details so you can
+                                            have your report submitted. Thanks
+                                            for your understanding and
+                                            cooperation!{' '}
+                                            <Mailto
+                                                email={SUPPORT}
+                                                subject={`Problem submitting report: ${value.required.title}`}
+                                            />
+                                        </p>
+                                        <p>
+                                            {error.name}: {error.message}
+                                        </p>
+                                    </Error>
+                                )}
+                                <Submit large disabled={isSubmitting}>
+                                    {isSubmitting
+                                        ? 'Submitting your report...'
+                                        : 'Submit your report'}
+                                </Submit>
+                            </form>
+                        ) : (
+                            <Shim all className={styles.Login}>
+                                <Button onClick={login} large>
+                                    Login to post to the Mountain Information
+                                    Network
+                                </Button>
+                            </Shim>
+                        )}
                     </Main>
                 </Content>
             </Page>
