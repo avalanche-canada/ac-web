@@ -46,8 +46,16 @@ export function Provider({ children }) {
 }
 
 // Hooks
-export function useAuth() {
-    return useContext(AuthContext)
+export function useAuth(authenticate) {
+    const context = useContext(AuthContext)
+
+    useEffect(() => {
+        if (authenticate && !context.isAuthenticated) {
+            context.login()
+        }
+    }, [])
+
+    return context
 }
 
 // Reducer

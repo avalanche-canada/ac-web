@@ -1,7 +1,7 @@
 import React, { Component, createRef, Fragment } from 'react'
 import { navigate, Link } from '@reach/router'
 import t from 'vendor/tcomb-form'
-import { Header, Main, Content, Headline } from 'components/page'
+import { Header, Main, Content } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as links from 'components/links'
 import OPTIONS from './options'
