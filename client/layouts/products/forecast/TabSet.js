@@ -1,9 +1,9 @@
 import React from 'react'
-import { useForecast } from './Context'
-import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { InnerHTML } from 'components/misc'
+import { useForecast } from './Context'
 import DetailSet from './DetailSet'
+import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import ProblemSet from './problem'
 import NoRatingModes from 'constants/forecast/mode'
 
