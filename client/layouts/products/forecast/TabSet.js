@@ -1,4 +1,6 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import noop from 'lodash/noop'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { InnerHTML } from 'components/misc'
 import { useForecast } from './Context'
@@ -7,7 +9,11 @@ import { Day, DaySet, Condition, Confidence, Advice } from './danger'
 import ProblemSet from './problem'
 import NoRatingModes from 'constants/forecast/mode'
 
-export default function TabSet(props) {
+TabSet.propTypes = {
+    onTabChange: PropTypes.func,
+}
+
+export default function TabSet({ onTabChange = noop }) {
     const forecast = useForecast()
 
     if (!forecast) {
@@ -29,7 +35,7 @@ export default function TabSet(props) {
     } = forecast
 
     return (
-        <Tabs {...props}>
+        <Tabs onTabChange={onTabChange}>
             <HeaderSet>
                 <Header>Danger ratings</Header>
                 <Header>Problems</Header>
