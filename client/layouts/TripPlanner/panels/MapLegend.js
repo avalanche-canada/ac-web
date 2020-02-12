@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { Entry, Symbol, Name, Description } from 'components/map/legend'
 import Panel from './Panel'
-import parking from './parking-11.svg'
-import hut from './hut-11.svg'
+import parking from './parking.svg'
+import shelter from './shelter.svg'
 import { Warning } from 'components/icons'
 import { WARNING } from 'constants/colors'
 import { Entries as TerrainRatingsEntries } from './TerrainRatings'
@@ -69,9 +69,9 @@ export function Entries() {
                 <Symbol>
                     <img
                         width={20}
-                        src={hut}
+                        src={shelter}
                         title="Hut, Cabin or shelter"
-                        alt="hut"
+                        alt="shelter"
                     />
                 </Symbol>
                 <Name>Hut, cabin or shelter</Name>
