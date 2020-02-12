@@ -63,6 +63,5 @@ export default function WebLink({ children, url, ...props }) {
 const FXResourcesRegex = /fxresources/
 const CherryBowlRegex = /(cherry-bowl|cherrybowl)/
 const SMS = /sms.avalanche.ca/
-const APPLE =
-    /iPad|iPhone|iPod/.test(navigator.platform) ||
-    navigator.platform === 'MacIntel'
+// https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
+const APPLE = /iPad|iPhone|iPod|MacIntel/.test(navigator.platform)
