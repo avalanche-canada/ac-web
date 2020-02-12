@@ -42,9 +42,7 @@ export default function WebLink({ children, url, ...props }) {
 
         // iOS & MacOS devices do not follow the statndard
         return (
-            <a
-                href={`sms:+${phone}${APPLE ? '&' : '?'}body=${body}`}
-                {...props}>
+            <a href={`sms:${phone}${APPLE ? '&' : '?'}body=${body}`} {...props}>
                 {children}
             </a>
         )
