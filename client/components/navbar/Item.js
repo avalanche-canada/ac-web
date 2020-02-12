@@ -10,16 +10,17 @@ Item.propTypes = {
     onClick: PropTypes.func,
     children: PropTypes.node,
     to: PropTypes.string,
+    id: PropTypes.string.isRequired,
 }
 
-function Item({ isActive = false, title, onClick, children, to }) {
+function Item({ isActive = false, title, onClick, children, to, id }) {
     const className = classnames({
         [css.Item]: !isActive,
         [css['Item--isActive']]: isActive,
     })
 
     return (
-        <li className={className}>
+        <li id={id} className={className}>
             <Link to={to} onClick={onClick}>
                 {title}
             </Link>

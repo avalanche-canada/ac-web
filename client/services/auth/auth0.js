@@ -17,7 +17,7 @@ export async function resume(hash) {
     })
 }
 
-export async function login(events = new Map()) {
+export async function login() {
     const l = await lock()
 
     return new Promise((fullfil, reject) => {
@@ -33,12 +33,9 @@ export async function login(events = new Map()) {
 
         l.on('authenticated', authResult => {
             fullfil(setAuthResult(authResult))
+            l.hide()
         })
         l.on('unrecoverable_error', reject)
-
-        for (const [event, callback] of events) {
-            l.on(event, callback)
-        }
     })
 }
 
@@ -61,7 +58,7 @@ async function lock() {
                 LOCK = new Auth0Lock(clientId, domain, {
                     configurationBaseUrl,
                     closable: true,
-                    autoclose: false,
+                    autoclose: true,
                     avatar: true,
                     auth: {
                         redirect: true,

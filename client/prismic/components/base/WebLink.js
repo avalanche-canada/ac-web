@@ -35,6 +35,21 @@ export default function WebLink({ children, url, ...props }) {
         }
     }
 
+    if (SMS.test(url)) {
+        const { searchParams } = new URL(url)
+        const phone = searchParams.get('phone')
+        const body = searchParams.get('body')
+
+        // iOS & MacOS devices do not follow the statndard
+        return (
+            <a
+                href={`sms:+${phone}${APPLE ? '&' : '?'}body=${body}`}
+                {...props}>
+                {children}
+            </a>
+        )
+    }
+
     const target = isExternal(url) ? '_blank' : undefined
 
     return (
@@ -47,3 +62,6 @@ export default function WebLink({ children, url, ...props }) {
 // Constants
 const FXResourcesRegex = /fxresources/
 const CherryBowlRegex = /(cherry-bowl|cherrybowl)/
+const SMS = /sms.avalanche.ca/
+// https://stackoverflow.com/questions/9038625/detect-if-device-is-ios
+const APPLE = /iPad|iPhone|iPod|MacIntel/.test(navigator.platform)
