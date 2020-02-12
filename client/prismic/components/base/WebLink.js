@@ -40,8 +40,11 @@ export default function WebLink({ children, url, ...props }) {
         const phone = searchParams.get('phone')
         const body = searchParams.get('body')
 
+        // iOS & MacOS devices do not follow the statndard
         return (
-            <a href={`sms:${phone}&body=${body}`} {...props}>
+            <a
+                href={`sms:+${phone}${APPLE ? '&' : '?'}body=${body}`}
+                {...props}>
                 {children}
             </a>
         )
@@ -60,3 +63,6 @@ export default function WebLink({ children, url, ...props }) {
 const FXResourcesRegex = /fxresources/
 const CherryBowlRegex = /(cherry-bowl|cherrybowl)/
 const SMS = /sms.avalanche.ca/
+const APPLE =
+    /iPad|iPhone|iPod/.test(navigator.platform) ||
+    navigator.platform === 'MacIntel'
