@@ -415,6 +415,9 @@ function get_KML(area_id, lang, client, icon_number, icon_dir_name) {
          * @returns {Array} returns an array of Style objects
          */
     const deal_with_styling = () => {
+        const GREEN = '8800ff55'
+        const BLUE = '88ff0000'
+        const BLACK = '88000000'
         const new_Icon = (icon, color) => ({
             Icon: [
                 {href: `${ICON_DIR}/new-${icon}-${icon_number}.${ICON_EXT}`},
@@ -455,21 +458,36 @@ function get_KML(area_id, lang, client, icon_number, icon_dir_name) {
 
         // Any color in here is formatted rrggbbaa
         // new_Style reverses it for kml
+        const WITHOUT_OUTLINE = {
+            LineStyle: [{
+                width: 0
+            }]
+        }
+        const simple = new_Style(style_urls.zones[1], [
+            {
+                color: GREEN, 
+            } 
+        ], 'PolyStyle')
+        simple.Style.push(WITHOUT_OUTLINE)
+        const challenging = new_Style(style_urls.zones[2], [
+            {
+                color: BLUE, 
+            } 
+        ], 'PolyStyle')
+        challenging.Style.push(WITHOUT_OUTLINE)
+        const complex = new_Style(style_urls.zones[3], [
+            {
+                color: BLACK, 
+            } 
+        ], 'PolyStyle')
+        complex.Style.push(WITHOUT_OUTLINE)
+        const areas = new_Style(style_urls.areas_vw, [
+            {color: FULL_TRANSPARENT}
+        ], 'PolyStyle')
+        areas.Style.push(WITHOUT_OUTLINE)
         const styles = {
-            zones: [
-                new_Style(style_urls.zones[1], [
-                    {color: '8800ff55'} // Green
-                ], 'PolyStyle'),
-                new_Style(style_urls.zones[2], [
-                    {color: '88ff0000'} // Blue
-                ], 'PolyStyle'),
-                new_Style(style_urls.zones[3], [
-                    {color: '88000000'} // Black
-                ], 'PolyStyle')
-            ],
-            areas_vw: new_Style(style_urls.areas_vw, [
-                {color: FULL_TRANSPARENT}
-            ], 'PolyStyle'),
+            zones: [simple, challenging, complex],
+            areas_vw: areas,
             access_roads: new_Style(style_urls.access_roads, [
                 {color: 'ff00ffff'}, // Yellow
                 {'gx:outerColor': '00ff00ff'}, // Green
