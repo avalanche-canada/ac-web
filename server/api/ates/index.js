@@ -373,16 +373,13 @@ function promise_KML(area_id, client, queries, new_placemark, styles) {
 /**
  * @param {number} area_id			 -- id of the area whose features you want to query.
  * @param {string} lang					-- either 'en' (English) or 'fr' (French).
- * @param {number} icon_number	 -- either 11 or 15; the number associated with the icons. don't know what it means.
  * @param {string} icon_dir_name -- the prefix for the directory that contains the icons.
  * contains all the preprocessing necessary to run {promise_KML}
  * @returns {Promise} promise_KML
  */
-function get_KML(area_id, lang, client, icon_number, icon_dir_name) {
+function get_KML(area_id, lang, client, icon_dir_name) {
     lang = lang || 'en';
     const LINE_WIDTH = 3; // For LineStyles, in pixels
-    const ICON_DIR = `${icon_dir_name}-${icon_number}`;
-    const ICON_EXT = 'png';
     const POI_COLOR = 'ff000000';
     const FULL_TRANSPARENT = '00000000';
     const DP_COLOR = 'ff07c1ff';
@@ -420,7 +417,7 @@ function get_KML(area_id, lang, client, icon_number, icon_dir_name) {
         const BLACK = '88000000'
         const new_Icon = (icon, color) => ({
             Icon: [
-                {href: `${ICON_DIR}/new-${icon}-${icon_number}.${ICON_EXT}`},
+                {href: `${icon_dir_name}/${icon}.png`},
                 // {color}
             ]
         });
@@ -694,12 +691,11 @@ function get_KML(area_id, lang, client, icon_number, icon_dir_name) {
 }
 
 /**
- * @param {number} icon_number		 -- either 11 or 15; the number associated with the icons. don't know what it means.
- * @param {string} icon_dir				-- the prefix for the directory that contains the icons.
  * @param {Writable} output_stream -- stream to which the KMZ is written
  * @returns {Writable} output_stream, the same one as the input
  */
-function make_KMZ_stream(area_id, lang, output_stream, res, client, icon_number, icon_dir) {
+function make_KMZ_stream(area_id, lang, output_stream, res, client) {
+    const icon_dir = 'icons';
     const returnIfIn = (v, a) => a.filter(_.equals(v))[0];
     function write_to_kmz(kml, output) {
         const kml_stream = new Readable();
@@ -722,21 +718,18 @@ function make_KMZ_stream(area_id, lang, output_stream, res, client, icon_number,
         });
         archive.pipe(output);
         archive.append(kml_stream, {name: 'doc.kml'});
-        archive.directory(path.join(__dirname, `${icon_dir}-${icon_number}`), `${icon_dir}-${icon_number}`);
+        archive.directory(path.join(__dirname, icon_dir), icon_dir);
         archive.finalize();
         return output;
     }
 
-    // 11 or 15 are the two valid sizes for icons
-    icon_number = returnIfIn(icon_number, [11, 15]) || 11;
     lang = returnIfIn(lang, ['en','fr']) || 'en';
-    icon_dir = icon_dir || 'files';
 
     return new Promise((resolve, reject) => {
-        get_KML(area_id, lang, client, icon_number, icon_dir)
+        get_KML(area_id, lang, client, icon_dir)
             .then(kml => {
                 res.attachment(`${kml[0].kml[2].name}.kmz`);
-                write_to_kmz(xml(kml), output_stream, icon_number, icon_dir);
+                write_to_kmz(xml(kml), output_stream);
                 resolve(output_stream);
             });
     });
