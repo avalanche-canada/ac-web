@@ -3,6 +3,7 @@ import { Entry, Symbol, Name, Description } from 'components/map/legend'
 import Panel from './Panel'
 import parking from './parking.svg'
 import shelter from './shelter.svg'
+import destination from './destination.svg'
 import { Warning } from 'components/icons'
 import { WARNING } from 'constants/colors'
 import { Entries as TerrainRatingsEntries } from './TerrainRatings'
@@ -64,6 +65,17 @@ export function Entries() {
                     </svg>
                 </Symbol>
                 <Name>Main access trail</Name>
+            </Entry>
+            <Entry>
+                <Symbol>
+                    <img
+                        width={20}
+                        src={destination}
+                        title="Destnation"
+                        alt="destination"
+                    />
+                </Symbol>
+                <Name>Destnation</Name>
             </Entry>
             <Entry>
                 <Symbol>
