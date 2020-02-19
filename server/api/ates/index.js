@@ -396,13 +396,13 @@ function get_KML(area_id, lang, client, icon_dir_name) {
         avalanche_paths: 'avalanche_path_styles',
         decision_points: 'decision_point_styles',
         points_of_interest: {
-            Other: 'point_of_interest_other_styles',
-            Parking: 'point_of_interest_parking_styles',
-            'Rescue Cache': 'point_of_interest_rescue_cache_styles',
             Cabin: 'point_of_interest_cabin_styles',
+            Parking: 'point_of_interest_parking_styles',
             Destination: 'point_of_interest_destination_styles',
-            Lake: 'point_of_interest_lake_styles',
-            Mountain: 'point_of_interest_mountain_styles'
+            'Rescue Cache': 'point_of_interest_other_styles',
+            Lake: 'point_of_interest_other_styles',
+            Mountain: 'point_of_interest_other_styles',
+            Other: 'point_of_interest_other_styles'
         }
     };
 
@@ -494,38 +494,22 @@ function get_KML(area_id, lang, client, icon_dir_name) {
                 {color: 'ff0000ff'}
             ], 'LineStyle'),
             decision_points: new_Style(style_urls.decision_points, [
-                {color: DP_COLOR},
                 new_Icon('decision-point-icon', DP_COLOR)
             ], 'IconStyle'),
             points_of_interest: {
-                Other: new_Style(style_urls.points_of_interest.Other, [
-                    {color: POI_COLOR},
-                    new_Icon('marker', POI_COLOR)
-                ], 'IconStyle'),
-                Parking: new_Style(style_urls.points_of_interest.Parking, [
-                    {color: POI_COLOR},
-                    new_Icon('parking', POI_COLOR)
-                ], 'IconStyle'),
-                'Rescue Cache': new_Style(style_urls.points_of_interest['Rescue Cache'], [
-                    {color: POI_COLOR},
-                    new_Icon('blood-bank', POI_COLOR)
-                ], 'IconStyle'),
                 Cabin: new_Style(style_urls.points_of_interest.Cabin, [
-                    {color: POI_COLOR},
                     new_Icon('shelter', POI_COLOR)
                 ], 'IconStyle'),
+                Parking: new_Style(style_urls.points_of_interest.Parking, [
+                    new_Icon('parking', POI_COLOR)
+                ], 'IconStyle'),
                 Destination: new_Style(style_urls.points_of_interest.Destination, [
-                    {color: POI_COLOR},
-                    new_Icon('attraction', POI_COLOR)
+                    new_Icon('destination', POI_COLOR)
                 ], 'IconStyle'),
-                Lake: new_Style(style_urls.points_of_interest.Lake, [
-                    {color: POI_COLOR},
-                    new_Icon('water', POI_COLOR)
+                Other: new_Style(style_urls.points_of_interest.Other, [
+                    { scale: 0.5 },
+                    new_Icon('dot', POI_COLOR)
                 ], 'IconStyle'),
-                Mountain: new_Style(style_urls.points_of_interest.Mountain, [
-                    {color: POI_COLOR},
-                    new_Icon('mountain', POI_COLOR)
-                ], 'IconStyle')
             }
         };
 
