@@ -34,6 +34,11 @@ export function Provider({ children }) {
 
             dispatch([Logout])
         },
+        async refresh() {
+            await auth.refresh()
+
+            dispatch([Refresh, Accessor.profile])
+        },
     })
 
     useEffect(() => {
@@ -62,6 +67,7 @@ export function useAuth(authenticate) {
 const Login = Symbol('login')
 const Resume = Symbol('resume')
 const Logout = Symbol('logout')
+const Refresh = Symbol('refresh')
 function reducer(state, [type, payload]) {
     switch (type) {
         case Login:
@@ -76,6 +82,11 @@ function reducer(state, [type, payload]) {
                 ...state,
                 isAuthenticated: false,
                 profile: null,
+            }
+        case Refresh:
+            return {
+                ...state,
+                profile: payload,
             }
         default:
             return state

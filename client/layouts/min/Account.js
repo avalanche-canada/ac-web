@@ -3,10 +3,11 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { useAuth } from 'contexts/auth'
 import { Header, Main, Content, Headline, Aside } from 'components/page'
-import Button from 'components/button'
+import Button, { Submit } from 'components/button'
 import { Mailto } from 'components/anchors'
 import * as Sidebar from 'components/sidebar'
 import { Page } from 'layouts/pages'
+import Accessor from 'services/auth/accessor'
 
 Account.propTypes = {
     navigate: PropTypes.func.isRequired,
@@ -22,7 +23,7 @@ export default function Account() {
         actions.login()
     }
 
-    const nickname = profile?.user_metadata?.nickname || profile?.nickname
+    const nickname = getNickname(profile)
     const title = isAuthenticated ? `Hi ${nickname},` : 'My account'
 
     return (
@@ -35,10 +36,6 @@ export default function Account() {
                         <ul>
                             <li>Access the report you have submitted.</li>
                             <li>Remove or edit reports you have submitted.</li>
-                            <li>
-                                Change your displayed handle name in reports you
-                                have submitted.
-                            </li>
                         </ul>
                         <p>
                             In the meantime, do not hesitate to send us an email
@@ -48,6 +45,7 @@ export default function Account() {
                     <Button onClick={isAuthenticated ? logout : login} large>
                         {isAuthenticated ? 'Logout' : 'Login'}
                     </Button>
+                    {isAuthenticated && <Admin />}
                 </Main>
                 <Aside>
                     <Sidebar.default>
@@ -75,4 +73,51 @@ export default function Account() {
             </Content>
         </Page>
     )
+}
+
+// Utils
+function Admin() {
+    const { profile, refresh } = useAuth()
+
+    const nickname = getNickname(profile)
+    function handleSubmit(event) {
+        event.preventDefault()
+
+        const { idToken } = Accessor
+        const { nickname } = event.target.elements
+
+        changeNickname(nickname, idToken).then(() => refresh())
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <label>
+                Your nickname:
+                <input
+                    required
+                    type="text"
+                    name="nickname"
+                    placeholder="Type the new handle name you would like"
+                    defaultValue={nickname}
+                />
+            </label>
+            <Submit>Change my handle name</Submit>
+        </form>
+    )
+}
+function getNickname(profile) {
+    return profile?.user_metadata?.nickname || profile?.nickname
+}
+async function changeNickname(nickname, idToken) {
+    const URL = 'https://api.avalanche.ca/min/username'
+
+    return fetch(URL, {
+        method: 'POST',
+        body: JSON.stringify({
+            nickname: nickname.value,
+        }),
+        headers: new Headers({
+            Authorization: `Bearer ${idToken}`,
+        }),
+    })
 }
