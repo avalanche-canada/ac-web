@@ -2,6 +2,7 @@ import React from 'react'
 import { memo } from 'utils/react'
 import { Router, Redirect } from '@reach/router'
 import LoginComplete from './LoginComplete'
+import Account from './Account'
 import Main from 'layouts/main'
 import Tutorial from './tutorial'
 import Ast from './ast'
@@ -55,6 +56,7 @@ function AvalancheCanada() {
                         />
                         <Redirect from="/learn" to="/training" />
                         <LoginComplete path="login-complete" />
+                        <Account path="account" />
                         <Glossary path="glossary/*" />
                         <Redirect
                             from="pages/tutorial/tutorial"
