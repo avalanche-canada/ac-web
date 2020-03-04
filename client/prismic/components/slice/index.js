@@ -13,6 +13,7 @@ import Slider from './Slider'
 import SponsorSet from './SponsorSet'
 import StaffSet from './StaffSet'
 import Table from './Table'
+import Tabular from './Tabular'
 import SidebarItemSet from './SidebarItemSet'
 import ContactForm from './ContactForm'
 import { Header } from 'components/sidebar'
@@ -32,6 +33,7 @@ export default new Map([
     ['sponsor-set', SponsorSet],
     ['staff-set', StaffSet],
     ['table', Table],
+    ['tabular', Tabular],
     ['header', SidebarHeader],
     ['items', SidebarItemSet],
     ['contact-form', ContactForm],

@@ -1,0 +1,5 @@
+.Cell {
+    & p {
+        margin: inherit;
+    }
+}
