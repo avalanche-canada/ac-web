@@ -3,7 +3,6 @@
 .List {
     display: flex;
     flex-wrap: wrap;
-
     margin: 0;
 }
 
@@ -14,7 +13,7 @@
 }
 
 .Condensed {
-    .Child {
+    & .Child {
         padding: 0.25em 0;
     }
 }

@@ -74,6 +74,11 @@ li::marker {
     color: var(--primary);
 }
 
+/* DESCRIPTION LIST */
+dt {
+    font-weight: 700;
+}
+
 /* PRINT */
 @media print {
     a:after {

@@ -14,6 +14,7 @@ import SponsorSet from './SponsorSet'
 import StaffSet from './StaffSet'
 import Table from './Table'
 import Tabular from './Tabular'
+import DescriptionList from './DescriptionList'
 import SidebarItemSet from './SidebarItemSet'
 import ContactForm from './ContactForm'
 import { Header } from 'components/sidebar'
@@ -34,6 +35,7 @@ export default new Map([
     ['staff-set', StaffSet],
     ['table', Table],
     ['tabular', Tabular],
+    ['description_list', DescriptionList],
     ['header', SidebarHeader],
     ['items', SidebarItemSet],
     ['contact-form', ContactForm],
