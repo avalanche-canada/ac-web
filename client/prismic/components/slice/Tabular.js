@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Responsive } from 'components/table'
 import { StructuredText } from 'prismic/components/base'
@@ -15,31 +15,25 @@ export default function Tabular({ primary, items }) {
     const captionSide = primary.caption_position
 
     return (
-        <Fragment>
-            <StructuredText value={primary.header} />
-            <Responsive>
-                <table>
-                    {header && (
-                        <thead>
-                            <Row {...header} />
-                        </thead>
-                    )}
-                    <tbody>
-                        {rows.map((row, index) => (
-                            <Row key={index} {...row} />
-                        ))}
-                    </tbody>
-                    {Array.isArray(primary.caption) &&
-                        primary.caption.length > 0 && (
-                            <caption
-                                style={{ captionSide }}
-                                className={styles.Cell}>
-                                <StructuredText value={primary.caption} />
-                            </caption>
-                        )}
-                </table>
-            </Responsive>
-        </Fragment>
+        <Responsive>
+            <table>
+                {header && (
+                    <thead>
+                        <Row {...header} />
+                    </thead>
+                )}
+                <tbody>
+                    {rows.map((row, index) => (
+                        <Row key={index} {...row} />
+                    ))}
+                </tbody>
+                {Array.isArray(primary.caption) && primary.caption.length > 0 && (
+                    <caption style={{ captionSide }} className={styles.Cell}>
+                        <StructuredText value={primary.caption} />
+                    </caption>
+                )}
+            </table>
+        </Responsive>
     )
 }
 
