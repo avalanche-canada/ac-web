@@ -111,6 +111,8 @@ function Admin() {
                         type="text"
                         name="username"
                         required
+                        minLength="4"
+                        maxLength="50"
                         placeholder="Type the new username you would like..."
                         defaultValue={username}
                         onChange={handleChange}
