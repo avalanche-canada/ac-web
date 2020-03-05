@@ -113,7 +113,7 @@ const MountainInformationNetwork = {
         {
             id: id++,
             label: 'My account',
-            to: '/mountain-information-network/account',
+            to: '/account',
         },
     ],
 }

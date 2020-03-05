@@ -10,7 +10,6 @@ export default function MountainInformationNetwork() {
     return (
         <Router>
             <Submit path="submit" />
-            <Account path="account" />
             <Submissions path="submissions" />
             <Submission path="submissions/:id" />
             <StaticPage
@@ -36,15 +35,7 @@ export default function MountainInformationNetwork() {
 // Code splitted subroutes
 const SubmitContainer = lazy(() => import('layouts/min/Form'))
 const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
-const AccountLayout = lazy(() => import('layouts/min/Account'))
 
-function Account() {
-    return (
-        <Bundle fallback={<Loading />}>
-            <AccountLayout />
-        </Bundle>
-    )
-}
 function Submit(props) {
     return (
         <Bundle fallback={<Loading />}>

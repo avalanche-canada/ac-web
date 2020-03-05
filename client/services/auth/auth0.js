@@ -43,6 +43,21 @@ export function logout() {
     Accessor.clear()
 }
 
+export async function refresh() {
+    const l = await lock()
+
+    return new Promise((fullfilled, rejected) => {
+        l.checkSession({}, (error, authResult) => {
+            if (error) {
+                rejected(error)
+            }
+
+            setAuthResult(authResult)
+            fullfilled()
+        })
+    })
+}
+
 // Utils
 let LOCK = null
 async function lock() {
