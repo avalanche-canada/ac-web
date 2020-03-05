@@ -97,7 +97,7 @@ function Admin() {
     return (
         <form onSubmit={handleSubmit}>
             <fieldset disabled={status === 'pending'}>
-                <legend>Username</legend>
+                <legend>Change your username</legend>
                 <label>
                     Your username
                     <br />
@@ -181,6 +181,7 @@ function reducer(state, [type, payload]) {
         case 'success':
             return {
                 ...state,
+                data: payload,
                 status: 'resolved',
             }
         case 'error':
