@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { Fragment, useReducer, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { useAuth } from 'contexts/auth'
@@ -9,6 +9,7 @@ import { Mailto } from 'components/anchors'
 import * as Sidebar from 'components/sidebar'
 import { Page } from 'layouts/pages'
 import Accessor from 'services/auth/accessor'
+import { HTTPError } from 'utils/fetch'
 
 Account.propTypes = {
     navigate: PropTypes.func.isRequired,
@@ -79,7 +80,7 @@ export default function Account() {
 
 // Utils
 function Admin() {
-    const { status, error, data, change } = useUsername()
+    const { status, data, change } = useUsername()
     const { profile } = useAuth()
     const username = getUsername(profile)
     const [tempUsername, setTempUsername] = useState(username)
@@ -117,18 +118,36 @@ function Admin() {
                         autoFocus
                     />
                 </label>
-                {status === 'resolved' && (
-                    <Texts.Muted>{data.message}</Texts.Muted>
-                )}
-                {status === 'rejected' && (
-                    <Texts.Error>{error.message}</Texts.Error>
-                )}
+                <Message status={status} code={data?.messageCode}>
+                    {data?.message}
+                </Message>
                 <Submit disabled={tempUsername === username}>
                     Change my username
                 </Submit>
             </fieldset>
         </form>
     )
+}
+function Message({ status, code, children }) {
+    switch (status) {
+        case 'resolved':
+            return <Texts.Muted>{children}</Texts.Muted>
+        case 'rejected':
+            return (
+                <Texts.Error>
+                    {children}
+                    {code === 'USERNAME_TAKEN' && (
+                        <Fragment>
+                            . This could happen for few reasons, do not hesitate
+                            to contact us at <Mailto /> so we can help you to
+                            sort it out.
+                        </Fragment>
+                    )}
+                </Texts.Error>
+            )
+        default:
+            return null
+    }
 }
 function getUsername(profile) {
     return profile?.user_metadata?.nickname || profile?.nickname
@@ -140,13 +159,14 @@ function useUsername() {
         error: null,
         data: null,
         async change(username) {
+            let payload
             try {
-                dispatch(['started'])
-                const payload = await changeUsername(profile.user_id, username)
+                dispatch({ type: 'started' })
+                payload = await changeUsername(profile.user_id, username)
                 refresh()
-                dispatch(['success', payload])
-            } catch (error) {
-                dispatch(['error', error])
+                dispatch({ type: 'success', payload })
+            } catch ([error, payload]) {
+                dispatch({ type: 'error', error, payload })
             }
         },
     })
@@ -169,9 +189,9 @@ async function changeUsername(userid, username) {
         return payload
     }
 
-    throw new Error(payload.message)
+    throw [new HTTPError(response), payload]
 }
-function reducer(state, [type, payload]) {
+function reducer(state, { type, payload, error }) {
     switch (type) {
         case 'started':
             return {
@@ -188,7 +208,8 @@ function reducer(state, [type, payload]) {
             return {
                 ...state,
                 status: 'rejected',
-                error: payload,
+                error,
+                data: payload,
             }
         default:
             throw new Error(`Unhandled action type: ${type}`)
