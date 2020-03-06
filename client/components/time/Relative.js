@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import distanceInWordsToNow from 'date-fns/distance_in_words_to_now'
+import format from 'date-fns/format'
 
 Relative.propTypes = {
-    value: PropTypes.instanceOf(Date),
+    value: PropTypes.oneOfType(PropTypes.instanceOf(Date), PropTypes.string),
     options: PropTypes.object,
     children: PropTypes.node,
 }
@@ -16,7 +17,7 @@ export default function Relative({
     },
 }) {
     return (
-        <time dateTime={value.toISOString()}>
+        <time dateTime={format(value)}>
             {children || distanceInWordsToNow(value, options)}
         </time>
     )
