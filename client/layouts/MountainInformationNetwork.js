@@ -12,7 +12,7 @@ export default function MountainInformationNetwork() {
             <Submit path="submit" />
             <Submissions path="submissions" />
             <Submission path="submissions/:id" />
-            <MinToWin path="win" />
+            <Reports path="reports" />
             <StaticPage
                 path="submission-guidelines"
                 uid="mountain-information-network-submission-guidelines"
@@ -36,7 +36,7 @@ export default function MountainInformationNetwork() {
 // Code splitted subroutes
 const SubmitContainer = lazy(() => import('layouts/min/Form'))
 const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
-const MinToWinSubmissionList = lazy(() => import('layouts/min/MinToWin'))
+const MinToWin = lazy(() => import('layouts/min/MinToWin'))
 
 function Submit(props) {
     return (
@@ -54,10 +54,10 @@ function Submissions({ navigate }) {
     )
 }
 
-function MinToWin({ navigate }) {
+function Reports({ navigate }) {
     return (
         <Bundle fallback={<Loading />}>
-            <MinToWinSubmissionList navigate={navigate} />
+            <MinToWin navigate={navigate} />
         </Bundle>
     )
 }
