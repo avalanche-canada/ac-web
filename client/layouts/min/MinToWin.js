@@ -128,11 +128,6 @@ function Form({ dateFrom, dateTo, onChange }) {
 function TableContent({ dateFrom, dateTo, grouping }) {
     const { location } = useLocation()
     const [reports, pending, errors] = useReports(dateFrom, dateTo)
-
-    if (errors.length > 0) {
-        return <T.Error as="caption">{errors[0].message}</T.Error>
-    }
-
     const groups = useMemo(() => {
         if (!grouping) {
             return null
@@ -154,6 +149,10 @@ function TableContent({ dateFrom, dateTo, grouping }) {
             return groups
         }, {})
     }, [grouping, reports])
+
+    if (errors.length > 0) {
+        return <T.Error as="caption">{errors[0].message}</T.Error>
+    }
 
     return (
         <Fragment>
