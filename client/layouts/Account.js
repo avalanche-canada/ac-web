@@ -141,8 +141,8 @@ function Message({ status, code, children }) {
                     {code === 'USERNAME_TAKEN' && (
                         <Fragment>
                             . This could happen for few reasons, do not hesitate
-                            to contact us at <Mailto /> so we can help you to
-                            sort it out.
+                            to contact us at <Mailto /> so we can help you
+                            sorting that out.
                         </Fragment>
                     )}
                 </Texts.Error>
