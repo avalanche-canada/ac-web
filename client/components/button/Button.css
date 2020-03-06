@@ -97,6 +97,11 @@
     background-color: transparent;
     color: var(--gray);
     outline: none;
+
+    &:active,
+    &.Active {
+        background-color: var(--component-bg-active);
+    }
 }
 
 /* Modifiers */

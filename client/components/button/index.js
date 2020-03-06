@@ -6,6 +6,7 @@ export default from './Button'
 
 export Expand from './Expand'
 export Sorting from './Sorting'
+export Grouping from './Grouping'
 export Close from './Close'
 export Locate from './Locate'
 
