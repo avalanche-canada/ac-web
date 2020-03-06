@@ -84,9 +84,12 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                             place={place}
                         />
                         {sponsors.length > 0 && (
-                            <tbody
-                                data-title="Our sponsors"
-                                className={table.Featured}>
+                            <tbody className={table.Featured}>
+                                <tr>
+                                    <th colSpan={COLUMNS.length}>
+                                        Our sponsors
+                                    </th>
+                                </tr>
                                 {renderRows(sponsors)}
                             </tbody>
                         )}

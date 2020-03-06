@@ -8,7 +8,7 @@
             border-bottom: none;
         }
 
-        & > tbody > tr > th,
+        & > tbody > tr > th:not([colspan]),
         & > thead > tr > th:first-child {
             position: absolute;
             top: auto;

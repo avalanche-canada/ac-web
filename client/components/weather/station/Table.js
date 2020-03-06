@@ -53,7 +53,10 @@ export default function StationTable({
                         ))}
                     </thead>
                     {Object.entries(bodies).map(([title, measurements]) => (
-                        <tbody key={title} data-title={title}>
+                        <tbody key={title}>
+                            <tr>
+                                <th colSpan={columns.length}>{title}</th>
+                            </tr>
                             {measurements.map((measurement, index) => (
                                 <tr key={index}>
                                     {columns.map(renderRow, measurement)}

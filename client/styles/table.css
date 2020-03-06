@@ -23,24 +23,6 @@ thead {
     }
 }
 
-tbody[data-title] {
-    &:before {
-        content: attr(data-title);
-        position: absolute;
-        left: 0;
-        right: 0;
-        z-index: 1;
-        line-height: 2em;
-        padding: 0 0.25em;
-        text-transform: uppercase;
-        color: white;
-        background-color: black;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-}
-
 tr {
     border-bottom: 2px solid var(--gray-lighter);
 }
@@ -75,6 +57,19 @@ tbody {
         background-color: var(--gray-lightest);
         color: var(--gray-dark);
     }
+
+    /* tbody's header */
+    & > tr > th:only-child[colspan] {
+        line-height: 2em;
+        padding: 0 0.5em;
+        text-transform: uppercase;
+        color: white;
+        background-color: black;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: normal;
+    }
 }
 
 caption {
@@ -92,7 +87,7 @@ caption {
         padding: 0.35em;
     }
 
-    & th {
+    & th:not([colspan]) {
         padding: 0.35em;
         text-align: center;
         text-transform: inherit;
@@ -117,9 +112,5 @@ caption {
     & tr {
         font-weight: 700;
         border-bottom-color: white;
-    }
-
-    & tr:first-child {
-        border-top: 2em solid black;
     }
 }
