@@ -1,3 +1,4 @@
+import { DateParam } from 'hooks/params'
 import { build } from 'utils/url'
 import { baseURL } from './config.json'
 import fetch from 'utils/fetch'
@@ -18,13 +19,31 @@ export function reports(days = 7) {
     return fetch(url).then(reports => reports.map(parse).sort(sorter))
 }
 
-export function post(report, idToken) {
+export function post(report, token) {
     const url = build(PATH, { client }, baseURL)
     const options = {
         method: 'POST',
         body: report,
         headers: new Headers({
-            Authorization: `Bearer ${idToken}`,
+            Authorization: `Bearer ${token}`,
+        }),
+    }
+
+    return fetch(url, options)
+}
+
+export function minToWin(fromDate, toDate, token) {
+    const url = build(
+        'dev/report',
+        {
+            fromdate: DateParam.format(fromDate),
+            todate: DateParam.format(toDate),
+        },
+        'https://9e5qwvbavi.execute-api.us-west-2.amazonaws.com/'
+    )
+    const options = {
+        headers: new Headers({
+            Authorization: `Bearer ${token}`,
         }),
     }
 

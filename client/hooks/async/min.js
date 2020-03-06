@@ -1,6 +1,8 @@
 import * as requests from 'requests/min'
 import { empty } from 'utils/fetch'
 import { useCacheAsync, createKey, CACHE } from './'
+import { DateParam } from 'hooks/params'
+import Accessor from 'services/auth/accessor'
 
 export function useReport(id) {
     // Hack for the map, so we can use "useReport" and pass null to get no report. See MIN layer!
@@ -33,6 +35,18 @@ export function useReports(days = 7) {
     REPORTS_KEYS.add(key)
 
     return useCacheAsync(requests.reports, [days], undefined, key)
+}
+
+export function useMINToWinReports(from, to) {
+    const { format } = DateParam
+    const key = createKey(KEY, 'from', format(from), 'to', format(to))
+
+    return useCacheAsync(
+        requests.minToWin,
+        [from, to, Accessor.idToken],
+        undefined,
+        key
+    )
 }
 
 export function clearCachedReports() {
