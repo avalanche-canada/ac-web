@@ -34,12 +34,12 @@ export function post(report, token) {
 
 export function minToWin(fromDate, toDate, token) {
     const url = build(
-        'dev/report',
+        'min/report',
         {
             fromdate: DateParam.format(fromDate),
             todate: DateParam.format(toDate),
         },
-        'https://9e5qwvbavi.execute-api.us-west-2.amazonaws.com/'
+        'https://api.avalanche.ca/'
     )
     const options = {
         headers: new Headers({
