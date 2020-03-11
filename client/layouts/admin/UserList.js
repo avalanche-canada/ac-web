@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import throttle from 'lodash/throttle'
 import { Page } from 'layouts/pages'
 import { Header, Main, Content } from 'components/page'
 import { useAuth } from 'contexts/auth'
@@ -13,6 +14,7 @@ import Shim from 'components/Shim'
 export default function UserList() {
     const [username, setUsername] = useState()
     const { isAuthenticated } = useAuth(true)
+    const handleUsernameChange = useCallback(throttle(setUsername, 750), [])
 
     return (
         <Page>
@@ -22,7 +24,7 @@ export default function UserList() {
                     <Shim all>
                         <Search
                             value={username}
-                            onChange={setUsername}
+                            onChange={handleUsernameChange}
                             placeholder="Search by username..."
                         />
                     </Shim>
