@@ -12,6 +12,7 @@ import HotZoneReport from './HotZoneReport'
 import Incidents from './incidents'
 import Forecast from './Forecast'
 import TripPlanner from './TripPlanner'
+import Admin from './admin'
 import * as Feed from './feed'
 import Glossary from 'layouts/glossary'
 import { Boundary as ErrorBoundary } from 'components/error'
@@ -57,6 +58,7 @@ function AvalancheCanada() {
                         <Redirect from="/learn" to="/training" />
                         <LoginComplete path="login-complete" />
                         <Account path="account" />
+                        <Admin path="admin/*" />
                         <Glossary path="glossary/*" />
                         <Redirect
                             from="pages/tutorial/tutorial"

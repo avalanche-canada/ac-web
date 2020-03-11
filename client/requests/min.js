@@ -1,6 +1,6 @@
 import { DateParam } from 'hooks/params'
 import { build } from 'utils/url'
-import { baseURL } from './config.json'
+import { baseURL, apiBaseURL } from './config.json'
 import fetch from 'utils/fetch'
 
 export function report(id) {
@@ -34,12 +34,12 @@ export function post(report, token) {
 
 export function minToWin(fromDate, toDate, token) {
     const url = build(
-        'min/report',
+        '/min/report',
         {
             fromdate: DateParam.format(fromDate),
             todate: DateParam.format(toDate),
         },
-        'https://api.avalanche.ca/'
+        apiBaseURL
     )
     const options = {
         headers: new Headers({
