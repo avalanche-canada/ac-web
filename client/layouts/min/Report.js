@@ -133,31 +133,35 @@ function TableContent({ dateFrom, dateTo, grouping }) {
             return null
         }
 
-        const { groupingKey, emptyGroupKey } = COLUMNS.find(
+        const { groupingKey, emptyKeyGroupName } = COLUMNS.find(
             ({ name }) => name === grouping
         )
+        const groups = reports.reduce((groups, report) => {
+            const key = get(report, groupingKey)
 
-        return reports.reduce((groups, report) => {
-            const groupKey = get(report, groupingKey, emptyGroupKey)
-
-            if (groupKey in groups) {
-                groups[groupKey].push(report)
+            if (groups.has(key)) {
+                groups.get(key).push(report)
             } else {
-                groups[groupKey] = [report]
+                groups.set(key, [report])
             }
 
             return groups
-        }, {})
+        }, new Map())
+
+        return new Map(
+            Array.from(groups.keys())
+                .sort()
+                .map(key => [key || emptyKeyGroupName, groups.get(key)])
+        )
     }, [grouping, reports])
 
     if (errors.length > 0) {
         return <T.Error as="caption">{errors[0].message}</T.Error>
     }
-
     return (
         <Fragment>
-            {grouping ? (
-                Object.entries(groups).map(([region, reports]) => (
+            {groups ? (
+                Array.from(groups).map(([region, reports]) => (
                     <tbody key={region}>
                         <tr>
                             <th colSpan={COLUMNS.length}>
@@ -306,6 +310,6 @@ const COLUMNS = [
             ) : null
         },
         groupingKey: 'region.name',
-        emptyGroupKey: 'Outside',
+        emptyKeyGroupName: 'Outside a region',
     },
 ]
