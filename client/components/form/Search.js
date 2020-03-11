@@ -35,6 +35,7 @@ export default function Search({ value, onChange, placeholder = 'Search...' }) {
                 ref={input}
                 name="search"
                 type="search"
+                autoComplete="off"
                 className={styles.Input}
                 placeholder={placeholder}
                 defaultValue={value}
