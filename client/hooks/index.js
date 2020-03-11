@@ -1,4 +1,11 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import {
+    useState,
+    useEffect,
+    useRef,
+    useCallback,
+    useMemo,
+    useReducer,
+} from 'react'
 import throttle from 'lodash/throttle'
 import { Local, Session } from 'services/storage'
 import { captureMessage } from 'services/sentry'
@@ -272,4 +279,61 @@ function useSafeState(initialState) {
     }, [])
 
     return [state, setStateSafely]
+}
+
+export function useCurrentPosition(options) {
+    const [state, dispatch] = useReducer(positionReducer, {
+        status: 'idle',
+        longitude: null,
+        latitude: null,
+        error: null,
+    })
+
+    useEffect(() => {
+        const { geolocation } = navigator
+
+        if (!geolocation) {
+            dispatch(['error', new Error('Geolocation is not supported.')])
+
+            return
+        }
+
+        dispatch(['started'])
+        geolocation.getCurrentPosition(
+            payload => {
+                dispatch(['success', payload])
+            },
+            error => {
+                dispatch(['error', error])
+            },
+            options
+        )
+    }, [])
+
+    return state
+}
+
+function positionReducer(state, [type, payload]) {
+    switch (type) {
+        case 'started':
+            return {
+                ...state,
+                status: 'pending',
+            }
+        case 'success':
+            return {
+                ...state,
+                status: 'resolved',
+                longitude: payload.coords.longitude,
+                latitude: payload.coords.latitude,
+            }
+        case 'error':
+            return {
+                ...state,
+                status: 'rejected',
+                error: payload,
+            }
+        default:
+            return state
+    }
 }
