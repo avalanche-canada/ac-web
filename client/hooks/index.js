@@ -90,7 +90,7 @@ export function useEventListener(eventName, handler, element = window) {
 }
 
 function useStorage(storage, key, defaultValue = null) {
-    const [value, setValue] = useState(storage.get(key, defaultValue))
+    const [value, setValue] = useState(() => storage.get(key, defaultValue))
     function set(value) {
         setValue(value)
         storage.set(key, value)
