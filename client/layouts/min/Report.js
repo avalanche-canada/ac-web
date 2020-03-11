@@ -25,11 +25,11 @@ import { useAuth } from 'contexts/auth'
 import { useForecastRegions } from 'hooks/async/features'
 import { useMerge } from 'hooks/async'
 
-MinToWin.propTypes = {
+Report.propTypes = {
     navigate: PropTypes.func.isRequired,
 }
 
-export default function MinToWin({ navigate }) {
+export default function Report({ navigate }) {
     const [grouping, setGrouping] = useState(null)
     const { isAuthenticated } = useAuth(true)
     const [params, stringify] = useParams({
