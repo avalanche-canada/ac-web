@@ -13,13 +13,11 @@ export default function request(url, init) {
 }
 
 export class HTTPError extends Error {
-    constructor(response) {
+    constructor(response, payload) {
         super(response.statusText)
         this.name = 'HTTPError'
-        this.response = response
-    }
-    get status() {
-        return this.response.status
+        this.status = response.status
+        this.payload = payload
     }
 }
 
@@ -29,12 +27,14 @@ export function empty() {
 
 // Constants & utils
 const REQUESTS = new Map()
-function status(response) {
+async function status(response) {
+    const payload = await response.json()
+
     if (response.ok) {
-        return response.json()
+        return payload
     }
 
-    const error = new HTTPError(response)
+    const error = new HTTPError(response, payload)
 
     return Promise.reject(error)
 }
