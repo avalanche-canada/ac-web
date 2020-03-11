@@ -91,12 +91,12 @@ export function useEventListener(eventName, handler, element = window) {
 
 function useStorage(storage, key, defaultValue = null) {
     const [value, setValue] = useState(() => storage.get(key, defaultValue))
-    function set(value) {
-        setValue(value)
-        storage.set(key, value)
-    }
 
-    return [value, set]
+    useEffect(() => {
+        storage.set(key, value)
+    }, [value])
+
+    return [value, setValue]
 }
 
 export function useLocalStorage(key, defaultValue) {
