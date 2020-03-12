@@ -16,10 +16,21 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [zoom, setZoom] = useSessionStorage('zoom')
-    const [center, setCenter] = useSessionStorage('center')
+    const value = useContextValue()
+
+    return (
+        <MapStateContext.Provider value={value}>
+            {children}
+        </MapStateContext.Provider>
+    )
+}
+
+function useContextValue() {
+    const [zoom, setZoom] = useSessionStorage('zoom', ZOOM)
+    const [center, setCenter] = useSessionStorage('center', CENTER)
     const errors = useErrors()
-    const value = useMemo(
+
+    return useMemo(
         () => ({
             zoom: {
                 value: zoom,
@@ -33,12 +44,6 @@ export function Provider({ children }) {
         }),
         [zoom, center, errors]
     )
-
-    return (
-        <MapStateContext.Provider value={value}>
-            {children}
-        </MapStateContext.Provider>
-    )
 }
 
 export function useMapState() {
@@ -46,9 +51,15 @@ export function useMapState() {
 }
 
 export function useGuessBounds() {
+    const { zoom, center } = useContextValue()
     const position = useCurrentPosition()
 
     if (position.status !== 'resolved') {
+        return
+    }
+
+    // User has changed one of the value, we are not guessing bounds
+    if (zoom.value !== ZOOM || center.value !== CENTER) {
         return
     }
 
@@ -108,6 +119,8 @@ const BOUNDS = [
     // eastern
     [-80.01, 43.06, -50.1, 52.6],
 ]
+const ZOOM = 4.3
+const CENTER = [-125.15, 54.8]
 
 // Utils
 function counter(count, { size }) {

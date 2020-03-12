@@ -56,10 +56,7 @@ function Main() {
     const handleMapClick = useMapClickHandler(map)
     const { zoom, center, errors } = useMapState()
     const bounds = useGuessBounds()
-    const options = {
-        zoom: zoom.value || 4.3,
-        center: center.value || [-125.15, 54.8],
-    }
+    const options = { zoom: zoom.value, center: center.value }
 
     // Initialize map with listeners
     useEffect(() => {
@@ -93,11 +90,7 @@ function Main() {
 
     // Change map's camera based on the guessed bounds
     useEffect(() => {
-        if (
-            map &&
-            bounds &&
-            typeof zoom.value !== 'number' // not initialiized already
-        ) {
+        if (map && bounds) {
             map.fitBounds(bounds)
         }
     }, [map, bounds, zoom.value])
