@@ -11,6 +11,7 @@ import {
     Provider as MapStateProvider,
     useMapState,
     ERRORS,
+    useGuessBounds,
 } from 'contexts/map/state'
 import { isTouchable } from 'utils/device'
 import { pluralize } from 'utils/string'
@@ -54,7 +55,11 @@ function Main() {
     const [map, setMap] = useState(null)
     const handleMapClick = useMapClickHandler(map)
     const { zoom, center, errors } = useMapState()
-    const options = { zoom: zoom.value, center: center.value }
+    const bounds = useGuessBounds()
+    const options = {
+        zoom: zoom.value || 4.3,
+        center: center.value || [-125.15, 54.8],
+    }
 
     // Initialize map with listeners
     useEffect(() => {
@@ -62,8 +67,12 @@ function Main() {
             return
         }
 
-        map.on('zoomend', () => zoom.set(map.getZoom()))
-        map.on('moveend', () => center.set(map.getCenter()))
+        map.on('zoomend', () => {
+            zoom.set(map.getZoom())
+        })
+        map.on('moveend', () => {
+            center.set(map.getCenter())
+        })
         map.on('error', ({ error }) => {
             errors.add(ERRORS.MAP, error)
         })
@@ -81,6 +90,17 @@ function Main() {
             map.off('click', handleMapClick)
         }
     }, [map, handleMapClick])
+
+    // Change map's camera based on the guessed bounds
+    useEffect(() => {
+        if (
+            map &&
+            bounds &&
+            typeof zoom.value !== 'number' // not initialiized already
+        ) {
+            map.fitBounds(bounds)
+        }
+    }, [map, bounds, zoom.value])
 
     useNavigationControl(map)
 

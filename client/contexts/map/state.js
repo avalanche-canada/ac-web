@@ -6,7 +6,8 @@ import React, {
     useState,
 } from 'react'
 import PropTypes from 'prop-types'
-import { useSessionStorage } from 'hooks'
+import mapboxgl from 'mapbox-gl'
+import { useSessionStorage, useCurrentPosition } from 'hooks'
 
 const MapStateContext = createContext()
 
@@ -15,8 +16,8 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [zoom, setZoom] = useSessionStorage('zoom', 4.3)
-    const [center, setCenter] = useSessionStorage('center', CENTER)
+    const [zoom, setZoom] = useSessionStorage('zoom')
+    const [center, setCenter] = useSessionStorage('center')
     const errors = useErrors()
     const value = useMemo(
         () => ({
@@ -42,6 +43,19 @@ export function Provider({ children }) {
 
 export function useMapState() {
     return useContext(MapStateContext)
+}
+
+export function useGuessBounds() {
+    const position = useCurrentPosition()
+
+    if (position.status !== 'resolved') {
+        return
+    }
+
+    const point = [position.longitude, position.latitude]
+    const Bounds = mapboxgl.LngLatBounds
+
+    return BOUNDS.find(bounds => Bounds.convert(bounds).contains(point))
 }
 
 function useErrors() {
@@ -88,10 +102,12 @@ export const ERRORS = {
     MOUNTAIN_INFORMATION_NETWORK: Symbol('min'),
     MAP: Symbol('map'),
 }
-const CENTER = {
-    lng: -125.15,
-    lat: 54.8,
-}
+const BOUNDS = [
+    // northern
+    [-140.98, 57.45, -126.41, 63.41],
+    // eastern
+    [-80.01, 43.06, -50.1, 52.6],
+]
 
 // Utils
 function counter(count, { size }) {
