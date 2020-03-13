@@ -56,13 +56,6 @@ function computeMeasurements(measurements, utcOffset) {
             utcOffset,
         }))
         .sort((a, b) => a.measurementDateTime - b.measurementDateTime)
-        .map((m, i, all) => {
-            const newSnow = m.snowHeight - all[i - 1]?.snowHeight || NaN
-
-            m.newSnow = newSnow < 0.5 ? 0 : Math.round(newSnow)
-
-            return m
-        })
         .reverse()
 }
 

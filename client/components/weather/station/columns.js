@@ -9,10 +9,13 @@ const DASH = '—'
 //
 function maybeNull(name, fn = x => x) {
     return function(obj) {
-        if (obj[name] === undefined || obj[name] === null || isNaN(obj[name])) {
+        const value = obj[name]
+
+        if (value === undefined || value === null || isNaN(value)) {
             return DASH
         }
-        return fn(obj[name])
+
+        return fn(value)
     }
 }
 
