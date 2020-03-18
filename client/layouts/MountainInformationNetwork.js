@@ -1,5 +1,5 @@
 import React, { lazy } from 'react'
-import { Router } from '@reach/router'
+import { Router, Redirect } from '@reach/router'
 import Bundle from 'components/Bundle'
 import Submission from 'layouts/min/Submission'
 import { StaticPage } from 'prismic/layouts'
@@ -13,6 +13,7 @@ export default function MountainInformationNetwork() {
             <Submissions path="submissions" />
             <Submission path="submissions/:id" />
             <Reports path="reports" />
+            <Redirect from="account" to="/account" />
             <StaticPage
                 path="submission-guidelines"
                 uid="mountain-information-network-submission-guidelines"
