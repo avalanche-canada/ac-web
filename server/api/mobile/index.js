@@ -84,6 +84,8 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
+    createCOVIDMessage(IOS),
+    createCOVIDMessage(ANDROID),
 ]
 
 function createRelease150Message(platform) {
@@ -95,7 +97,19 @@ function createRelease150Message(platform) {
             '">' +
             STORE_PROMPTS[platform] +
             '</a>',
-            undefined,
-            'warning'
+        undefined,
+        'warning'
+    )
+}
+function createCOVIDMessage(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '9.9.9', platform),
+        'Backcountry Activities During Pandemic',
+        '<h1>Please Restrain Backcountry Activities During Pandemic</h1>' +
+            '<h2>Avoid adding load to the healthcare system at this time</h2>' +
+            '<p>COVID-19 is creating unprecedented challenges to our healthcare system. All avalanche forecasting agencies are urging backcountry users to be extra vigilant to the possibility of any type of incident that could add more load to a system already under huge pressure. </p>' +
+            '<p>Please consider this fact while planning your recreation. This could be a time to avoid the backcountry. If you choose to head out, every effort should be made to avoid injuries. We encourage you to take all precautions necessary to safeguard the health and safety of your group and others.</p>',
+        'Covid-19 is overloading our healthcare system. Please be conservative in your choices.',
+        'warning'
     )
 }
