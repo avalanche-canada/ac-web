@@ -183,7 +183,7 @@ export default class SubmissionForm extends Component {
                 Mountain Information Network — Create report
                 {nickname && (
                     <small>
-                        Hi <Link to="../account">{nickname}</Link>,
+                        Hi <Link to="/account">{nickname}</Link>,
                     </small>
                 )}
             </Fragment>
