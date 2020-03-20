@@ -701,7 +701,8 @@ const Incident = {
                     },
                 },
                 numberCaughtOnly: {
-                    label: 'People injured (caught but not buried)? (optional)',
+                    label:
+                        'People not injured (caught but not buried)? (optional)',
                     error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
@@ -712,8 +713,7 @@ const Incident = {
                     },
                 },
                 numberPeopleInjured: {
-                    label:
-                        'People not injured (caught but not buried)? (optional)',
+                    label: 'People injured (caught but not buried)? (optional)',
                     error: 'Enter a number between 0 and 400',
                     type: 'number',
                     attrs: {
