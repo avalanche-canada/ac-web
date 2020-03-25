@@ -5,7 +5,7 @@ import { highlight } from 'prismic/params'
 import { useVisibility } from 'hooks/session'
 import { useDocument } from 'prismic/hooks'
 
-export default function HighlightLayout() {
+export default function Highlight() {
     const [document] = useDocument(highlight())
     const [visible, hide] = useVisibility('highlight')
 
