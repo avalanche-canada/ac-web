@@ -23,13 +23,13 @@ export default function Weather({ uri }) {
                 <Main>
                     {visible && (
                         <Warning onDismiss={hide}>
-                            Please Note: The Meteorological Service of Canada
-                            will continue to produce the Avalanche Canada
-                            Mountain Weather Forecast daily as much as
-                            operationally possible. Please be prepared for
-                            occasional shortened versions of the MWF with the
-                            possibility of an occasional “Forecast not
-                            available”.
+                            The Meteorological Service of Canada will continue
+                            to produce the mountain weather forecast as
+                            regularly as we can during the pandemic.
+                            Occasionally the forecast may be shorter than usual
+                            and it’s possible that some days it might not be
+                            issued at all. We will do our best to keep this
+                            daily product as consistent as possible.
                         </Warning>
                     )}
                     <Router>
