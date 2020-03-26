@@ -90,8 +90,8 @@ const Required = {
                         .
                     </p>
                     <p>
-                        <Tag as="span">new</Tag>Once you have placed a pin, you
-                        can now drag it to adjust the location.
+                        Once you have placed a pin, you can now drag it to
+                        adjust the location.
                     </p>
                 </Fragment>
             ),
