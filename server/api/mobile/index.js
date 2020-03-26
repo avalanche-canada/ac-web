@@ -104,12 +104,16 @@ function createRelease150Message(platform) {
 function createCOVIDMessage(platform) {
     return new StatusMessage(
         new StatusParams(APP, '9.9.9', platform),
-        'Backcountry Activities During Pandemic',
-        '<h1>Please Restrain Backcountry Activities During Pandemic</h1>' +
-            '<h2>Avoid adding load to the healthcare system at this time</h2>' +
-            '<p>COVID-19 is creating unprecedented challenges to our healthcare system. All avalanche forecasting agencies are urging backcountry users to be extra vigilant to the possibility of any type of incident that could add more load to a system already under huge pressure. </p>' +
-            '<p>Please consider this fact while planning your recreation. This could be a time to avoid the backcountry. If you choose to head out, every effort should be made to avoid injuries. We encourage you to take all precautions necessary to safeguard the health and safety of your group and others.</p>',
-        'Covid-19 is overloading our healthcare system. Please be conservative in your choices.',
+        'COVID-19',
+        '<h1>Avalanche Canada Shutting Down Forecasting for the Season</h1>' +
+            '<h2>Covid-19 Pandemic Prompts Early End to Avalanche Warning Service</h2>' +
+            '<p>Avalanche Canada will issue its final forecast for the season on March 28, which is about a month earlier than normal. The final three-day forecast will remain in effect until March 30.</p>' +
+            '<p>Avalanche Canada’s forecasts rely primarily on data from a network of avalanche professionals across western Canada. The early closure of backcountry operations due to the Covid-19 pandemic has cut off much of that data stream, so the warning service is no longer receiving enough information to issue accurate forecasts. </p>' +
+            '<p>This decision to end forecasting early is also prompted by concerns for the healthcare system during this epidemic. “We do not want to provide a service that promotes recreating in mountainous terrain, where there is often significant hazard,” explains Executive Director Gilles Valade. “Both BC and Alberta have declared a state of emergency. Our health authorities, as well as our Prime Minister, are urging people to stay home. This is clearly not the time for taking any sort of risk.”&nbsp; </p>' +
+            '<p>In addition to the early end of the forecasts, Avalanche Canada will also shut down the Mountain Information Network (MIN). This online platform allows backcountry users to submit trip reports and observations from the field. In normal times, the MIN is a highly successful strategy for exchanging real-time information. But, as with the forecasts, Avalanche Canada does not want MIN reports to serve as encouragement to go into the backcountry.</p>' +
+            '<p>“We do not take these steps lightly,” adds Valade. “Avalanche Canada is the national public avalanche safety organization and we take our responsibilities very seriously. But we feel it is essential that we work together and do what we can to avoid putting any extra load on our healthcare system at this time.”</p>' +
+            '<p><em>Pour la version française, <a href="https://res.cloudinary.com/avalanche-ca/image/upload/v1585084957/French%20news%20releases/20200324_-_Suspension_de_prevision.pdf" target="_blank">cliquez ici</a>.</em></p>',
+        'Avalanche Canada Shutting Down Forecasting for the Season',
         'warning'
     )
 }
