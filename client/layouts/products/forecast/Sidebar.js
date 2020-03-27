@@ -81,11 +81,6 @@ export function Kananaskis() {
                 <Link to="/weather">Your daily Mountain Weather Forecast</Link>
             </Item>
             <Item>
-                <Link to="/mountain-information-network/submit">
-                    Submit a Mountain Information Report
-                </Link>
-            </Item>
-            <Item>
                 <Link to="/blogs">Visit Avalanche Canada Blog</Link>
             </Item>
             <Item>

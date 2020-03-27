@@ -11,11 +11,13 @@ import Bundle from 'components/Bundle'
 import externals, { open } from 'router/externals'
 import { DateParam } from 'hooks/params'
 import { path } from 'utils/url'
+import { GenericPage } from 'prismic/layouts'
 
 export default function ForecastLayout() {
     return (
         <Router>
             <ForecastRegionList path="/" />
+            <Forecast name="kananaskis" path="kananaskis" />
             <ForecastRoute path=":name" />
             <ForecastRoute path=":name/:date" />
             <ArchiveForecastRoute path="archives" />
@@ -45,7 +47,7 @@ function ForecastRoute({ name, date }) {
         }
     }
 
-    return <Forecast name={name} />
+    return <GenericPage uid="fx-shutdown-covid" />
 }
 const ArchiveForecast = lazy(() => import('layouts/pages/ArchiveForecast'))
 function ArchiveForecastRoute({ name, date, navigate }) {

@@ -59,13 +59,14 @@ Layer.propTypes = {
 }
 
 function Layer({ id, children }) {
-    const { visible, filters, toggle, setFilterValue } = useLayer(id)
+    const { visible, disabled, filters, toggle, setFilterValue } = useLayer(id)
 
     return (
         <components.Layer
             title={TITLES.get(id)}
             icon={ICONS.get(id)}
             visible={visible}
+            disabled={disabled}
             onClick={toggle}>
             {Children.map(children, input => {
                 const { name, ...props } = input.props

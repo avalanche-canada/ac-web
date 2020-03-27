@@ -1,18 +1,15 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import { Router, Redirect } from '@reach/router'
-import Bundle from 'components/Bundle'
-import Submission from 'layouts/min/Submission'
-import { StaticPage } from 'prismic/layouts'
-import { Loading } from 'layouts/pages'
+import { StaticPage, GenericPage } from 'prismic/layouts'
 import styles from './AvalancheCanada.css'
 
 export default function MountainInformationNetwork() {
     return (
         <Router>
-            <Submit path="submit" />
-            <Submissions path="submissions" />
-            <Submission path="submissions/:id" />
-            <Reports path="reports" />
+            <GenericPage uid="min-shutdown-covid" path="submit" />
+            <GenericPage uid="min-shutdown-covid" path="submissions" />
+            <GenericPage uid="min-shutdown-covid" path="submissions/:id" />
+            <GenericPage uid="min-shutdown-covid" path="reports" />
             <Redirect from="account" to="/account" />
             <StaticPage
                 path="submission-guidelines"
@@ -31,34 +28,5 @@ export default function MountainInformationNetwork() {
                 className={styles.MINOverview}
             />
         </Router>
-    )
-}
-
-// Code splitted subroutes
-const SubmitContainer = lazy(() => import('layouts/min/Form'))
-const SubmissionList = lazy(() => import('layouts/min/SubmissionList'))
-const Report = lazy(() => import('layouts/min/Report'))
-
-function Submit(props) {
-    return (
-        <Bundle fallback={<Loading />}>
-            <SubmitContainer {...props} />
-        </Bundle>
-    )
-}
-
-function Submissions({ navigate }) {
-    return (
-        <Bundle fallback={<Loading />}>
-            <SubmissionList navigate={navigate} />
-        </Bundle>
-    )
-}
-
-function Reports({ navigate }) {
-    return (
-        <Bundle fallback={<Loading />}>
-            <Report navigate={navigate} />
-        </Bundle>
     )
 }
