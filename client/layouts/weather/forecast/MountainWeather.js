@@ -28,8 +28,10 @@ export default function Weather({ uri }) {
                             regularly as we can during the pandemic.
                             Occasionally the forecast may be shorter than usual
                             and it’s possible that some days it might not be
-                            issued at all. We will do our best to keep this
-                            daily product as consistent as possible.
+                            issued at all. The Rockies content will now be
+                            updated on Tuesdays and Fridays only. We will do our
+                            best to keep the daily product as consistent as
+                            possible.
                         </Warning>
                     )}
                     <Router>
