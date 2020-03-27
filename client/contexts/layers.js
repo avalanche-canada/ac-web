@@ -76,20 +76,9 @@ function resetLayers(data) {
 
     return {
         ...LAYERS,
-        [LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS]: {
-            ...LAYERS[LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS],
-            visible: data[LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS].visible,
-        },
         [LAYER_IDS.WEATHER_STATION]: {
             ...LAYERS[LAYER_IDS.WEATHER_STATION],
             visible: data[LAYER_IDS.WEATHER_STATION].visible,
-        },
-        [LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK]: {
-            ...LAYERS[LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK],
-            filters: {
-                ...LAYERS[LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK].filters,
-                days: data[LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK].filters.days,
-            },
         },
         [LAYER_IDS.FATAL_ACCIDENT]: {
             ...LAYERS[LAYER_IDS.FATAL_ACCIDENT],
@@ -105,13 +94,15 @@ const LAYERS = {
         visible: true,
     },
     [LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS]: {
-        visible: true,
+        disabled: true,
+        visible: false,
     },
     [LAYER_IDS.WEATHER_STATION]: {
         visible: true,
     },
     [LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK]: {
-        visible: true,
+        disabled: true,
+        visible: false,
         filters: {
             days: 7,
             types: new Set(),
