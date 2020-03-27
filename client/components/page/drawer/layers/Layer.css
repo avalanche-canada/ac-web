@@ -1,4 +1,4 @@
-@import "../../../../styles/colors.css";
+@import '../../../../styles/colors.css';
 
 .LayerSet {
     margin: 0.5em 0;
@@ -10,7 +10,7 @@
     cursor: pointer;
 }
 
-.Layer--Visible {
+.Visible {
     composes: Layer;
 
     color: black;
@@ -25,6 +25,10 @@
             opacity: 1;
         }
     }
+}
+
+.Disabled {
+    cursor: default;
 }
 
 .Header {
