@@ -99,15 +99,19 @@ Generic.propTypes = {
 
 export function Generic({ uid }) {
     return (
-        <Async.Provider value={useGeneric(uid)}>
+        <GenericProvider uid={uid}>
             <Async.Pending>
                 <Loading />
             </Async.Pending>
             <Async.Found>
                 <GenericContent />
             </Async.Found>
-        </Async.Provider>
+        </GenericProvider>
     )
+}
+
+export function GenericProvider({ uid, children }) {
+    return <Async.Provider value={useGeneric(uid)}>{children}</Async.Provider>
 }
 
 // Util components
@@ -128,7 +132,7 @@ function StaticPageBody({ payload }) {
         </Fragment>
     )
 }
-function Title({ children = null }) {
+export function Title({ children = null }) {
     return (
         <Fragment>
             <Async.Pending>{children || 'Loading...'}</Async.Pending>
