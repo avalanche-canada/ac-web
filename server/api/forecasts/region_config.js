@@ -51,57 +51,57 @@ function fixAvalxDangerRatingDates(offset) {
     }
 }
 
-var AVCAN = {
-    'northwest-coastal': get('northwest-coastal').avid('Northwest Coastal'),
-    // .prismic()
-    // .avalx(16)
-    'northwest-inland': get('northwest-inland').avid('Northwest Inland'),
-    // .prismic()
-    // .avalx(17)
-    'sea-to-sky': get('sea-to-sky').avid('Sea to Sky'),
-    // .prismic()
-    // .avalx(14)
-    'south-coast-inland': get('south-coast-inland').avid('South Coast Inland'),
-    // .prismic()
-    // .avalx(15)
-    'south-coast': get('south-coast').avid('South Coast'),
-    // .prismic()
-    // .avalx(8)
-    'north-rockies': get('north-rockies').avid('North Rockies', addMovingIcons),
-    // .prismic()
-    // .avalx(9)
-    'cariboos': get('cariboos').avid('Cariboos'),
-    // .prismic()
-    // .avalx(19)
-    'north-columbia': get('north-columbia').avid('North Columbia'),
-    // .prismic()
-    // .avalx(18)
-    'south-columbia': get('south-columbia').avid('South Columbia'),
-    // .prismic()
-    // .avalx(10)
-    'purcells': get('purcells').avid('Purcells'),
-    // .prismic()
-    // .avalx(11)
-    'kootenay-boundary': get('kootenay-boundary').avid('Kootenay-Boundary'),
-    // .prismic()
-    // .avalx(6)
-    'south-rockies': get('south-rockies').avid('South Rockies'),
-    // .prismic()
-    // .avalx(13)
-    'lizard-range': get('lizard-range').avid('Lizard-Flathead'),
-    // .prismic()
-    // .avalx(12)
-    'yukon': get('yukon').avid('Yukon', addMovingIcons)
-    // .prismic()
-    // .avalx(20)
-};
+// var AVCAN = {
+//     'northwest-coastal': get('northwest-coastal').avid('Northwest Coastal'),
+//     // .prismic()
+//     // .avalx(16)
+//     'northwest-inland': get('northwest-inland').avid('Northwest Inland'),
+//     // .prismic()
+//     // .avalx(17)
+//     'sea-to-sky': get('sea-to-sky').avid('Sea to Sky'),
+//     // .prismic()
+//     // .avalx(14)
+//     'south-coast-inland': get('south-coast-inland').avid('South Coast Inland'),
+//     // .prismic()
+//     // .avalx(15)
+//     'south-coast': get('south-coast').avid('South Coast'),
+//     // .prismic()
+//     // .avalx(8)
+//     'north-rockies': get('north-rockies').avid('North Rockies', addMovingIcons),
+//     // .prismic()
+//     // .avalx(9)
+//     'cariboos': get('cariboos').avid('Cariboos'),
+//     // .prismic()
+//     // .avalx(19)
+//     'north-columbia': get('north-columbia').avid('North Columbia'),
+//     // .prismic()
+//     // .avalx(18)
+//     'south-columbia': get('south-columbia').avid('South Columbia'),
+//     // .prismic()
+//     // .avalx(10)
+//     'purcells': get('purcells').avid('Purcells'),
+//     // .prismic()
+//     // .avalx(11)
+//     'kootenay-boundary': get('kootenay-boundary').avid('Kootenay-Boundary'),
+//     // .prismic()
+//     // .avalx(6)
+//     'south-rockies': get('south-rockies').avid('South Rockies'),
+//     // .prismic()
+//     // .avalx(13)
+//     'lizard-range': get('lizard-range').avid('Lizard-Flathead'),
+//     // .prismic()
+//     // .avalx(12)
+//     'yukon': get('yukon').avid('Yukon', addMovingIcons)
+//     // .prismic()
+//     // .avalx(20)
+// };
 
 
-var KCOUNTRY =  {
-    'kananaskis': get('kananaskis', 'America/Edmonton').avid('Kananaskis Country')
-    // .prismic()
-    // .avalx(20)
-};
+// var KCOUNTRY =  {
+//     'kananaskis': get('kananaskis', 'America/Edmonton').avid('Kananaskis Country')
+//     // .prismic()
+//     // .avalx(20)
+// };
 
 
 var PARKS = {
@@ -194,5 +194,5 @@ function get(region, timezone) {
 }
 
 module.exports = {
-    cached_regions: Object.assign({}, KCOUNTRY, PARKS),
+    cached_regions: Object.assign({}, PARKS),
 }
