@@ -99,7 +99,10 @@ function AvalancheCanada() {
                             uid="early-season-conditions"
                             title="Early Season Conditions"
                         />
-                        <TripPlanner path="planning/trip-planner" />
+                        <GenericPage
+                            path="planning/trip-planner"
+                            uid="fx-shutdown-covid"
+                        />
                         <StaticPage
                             path="planning/decision-making"
                             uid="decision-making"
