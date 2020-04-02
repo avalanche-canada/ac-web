@@ -38,6 +38,12 @@ export function regions() {
     }))
 }
 
+export function archiveForecastRegions(season) {
+    const url = utils.path(baseURL, 'bulletin-archive', season, 'regions.json')
+
+    return fetch(url)
+}
+
 // Utils
 function buildForecastURL(name, date) {
     let path = 'forecasts'

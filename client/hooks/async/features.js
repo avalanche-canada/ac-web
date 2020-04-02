@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useCacheAsync } from './'
 import { metadata } from 'requests/metadata'
-import { regions } from 'requests/forecast'
+import { regions, archiveForecastRegions } from 'requests/forecast'
 
 export function useForecastRegions() {
     return useCacheAsync(regions, undefined, undefined, 'regions')
@@ -21,6 +21,31 @@ export function useAdvisoriesMetadata() {
 
 export function useAdvisoryMetadata(id) {
     return useSingle(HOT_ZONES, id)
+}
+
+export function useArchiveForecastRegionsMetadata() {
+    // TODO Accept a date parameter so list of region can update for a given date
+    const date = '2019'
+    const [data = {}, ...rest] = useCacheAsync(
+        archiveForecastRegions,
+        [date],
+        undefined,
+        'archive-forecast-regions-' + date
+    )
+    function convert() {
+        return Object.entries(data)
+            .map(([id, metadata]) => Object.assign({}, metadata, { id }))
+            .sort(sorter)
+    }
+    const regions = useMemo(convert, [data])
+
+    return [regions, ...rest]
+}
+
+export function useArchiveForecastRegionMetadata(id, date) {
+    const [regions, ...rest] = useArchiveForecastRegionsMetadata(date)
+
+    return [regions.find(region => region.id === id), ...rest]
 }
 
 // Constants & utils

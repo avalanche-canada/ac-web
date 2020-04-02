@@ -6,14 +6,14 @@ import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import { useForecast } from 'hooks/async/forecast'
 import {
-    useForecastRegionsMetadata,
-    useForecastRegionMetadata,
+    useArchiveForecastRegionsMetadata,
+    useArchiveForecastRegionMetadata,
 } from 'hooks/async/features'
 import { Content, Header, Main } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as Components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
-import { Muted, Loading } from 'components/text'
+import * as Texts from 'components/text'
 import { Warning } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
 import { DateElement } from 'components/time'
@@ -21,6 +21,7 @@ import Shim from 'components/Shim'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import Pager, { Previous, Next } from 'components/pager'
 import externals from 'router/externals'
+import * as Async from 'contexts/async'
 import {
     PARKS_CANADA,
     CHIC_CHOCS,
@@ -77,7 +78,7 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
 
 // Utils
 function RegionDropdown({ value, onChange }) {
-    const [regions = [], pending] = useForecastRegionsMetadata()
+    const [regions = [], pending] = useArchiveForecastRegionsMetadata()
 
     return (
         <Dropdown
@@ -91,14 +92,14 @@ function RegionDropdown({ value, onChange }) {
 }
 function ForecastSwitch(props) {
     const { name, date } = props
-    const [region] = useForecastRegionMetadata(name)
+    const [region] = useArchiveForecastRegionMetadata(name)
 
     if (!name) {
-        return <Muted>Select a forecast region.</Muted>
+        return <Texts.Muted>Select a forecast region.</Texts.Muted>
     }
 
     if (!date) {
-        return <Muted>Select a forecast date.</Muted>
+        return <Texts.Muted>Select a forecast date.</Texts.Muted>
     }
 
     const warning =
@@ -117,14 +118,23 @@ function ForecastSwitch(props) {
     return <ForecastContent {...props}>{warning}</ForecastContent>
 }
 function ForecastContent({ name, date, children }) {
-    const [forecast, pending] = useForecast(name, date)
-
     return (
-        <Components.Provider value={forecast}>
-            {pending && <Loading>Loading forecast...</Loading>}
-            {forecast && <ForecastLayout date={date} />}
-            {children}
-        </Components.Provider>
+        <Async.Provider value={useForecast(name, date)}>
+            <Async.Pending>
+                <Texts.Loading>Loading forecast...</Texts.Loading>
+            </Async.Pending>
+            <Async.Found>
+                {forecast => (
+                    <Components.Provider value={forecast}>
+                        <ForecastLayout date={date} />
+                        {children}
+                    </Components.Provider>
+                )}
+            </Async.Found>
+            <Async.HTTPError>
+                <DisplayHTTPError />
+            </Async.HTTPError>
+        </Async.Provider>
     )
 }
 function createRegionOption({ id, name }) {
@@ -157,7 +167,9 @@ function getWarningUrl({ type, url, externalUrl }, date) {
             return null
     }
 }
-
+function DisplayHTTPError({ error }) {
+    return <Texts.Error>{error.payload.message}</Texts.Error>
+}
 /*
     LEGACY LAYOUTS
     - "More details can be found on the Mountain Weather Forecast" got removed on November Xth, 2019

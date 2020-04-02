@@ -8,7 +8,8 @@ var request = require('request');
 var xml2js = require('xml2js');
 
 var config = require('../../config/environment');
-var metadata = require('../features/metadata');
+// var metadata = require('../features/metadata');
+var metadata = require('../../data/season/2019/forecast-metadata-all.json');
 var regionData = require('../../data/season').forecast_regions;
 var avalxMapping = require('../../data/season/2016/avalxMapping.json');
 var avalx = require('../forecasts/avalx');
@@ -161,18 +162,34 @@ var DANGER_QUERY =
     '  WHERE bulletin_id = $1   ' +
     '  ORDER BY sort_order ASC  ';
 
+router.get('/:date/regions.json', (req,res) => {
+    // TODO Finish implementing by considering the date parameter and returns appropriate region list
+    // var date = req.params.date
+
+    return res.json(metadata)
+})
+    
 router.get('/:date/:region.:format(json|html)', (req, res) => {
     var date = moment(req.params.date, moment.ISO_8601);
+
     if (!date.isValid()) {
-        return res.status(404).end();
+        return res.status(404).end()
     }
 
-    var regionUndefined = typeof(metadata['forecast-regions'][req.params.region]) === 'undefined';
+    // COVID: We shut down forecasting on Monday, March 30th, 2020.
+    // FIXME: Add an end date, only the future will tell
+    if (date.isBetween('2020-03-29')) {
+        return res.status(404).json({
+            message: 'As of March 30, every agency that regularly issues public avalanche forecasts in Canada has now discontinued this service. Avalanche Canada, Parks Canada, Kananaskis Country, Avalanche Quebec, and the Vancouver Island Avalanche Centre are united in this response to the COVID-19 pandemic.'
+        })
+    }
+    
+    var region = req.params.region
 
-    if (regionUndefined) {
+    if (typeof(metadata[region]) === 'undefined') {
         return res.status(404).end('Region not found');
     } else {
-        var regionIsAvalx = metadata['forecast-regions'][req.params.region]['type'] == 'avalx';
+        var regionIsAvalx = metadata[region].type == 'avalx';
         if (!regionIsAvalx) {
             return res.status(404).end('No archive for that region');
         }
@@ -188,7 +205,7 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
         logger.debug('BULLETIN_ARCHIVE - Using OLD avalx');
         avalxFn = oldAvalx;
     }
-    return avalxFn(req.params.region, req.params.date, function(err, data){
+    return avalxFn(region, req.params.date, function(err, data){
         logger.debug("running from the unified callback!")
         if(err) {
             return res.status(500).json(err);
