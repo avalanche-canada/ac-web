@@ -178,7 +178,8 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
 
     // COVID: We shut down forecasting on Monday, March 30th, 2020.
     // FIXME: Add an end date, only the future will tell
-    if (date.isBetween('2020-03-29')) {
+    const COVID = ['2020-03-30T07:00:00.000Z']
+    if (date.isBetween(COVID[0], undefined, 'days', '[]')) {
         return res.status(404).json({
             message: 'As of March 30, every agency that regularly issues public avalanche forecasts in Canada has now discontinued this service. Avalanche Canada, Parks Canada, Kananaskis Country, Avalanche Quebec, and the Vancouver Island Avalanche Centre are united in this response to the COVID-19 pandemic.'
         })
