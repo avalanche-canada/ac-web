@@ -6,6 +6,7 @@ var pg = require('pg');
 var _ = require('lodash');
 var request = require('request');
 var xml2js = require('xml2js');
+var addDays  = require('date-fns/add_days');
 
 var config = require('../../config/environment');
 // var metadata = require('../features/metadata');
@@ -173,7 +174,9 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
     var date = moment(req.params.date, moment.ISO_8601);
 
     if (!date.isValid()) {
-        return res.status(404).end()
+        return res.status(404).json({
+            message: 'Date not valid'
+        })
     }
 
     // COVID: We shut down forecasting on Monday, March 30th, 2020.
@@ -188,11 +191,15 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
     var region = req.params.region
 
     if (typeof(metadata[region]) === 'undefined') {
-        return res.status(404).end('Region not found');
+        return res.status(404).json({
+            message: 'Region not found'
+        });
     } else {
         var regionIsAvalx = metadata[region].type == 'avalx';
         if (!regionIsAvalx) {
-            return res.status(404).end('No archive for that region');
+            return res.status(404).json({
+                message:'No archive for that region'
+            });
         }
     }
     var avalxFn = undefined;
@@ -212,7 +219,9 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
             return res.status(500).json(err);
         }
         if(!data) {
-            return res.status(404).end();
+            return res.status(404).json({
+                message: 'No forecast found.'
+            });
         }
 
         //send the json
@@ -231,7 +240,9 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
                 }
             });
         } else {
-            return res.status(404).end();
+            return res.status(404).json({
+                message: 'No forecast found.'
+            });
         }
 
     });
@@ -268,11 +279,29 @@ function newAvalx(region, date, callback) {
                         msg: 'Error parsing CAAML forecast',
                     }, null);
                 }
-                return callback(null, avalx.parksForecast(caamlJson, region));
+                return callback(null, fixAvalxDangerRatingDates(avalx.parksForecast(caamlJson, region)));
             });
         }
     );
 }
+
+// FIXME Quick and dirty fix, that logic should be moved in "avalx" modules, 
+// but we need to move some logic about how much offset to apply depending on the region.
+// As some regions forecast in the morning and offset needs to change. 
+// Very hacky, that needs to be properly fixed. 
+// Since archive only sereves AvCan forecasts, it is fair to apply an offset of one. 
+function fixAvalxDangerRatingDates(fx) {
+        var offset = 1
+
+        return Object.assign({}, fx, {
+            dangerRatings: fx.dangerRatings.map(function(dangerRating, index) {
+                return Object.assign({}, dangerRating, {
+                    date: addDays(fx.dateIssued, index + offset),
+                })
+            })
+        });
+}
+
 
 function oldAvalx(regionId, date, callback) {
     // Validate :region is something we know about
