@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
 import { useForecast } from 'hooks/async/forecast'
-import { Muted } from 'components/text'
+import { Muted, Warning } from 'components/text'
 import { Day } from 'components/time'
 import Shim from 'components/Shim'
 import { Chart } from 'components/graphics/avaluator'
@@ -53,7 +53,9 @@ export default class TripPlanning extends Component {
                         <Muted>Loading avalanche forecast...</Muted>
                     ) : hasDangerRatings ? (
                         this.renderContent(data)
-                    ) : null}
+                    ) : (
+                        <Warning>No avalanche forecast has been found.</Warning>
+                    )}
                 </div>
                 {hasDangerRatings ? <ChartLegend /> : null}
                 <MapLegend />

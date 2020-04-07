@@ -54,9 +54,11 @@ function Content({ name }) {
                     <components.TabSet />
                 </components.Provider>
             ) : (
-                <Warning>
-                    No avalanche forecast has been been found for {name}.
-                </Warning>
+                <Shim horizontal>
+                    <Warning>
+                        No avalanche forecast has been been found for {name}.
+                    </Warning>
+                </Shim>
             )}
             <Disclaimer />
             <DangerRatings />
