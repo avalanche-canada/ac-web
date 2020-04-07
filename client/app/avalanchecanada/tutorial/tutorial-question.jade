@@ -1,0 +1,13 @@
+
+.tutorial-question
+  span.tutorial-question--text {{question.question}}
+
+  .tutorial-question--wrap
+    .tutorial-question--answers
+      .tutorial-question--answer(ng-repeat="a in question.answers")
+        label 
+          input(type="radio" name="{{question.question}}" ng-value="a" ng-model="dummy.response")
+          | {{a.text}}
+
+    .tutorial-question--response(class="{{dummy.response.correctness}}")
+      | {{dummy.response.reply}}
