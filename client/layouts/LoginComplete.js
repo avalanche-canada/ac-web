@@ -57,13 +57,13 @@ export default function LoginComplete(props) {
     }, [])
 
     return (
-        <Loading title="Loggin in progress...">
+        <Loading title="Authentication in progress...">
             {error ? (
                 <Fragment>
                     <Headline>
                         <Error>
-                            An error happened while login you in. You can try
-                            another{' '}
+                            An error happened while authenticating you in. You
+                            can try another{' '}
                             <a href="#" onClick={login}>
                                 login
                             </a>
