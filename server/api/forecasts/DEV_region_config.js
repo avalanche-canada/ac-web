@@ -72,7 +72,7 @@ var AVCAN = {
             //             .catch(lognow('error(northwest-coastal)') )
             
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('afbfd8d9-6c0b-41e1-9451-8b1f66168aef'))
+                        .then(fetch.filterAvidByLocation('0911afed-1bf5-4b46-8ad9-cc012b3d289a'))
                         .then(avid.parseAvid('northwest-coastal', 'Northwest - Coastal'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -88,7 +88,7 @@ var AVCAN = {
             //             .then(addStaticIcons('America/Vancouver'));
 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('79422b9a-add7-41d5-b042-4aab53f7c191'))
+                        .then(fetch.filterAvidByLocation('f45d017f-54ce-409f-97e7-c2e65a8c7c49'))
                         .then(avid.parseAvid('northwest-inland', 'Northwest - Inland'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -104,7 +104,7 @@ var AVCAN = {
             //             .then(addStaticIcons('America/Vancouver'));
             
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('91a91bf7-1965-4288-88f5-36d6f1a93017'))
+                        .then(fetch.filterAvidByLocation('93518f8b-24b0-47c5-8a17-6a6ffa409a83'))
                         .then(avid.parseAvid('sea-to-sky', 'Sea to Sky'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -121,7 +121,7 @@ var AVCAN = {
             //             .then(addStaticIcons('America/Vancouver'));
 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('812626e5-4860-4d7b-bf7f-ab92ed7d0719'))
+                        .then(fetch.filterAvidByLocation('ef6cafd5-aa52-41c2-8d43-7293c4e91ff9'))
                         .then(avid.parseAvid('south-coast-inland', 'South Coast - Inland'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -137,7 +137,7 @@ var AVCAN = {
             //             .then(addStaticIcons('America/Vancouver')); 
 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('0c257b42-8c78-4743-a29b-20d2e8071f3a'))
+                        .then(fetch.filterAvidByLocation('5ab6602b-ad84-440b-888e-e1a01f535cab'))
                         .then(avid.parseAvid('south-coast', 'South Coast'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -153,7 +153,7 @@ var AVCAN = {
             //             .then(addMovingIcons('America/Vancouver'));
             
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('71e52e86-8a5d-4512-aa63-c0b433544a92'))
+                        .then(fetch.filterAvidByLocation('69c9e943-4fdf-493d-8ff0-e9963e6162b8'))
                         .then(avid.parseAvid('north-rockies', 'North Rockies'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -175,7 +175,7 @@ var AVCAN = {
             //               .then(addStaticIcons('America/Vancouver'))
             
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('cc561c27-ce92-4b6d-ab90-ce2224459a88'))
+                        .then(fetch.filterAvidByLocation('ef141791-2352-4fcc-a1ef-86ed440e6240'))
                         .then(avid.parseAvid('cariboos', 'Cariboos'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -191,7 +191,7 @@ var AVCAN = {
             //             .then(addStaticIcons('America/Vancouver'));
 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('a43ffb7b-831d-4a41-bb00-bf8f336bde17'))
+                        .then(fetch.filterAvidByLocation('9b642bc3-6f7c-47c4-b0e6-101751e2a25c'))
                         .then(avid.parseAvid('north-columbia', 'North Columbia'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -201,7 +201,7 @@ var AVCAN = {
         metadata: reg_properties['south-columbia'],
         fetchNow: function() { 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('0f7dd79e-b212-408d-9fe1-22e8c73e2983'))
+                        .then(fetch.filterAvidByLocation('62777591-fe26-4e65-bee6-6387efa353f3'))
                         .then(avid.parseAvid('south-columbia', 'South Columbia'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -217,7 +217,7 @@ var AVCAN = {
         metadata: reg_properties['purcells'],
         fetchNow: function() { 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('f11e32be-cd3d-4e4a-b093-137993194bbe'))
+                        .then(fetch.filterAvidByLocation('63f12039-92fd-40b0-a0fb-4f558d626409'))
                         .then(avid.parseAvid('purcells', 'Purcells'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -233,7 +233,7 @@ var AVCAN = {
         metadata: reg_properties['kootenay-boundary'],
         fetchNow: function() { 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('1e44f685-41ce-4ae2-aecf-b1ffd9f1ac0a'))
+                        .then(fetch.filterAvidByLocation('da61db13-64bf-4e21-9ade-d06b2c9390f8'))
                         .then(avid.parseAvid('kootenay-boundary', 'Kootenay Boundary'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -249,7 +249,7 @@ var AVCAN = {
         metadata: reg_properties['south-rockies'],
         fetchNow: function() { 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('dec02ecc-9845-4f33-96b2-0b8aad1ce3a1'))
+                        .then(fetch.filterAvidByLocation('505a3b20-0f76-431a-934e-8f68baedeb19'))
                         .then(avid.parseAvid('south-rockies', 'South Rockies'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -271,7 +271,7 @@ var AVCAN = {
             //             .then(addStaticIcons('America/Vancouver'));
 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('0ecb495e-de78-4063-bd81-4d4499856cde'))
+                        .then(fetch.filterAvidByLocation('6fa00a5a-e829-4dcb-8733-c9eae75f8821'))
                         .then(avid.parseAvid('lizard-range', 'Lizard Range and Flathead'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver'));
@@ -281,7 +281,7 @@ var AVCAN = {
         metadata: reg_properties['yukon'],
         fetchNow: function() { 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('d67af35a-9544-4f69-a0e8-721c3ad66906'))
+                        .then(fetch.filterAvidByLocation('0b23a25d-0346-4fa4-8412-faa4c3581d2a'))
                         .then(avid.parseAvid('yukon', 'Yukon'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
@@ -301,7 +301,7 @@ var KCOUNTRY =  {
             //             .then(addStaticIcons('America/Edmonton'));
 
             return fetch.fetchAvid()
-                        .then(fetch.filterAvidByLocation('b9714237-ddd9-4d54-9233-ff46e0668065'))
+                        .then(fetch.filterAvidByLocation('69c3043f-ab2d-4508-b144-78ac4f745159'))
                         .then(avid.parseAvid('kananaskis', 'Kananaskis'))
                         .then(addOwner('avalanche-canada'))
                         .then(addStaticIcons('America/Vancouver')); 
