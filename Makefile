@@ -76,7 +76,7 @@ push-qa: zip
 	  --environment-name avalanche-canada-qa \
 	  --version-label "$(LABEL)"
 
-	echo pushed to http://qa.avalanche.ca/
+	echo pushed to https://qa.avalanche.ca/
 
 
 server-copy:

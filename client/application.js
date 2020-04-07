@@ -48,6 +48,7 @@ function NotProductionWarning() {
     const STYLE = {
         display: 'flex',
         flexDirection: 'column',
+        alignItems: 'center',
         padding: '2em',
         boxSizing: 'border-box',
         height: '100%',
