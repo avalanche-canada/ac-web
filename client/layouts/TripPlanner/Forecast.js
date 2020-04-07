@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { useForecast } from 'hooks/async/forecast'
-import { Muted } from 'components/text'
+import { Muted, Warning } from 'components/text'
 import Shim from 'components/Shim'
 import * as components from 'layouts/products/forecast'
 import { Disclaimer, DangerRatings } from 'layouts/products/forecast/Footer'
@@ -45,7 +45,7 @@ function Content({ name }) {
 
     return (
         <Fragment>
-            {forecast && (
+            {forecast ? (
                 <components.Provider value={forecast}>
                     <Shim horizontal>
                         <components.Metadata />
@@ -53,6 +53,10 @@ function Content({ name }) {
                     </Shim>
                     <components.TabSet />
                 </components.Provider>
+            ) : (
+                <Warning>
+                    No avalanche forecast has been been found for {name}.
+                </Warning>
             )}
             <Disclaimer />
             <DangerRatings />
