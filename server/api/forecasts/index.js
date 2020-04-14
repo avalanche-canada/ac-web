@@ -110,9 +110,15 @@ router.get('/:region.:format', function(req, res) {
 
 
     if (isHotzone(req.region) || isLink(req.region)) {
+        if (req.params.format === 'rss') {
+            return res.header('Content-Type','application/rss+xml')
+                      .render('forecasts/no-forecast', {
+                          region: req.region.properties
+                        });
+        }
+        
         return res.status(404).end('Region Not Found');
     }
-
 
     switch (req.params.format) {
         case 'xml':
