@@ -10,7 +10,7 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
     item
         title Public Avalanche Forecast
         link https://avalanche.ca/forecasts/#{region}
-        description <![CDATA[
+        description
           article
             h1 No Avalanche Forecast is currently available for #{region}.
             p Please visit the 
@@ -18,7 +18,6 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
               |  or the 
               a(href="https://avalanche.ca/forecasts/#{region}/") region page
               |  for more details.
-        | ]]>
         guid(isPermaLink='false') https://avalanche.ca/api/forecasts/#{region}.rss
 
 
