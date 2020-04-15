@@ -4,20 +4,20 @@ rss(version="2.0", xmlns:atom="http://www.w3.org/2005/Atom")
     title Avalanche Canada
     description Public Avalanche Forecast
     link https://avalanche.ca
-    atom:link(href='https://avalanche.ca/api/forecasts/#{region.id}.rss', rel='self', type='application/rss+xml')
+    atom:link(href='https://avalanche.ca/api/forecasts/#{region}.rss', rel='self', type='application/rss+xml')
 
     category Canadian Public Avalanche Forecast
     item
         title Public Avalanche Forecast
-        link https://avalanche.ca/forecasts/#{region.id}
+        link https://avalanche.ca/forecasts/#{region}
         description
           article
-            h1 No Avalanche Forecast is currently available for #{region.name}.
+            h1 No Avalanche Forecast is currently available for #{region}.
             p Please visit the 
               a(href="https://avalanche.ca") Avalanche Canada website
               |  or the 
-              a(href="https://avalanche.ca/forecasts/#{region.id}/") region page
+              a(href="https://avalanche.ca/forecasts/#{region}/") region page
               |  for more details.
-        guid(isPermaLink='false') https://avalanche.ca/api/forecasts/#{region.id}.rss
+        guid(isPermaLink='false') https://avalanche.ca/api/forecasts/#{region}.rss
 
 

@@ -22,6 +22,11 @@ router.param('region', function(req, res, next) {
         logger.info(
             'forecast region not found url="' + req.originalUrl + '"'
         );
+
+        if (req.path.indexOf('.rss') > 0) {
+            return next()
+        }
+        
         return res.status(404).end('Not Found');
     }
 
@@ -108,14 +113,14 @@ router.get('/:region.:format', function(req, res) {
     var locals;
 
 
+    if (req.params.format === 'rss' && !req.region) {
+        return res.header('Content-Type','application/rss+xml')
+                  .render('forecasts/no-forecast', {
+                      region: req.params.region
+                    });
+    }
 
     if (isHotzone(req.region) || isLink(req.region)) {
-        if (req.params.format === 'rss') {
-            return res.header('Content-Type','application/rss+xml')
-                      .render('forecasts/no-forecast', {
-                          region: req.region.properties
-                        });
-        }
         
         return res.status(404).end('Region Not Found');
     }
