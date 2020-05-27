@@ -94,7 +94,6 @@ const LAYERS = {
         visible: true,
     },
     [LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS]: {
-        disabled: true,
         visible: false,
     },
     [LAYER_IDS.WEATHER_STATION]: {
