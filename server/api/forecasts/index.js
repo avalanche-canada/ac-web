@@ -33,12 +33,16 @@ router.param('region', function(req, res, next) {
     logger.debug('getting region:', req.params.region);
     getForecastData(req.params.region, req.region)
         .then(function(forecast) {
+            if (!forecast || forecast.json === null) {
+                return res.status(404).end('Not Found');
+            }
+            
             req.forecast = forecast;
             return next();
         })
         .catch(function(e) {
             logger.error('loading region data:', e);
-            res.send(404); // FIXME Hack because cache throw while parsing. 
+            res.status(500).end();
         })
         .done();
 });
@@ -101,7 +105,7 @@ router.get('/ALL.json', function(req, res) {
             .value();
     Q.allSettled(fxPromises).then(function(fxs){
         fxs = fxs.filter(function(state) {
-            return state.state === 'fulfilled'
+            return state.state === 'fulfilled' && state.value.json
         }).map(function(state) {
             return state.value
         })
