@@ -63,5 +63,17 @@
       -113.9763377422614,
       49.08133839179955
     ]
+  },
+  "kananaskis": {
+    "name": "Kananaskis Country, Alberta Parks",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Kananaskis",
+    "forecastUrl": "/api/forecasts/kananaskis.json",
+    "dangerIconUrl": "/api/forecasts/graphics/install-new-app.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -115.18983408000474,
+      50.768253102477274
+    ]
   }
 }
