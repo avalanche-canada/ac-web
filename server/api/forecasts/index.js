@@ -38,7 +38,7 @@ router.param('region', function(req, res, next) {
         })
         .catch(function(e) {
             logger.error('loading region data:', e);
-            res.send(500);
+            res.send(404); // FIXME Hack because cache throw while parsing. 
         })
         .done();
 });
@@ -91,8 +91,12 @@ router.get('/ALL.json', function(req, res) {
         _.chain(regions.features)
             .filter(isForecastRegion)
             .map(function(r) {
-                var f = getForecastData(r.id, r);
-                return f;
+                try {
+                    var f = getForecastData(r.id, r);
+                    return f;
+                } catch (error) {
+                    return Q.reject()
+                }
             })
             .value();
     Q.allSettled(fxPromises).then(function(fxs){
