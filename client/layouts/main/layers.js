@@ -116,33 +116,36 @@ export function useForecastMarkers(map) {
             return
         }
 
-        return metadata.map(({ id, name, centroid, type }) => {
-            const element = document.createElement('img')
+        return metadata
+            .filter(({id}) => Boolean(forecasts[id]))
+            .map(({ id, name, centroid, type }) => {
+                const element = document.createElement('img')
+                const forecast = forecasts[id]
 
-            element.style.cursor = 'pointer'
+                element.style.cursor = 'pointer'
 
-            Object.assign(element, {
-                src:
-                    type === 'link'
-                        ? ICONS.get('LINK').call()
-                        : createForecastIconURL(forecasts[id]),
-                width: 50,
-                height: 50,
-                alt: name,
-                title: name,
-                onclick(event) {
-                    event.stopPropagation()
+                Object.assign(element, {
+                    src:
+                        type === 'link'
+                            ? ICONS.get('LINK').call()
+                            : createForecastIconURL(forecast),
+                    width: 50,
+                    height: 50,
+                    alt: name,
+                    title: name,
+                    onclick(event) {
+                        event.stopPropagation()
 
-                    if (externals.has(id)) {
-                        open(id)
-                    } else {
-                        navigate('/map/forecasts/' + id + location.search)
-                    }
-                },
+                        if (externals.has(id)) {
+                            open(id)
+                        } else {
+                            navigate('/map/forecasts/' + id + location.search)
+                        }
+                    },
+                })
+
+                return [centroid, { element }]
             })
-
-            return [centroid, { element }]
-        })
     }, [metadata, forecasts])
 
     useMapError(ERRORS.FORECAST, ...errors)

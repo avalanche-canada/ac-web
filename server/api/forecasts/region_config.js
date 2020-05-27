@@ -194,5 +194,6 @@ function get(region, timezone) {
 }
 
 module.exports = {
-    cached_regions: Object.assign({}, AVCAN, KCOUNTRY, PARKS),
+    cached_regions: Object.assign({}, PARKS),
+    // cached_regions: Object.assign({}, AVCAN, KCOUNTRY, PARKS),
 }

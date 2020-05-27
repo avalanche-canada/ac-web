@@ -95,10 +95,20 @@ router.get('/ALL.json', function(req, res) {
                 return f;
             })
             .value();
-    Q.all(fxPromises).then(function(fxs){
+    Q.allSettled(fxPromises).then(function(fxs){
+        fxs = fxs.filter(function(state) {
+            return state.state === 'fulfilled'
+        }).map(function(state) {
+            return state.value
+        })
+
         var fs = _.zipObject(
-            _.map(fxs, function(f){ return f.json.region}),
-            _.map(fxs, 'json')
+            _.map(fxs, function(f){ 
+            return f.json.region;
+            }),
+            _.map(fxs, function(f){ 
+                return f.json;
+                })
         );
         res.status(200).json(fs);
     }).catch(function(err){

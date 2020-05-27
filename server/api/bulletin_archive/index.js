@@ -9,8 +9,7 @@ var xml2js = require('xml2js');
 var addDays  = require('date-fns/add_days');
 
 var config = require('../../config/environment');
-// var metadata = require('../features/metadata');
-var metadata = require('../../data/season/2019/forecast-metadata-all.json');
+var metadata = require('../features/metadata');
 var regionData = require('../../data/season').forecast_regions;
 var avalxMapping = require('../../data/season/2016/avalxMapping.json');
 var avalx = require('../forecasts/avalx');

@@ -19,8 +19,9 @@ var WebCacheMem = function () {
 WebCacheMem.prototype.get = function (key) {
     var jval = this.client[key];
     logger.debug("OTHER", key, jval)
-    var val = JSON.parse(jval);
-    return Q.fcall(function () { return val; });
+    return Q.fcall(function () { 
+        return JSON.parse(jval); 
+    });
 };
 
 WebCacheMem.prototype.set = function (key, val) {
