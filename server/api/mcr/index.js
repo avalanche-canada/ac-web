@@ -13,49 +13,43 @@ var mcr_format = require('./format');
 var router = express.Router();
 
 var AC_MCR_URL = config.AC_MCR_HOST + '/sapi/public';
-var COVID_MESSAGE='Mountain Conditions Reports suspended. More details on avalanche.ca';
 
 router.get('/', function(req, res) {
-    // Because the app does not reset the cache if an error is returned
-    return res.status(200).json([]);
-    // return res.status(403).json({messsage: COVID_MESSAGE});
-
-    
     //TODO(wnh): Clean this up a bit
-    // mcr_cache.cache.wrap(
-    //     'mcr/format_list',
-    //     function(cb) {
-    //         return getNodeList(function(err, nodes) {
-    //             async.map(nodes, getReportAndUser, function(err, reports) {
-    //                 if (err) {
-    //                     return cb(err);
-    //                 }
-    //                 var fmt_reports = reports
-    //                     .filter(Boolean)
-    //                     .map(function(ru) {
-    //                         return mcr_format.formatReportFull(
-    //                             ru.report,
-    //                             ru.user
-    //                         );
-    //                     })
-    //                     // "formatReportFull" can return "undefined"
-    //                     .filter(Boolean);
-    //                 fmt_reports = fmt_reports.filter(filterToSevenDays);
-    //                 cb(null, fmt_reports);
-    //             });
-    //         });
-    //     },
-    //     function(err, data) {
-    //         if (err) {
-    //             logger.error("MCR getting report list", {error: err});
-    //             return error(res, err);
-    //         }
-    //         return res
-    //             .status(200)
-    //             .json(data)
-    //             .end();
-    //     }
-    // );
+    mcr_cache.cache.wrap(
+        'mcr/format_list',
+        function(cb) {
+            return getNodeList(function(err, nodes) {
+                async.map(nodes, getReportAndUser, function(err, reports) {
+                    if (err) {
+                        return cb(err);
+                    }
+                    var fmt_reports = reports
+                        .filter(Boolean)
+                        .map(function(ru) {
+                            return mcr_format.formatReportFull(
+                                ru.report,
+                                ru.user
+                            );
+                        })
+                        // "formatReportFull" can return "undefined"
+                        .filter(Boolean);
+                    fmt_reports = fmt_reports.filter(filterToSevenDays);
+                    cb(null, fmt_reports);
+                });
+            });
+        },
+        function(err, data) {
+            if (err) {
+                logger.error("MCR getting report list", {error: err});
+                return error(res, err);
+            }
+            return res
+                .status(200)
+                .json(data)
+                .end();
+        }
+    );
 });
 
 function filterToSevenDays(report) {
@@ -67,25 +61,23 @@ function filterToSevenDays(report) {
 }
 
 router.get('/:report_id', function(req, res) {
-    return res.status(403).json({messsage: COVID_MESSAGE});
-
-    // var report_id = Number.parseInt(req.params.report_id);
-    // return getReport(report_id, function(err, report) {
-    //     if (err) {
-    //         logger.error("MCR getting report by id", {error: err});
-    //         return error(res, err);
-    //     }
-    //     return getUser(report.uid, function(err, user) {
-    //         if (err) {
-    //             logger.error("MCR getting user", {error: err});
-    //             return error(res, err);
-    //         }
-    //         return res
-    //             .status(200)
-    //             .json(mcr_format.formatReportFull(report, user))
-    //             .end();
-    //     });
-    // });
+    var report_id = Number.parseInt(req.params.report_id);
+    return getReport(report_id, function(err, report) {
+        if (err) {
+            logger.error("MCR getting report by id", {error: err});
+            return error(res, err);
+        }
+        return getUser(report.uid, function(err, user) {
+            if (err) {
+                logger.error("MCR getting user", {error: err});
+                return error(res, err);
+            }
+            return res
+                .status(200)
+                .json(mcr_format.formatReportFull(report, user))
+                .end();
+        });
+    });
 });
 
 function error(res, err) {
