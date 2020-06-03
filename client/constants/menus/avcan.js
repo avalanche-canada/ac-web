@@ -132,6 +132,44 @@ const Planning = {
         WeatherStationsListView,
     ],
 }
+const OnlineEducation = {
+    id: id++,
+    label: 'Online Education',
+    header: true,
+    to: '/education',
+    children: [
+        {
+            id: id++,
+            label: 'Online avalanche tutorial',
+            to: '/tutorial',
+        },
+        {
+            id: id++,
+            label: 'Cours d’avalanche en ligne (français)',
+            to: '/tutoriel',
+        },
+        {
+            id: id++,
+            label: 'Glossary',
+            to: '/glossary',
+        },
+        {
+            id: id++,
+            label: 'Rescue at Cherry Bowl',
+            to: 'https://avalanche.ca/cherry-bowl',
+        },
+        {
+            id: id++,
+            label: 'Land of Thundering Snow',
+            to: 'http://www.landofthunderingsnow.ca',
+        },
+        {
+            id: id++,
+            label: 'Videos',
+            to: 'https://vimeo.com/avalanchecanada',
+        },
+    ],
+}
 
 module.exports = {
     id: id++,
@@ -175,103 +213,8 @@ module.exports = {
             id: id++,
             label: 'Learn',
             children: [
-                {
-                    id: id++,
-                    label: 'Fresh to the Backcountry?',
-                    header: true,
-                    to: '/start-here',
-                    children: [
-                        {
-                            id: id++,
-                            label: 'What is avalanche terrain?',
-                            to: '/start-here#avalanche-terrain',
-                        },
-                        {
-                            id: id++,
-                            label: 'What are avalanche conditions?',
-                            to: '/start-here#weather-factors',
-                        },
-                        {
-                            id: id++,
-                            label: 'What does snowpack instability look like?',
-                            to: '/start-here#instability-signs',
-                        },
-                    ],
-                },
                 Object.assign({}, AvCanTrainingCourses, { id: id++ }),
-                {
-                    id: id++,
-                    label: 'Online Education',
-                    header: true,
-                    to: '/education',
-                    children: [
-                        {
-                            id: id++,
-                            label: 'Online avalanche tutorial',
-                            to: '/tutorial',
-                        },
-                        {
-                            id: id++,
-                            label: 'Cours d’avalanche en ligne (français)',
-                            to: '/tutoriel',
-                        },
-                        {
-                            id: id++,
-                            label: 'Glossary',
-                            to: '/glossary',
-                        },
-                        {
-                            id: id++,
-                            label: 'Rescue at Cherry Bowl',
-                            to: 'https://avalanche.ca/cherry-bowl',
-                        },
-                        {
-                            id: id++,
-                            label: 'Land of Thundering Snow',
-                            to: 'http://www.landofthunderingsnow.ca',
-                        },
-                        {
-                            id: id++,
-                            label: 'Videos',
-                            to: 'https://vimeo.com/avalanchecanada',
-                        },
-                    ],
-                },
-                {
-                    id: id++,
-                    label: 'Youth Education',
-                    header: true,
-                    to: '/youth',
-                    children: [
-                        {
-                            id: id++,
-                            label: 'Teaching guidelines',
-                            to: '/youth#teaching-guidelines',
-                        },
-                        {
-                            id: id++,
-                            label: 'Our programs',
-                            to: '/youth#programs',
-                        },
-                        {
-                            id: id++,
-                            label: 'Curriculum & resources',
-                            to: '/youth#curriculum',
-                        },
-                        {
-                            id: id++,
-                            label: 'External programs',
-                            to: '/youth#external-programs',
-                        },
-                    ],
-                },
-            ],
-        },
-        {
-            id: id++,
-            label: 'Snowmobilers',
-            to: '/sled',
-            children: [
+                Object.assign({}, OnlineEducation, { id: id++ }),
                 {
                     id: id++,
                     label: 'Mountain Sledding',
@@ -310,13 +253,117 @@ module.exports = {
                         },
                     ],
                 },
-                Object.assign({}, MountainInformationNetwork, {
+                {
                     id: id++,
-                }),
-                Planning,
+                    label: 'Youth Education',
+                    header: true,
+                    to: '/youth',
+                    children: [
+                        {
+                            id: id++,
+                            label: 'Teaching guidelines',
+                            to: '/youth#teaching-guidelines',
+                        },
+                        {
+                            id: id++,
+                            label: 'Our programs',
+                            to: '/youth#programs',
+                        },
+                        {
+                            id: id++,
+                            label: 'Curriculum & resources',
+                            to: '/youth#curriculum',
+                        },
+                        {
+                            id: id++,
+                            label: 'External programs',
+                            to: '/youth#external-programs',
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            id: id++,
+            label: 'Start Here',
+            children: [
+                {
+                    id: id++,
+                    label: 'Fresh to the Backcountry? Start Here',
+                    header: true,
+                    to: '/start-here',
+                    children: [
+                        {
+                            id: id++,
+                            label: 'What is avalanche terrain?',
+                            to: '/start-here#avalanche-terrain',
+                        },
+                        {
+                            id: id++,
+                            label: 'What are avalanche conditions?',
+                            to: '/start-here#weather-factors',
+                        },
+                        {
+                            id: id++,
+                            label: 'What does snowpack instability look like?',
+                            to: '/start-here#instability-signs',
+                        },
+                    ],
+                },
+                Object.assign({}, OnlineEducation, { id: id++ }),
                 Object.assign({}, AvCanTrainingCourses, { id: id++ }),
             ],
         },
+        // {
+        //     id: id++,
+        //     label: 'Snowmobilers',
+        //     to: '/sled',
+        //     children: [
+        //         {
+        //             id: id++,
+        //             label: 'Mountain Sledding',
+        //             header: true,
+        //             to: '/sled',
+        //             children: [
+        //                 {
+        //                     id: id++,
+        //                     label: 'Avalanche basics',
+        //                     to: '/sled#avalanche-basics',
+        //                 },
+        //                 {
+        //                     id: id++,
+        //                     label: 'Featured resources',
+        //                     to: '/sled#featured-resources',
+        //                 },
+        //                 {
+        //                     id: id++,
+        //                     label: 'Throttle Decisions',
+        //                     to: '/sled#throttle-decisions',
+        //                 },
+        //                 {
+        //                     id: id++,
+        //                     label: 'News',
+        //                     to: '/sled#news',
+        //                 },
+        //                 {
+        //                     id: id++,
+        //                     label: 'Events',
+        //                     to: '/sled#events',
+        //                 },
+        //                 {
+        //                     id: id++,
+        //                     label: 'SledComm',
+        //                     to: '/sled#sledcomm',
+        //                 },
+        //             ],
+        //         },
+        //         Object.assign({}, MountainInformationNetwork, {
+        //             id: id++,
+        //         }),
+        //         Planning,
+        //         Object.assign({}, AvCanTrainingCourses, { id: id++ }),
+        //     ],
+        // },
         {
             id: id++,
             label: 'News & Events',
