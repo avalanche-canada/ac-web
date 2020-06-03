@@ -11,22 +11,34 @@ Figure.propTypes = {
 
 export default function Figure({ value }) {
     const [{ figure, credit, caption }] = value
-    const hasCaptionContent = caption || credit
+    const hasCaptionContent = hasContent(caption) || hasContent(credit)
 
     return (
         <Media>
             <Image {...figure} />
-            {hasCaptionContent &&
+            {hasCaptionContent && (
                 <Caption>
-                    {caption && <StructuredText value={caption} />}
-                    {credit &&
+                    {hasContent(caption) && <StructuredText value={caption} />}
+                    {hasContent(credit) && (
                         <List>
                             <Term>Credit</Term>
                             <Definition>
                                 <StructuredText value={credit} />
                             </Definition>
-                        </List>}
-                </Caption>}
+                        </List>
+                    )}
+                </Caption>
+            )}
         </Media>
     )
+}
+
+function hasContent(content = []) {
+    if (!Array.isArray(content)) {
+        return false
+    }
+
+    const concat = (string, { text }) => string + text
+
+    return content.filter(Boolean).reduce(concat, '').length > 0
 }
