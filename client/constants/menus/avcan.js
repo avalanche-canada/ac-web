@@ -289,7 +289,7 @@ module.exports = {
             children: [
                 {
                     id: id++,
-                    label: 'Fresh to the Backcountry?',
+                    label: 'Fresh to the Backcountry? Start Here',
                     header: true,
                     to: '/start-here',
                     children: [
