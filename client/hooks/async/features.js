@@ -25,12 +25,12 @@ export function useAdvisoryMetadata(id) {
 
 export function useArchiveForecastRegionsMetadata() {
     // TODO Accept a date parameter so list of region can update for a given date
-    const date = '2019'
+    const season = '2019'
     const [data = {}, ...rest] = useCacheAsync(
         archiveForecastRegions,
-        [date],
+        [season],
         undefined,
-        'archive-forecast-regions-' + date
+        'archive-forecast-regions-' + season
     )
     function convert() {
         return Object.entries(data)
