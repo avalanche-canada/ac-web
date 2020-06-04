@@ -17,10 +17,6 @@ app.use('/public', express.static(path.resolve(__dirname, '../dist/public'), {fa
 
 app.use('/api/*', function(req, resp){ return resp.status(404).send('Not Found'); });
 
-app.get('/google3a23b445086df49e.html', function response(req, res) {
-    return res.sendFile(path.resolve(__dirname, './google3a23b445086df49e.html'));
-});
-
 app.get('*', function response(req, res) {
     res.sendFile(path.resolve(__dirname, '../dist/public/index.html'));
 });
