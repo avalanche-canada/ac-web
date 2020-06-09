@@ -9,7 +9,8 @@ var xml2js = require('xml2js');
 var addDays  = require('date-fns/add_days');
 
 var config = require('../../config/environment');
-var metadata = require('../features/metadata');
+var metadata = require('../../data/season/2019/forecast-metadata.json');
+// var metadata = require('../features/metadata/');
 var regionData = require('../../data/season').forecast_regions;
 var avalxMapping = require('../../data/season/2016/avalxMapping.json');
 var avalx = require('../forecasts/avalx');
@@ -171,6 +172,7 @@ router.get('/:date/regions.json', (req,res) => {
     
 router.get('/:date/:region.:format(json|html)', (req, res) => {
     var date = moment(req.params.date, moment.ISO_8601);
+    var region = req.params.region
 
     if (!date.isValid()) {
         return res.status(404).json({
@@ -180,15 +182,24 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
 
     // COVID: We shut down forecasting on Monday, March 30th, 2020.
     // FIXME: Add an end date, only the future will tell
-    const COVID = ['2020-03-30T07:00:00.000Z']
-    if (date.isBetween(COVID[0], undefined, 'days', '[]')) {
-        return res.status(404).json({
-            message: 'As of March 30, every agency that regularly issues public avalanche forecasts in Canada has now discontinued this service. Avalanche Canada, Parks Canada, Kananaskis Country, Avalanche Quebec, and the Vancouver Island Avalanche Centre are united in this response to the COVID-19 pandemic.'
-        })
+
+    const COVID_START = '2020-03-30T07:00:00.000Z'
+    const COVID_MESSAGE = 'As of March 30, every agency that regularly issues public avalanche forecasts in Canada has now discontinued this service. Avalanche Canada, Parks Canada, Kananaskis Country, Avalanche Quebec, and the Vancouver Island Avalanche Centre are united in this response to the COVID-19 pandemic.'
+
+    if (region === 'kananaskis') {
+        if (date.isBetween(COVID_START, '2020-05-31T07:00:00.000Z', 'days', '[]')) {
+            return res.status(404).json({
+                message: COVID_MESSAGE
+            })
+        }
+    } else {
+        if (date.isBetween(COVID_START, undefined, 'days', '[]')) {
+            return res.status(404).json({
+                message: COVID_MESSAGE
+            })
+        }
     }
     
-    var region = req.params.region
-
     if (typeof(metadata[region]) === 'undefined') {
         return res.status(404).json({
             message: 'Region not found'

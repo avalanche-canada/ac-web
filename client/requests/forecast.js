@@ -41,7 +41,7 @@ export function regions() {
 export function archiveForecastRegions(season) {
     const url = utils.path(baseURL, 'bulletin-archive', season, 'regions.json')
 
-    return fetch(url).then(data => data['forecast-regions'])
+    return fetch(url)
 }
 
 // Utils
