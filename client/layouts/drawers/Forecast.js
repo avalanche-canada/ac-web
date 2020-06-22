@@ -26,7 +26,6 @@ import { useLocation } from 'router/hooks'
 import * as Async from 'contexts/async'
 import shim from 'components/Shim.css'
 import typography from 'components/text/Text.css'
-import { GenericContent, Title, GenericProvider } from 'prismic/layouts'
 
 ForeastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -34,11 +33,7 @@ ForeastLayout.propTypes = {
     onLocateClick: PropTypes.func.isRequired,
 }
 
-export default function ForeastLayout({
-    name = 'kananaskis',
-    onCloseClick,
-    onLocateClick,
-}) {
+export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
     // "key" in <Body> to mount/remount the tabs, so the first tab appears and
     // scroll gets reset as the name changes
 
@@ -90,31 +85,6 @@ export default function ForeastLayout({
                     </Async.FirstError>
                 </Async.Provider>
             </Body>
-        </Fragment>
-    )
-}
-
-export function Covid({ name, onCloseClick }) {
-    return (
-        <Fragment>
-            <Navbar>
-                <Sponsor label={null} />
-                <Close onClick={onCloseClick} />
-            </Navbar>
-            <GenericProvider uid="fx-shutdown-covid">
-                <Header subject="Avalanche Forecast">
-                    <h1>
-                        <Title />
-                    </h1>
-                </Header>
-                <Body key={name}>
-                    <Shim horizontal>
-                        <Async.Found>
-                            <GenericContent />
-                        </Async.Found>
-                    </Shim>
-                </Body>
-            </GenericProvider>
         </Fragment>
     )
 }

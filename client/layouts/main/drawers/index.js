@@ -1,6 +1,6 @@
 import React, { createElement } from 'react'
 import { Router, Redirect } from '@reach/router'
-import Forecast, { Covid as CovidForecast } from 'layouts/drawers/Forecast'
+import Forecast from 'layouts/drawers/Forecast'
 import HotZoneReport from 'layouts/drawers/HotZoneReport'
 import MountainInformationNetwork from 'layouts/drawers/MountainInformationNetwork'
 import WeatherStation from 'layouts/drawers/WeatherStation'
@@ -53,11 +53,10 @@ export function Primary({ map }) {
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
                 <Forecast
-                    path="forecasts/kananaskis"
+                    path="forecasts/:name"
                     onCloseClick={close}
                     onLocateClick={fitBounds}
                 />
-                <CovidForecast path="forecasts/:name" onCloseClick={close} />
                 <HotZoneReport
                     path="advisories/:name"
                     onCloseClick={close}
