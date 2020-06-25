@@ -27,9 +27,6 @@ import { Download } from 'components/icons'
 import Dialog from './Download'
 import styles from './TripPlanner.css'
 
-// TODO: Could use Context to simplify implementation
-// TODO: Could use state machine to simplify implementation
-
 export default class TripPlannerLayout extends PureComponent {
     state = {
         left: true,
