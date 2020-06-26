@@ -8,6 +8,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo Running build
+      - make build
       - echo Building the docker image...
       - docker build --rm=false -t $IMAGE_NAME .
       - docker tag $IMAGE_NAME:latest 349501831018.dkr.ecr.us-west-2.amazonaws.com/$IMAGE_NAME:latest
