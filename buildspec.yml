@@ -9,6 +9,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Running build
+      - npm install
       - make build
       - echo Building the docker image...
       - docker build --rm=false -t $IMAGE_NAME .
