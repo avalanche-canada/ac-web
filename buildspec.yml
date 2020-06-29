@@ -6,8 +6,8 @@ phases:
       - echo Logging into Amazon ECR
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - echo changing node version
-      - sudo npm install -g n
-      - sudo n 8.17.0
+      - npm install -g n
+      - n 8.17.0
   build:
     commands:
       - echo Build started on `date`
