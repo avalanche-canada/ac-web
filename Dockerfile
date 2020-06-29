@@ -1,11 +1,11 @@
-FROM node:8.16.2 AS build
+FROM node:8.17.0 AS build
 
 WORKDIR /app-build
-COPY package.json package-lock.json /app-buid/
+COPY package.json package-lock.json /app-build/
 RUN npm install
 COPY ./ /app-build
 
-FROM node:8.16.2
+FROM node:8.17.0
 
 COPY --from=build /app-build/dist /app
 WORKDIR /app
