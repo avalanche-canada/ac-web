@@ -1,17 +1,45 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { point } from '@turf/helpers'
+import { useReport } from 'hooks/async/mcr'
+import { Loading, Muted } from 'components/text'
+import { InnerHTML } from 'components/misc'
+import { Locate } from 'components/button'
 import { Header, Body, Navbar, Close, Banner } from 'components/page/drawer'
-import { Footer, Media } from 'layouts/products/mcr'
+import {
+    Footer,
+    Submitter,
+    DateSet,
+    Location,
+    Media,
+} from 'layouts/products/mcr'
 import { WHITE } from 'constants/colors'
 import Shim from 'components/Shim'
-import { GenericContent, Title, GenericProvider } from 'prismic/layouts'
-import { Found } from 'contexts/async'
 
 MountainConditionsReport.propTypes = {
+    id: PropTypes.string.isRequired,
     onCloseClick: PropTypes.func.isRequired,
+    onLocateClick: PropTypes.func.isRequired,
 }
 
-export default function MountainConditionsReport({ onCloseClick }) {
+export default function MountainConditionsReport({
+    id,
+    onCloseClick,
+    onLocateClick,
+}) {
+    const [report = {}, pending] = useReport(id)
+    const {
+        locationDescription,
+        permalink,
+        body,
+        title,
+        images,
+        user,
+        dates,
+        groups,
+        location,
+    } = report
+
     return (
         <Fragment>
             <Body>
@@ -24,21 +52,41 @@ export default function MountainConditionsReport({ onCloseClick }) {
                 </Navbar>
                 <Fragment>
                     <Banner>
-                        <Media />
+                        <Media images={images} />
                     </Banner>
-                    <GenericProvider uid="mcr-shutdown-covid">
-                        <Header subject="Arc'Teryx Mountain Conditions Report">
+                    <Header subject="Arc'Teryx Mountain Conditions Report">
+                        {title && (
                             <h1>
-                                <Title />
+                                <a href={permalink} target={permalink}>
+                                    {title}
+                                </a>
+                                {Array.isArray(location) && (
+                                    <Locate
+                                        onClick={() =>
+                                            onLocateClick(point(location))
+                                        }
+                                    />
+                                )}
                             </h1>
-                        </Header>
-                        <Shim horizontal>
-                            <Found>
-                                <GenericContent />
-                            </Found>
-                            <Footer />
-                        </Shim>
-                    </GenericProvider>
+                        )}
+                        {Array.isArray(dates) && <DateSet values={dates} />}
+                        <Location>{locationDescription}</Location>
+                        {user && <Submitter {...user} groups={groups} />}
+                    </Header>
+                    <Shim horizontal>
+                        {pending && (
+                            <Loading>
+                                Loading Mountain Conditions Report...
+                            </Loading>
+                        )}
+                        {body && <InnerHTML>{body}</InnerHTML>}
+                        {!pending && !body && (
+                            <Muted>
+                                Report #{id} is not available anymore.
+                            </Muted>
+                        )}
+                        <Footer />
+                    </Shim>
                 </Fragment>
             </Body>
         </Fragment>
