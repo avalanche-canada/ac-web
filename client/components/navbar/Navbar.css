@@ -59,18 +59,6 @@
         fill: var(--primary);
     }
 
-    &:global(#donate) {
-        background-color: var(--brand-secondary);
-
-        & > a {
-            color: white;
-        }
-
-        &:hover {
-            background-color: color-mod(var(--brand-secondary) blackness(15%));
-        }
-    }
-
     &:global(#foundation) {
         background-color: var(--brand-primary);
 

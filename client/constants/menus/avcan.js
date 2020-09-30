@@ -481,11 +481,6 @@ module.exports = {
             to: 'https://store.avalanche.ca',
         },
         {
-            id: 'donate',
-            label: 'Text to Donate',
-            to: '/donate',
-        },
-        {
             id: 'foundation',
             label: 'Donate to Foundation',
             to: '/foundation',
