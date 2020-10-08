@@ -427,6 +427,12 @@ module.exports = {
                             label: 'Careers',
                             to: '/careers',
                         },
+                        {
+                            id: id++,
+                            label: 'COVID-19 Safety Plan',
+                            to:
+                                'https://avalanche.ca/assets/documents/AvCan+COVID-19+Safety+Plan+2020-09-24.pdf',
+                        },
                     ],
                 },
                 {
