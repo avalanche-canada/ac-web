@@ -51,7 +51,7 @@ function getAvid(regionId, date, callback) {
 }
 
 function fetchAvidText(date, callback) {
-    var url = "https://avid.avalanche.ca/v1/public/en/products?date="+date.toISOString();
+    var url = "https://avid-api.avalanche.ca/v1/public/en/products?date="+date.toISOString();
     logger.debug('archive_fetch url='+url);
     var options = {
         uri: url,
