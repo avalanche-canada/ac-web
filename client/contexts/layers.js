@@ -100,7 +100,6 @@ const LAYERS = {
         visible: true,
     },
     [LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK]: {
-        disabled: true,
         visible: false,
         filters: {
             days: 7,
