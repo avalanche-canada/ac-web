@@ -233,11 +233,11 @@
   },
   "chic-chocs": {
     "name": "Chic Chocs, Avalanche Québec",
-    "type": "link",
-    "url": "https://avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/chicchocs",
     "forecastUrl": "/api/forecasts/chic-chocs.json",
     "dangerIconUrl": "/api/forecasts/graphics/install-new-app.svg",
-    "owner": "chic-chocs",
+    "owner": "avalanche-canada",
     "centroid": [
       -66.08685578290087,
       48.909684297640375
@@ -266,6 +266,18 @@
     "centroid": [
       -135.14572456918492,
       60.00435182795745
+    ]
+  },
+  "bighorn": {
+    "name": "Bighorn, Alberta Parks",
+    "type": "avalx",
+    "url": "http://old.avalanche.ca/dataservices/cac/bulletins/xml/Bighorn",
+    "forecastUrl": "/api/forecasts/bighorn.json",
+    "dangerIconUrl": "/api/forecasts/graphics/install-new-app.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -116.4719363746833,
+      52.084507849273905
     ]
   }
 }

@@ -38,15 +38,19 @@ function getAvid(regionId, date, callback) {
             return callback(e, null);
         }
 
-        var filterFn = fetch.filterAvidByLocation(avid_mappings.byName[regionId]);
-        var avidfx   = filterFn(data);
-        var avidJson = avid.parseAvid(regionId, regionNamesHuman[regionId])(avidfx);
+        try{
+            var filterFn = fetch.filterAvidByLocation(avid_mappings.byName[regionId]);
+            var avidfx   = filterFn(data);
+            var avidJson = avid.parseAvid(regionId, regionNamesHuman[regionId])(avidfx);
 
-        //TODO(wnh): Stolen from server/api/forecasts/region_config.js:addOwner
-        //           Do some refactoring to make de duplicate this
-        avidJson =  Object.assign({}, avidJson, {owner: 'avalanche-canada'});
+            //TODO(wnh): Stolen from server/api/forecasts/region_config.js:addOwner
+            //           Do some refactoring to make de duplicate this
+            avidJson =  Object.assign({}, avidJson, {owner: 'avalanche-canada'});
 
-        callback(null, avidJson);
+            callback(null, avidJson);
+        }catch (error) {
+            return callback(error, null)
+        }
     });
 }
 

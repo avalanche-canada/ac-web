@@ -91,14 +91,16 @@ var AVCAN = {
     'lizard-range': get('lizard-range').avid('Lizard-Flathead'),
     // .prismic()
     // .avalx(12)
-    'yukon': get('yukon').avid('Yukon', addMovingIcons)
+    'yukon': get('yukon').avid('Yukon', addMovingIcons),
     // .prismic()
     // .avalx(20)
+    
 };
 
 
 var KCOUNTRY =  {
-    'kananaskis': get('kananaskis', 'America/Edmonton').avid('Kananaskis Country')
+    'kananaskis': get('kananaskis', 'America/Edmonton').avidKananaskis('Kananaskis Country'),
+    'bighorn': get('bighorn', 'America/Edmonton').avid('Bighorn - Draft'),
     // .prismic()
     // .avalx(20)
 };
@@ -111,6 +113,10 @@ var PARKS = {
     'jasper': get('jasper', 'America/Edmonton').parks(2),
     'waterton': get('waterton', 'America/Edmonton').parks(4, 1, addMovingIcons),
 };
+
+var QUEBEC = {
+    'chic-chocs': get('chic-chocs', 'America/Toronto').avidQuebec('Chic Chocs')
+}
 
 var LINKS = {
     'vancouver-island' : { metadata: reg_properties['vancouver-island'] },
@@ -166,6 +172,28 @@ function get(region, timezone) {
                         .then(createIconSet(timezone))
             })
         },
+        avidKananaskis: function(name, createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
+            return createConfig(function() {
+                return fetch.fetchAvidKananaskis()
+                        .then(fetch.filterAvidByLocation(avid_mappings.byName[region]))
+                        .then(avid.parseAvid(region, name))
+                        .then(addOwner('avalanche-canada'))
+                        .then(createIconSet(timezone))
+            })
+        },
+        avidQuebec: function(name, createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
+            return createConfig(function() {
+                return fetch.fetchAvidQuebec()
+                        .then(fetch.filterAvidByLocation(avid_mappings.byName[region]))
+                        .then(avid.parseAvid(region, name))
+                        .then(addOwner('avalanche-quebec'))
+                        .then(createIconSet(timezone))
+            })
+        },
         avalx: function(avalxRegionId, offset, createIconSet) {
             offset = typeof offset === 'number' ? offset : 1
             createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
@@ -194,5 +222,5 @@ function get(region, timezone) {
 }
 
 module.exports = {
-    cached_regions: Object.assign({}, AVCAN, KCOUNTRY, PARKS),
+    cached_regions: Object.assign({}, AVCAN, KCOUNTRY, PARKS, QUEBEC),
 }

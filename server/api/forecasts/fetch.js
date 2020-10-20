@@ -21,8 +21,20 @@ function fetchParks(region_id) {
 function fetchAvid() {
     //var url = "http://localhost:9000/v1/public/en/products"
     // var url = 'http://localhost:9000/v1/public/en/products?date=2019-11-01T00:00:00-08:00'
-    var url = "https://avid-api.avalanche.ca/v1/public/en/products"
-    // var url = "http://avid-beta-api.avalanche.ca/v1/public/en/products"
+    // var url = "https://avid-api.avalanche.ca/v1/public/en/products"
+    var url = "http://avid-beta-api.avalanche.ca/v1/public/en/products"
+
+    return doFetch(url);
+}
+
+function fetchAvidKananaskis() {
+    var url = "https://avid-beta-api.avalanche.ca/v1/public/en/products"
+
+    return doFetch(url);
+}
+
+function fetchAvidQuebec() {
+    var url = "https://avid-beta-api.avalanche.ca/v1/public/en/products"
 
     return doFetch(url);
 }
@@ -97,5 +109,7 @@ module.exports = {
     fetchParks:fetchParks,
     doFetch:doFetch,
     fetchAvid:fetchAvid,
+    fetchAvidKananaskis:fetchAvidKananaskis,
+    fetchAvidQuebec:fetchAvidQuebec,
     filterAvidByLocation:filterAvidByLocation,
 }

@@ -8,10 +8,10 @@ const externals = new Map([
     [VANCOUVER_ISLAND, '//www.islandavalanchebulletin.com/'],
     ['jasper', createParkURL(2)],
     ['waterton', createParkURL(4)],
-    [
-        CHIC_CHOCS,
-        '//avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche',
-    ],
+    // [
+    //     CHIC_CHOCS,
+    //     '//avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche',
+    // ],
     ['glacier', createParkURL(3)],
 ])
 
