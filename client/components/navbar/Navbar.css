@@ -60,14 +60,14 @@
     }
 
     &:global(#foundation) {
-        background-color: var(--brand-primary);
+        background-color: var(--brand-secondary);
 
         & > a {
             color: white;
         }
 
         &:hover {
-            background-color: color-mod(var(--brand-primary) blackness(15%));
+            background-color: color-mod(var(--brand-secondary) blackness(15%));
         }
     }
 }
