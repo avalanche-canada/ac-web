@@ -168,6 +168,11 @@ const OnlineEducation = {
             label: 'Videos',
             to: 'https://vimeo.com/avalanchecanada',
         },
+        {
+            id: id++,
+            label: 'Recorded Webinars',
+            to: '/education/recorded-webinars',
+        },
     ],
 }
 
