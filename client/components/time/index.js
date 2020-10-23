@@ -1,35 +1,50 @@
 import React from 'react'
-import startOfDay from 'date-fns/start_of_day'
+import { FormattedDate, FormattedTime } from 'react-intl'
 import parse from 'date-fns/parse'
-import { DATE, DATETIME, TIME } from 'utils/date'
-import Base from './Time'
+import { DATE, DATETIME, isStartOfDay } from 'utils/date'
 
 export Relative from './Relative'
 export Range from './Range'
 
-export function Time(props) {
-    return <Base format={TIME} {...props} />
+export function Time({ value }) {
+    return <FormattedTime value={value} />
 }
 
-export function DateTime(props) {
-    return <Base format={dateTimeFormatGetter} {...props} />
+export function DateTime({ value, skipTimeIfStartOfDay = false }) {
+    const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+    }
+
+    if (skipTimeIfStartOfDay && isStartOfDay(parse(value))) {
+        Object.assign(options, {
+            hour: 'numeric',
+            minute: 'numeric',
+        })
+    }
+
+    return <FormattedDate value={value} {...options} />
 }
 
-export function Day(props) {
-    return <Base format="dddd" {...props} />
+export function Day({ value }) {
+    return <FormattedDate value={value} year="numeric" />
 }
 
-export function DateElement(props) {
-    return <Base format={DATE} {...props} />
+export function DateElement({ value }) {
+    return (
+        <FormattedDate
+            value={value}
+            weekday="long"
+            year="numeric"
+            month="long"
+            day="numeric"
+        />
+    )
 }
 
 // Utils
 export function dateTimeFormatGetter(date) {
-    date = parse(date)
-
-    if (startOfDay(date).getTime() === date.getTime()) {
-        return DATE
-    }
-
-    return DATETIME
+    return isStartOfDay(parse(date)) ? DATE : DATETIME
 }

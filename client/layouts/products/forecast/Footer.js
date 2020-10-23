@@ -1,5 +1,6 @@
 import React, { Fragment, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
+import { useIntl } from 'react-intl'
 import { useForecast } from './Context'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
@@ -17,16 +18,26 @@ export default function Footer() {
 }
 
 export function ArchivedBulletins(props) {
+    const intl = useIntl()
+    const header = intl.formatMessage({
+        defaultMessage: 'Archived bulletins',
+    })
+
     return (
-        <Panel header="Archived bulletins">
+        <Panel header={header}>
             <ArchiveDatePicker region={props.region} />
         </Panel>
     )
 }
 
 export function Inbox() {
+    const intl = useIntl()
+    const header = intl.formatMessage({
+        defaultMessage: 'Avalanche Forecasts in your Inbox',
+    })
+
     return (
-        <Panel header="Avalanche Forecasts in your Inbox">
+        <Panel header={header}>
             <Shim horizontal>
                 <Generic uid="forecast-rss-message" />
             </Shim>
@@ -35,8 +46,13 @@ export function Inbox() {
 }
 
 export function Disclaimer() {
+    const intl = useIntl()
+    const header = intl.formatMessage({
+        defaultMessage: 'Forecast Disclaimer',
+    })
+
     return (
-        <Panel header="Forecast Disclaimer">
+        <Panel header={header}>
             <Shim horizontal>
                 <Generic uid="forecast-disclaimer" />
             </Shim>
@@ -45,8 +61,13 @@ export function Disclaimer() {
 }
 
 export function DangerRatings() {
+    const intl = useIntl()
+    const header = intl.formatMessage({
+        defaultMessage: 'Danger Ratings Explained',
+    })
+
     return (
-        <Panel header="Danger Ratings Explained">
+        <Panel header={header}>
             <RatingExplanation />
         </Panel>
     )

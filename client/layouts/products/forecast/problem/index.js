@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { InnerHTML } from 'components/misc'
 import { useClientRect } from 'hooks'
 import styles from './Problem.css'
@@ -11,7 +12,11 @@ ProblemSet.propTypes = {
 
 export default function ProblemSet({ problems }) {
     if (problems.length === 0) {
-        return <h3>No problems identified.</h3>
+        return (
+            <h3>
+                <FormattedMessage defaultMessage="No problems identified." />
+            </h3>
+        )
     }
 
     return problems.map(renderProblem)
@@ -46,7 +51,9 @@ Advice.propTypes = {
 function Advice({ children }) {
     return (
         <div className={styles.Advice}>
-            <h3 className={styles.SubHeader}>Travel and Terrain Advice</h3>
+            <h3 className={styles.SubHeader}>
+                <FormattedMessage defaultMessage="Travel and Terrain Advice" />
+            </h3>
             <InnerHTML>{children}</InnerHTML>
         </div>
     )
@@ -81,14 +88,42 @@ function Figure({ title, src }) {
 // Tried a soluton in CSS only, and it is not complete.
 // I do not want to test for <p></p> and make the border disappear.
 function renderProblem(problem, index) {
+    const intl = useIntl()
     const { type, icons, comment, travelAndTerrainAdvice } = problem
+    const title = intl.formatMessage({
+        defaultMessage: 'Avalanche Problem {counter}: {title}',
+        values: {
+            count: index + 1,
+            title: type,
+        },
+    })
 
     return (
-        <Problem key={index} title={`Avalanche Problem ${index + 1}: ${type}`}>
-            <Figure title="What Elevation?" src={icons.elevations} />
-            <Figure title="Which Slopes?" src={icons.aspects} />
-            <Figure title="Chances of Avalanches?" src={icons.likelihood} />
-            <Figure title="Expected Size?" src={icons.expectedSize} />
+        <Problem key={index} title={title}>
+            <Figure
+                title={intl.formatMessage({
+                    defaultMessage: 'What Elevation?',
+                })}
+                src={icons.elevations}
+            />
+            <Figure
+                title={intl.formatMessage({
+                    defaultMessage: 'Which Slopes?',
+                })}
+                src={icons.aspects}
+            />
+            <Figure
+                title={intl.formatMessage({
+                    defaultMessage: 'Chances of Avalanches?',
+                })}
+                src={icons.likelihood}
+            />
+            <Figure
+                title={intl.formatMessage({
+                    defaultMessage: 'Expected Size?',
+                })}
+                src={icons.expectedSize}
+            />
             <Comment>{comment}</Comment>
             {travelAndTerrainAdvice && (
                 <Advice>{travelAndTerrainAdvice}</Advice>

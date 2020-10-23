@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import Summary from '../Summary'
 
 Confidence.propTypes = {
@@ -14,7 +15,9 @@ export default function Confidence({ level, children }) {
 
     const title = (
         <dl>
-            <dt>Confidence</dt>
+            <dt>
+                <FormattedMessage defaultMessage="Confidence" />
+            </dt>
             <dd>{level}</dd>
         </dl>
     )
