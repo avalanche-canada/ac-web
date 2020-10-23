@@ -1,6 +1,7 @@
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from '@reach/router'
+import { RawIntlProvider as IntlProvider } from 'react-intl'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import Dialog, { Footer, Body } from 'components/dialog'
@@ -14,24 +15,25 @@ import { useBoolean } from 'hooks'
 
 import 'styles'
 
-export default function application() {
+export default function application(intl) {
     ReactDOM.render(
-        <ErrorBoundary fallback={<Fallback navbar={<Navbar />} />}>
-            <LocationProvider>
-                <StrictMode>
-                    <Analytics>
-                        <ScrollTo>
-                            <NotProductionWarning></NotProductionWarning>
-
-                            <Router primary={false}>
-                                <AvalancheCanada path="/*" />
-                                <AvalancheCanadaFoundation path="foundation/*" />
-                            </Router>
-                        </ScrollTo>
-                    </Analytics>
-                </StrictMode>
-            </LocationProvider>
-        </ErrorBoundary>,
+        <IntlProvider value={intl}>
+            <ErrorBoundary fallback={<Fallback navbar={<Navbar />} />}>
+                <LocationProvider>
+                    <StrictMode>
+                        <Analytics>
+                            <ScrollTo>
+                                <NotProductionWarning />
+                                <Router primary={false}>
+                                    <AvalancheCanada path="/*" />
+                                    <AvalancheCanadaFoundation path="foundation/*" />
+                                </Router>
+                            </ScrollTo>
+                        </Analytics>
+                    </StrictMode>
+                </LocationProvider>
+            </ErrorBoundary>
+        </IntlProvider>,
         document.getElementById('app')
     )
 }
