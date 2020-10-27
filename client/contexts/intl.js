@@ -2,11 +2,12 @@ import React, { createContext, useState, useEffect, useMemo } from 'react'
 import { IntlProvider } from 'react-intl'
 import { useLocalStorage } from 'hooks'
 import { loadMessages } from 'services/intl'
+import LOCALE from 'constants/locale'
 
 const LocaleContext = createContext()
 
 export function Provider({ children }) {
-    const defaultLocale = navigator.language || DEFAULT_LOCALE
+    const defaultLocale = navigator.language || LOCALE
     const [locale, set] = useLocalStorage('locale', defaultLocale)
     const context = useMemo(() => ({ locale, set }), [locale])
     const [messages, setMessages] = useState(null)
@@ -22,12 +23,10 @@ export function Provider({ children }) {
                     key={locale}
                     locale={locale}
                     messages={messages}
-                    defaultLocale={DEFAULT_LOCALE}>
+                    defaultLocale={LOCALE}>
                     {children}
                 </IntlProvider>
             )}
         </LocaleContext.Provider>
     )
 }
-
-const DEFAULT_LOCALE = 'en-CA'
