@@ -16,8 +16,10 @@ export function useLocale() {
     return useContext(LocaleContext)
 }
 
-export function Provider({ children }) {
-    const defaultLocale = navigator.language || LOCALE
+export function Provider({
+    children,
+    defaultLocale = navigator.language || LOCALE,
+}) {
     const [locale, set] = useLocalStorage('locale', defaultLocale)
     const context = useMemo(() => ({ locale, set }), [locale])
     const [messages, setMessages] = useState(null)
