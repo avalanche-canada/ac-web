@@ -1,6 +1,6 @@
 import React from 'react'
-import { FormattedDate, FormattedTime } from 'react-intl'
 import parse from 'date-fns/parse'
+import { FormattedDate, FormattedTime } from 'react-intl'
 import { DATE, DATETIME, isStartOfDay } from 'utils/date'
 
 export Relative from './Relative'

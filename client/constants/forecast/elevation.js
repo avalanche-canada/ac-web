@@ -1,3 +1,6 @@
+import { useMemo } from 'react'
+import { useIntl } from 'react-intl'
+
 export const ALP = 'ALP'
 export const TLN = 'TLN'
 export const BTL = 'BTL'
@@ -10,8 +13,40 @@ export const Palette = new Map([
     [BTL, '#6EA469'],
 ])
 
-export const Texts = new Map([
-    [ALP, 'Alpine'],
-    [TLN, 'Treeline'],
-    [BTL, 'Below treeline'],
-])
+export function useText(elevation) {
+    const texts = useTexts()
+
+    return texts.get(elevation)
+}
+
+export function useTexts() {
+    const intl = useIntl()
+
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    ALP,
+                    intl.formatMessage({
+                        description: 'Elevation text',
+                        defaultMessage: 'Alpine',
+                    }),
+                ],
+                [
+                    TLN,
+                    intl.formatMessage({
+                        description: 'Elevation text',
+                        defaultMessage: 'Treeline',
+                    }),
+                ],
+                [
+                    BTL,
+                    intl.formatMessage({
+                        description: 'Elevation text',
+                        defaultMessage: 'Below treeline',
+                    }),
+                ],
+            ]),
+        []
+    )
+}

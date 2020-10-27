@@ -5,12 +5,12 @@ import {
     ALP,
     TLN,
     BTL,
-    Texts as ElevationTexts,
+    useText as useElevationText,
     Palette as ElevationPalette,
 } from 'constants/forecast/elevation'
 import Ratings, {
     EXTREME,
-    Texts as RatingTexts,
+    useText as useRatingText,
     Palette as RatingPalette,
 } from 'constants/forecast/rating'
 import { WHITE, BLACK } from 'constants/forecast/palette'
@@ -53,6 +53,8 @@ export default function Day({ date, mountain, ...ratings }) {
 
 // Utils
 function Row({ rating, elevation }) {
+    const ratingText = useRatingText(rating)
+    const elevationText = useElevationText(elevation)
     const elevationStyle = {
         backgroundColor: ElevationPalette.get(elevation),
     }
@@ -64,10 +66,10 @@ function Row({ rating, elevation }) {
     return (
         <div className={styles.Row}>
             <div style={elevationStyle} className={styles.Elevation}>
-                {ElevationTexts.get(elevation)}
+                {elevationText}
             </div>
             <div style={ratingStyle} className={styles.Rating}>
-                {RatingTexts.get(rating)}
+                {ratingText}
             </div>
         </div>
     )

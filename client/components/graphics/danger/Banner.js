@@ -8,10 +8,10 @@ import RATINGS, {
     CONSIDERABLE,
     HIGH,
     EXTREME,
-    Texts as RatingTexts,
-    TravelAdvices,
-    LikehoodOfAvalanche,
-    SizeAndDistribution,
+    useTexts,
+    useTravelAdvices,
+    useLikehoodOfAvalanche,
+    useSizeAndDistribution,
 } from 'constants/forecast/rating'
 import { BannerFill, BannerStroke, TextFill } from './colors'
 import * as Icons from './Icons'
@@ -22,6 +22,7 @@ RatingText.propTypes = {
 }
 
 function RatingText({ rating, showTravelAdvice = false }) {
+    const texts = useTexts()
     const hasTravelAdvice = showTravelAdvice && rating !== NO_RATING
     const fontSize = hasTravelAdvice ? 12 : null
     const fill = TextFill.get(rating)
@@ -29,7 +30,7 @@ function RatingText({ rating, showTravelAdvice = false }) {
 
     return (
         <text x={70} y={y} fill={fill} fontSize={fontSize}>
-            {RatingTexts.get(rating)}
+            {texts.get(rating)}
         </text>
     )
 }
@@ -48,6 +49,10 @@ ExtraInformation.propTypes = {
 }
 
 function ExtraInformation({ rating, expanded = false }) {
+    const travelAdvices = useTravelAdvices()
+    const likehoodOfAvalanche = useLikehoodOfAvalanche()
+    const sizeAndDistribution = useSizeAndDistribution()
+
     if (rating === NO_RATING) {
         return null
     }
@@ -56,9 +61,9 @@ function ExtraInformation({ rating, expanded = false }) {
 
     return (
         <text x={70} y={24} fontSize={7} fill={fill}>
-            {toLines(TravelAdvices.get(rating))}
-            {expanded && toLines(LikehoodOfAvalanche.get(rating), 12)}
-            {expanded && toLines(SizeAndDistribution.get(rating), 12)}
+            {toLines(travelAdvices.get(rating))}
+            {expanded && toLines(likehoodOfAvalanche.get(rating), 12)}
+            {expanded && toLines(sizeAndDistribution.get(rating), 12)}
         </text>
     )
 }
