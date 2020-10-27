@@ -1,7 +1,7 @@
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from '@reach/router'
-import { RawIntlProvider as IntlProvider } from 'react-intl'
+import { Provider as IntlProvider } from 'contexts/intl'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import Dialog, { Footer, Body } from 'components/dialog'
@@ -15,9 +15,9 @@ import { useBoolean } from 'hooks'
 
 import 'styles'
 
-export default function application(intl) {
+export default function application() {
     ReactDOM.render(
-        <IntlProvider value={intl}>
+        <IntlProvider>
             <ErrorBoundary fallback={<Fallback navbar={<Navbar />} />}>
                 <LocationProvider>
                     <StrictMode>
