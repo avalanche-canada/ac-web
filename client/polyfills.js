@@ -1,5 +1,6 @@
 // Should be loaded using script, but scripts load async and Promise.all is used in dynamic imports by webpack.
 import 'core-js/features/promise'
+import { shouldPolyfill } from '@formatjs/intl-displaynames/should-polyfill'
 
 export default async function polyfills(self) {
     try {
@@ -33,6 +34,15 @@ export default async function polyfills(self) {
 
         if (typeof self.HTMLDetailsElement === 'undefined') {
             await import('details-element-polyfill')
+        }
+
+        if (shouldPolyfill()) {
+            await import('@formatjs/intl-displaynames/polyfill')
+
+            if (Intl.DisplayNames.polyfilled) {
+                await import('@formatjs/intl-displaynames/locale-data/en')
+                await import('@formatjs/intl-displaynames/locale-data/fr')
+            }
         }
     } catch (error) {
         if (error.name === 'ChunkLoadError') {

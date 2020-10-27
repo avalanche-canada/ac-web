@@ -1,9 +1,13 @@
 import React from 'react'
+import { FormattedDisplayName, FormattedMessage } from 'react-intl'
 import { Link } from '@reach/router'
-import { FormattedMessage } from 'react-intl'
+import { useLocale } from 'contexts/intl'
+import { LOCALES } from 'constants/locale'
+import Button, { ButtonSet } from 'components/button'
 import styles from './Footer.css'
 
 export default function Footer() {
+    const { locale, set } = useLocale()
     const year = new Date().getFullYear()
 
     return (
@@ -15,7 +19,6 @@ export default function Footer() {
                             defaultMessage="Contact"
                             description="Footer"
                         />
-                        Contact
                     </Link>
                     <Link className={styles.Link} to="/privacy-policy">
                         <FormattedMessage
@@ -30,6 +33,19 @@ export default function Footer() {
                         />
                     </Link>
                 </nav>
+                <ButtonSet>
+                    {Array.from(LOCALES).map(LOCALE => (
+                        <Button
+                            key={LOCALE}
+                            disabled={LOCALE === locale}
+                            onClick={() => set(LOCALE)}>
+                            <FormattedDisplayName
+                                type="language"
+                                value={LOCALE.substr(0, 2)}
+                            />
+                        </Button>
+                    ))}
+                </ButtonSet>
                 <span className={styles.Rights}>
                     <FormattedMessage
                         defaultMessage="©{year} Avalanche Canada, All Rights Reserved"

@@ -92,6 +92,7 @@
         "@babel/runtime": "^7.5.4",
         "@babel/runtime-corejs3": "^7.5.4",
         "@formatjs/cli": "^2.13.2",
+        "@formatjs/intl-displaynames": "^3.4.1",
         "@reach/router": "^1.2.1",
         "@storybook/addon-actions": "^5.1.9",
         "@storybook/addon-links": "^5.1.9",

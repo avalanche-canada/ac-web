@@ -1,10 +1,20 @@
-import React, { createContext, useState, useEffect, useMemo } from 'react'
+import React, {
+    createContext,
+    useState,
+    useEffect,
+    useMemo,
+    useContext,
+} from 'react'
 import { IntlProvider } from 'react-intl'
 import { useLocalStorage } from 'hooks'
 import { loadMessages } from 'services/intl'
 import LOCALE from 'constants/locale'
 
 const LocaleContext = createContext()
+
+export function useLocale() {
+    return useContext(LocaleContext)
+}
 
 export function Provider({ children }) {
     const defaultLocale = navigator.language || LOCALE
