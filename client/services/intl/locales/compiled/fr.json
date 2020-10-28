@@ -2,7 +2,43 @@
   "/3jGaX": [
     {
       "type": 0,
-      "value": "Prévisions d’avalanche dans notre boîte de courriel"
+      "value": "Prévisions d’avalanche dans votre boîte de courriel"
+    }
+  ],
+  "/Pksc9": [
+    {
+      "type": 0,
+      "value": "Envoyer un courriel à la section de la sécurité publique du pays de Kananaskis"
+    }
+  ],
+  "1D6FM6": [
+    {
+      "type": 0,
+      "value": "Natural and human-triggered avalanches unlikely."
+    }
+  ],
+  "1WXUMT": [
+    {
+      "type": 0,
+      "value": "Évitez tous les terrains avalancheux"
+    }
+  ],
+  "1kY+r/": [
+    {
+      "type": 0,
+      "value": "Conditions d’utilisation"
+    }
+  ],
+  "3M/Kkc": [
+    {
+      "type": 0,
+      "value": "Prévisions météorologiques"
+    }
+  ],
+  "49cz1r": [
+    {
+      "type": 0,
+      "value": "3 - Considérable"
     }
   ],
   "4X9D7R": [
@@ -11,10 +47,28 @@
       "value": "Aucun problème identifié."
     }
   ],
+  "4rTaR5": [
+    {
+      "type": 0,
+      "value": "4 - Élevé"
+    }
+  ],
+  "5FUoif": [
+    {
+      "type": 0,
+      "value": "Politique de confidentialité"
+    }
+  ],
   "5vzyAa": [
     {
       "type": 0,
       "value": "Détails"
+    }
+  ],
+  "7offaS": [
+    {
+      "type": 0,
+      "value": "Limite des arbres"
     }
   ],
   "8kFo5V": [
@@ -23,10 +77,34 @@
       "value": "Valide jusqu'à"
     }
   ],
+  "8wv5uw": [
+    {
+      "type": 0,
+      "value": "Small avalanches in many areas; or large avalanches in specific areas; or very large avalanches in isolated areas."
+    }
+  ],
   "9EpKuG": [
     {
       "type": 0,
       "value": "Indices de danger"
+    }
+  ],
+  "AOlBrj": [
+    {
+      "type": 0,
+      "value": "Large to very large avalanches in many areas."
+    }
+  ],
+  "BJ77yt": [
+    {
+      "type": 0,
+      "value": "Probabilité d’avalanches?"
+    }
+  ],
+  "DxUvN0": [
+    {
+      "type": 0,
+      "value": "0 - Aucun indice"
     }
   ],
   "EA22jQ": [
@@ -35,10 +113,98 @@
       "value": "Préparé par"
     }
   ],
+  "EYGWzB": [
+    {
+      "type": 0,
+      "value": "Archive des prévisions"
+    }
+  ],
+  "Ee5E3w": [
+    {
+      "type": 0,
+      "value": "Natural avalanches likely; human-triggered avalanches very likely."
+    }
+  ],
+  "EoQTj0": [
+    {
+      "type": 0,
+      "value": "Confiance"
+    }
+  ],
+  "Ew50FU": [
+    {
+      "type": 0,
+      "value": "Quel élévation?"
+    }
+  ],
+  "GUfQm1": [
+    {
+      "type": 0,
+      "value": "Archive des prévisions"
+    }
+  ],
+  "HBELLZ": [
+    {
+      "type": 0,
+      "value": "Very dangerous avalanche conditions. Travel in avalanche terrain not recommended."
+    }
+  ],
+  "HGGdGz": [
+    {
+      "type": 0,
+      "value": "Partagez cette page sur "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
   "J8jnsU": [
     {
       "type": 0,
       "value": "Émi le"
+    }
+  ],
+  "JQsrhq": [
+    {
+      "type": 0,
+      "value": "Alpin"
+    }
+  ],
+  "KF5ERp": [
+    {
+      "type": 0,
+      "value": "Conseil de terrain et de navigation"
+    }
+  ],
+  "KotpK6": [
+    {
+      "type": 0,
+      "value": "Prévisions archivées"
+    }
+  ],
+  "L3tjFh": [
+    {
+      "type": 0,
+      "value": "Generally safe avalanche conditions. Watch for unstable snow on isolated terrain features."
+    }
+  ],
+  "M/Tq3r": [
+    {
+      "type": 0,
+      "value": "Conditions printanières"
+    }
+  ],
+  "N3I9BQ": [
+    {
+      "type": 0,
+      "value": "Abonnez-vous à notre flux RSS"
+    }
+  ],
+  "Oce/Vs": [
+    {
+      "type": 0,
+      "value": "Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern."
     }
   ],
   "Oiag/N": [
@@ -47,10 +213,176 @@
       "value": "Contact"
     }
   ],
+  "PabL84": [
+    {
+      "type": 0,
+      "value": "for backcountry rescues and tell them you are in Kananaskis Country"
+    }
+  ],
+  "Q2/+Ze": [
+    {
+      "type": 0,
+      "value": "Sommaire manteau neigeux"
+    }
+  ],
+  "QeZYWz": [
+    {
+      "type": 0,
+      "value": "is the dispatch office non-emergency line"
+    }
+  ],
+  "RI1ANN": [
+    {
+      "type": 0,
+      "value": "2 - Modéré"
+    }
+  ],
   "S+GDxJ": [
     {
       "type": 0,
       "value": "Vos prévisions météorologiques en montagne quotidiennes"
+    }
+  ],
+  "V7pNoh": [
+    {
+      "type": 0,
+      "value": "Natural avalanches unlikely; human-triggered avalanches possible."
+    }
+  ],
+  "W8F0HN": [
+    {
+      "type": 0,
+      "value": "Envoyer un courriel à la section de la sécurité publique du pays de Kananaskis"
+    }
+  ],
+  "WeGi2C": [
+    {
+      "type": 0,
+      "value": "Sommaire des avalanches"
+    }
+  ],
+  "WePE/Y": [
+    {
+      "type": 0,
+      "value": "Large avalanches in many areas; or very large avalanches in specific areas."
+    }
+  ],
+  "X6pshk": [
+    {
+      "type": 0,
+      "value": "Quelles pentes?"
+    }
+  ],
+  "XVMUAR": [
+    {
+      "type": 0,
+      "value": "1 - Faible"
+    }
+  ],
+  "Xzbf14": [
+    {
+      "type": 0,
+      "value": "Partagez cette page"
+    }
+  ],
+  "a2JuFd": [
+    {
+      "type": 0,
+      "value": "Conditions de début de saison"
+    }
+  ],
+  "ei59iy": [
+    {
+      "type": 0,
+      "value": "Hors saison"
+    }
+  ],
+  "iUn2hD": [
+    {
+      "type": 0,
+      "value": "Visitez sur "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "iWgEgL": [
+    {
+      "type": 1,
+      "value": "label"
+    },
+    {
+      "type": 0,
+      "value": " sur "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "iXC6aX": [
+    {
+      "type": 0,
+      "value": "Version imprimable"
+    }
+  ],
+  "jOywnT": [
+    {
+      "type": 0,
+      "value": "Contactez-nous"
+    }
+  ],
+  "kO2GwF": [
+    {
+      "type": 0,
+      "value": "Natural avalanches possible; human-triggered avalanches likely."
+    }
+  ],
+  "l1XTI5": [
+    {
+      "type": 0,
+      "value": "Suivez-nous"
+    }
+  ],
+  "mjDIYS": [
+    {
+      "type": 0,
+      "value": "est le numéro de téléphone du bureau de la Sécurité publique (sur semaine)"
+    }
+  ],
+  "n0GuWA": [
+    {
+      "type": 0,
+      "value": "Sous la ligne des arbres"
+    }
+  ],
+  "nDlutf": [
+    {
+      "type": 0,
+      "value": "Votre \"Mountain Weather Forecast\" journalier"
+    }
+  ],
+  "nF4SkN": [
+    {
+      "type": 0,
+      "value": "Natural and human-triggered avalanches certain."
+    }
+  ],
+  "nHnEJS": [
+    {
+      "type": 0,
+      "value": "Exonération de responsabilité"
+    }
+  ],
+  "nILfLj": [
+    {
+      "type": 0,
+      "value": "Small avalanches in specific areas; or large avalanches in isolated areas."
     }
   ],
   "nRbl1m": [
@@ -59,10 +391,52 @@
       "value": "Visitez notre blogue"
     }
   ],
+  "owr/bM": [
+    {
+      "type": 0,
+      "value": "Imprimez ces prévisions d'avalanches"
+    }
+  ],
+  "pO8HLn": [
+    {
+      "type": 0,
+      "value": "Problème d'avalanche "
+    },
+    {
+      "type": 1,
+      "value": "counter"
+    },
+    {
+      "type": 0,
+      "value": ": "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
+  "qMA7U8": [
+    {
+      "type": 0,
+      "value": "Contact"
+    }
+  ],
+  "qOhJmk": [
+    {
+      "type": 0,
+      "value": "Small avalanches in isolated areas or extreme terrain."
+    }
+  ],
   "r5IMiF": [
     {
       "type": 0,
       "value": "Problèmes"
+    }
+  ],
+  "s9Ojlo": [
+    {
+      "type": 0,
+      "value": "5 - Extrême"
     }
   ],
   "sCu44f": [
@@ -71,10 +445,60 @@
       "value": "Plus d'informations"
     }
   ],
+  "tBoaxE": [
+    {
+      "type": 0,
+      "value": "Dangerous avalanche conditions. Careful snowpack evaluation, cautious route-finding and conservative decision-making essential."
+    }
+  ],
+  "wF4e0m": [
+    {
+      "type": 0,
+      "value": "Information sur les indices de danger"
+    }
+  ],
+  "wKOpEQ": [
+    {
+      "type": 0,
+      "value": "Taille attendue?"
+    }
+  ],
   "wKQ3vV": [
     {
       "type": 0,
       "value": "Soumettre un rapport d'informations de la situation en montagne"
+    }
+  ],
+  "wR6Gt2": [
+    {
+      "type": 0,
+      "value": "Flux RSS"
+    }
+  ],
+  "wp6n1n": [
+    {
+      "type": 0,
+      "value": "Ces prévisions d’avalanche sont produitent par les prévisionnistes du programme de sécurité publique du pays de Kananaskis du gouvernement de l'Alberta."
+    }
+  ],
+  "wzEVz0": [
+    {
+      "type": 0,
+      "value": "Jusqu'à nouvel ordre"
+    }
+  ],
+  "yFzXru": [
+    {
+      "type": 0,
+      "value": "©"
+    },
+    {
+      "type": 1,
+      "value": "year"
+    },
+    {
+      "type": 0,
+      "value": " Avalanche Canada, Tous droits réservés"
     }
   ],
   "zfrygz": [
