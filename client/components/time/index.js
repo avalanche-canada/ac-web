@@ -29,7 +29,7 @@ export function DateTime({ value, skipTimeIfStartOfDay = false }) {
 }
 
 export function Day({ value }) {
-    return <FormattedDate value={value} year="numeric" />
+    return <FormattedDate value={value} weekday="long" />
 }
 
 export function DateElement({ value }) {
