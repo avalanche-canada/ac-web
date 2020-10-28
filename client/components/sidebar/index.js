@@ -58,10 +58,7 @@ Share.propTypes = {
     label: PropTypes.string,
 }
 
-export function Share({
-    label = 'Share this page',
-    url = document.location.href,
-}) {
+export function Share({ label, url = document.location.href }) {
     const intl = useIntl()
     const urls = Social.createShareUrls(url)
     function createTitle(name) {
@@ -72,6 +69,12 @@ export function Share({
             },
         })
     }
+
+    label =
+        label ||
+        intl.formatMessage({
+            defaultMessage: 'Share this page',
+        })
 
     return (
         <SocialItem label={label}>
