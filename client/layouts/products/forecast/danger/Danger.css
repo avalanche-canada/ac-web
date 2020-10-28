@@ -14,6 +14,7 @@
 
 .Title {
     composes: import SectionHeader from '../Forecast.css';
+    text-transform: capitalize;
 }
 
 .Row {
