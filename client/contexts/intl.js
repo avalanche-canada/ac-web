@@ -16,6 +16,12 @@ export function useLocale() {
     return useContext(LocaleContext)
 }
 
+export function useLocaleCode(short = false) {
+    const { locale } = useLocale()
+
+    return short ? locale.substr(0, 2) : locale
+}
+
 export function Provider({
     children,
     defaultLocale = navigator.language || LOCALE,
