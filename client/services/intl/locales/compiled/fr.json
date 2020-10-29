@@ -35,6 +35,12 @@
       "value": "Prévisions météorologiques"
     }
   ],
+  "41g4WQ": [
+    {
+      "type": 0,
+      "value": "Sélectionnez une région"
+    }
+  ],
   "49cz1r": [
     {
       "type": 0,
@@ -59,6 +65,20 @@
       "value": "Politique de confidentialité"
     }
   ],
+  "5mM3fv": [
+    {
+      "type": 0,
+      "value": "Les prévisions d'avalanche archivés pour la région "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " sont disponibles sur le site de Parcs Canada - Information sur les avalanches"
+    }
+  ],
   "5vzyAa": [
     {
       "type": 0,
@@ -69,6 +89,12 @@
     {
       "type": 0,
       "value": "Limite des arbres"
+    }
+  ],
+  "7qOQpv": [
+    {
+      "type": 0,
+      "value": "Sélectionnez une date"
     }
   ],
   "8kFo5V": [
@@ -99,6 +125,12 @@
     {
       "type": 0,
       "value": "Probabilité d’avalanches?"
+    }
+  ],
+  "CsgxJT": [
+    {
+      "type": 0,
+      "value": "Ceux-ci sont des prévisions d’avalanche archivées."
     }
   ],
   "DxUvN0": [
@@ -143,6 +175,16 @@
       "value": "Archive des prévisions"
     }
   ],
+  "Gacp29": [
+    {
+      "type": 0,
+      "value": "Consulter les prévisions d’avalanches du "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    }
+  ],
   "HBELLZ": [
     {
       "type": 0,
@@ -177,6 +219,12 @@
       "value": "Conseil de terrain et de navigation"
     }
   ],
+  "Kn1qrS": [
+    {
+      "type": 0,
+      "value": "Sélectionnez une date."
+    }
+  ],
   "KotpK6": [
     {
       "type": 0,
@@ -205,6 +253,12 @@
     {
       "type": 0,
       "value": "Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern."
+    }
+  ],
+  "OherfE": [
+    {
+      "type": 0,
+      "value": "Archive des prévisions"
     }
   ],
   "Oiag/N": [
@@ -291,10 +345,36 @@
       "value": "Conditions de début de saison"
     }
   ],
+  "b+O7HY": [
+    {
+      "type": 0,
+      "value": "Vous pouvez obtenir davantage d’informations de la région "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " sur leur site Web."
+    }
+  ],
   "ei59iy": [
     {
       "type": 0,
       "value": "Hors saison"
+    }
+  ],
+  "gjBiyj": [
+    {
+      "type": 0,
+      "value": "Chargement..."
+    }
+  ],
+  "hG4qnf": [
+    {
+      "type": 0,
+      "value": "Sélectionnez une région."
     }
   ],
   "iUn2hD": [
