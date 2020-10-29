@@ -5,6 +5,7 @@ import { ALP, TLN, BTL } from 'constants/forecast/elevation'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
 import * as Ratings from 'constants/forecast/rating'
+import { FormattedMessage } from 'react-intl'
 
 PositionText.propTypes = {
     children: PropTypes.string.isRequired,
@@ -170,13 +171,13 @@ export default function Card({
                 d="M343.7 351l-46.1-25.5-37.3-4.4 15.1-23.2c1.8-.1 3.2-.3 3.4-.3.5 0 10.6-1.8 23 3.1s14.8 6.3 20.8 9.7c4.5 2.5 9.7 5.1 15.5 5.9l5.6 34.7z"
             />
             <PositionText x={302} y={265}>
-                Alpine
+                <FormattedMessage defaultMessage="Alpine" />
             </PositionText>
             <PositionText x={291} y={293}>
-                Treeline
+                <FormattedMessage defaultMessage="Treeline" />
             </PositionText>
             <PositionText x={269} y={320}>
-                Below treeline
+                <FormattedMessage defaultMessage="Below treeline" />
             </PositionText>
             <BannerSet
                 showTravelAdvice={showTravelAdvice}
