@@ -133,6 +133,12 @@
       "value": "Ceux-ci sont des prévisions d’avalanche archivées."
     }
   ],
+  "DdTMYY": [
+    {
+      "type": 0,
+      "value": "Alpin"
+    }
+  ],
   "DxUvN0": [
     {
       "type": 0,
@@ -149,6 +155,12 @@
     {
       "type": 0,
       "value": "Archive des prévisions"
+    }
+  ],
+  "Eca5XB": [
+    {
+      "type": 0,
+      "value": "Limite des arbres"
     }
   ],
   "Ee5E3w": [
@@ -469,6 +481,12 @@
     {
       "type": 0,
       "value": "Visitez notre blogue"
+    }
+  ],
+  "oRm/jl": [
+    {
+      "type": 0,
+      "value": "Sous la ligne des arbres"
     }
   ],
   "owr/bM": [
