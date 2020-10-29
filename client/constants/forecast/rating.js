@@ -31,7 +31,7 @@ export function useTravelAdvices() {
                     intl.formatMessage({
                         description: 'Travel Advice message for HIGH',
                         defaultMessage:
-                            'Very dangerous avalanche conditions.\n Travel in avalanche terrain not recommended.',
+                            'Very dangerous avalanche conditions. Travel in avalanche terrain not recommended.',
                     }),
                 ],
                 [
@@ -39,7 +39,7 @@ export function useTravelAdvices() {
                     intl.formatMessage({
                         description: 'Travel Advice message for CONSIDERABLE',
                         defaultMessage:
-                            'Dangerous avalanche conditions. Careful snowpack evaluation,\n cautious route-finding and conservative decision-making essential.',
+                            'Dangerous avalanche conditions. Careful snowpack evaluation, cautious route-finding and conservative decision-making essential.',
                     }),
                 ],
                 [
@@ -47,7 +47,7 @@ export function useTravelAdvices() {
                     intl.formatMessage({
                         description: 'Travel Advice message for MODERATE',
                         defaultMessage:
-                            'Heightened avalanche conditions on specific terrain features.\n Evaluate snow and terrain carefully; identify features of concern.',
+                            'Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern.',
                     }),
                 ],
                 [
@@ -55,7 +55,7 @@ export function useTravelAdvices() {
                     intl.formatMessage({
                         description: 'Travel Advice message for LOW',
                         defaultMessage:
-                            'Generally safe avalanche conditions.\n Watch for unstable snow on isolated terrain features.',
+                            'Generally safe avalanche conditions. Watch for unstable snow on isolated terrain features.',
                     }),
                 ],
                 [NO_RATING, null],
@@ -84,7 +84,7 @@ export function useLikehoodOfAvalanche() {
                     intl.formatMessage({
                         description: 'Likelihood of Avalanche message for HIGH',
                         defaultMessage:
-                            'Natural avalanches likely;\n human-triggered avalanches very likely.',
+                            'Natural avalanches likely; human-triggered avalanches very likely.',
                     }),
                 ],
                 [
@@ -93,7 +93,7 @@ export function useLikehoodOfAvalanche() {
                         description:
                             'Likelihood of Avalanche message for CONSIDERABLE',
                         defaultMessage:
-                            'Natural avalanches possible;\n human-triggered avalanches likely.',
+                            'Natural avalanches possible; human-triggered avalanches likely.',
                     }),
                 ],
                 [
@@ -102,7 +102,7 @@ export function useLikehoodOfAvalanche() {
                         description:
                             'Likelihood of Avalanche message for MODERATE',
                         defaultMessage:
-                            'Natural avalanches unlikely;\n human-triggered avalanches possible.',
+                            'Natural avalanches unlikely; human-triggered avalanches possible.',
                     }),
                 ],
                 [
@@ -148,7 +148,7 @@ export function useSizeAndDistribution() {
                     intl.formatMessage({
                         description: 'Size and Distribution message for HIGH',
                         defaultMessage:
-                            'Large avalanches in many areas;\n or very large avalanches in specific areas.',
+                            'Large avalanches in many areas; or very large avalanches in specific areas.',
                     }),
                 ],
                 [
@@ -157,7 +157,7 @@ export function useSizeAndDistribution() {
                         description:
                             'Size and Distribution message for CONSIDERABLE',
                         defaultMessage:
-                            'Small avalanches in many areas;\n or large avalanches in specific areas;\n or very large avalanches in isolated areas.',
+                            'Small avalanches in many areas; or large avalanches in specific areas; or very large avalanches in isolated areas.',
                     }),
                 ],
                 [
@@ -166,7 +166,7 @@ export function useSizeAndDistribution() {
                         description:
                             'Size and Distribution message for MODERATE',
                         defaultMessage:
-                            'Small avalanches in specific areas;\n or large avalanches in isolated areas.',
+                            'Small avalanches in specific areas; or large avalanches in isolated areas.',
                     }),
                 ],
                 [
