@@ -60,7 +60,7 @@ export function useTravelAdvices() {
                 ],
                 [NO_RATING, null],
             ]),
-        []
+        [intl]
     )
 }
 
@@ -115,7 +115,7 @@ export function useLikehoodOfAvalanche() {
                 ],
                 [NO_RATING, null],
             ]),
-        []
+        [intl]
     )
 }
 
@@ -179,7 +179,7 @@ export function useSizeAndDistribution() {
                 ],
                 [NO_RATING, null],
             ]),
-        []
+        [intl]
     )
 }
 
@@ -232,7 +232,7 @@ export function useTexts() {
                     }),
                 ],
             ]),
-        []
+        [intl]
     )
 }
 

@@ -47,6 +47,6 @@ export function useTexts() {
                     }),
                 ],
             ]),
-        []
+        [intl]
     )
 }

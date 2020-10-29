@@ -41,6 +41,6 @@ export function useTexts() {
                     }),
                 ],
             ]),
-        []
+        [intl]
     )
 }
