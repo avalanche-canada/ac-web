@@ -1,7 +1,8 @@
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
 import format from 'date-fns/format'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
+import { useIntl } from 'react-intl'
 import { Expand } from 'components/button'
 import { DATE } from 'utils/date'
 import { useBoolean } from 'hooks'
@@ -26,6 +27,7 @@ export default function DayPicker({
     ...props
 }) {
     const ref = useRef(null)
+    const localeUtils = useLocaleUtils()
     const [opened, show, hide] = useBoolean(false)
 
     return (
@@ -44,6 +46,7 @@ export default function DayPicker({
                 keepFocus={keepFocus}
                 dayPickerProps={{
                     selectedDays: [date],
+                    localeUtils,
                     disabledDays: {
                         after: new Date(),
                     },
@@ -65,4 +68,54 @@ export default function DayPicker({
             />
         </div>
     )
+}
+
+export function useLocaleUtils() {
+    const intl = useIntl()
+
+    return useMemo(
+        () => ({
+            formatDay(date) {
+                return intl.formatDate(date, {
+                    // TODO Extract these values into constants so we can reuse across website
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                })
+            },
+            formatMonthTitle(date) {
+                return intl.formatDate(date, {
+                    month: 'long',
+                    year: 'numeric',
+                })
+            },
+            formatWeekdayShort(i) {
+                const date = dayAt(i)
+
+                return intl.formatDate(date, {
+                    weekday: 'short',
+                })
+            },
+            formatWeekdayLong(i) {
+                const date = dayAt(i)
+
+                return intl.formatDate(date, {
+                    weekday: 'long',
+                })
+            },
+            getFirstDayOfWeek() {
+                return 0
+            },
+        }),
+        []
+    )
+}
+
+function dayAt(i) {
+    const date = new Date()
+
+    date.setDate(date.getDate() - date.getDay() + i)
+
+    return date
 }
