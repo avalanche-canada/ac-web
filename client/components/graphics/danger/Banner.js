@@ -49,6 +49,7 @@ function ExtraInformation({ rating, expanded = false }) {
         return null
     }
 
+    const height = expanded ? '100%' : 19
     const style = {
         color: TextFill.get(rating),
         fontSize: '0.45em',
@@ -56,7 +57,7 @@ function ExtraInformation({ rating, expanded = false }) {
     }
 
     return (
-        <foreignObject x={70} y={18} width={215} height="100%">
+        <foreignObject x={70} y={18} width={215} height={height}>
             <p xmlns="http://www.w3.org/1999/xhtml" style={style}>
                 {travelAdvices.get(rating)}
             </p>
