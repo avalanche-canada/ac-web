@@ -19,16 +19,18 @@ export default function ProblemSet({ problems }) {
         )
     }
 
-    return problems.map(renderProblem)
+    return problems.map((problem, index) => (
+        <Problem key={index} {...problem} counter={index + 1} />
+    ))
 }
 
 // Utils components
-Problem.propTypes = {
+Section.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
 }
 
-function Problem({ title, children }) {
+function Section({ title, children }) {
     const [{ width }, ref] = useClientRect({ width: window.innerWidth })
     const className = classnames(styles.Container, {
         [styles.Half]: width > 300 && width < 675,
@@ -87,19 +89,20 @@ function Figure({ title, src }) {
 // TODO Remove the double bottom border when the comment is empty.
 // Tried a soluton in CSS only, and it is not complete.
 // I do not want to test for <p></p> and make the border disappear.
-function renderProblem(problem, index) {
+function Problem({ type, icons, comment, travelAndTerrainAdvice, counter }) {
     const intl = useIntl()
-    const { type, icons, comment, travelAndTerrainAdvice } = problem
-    const title = intl.formatMessage({
-        defaultMessage: 'Avalanche Problem {counter}: {title}',
-        values: {
-            count: index + 1,
-            title: type,
+    const title = intl.formatMessage(
+        {
+            defaultMessage: 'Avalanche Problem {counter}: {name}',
         },
-    })
+        {
+            name: type,
+            counter: String(counter),
+        }
+    )
 
     return (
-        <Problem key={index} title={title}>
+        <Section title={title}>
             <Figure
                 title={intl.formatMessage({
                     defaultMessage: 'What Elevation?',
@@ -128,6 +131,6 @@ function renderProblem(problem, index) {
             {travelAndTerrainAdvice && (
                 <Advice>{travelAndTerrainAdvice}</Advice>
             )}
-        </Problem>
+        </Section>
     )
 }

@@ -97,6 +97,24 @@
       "value": "Sélectionnez une date"
     }
   ],
+  "82wRfY": [
+    {
+      "type": 0,
+      "value": "Problème d’avalanche "
+    },
+    {
+      "type": 1,
+      "value": "counter"
+    },
+    {
+      "type": 0,
+      "value": ": "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
   "8kFo5V": [
     {
       "type": 0,
@@ -493,24 +511,6 @@
     {
       "type": 0,
       "value": "Imprimez ces prévisions d'avalanches"
-    }
-  ],
-  "pO8HLn": [
-    {
-      "type": 0,
-      "value": "Problème d'avalanche "
-    },
-    {
-      "type": 1,
-      "value": "counter"
-    },
-    {
-      "type": 0,
-      "value": ": "
-    },
-    {
-      "type": 1,
-      "value": "title"
     }
   ],
   "qMA7U8": [
