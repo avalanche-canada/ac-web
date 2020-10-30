@@ -22,6 +22,7 @@ export function DateTime({ value, skipTimeIfStartOfDay = false }) {
         Object.assign(options, {
             hour: 'numeric',
             minute: 'numeric',
+            hour12: false,
         })
     }
 
