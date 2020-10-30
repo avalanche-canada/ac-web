@@ -17,7 +17,6 @@ import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
 import typography from 'components/text/Text.css'
 import { Details } from 'components/error'
-import Shim from 'components/Shim'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -99,9 +98,7 @@ function ForecastContent({ payload }) {
     return (
         <components.Provider value={payload}>
             <components.Metadata />
-            <Shim top>
-                <components.LocaleWarning />
-            </Shim>
+            <components.LocaleWarning />
             <components.Headline />
             <components.TabSet onTabChange={handleForecastTabActivate} />
             <components.Footer />
