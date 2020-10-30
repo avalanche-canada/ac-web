@@ -18,7 +18,7 @@ export function DateTime({ value, skipTimeIfStartOfDay = false }) {
         day: 'numeric',
     }
 
-    if (skipTimeIfStartOfDay && isStartOfDay(parse(value))) {
+    if (!skipTimeIfStartOfDay && !isStartOfDay(parse(value))) {
         Object.assign(options, {
             hour: 'numeric',
             minute: 'numeric',
