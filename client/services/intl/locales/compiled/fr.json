@@ -157,6 +157,20 @@
       "value": "Alpin"
     }
   ],
+  "DsokKh": [
+    {
+      "type": 0,
+      "value": "Prévisions d'avalanches pour "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " sont introuvables."
+    }
+  ],
   "DxUvN0": [
     {
       "type": 0,
