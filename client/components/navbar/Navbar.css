@@ -55,10 +55,6 @@
         background-color: var(--gray-lighter);
     }
 
-    & svg > path:not([fill='none']) {
-        fill: var(--primary);
-    }
-
     &:global(#foundation) {
         background-color: var(--brand-secondary);
 
