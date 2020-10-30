@@ -6,8 +6,8 @@ import React, {
     useContext,
 } from 'react'
 import { IntlProvider } from 'react-intl'
-import { useLocalStorage } from 'hooks'
 import { loadMessages } from 'services/intl'
+import { useLocalStorage } from 'hooks'
 import LOCALE from 'constants/locale'
 
 const LocaleContext = createContext()
@@ -22,12 +22,21 @@ export function useLocaleCode(short = false) {
     return short ? locale.substr(0, 2) : locale
 }
 
-export function Provider({
-    children,
-    defaultLocale = navigator.language || LOCALE,
-}) {
-    const [locale, set] = useLocalStorage('locale', defaultLocale)
-    const context = useMemo(() => ({ locale, set }), [locale])
+export function Provider({ children, defaultLocale }) {
+    const [storedLocale, store] = useLocalStorage('locale')
+    const [locale, setLocale] = useState(
+        defaultLocale || storedLocale || navigator.language || LOCALE
+    )
+    const context = useMemo(
+        () => ({
+            locale,
+            set(locale) {
+                setLocale(locale)
+                store(locale)
+            },
+        }),
+        [locale]
+    )
     const [messages, setMessages] = useState(null)
 
     useEffect(() => {
