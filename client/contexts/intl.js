@@ -70,24 +70,12 @@ export function LocaleSwitch({ children, value = FR }) {
 export function LocaleSwitcher() {
     const { locale, set } = useLocale()
 
-    const button = {
-        marginTop: 10
-    };
-
-    return (
-        <>
-            {Array.from(LOCALES).map(LOCALE => (
-                <Button
-                    style={button}
-                    key={LOCALE}
-                    disabled={LOCALE === locale}
-                    onClick={() => set(LOCALE)}>
-                    <FormattedDisplayName
-                        type="language"
-                        value={LOCALE.substr(0, 2)}
-                    />
-                </Button>
-            ))}
-        </>
-    )
+    return Array.from(LOCALES).map(LOCALE => (
+        <Button
+            key={LOCALE}
+            disabled={LOCALE === locale}
+            onClick={() => set(LOCALE)}>
+            <FormattedDisplayName type="language" value={LOCALE.substr(0, 2)} />
+        </Button>
+    ))
 }

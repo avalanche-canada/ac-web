@@ -1,6 +1,8 @@
-import { useIntlMemo } from 'hooks/intl'
 import React from 'react'
+import { useIntlMemo } from 'hooks/intl'
 import { LocaleSwitcher } from 'contexts/intl'
+import Shim from 'components/Shim'
+import styles from './styles.css'
 
 export default function useMenu() {
     return useIntlMemo(intl => {
@@ -687,14 +689,16 @@ export default function useMenu() {
                             to: '/account',
                         },
                         {
-                            id: "language",
-                            label:
-                                <div style={{ paddingTop: 10 }} >
+                            id: 'language',
+                            label: (
+                                <Shim top>
                                     <div>Language</div>
-                                    <LocaleSwitcher noflex></LocaleSwitcher>
-                                </div >
-
-                        }
+                                    <div className={styles.LocaleSwitcher}>
+                                        <LocaleSwitcher />
+                                    </div>
+                                </Shim>
+                            ),
+                        },
                     ],
                 },
                 {
