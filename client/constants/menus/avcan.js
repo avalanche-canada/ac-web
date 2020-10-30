@@ -319,56 +319,6 @@ module.exports = {
                 Object.assign({}, AvCanTrainingCourses, { id: id++ }),
             ],
         },
-        // {
-        //     id: id++,
-        //     label: 'Snowmobilers',
-        //     to: '/sled',
-        //     children: [
-        //         {
-        //             id: id++,
-        //             label: 'Mountain Sledding',
-        //             header: true,
-        //             to: '/sled',
-        //             children: [
-        //                 {
-        //                     id: id++,
-        //                     label: 'Avalanche basics',
-        //                     to: '/sled#avalanche-basics',
-        //                 },
-        //                 {
-        //                     id: id++,
-        //                     label: 'Featured resources',
-        //                     to: '/sled#featured-resources',
-        //                 },
-        //                 {
-        //                     id: id++,
-        //                     label: 'Throttle Decisions',
-        //                     to: '/sled#throttle-decisions',
-        //                 },
-        //                 {
-        //                     id: id++,
-        //                     label: 'News',
-        //                     to: '/sled#news',
-        //                 },
-        //                 {
-        //                     id: id++,
-        //                     label: 'Events',
-        //                     to: '/sled#events',
-        //                 },
-        //                 {
-        //                     id: id++,
-        //                     label: 'SledComm',
-        //                     to: '/sled#sledcomm',
-        //                 },
-        //             ],
-        //         },
-        //         Object.assign({}, MountainInformationNetwork, {
-        //             id: id++,
-        //         }),
-        //         Planning,
-        //         Object.assign({}, AvCanTrainingCourses, { id: id++ }),
-        //     ],
-        // },
         {
             id: id++,
             label: 'News & Events',
