@@ -1,4 +1,6 @@
 import { useIntlMemo } from 'hooks/intl'
+import React from 'react'
+import { LocaleSwitcher } from 'contexts/intl'
 
 export default function useMenu() {
     return useIntlMemo(intl => {
@@ -175,14 +177,6 @@ export default function useMenu() {
                         defaultMessage: 'Create a report',
                     }),
                     to: '/mountain-information-network/submit',
-                },
-                {
-                    id: id++,
-                    label: intl.formatMessage({
-                        description: 'AvCan menu',
-                        defaultMessage: 'My account',
-                    }),
-                    to: '/account',
                 },
             ],
         }
@@ -679,6 +673,29 @@ export default function useMenu() {
                         defaultMessage: 'Store',
                     }),
                     to: 'https://store.avalanche.ca',
+                },
+                {
+                    id: 'settings',
+                    label: intl.formatMessage({
+                        description: 'AvCan menu',
+                        defaultMessage: 'Settings',
+                    }),
+                    children: [
+                        {
+                            id: id++,
+                            label: 'My account',
+                            to: '/account',
+                        },
+                        {
+                            id: "language",
+                            label:
+                                <div style={{ paddingTop: 10 }} >
+                                    <div>Language</div>
+                                    <LocaleSwitcher noflex></LocaleSwitcher>
+                                </div >
+
+                        }
+                    ],
                 },
                 {
                     id: 'foundation',

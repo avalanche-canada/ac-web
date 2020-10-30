@@ -70,10 +70,15 @@ export function LocaleSwitch({ children, value = FR }) {
 export function LocaleSwitcher() {
     const { locale, set } = useLocale()
 
+    const button = {
+        marginTop: 10
+    };
+
     return (
-        <ButtonSet>
+        <>
             {Array.from(LOCALES).map(LOCALE => (
                 <Button
+                    style={button}
                     key={LOCALE}
                     disabled={LOCALE === locale}
                     onClick={() => set(LOCALE)}>
@@ -83,6 +88,6 @@ export function LocaleSwitcher() {
                     />
                 </Button>
             ))}
-        </ButtonSet>
+        </>
     )
 }
