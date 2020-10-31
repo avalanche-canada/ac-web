@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Submit, Reset } from 'components/button'
 import { StructuredText } from 'prismic/components/base'
 import styles from './Question.css'
-import { FormattedMessage } from 'react-intl'
 
 Question.propTypes = {
     primary: PropTypes.shape({

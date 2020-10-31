@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect } from '@reach/router'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { tutorial } from 'prismic/params'
 import * as PageComponents from 'components/page'
 import { Page } from 'layouts/pages'
@@ -23,7 +24,6 @@ import { useWindowSize, useBoolean } from 'hooks'
 import { useDocument } from 'prismic/hooks'
 import { useLocation } from 'router/hooks'
 import { LocaleSwitch } from 'contexts/intl'
-import { FormattedMessage, useIntl } from 'react-intl'
 
 // TODO: Use Context to propagate the tutorial document
 

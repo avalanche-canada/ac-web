@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Media, Caption } from 'components/media'
 import { Image, StructuredText } from 'prismic/components/base'
 import styles from './ATESExercise.css'
-import { FormattedMessage } from 'react-intl'
 
 // Constants
 const VALUES = ['Simple', 'Challenging', 'Complex']
