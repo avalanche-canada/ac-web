@@ -8,7 +8,7 @@ import React, {
 import { IntlProvider, FormattedDisplayName } from 'react-intl'
 import { loadMessages } from 'services/intl'
 import { useLocalStorage } from 'hooks'
-import Button, { ButtonSet } from 'components/button'
+import Button from 'components/button'
 import LOCALE, { FR, LOCALES } from 'constants/locale'
 
 const LocaleContext = createContext()
