@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { Media, Caption } from 'components/media'
 import { Image, StructuredText } from 'prismic/components/base'
-import { Translate } from 'contexts/locale'
 import styles from './ATESExercise.css'
+import { FormattedMessage } from 'react-intl'
 
 // Constants
 const VALUES = ['Simple', 'Challenging', 'Complex']
@@ -39,7 +39,7 @@ export default function ATESExercise({ primary }) {
                                 value={value}
                                 onChange={handleChange}
                                 picked={picked}>
-                                <Translate>{value}</Translate>
+                                {value}
                             </Input>
                         ))}
                     </div>
@@ -75,7 +75,7 @@ function Input({ value, onChange, children, picked }) {
 function Yep() {
     return (
         <div className={styles.Yep}>
-            <Translate>Well done — You’re right!</Translate>
+            <FormattedMessage defaultMessage="Well done — You’re right!" />
         </div>
     )
 }
@@ -83,9 +83,7 @@ function Yep() {
 function Nope() {
     return (
         <div className={styles.Nope}>
-            <Translate>
-                Sorry, that isn’t the right answer. Try again!
-            </Translate>
+            <FormattedMessage defaultMessage="Sorry, that isn’t the right answer. Try again!" />
         </div>
     )
 }

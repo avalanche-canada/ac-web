@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Submit, Reset } from 'components/button'
 import { StructuredText } from 'prismic/components/base'
-import { Translate } from 'contexts/locale'
 import styles from './Question.css'
+import { FormattedMessage } from 'react-intl'
 
 Question.propTypes = {
     primary: PropTypes.shape({
@@ -56,7 +56,7 @@ export default function Question({ primary }) {
                         style={style}
                     />
                     <span data-error-message>
-                        <Translate>Your answer is required.</Translate>
+                        <FormattedMessage defaultMessage="Your answer is required." />
                     </span>
                 </label>
                 {marking && (
@@ -64,11 +64,11 @@ export default function Question({ primary }) {
                 )}
                 {marking ? (
                     <Reset className={styles.Button}>
-                        <Translate>Give another answer</Translate>
+                        <FormattedMessage defaultMessage="Give another answer" />
                     </Reset>
                 ) : (
                     <Submit className={styles.Button}>
-                        <Translate>See answers</Translate>
+                        <FormattedMessage defaultMessage="See answers" />
                     </Submit>
                 )}
             </fieldset>
@@ -83,7 +83,7 @@ function Answers({ answer, user }) {
             <dl>
                 <div>
                     <dt>
-                        <Translate>Our answer</Translate>
+                        <FormattedMessage defaultMessage="Our answer" />
                     </dt>
                     <dd>
                         <StructuredText value={answer} />
@@ -91,7 +91,7 @@ function Answers({ answer, user }) {
                 </div>
                 <div>
                     <dt>
-                        <Translate>Your answer</Translate>
+                        <FormattedMessage defaultMessage="Your answer" />
                     </dt>
                     <dd>
                         <p>{user}</p>

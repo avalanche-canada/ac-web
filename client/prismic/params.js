@@ -48,17 +48,11 @@ export const mw = {
 }
 
 export const tutorial = {
-    article(id, locale) {
-        return {
-            ...uid(types.TUTORIAL_ARTICLE, id),
-            locale,
-        }
+    article(id) {
+        return uid(types.TUTORIAL_ARTICLE, id)
     },
-    home(locale) {
-        return {
-            ...all(types.TUTORIAL),
-            locale,
-        }
+    home() {
+        return all(types.TUTORIAL)
     },
 }
 

@@ -29,6 +29,12 @@
       "value": "Conditions d’utilisation"
     }
   ],
+  "1nJY2/": [
+    {
+      "type": 0,
+      "value": "Votre réponse"
+    }
+  ],
   "3M/Kkc": [
     {
       "type": 0,
@@ -47,6 +53,12 @@
       "value": "3 - Considérable"
     }
   ],
+  "4X1cAW": [
+    {
+      "type": 0,
+      "value": "Réglages"
+    }
+  ],
   "4X9D7R": [
     {
       "type": 0,
@@ -63,6 +75,12 @@
     {
       "type": 0,
       "value": "Politique de confidentialité"
+    }
+  ],
+  "5WW37y": [
+    {
+      "type": 0,
+      "value": "Vous traversez quelques zones dangereuses. Faites attention!"
     }
   ],
   "5mM3fv": [
@@ -151,6 +169,12 @@
       "value": "Ceux-ci sont des prévisions d’avalanche archivées."
     }
   ],
+  "D4JBvM": [
+    {
+      "type": 0,
+      "value": "Bien jouer, c'est la bonne réponse!"
+    }
+  ],
   "DdTMYY": [
     {
       "type": 0,
@@ -213,6 +237,20 @@
       "value": "Quel élévation?"
     }
   ],
+  "FFBBla": [
+    {
+      "type": 0,
+      "value": "Il n’existe aucun document pour "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
   "GUfQm1": [
     {
       "type": 0,
@@ -245,6 +283,18 @@
       "value": "name"
     }
   ],
+  "HtEmSg": [
+    {
+      "type": 0,
+      "value": "Désolé, ce n'est pas la bonne réponse. Essayer de nouveau!"
+    }
+  ],
+  "IAPH04": [
+    {
+      "type": 0,
+      "value": "Votre réponse est requise."
+    }
+  ],
   "J8jnsU": [
     {
       "type": 0,
@@ -255,6 +305,12 @@
     {
       "type": 0,
       "value": "Alpin"
+    }
+  ],
+  "JgLxsC": [
+    {
+      "type": 0,
+      "value": "Recommencer"
     }
   ],
   "KF5ERp": [
@@ -323,6 +379,12 @@
       "value": "Sommaire manteau neigeux"
     }
   ],
+  "Qd+Cop": [
+    {
+      "type": 0,
+      "value": "Notre réponse"
+    }
+  ],
   "QeZYWz": [
     {
       "type": 0,
@@ -387,6 +449,38 @@
     {
       "type": 0,
       "value": "Conditions de début de saison"
+    }
+  ],
+  "aSPqYO": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " photo attaché"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " photos attachés"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
     }
   ],
   "b+O7HY": [
@@ -479,6 +573,12 @@
       "value": "est le numéro de téléphone du bureau de la Sécurité publique (sur semaine)"
     }
   ],
+  "mpFOGM": [
+    {
+      "type": 0,
+      "value": "Consulter le"
+    }
+  ],
   "n0GuWA": [
     {
       "type": 0,
@@ -527,6 +627,12 @@
       "value": "Imprimez ces prévisions d'avalanches"
     }
   ],
+  "oznI18": [
+    {
+      "type": 0,
+      "value": "Fournir une autre réponse"
+    }
+  ],
   "qMA7U8": [
     {
       "type": 0,
@@ -563,6 +669,12 @@
       "value": "Conditions avalancheuses dangereuses. Évaluer soigneusement le manteau neigeux. Faire preuve d'une grande prudence dans le choix d'itinéraire et la prise de décisions."
     }
   ],
+  "w2Nb8W": [
+    {
+      "type": 0,
+      "value": "Bien jouer! Essayez de trouver d'autres routes."
+    }
+  ],
   "wF4e0m": [
     {
       "type": 0,
@@ -587,16 +699,34 @@
       "value": "Flux RSS"
     }
   ],
+  "wiGfb7": [
+    {
+      "type": 0,
+      "value": "Trouver un autre trajet"
+    }
+  ],
   "wp6n1n": [
     {
       "type": 0,
       "value": "Ces prévisions d’avalanche sont produitent par les prévisionnistes du programme de sécurité publique du pays de Kananaskis du gouvernement de l'Alberta."
     }
   ],
+  "wyIZp9": [
+    {
+      "type": 0,
+      "value": "Débuter avec"
+    }
+  ],
   "wzEVz0": [
     {
       "type": 0,
       "value": "Jusqu'à nouvel ordre"
+    }
+  ],
+  "xVvJB7": [
+    {
+      "type": 0,
+      "value": "Voir les réponses"
     }
   ],
   "yFzXru": [
@@ -611,6 +741,12 @@
     {
       "type": 0,
       "value": " Avalanche Canada, Tous droits réservés"
+    }
+  ],
+  "zBnK8W": [
+    {
+      "type": 0,
+      "value": "De retour au"
     }
   ],
   "zfrygz": [

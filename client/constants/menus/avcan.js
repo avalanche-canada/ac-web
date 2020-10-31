@@ -221,14 +221,6 @@ export default function useMenu() {
                     id: id++,
                     label: intl.formatMessage({
                         description: 'AvCan menu',
-                        defaultMessage: 'Cours d’avalanche en ligne (français)',
-                    }),
-                    to: '/tutoriel',
-                },
-                {
-                    id: id++,
-                    label: intl.formatMessage({
-                        description: 'AvCan menu',
                         defaultMessage: 'Glossary',
                     }),
                     to: '/glossary',
