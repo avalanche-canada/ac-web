@@ -17,10 +17,16 @@ export function useLocale() {
     return useContext(LocaleContext)
 }
 
-export function useLocaleCode(short = false) {
+export function useLocaleCode() {
     const { locale } = useLocale()
 
-    return short ? locale.substr(0, 2) : locale
+    return locale
+}
+
+export function useLanguage() {
+    const locale = useLocaleCode()
+
+    return locale.substr(0, 2)
 }
 
 export function Provider({ children, defaultLocale }) {
