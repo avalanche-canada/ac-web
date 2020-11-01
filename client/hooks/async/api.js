@@ -1,5 +1,5 @@
 import * as requests from 'requests/api'
-import { useCacheAsync, createKey } from '../'
+import { useCacheAsync, createKey } from './'
 import { useLanguage } from 'contexts/intl'
 import { DateParam } from 'hooks/params'
 
