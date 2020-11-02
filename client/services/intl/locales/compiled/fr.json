@@ -106,7 +106,7 @@
   "7offaS": [
     {
       "type": 0,
-      "value": "Limite des arbres"
+      "value": "Limite forestière"
     }
   ],
   "7qOQpv": [
@@ -118,7 +118,7 @@
   "82wRfY": [
     {
       "type": 0,
-      "value": "Problème d’avalanche "
+      "value": "Problème "
     },
     {
       "type": 1,
@@ -126,7 +126,7 @@
     },
     {
       "type": 0,
-      "value": ": "
+      "value": " : "
     },
     {
       "type": 1,
@@ -160,7 +160,7 @@
   "BJ77yt": [
     {
       "type": 0,
-      "value": "Probabilité d’avalanches?"
+      "value": "Probabilité de déclenchement"
     }
   ],
   "CsgxJT": [
@@ -178,7 +178,7 @@
   "DdTMYY": [
     {
       "type": 0,
-      "value": "Alpin"
+      "value": "Zone alpine"
     }
   ],
   "DsokKh": [
@@ -216,7 +216,7 @@
   "Eca5XB": [
     {
       "type": 0,
-      "value": "Limite des arbres"
+      "value": "Limite forestière"
     }
   ],
   "Ee5E3w": [
@@ -228,13 +228,13 @@
   "EoQTj0": [
     {
       "type": 0,
-      "value": "Confiance"
+      "value": "Fiabilité"
     }
   ],
   "Ew50FU": [
     {
       "type": 0,
-      "value": "Quel élévation?"
+      "value": "Altitude"
     }
   ],
   "FFBBla": [
@@ -304,7 +304,7 @@
   "JQsrhq": [
     {
       "type": 0,
-      "value": "Alpin"
+      "value": "Zone alpine"
     }
   ],
   "JgLxsC": [
@@ -316,7 +316,7 @@
   "KF5ERp": [
     {
       "type": 0,
-      "value": "Conseil de terrain et de navigation"
+      "value": "Conseils sur le terrain et les déplacements"
     }
   ],
   "Kn1qrS": [
@@ -430,7 +430,7 @@
   "X6pshk": [
     {
       "type": 0,
-      "value": "Quelles pentes?"
+      "value": "Orientation"
     }
   ],
   "XVMUAR": [
@@ -582,7 +582,7 @@
   "n0GuWA": [
     {
       "type": 0,
-      "value": "Sous la ligne des arbres"
+      "value": "Au-dessous de la limite forestière"
     }
   ],
   "nDlutf": [
@@ -618,7 +618,7 @@
   "oRm/jl": [
     {
       "type": 0,
-      "value": "Sous la ligne des arbres"
+      "value": "Au-dessous de la limite forestière"
     }
   ],
   "owr/bM": [
@@ -684,7 +684,7 @@
   "wKOpEQ": [
     {
       "type": 0,
-      "value": "Taille attendue?"
+      "value": "Taille prévue"
     }
   ],
   "wKQ3vV": [
