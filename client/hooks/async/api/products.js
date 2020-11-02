@@ -21,7 +21,7 @@ export function useProducts(date) {
 }
 
 export function useForecasts() {
-    return useProductOfType(types.FORECAST)
+    return useProductsOfType(types.FORECAST)
 }
 
 export function useSPAW() {
