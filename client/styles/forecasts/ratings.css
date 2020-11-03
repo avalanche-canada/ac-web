@@ -1,0 +1,24 @@
+.low {
+    color: black;
+    background-color: #52ba4a;
+}
+.moderate {
+    color: black;
+    background-color: #fff300;
+}
+.considerable {
+    color: black;
+    background-color: #f79218;
+}
+.high {
+    color: black;
+    background-color: #ef1c29;
+}
+.extreme {
+    color: white;
+    background-color: black;
+}
+.no-rating {
+    color: black;
+    background-color: white;
+}
