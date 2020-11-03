@@ -34,6 +34,18 @@ export function Day({ value }) {
 }
 
 export function DateElement({ value }) {
+    // FIXME: Dates appear wrong (one day subtracted). Possible fix:
+    //     let date = new Date(value)
+    //     date = new Date(date.getTime() + date.getTimezoneOffset() * 60000)
+    //     return (
+    //         <FormattedDate
+    //             value={date}
+    //             weekday="long"
+    //             year="numeric"
+    //             month="long"
+    //             day="numeric"
+    //         />
+    //     )
     return (
         <FormattedDate
             value={value}
