@@ -7,10 +7,12 @@ export Relative from './Relative'
 export Range from './Range'
 
 export function Time({ value }) {
+    value = parse(value)
     return <FormattedTime value={value} />
 }
 
 export function DateTime({ value, skipTimeIfStartOfDay = false }) {
+    value = parse(value);
     const options = {
         weekday: 'long',
         year: 'numeric',
@@ -18,7 +20,7 @@ export function DateTime({ value, skipTimeIfStartOfDay = false }) {
         day: 'numeric',
     }
 
-    if (!skipTimeIfStartOfDay && !isStartOfDay(parse(value))) {
+    if (!skipTimeIfStartOfDay && !isStartOfDay(value)) {
         Object.assign(options, {
             hour: 'numeric',
             minute: 'numeric',
@@ -30,22 +32,12 @@ export function DateTime({ value, skipTimeIfStartOfDay = false }) {
 }
 
 export function Day({ value }) {
+    value = parse(value)
     return <FormattedDate value={value} weekday="long" />
 }
 
 export function DateElement({ value }) {
-    // FIXME: Dates appear wrong (one day subtracted). Possible fix:
-    //     let date = new Date(value)
-    //     date = new Date(date.getTime() + date.getTimezoneOffset() * 60000)
-    //     return (
-    //         <FormattedDate
-    //             value={date}
-    //             weekday="long"
-    //             year="numeric"
-    //             month="long"
-    //             day="numeric"
-    //         />
-    //     )
+    value = parse(value)
     return (
         <FormattedDate
             value={value}
