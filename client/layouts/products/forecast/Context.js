@@ -7,3 +7,9 @@ export const { Provider } = Context
 export function useForecast() {
     return useContext(Context)
 }
+
+export function useReport() {
+    const forecast = useForecast()
+
+    return forecast?.report
+}
