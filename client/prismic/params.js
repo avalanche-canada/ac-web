@@ -1,7 +1,6 @@
 import formatDate from 'date-fns/format'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
-import startOfDay from 'date-fns/start_of_day'
 import startOfMonth from 'date-fns/start_of_month'
 import endOfMonth from 'date-fns/end_of_month'
 import { startOfSeason, endOfSeason } from 'utils/date'
@@ -255,7 +254,7 @@ export const feed = {
             ? `${FEED_ORDERINGS.get(EVENT)} desc`
             : FEED_ORDERINGS.get(EVENT)
         const predicate = past ? Predicates.dateBefore : Predicates.dateAfter
-        const timestamp = startOfDay(new Date()).getTime()
+        const timestamp = formatDateForQuery(addDays(new Date(), -1))
         const predicates = []
 
         predicates.push(predicate(my(EVENT, 'end_date'), timestamp))
