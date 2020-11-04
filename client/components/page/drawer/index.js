@@ -131,9 +131,6 @@ export function DisplayOnMap({ onClick }) {
         description: 'Component page/drawer/DisplayOnMap',
         defaultMessage: 'Display on map',
     })
-    const LOCATE_STYLE = {
-        display: 'flex',
-    }
 
     return (
         <Buttons.Locate
@@ -162,4 +159,7 @@ function Backdrop({ children, ...props }) {
 // Styles
 const TOP_BORDER = {
     borderTopColor: 'rgba(0, 0, 0, 0.15)',
+}
+const LOCATE_STYLE = {
+    display: 'flex',
 }
