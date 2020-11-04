@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Media.css'
 import classnames from 'classnames'
+import styles from './Media.css'
 
 Media.propTypes = {
     caption: PropTypes.node,
