@@ -2,10 +2,10 @@ import * as requests from 'requests/api'
 import { useCacheAsync, createKey } from '../'
 import { useLanguage } from 'contexts/intl'
 
-export function useMarkers() {
+export function useMetadata() {
     const language = useLanguage()
     const params = [language]
-    const key = createKey('markers', params)
+    const key = createKey('metadata', params)
 
-    return useCacheAsync(requests.markers, params, undefined, key)
+    return useCacheAsync(requests.metadata, params, undefined, key)
 }
