@@ -24,6 +24,13 @@ export function useForecasts() {
     return useProductsOfType(types.FORECAST)
 }
 
+export function useForecast() {
+    // TODO Finish proper implementation
+    const [forecasts, ...rest] = useForecasts()
+
+    return [forecasts[0], ...rest]
+}
+
 export function useSPAW() {
     return useProductOfType(types.SPAW)
 }

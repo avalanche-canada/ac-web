@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { useForecast } from './Context'
+import { useReport } from './Context'
 import { DateTime } from 'components/time'
 import {
     Metadata,
@@ -16,32 +16,36 @@ ForecastMetadata.propTypes = {
 }
 
 export default function ForecastMetadata({ shareUrl }) {
-    const forecast = useForecast()
+    const report = useReport()
     const intl = useIntl()
 
-    return forecast ? (
+    if (!report) {
+        return null
+    }
+
+    return (
         <Metadata>
             <TimestampEntry
                 term={intl.formatMessage({
                     description: 'FX Metadata',
                     defaultMessage: 'Date Issued',
                 })}
-                value={forecast.dateIssued}
+                value={report.dateIssued}
             />
             <ValidUntil
-                dateIssued={forecast.dateIssued}
-                validUntil={forecast.validUntil}
+                dateIssued={report.dateIssued}
+                validUntil={report.validUntil}
             />
             <Entry
                 term={intl.formatMessage({
                     description: 'FX Metadata',
                     defaultMessage: 'Prepared by',
                 })}>
-                {forecast.forecaster}
+                {report.forecaster}
             </Entry>
             {shareUrl && <ShareEntry url={shareUrl} />}
         </Metadata>
-    ) : null
+    )
 }
 
 // Components

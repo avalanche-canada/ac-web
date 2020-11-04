@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
-import { useForecast } from 'hooks/async/forecast'
+import { useProduct } from 'hooks/async/api/products'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
 import Shim from 'components/Shim'
@@ -93,7 +93,7 @@ export default class TripPlanning extends Component {
 
 // TODO Cleanup and removed that component
 function Forecast({ name, children }) {
-    const [data, pending] = useForecast(name)
+    const [data, pending] = useProduct(name)
 
     return children({ data, pending })
 }

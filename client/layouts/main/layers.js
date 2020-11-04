@@ -8,32 +8,31 @@ import {
     HOT_ZONE_REPORTS,
     MOUNTAIN_INFORMATION_NETWORK,
 } from 'constants/drawers'
-import * as forecast from 'hooks/async/forecast'
-import * as features from 'hooks/async/features'
+import { useAreas } from 'hooks/async/api/areas'
+import { useMetadata } from 'hooks/async/api/metadata'
 import * as weather from 'hooks/async/weather'
 import * as mcr from 'hooks/async/mcr'
 import * as min from 'hooks/async/min'
 import * as prismic from 'prismic/hooks'
 import * as params from 'prismic/params'
-import { useSource, useLayer, useMarkers } from 'hooks/mapbox'
+import * as mapbox from 'hooks/mapbox'
 import { useMapState, ERRORS } from 'contexts/map/state'
 import { INCIDENT } from 'constants/min'
 import { useLayer as useLayerState } from 'contexts/layers'
 import { useLocation } from 'router/hooks'
-import externals, { open } from 'router/externals'
 import {
     usePrimaryDrawerParams,
     useSecondaryDrawerParams,
 } from './drawers/hooks'
-import { path } from 'utils/url'
-import { captureException } from 'services/sentry'
+import { isAvalancheCanada, path } from 'utils/url'
 import { useMerge } from 'hooks/async'
+import { captureException } from 'services/sentry'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
     const IDS = [key, key + '-line', key + '-labels']
     const { visible } = useLayerState(key)
-    const [regions, , error] = features.useForecastRegions()
+    const [areas, , error] = useAreas()
     const [sourceLoaded, setSourceLoaded] = useState(false)
     const { type, id } = usePrimaryDrawerParams()
 
@@ -71,13 +70,13 @@ export function useForecastRegions(map) {
         }
     }, [map, type, id, sourceLoaded])
 
-    useSource(
+    mapbox.useSource(
         map,
         key,
         { ...GEOJSON, generateId: true },
-        regions || EMPTY_FEATURE_COLLECTION
+        areas || EMPTY_FEATURE_COLLECTION
     )
-    useLayer(
+    mapbox.useLayer(
         map,
         createLayer(IDS[0], key, 'fill'),
         undefined,
@@ -85,7 +84,7 @@ export function useForecastRegions(map) {
         undefined,
         EVENTS
     )
-    useLayer(
+    mapbox.useLayer(
         map,
         createLayer(IDS[1], key, 'line'),
         undefined,
@@ -93,7 +92,7 @@ export function useForecastRegions(map) {
         undefined,
         EVENTS
     )
-    useLayer(
+    mapbox.useLayer(
         map,
         createLayer(IDS[2], key, 'symbol'),
         undefined,
@@ -105,60 +104,56 @@ export function useForecastRegions(map) {
 
 export function useForecastMarkers(map) {
     const key = FORECASTS
-    const [[metadata, forecasts], , errors] = useMerge(
-        features.useForecastRegionsMetadata(),
-        forecast.useForecasts()
-    )
+    const [metadata, , error] = useMetadata()
     const { visible } = useLayerState(key)
     const { location, navigate } = useLocation()
+
     const definitions = useMemo(() => {
-        if (!forecasts || !Array.isArray(metadata)) {
-            return
+        if (!Array.isArray(metadata)) {
+            return []
         }
 
-        return metadata
-            .filter(({id}) => Boolean(forecasts[id]))
-            .map(({ id, name, centroid, type }) => {
-                const element = document.createElement('img')
-                const forecast = forecasts[id]
+        return metadata.map(({ product, centroid, icon, url }) => {
+            const { slug, title } = product
+            const element = document.createElement('img')
 
-                element.style.cursor = 'pointer'
+            element.style.cursor = 'pointer'
 
-                Object.assign(element, {
-                    src:
-                        type === 'link'
-                            ? ICONS.get('LINK').call()
-                            : createForecastIconURL(forecast),
-                    width: 50,
-                    height: 50,
-                    alt: name,
-                    title: name,
-                    onclick(event) {
-                        event.stopPropagation()
+            Object.assign(element, {
+                src:
+                    icon.type === 'link'
+                        ? ICONS.get('LINK').call()
+                        : createIconURL(icon),
+                width: 50,
+                height: 50,
+                alt: title,
+                title,
+                onclick(event) {
+                    event.stopPropagation()
 
-                        if (externals.has(id)) {
-                            open(id)
-                        } else {
-                            navigate('/map/forecasts/' + id + location.search)
-                        }
-                    },
-                })
-
-                return [centroid, { element }]
+                    if (isAvalancheCanada(url)) {
+                        navigate('/map/forecasts/' + slug + location.search)
+                    } else {
+                        window.open(url, title)
+                    }
+                },
             })
-    }, [metadata, forecasts])
 
-    useMapError(ERRORS.FORECAST, ...errors)
+            return [centroid, { element }]
+        })
+    }, [metadata])
 
-    const markers = useMarkers(map, definitions)
+    useMapError(ERRORS.FORECAST, error)
+
+    const mapMarkers = mapbox.useMarkers(map, definitions)
 
     // Make markers visible or not
     useEffect(() => {
-        if (!Array.isArray(markers)) {
+        if (!Array.isArray(mapMarkers)) {
             return
         }
 
-        for (const marker of markers) {
+        for (const marker of mapMarkers) {
             const element = marker.getElement()
 
             if (visible) {
@@ -169,7 +164,7 @@ export function useForecastMarkers(map) {
         }
     }, [visible])
 
-    return markers
+    return mapMarkers
 }
 
 export function useWeatherStations(map) {
@@ -228,33 +223,6 @@ export function useFatalAccidents(map) {
     useSymbolLayer(map, key, features, visible)
 }
 
-export function useAdvisories(map) {
-    const key = HOT_ZONE_REPORTS
-    const layer = createLayer(key, key, 'circle')
-    const { visible } = useLayerState(key)
-    const [[areas, documents], , errors] = useMerge(
-        features.useAdvisoriesMetadata(),
-        prismic.useDocuments(params.hotZone.reports())
-    )
-    const advisories = useMemo(() => {
-        if (!Array.isArray(areas) || !Array.isArray(documents)) {
-            return EMPTY_FEATURE_COLLECTION
-        }
-
-        const regions = new Set(documents.map(pluckRegion))
-        function createFeature(zone) {
-            return createAdvisoryFeature(zone, regions.has(zone.id))
-        }
-
-        return createFeatureCollection(areas, createFeature)
-    }, [areas, documents])
-
-    useMapError(ERRORS.ADVISORY, ...errors)
-
-    useSource(map, key, GEOJSON, advisories)
-    useLayer(map, layer, undefined, visible, undefined, EVENTS)
-}
-
 export function useMountainInformationNetwork(map) {
     let key = MOUNTAIN_INFORMATION_NETWORK
     const { visible, filters } = useLayerState(key)
@@ -278,15 +246,15 @@ export function useMountainInformationNetwork(map) {
     let style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
     let layer = createLayer(key, key, 'symbol', style)
 
-    useSource(map, key, GEOJSON, incidents)
-    useLayer(map, layer, undefined, visible, filter, EVENTS)
+    mapbox.useSource(map, key, GEOJSON, incidents)
+    mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
 
     // Other icons
     key = MOUNTAIN_INFORMATION_NETWORK
     layer = createLayer(key, key, 'symbol')
 
-    useSource(map, key, CLUSTER, others)
-    useLayer(map, layer, undefined, visible, filter, EVENTS)
+    mapbox.useSource(map, key, CLUSTER, others)
+    mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
 
     // Active report, because a report could be filtered out by the filters...
     key = MOUNTAIN_INFORMATION_NETWORK + '-active-report'
@@ -310,8 +278,8 @@ export function useMountainInformationNetwork(map) {
         ])
     }, [report])
 
-    useSource(map, key, GEOJSON, activeReport)
-    useLayer(map, layer, undefined, true, undefined, EVENTS)
+    mapbox.useSource(map, key, GEOJSON, activeReport)
+    mapbox.useLayer(map, layer, undefined, true, undefined, EVENTS)
 
     useMapError(ERRORS.MOUNTAIN_INFORMATION_NETWORK, errorReports, errorReport)
 }
@@ -377,32 +345,47 @@ const EVENTS = [
     ['mouseleave', handleMouseLeave],
     ['mousemove', handleMouseMove],
 ]
-function createForecastIconURL({ iconSet }) {
+function createIconURL(icons) {
     const now = new Date()
-    const icon = iconSet.find(
+    const icon = icons.find(
         ({ from, to }) => new Date(from) < now && now < new Date(to)
     )
-    const { iconType } = icon || {}
+    const { type } = icon || {}
 
-    if (!ICONS.has(iconType)) {
+    if (!ICONS.has(type)) {
         return ''
     }
 
-    const createURL = ICONS.get(iconType)
+    const createURL = ICONS.get(type)
 
     return createURL(icon)
 }
 const GRAPHICS = '/api/forecasts/graphics'
+const RATINGS_PATH = new Map([
+    ['low', '1'],
+    ['moderate', '2'],
+    ['considerable', '3'],
+    ['high', '4'],
+    ['extreme', '5'],
+    ['no-rating', '0'],
+])
 const ICONS = new Map([
     [
         'RATINGS',
         ({ ratings: { alp, tln, btl } }) =>
-            path(GRAPHICS, alp, tln, btl, 'danger-rating-icon.svg'),
+            path(
+                GRAPHICS,
+                RATINGS_PATH.get(alp.toLowerCase()),
+                RATINGS_PATH.get(tln.toLowerCase()),
+                RATINGS_PATH.get(btl.toLowerCase()),
+                'danger-rating-icon.svg'
+            ),
     ],
-    ['SPRING', () => path(GRAPHICS, 'spring.svg')],
-    ['OFF_SEASON', () => path(GRAPHICS, 'off-season.svg')],
+    ['spring', () => path(GRAPHICS, 'spring.svg')],
+    ['offseason', () => path(GRAPHICS, 'off-season.svg')],
+    ['early-season', () => path(GRAPHICS, 'early-season.svg')],
     ['EARLY_SEASON', () => path(GRAPHICS, 'early-season.svg')],
-    ['LINK', () => path(GRAPHICS, 'link.svg')],
+    ['link', () => path(GRAPHICS, 'link.svg')],
 ])
 function handleMouseMove({ target, features }) {
     // This is the best way to handle title!
@@ -438,26 +421,11 @@ function createFeatureCollection(data = [], createFeature) {
 function useSymbolLayer(map, key, features, visible, style) {
     const layer = createLayer(key, key, 'symbol', style)
 
-    useSource(map, key, CLUSTER, features || EMPTY_FEATURE_COLLECTION)
-    useLayer(map, layer, undefined, visible, undefined, EVENTS)
+    mapbox.useSource(map, key, CLUSTER, features || EMPTY_FEATURE_COLLECTION)
+    mapbox.useLayer(map, layer, undefined, visible, undefined, EVENTS)
 }
 function createLayer(id, source, type, styles = STYLES[source][type]) {
     return { id, source, type, ...styles }
-}
-function createAdvisoryFeature({ id, name, centroid }, active) {
-    return turf.point(
-        centroid,
-        {
-            id,
-            type: HOT_ZONE_REPORTS,
-            title: name,
-            active,
-        },
-        { id }
-    )
-}
-function pluckRegion({ data }) {
-    return data.region
 }
 function createWeatherStationFeature({ stationId, name, longitude, latitude }) {
     return turf.point([longitude, latitude], {

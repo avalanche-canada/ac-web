@@ -30,7 +30,6 @@ import {
     useWeatherStations,
     useMountainConditionReports,
     useFatalAccidents,
-    useAdvisories,
     useMountainInformationNetwork,
     useForecastMarkers,
 } from './layers'
@@ -101,7 +100,6 @@ function Main() {
     useWeatherStations(map)
     useMountainConditionReports(map)
     useFatalAccidents(map)
-    useAdvisories(map)
     useMountainInformationNetwork(map)
     useForecastMarkers(map)
 

@@ -1,5 +1,3 @@
-export Day from './Day'
-export DaySet from './DaySet'
-export Confidence from './Confidence'
+export DangerRatings from './DangerRatings'
 export Condition from './Condition'
-export Advice from './Advice'
+export TravelAndTerrainAdvice from './TravelAndTerrainAdvice'

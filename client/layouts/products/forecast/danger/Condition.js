@@ -1,23 +1,26 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import Modes, {
+import { useForecast, useReport } from '../Context'
+import { domain } from 'assets/config.json'
+import { InnerHTML } from 'components/misc'
+import NoRatingModes, {
     useText,
     EARLY_SEASON,
     SPRING_SITUATION,
     OFF_SEASON,
 } from 'constants/forecast/mode'
-import { Generic } from 'prismic/layouts'
-import { domain } from 'assets/config.json'
 import styles from './Danger.css'
 
-Condition.propTypes = {
-    mode: PropTypes.oneOf(Array.from(Modes)).isRequired,
-    message: PropTypes.element,
-    children: PropTypes.element,
-}
+export default function Condition() {
+    const forecast = useForecast()
+    const report = useReport()
+    const text = useText(forecast?.type)
 
-export default function Condition({ mode, message, children }) {
-    const text = useText(mode)
+    if (!NoRatingModes.has(forecast?.type)) {
+        return null
+    }
+
+    const { type } = forecast
+    const { message, comment } = report
 
     return (
         <div className={styles.Condition}>
@@ -26,12 +29,12 @@ export default function Condition({ mode, message, children }) {
                 className={styles.ConditionIcon}
                 title={text}
                 alt={text}
-                src={ICON_URLS.get(mode)}
+                src={ICON_URLS.get(type)}
             />
             <div className={styles.ConditionContent}>
-                {message || <Generic uid={PRISMIC_UIDS.get(mode)} />}
+                <InnerHTML>{message}</InnerHTML>
             </div>
-            {children}
+            <InnerHTML>{comment}</InnerHTML>
         </div>
     )
 }
@@ -42,9 +45,4 @@ const ICON_URLS = new Map([
     [EARLY_SEASON, IMAGES + 'early_season_icon.svg'],
     [SPRING_SITUATION, IMAGES + 'spring_situation_icon.svg'],
     [OFF_SEASON, IMAGES + 'summer_conditions_icon.svg'],
-])
-const PRISMIC_UIDS = new Map([
-    [EARLY_SEASON, 'forecast-early-season-message'],
-    [SPRING_SITUATION, 'forecast-spring-conditions-message'],
-    [OFF_SEASON, 'forecast-off-season-message'],
 ])

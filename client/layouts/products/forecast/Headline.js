@@ -1,14 +1,18 @@
 import React from 'react'
-import { useForecast } from './Context'
+import { useReport } from './Context'
 import { InnerHTML } from 'components/misc'
 import styles from './Forecast.css'
 
 export default function Headline() {
-    const forecast = useForecast()
+    const report = useReport()
 
-    return forecast ? (
+    if (!report) {
+        return null
+    }
+
+    return (
         <header className={styles.Headline}>
-            <InnerHTML>{forecast.highlights}</InnerHTML>
+            <InnerHTML>{report.highlights}</InnerHTML>
         </header>
-    ) : null
+    )
 }

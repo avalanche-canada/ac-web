@@ -11,10 +11,6 @@ export function useForecastRegionsMetadata() {
     return useMultiple(FORECAST_REGIONS)
 }
 
-export function useForecastRegionMetadata(id) {
-    return useSingle(FORECAST_REGIONS, id)
-}
-
 export function useAdvisoriesMetadata() {
     return useMultiple(HOT_ZONES)
 }

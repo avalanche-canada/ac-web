@@ -139,10 +139,6 @@ export function highlight() {
     return rangeForType(types.HIGHLIGHT)
 }
 
-export function spaw() {
-    return rangeForType(types.SPAW)
-}
-
 export const glossary = {
     glossary(id = 'glossary') {
         return {

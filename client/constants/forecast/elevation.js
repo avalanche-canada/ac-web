@@ -1,17 +1,11 @@
 import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
-export const ALP = 'ALP'
-export const TLN = 'TLN'
-export const BTL = 'BTL'
+export const ALP = 'alp'
+export const TLN = 'tln'
+export const BTL = 'btl'
 
 export default new Set([ALP, TLN, BTL])
-
-export const Palette = new Map([
-    [ALP, '#FFFFFF'],
-    [TLN, '#C1D831'],
-    [BTL, '#6EA469'],
-])
 
 export function useText(elevation) {
     const texts = useTexts()

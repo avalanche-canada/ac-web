@@ -1,15 +1,13 @@
 import React, { Fragment } from 'react'
 import { Section, Header, Content } from 'components/explanation'
 import Ratings, {
-    EXTREME,
     NO_RATING,
     useTexts,
     useTravelAdvices,
     useLikehoodOfAvalanche,
     useSizeAndDistribution,
-    Palette,
 } from 'constants/forecast/rating'
-import { WHITE, BLACK } from 'constants/forecast/palette'
+import RatingStyles from 'styles/forecasts/ratings.css'
 
 export default function RatingExplanation() {
     const texts = useTexts()
@@ -22,7 +20,7 @@ export default function RatingExplanation() {
         <Fragment>
             {ratings.map(rating => (
                 <Section key={rating}>
-                    <Header style={getStyle(rating)}>
+                    <Header className={RatingStyles[rating]}>
                         {texts.get(rating)}
                     </Header>
                     <Content>
@@ -34,12 +32,4 @@ export default function RatingExplanation() {
             ))}
         </Fragment>
     )
-}
-
-// Utils
-function getStyle(rating) {
-    return {
-        color: rating === EXTREME ? WHITE : BLACK,
-        backgroundColor: Palette.get(rating),
-    }
 }

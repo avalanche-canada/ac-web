@@ -8,7 +8,7 @@ export function product(language, id) {
 }
 
 export function products(language, date) {
-    return get(language, 'products', 'all', date)
+    return get(language, 'products', undefined, date)
 }
 
 export function area(language, id) {
@@ -16,18 +16,18 @@ export function area(language, id) {
 }
 
 export function areas(language, date) {
-    return get(language, 'areas', 'all', date)
+    return get(language, 'areas', undefined, date)
 }
 
-export function markers(language) {
-    return get(language, 'markers')
+export function metadata(language) {
+    return get(language, 'metadata')
 }
 
 // Utils
 function get(language, type, id, date) {
     date = DateParam.format(date)
 
-    const url = utils.path(config.url, type, language, id, date)
+    const url = utils.path(config.url, 'forecasts', language, type, id, date)
     const options = {
         headers: new Headers({
             'x-api-key': config.key,

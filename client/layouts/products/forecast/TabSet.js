@@ -3,37 +3,22 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import { FormattedMessage } from 'react-intl'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
-import { InnerHTML } from 'components/misc'
-import { useForecast } from './Context'
+import { useReport } from './Context'
 import DetailSet from './DetailSet'
-import { Day, DaySet, Condition, Confidence, Advice } from './danger'
+import Confidence from './Confidence'
+import { Condition, TravelAndTerrainAdvice, DangerRatings } from './danger'
 import ProblemSet from './problem'
-import NoRatingModes from 'constants/forecast/mode'
 
 TabSet.propTypes = {
     onTabChange: PropTypes.func,
 }
 
 export default function TabSet({ onTabChange = noop }) {
-    const forecast = useForecast()
+    const report = useReport()
 
-    if (!forecast) {
+    if (!report) {
         return null
     }
-
-    const {
-        dangerMode,
-        problems,
-        confidence,
-        avidConfidence,
-        avidTerrainAndTravel,
-        dangerRatings,
-        avalancheSummary,
-        snowpackSummary,
-        weatherForecast,
-        avidOffseasonMessage,
-        avidOffseasonComment,
-    } = forecast
 
     return (
         <Tabs onTabChange={onTabChange}>
@@ -59,69 +44,16 @@ export default function TabSet({ onTabChange = noop }) {
             </HeaderSet>
             <PanelSet>
                 <Panel>
-                    {NoRatingModes.has(dangerMode) ? (
-                        <Condition
-                            mode={dangerMode}
-                            message={
-                                avidOffseasonMessage && (
-                                    <InnerHTML>
-                                        {avidOffseasonMessage}
-                                    </InnerHTML>
-                                )
-                            }>
-                            {avidOffseasonComment && (
-                                <InnerHTML>{avidOffseasonComment}</InnerHTML>
-                            )}
-                        </Condition>
-                    ) : (
-                        <DaySet>
-                            {dangerRatings.map(
-                                ({ date, dangerRating }, index) => (
-                                    <Day
-                                        key={index}
-                                        date={date}
-                                        {...dangerRating}
-                                    />
-                                )
-                            )}
-                        </DaySet>
-                    )}
-                    {avidTerrainAndTravel && (
-                        <Advice>
-                            <ul>
-                                {avidTerrainAndTravel.map(
-                                    (statement, index) => (
-                                        <li key={index}>{statement}</li>
-                                    )
-                                )}
-                            </ul>
-                        </Advice>
-                    )}
+                    <Condition />
+                    <DangerRatings />
+                    <TravelAndTerrainAdvice />
                 </Panel>
                 <Panel>
-                    <ProblemSet problems={problems} />
+                    <ProblemSet />
                 </Panel>
                 <Panel>
-                    <DetailSet
-                        avalanche={avalancheSummary}
-                        snowpack={snowpackSummary}
-                        weather={weatherForecast}
-                    />
-                    {avidConfidence ? (
-                        <Confidence level={avidConfidence.rating}>
-                            <ul>
-                                {avidConfidence.statements.map(
-                                    (statement, index) => (
-                                        <li key={index}>{statement}</li>
-                                    )
-                                )}
-                            </ul>
-                        </Confidence>
-                    ) : (
-                        <Confidence level={confidence.level}>
-                            {confidence.comment}
-                        </Confidence>
-                    )}
+                    <DetailSet />
+                    <Confidence />
                 </Panel>
             </PanelSet>
         </Tabs>

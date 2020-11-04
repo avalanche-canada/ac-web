@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import styles from './Explanation.css'
 
 Section.propTypes = {
@@ -17,15 +18,11 @@ export function Section({ style, children }) {
 
 Header.propTypes = {
     children: PropTypes.string.isRequired,
-    style: PropTypes.object,
+    className: PropTypes.string,
 }
 
-export function Header({ style, children }) {
-    return (
-        <h3 style={style} className={styles.Header}>
-            {children}
-        </h3>
-    )
+export function Header({ className, children }) {
+    return <h3 className={classnames(styles.Header, className)}>{children}</h3>
 }
 
 Content.propTypes = {

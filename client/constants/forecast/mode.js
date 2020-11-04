@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
 
-export const OFF_SEASON = 'OFF_SEASON'
-export const SPRING_SITUATION = 'SPRING_SITUATION'
-export const EARLY_SEASON = 'EARLY_SEASON'
+export const OFF_SEASON = 'offseason'
+export const SPRING_SITUATION = 'spring-situation'
+export const EARLY_SEASON = 'early-season'
 
 export default new Set([OFF_SEASON, SPRING_SITUATION, EARLY_SEASON])
 

@@ -9,7 +9,7 @@ import { Loading } from 'components/text'
 import { Tag as BaseTag } from 'components/tag'
 import { Page as PageLayout } from 'layouts/pages'
 import { useVisibility } from 'hooks/session'
-import { useSPAW } from 'prismic/hooks'
+import { useSPAW } from 'hooks/async/api/products'
 import * as url from 'utils/url'
 import styles from './SPAW.css'
 

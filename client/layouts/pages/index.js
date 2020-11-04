@@ -205,8 +205,8 @@ export function Fallback({ error, navbar, children }) {
             </p>
             <details>
                 <summary>More details</summary>
-                <Text.Error>{error.name}</Text.Error>
-                <Text.Error>{error.message}</Text.Error>
+                <Text.Error>{error.toString()}</Text.Error>
+                <Text.Error>{JSON.stringify(error.extra, null, 4)}</Text.Error>
             </details>
             {children}
         </Error>

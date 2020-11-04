@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { useReport } from '../Context'
 import { InnerHTML } from 'components/misc'
 import { useClientRect } from 'hooks'
 import styles from './Problem.css'
@@ -10,8 +11,10 @@ ProblemSet.propTypes = {
     problems: PropTypes.array.isRequired,
 }
 
-export default function ProblemSet({ problems }) {
-    if (problems.length === 0) {
+export default function ProblemSet() {
+    const report = useReport()
+
+    if (report?.problems?.length === 0) {
         return (
             <h3>
                 <FormattedMessage defaultMessage="No problems identified." />
@@ -19,12 +22,13 @@ export default function ProblemSet({ problems }) {
         )
     }
 
-    return problems.map((problem, index) => (
-        <Problem key={index} {...problem} counter={index + 1} />
-    ))
+    return report.problems.map(render)
 }
 
 // Utils components
+function render(problem, index) {
+    return <Problem key={problem.type} {...problem} counter={index + 1} />
+}
 Section.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
@@ -71,15 +75,16 @@ function Comment({ children }) {
 
 Figure.propTypes = {
     src: PropTypes.string.isRequired,
+    alt: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
 }
 
-function Figure({ title, src }) {
+function Figure({ title, src, alt }) {
     return (
         <figure className={styles.Figure}>
             <figcaption>{title}</figcaption>
             <div>
-                <img src={src} />
+                <img src={src} alt={alt} />
             </div>
         </figure>
     )
@@ -89,7 +94,13 @@ function Figure({ title, src }) {
 // TODO Remove the double bottom border when the comment is empty.
 // Tried a soluton in CSS only, and it is not complete.
 // I do not want to test for <p></p> and make the border disappear.
-function Problem({ type, icons, comment, travelAndTerrainAdvice, counter }) {
+function Problem({
+    type,
+    icons = {},
+    comment,
+    travelAndTerrainAdvice,
+    counter,
+}) {
     const intl = useIntl()
     const title = intl.formatMessage(
         {
@@ -108,24 +119,36 @@ function Problem({ type, icons, comment, travelAndTerrainAdvice, counter }) {
                     defaultMessage: 'What Elevation?',
                 })}
                 src={icons.elevations}
+                alt={intl.formatMessage({
+                    defaultMessage: 'Elevation',
+                })}
             />
             <Figure
                 title={intl.formatMessage({
                     defaultMessage: 'Which Slopes?',
                 })}
                 src={icons.aspects}
+                alt={intl.formatMessage({
+                    defaultMessage: 'Slope',
+                })}
             />
             <Figure
                 title={intl.formatMessage({
                     defaultMessage: 'Chances of Avalanches?',
                 })}
                 src={icons.likelihood}
+                alt={intl.formatMessage({
+                    defaultMessage: 'Likelihood',
+                })}
             />
             <Figure
                 title={intl.formatMessage({
                     defaultMessage: 'Expected Size?',
                 })}
                 src={icons.expectedSize}
+                alt={intl.formatMessage({
+                    defaultMessage: 'Expeceted size',
+                })}
             />
             <Comment>{comment}</Comment>
             {travelAndTerrainAdvice && (

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { useForecast } from 'hooks/async/forecast'
+import { useProduct } from 'hooks/async/api/products'
 import { Muted, Warning } from 'components/text'
 import Shim from 'components/Shim'
 import * as components from 'layouts/products/forecast'
@@ -33,7 +33,7 @@ Content.propTypes = {
 }
 
 function Content({ name }) {
-    const [forecast, pending] = useForecast(name)
+    const [forecast, pending] = useProduct(name)
 
     if (pending) {
         return (

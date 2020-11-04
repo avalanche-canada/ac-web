@@ -1,13 +1,12 @@
 import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
-import * as ForecastPalette from 'constants/forecast/palette'
 
-export const LOW = 'LOW'
-export const MODERATE = 'MODERATE'
-export const CONSIDERABLE = 'CONSIDERABLE'
-export const HIGH = 'HIGH'
-export const EXTREME = 'EXTREME'
-export const NO_RATING = 'NO_RATING'
+export const LOW = 'low'
+export const MODERATE = 'moderate'
+export const CONSIDERABLE = 'considerable'
+export const HIGH = 'high'
+export const EXTREME = 'extreme'
+export const NO_RATING = 'no-rating'
 
 export const LEVELS = [NO_RATING, LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME]
 
@@ -118,15 +117,6 @@ export function useLikehoodOfAvalanche() {
         [intl]
     )
 }
-
-export const Palette = new Map([
-    [EXTREME, ForecastPalette.BLACK],
-    [HIGH, ForecastPalette.RED],
-    [CONSIDERABLE, ForecastPalette.ORANGE],
-    [MODERATE, ForecastPalette.YELLOW],
-    [LOW, ForecastPalette.GREEN],
-    [NO_RATING, ForecastPalette.WHITE],
-])
 
 export function useSizeAndDistribution() {
     const intl = useIntl()

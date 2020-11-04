@@ -108,10 +108,11 @@ export function useMarkers(map, definitions) {
             return
         }
 
-        return definitions.map(([lnglat, options]) => {
+        return definitions.map(([centroid, options]) => {
+            const { longitude, latitude } = centroid
             const marker = new mapbox.Marker(options)
 
-            marker.setLngLat(lnglat)
+            marker.setLngLat([longitude, latitude])
 
             return marker
         })

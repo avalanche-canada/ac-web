@@ -5,7 +5,7 @@ import endOfYesterday from 'date-fns/end_of_yesterday'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import { useIntl, FormattedMessage } from 'react-intl'
-import { useForecast } from 'hooks/async/forecast'
+import { useProduct } from 'hooks/async/api/products'
 import {
     useArchiveForecastRegionsMetadata,
     useArchiveForecastRegionMetadata,
@@ -148,7 +148,7 @@ function ForecastSwitch(props) {
 }
 function ForecastContent({ name, date, children }) {
     return (
-        <Async.Provider value={useForecast(name, date)}>
+        <Async.Provider value={useProduct(name)}>
             <Async.Pending>
                 <Texts.Loading>Loading forecast...</Texts.Loading>
             </Async.Pending>

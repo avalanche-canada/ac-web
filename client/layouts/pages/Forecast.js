@@ -3,11 +3,7 @@ import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Link } from '@reach/router'
 import { FormattedMessage, useIntl } from 'react-intl'
-import { useForecast } from 'hooks/async/forecast'
-import {
-    useForecastRegionsMetadata,
-    useForecastRegionMetadata,
-} from 'hooks/async/features'
+import { useForecasts, useForecast } from 'hooks/async/api/products'
 import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as components from 'layouts/products/forecast'
@@ -29,19 +25,17 @@ export default function ForecastLayout({ name, date }) {
 
     return (
         <Page>
-            <Async.Provider value={useForecastRegionMetadata(name)}>
+            <Async.Provider value={useForecast(name)}>
                 <Header title={<Title name={name} />} />
-            </Async.Provider>
-            <Content>
-                <Main>
-                    <Async.Provider value={useForecast(name, date)}>
+                <Content>
+                    <Main>
                         <Async.Pending>
                             <p className={typography.Muted}>
                                 <FormattedMessage defaultMessage="Loading forecast..." />
                             </p>
                         </Async.Pending>
                         <Async.Found>
-                            <ForecastContent name={name} />
+                            <ForecastContent />
                         </Async.Found>
                         <Async.FirstError>
                             <Async.NotFound>
@@ -57,16 +51,16 @@ export default function ForecastLayout({ name, date }) {
                                 />
                             </Async.Error>
                         </Async.FirstError>
-                    </Async.Provider>
-                </Main>
-                <Aside>
-                    {name === 'kananaskis' ? (
-                        <components.KananaskisSidebar />
-                    ) : (
-                        <components.Sidebar isPrintable={isPrintable} />
-                    )}
-                </Aside>
-            </Content>
+                    </Main>
+                    <Aside>
+                        {name === 'kananaskis' ? (
+                            <components.KananaskisSidebar />
+                        ) : (
+                            <components.Sidebar isPrintable={isPrintable} />
+                        )}
+                    </Aside>
+                </Content>
+            </Async.Provider>
         </Page>
     )
 }
@@ -106,7 +100,7 @@ function ForecastContent({ payload }) {
     )
 }
 function OtherRegions() {
-    const [regions] = useForecastRegionsMetadata()
+    const [forecasts] = useForecasts()
 
     return (
         <Fragment>
@@ -114,7 +108,7 @@ function OtherRegions() {
                 <FormattedMessage defaultMessage="Click on a link below to see another forecast:" />
             </h3>
             <List column={1}>
-                {regions.map(({ id, name }) => (
+                {forecasts.map(({ area: { id, name } }) => (
                     <ListItem key={id} to={`../${id}`} replace>
                         {name}
                     </ListItem>
@@ -123,7 +117,9 @@ function OtherRegions() {
         </Fragment>
     )
 }
-function ForecastHeader({ payload: { name, id } }) {
+function ForecastHeader({ payload }) {
+    const { name, id } = payload.area
+
     return (
         <Fragment>
             <Tag region={id} as={Link} to="/spaw" />

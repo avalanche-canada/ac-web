@@ -1,22 +1,16 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import { Day as DayElement } from 'components/time'
-import {
-    ALP,
-    TLN,
-    BTL,
+import ELEVATIONS, {
     useText as useElevationText,
-    Palette as ElevationPalette,
 } from 'constants/forecast/elevation'
-import Ratings, {
-    EXTREME,
-    useText as useRatingText,
-    Palette as RatingPalette,
-} from 'constants/forecast/rating'
-import { WHITE, BLACK } from 'constants/forecast/palette'
+import Ratings, { useText as useRatingText } from 'constants/forecast/rating'
 import DangerCard from 'components/graphics/danger'
 import { useClientRect } from 'hooks'
-import styles from './Danger.css'
+import Styles from './Danger.css'
+import RatingStyles from 'styles/forecasts/ratings.css'
+import ElevationStyles from 'styles/forecasts/elevations.css'
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -30,8 +24,8 @@ export default function Day({ date, mountain, ...ratings }) {
     const [{ width }, ref] = useClientRect({ width: window.innerWidth })
 
     return (
-        <section ref={ref} className={styles.Day}>
-            <header className={styles.Title}>
+        <section ref={ref} className={Styles.Day}>
+            <header className={Styles.Title}>
                 <DayElement value={date} />
             </header>
             {mountain && width > 400 ? (
@@ -41,11 +35,13 @@ export default function Day({ date, mountain, ...ratings }) {
                     showExtraInformation={width > 650}
                 />
             ) : (
-                <Fragment>
-                    <Row rating={ratings.alp} elevation={ALP} />
-                    <Row rating={ratings.tln} elevation={TLN} />
-                    <Row rating={ratings.btl} elevation={BTL} />
-                </Fragment>
+                Array.from(ELEVATIONS).map(elevation => (
+                    <Row
+                        key={elevation}
+                        rating={ratings[elevation]}
+                        elevation={elevation}
+                    />
+                ))
             )}
         </section>
     )
@@ -55,22 +51,18 @@ export default function Day({ date, mountain, ...ratings }) {
 function Row({ rating, elevation }) {
     const ratingText = useRatingText(rating)
     const elevationText = useElevationText(elevation)
-    const elevationStyle = {
-        backgroundColor: ElevationPalette.get(elevation),
-    }
-    const ratingStyle = {
-        backgroundColor: RatingPalette.get(rating),
-        color: rating === EXTREME ? WHITE : BLACK,
-    }
+    const elevationStyle = classnames(
+        Styles.Elevation,
+        ElevationStyles[elevation]
+    )
+    const ratingStyle = classnames(Styles.Rating, RatingStyles[rating])
+
+    // TODO Could be moved to a Description List: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 
     return (
-        <div className={styles.Row}>
-            <div style={elevationStyle} className={styles.Elevation}>
-                {elevationText}
-            </div>
-            <div style={ratingStyle} className={styles.Rating}>
-                {ratingText}
-            </div>
+        <div className={Styles.Row}>
+            <div className={elevationStyle}>{elevationText}</div>
+            <div className={ratingStyle}>{ratingText}</div>
         </div>
     )
 }

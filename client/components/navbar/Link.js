@@ -17,10 +17,10 @@ Anchor.propTypes = {
 function Anchor({ to = '#', children, ...props }) {
     props.className = classnames(styles.Link, props.className)
 
-    const isLanguageSelector = props.id === 'language';
+    const isLanguageSelector = props.id === 'language'
 
     if (isLanguageSelector) {
-        return (children)
+        return children
     }
 
     if (isExternal(to)) {
