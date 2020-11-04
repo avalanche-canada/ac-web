@@ -13,7 +13,7 @@ Search.propTypes = {
     placeholder: PropTypes.string,
 }
 
-export default function Search({ value, onChange, placeholder = 'Search...' }) {
+export default function Search({ value, onChange, placeholder }) {
     const intl = useIntl()
     const input = useRef(null)
     function handleChange({ target }) {
