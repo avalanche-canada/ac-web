@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { useScroll } from 'hooks'
 import * as Buttons from 'components/button'
 import styles from './Drawer.css'
+import { useIntl } from 'react-intl'
 
 export const LEFT = 'LEFT'
 export const RIGHT = 'RIGHT'
@@ -125,6 +126,11 @@ DisplayOnMap.propTypes = {
 }
 
 export function DisplayOnMap({ onClick }) {
+    const intl = useIntl()
+    const tooltip = intl.formatMessage({
+        description: 'Component page/drawer/DisplayOnMap',
+        defaultMessage: 'Display on map',
+    })
     const LOCATE_STYLE = {
         display: 'flex',
     }
@@ -133,7 +139,7 @@ export function DisplayOnMap({ onClick }) {
         <Buttons.Locate
             onClick={onClick}
             style={LOCATE_STYLE}
-            data-tooltip="Display on map"
+            data-tooltip={tooltip}
             data-tooltip-placement="left"
         />
     )
