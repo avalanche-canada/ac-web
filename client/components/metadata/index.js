@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { useIntl } from 'react-intl'
+import { useIntl, FormattedMessage } from 'react-intl'
 import { Position } from 'components/misc'
 import { useToggle } from 'hooks'
 import { DateTime } from 'components/time'
@@ -21,7 +21,7 @@ export function Metadata({ children, ...props }) {
 }
 
 Entry.propTypes = {
-    term: PropTypes.string,
+    term: PropTypes.node,
     children: PropTypes.node.isRequired,
     horizontal: PropTypes.bool,
     className: PropTypes.string,
@@ -45,16 +45,18 @@ LocationEntry.propTypes = {
     term: PropTypes.string,
 }
 
-export function LocationEntry({ term, longitude, latitude, precision }) {
-    const intl = useIntl()
+export function LocationEntry({
+    term = (
+        <FormattedMessage
+            description="Component metadata/LocationEntry"
+            defaultMessage="Location"
+        />
+    ),
+    longitude,
+    latitude,
+    precision,
+}) {
     const [on, toggle] = useToggle()
-
-    term =
-        term ||
-        intl.formatMessage({
-            description: 'Component metadata/LocationEntry',
-            defaultMessage: 'Location',
-        })
 
     return (
         <Entry term={term} onClick={toggle} className={css.Toggleable}>

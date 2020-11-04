@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
 import classnames from 'classnames'
+import { Link } from '@reach/router'
 import { isExternal } from 'utils/url'
 import styles from './Navbar.css'
 
@@ -17,10 +17,10 @@ Anchor.propTypes = {
 function Anchor({ to = '#', children, ...props }) {
     props.className = classnames(styles.Link, props.className)
 
-    const isLanguageSelector = props.id === 'language';
+    const isLanguageSelector = props.id === 'language'
 
     if (isLanguageSelector) {
-        return (children)
+        return children
     }
 
     if (isExternal(to)) {
