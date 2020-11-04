@@ -23,7 +23,10 @@ export default function Sponsor({ name, logo, url, label, children }) {
             onClick={handleOutboundSponsorClick}>
             {label === null || (
                 <span className={styles.Label}>
-                    <FormattedMessage defaultMessage="Brought to you by" />
+                    <FormattedMessage
+                        description="Component misc/Sponsor"
+                        defaultMessage="Brought to you by"
+                    />
                 </span>
             )}
             {logo ? (
