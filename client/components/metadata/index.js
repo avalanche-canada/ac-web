@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { useIntl } from 'react-intl'
 import { Position } from 'components/misc'
 import { useToggle } from 'hooks'
 import { DateTime } from 'components/time'
@@ -44,13 +45,16 @@ LocationEntry.propTypes = {
     term: PropTypes.string,
 }
 
-export function LocationEntry({
-    term = 'Location',
-    longitude,
-    latitude,
-    precision,
-}) {
+export function LocationEntry({ term, longitude, latitude, precision }) {
+    const intl = useIntl()
     const [on, toggle] = useToggle()
+
+    term =
+        term ||
+        intl.formatMessage({
+            description: 'Component metadata/LocationEntry',
+            defaultMessage: 'Location',
+        })
 
     return (
         <Entry term={term} onClick={toggle} className={css.Toggleable}>
@@ -70,6 +74,15 @@ ShareEntry.propTypes = {
 }
 
 export function ShareEntry({ term = null, url = document.location.href }) {
+    const intl = useIntl()
+    function createTitle(provider) {
+        return intl.formatMessage({
+            description: 'Component metadata/ShareEntry',
+            defaultMessage: 'Share on {provider}',
+            values: { provider },
+        })
+    }
+
     return (
         <Entry term={term}>
             <Set>
@@ -97,9 +110,4 @@ export function TimestampEntry({ term, value }) {
             <DateTime value={value} />
         </Entry>
     )
-}
-
-// Utils
-function createTitle(provider) {
-    return `Share on ${provider}`
 }
