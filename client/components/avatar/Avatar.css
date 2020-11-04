@@ -35,3 +35,7 @@
         display: none;
     }
 }
+
+.Small {
+    font-size: 0.75em;
+}
