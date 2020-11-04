@@ -4,6 +4,7 @@ import isToday from 'date-fns/is_today'
 import endOfYesterday from 'date-fns/end_of_yesterday'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
+import { useIntl, FormattedMessage } from 'react-intl'
 import { useForecast } from 'hooks/async/forecast'
 import {
     useArchiveForecastRegionsMetadata,
@@ -37,6 +38,13 @@ ArchiveForecast.propTypes = {
 }
 
 export default function ArchiveForecast({ name, date, onParamsChange }) {
+    const intl = useIntl()
+    const placeholder = intl.formatMessage({
+        defaultMessage: 'Select a date',
+    })
+    const title = intl.formatMessage({
+        defaultMessage: 'Forecast Archive',
+    })
     function handleNameChange(name) {
         onParamsChange({ date, name })
     }
@@ -46,7 +54,7 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
 
     return (
         <Page>
-            <Header title="Forecast Archive" />
+            <Header title={title} />
             <Content>
                 <Main>
                     <Metadata>
@@ -60,7 +68,7 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
                             <Entry>
                                 <DayPicker
                                     date={date}
-                                    placeholder="Select a date"
+                                    placeholder={placeholder}
                                     onChange={handleDateChange}
                                     disabledDays={{
                                         after: endOfYesterday(),
@@ -78,7 +86,15 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
 
 // Utils
 function RegionDropdown({ value, onChange }) {
+    const intl = useIntl()
     const [regions = [], pending] = useArchiveForecastRegionsMetadata()
+    const placeholder = pending
+        ? intl.formatMessage({
+              defaultMessage: 'Loading...',
+          })
+        : intl.formatMessage({
+              defaultMessage: 'Select a region',
+          })
 
     return (
         <Dropdown
@@ -86,7 +102,7 @@ function RegionDropdown({ value, onChange }) {
             value={value}
             onChange={onChange}
             disabled={pending}
-            placeholder={pending ? 'Loading...' : 'Select a region'}
+            placeholder={placeholder}
         />
     )
 }
@@ -95,18 +111,31 @@ function ForecastSwitch(props) {
     const [region] = useArchiveForecastRegionMetadata(name)
 
     if (!name) {
-        return <Texts.Muted>Select a forecast region.</Texts.Muted>
+        return (
+            <Texts.Muted>
+                <FormattedMessage defaultMessage="Select a forecast region." />
+            </Texts.Muted>
+        )
     }
 
     if (!date) {
-        return <Texts.Muted>Select a forecast date.</Texts.Muted>
+        return (
+            <Texts.Muted>
+                <FormattedMessage defaultMessage="Select a forecast date." />
+            </Texts.Muted>
+        )
     }
 
     const warning =
         region && getWarningUrl(region, date) ? (
             <Shim vertical>
                 <a href={getWarningUrl(region, date)} target={region.id}>
-                    <Warning>{getWarningText(region)}</Warning>
+                    <Warning>
+                        <WarningMessage
+                            name={region.name}
+                            owner={region.owner}
+                        />
+                    </Warning>
                 </a>
             </Shim>
         ) : null
@@ -140,13 +169,25 @@ function ForecastContent({ name, date, children }) {
 function createRegionOption({ id, name }) {
     return [id, name]
 }
-function getWarningText({ name, owner }) {
+function WarningMessage({ name, owner }) {
+    const values = { name }
+
     switch (owner) {
         case PARKS_CANADA:
-            return `Archived forecast bulletins for ${name} region are available on the Parks Canada - Public Avalanche Information website`
+            return (
+                <FormattedMessage
+                    defaultMessage="Archived forecast bulletins for {name} region are available on the Parks Canada - Public Avalanche Information website"
+                    values={values}
+                />
+            )
         case CHIC_CHOCS:
         case VANCOUVER_ISLAND:
-            return `You can get more information for ${name} region on their website`
+            return (
+                <FormattedMessage
+                    defaultMessage="You can get more information for {name} region on their website"
+                    values={values}
+                />
+            )
         default:
             return null
     }
@@ -184,7 +225,9 @@ function ForecastLayout({ date }) {
         <Fragment>
             <Components.Metadata />
             <Shim top>
-                <Warning>This is an archived avalanche bulletin.</Warning>
+                <Warning>
+                    <FormattedMessage defaultMessage="This is an archived avalanche bulletin." />
+                </Warning>
             </Shim>
             <Components.Headline />
             <Components.TabSet />

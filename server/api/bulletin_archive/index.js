@@ -193,7 +193,7 @@ router.get('/:date/:region.:format(json|html)', (req, res) => {
             })
         }
     } else {
-        if (date.isBetween(COVID_START, undefined, 'days', '[]')) {
+        if (date.isBetween(COVID_START, '2020-06-22T07:00:00.000Z', 'days', '[]')) {
             return res.status(404).json({
                 message: COVID_MESSAGE
             })

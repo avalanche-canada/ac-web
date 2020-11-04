@@ -2,11 +2,12 @@ import React, { useMemo } from 'react'
 import * as params from 'prismic/params'
 import { STATIC_PAGE } from 'constants/prismic'
 import Navbar from 'components/navbar'
-import menu from /* preval */ '../constants/menus/avcan'
+import useMenu from '../constants/menus/avcan'
 import logo from 'styles/AvalancheCanada.svg'
 import { useDocument } from 'prismic/hooks'
 
 export default function AvalancheCanadaNavbar() {
+    const menu = useMenu()
     const props = params.uid(STATIC_PAGE, 'ambassadors')
     const [ambassadors] = useDocument(props)
     const menuWithAmbassadors = useMemo(() => {

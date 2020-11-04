@@ -1,6 +1,7 @@
 import React, { StrictMode } from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from '@reach/router'
+import { Provider as IntlProvider } from 'contexts/intl'
 import { AvalancheCanada, AvalancheCanadaFoundation } from 'layouts'
 import ScrollTo from 'components/ScrollTo'
 import Dialog, { Footer, Body } from 'components/dialog'
@@ -16,22 +17,23 @@ import 'styles'
 
 export default function application() {
     ReactDOM.render(
-        <ErrorBoundary fallback={<Fallback navbar={<Navbar />} />}>
-            <LocationProvider>
-                <StrictMode>
-                    <Analytics>
-                        <ScrollTo>
-                            <NotProductionWarning></NotProductionWarning>
-
-                            <Router primary={false}>
-                                <AvalancheCanada path="/*" />
-                                <AvalancheCanadaFoundation path="foundation/*" />
-                            </Router>
-                        </ScrollTo>
-                    </Analytics>
-                </StrictMode>
-            </LocationProvider>
-        </ErrorBoundary>,
+        <IntlProvider>
+            <ErrorBoundary fallback={<Fallback navbar={<Navbar />} />}>
+                <LocationProvider>
+                    <StrictMode>
+                        <Analytics>
+                            <ScrollTo>
+                                <NotProductionWarning />
+                                <Router primary={false}>
+                                    <AvalancheCanada path="/*" />
+                                    <AvalancheCanadaFoundation path="foundation/*" />
+                                </Router>
+                            </ScrollTo>
+                        </Analytics>
+                    </StrictMode>
+                </LocationProvider>
+            </ErrorBoundary>
+        </IntlProvider>,
         document.getElementById('app')
     )
 }

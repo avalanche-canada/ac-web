@@ -1,6 +1,8 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
+import { Link } from '@reach/router'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { useForecast } from 'hooks/async/forecast'
 import {
     useForecastRegionsMetadata,
@@ -15,7 +17,6 @@ import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
 import typography from 'components/text/Text.css'
 import { Details } from 'components/error'
-import { Link } from '@reach/router'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -23,6 +24,7 @@ ForecastLayout.propTypes = {
 }
 
 export default function ForecastLayout({ name, date }) {
+    const intl = useIntl()
     const isPrintable = !date || isToday(date)
 
     return (
@@ -35,7 +37,7 @@ export default function ForecastLayout({ name, date }) {
                     <Async.Provider value={useForecast(name, date)}>
                         <Async.Pending>
                             <p className={typography.Muted}>
-                                Loading forecast...
+                                <FormattedMessage defaultMessage="Loading forecast..." />
                             </p>
                         </Async.Pending>
                         <Async.Found>
@@ -47,7 +49,10 @@ export default function ForecastLayout({ name, date }) {
                             </Async.NotFound>
                             <Async.Error>
                                 <Details
-                                    summary="An error happened while loading forecast."
+                                    summary={intl.formatMessage({
+                                        defaultMessage:
+                                            'An error happened while loading forecast.',
+                                    })}
                                     className={shim.all}
                                 />
                             </Async.Error>
@@ -71,14 +76,19 @@ function Title({ name }) {
     return (
         <Fragment>
             <Async.Pending>
-                <span className={typography.Muted}>Loading...</span>
+                <span className={typography.Muted}>
+                    <FormattedMessage defaultMessage="Loading..." />
+                </span>
             </Async.Pending>
             <Async.Found>
                 <ForecastHeader />
             </Async.Found>
             <Async.Empty>
                 <span className={typography.Warning}>
-                    {name} forecast not found
+                    <FormattedMessage
+                        defaultMessage="{name} forecast not found"
+                        values={{ name }}
+                    />
                 </span>
             </Async.Empty>
         </Fragment>
@@ -88,6 +98,7 @@ function ForecastContent({ payload }) {
     return (
         <components.Provider value={payload}>
             <components.Metadata />
+            <components.LocaleWarning />
             <components.Headline />
             <components.TabSet onTabChange={handleForecastTabActivate} />
             <components.Footer />
@@ -99,7 +110,9 @@ function OtherRegions() {
 
     return (
         <Fragment>
-            <h3>Click on a link below to see another forecast:</h3>
+            <h3>
+                <FormattedMessage defaultMessage="Click on a link below to see another forecast:" />
+            </h3>
             <List column={1}>
                 {regions.map(({ id, name }) => (
                     <ListItem key={id} to={`../${id}`} replace>

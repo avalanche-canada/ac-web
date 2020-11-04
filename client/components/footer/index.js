@@ -1,11 +1,9 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Link } from '@reach/router'
 import styles from './Footer.css'
-import { memo } from 'utils/react'
 
-export default memo.static(Footer)
-
-function Footer() {
+export default function Footer() {
     const year = new Date().getFullYear()
 
     return (
@@ -13,17 +11,32 @@ function Footer() {
             <div className={styles.Content}>
                 <nav className={styles.Nav}>
                     <Link className={styles.Link} to="/about#contact-us">
-                        Contact
+                        <FormattedMessage
+                            defaultMessage="Contact"
+                            description="Footer"
+                        />
                     </Link>
                     <Link className={styles.Link} to="/privacy-policy">
-                        Privacy Policy
+                        <FormattedMessage
+                            defaultMessage="Privacy Policy"
+                            description="Footer"
+                        />
                     </Link>
                     <Link className={styles.Link} to="/terms-of-use">
-                        Terms of use
+                        <FormattedMessage
+                            defaultMessage="Terms of use"
+                            description="Footer"
+                        />
                     </Link>
                 </nav>
                 <span className={styles.Rights}>
-                    ©{year} Avalanche Canada, All Rights Reserved
+                    <FormattedMessage
+                        defaultMessage="©{year} Avalanche Canada, All Rights Reserved"
+                        description="Footer"
+                        values={{
+                            year,
+                        }}
+                    />
                 </span>
             </div>
         </footer>

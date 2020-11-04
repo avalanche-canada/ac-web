@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {
-    Texts,
+import Modes, {
+    useText,
     EARLY_SEASON,
     SPRING_SITUATION,
     OFF_SEASON,
@@ -11,14 +11,13 @@ import { domain } from 'assets/config.json'
 import styles from './Danger.css'
 
 Condition.propTypes = {
-    mode: PropTypes.oneOf([EARLY_SEASON, SPRING_SITUATION, OFF_SEASON])
-        .isRequired,
+    mode: PropTypes.oneOf(Array.from(Modes)).isRequired,
     message: PropTypes.element,
     children: PropTypes.element,
 }
 
 export default function Condition({ mode, message, children }) {
-    const text = Texts.get(mode)
+    const text = useText(mode)
 
     return (
         <div className={styles.Condition}>

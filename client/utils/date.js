@@ -27,3 +27,12 @@ export function endOfSeason(date = new Date()) {
 
     return date > september30 ? new Date(year + 1, 8, 30) : september30
 }
+
+export function isStartOfDay(date) {
+    return (
+        date.getHours() === 0 &&
+        date.getMinutes() === 0 &&
+        date.getSeconds() === 0 &&
+        date.getMilliseconds() === 0
+    )
+}

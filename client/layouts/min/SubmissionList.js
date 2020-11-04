@@ -1,5 +1,6 @@
 import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Link } from '@reach/router'
 import subDays from 'date-fns/sub_days'
 import { endOfYesterday } from 'date-fns'
@@ -172,8 +173,11 @@ function TableContent(params) {
                     </Muted>
                 ) : errors.length > 0 ? (
                     <Error>
-                        {pluralize('error', errors.length, true)} occured while
-                        loading data.
+                        <FormattedMessage
+                            defaultMessage="{count, plural, one {# error} other {# errors}} occured while
+                        loading data."
+                            values={{ count: errors.length }}
+                        />
                     </Error>
                 ) : reports.length === 0 ? (
                     <Loading>
@@ -189,7 +193,12 @@ function TableContent(params) {
                         )}
                     </Loading>
                 ) : (
-                    <Muted>Total of {reports.length} reports found.</Muted>
+                    <Muted>
+                        <FormattedMessage
+                            defaultMessage="Total of {count, plural, one {# report} other {# reports}} found."
+                            values={{ count: reports.length }}
+                        />
+                    </Muted>
                 )}
             </caption>
         </Fragment>
@@ -301,7 +310,10 @@ const COLUMNS = [
                     <br />
                     {length ? (
                         <small className={styles.Muted}>
-                            {pluralize('photo', length, true)} attached
+                            <FormattedMessage
+                                defaultMessage="{count, plural, one {# photo} other {# photos}} attached"
+                                values={{ count: length }}
+                            />
                         </small>
                     ) : null}
                 </Fragment>

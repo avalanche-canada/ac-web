@@ -4,7 +4,7 @@ import { select, event } from 'd3-selection'
 import { drag } from 'd3-drag'
 import { line } from 'd3-shape'
 import { polygonCentroid, polygonContains } from 'd3-polygon'
-import { Translate } from 'contexts/locale'
+import { FormattedMessage } from 'react-intl'
 import { Media, Caption } from 'components/media'
 import { Credit } from 'components/misc'
 import { StructuredText } from 'prismic/components/base'
@@ -37,8 +37,8 @@ export default class RouteFindingExercise extends Component {
         coordinates: [],
         drawing: false,
     }
-    constructor(props) {
-        super(props)
+    constructor(...props) {
+        super(...props)
 
         this.zones = props.items.map(({ coordinates, ...rest }) => {
             coordinates = coordinates
@@ -176,10 +176,7 @@ export default class RouteFindingExercise extends Component {
                     {touched.size > 0 ? (
                         <Caption>
                             <div className={styles.NotSoGoodJob}>
-                                <Translate>
-                                    Watch out, you are crossing some danger
-                                    zones.
-                                </Translate>
+                                <FormattedMessage defaultMessage="Watch out, you are crossing some danger zones." />
                             </div>
                             <ol>
                                 {Array.from(touched, index => {
@@ -195,19 +192,17 @@ export default class RouteFindingExercise extends Component {
                                 })}
                             </ol>
                             <Button onClick={this.handleResetClick}>
-                                <Translate>Start again</Translate>
+                                <FormattedMessage defaultMessage="Start again" />
                             </Button>
                         </Caption>
                     ) : drawing === false && coordinates.length > 0 ? (
                         <Caption>
                             <div className={styles.GoodJob}>
-                                <Translate>
-                                    Good job! You can try to find other routes.
-                                </Translate>
+                                <FormattedMessage defaultMessage="Good job! You can try to find other routes." />
                             </div>
                             <Shim top>
                                 <Button onClick={this.handleResetClick}>
-                                    <Translate>Find another route</Translate>
+                                    <FormattedMessage defaultMessage="Find another route" />
                                 </Button>
                             </Shim>
                         </Caption>

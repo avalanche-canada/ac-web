@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { isRedirect } from '@reach/router'
 import { captureException } from 'services/sentry'
 import typography from 'components/text/Text.css'
+import { useIntl } from 'react-intl'
 
 export class Boundary extends Component {
     static propTypes = {
@@ -52,15 +53,18 @@ Details.propTypes = {
     children: PropTypes.node,
 }
 
-export function Details({
-    error,
-    className,
-    summary = 'An error occured.',
-    children,
-}) {
+export function Details({ error, className, summary, children }) {
+    const intl = useIntl()
+
     return (
         <details className={classnames(typography.Error, className)}>
-            <summary>{summary}</summary>
+            <summary>
+                {summary ||
+                    intl.formatMessage({
+                        description: 'Component Error',
+                        defaultMessage: 'An error occured.',
+                    })}
+            </summary>
             {error && <p>{error.message}</p>}
             {children}
         </details>

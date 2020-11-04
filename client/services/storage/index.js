@@ -1,5 +1,5 @@
-class Storage {
-    constructor(access) {
+export class Storage {
+    constructor(access = () => new Memory()) {
         try {
             // Use a function to access the storage.
             // Some browsers (i.e. Google) throw when trying to access the storage

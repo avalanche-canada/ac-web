@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { useIntl } from 'react-intl'
 import * as Icons from 'components/icons'
 import styles from './Social.css'
 
@@ -17,11 +18,18 @@ Item.propTypes = {
 }
 
 export function Item({ link, title, children, className }) {
+    const intl = useIntl()
     const provider = getProvider(link)
     const name = PROVIDER_NAMES.get(provider)
 
     if (!title) {
-        title = `Visit on ${name}.`
+        title = intl.formatMessage({
+            defaultMessage: 'Visit on {name}.',
+            description: 'Social media',
+            values: {
+                name,
+            },
+        })
     } else if (typeof title === 'function') {
         title = title(name)
     }

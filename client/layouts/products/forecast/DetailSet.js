@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
+import { useIntl } from 'react-intl'
 import { InnerHTML } from 'components/misc'
 import Summary from './Summary'
 
@@ -11,16 +11,31 @@ DetailSet.propTypes = {
 }
 
 export default function DetailSet({ avalanche, snowpack, weather }) {
+    const intl = useIntl()
+
     return (
         <Fragment>
-            <Section title="Avalanche Summary" value={avalanche} />
-            <Section title="Snowpack Summary" value={snowpack} />
-            <Section title="Weather Forecast" value={weather}>
-                <p>
-                    More details can be found on the{' '}
-                    <Link to="/weather">Mountain Weather Forecast</Link>.
-                </p>
-            </Section>
+            <Section
+                title={intl.formatMessage({
+                    description: 'Avalanche Details section',
+                    defaultMessage: 'Avalanche Summary',
+                })}
+                value={avalanche}
+            />
+            <Section
+                title={intl.formatMessage({
+                    description: 'Avalanche Details section',
+                    defaultMessage: 'Snowpack Summary',
+                })}
+                value={snowpack}
+            />
+            <Section
+                title={intl.formatMessage({
+                    description: 'Avalanche Details section',
+                    defaultMessage: 'Weather Forecast',
+                })}
+                value={weather}
+            />
         </Fragment>
     )
 }
@@ -32,15 +47,14 @@ Section.propTypes = {
     children: PropTypes.node,
 }
 
-function Section({ title, value, children }) {
+function Section({ title, value }) {
     if (!value || value.replace(HTML_REGEX, '').trim() === '') {
-        return children || null
+        return null
     }
 
     return (
         <Summary title={title}>
             <InnerHTML>{value}</InnerHTML>
-            {children}
         </Summary>
     )
 }

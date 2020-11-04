@@ -13,10 +13,7 @@ import { Option } from 'components/controls/options'
 import ChartLegend from './panels/ChartLegend'
 import MapLegend from './panels/MapLegend'
 import { Help } from './panels/Welcome'
-import ELEVATIONS, {
-    ALP,
-    Texts as ElevationTexts,
-} from 'constants/forecast/elevation'
+import ELEVATIONS, { ALP, useTexts } from 'constants/forecast/elevation'
 import { SIMPLE, CHALLENGING, COMPLEX } from 'constants/forecast/ates'
 
 export default class TripPlanning extends Component {
@@ -181,51 +178,50 @@ class Content extends Component {
     }
 }
 
-class Form extends Component {
-    static propTypes = {
-        elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
-        onElevationChange: PropTypes.func.isRequired,
-        date: PropTypes.instanceOf(Date).isRequired,
-        onDateChange: PropTypes.func.isRequired,
-        dates: PropTypes.arrayOf(PropTypes.instanceOf(Date)).isRequired,
-    }
-    handleDateChange = time => {
-        this.props.onDateChange(new Date(time))
-    }
-    render() {
-        const { elevation, onElevationChange, date, dates } = this.props
+Form.propTypes = {
+    elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
+    onElevationChange: PropTypes.func.isRequired,
+    date: PropTypes.instanceOf(Date).isRequired,
+    onDateChange: PropTypes.func.isRequired,
+    dates: PropTypes.arrayOf(PropTypes.instanceOf(Date)).isRequired,
+}
 
-        return (
-            <ControlSet>
-                <Control horizontal>
-                    <label style={LABEL_STYLE}>Day</label>
-                    <Dropdown
-                        onChange={this.handleDateChange}
-                        value={date.getTime()}
-                        style={INPUT_STYLE}>
-                        {dates.map((date, index) => (
-                            <Option key={index} value={date.getTime()}>
-                                <Day value={date} />
-                            </Option>
-                        ))}
-                    </Dropdown>
-                </Control>
-                <Control horizontal>
-                    <label style={LABEL_STYLE}>Elevation</label>
-                    <Dropdown
-                        onChange={onElevationChange}
-                        value={elevation}
-                        style={INPUT_STYLE}>
-                        {Array.from(ElevationTexts, ([value, text]) => (
-                            <Option key={value} value={value}>
-                                {text}
-                            </Option>
-                        ))}
-                    </Dropdown>
-                </Control>
-            </ControlSet>
-        )
+function Form({ elevation, onElevationChange, onDateChange, date, dates }) {
+    const elevationTexts = useTexts()
+    function handleDateChange(time) {
+        onDateChange(new Date(time))
     }
+
+    return (
+        <ControlSet>
+            <Control horizontal>
+                <label style={LABEL_STYLE}>Day</label>
+                <Dropdown
+                    onChange={handleDateChange}
+                    value={date.getTime()}
+                    style={INPUT_STYLE}>
+                    {dates.map((date, index) => (
+                        <Option key={index} value={date.getTime()}>
+                            <Day value={date} />
+                        </Option>
+                    ))}
+                </Dropdown>
+            </Control>
+            <Control horizontal>
+                <label style={LABEL_STYLE}>Elevation</label>
+                <Dropdown
+                    onChange={onElevationChange}
+                    value={elevation}
+                    style={INPUT_STYLE}>
+                    {Array.from(elevationTexts, ([value, text]) => (
+                        <Option key={value} value={value}>
+                            {text}
+                        </Option>
+                    ))}
+                </Dropdown>
+            </Control>
+        </ControlSet>
+    )
 }
 
 // Constants

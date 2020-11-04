@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useIntl } from 'react-intl'
+import noop from 'lodash/noop'
 import { Input } from 'components/controls'
 import { Place, Spinner } from 'components/icons'
-import noop from 'lodash/noop'
 import { place as request } from 'services/mapbox/requests'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
 import { Close } from 'components/button'
@@ -17,11 +18,8 @@ Geocoder.propTypes = {
     value: PropTypes.string,
 }
 
-export default function Geocoder({
-    value = '',
-    onChange = noop,
-    placeholder = 'Search',
-}) {
+export default function Geocoder({ value = '', onChange = noop, placeholder }) {
+    const intl = useIntl()
     const [active, activate, deactivate] = useBoolean(false)
     const [term, setTerm] = useState(value || '')
     const key = createKey('mapbox', 'places', term)
@@ -44,6 +42,13 @@ export default function Geocoder({
         setTerm('')
         onChange(null)
     }
+
+    placeholder =
+        placeholder ||
+        intl.formatMessage({
+            description: 'Component Controls/Geocoder',
+            defaultMessage: 'Search',
+        })
 
     return (
         <div className={styles.Container}>

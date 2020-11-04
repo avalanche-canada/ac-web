@@ -17,6 +17,12 @@ Anchor.propTypes = {
 function Anchor({ to = '#', children, ...props }) {
     props.className = classnames(styles.Link, props.className)
 
+    const isLanguageSelector = props.id === 'language';
+
+    if (isLanguageSelector) {
+        return (children)
+    }
+
     if (isExternal(to)) {
         return (
             <a href={to} target={children} {...props}>

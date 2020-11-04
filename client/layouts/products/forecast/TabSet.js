@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
+import { FormattedMessage } from 'react-intl'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { InnerHTML } from 'components/misc'
 import { useForecast } from './Context'
@@ -37,9 +38,24 @@ export default function TabSet({ onTabChange = noop }) {
     return (
         <Tabs onTabChange={onTabChange}>
             <HeaderSet>
-                <Header>Danger ratings</Header>
-                <Header>Problems</Header>
-                <Header>Details</Header>
+                <Header>
+                    <FormattedMessage
+                        description="FX tab header"
+                        defaultMessage="Danger ratings"
+                    />
+                </Header>
+                <Header>
+                    <FormattedMessage
+                        description="FX tab header"
+                        defaultMessage="Problems"
+                    />
+                </Header>
+                <Header>
+                    <FormattedMessage
+                        description="FX tab header"
+                        defaultMessage="Details"
+                    />
+                </Header>
             </HeaderSet>
             <PanelSet>
                 <Panel>

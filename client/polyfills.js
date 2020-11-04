@@ -1,5 +1,10 @@
 // Should be loaded using script, but scripts load async and Promise.all is used in dynamic imports by webpack.
 import 'core-js/features/promise'
+import { shouldPolyfill as shouldPolyfillIntlGetCanonicalLocales } from '@formatjs/intl-getcanonicallocales/should-polyfill'
+import { shouldPolyfill as shouldPolyfillIntlDisplayNames } from '@formatjs/intl-displaynames/should-polyfill'
+import { shouldPolyfill as shouldPolyfillIntlPluralRules } from '@formatjs/intl-pluralrules/should-polyfill'
+import { shouldPolyfill as shouldPolyfillIntlNumberFormat } from '@formatjs/intl-numberformat/should-polyfill'
+import { shouldPolyfill as shouldPolyfillIntlDatetimeFormat } from '@formatjs/intl-datetimeformat/should-polyfill'
 
 export default async function polyfills(self) {
     try {
@@ -33,6 +38,51 @@ export default async function polyfills(self) {
 
         if (typeof self.HTMLDetailsElement === 'undefined') {
             await import('details-element-polyfill')
+        }
+
+        if (shouldPolyfillIntlGetCanonicalLocales()) {
+            await import('@formatjs/intl-getcanonicallocales/polyfill')
+        }
+
+        if (shouldPolyfillIntlPluralRules()) {
+            // Load the polyfill 1st BEFORE loading data
+            await import('@formatjs/intl-pluralrules/polyfill')
+        }
+
+        if (Intl.PluralRules.polyfilled) {
+            await import('@formatjs/intl-pluralrules/locale-data/en')
+            await import('@formatjs/intl-pluralrules/locale-data/fr')
+        }
+
+        if (shouldPolyfillIntlNumberFormat()) {
+            await import('@formatjs/intl-numberformat/polyfill')
+        }
+
+        if (Intl.NumberFormat.polyfilled) {
+            await import('@formatjs/intl-numberformat/locale-data/en')
+            await import('@formatjs/intl-numberformat/locale-data/fr')
+        }
+
+        if (shouldPolyfillIntlDisplayNames()) {
+            await import('@formatjs/intl-displaynames/polyfill')
+        }
+
+        if (Intl.DisplayNames.polyfilled) {
+            await import('@formatjs/intl-displaynames/locale-data/en')
+            await import('@formatjs/intl-displaynames/locale-data/fr')
+        }
+
+        if (shouldPolyfillIntlDatetimeFormat()) {
+            // Load the polyfill 1st BEFORE loading data
+            await import('@formatjs/intl-datetimeformat/polyfill')
+        }
+
+        if (Intl.DateTimeFormat.polyfilled) {
+            await Promise.all([
+                import('@formatjs/intl-datetimeformat/add-all-tz'),
+                import('@formatjs/intl-datetimeformat/locale-data/en'),
+                import('@formatjs/intl-datetimeformat/locale-data/fr'),
+            ])
         }
     } catch (error) {
         if (error.name === 'ChunkLoadError') {

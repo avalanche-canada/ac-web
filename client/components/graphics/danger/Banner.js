@@ -8,10 +8,10 @@ import RATINGS, {
     CONSIDERABLE,
     HIGH,
     EXTREME,
-    Texts as RatingTexts,
-    TravelAdvices,
-    LikehoodOfAvalanche,
-    SizeAndDistribution,
+    useTexts,
+    useTravelAdvices,
+    useLikehoodOfAvalanche,
+    useSizeAndDistribution,
 } from 'constants/forecast/rating'
 import { BannerFill, BannerStroke, TextFill } from './colors'
 import * as Icons from './Icons'
@@ -22,6 +22,7 @@ RatingText.propTypes = {
 }
 
 function RatingText({ rating, showTravelAdvice = false }) {
+    const texts = useTexts()
     const hasTravelAdvice = showTravelAdvice && rating !== NO_RATING
     const fontSize = hasTravelAdvice ? 12 : null
     const fill = TextFill.get(rating)
@@ -29,17 +30,9 @@ function RatingText({ rating, showTravelAdvice = false }) {
 
     return (
         <text x={70} y={y} fill={fill} fontSize={fontSize}>
-            {RatingTexts.get(rating)}
+            {texts.get(rating)}
         </text>
     )
-}
-
-function toLines(text, first = 0) {
-    return text.split('\n ').map((line, index) => (
-        <tspan key={index} x={70} dy={index === 0 ? first : 9}>
-            {line}
-        </tspan>
-    ))
 }
 
 ExtraInformation.propTypes = {
@@ -48,18 +41,29 @@ ExtraInformation.propTypes = {
 }
 
 function ExtraInformation({ rating, expanded = false }) {
+    const travelAdvices = useTravelAdvices()
+    const likehoodOfAvalanche = useLikehoodOfAvalanche()
+    const sizeAndDistribution = useSizeAndDistribution()
+
     if (rating === NO_RATING) {
         return null
     }
 
-    const fill = TextFill.get(rating)
+    const height = expanded ? '100%' : 19
+    const style = {
+        color: TextFill.get(rating),
+        fontSize: '0.45em',
+        marginTop: 0,
+    }
 
     return (
-        <text x={70} y={24} fontSize={7} fill={fill}>
-            {toLines(TravelAdvices.get(rating))}
-            {expanded && toLines(LikehoodOfAvalanche.get(rating), 12)}
-            {expanded && toLines(SizeAndDistribution.get(rating), 12)}
-        </text>
+        <foreignObject x={70} y={18} width={215} height={height}>
+            <p xmlns="http://www.w3.org/1999/xhtml" style={style}>
+                {travelAdvices.get(rating)}
+            </p>
+            {expanded && <p style={style}>{likehoodOfAvalanche.get(rating)}</p>}
+            {expanded && <p style={style}>{sizeAndDistribution.get(rating)}</p>}
+        </foreignObject>
     )
 }
 

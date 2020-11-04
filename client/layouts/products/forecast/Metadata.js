@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { useForecast } from './Context'
 import { DateTime } from 'components/time'
 import {
@@ -16,15 +17,28 @@ ForecastMetadata.propTypes = {
 
 export default function ForecastMetadata({ shareUrl }) {
     const forecast = useForecast()
+    const intl = useIntl()
 
     return forecast ? (
         <Metadata>
-            <TimestampEntry term="Date Issued" value={forecast.dateIssued} />
+            <TimestampEntry
+                term={intl.formatMessage({
+                    description: 'FX Metadata',
+                    defaultMessage: 'Date Issued',
+                })}
+                value={forecast.dateIssued}
+            />
             <ValidUntil
                 dateIssued={forecast.dateIssued}
                 validUntil={forecast.validUntil}
             />
-            <Entry term="Prepared by">{forecast.forecaster}</Entry>
+            <Entry
+                term={intl.formatMessage({
+                    description: 'FX Metadata',
+                    defaultMessage: 'Prepared by',
+                })}>
+                {forecast.forecaster}
+            </Entry>
             {shareUrl && <ShareEntry url={shareUrl} />}
         </Metadata>
     ) : null
@@ -37,10 +51,21 @@ ValidUntil.propTypes = {
 }
 
 function ValidUntil({ dateIssued, validUntil }) {
+    const intl = useIntl()
+    const term = intl.formatMessage({
+        description: 'FX Metadata',
+        defaultMessage: 'Valid Until',
+    })
+
     return (
-        <Entry term="Valid Until">
+        <Entry term={term}>
             {differenceInDays(dateIssued, validUntil) > FURTHER_NOTICE_DAYS ? (
-                <span>Until further notice</span>
+                <span>
+                    <FormattedMessage
+                        defaultMessage="Until further notice"
+                        description="FX Metadata"
+                    />
+                </span>
             ) : (
                 <DateTime value={validUntil} />
             )}

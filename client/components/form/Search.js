@@ -5,6 +5,7 @@ import { Close } from 'components/button'
 import { Control } from 'components/form'
 import { GRAY_LIGHT } from 'constants/colors'
 import styles from './Search.css'
+import { useIntl } from 'react-intl'
 
 Search.propTypes = {
     onChange: PropTypes.func.isRequired,
@@ -12,7 +13,8 @@ Search.propTypes = {
     placeholder: PropTypes.string,
 }
 
-export default function Search({ value, onChange, placeholder = 'Search...' }) {
+export default function Search({ value, onChange, placeholder }) {
+    const intl = useIntl()
     const input = useRef(null)
     function handleChange({ target }) {
         onChange(target.value)
@@ -25,6 +27,13 @@ export default function Search({ value, onChange, placeholder = 'Search...' }) {
 
         onChange('')
     }
+
+    placeholder =
+        placeholder ||
+        intl.formatMessage({
+            description: 'Component form/Search',
+            defaultMessage: 'Search...',
+        })
 
     return (
         <Control horizontal bordered>

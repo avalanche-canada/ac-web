@@ -143,6 +143,11 @@ function AvalancheCanada() {
                             title="Go Farther — Get Avalanche Trained"
                         />
                         <StaticPage
+                            path="education/recorded-webinars"
+                            uid="webinar-recordings"
+                            title="Weekly Webinar Recordings"
+                        />
+                        <StaticPage
                             path="instructing-ast"
                             uid="instructing-ast"
                             title="Teaching Avalanche Skills Training (AST)"

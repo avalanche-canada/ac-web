@@ -16,13 +16,13 @@ module.exports = {
         var properties = metadata[id];
         var geometry = fs.readFileSync(path.join(__dirname, 'geometries', id + '.geojson'));
     
-        var url = null;
-        if (properties.type === 'avalx') {
-            url =
-                config.AVALX2016_ENDPOINT + '?r=' + String(avalxMapping[id]);
-        }
+        // var url = null;
+        // if (properties.type === 'avalx') {
+        //     url =
+        //         config.AVALX2016_ENDPOINT + '?r=' + String(avalxMapping[id]);
+        // }
 
-        properties.url = url || properties.url;
+        // properties.url = url || properties.url;
         properties.id = id;
 
         return {
