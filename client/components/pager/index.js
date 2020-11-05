@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button from 'components/button'
 import styles from './Pager.css'
 import { WHITE } from 'constants/colors'
-import { useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 Pager.propTypes = {
     children: PropTypes.element,
@@ -19,34 +19,38 @@ export default function Pager({ children, ...props }) {
     )
 }
 
-export function Previous(props) {
-    const intl = useIntl()
-    const subtitle = intl.formatMessage({
-        description: 'Component pager/Previous',
-        defaultMessage: 'Previous',
-    })
-
+export function Previous({
+    subtitle = (
+        <FormattedMessage
+            description="Component pager/Previous"
+            defaultMessage="Previous"
+        />
+    ),
+    ...props
+}) {
     return (
         <Navigation
-            subtitle={subtitle}
             {...props}
+            subtitle={subtitle}
             className={styles.Previous}
             icon={<ChevronLeft color={WHITE} width={32} height={32} />}
         />
     )
 }
 
-export function Next(props) {
-    const intl = useIntl()
-    const subtitle = intl.formatMessage({
-        description: 'Component pager/Next',
-        defaultMessage: 'Next',
-    })
-
+export function Next({
+    subtitle = (
+        <FormattedMessage
+            description="Component pager/Next"
+            defaultMessage="Next"
+        />
+    ),
+    ...props
+}) {
     return (
         <Navigation
-            subtitle={subtitle}
             {...props}
+            subtitle={subtitle}
             className={styles.Next}
             icon={<ChevronRight color={WHITE} width={32} height={32} />}
         />
@@ -54,7 +58,7 @@ export function Next(props) {
 }
 
 // Base component
-function Navigation({ title, children, subtitle, className, ...link }) {
+function Navigation({ title, children, subtitle, className, icon, ...link }) {
     let linkTitle = title
 
     if (!linkTitle && typeof children === 'string') {
