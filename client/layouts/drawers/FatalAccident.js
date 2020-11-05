@@ -82,8 +82,7 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
                                 <Muted>
                                     <FormattedMessage
                                         description="Layout drawers/FatalAccident"
-                                        defaultMessage="Fatal recreational accident {id} is not available
-                                anymore."
+                                        defaultMessage="Fatal recreational accident {id} available anymore."
                                         values={{
                                             id
                                         }}
