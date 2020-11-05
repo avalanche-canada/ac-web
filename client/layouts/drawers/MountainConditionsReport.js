@@ -15,6 +15,7 @@ import {
 } from 'layouts/products/mcr'
 import { WHITE } from 'constants/colors'
 import Shim from 'components/Shim'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 MountainConditionsReport.propTypes = {
     id: PropTypes.string.isRequired,
@@ -39,6 +40,7 @@ export default function MountainConditionsReport({
         groups,
         location,
     } = report
+    const intl = useIntl()
 
     return (
         <Fragment>
@@ -54,7 +56,11 @@ export default function MountainConditionsReport({
                     <Banner>
                         <Media images={images} />
                     </Banner>
-                    <Header subject="Arc'Teryx Mountain Conditions Report">
+                    <Header
+                        subject={intl.formatMessage({
+                            defaultMessage: "Arc'Teryx Mountain Conditions Report",
+                            description: 'Layout drawers/MountainConditionsReport',
+                        })}>
                         {title && (
                             <h1>
                                 <a href={permalink} target={permalink}>
@@ -76,13 +82,22 @@ export default function MountainConditionsReport({
                     <Shim horizontal>
                         {pending && (
                             <Loading>
-                                Loading Mountain Conditions Report...
+                                <FormattedMessage
+                                    description="Layout drawers/MountainConditionsReport"
+                                    defaultMessage="Loading Mountain Conditions Report..."
+                                />
                             </Loading>
                         )}
                         {body && <InnerHTML>{body}</InnerHTML>}
                         {!pending && !body && (
                             <Muted>
-                                Report #{id} is not available anymore.
+                                <FormattedMessage
+                                    description="Layout drawers/MountainConditionsReport"
+                                    defaultMessage="Report #{id} is not available anymore."
+                                    values={{
+                                        id
+                                    }}
+                                />
                             </Muted>
                         )}
                         <Footer />
