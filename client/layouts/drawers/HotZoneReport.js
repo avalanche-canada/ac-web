@@ -16,6 +16,7 @@ import { useAdvisoryMetadata } from 'hooks/async/features'
 import { hotZone } from 'prismic/params'
 import * as utils from 'utils/hzr'
 import { useDocument } from 'prismic/hooks'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 HotZoneReportDrawer.propTypes = {
     name: PropTypes.string.isRequired,
@@ -30,6 +31,8 @@ export default function HotZoneReportDrawer({
 }) {
     const [area, areaPending] = useAdvisoryMetadata(name)
     const [report, reportPending] = useDocument(hotZone.report(name))
+    const intl = useIntl()
+
     function title(report, docPending) {
         if (areaPending || docPending) {
             return 'Loading...'
@@ -44,15 +47,18 @@ export default function HotZoneReportDrawer({
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject="Avalanche Advisory">
+            <Header subject={intl.formatMessage({
+                defaultMessage: 'Avalanche Advisory',
+                description: 'Layout drawers/HotZoneReport',
+            })}>
                 <h1>
                     {report ? (
                         <Link to={`/advisories/${name}`}>
                             {title(report, reportPending)}
                         </Link>
                     ) : (
-                        <span>{title(report, reportPending)}</span>
-                    )}
+                            <span>{title(report, reportPending)}</span>
+                        )}
                     {area && (
                         <DisplayOnMap
                             onClick={() => onLocateClick(utils.geometry(area))}
@@ -66,18 +72,18 @@ export default function HotZoneReportDrawer({
                         <Loading />
                     </Shim>
                 ) : (
-                    <Hzr.Report value={report}>
-                        <Shim horizontal>
-                            <Hzr.Metadata shareable />
-                            <Hzr.Header />
-                        </Shim>
-                        <Hzr.Gallery />
-                        <Hzr.CriticalFactors />
-                        <Hzr.TerrainAndTravelAdvice />
-                        <Hzr.TerrainAdviceSet />
-                        <Hzr.Footer />
-                    </Hzr.Report>
-                )}
+                        <Hzr.Report value={report}>
+                            <Shim horizontal>
+                                <Hzr.Metadata shareable />
+                                <Hzr.Header />
+                            </Shim>
+                            <Hzr.Gallery />
+                            <Hzr.CriticalFactors />
+                            <Hzr.TerrainAndTravelAdvice />
+                            <Hzr.TerrainAdviceSet />
+                            <Hzr.Footer />
+                        </Hzr.Report>
+                    )}
             </Body>
         </Fragment>
     )
