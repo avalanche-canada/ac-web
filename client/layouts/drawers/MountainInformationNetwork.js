@@ -16,7 +16,7 @@ import Sponsor from 'layouts/Sponsor'
 import { Provider, Pending, Found, NotFound } from 'contexts/async'
 import { point } from '@turf/helpers'
 import { useReport } from 'hooks/async/min'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 
 MountainInformationNetwork.propTypes = {
     id: PropTypes.string.isRequired,
