@@ -88,7 +88,6 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
                                             id
                                         }}
                                     />
-
                                 </Muted>
                             )}
                 </Shim>
