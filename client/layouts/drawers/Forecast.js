@@ -129,7 +129,12 @@ function OtherRegions() {
 
     return (
         <Shim horizontal as="section">
-            <h3>Click on a link below to see another forecast:</h3>
+            <h3>
+                <FormattedMessage
+                    description="Layout drawers/Forecast"
+                    defaultMessage="Click on a link below to see another forecast:"
+                />
+            </h3>
             <List column={1}>
                 {regions.map(({ id, name }) => (
                     <ListItem
