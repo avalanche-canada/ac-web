@@ -78,14 +78,15 @@ function Table({ username }) {
                     </Pending>
                     <Found>
                         {({ itemCount }) => (
-                            <T.Muted><FormattedMessage description="Layout admin/UserList" defaultMessage="{itemCount, plural,
+                            <T.Muted>
+                                <FormattedMessage description="Layout admin/UserList" defaultMessage="{itemCount, plural,
                                 =0 {No users}
                                 one {# user}
                                 other {# users}} found." values={
-                                    {
-                                        itemCount
-                                    }
-                                } />
+                                        {
+                                            itemCount
+                                        }
+                                    } />
                             </T.Muted>
                         )}
                     </Found>
