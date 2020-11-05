@@ -1,6 +1,7 @@
 import React, { Children, cloneElement, Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { FormattedMessage } from 'react-intl'
 import { useToggle } from 'hooks'
 import { Expand } from 'components/button'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
@@ -59,8 +60,18 @@ export function PageSizeSelector({
     onChange,
     numbers,
     max,
-    prefix = 'Show',
-    suffix = 'entries per page.',
+    prefix = (
+        <FormattedMessage
+            description="Component table/PageSizeSelector prefix"
+            defaultMessage="Show"
+        />
+    ),
+    suffix = (
+        <FormattedMessage
+            description="Component table/PageSizeSelector suffix"
+            defaultMessage="entries per page."
+        />
+    ),
 }) {
     if (!Array.isArray(numbers)) {
         if (typeof max === 'number') {
