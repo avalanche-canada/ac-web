@@ -45,7 +45,7 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject="Avalanche Forecast" subject={intl.formatMessage({
+            <Header subject={intl.formatMessage({
                 defaultMessage: 'Avalanche Forecast',
                 description: 'Layout drawers/Forecast',
             })}>
