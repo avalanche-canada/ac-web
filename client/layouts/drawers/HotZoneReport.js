@@ -35,7 +35,10 @@ export default function HotZoneReportDrawer({
 
     function title(report, docPending) {
         if (areaPending || docPending) {
-            return 'Loading...'
+            return intl.formatMessage({
+                defaultMessage: 'Loading...',
+                description: 'Layout drawers/HotZoneReport',
+            })
         }
 
         return utils.title({ region: name, report, hotZone: area })
