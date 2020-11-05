@@ -16,7 +16,7 @@ import { useAdvisoryMetadata } from 'hooks/async/features'
 import { hotZone } from 'prismic/params'
 import * as utils from 'utils/hzr'
 import { useDocument } from 'prismic/hooks'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { useIntl } from 'react-intl'
 
 HotZoneReportDrawer.propTypes = {
     name: PropTypes.string.isRequired,
