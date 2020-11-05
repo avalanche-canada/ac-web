@@ -12,7 +12,7 @@ export function Time({ value }) {
 }
 
 export function DateTime({ value, skipTimeIfStartOfDay = false }) {
-    value = parse(value);
+    value = parse(value)
     const options = {
         weekday: 'long',
         year: 'numeric',
