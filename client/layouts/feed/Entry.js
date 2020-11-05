@@ -7,6 +7,7 @@ import { TagSet, Tag } from 'components/tag'
 import TagTitle from './TagTitle'
 import { feed } from 'router/prismic'
 import styles from './Feed.css'
+import { FormattedMessage } from 'react-intl'
 
 // TODO Should be moved to /layouts
 // Build a fully generic component
@@ -75,7 +76,12 @@ export function SPAW({ description, shortlede, start }) {
                     </li>
                 </ul>
                 <TagSet>
-                    <Tag>Special Public Avalanche Warning</Tag>
+                    <Tag>
+                        <FormattedMessage
+                            description="Layout feed/Entry"
+                            defaultMessage="Special Public Avalanche Warning"
+                        />
+                    </Tag>
                 </TagSet>
             </div>
         </div>
