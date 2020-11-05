@@ -1,8 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Pagination.css'
 import Segment, { Disabled } from './Segment'
 import pagination from 'utils/pagination'
+import { noop } from 'utils/function'
 
 Pagination.propTypes = {
     total: PropTypes.number.isRequired,
@@ -10,7 +11,7 @@ Pagination.propTypes = {
     onChange: PropTypes.func.isRequired,
 }
 
-function Pagination({ total = 0, active = 1, onChange = () => {} }) {
+export default function Pagination({ total = 0, active = 1, onChange = noop }) {
     total = Math.ceil(total)
 
     if (total < 2) {
@@ -19,9 +20,7 @@ function Pagination({ total = 0, active = 1, onChange = () => {} }) {
 
     const segments =
         total <= 10
-            ? Array(total)
-                  .fill(1)
-                  .map((value, index) => value + index)
+            ? generateSequence(total)
             : pagination(active, total, 3, null)
 
     function createSegment(page) {
@@ -42,4 +41,9 @@ function Pagination({ total = 0, active = 1, onChange = () => {} }) {
     return <div className={styles.Container}>{segments.map(createSegment)}</div>
 }
 
-export default memo(Pagination)
+// Utils
+function generateSequence(length) {
+    return Array(length)
+        .fill(1)
+        .map((value, index) => value + index)
+}
