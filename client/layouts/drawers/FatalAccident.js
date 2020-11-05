@@ -15,6 +15,7 @@ import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import { useDocument } from 'prismic/hooks'
 import Shim from 'components/Shim'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 FatalAccident.propTypes = {
     id: PropTypes.string.isRequired,
@@ -24,13 +25,18 @@ FatalAccident.propTypes = {
 
 export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
     const [document, pending] = useDocument(fatal.accident(id))
+    const intl = useIntl()
 
     return (
         <Fragment>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject="Fatal Recreational Accident">
+            <Header
+                subject={intl.formatMessage({
+                    defaultMessage: 'Fatal Recreational Accident',
+                    description: 'Layout drawers/FatalAccident',
+                })}>
                 {document && (
                     <h1>
                         <span>{document.data.title}</span>
@@ -51,12 +57,20 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
                 <Shim horizontal>
                     {pending ? (
                         <Loading>
-                            Loading fatal recreational accident...
+                            <FormattedMessage
+                                description="Layout drawers/FatalAccident"
+                                defaultMessage="Loading fatal recreational accident..."
+                            />
                         </Loading>
                     ) : document ? (
                         <Fragment>
                             <Metadata>
-                                <Entry term="Accident date">
+                                <Entry
+                                    term={intl.formatMessage({
+                                        defaultMessage: 'Accident Date',
+                                        description:
+                                            'Layout drawers/FatalAccident',
+                                    })}>
                                     <DateTime
                                         value={document.data.dateOfAccident}
                                     />
@@ -65,11 +79,18 @@ export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
                             <StructuredText value={document.data.content} />
                         </Fragment>
                     ) : (
-                        <Muted>
-                            Fatal recreational accident "{id}" is not available
-                            anymore.
-                        </Muted>
-                    )}
+                                <Muted>
+                                    <FormattedMessage
+                                        description="Layout drawers/FatalAccident"
+                                        defaultMessage="Fatal recreational accident {id} is not available
+                                anymore."
+                                        values={{
+                                            id
+                                        }}
+                                    />
+
+                                </Muted>
+                            )}
                 </Shim>
             </Body>
         </Fragment>
