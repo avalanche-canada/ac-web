@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button from 'components/button'
 import styles from './Pager.css'
 import { WHITE } from 'constants/colors'
+import { useIntl } from 'react-intl'
 
 Pager.propTypes = {
     children: PropTypes.element,
@@ -18,40 +19,55 @@ export default function Pager({ children, ...props }) {
     )
 }
 
-export const Previous = withNavigation(
-    'Previous',
-    styles.Previous,
-    <ChevronLeft color={WHITE} width={32} height={32} />
-)
+export function Previous(props) {
+    const intl = useIntl()
+    const subtitle = intl.formatMessage({
+        description: 'Component pager/Previous',
+        defaultMessage: 'Previous',
+    })
 
-export const Next = withNavigation(
-    'Next',
-    styles.Next,
-    <ChevronRight color={WHITE} width={32} height={32} />
-)
+    return (
+        <Navigation
+            subtitle={subtitle}
+            {...props}
+            className={styles.Previous}
+            icon={<ChevronLeft color={WHITE} width={32} height={32} />}
+        />
+    )
+}
 
-// Utils, HOC
-function withNavigation(defaultSubtitle, className, icon) {
-    return function Navigation({
-        title,
-        children,
-        subtitle = defaultSubtitle,
-        ...link
-    }) {
-        let linkTitle = title
+export function Next(props) {
+    const intl = useIntl()
+    const subtitle = intl.formatMessage({
+        description: 'Component pager/Next',
+        defaultMessage: 'Next',
+    })
 
-        if (!linkTitle && typeof children === 'string') {
-            linkTitle = children
-        }
+    return (
+        <Navigation
+            subtitle={subtitle}
+            {...props}
+            className={styles.Next}
+            icon={<ChevronRight color={WHITE} width={32} height={32} />}
+        />
+    )
+}
 
-        return (
-            <Link {...link} title={linkTitle} className={className}>
-                <div className={styles.TextSection}>
-                    <div className={styles.Subtitle}>{subtitle}</div>
-                    <div className={styles.Title}>{children}</div>
-                </div>
-                <Button className={styles.Icon}>{icon}</Button>
-            </Link>
-        )
+// Base component
+function Navigation({ title, children, subtitle, className, ...link }) {
+    let linkTitle = title
+
+    if (!linkTitle && typeof children === 'string') {
+        linkTitle = children
     }
+
+    return (
+        <Link {...link} title={linkTitle} className={className}>
+            <div className={styles.TextSection}>
+                <div className={styles.Subtitle}>{subtitle}</div>
+                <div className={styles.Title}>{children}</div>
+            </div>
+            <Button className={styles.Icon}>{icon}</Button>
+        </Link>
+    )
 }
