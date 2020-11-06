@@ -14,6 +14,9 @@ import * as Async from 'contexts/async'
 import { incidentsBaseUrl } from 'requests/config.json'
 import { Metadata, Entry as MetadataEntry } from 'components/metadata'
 import styles from './incidents.css'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
+
 
 export default function Layout() {
     return (
@@ -38,7 +41,12 @@ function IncidentsList() {
         <Async.Provider value={hooks.useIncidents(page, from, to)}>
             <IncidentFilters values={filters} onChange={handlerFiltersChange} />
             <Async.Pending>
-                <Loading>Loading incidents...</Loading>
+                <Loading>
+                    <FormattedMessage
+                        description="Layout incidents/layouts"
+                        defaultMessage="Loading incidents..."
+                    />
+                </Loading>
             </Async.Pending>
             <Async.Found>
                 {payload => (
@@ -65,13 +73,35 @@ function IncidentTable({ incidents }) {
             <table>
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Location</th>
-                        <th>Province</th>
-                        <th>Activity</th>
-                        <th>Involvement</th>
-                        <th>Injury</th>
-                        <th>Fatal</th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layout"
+                                defaultMessage="Date"
+                            /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layout"
+                            defaultMessage="Location"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layout"
+                            defaultMessage="Province"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layout"
+                            defaultMessage="Activity"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layout"
+                            defaultMessage="Involvement"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layout"
+                            defaultMessage="Injury"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layout"
+                            defaultMessage="Fatal"
+                        /></th>
                         <th />
                     </tr>
                 </thead>
@@ -90,7 +120,11 @@ function IncidentTable({ incidents }) {
                             <Cell>{props.num_injured}</Cell>
                             <Cell>{props.num_fatal}</Cell>
                             <td>
-                                <Link to={props.id}>view</Link>
+                                <Link to={props.id}>
+                                    <FormattedMessage
+                                        description="Layout incidents/layout"
+                                        defaultMessage="view"
+                                    /></Link>
                             </td>
                         </tr>
                     ))}
@@ -101,10 +135,18 @@ function IncidentTable({ incidents }) {
 }
 
 function IncidentDetails({ id }) {
+    const intl = useIntl()
     return (
         <Async.Provider value={hooks.useIncident(id)}>
             <Async.Pending>
-                <Loading>Loading incident...</Loading>
+                <Loading>
+                    <Loading>
+                        <FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Loading incident..."
+                        />
+                    </Loading>
+                </Loading>
             </Async.Pending>
             <Async.Found>
                 {incident => (
@@ -125,10 +167,24 @@ function IncidentDetails({ id }) {
             </Async.Found>
             <Async.FirstError>
                 <Async.NotFound>
-                    <Warning>Incident #{id} not found</Warning>
+                    <Warning>
+                        <FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Incident #{id} not found"
+                            values={{
+                                id
+                            }}
+                        />
+                    </Warning>
                 </Async.NotFound>
                 <Async.Error>
-                    <Details summary="An error occured while loading incident." />
+                    <Details
+                        summary={
+                            intl.formatMessage({
+                                defaultMessage: 'An error occured while loading incident.',
+                                description: 'Layout incidents/layouts',
+                            })
+                        } />
                 </Async.Error>
                 <Async.Throw />
             </Async.FirstError>
@@ -137,11 +193,12 @@ function IncidentDetails({ id }) {
 }
 
 function IncidentFilters({ onChange, values }) {
+    const filters = useFilters()
     const { from, to } = values
     const froms = useMemo(() => {
         // Remove last filter year ( most recent ) as it results in an empty "TO" list and no elements
         // Validate this works when there are entries for this year
-        const f = FILTERS.slice(0, FILTERS.length - 1)
+        const f = filters.slice(0, filters.length - 1)
 
         return new Map(
             f.filter(f => startsBefore(f, to)).map(f => [f.season, f.title])
@@ -150,7 +207,7 @@ function IncidentFilters({ onChange, values }) {
     const tos = useMemo(
         () =>
             new Map(
-                FILTERS.filter(f => startsAfter(f, from)).map(f => [
+                filters.filter(f => startsAfter(f, from)).map(f => [
                     f.season,
                     f.title,
                 ])
@@ -158,6 +215,7 @@ function IncidentFilters({ onChange, values }) {
 
         [from]
     )
+    const intl = useIntl()
     function handleChangeFrom(from) {
         onChange({ from, to })
     }
@@ -167,19 +225,39 @@ function IncidentFilters({ onChange, values }) {
 
     return (
         <Metadata>
-            <MetadataEntry term="From" horizontal>
+            <MetadataEntry
+                term={
+                    intl.formatMessage({
+                        defaultMessage: 'From',
+                        description: 'Layout incidents/layouts',
+                    })
+                } horizontal>
                 <DropdownFromOptions
                     onChange={handleChangeFrom}
                     value={from}
-                    placeholder="From"
+                    placeholder={
+                        intl.formatMessage({
+                            defaultMessage: 'From',
+                            description: 'Layout incidents/layouts',
+                        })
+                    }
                     options={froms}
                 />
             </MetadataEntry>
-            <MetadataEntry term="To" horizontal>
+            <MetadataEntry term={
+                intl.formatMessage({
+                    defaultMessage: 'To',
+                    description: 'Layout incidents/layouts',
+                })} horizontal>
                 <DropdownFromOptions
                     onChange={handleChangeTo}
                     value={to}
-                    placeholder="To"
+                    placeholder={
+                        intl.formatMessage({
+                            defaultMessage: 'To',
+                            description: 'Layout incidents/layouts',
+                        })
+                    }
                     options={tos}
                 />
             </MetadataEntry>
@@ -190,7 +268,12 @@ function IncidentFilters({ onChange, values }) {
 function Summary({ incident }) {
     return (
         <section className={styles.Summary}>
-            <h2>Incident Summary</h2>
+            <h2>
+                <FormattedMessage
+                    description="Layout incidents/layouts"
+                    defaultMessage="Incident Summary"
+                />
+            </h2>
             <List>
                 <Entry term="Date">{incident.ob_date}</Entry>
                 <Entry term="Location">{incident.location}</Entry>
@@ -231,14 +314,38 @@ function Avalanche({ avalanches }) {
             <table>
                 <thead>
                     <tr>
-                        <th>Date/Time</th>
-                        <th>Size</th>
-                        <th>Type</th>
-                        <th>Trigger</th>
-                        <th>Elevation</th>
-                        <th>Aspect</th>
-                        <th>Slab Width</th>
-                        <th>Slab Thickness</th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Date/Time"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Size"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Type"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Trigger"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Elevation"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Aspect"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Slab width"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Slab Thickness"
+                        /></th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -248,19 +355,44 @@ function Avalanche({ avalanches }) {
 }
 
 function Weather({ observations, comment }) {
+    const intl = useIntl()
     return (
         <Section title="Weather">
             <table>
                 <thead>
                     <tr>
-                        <th>Present Temp</th>
-                        <th>Max Temp</th>
-                        <th>Min Temp</th>
-                        <th>24hr Trend</th>
-                        <th>Wind Speed</th>
-                        <th>Wind Direction</th>
-                        <th>Sky Condition</th>
-                        <th>Precipitation Type & Intensity</th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Present Temp"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Max Temp"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Min Temp"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="24hr Trend"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Wind Speed"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Wind Direction"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Sky Condition"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Precipitation Type & Intensity"
+                        /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -276,21 +408,39 @@ function Weather({ observations, comment }) {
                     </tr>
                 </tbody>
             </table>
-            <Comment title="Weather Comment">{comment}</Comment>
+            <Comment title={
+                intl.formatMessage({
+                    defaultMessage: 'Weather Comment',
+                    description: 'Layout incidents/layouts',
+                })
+            }>{comment}</Comment>
         </Section>
     )
 }
 
 function Snowpack({ observations, comment }) {
+    const intl = useIntl()
     return (
         <Section title="Snowpack">
             <table>
                 <thead>
                     <tr>
-                        <th>Snowpack</th>
-                        <th>24hr Snow</th>
-                        <th>Storm Snow</th>
-                        <th>Storm Date</th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Snowpack"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="24hr Snow"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Storm Snow"
+                        /></th>
+                        <th><FormattedMessage
+                            description="Layout incidents/layouts"
+                            defaultMessage="Storm Date"
+                        /></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -302,7 +452,12 @@ function Snowpack({ observations, comment }) {
                     </tr>
                 </tbody>
             </table>
-            <Comment title="Snowpack Comment">{comment}</Comment>
+            <Comment title={
+                intl.formatMessage({
+                    defaultMessage: 'Snowpack Comment',
+                    description: 'Layout incidents/layouts',
+                })
+            }>{comment}</Comment>
         </Section>
     )
 }
@@ -315,7 +470,10 @@ function Documents({ docs }) {
             <td>{d.source}</td>
             <td>
                 <a href={incidentsBaseUrl + d.url} target={d.title}>
-                    view
+                    <FormattedMessage
+                        description="Layout incidents/layout"
+                        defaultMessage="view"
+                    />
                 </a>
             </td>
         </tr>
@@ -324,20 +482,33 @@ function Documents({ docs }) {
     return (
         <Section title="Documents">
             {rows.length === 0 ? (
-                <Muted>No documents available.</Muted>
+                <Muted>
+                    <FormattedMessage
+                        description="Layout incidents/layouts"
+                        defaultMessage="No documents available."
+                    /></Muted>
             ) : (
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Document Date</th>
-                            <th>Title</th>
-                            <th>Source</th>
-                            <th />
-                        </tr>
-                    </thead>
-                    <tbody>{rows}</tbody>
-                </table>
-            )}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><FormattedMessage
+                                    description="Layout incidents/layouts"
+                                    defaultMessage="Document Date"
+                                /></th>
+                                <th><FormattedMessage
+                                    description="Layout incidents/layouts"
+                                    defaultMessage="Title"
+                                /></th>
+                                <th><FormattedMessage
+                                    description="Layout incidents/layouts"
+                                    defaultMessage="Source"
+                                /></th>
+                                <th />
+                            </tr>
+                        </thead>
+                        <tbody>{rows}</tbody>
+                    </table>
+                )}
         </Section>
     )
 }
@@ -418,33 +589,37 @@ function startsAfter(filterVal, currentFromVal) {
  * TODO(wnh): do some more (any?) testing
  */
 
-const FILTERS = makeFilters()
-function makeFilters() {
-    var start = 1981
-    var now = new Date()
-    var end = now.getFullYear()
+function useFilters() {
+    return useIntlMemo((intl) => {
+        var start = 1981
+        var now = new Date()
+        var end = now.getFullYear()
 
-    if (now.getMonth() < 6) {
-        end = end - 1
-    }
-
-    var filters = []
-
-    filters.push({
-        title: '1980/1981 and earlier',
-        season: 1980,
-        start: '0000-01-01',
-        end: '1980-06-30',
-    })
-
-    for (var i = start; i <= end; i++) {
-        const f = {
-            title: String(i) + '/' + String(i + 1),
-            season: i,
-            start: format(new Date(i, 5, 1), 'YYYY-MM-DD'),
-            end: format(new Date(i + 1, 4, 30), 'YYYY-MM-DD'),
+        if (now.getMonth() < 6) {
+            end = end - 1
         }
-        filters.push(f)
-    }
-    return filters
+
+        var filters = []
+
+        filters.push({
+            title: intl.formatMessage({
+                defaultMessage: '1980/1981 and earlier',
+                description: 'Layout incidents/layouts',
+            }),
+            season: 1980,
+            start: '0000-01-01',
+            end: '1980-06-30',
+        })
+
+        for (var i = start; i <= end; i++) {
+            const f = {
+                title: String(i) + '/' + String(i + 1),
+                season: i,
+                start: format(new Date(i, 5, 1), 'YYYY-MM-DD'),
+                end: format(new Date(i + 1, 4, 30), 'YYYY-MM-DD'),
+            }
+            filters.push(f)
+        }
+        return filters
+    })
 }
