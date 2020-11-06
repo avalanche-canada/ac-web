@@ -14,6 +14,7 @@ import { FEED } from 'constants/prismic'
 import { TagSet, Tag } from 'components/tag'
 import { feed } from 'router/prismic'
 import { useDocument } from 'prismic/hooks'
+import { useIntl } from 'react-intl'
 
 Post.propTypes = {
     type: PropTypes.oneOf(FEED).isRequired,
@@ -23,6 +24,7 @@ Post.propTypes = {
 export default function Post(props) {
     const { type, uid } = props
     const [post, pending] = useDocument(params.uid(type, uid))
+    const intl = useIntl()
 
     if (!pending && !post) {
         // Document not found, redirect to the list
@@ -31,7 +33,10 @@ export default function Post(props) {
 
     return (
         <Page>
-            <Header title={post?.data?.title || 'Loading...'} />
+            <Header title={post?.data?.title || intl.formatMessage({
+                defaultMessage: 'Loading...',
+                description: 'Layout feed/Post',
+            })} />
             <Content>
                 <Main>
                     {pending && <Loading />}
@@ -60,11 +65,17 @@ function PostMetadata({ tags, type, data }) {
         start_date &&
         end_date &&
         Date.parse(start_date) !== Date.parse(end_date)
+    const intl = useIntl()
 
     return (
         <Metadata>
             {date && (
-                <Entry term="Date">
+                <Entry term={
+                    intl.formatMessage({
+                        defaultMessage: 'Date',
+                        description: 'Layout feed/Post',
+                    })
+                }>
                     {hasDateRange ? (
                         <Range
                             from={start_date}
@@ -72,17 +83,37 @@ function PostMetadata({ tags, type, data }) {
                             format={dateTimeFormatGetter}
                         />
                     ) : (
-                        <DateElement value={date} />
-                    )}
+                            <DateElement value={date} />
+                        )}
                 </Entry>
             )}
             {typeof location === 'string' && (
-                <Entry term="Location">{location}</Entry>
+                <Entry term={
+                    intl.formatMessage({
+                        defaultMessage: 'Location',
+                        description: 'Layout feed/Post',
+                    })
+                }>{location}</Entry>
             )}
-            {source && <Entry term="Source">{source}</Entry>}
-            {hosted_by && <Entry term="Hosted by">{hosted_by}</Entry>}
+            {source && <Entry term={
+                intl.formatMessage({
+                    defaultMessage: 'Source',
+                    description: 'Layout feed/Post',
+                })
+            }>{source}</Entry>}
+            {hosted_by && <Entry term={
+                intl.formatMessage({
+                    defaultMessage: 'Hosted by',
+                    description: 'Layout feed/Post',
+                })
+            }>{hosted_by}</Entry>}
             {tags.length > 0 && (
-                <Entry term="Tagged under">
+                <Entry term={
+                    intl.formatMessage({
+                        defaultMessage: 'Tagged under',
+                        description: 'Layout feed/Post',
+                    })
+                }>
                     <TagSet>
                         {tags.map(tag => (
                             <Tag key={tag}>
