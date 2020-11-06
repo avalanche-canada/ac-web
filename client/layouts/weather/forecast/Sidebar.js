@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from '@reach/router'
+import { FormattedMessage } from 'react-intl'
 import Sidebar, { Item, Header } from 'components/sidebar'
 import * as url from 'utils/url'
 
@@ -11,47 +12,106 @@ export default function WeatherSidebar() {
         <Sidebar>
             <Header>Forecast</Header>
             <Item>
-                <Link to={forecast()}>Mountain Weather Forecast</Link>
+                <Link to={forecast()}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Mountain Weather Forecast"
+                    />
+                </Link>
             </Item>
             <Item>
                 <Link to={forecast('hourly-precipitation')}>
-                    Hourly Precipitation
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Hourly Precipitation"
+                    />
                 </Link>
             </Item>
             <Item>
                 <Link to={forecast('12h-precipitation')}>
-                    12hr Total Precipitation
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="12hr Total Precipitation"
+                    />
                 </Link>
             </Item>
             <Item>
-                <Link to={forecast('temperatures')}>Temperatures</Link>
+                <Link to={forecast('temperatures')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Temperatures"
+                    />
+                </Link>
             </Item>
             <Item>
-                <Link to={forecast('winds')}>Winds</Link>
+                <Link to={forecast('winds')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Winds"
+                    />
+                </Link>
             </Item>
             <Item>
-                <Link to={forecast('surface-maps')}>Surface Maps</Link>
+                <Link to={forecast('surface-maps')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Surface Maps"
+                    />
+                </Link>
             </Item>
             <Item>
                 <Link to={forecast('other-maps')}>
-                    500 mb & Precipitable Water
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="500 mb & Precipitable Water"
+                    />
                 </Link>
             </Item>
-            <Header>Current Conditions</Header>
+            <Header>
+                <FormattedMessage
+                    description="Layout weather/forecast/Sidebar"
+                    defaultMessage="Current Conditions"
+                />
+            </Header>
             <Item>
-                <Link to={forecast('radar')}>Radar</Link>
+                <Link to={forecast('radar')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Radar"
+                    />
+                </Link>
             </Item>
             <Item>
-                <Link to={forecast('satellite')}>Satellite</Link>
+                <Link to={forecast('satellite')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Satellite"
+                    />
+                </Link>
             </Item>
             <Item>
-                <Link to={forecast('actual-temperatures')}>Temperatures</Link>
+                <Link to={forecast('actual-temperatures')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Temperatures"
+                    />
+                </Link>
             </Item>
             <Item>
-                <Link to={forecast('warnings')}>Warnings</Link>
+                <Link to={forecast('warnings')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Warnings"
+                    />
+                </Link>
             </Item>
             <Header>
-                <Link to={url.path(root, 'glossary')}>Weather Glossary</Link>
+                <Link to={url.path(root, 'glossary')}>
+                    <FormattedMessage
+                        description="Layout weather/forecast/Sidebar"
+                        defaultMessage="Weather Glossary"
+                    />
+                </Link>
             </Header>
         </Sidebar>
     )

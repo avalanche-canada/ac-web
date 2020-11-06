@@ -2,13 +2,20 @@ import React from 'react'
 import { Article } from 'components/page'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Loop } from 'components/weather'
-import { Launch } from 'components/icons'
 import metadata from 'services/msc/loop/metadata.json'
 import Tutorial from './Tutorial'
+import { FormattedMessage } from 'react-intl'
 
 export function HourlyPrecipitation() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Hourly Precipitation"
+        />
+    )
+
     return (
-        <Article title="Hourly Precipitation">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
                     <LoopHeader id="AC_HRDPS_BC_wms-1hr-precip" />
@@ -16,7 +23,7 @@ export function HourlyPrecipitation() {
                     <LoopHeader id="AC_HRDPS_BC-S-Int_1hr-precip" />
                     <LoopHeader id="AC_HRDPS_Alberta-Rockies_1hr-precip" />
                     <LoopHeader id="AC_RDPS_BC_precip-types" />
-                    <Header>Tutorials</Header>
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -56,15 +63,22 @@ export function HourlyPrecipitation() {
 }
 
 export function Precipitation12h() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="12hr Total Precipitation"
+        />
+    )
+
     return (
-        <Article title="12hr Total Precipitation">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
                     <LoopHeader id="AC_RDPS_BC_12hr-precip" />
                     <LoopHeader id="AC_HRDPS_BC-S-Cst_12hr-precip" />
                     <LoopHeader id="AC_HRDPS_BC-S-Int_12hr-precip" />
                     <LoopHeader id="AC_HRDPS_Alberta-Rockies_12hr-precip" />
-                    <Header>Tutorials</Header>
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -89,15 +103,22 @@ export function Precipitation12h() {
 }
 
 export function Temperatures() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Temperatures"
+        />
+    )
+
     return (
-        <Article title="Temperatures">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
                     <LoopHeader id="AC_RDPS_BC_freezing-level" />
                     <LoopHeader id="AC_GDPS_BC_850-temp-4am" />
                     <LoopHeader id="AC_GDPS_BC_850-temp-4pm" />
                     <LoopHeader id="AC_HRDPS_BC_sfc-temp-3hr-freq" />
-                    <Header>Tutorials</Header>
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -122,14 +143,21 @@ export function Temperatures() {
 }
 
 export function Winds() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Winds"
+        />
+    )
+
     return (
-        <Article title="Winds">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
                     <LoopHeader id="AC_RDPS_BC_marine-winds" />
                     <LoopHeader id="AC_GDPS_BC_850-winds" />
                     <LoopHeader id="AC_GDPS_BC_750-winds" />
-                    <Header>Tutorials</Header>
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -151,13 +179,20 @@ export function Winds() {
 }
 
 export function SurfaceMaps() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Surface Maps"
+        />
+    )
+
     return (
-        <Article title="Surface Maps">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
-                    <LoopHeader id='AC_RDPS_CAN-W_3hr-precip-clds-th-slp' />
-                    <LoopHeader id='AC_GDPS_EPA_6hr-precip-clds-th-slp' />
-                    <Header>Tutorials</Header>
+                    <LoopHeader id="AC_RDPS_CAN-W_3hr-precip-clds-th-slp" />
+                    <LoopHeader id="AC_GDPS_EPA_6hr-precip-clds-th-slp" />
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -182,13 +217,20 @@ export function SurfaceMaps() {
 }
 
 export function OtherMaps() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="500 mb & Precipitable Water"
+        />
+    )
+
     return (
-        <Article title="500 mb & Precipitable Water">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
-                    <LoopHeader id='AC_GDPS_EPA_clds-th-500hts' />
-                    <LoopHeader id='AC_GDPS_EPA_tpw' />
-                    <Header>Tutorials</Header>
+                    <LoopHeader id="AC_GDPS_EPA_clds-th-500hts" />
+                    <LoopHeader id="AC_GDPS_EPA_tpw" />
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -210,15 +252,22 @@ export function OtherMaps() {
 }
 
 export function Radar() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Radar Imagery"
+        />
+    )
+
     return (
-        <Article title="Radar Imagery">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
-                    <LoopHeader id='AC_RADAR_BC_precip-rate' />
-                    <LoopHeader id='AC_RADAR_BC-S-CST_precip-rate' />
-                    <LoopHeader id='AC_RADAR_BC-S-INT_precip-rate' />
-                    <LoopHeader id='AC_RADAR_Alberta-Rockies_precip-rate' />
-                    <Header>Tutorials</Header>
+                    <LoopHeader id="AC_RADAR_BC_precip-rate" />
+                    <LoopHeader id="AC_RADAR_BC-S-CST_precip-rate" />
+                    <LoopHeader id="AC_RADAR_BC-S-INT_precip-rate" />
+                    <LoopHeader id="AC_RADAR_Alberta-Rockies_precip-rate" />
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -259,19 +308,26 @@ export function Radar() {
 }
 
 export function Satellite() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Satellite Imagery"
+        />
+    )
+
     return (
-        <Article title="Satellite Imagery">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
-                    <LoopHeader id='AC_SAT_CAN-W-CST_ir-redtop' />
-                    <LoopHeader id='AC_SAT_EPA_ir-redtop' />
-                    <LoopHeader id='AC_SAT_EPA_water-vapour-jet' />
-                    <LoopHeader id='AC_SAT_BC_ir-vis' />
-                    <LoopHeader id='AC_SAT_BC_visible' />
-                    <LoopHeader id='AC_SAT_BC-S-CST_visible' />
-                    <LoopHeader id='AC_SAT_BC-S-INT_visible' />
-                    <LoopHeader id='AC_SAT_Alberta-Rockies_visible' />
-                    <Header>Tutorials</Header>
+                    <LoopHeader id="AC_SAT_CAN-W-CST_ir-redtop" />
+                    <LoopHeader id="AC_SAT_EPA_ir-redtop" />
+                    <LoopHeader id="AC_SAT_EPA_water-vapour-jet" />
+                    <LoopHeader id="AC_SAT_BC_ir-vis" />
+                    <LoopHeader id="AC_SAT_BC_visible" />
+                    <LoopHeader id="AC_SAT_BC-S-CST_visible" />
+                    <LoopHeader id="AC_SAT_BC-S-INT_visible" />
+                    <LoopHeader id="AC_SAT_Alberta-Rockies_visible" />
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -281,10 +337,7 @@ export function Satellite() {
                         />
                     </Panel>
                     <Panel>
-                        <Loop
-                            type="AC_SAT_EPA_ir-redtop"
-                            interval={200}
-                        />
+                        <Loop type="AC_SAT_EPA_ir-redtop" interval={200} />
                     </Panel>
                     <Panel>
                         <Loop
@@ -305,7 +358,10 @@ export function Satellite() {
                         <Loop type="AC_SAT_BC-S-INT_visible" interval={200} />
                     </Panel>
                     <Panel>
-                        <Loop type="AC_SAT_Alberta-Rockies_visible" interval={200} />
+                        <Loop
+                            type="AC_SAT_Alberta-Rockies_visible"
+                            interval={200}
+                        />
                     </Panel>
                     <Panel>
                         <Tutorial uid="satellite" />
@@ -317,12 +373,19 @@ export function Satellite() {
 }
 
 export function ActualTemperatures() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Actual Temperatures (12 hours)"
+        />
+    )
+
     return (
-        <Article title="Actual Temperatures (12 hours)">
+        <Article title={title}>
             <Tabs>
                 <HeaderSet>
-                    <LoopHeader id='AC_PLOT_BC_actual-temps' />
-                    <Header>Tutorials</Header>
+                    <LoopHeader id="AC_PLOT_BC_actual-temps" />
+                    <TutorialsHeader />
                 </HeaderSet>
                 <PanelSet>
                     <Panel>
@@ -338,13 +401,22 @@ export function ActualTemperatures() {
 }
 
 export function Warnings() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/forecast/articles"
+            defaultMessage="Warnings"
+        />
+    )
+
     return (
-        <Article title="Warnings">
+        <Article title={title}>
             <a
                 href="https://weather.gc.ca/warnings/index_e.html"
                 target="weather-warnings">
-                Warnings are avaialble on weather.gc.ca{' '}
-                <Launch height={14} width={14} />
+                <FormattedMessage
+                    description="Layout weather/forecast/articles"
+                    defaultMessage="Warnings are avaialble on weather.gc.ca"
+                />
             </a>
         </Article>
     )
@@ -352,5 +424,16 @@ export function Warnings() {
 
 // Utils
 function LoopHeader({ id, ...props }) {
+    // TODO Need to translate loops metadata
     return <Header {...props}>{metadata[id].shortTitle}</Header>
+}
+function TutorialsHeader() {
+    return (
+        <Header>
+            <FormattedMessage
+                description="Layout weather/forecast/articles"
+                defaultMessage="Tutorials"
+            />
+        </Header>
+    )
 }
