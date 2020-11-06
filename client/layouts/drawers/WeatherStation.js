@@ -17,6 +17,7 @@ import * as hooks from 'hooks/async/weather'
 import Sponsor from 'layouts/Sponsor'
 import * as utils from 'utils/station'
 import { useLocation } from 'router/hooks'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 WeatherStation.propTypes = {
     id: PropTypes.string.isRequired,
@@ -25,13 +26,18 @@ WeatherStation.propTypes = {
 }
 
 export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
+    const intl = useIntl()
     return (
         <Async.Provider value={hooks.useStation(id)}>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject="Weather station">
+            <Header
+                subject={intl.formatMessage({
+                    defaultMessage: 'Weather station',
+                    description: 'Layout drawers/WeatherStation',
+                })}>
                 <h1>
                     <Async.Pending>
                         <Loading as="span" />
@@ -50,7 +56,13 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
                     </Async.Found>
                     <Async.NotFound>
                         <Warning as="span">
-                            Weather station #{id} not found
+                            <FormattedMessage
+                                description="Layout drawers/WeatherStation"
+                                defaultMessage="Weather station #{id} not found"
+                                values={{
+                                    id
+                                }}
+                            />
                         </Warning>
                     </Async.NotFound>
                 </h1>
@@ -88,7 +100,12 @@ function Measurements({ id, utcOffset }) {
     return (
         <Async.Provider value={hooks.useMeasurements(id)}>
             <Async.Pending>
-                <Loading>Loading weather station measurements...</Loading>
+                <Loading>
+                    <FormattedMessage
+                        description="Layout drawers/WeatherStation"
+                        defaultMessage="Loading weather station measurements..."
+                    />
+                </Loading>
             </Async.Pending>
             <Async.Found>
                 {measurements => (
@@ -108,7 +125,12 @@ function StationList() {
 
     return (
         <Async.Provider value={hooks.useStations()}>
-            <h3>Click on a link below to see another weather station:</h3>
+            <h3>
+                <FormattedMessage
+                    description="Layout drawers/WeatherStation"
+                    defaultMessage="Click on a link below to see another weather station:"
+                />
+            </h3>
             <Async.Found>
                 {stations => (
                     <List column={1}>
