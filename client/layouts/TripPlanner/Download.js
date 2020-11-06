@@ -1,6 +1,7 @@
 import React from 'react'
 import { useMachine } from '@xstate/react'
 import { Machine } from 'xstate'
+import { FormattedMessage, useIntl } from 'react-intl'
 import Dialog, { Header, Footer, Body } from 'components/dialog'
 import Button, { Close, ButtonSet } from 'components/button'
 import button from 'components/button/Button.css'
@@ -10,10 +11,16 @@ import { GenericContent } from 'prismic/layouts'
 import { Loading } from 'components/text'
 
 export default function Download({ name, id, onClose }) {
+    const intl = useIntl()
     const [current, send] = useMachine(DOWNLOAD)
     const { value, nextEvents } = current
     const uid = UIDS.get(value)
-    const prefix = 'Download ATES data for ' + name
+    const prefix = intl.formatMessage({
+        description: 'Layout TripPlanner/Download',
+        defaultMessage: 'Download ATES data for {name}',
+        values: { name },
+    })
+
     function moveToNext() {
         send('NEXT')
     }
@@ -38,9 +45,13 @@ export default function Download({ name, id, onClose }) {
                 </Body>
                 <Footer>
                     <ButtonSet>
-                        <Button onClick={onClose}>Cancel</Button>
+                        <Button onClick={onClose}>
+                            <FormattedMessage defaultMessage="Cancel" />
+                        </Button>
                         {nextEvents.includes('NEXT') && (
-                            <Button onClick={moveToNext}>Ok</Button>
+                            <Button onClick={moveToNext}>
+                                <FormattedMessage defaultMessage="Ok" />
+                            </Button>
                         )}
                         {value === 'download' && (
                             <a

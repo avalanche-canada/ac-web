@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { useForecast } from 'hooks/async/forecast'
 import { Muted, Warning } from 'components/text'
 import Shim from 'components/Shim'
@@ -16,10 +17,21 @@ export default function Forecast({ id }) {
     if (externals.has(id)) {
         return (
             <p className={styles.PanelContent}>
-                Avalanche forecast are available at:{' '}
-                <a href={externals.get(id)} target={id}>
-                    {externals.get(id).replace('//', '')}
-                </a>
+                <FormattedMessage
+                    description="Layout TripPlanner/Forecast"
+                    defaultMessage="Avalanche forecast is available at: <link />"
+                    values={{
+                        link() {
+                            const url = externals.get(id)
+
+                            return (
+                                <a href={url} target={id}>
+                                    {url.replace('//', '')}
+                                </a>
+                            )
+                        },
+                    }}
+                />
             </p>
         )
     }
@@ -38,7 +50,12 @@ function Content({ name }) {
     if (pending) {
         return (
             <Shim horizontal>
-                <Muted>Loading avalanche forecast...</Muted>
+                <Muted>
+                    <FormattedMessage
+                        description="Layout TripPlanner/Forecast"
+                        defaultMessage="Loading avalanche forecast..."
+                    />
+                </Muted>
             </Shim>
         )
     }
@@ -55,7 +72,11 @@ function Content({ name }) {
                 </components.Provider>
             ) : (
                 <Warning>
-                    No avalanche forecast has been been found for {name}.
+                    <FormattedMessage
+                        description="Layout TripPlanner/Forecast"
+                        defaultMessage="No avalanche forecast has been been found for {name}."
+                        values={{ name }}
+                    />
                 </Warning>
             )}
             <Disclaimer />

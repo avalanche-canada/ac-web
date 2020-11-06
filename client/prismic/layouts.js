@@ -95,17 +95,16 @@ export function GenericPage({ uid, title }) {
 
 Generic.propTypes = {
     uid: PropTypes.string.isRequired,
+    children: PropTypes.func,
 }
 
-export function Generic({ uid }) {
+export function Generic({ uid, children }) {
     return (
         <GenericProvider uid={uid}>
             <Async.Pending>
                 <Loading />
             </Async.Pending>
-            <Async.Found>
-                <GenericContent />
-            </Async.Found>
+            <Async.Found>{children || <GenericContent />}</Async.Found>
         </GenericProvider>
     )
 }

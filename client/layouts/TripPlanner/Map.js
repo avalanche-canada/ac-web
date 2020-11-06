@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import bbox from '@turf/bbox'
+import { useIntl } from 'react-intl'
 import { useMapState } from 'contexts/map/state'
 import styles from './TripPlanner.css'
 import { useNavigationControl, useMap } from 'hooks/mapbox'
@@ -14,6 +15,7 @@ TripPlannerMap.propTypes = {
 }
 
 export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
+    const intl = useIntl()
     const ref = useRef(null)
     const counter = useRef(0)
     const { zoom, center } = useMapState()
@@ -63,21 +65,33 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
             const [decisionPoint] = queryDecisionPoints(point)
 
             if (decisionPoint) {
-                const { properties, geometry } = decisionPoint
+                const { properties } = decisionPoint
+                const { coordinates } = decisionPoint.geometry
                 const url = `/api/ates/en/decision-points/${properties.id}.json`
                 const popup = new Popup()
+                const html = p(
+                    intl.formatMessage({
+                        description: 'Layout TripPlanner/Map',
+                        defaultMessage: 'Loading information...',
+                    })
+                )
 
                 popup
-                    .setLngLat(geometry.coordinates)
-                    .setHTML('<p>Loading information...</p>')
+                    .setLngLat(coordinates)
+                    .setHTML(html)
                     .addTo(map)
 
                 fetch(url)
                     .then(response => response.json())
                     .then(
                         ({ warnings }) => {
-                            let html =
-                                '<p>No information has been found for that decision point.</p>'
+                            let html = p(
+                                intl.formatMessage({
+                                    description: 'Layout TripPlanner/Map',
+                                    defaultMessage:
+                                        'No information has been found for that decision point.',
+                                })
+                            )
 
                             if (warnings.length > 0) {
                                 warnings = warnings.reduce(
@@ -115,8 +129,14 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
                             popup.setHTML(html)
                         },
                         () => {
-                            const html =
-                                '<p>An error happened while getting decision point information.</p>'
+                            const html = p(
+                                intl.formatMessage({
+                                    description: 'Layout TripPlanner/Map',
+                                    defaultMessage:
+                                        'An error happened while getting decision point information.',
+                                })
+                            )
+
                             popup.setHTML(html)
                         }
                     )
@@ -173,8 +193,11 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
     return <div className={styles.Map} ref={ref} />
 }
 
-// Constants
+// Constants and utils
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
 const ATES_ZONES_LAYERS = ['ates-zones']
 const ATES_AREAS_LAYERS = ['ates-areas']
 const DECISION_POINTS = ['ates-decision-points']
+function p(inner) {
+    return `<p>${inner}</p>`
+}

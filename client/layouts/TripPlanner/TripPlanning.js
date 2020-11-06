@@ -15,6 +15,8 @@ import MapLegend from './panels/MapLegend'
 import { Help } from './panels/Welcome'
 import ELEVATIONS, { ALP, useTexts } from 'constants/forecast/elevation'
 import { SIMPLE, CHALLENGING, COMPLEX } from 'constants/forecast/ates'
+import { FormattedMessage } from 'react-intl'
+import { Generic } from 'prismic/layouts'
 
 export default class TripPlanning extends Component {
     static propTypes = {
@@ -47,7 +49,9 @@ export default class TripPlanning extends Component {
             <Fragment>
                 <div style={CONTENT_STYLE}>
                     {pending ? (
-                        <Muted>Loading avalanche forecast...</Muted>
+                        <Muted>
+                            <FormattedMessage defaultMessage="Loading avalanche forecast..." />
+                        </Muted>
                     ) : hasDangerRatings ? (
                         this.renderContent(data)
                     ) : null}
@@ -61,12 +65,16 @@ export default class TripPlanning extends Component {
         return (
             <Fragment>
                 <p>
-                    No danger ratings are available to run the TripPlanner in
-                    that zone.
+                    <FormattedMessage
+                        description="Layout TripPlanner/TripPlanning"
+                        defaultMessage="No danger ratings are available to run the TripPlanner in that zone."
+                    />
                 </p>
                 <p>
-                    Avalanche Forecast are not produce for every regions, in
-                    some cases they are available externally.
+                    <FormattedMessage
+                        description="Layout TripPlanner/TripPlanning"
+                        defaultMessage="Avalanche Forecast are not produce for every regions, in some cases they are available externally."
+                    />
                 </p>
             </Fragment>
         )
@@ -151,7 +159,10 @@ class Content extends Component {
                 <Form {...this.props} date={this.date} dates={this.dates} />
                 {danger === NO_RATING ? (
                     <Muted>
-                        There is no rating available to show the chart.
+                        <FormattedMessage
+                            description="Layout TripPlanner/TripPlanning"
+                            defaultMessage="There is no rating available to show the chart."
+                        />
                     </Muted>
                 ) : (
                     <div style={CHART_STYLE}>
@@ -161,18 +172,7 @@ class Content extends Component {
                         />
                     </div>
                 )}
-                <p>
-                    For trips in Simple terrain, use the elevation specific
-                    danger rating. For trips in Challenging and Complex terrain,
-                    use the highest danger rating from the applicable day’s
-                    forecast.
-                </p>
-                <p>
-                    Remember to verify all information used during the trip
-                    planning stage at the trail head. Confirm that the trip
-                    decision is still within the comfort zone and skill level of
-                    your group.
-                </p>
+                <Generic uid="trip-planner-interpretion-and-explanation" />
             </Fragment>
         )
     }
@@ -195,7 +195,12 @@ function Form({ elevation, onElevationChange, onDateChange, date, dates }) {
     return (
         <ControlSet>
             <Control horizontal>
-                <label style={LABEL_STYLE}>Day</label>
+                <label style={LABEL_STYLE}>
+                    <FormattedMessage
+                        description="Layout TripPlanner/TripPlanning"
+                        defaultMessage="Day"
+                    />
+                </label>
                 <Dropdown
                     onChange={handleDateChange}
                     value={date.getTime()}
@@ -208,7 +213,12 @@ function Form({ elevation, onElevationChange, onDateChange, date, dates }) {
                 </Dropdown>
             </Control>
             <Control horizontal>
-                <label style={LABEL_STYLE}>Elevation</label>
+                <label style={LABEL_STYLE}>
+                    <FormattedMessage
+                        description="Layout TripPlanner/TripPlanning"
+                        defaultMessage="Elevation"
+                    />
+                </label>
                 <Dropdown
                     onChange={onElevationChange}
                     value={elevation}
