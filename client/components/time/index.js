@@ -2,6 +2,7 @@ import React from 'react'
 import parse from 'date-fns/parse'
 import { FormattedDate, FormattedTime } from 'react-intl'
 import { DATE, DATETIME, isStartOfDay } from 'utils/date'
+import * as FORMATS from 'constants/intl'
 
 export Relative from './Relative'
 export Range from './Range'
@@ -13,19 +14,10 @@ export function Time({ value }) {
 
 export function DateTime({ value, skipTimeIfStartOfDay = false }) {
     value = parse(value)
-    const options = {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-    }
+    let options = FORMATS.DATE
 
     if (!skipTimeIfStartOfDay && !isStartOfDay(value)) {
-        Object.assign(options, {
-            hour: 'numeric',
-            minute: 'numeric',
-            hour12: false,
-        })
+        options = FORMATS.DATETIME
     }
 
     return <FormattedDate value={value} {...options} />
@@ -33,20 +25,14 @@ export function DateTime({ value, skipTimeIfStartOfDay = false }) {
 
 export function Day({ value }) {
     value = parse(value)
+
     return <FormattedDate value={value} weekday="long" />
 }
 
 export function DateElement({ value }) {
     value = parse(value)
-    return (
-        <FormattedDate
-            value={value}
-            weekday="long"
-            year="numeric"
-            month="long"
-            day="numeric"
-        />
-    )
+
+    return <FormattedDate value={value} {...FORMATS.DATE} />
 }
 
 // Utils

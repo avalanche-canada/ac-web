@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Container, Set, Item } from 'components/pill'
 import { DropdownFromOptions, DayPicker } from 'components/controls'
@@ -17,6 +17,7 @@ import {
     format,
 } from 'services/msc/naefs'
 import Shim from 'components/Shim'
+import { useIntl } from 'react-intl'
 
 Image.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -43,24 +44,53 @@ function Image({ date, product, from, to, param }) {
 }
 
 function Title({ product, children }) {
+    const intl = useIntl()
     let prefix = null
     let suffix = null
 
     switch (product) {
         case TEMPERATURE:
-            prefix = 'Probability of temperature'
-            suffix = 'at least one day'
+            prefix = intl.formatMessage({
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'Probability of temperature',
+            })
+            suffix = intl.formatMessage({
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'at least one day',
+            })
             break
         case PRECIPITATION:
-            prefix = 'Probability of precipitation'
-            suffix = 'at least one day'
+            prefix = intl.formatMessage({
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'Probability of precipitation',
+            })
+            suffix = intl.formatMessage({
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'at least one day',
+            })
             break
         case ACCUMULATED_PRECIPITATION:
-            prefix = 'Probability of precipitation accumulation'
-            suffix = 'for the whole period'
+            prefix = intl.formatMessage({
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'Probability of precipitation accumulation',
+            })
+            suffix = intl.formatMessage({
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'for the whole period',
+            })
             break
         default:
-            throw new Error(`product = ${product} not recognized.`)
+            throw new Error(
+                intl.formatMessage(
+                    {
+                        description: 'Component weather/ExceedanceProbability',
+                        defaultMessage: 'product = {product} not recognized.',
+                    },
+                    {
+                        product,
+                    }
+                )
+            )
     }
 
     return (
@@ -77,6 +107,8 @@ ExceedanceProbability.propTypes = {
 }
 
 export default function ExceedanceProbability({ date }) {
+    const options = useOptions()
+    const titles = useTitles()
     const [state, setState] = useState({
         product: TEMPERATURE,
         param: DEFAULT_PARAMETERS.get(TEMPERATURE),
@@ -84,7 +116,7 @@ export default function ExceedanceProbability({ date }) {
         to: addDays(date, 7),
     })
     const { product, param, from, to } = state
-    const activeIndex = Array.from(TITLES.keys()).indexOf(product)
+    const activeIndex = Array.from(titles.keys()).indexOf(product)
     function fromDisabledDays(day) {
         return !isWithinRange(day, date, addDays(date, 5))
     }
@@ -106,8 +138,8 @@ export default function ExceedanceProbability({ date }) {
         setState(state => ({ ...state, param }))
     }
     function handleActivateType(index) {
-        // Use "TITLES" because index reflects which tab clicked
-        const [product] = Array.from(TITLES)[index]
+        // Use "titles" because index reflects which tab clicked
+        const [product] = Array.from(titles)[index]
 
         setState(state => ({
             ...state,
@@ -120,7 +152,7 @@ export default function ExceedanceProbability({ date }) {
         <section>
             <Container>
                 <Set onActivate={handleActivateType} activeIndex={activeIndex}>
-                    {Array.from(TITLES, ([product, title]) => (
+                    {Array.from(titles, ([product, title]) => (
                         <Item key={product}>{title}</Item>
                     ))}
                 </Set>
@@ -129,7 +161,7 @@ export default function ExceedanceProbability({ date }) {
                 <Title product={product}>
                     <DropdownFromOptions
                         value={param}
-                        options={OPTIONS.get(product)}
+                        options={options.get(product)}
                         onChange={handleParamChange}
                     />
                     <div>between</div>
@@ -166,44 +198,105 @@ function getRealProduct(product, param) {
 
 // Constants
 const TEMPERATURE = 'TEMPERATURE'
-const OPTIONS = new Map([
-    [
-        TEMPERATURE,
-        new Map([
-            ['GT0', 'over 0°C'],
-            ['LT0', 'under 0°C'],
-            ['LT-5', 'under -5°C'],
-            ['LT-15', 'under -15°C'],
-            ['LT-30', 'under -30°C'],
-        ]),
-    ],
-    [
-        PRECIPITATION,
-        new Map([
-            ['GT0.002', 'more than 2mm'],
-            ['GT0.005', 'more than 5mm'],
-            ['GT0.010', 'more than 10mm'],
-            ['GT0.025', 'more than 25mm'],
-        ]),
-    ],
-    [
-        ACCUMULATED_PRECIPITATION,
-        new Map([
-            ['GT0.002', 'more than 2mm'],
-            ['GT0.005', 'more than 5mm'],
-            ['GT0.010', 'more than 10mm'],
-            ['GT0.025', 'more than 25mm'],
-            ['GT0.050', 'more than 50mm'],
-        ]),
-    ],
-])
+function useOptions() {
+    const intl = useIntl()
+    function under(temperature) {
+        return intl.formatMessage(
+            {
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'under {temperature, number}°C',
+            },
+            { temperature }
+        )
+    }
+    function over(temperature) {
+        return intl.formatMessage(
+            {
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'over {temperature, number}°C',
+            },
+            { temperature }
+        )
+    }
+    function moreThan(value) {
+        return intl.formatMessage(
+            {
+                description: 'Component weather/ExceedanceProbability',
+                defaultMessage: 'more than {value, number}mm',
+            },
+            { value }
+        )
+    }
+
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    TEMPERATURE,
+                    new Map([
+                        ['GT0', over(0)],
+                        ['LT0', under(0)],
+                        ['LT-5', under(-5)],
+                        ['LT-15', under(-15)],
+                        ['LT-30', under(-30)],
+                    ]),
+                ],
+                [
+                    PRECIPITATION,
+                    new Map([
+                        ['GT0.002', moreThan(2)],
+                        ['GT0.005', moreThan(5)],
+                        ['GT0.010', moreThan(10)],
+                        ['GT0.025', moreThan(25)],
+                    ]),
+                ],
+                [
+                    ACCUMULATED_PRECIPITATION,
+                    new Map([
+                        ['GT0.002', moreThan(2)],
+                        ['GT0.005', moreThan(5)],
+                        ['GT0.010', moreThan(10)],
+                        ['GT0.025', moreThan(25)],
+                        ['GT0.050', moreThan(50)],
+                    ]),
+                ],
+            ]),
+        [intl.locale]
+    )
+}
 const DEFAULT_PARAMETERS = new Map([
     [TEMPERATURE, 'LT-5'],
     [PRECIPITATION, 'GT0.025'],
     [ACCUMULATED_PRECIPITATION, 'GT0.025'],
 ])
-const TITLES = new Map([
-    [TEMPERATURE, 'Temperature'],
-    [PRECIPITATION, 'Precipitation'],
-    [ACCUMULATED_PRECIPITATION, 'Accumulated precipitation'],
-])
+function useTitles() {
+    const intl = useIntl()
+
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    TEMPERATURE,
+                    intl.formatMessage({
+                        description: 'Component weather/ExceedanceProbability',
+                        defaultMessage: 'Temperature',
+                    }),
+                ],
+                [
+                    PRECIPITATION,
+                    intl.formatMessage({
+                        description: 'Component weather/ExceedanceProbability',
+                        defaultMessage: 'Precipitation',
+                    }),
+                ],
+                [
+                    ACCUMULATED_PRECIPITATION,
+                    intl.formatMessage({
+                        description: 'Component weather/ExceedanceProbability',
+                        defaultMessage: 'Accumulated precipitation',
+                    }),
+                ],
+            ]),
+        [intl.locale]
+    )
+}

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import RelativeHumidity from './charts/RelativeHumidity'
 import Snow from './charts/Snow'
 import Temperature from './charts/Temperature'
@@ -15,7 +16,14 @@ ChartSet.propTypes = {
 }
 
 export default function ChartSet({ measurements }) {
-    const fallback = <Error>An error happened while showing charts.</Error>
+    const fallback = (
+        <Error>
+            <FormattedMessage
+                description="Component weather/station/ChartSet"
+                defaultMessage="An error happened while showing charts."
+            />
+        </Error>
+    )
     const [dimensions, ref] = useRatio()
     const { min, max } = getDateExtent(measurements)
 

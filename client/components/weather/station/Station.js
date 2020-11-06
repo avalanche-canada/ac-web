@@ -1,5 +1,6 @@
-import React, { lazy, memo } from 'react'
+import React, { lazy, useMemo } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, useIntl } from 'react-intl'
 import Bundle from 'components/Bundle'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Muted } from 'components/text'
@@ -14,9 +15,19 @@ Station.propTypes = {
     utcOffset: PropTypes.number.isRequired,
 }
 
-function Station({ measurements, utcOffset }) {
+export default function Station({ measurements, utcOffset }) {
+    const columns = useColumns()
+    const headers = useHeaders()
+
     if (measurements.length === 0) {
-        return <Muted>This station currently has no data avaliable</Muted>
+        return (
+            <Muted>
+                <FormattedMessage
+                    description="Component weather/station/Station"
+                    defaultMessage="This station currently has no data avaliable."
+                />
+            </Muted>
+        )
     }
 
     measurements = computeMeasurements(measurements, utcOffset)
@@ -24,18 +35,28 @@ function Station({ measurements, utcOffset }) {
     return (
         <Tabs theme="LOOSE">
             <HeaderSet>
-                <Header>Table</Header>
-                <Header>Charts</Header>
+                <Header>
+                    <FormattedMessage
+                        description="Component weather/station/Station"
+                        defaultMessage="Table"
+                    />
+                </Header>
+                <Header>
+                    <FormattedMessage
+                        description="Component weather/station/Station"
+                        defaultMessage="Charts"
+                    />
+                </Header>
             </HeaderSet>
             <PanelSet>
-                <Panel title="Table">
+                <Panel>
                     <Table
                         measurements={measurements}
-                        columns={COLUMNS}
-                        headers={HEADERS}
+                        columns={columns}
+                        headers={headers}
                     />
                 </Panel>
-                <Panel title="Charts">
+                <Panel>
                     <Bundle>
                         <ChartSet measurements={measurements} />
                     </Bundle>
@@ -44,8 +65,6 @@ function Station({ measurements, utcOffset }) {
         </Tabs>
     )
 }
-
-export default memo(Station)
 
 // Utils
 function computeMeasurements(measurements, utcOffset) {
@@ -60,29 +79,43 @@ function computeMeasurements(measurements, utcOffset) {
 }
 
 // Constants
-const HEADERS = [
-    [
-        Headers.Snow,
-        Headers.AirTemperature,
-        Headers.Wind,
-        Headers.RelativeHumidity,
-    ],
-    [
-        Headers.SnowHeight,
-        Headers.NewSnow,
-        Headers.AirTemperatureAvg,
-        Headers.WindSpeedAvg,
-        Headers.WindDirectionAvg,
-        Headers.WindSpeedGust,
-    ],
-]
-const COLUMNS = [
-    Columns.Hour,
-    Columns.SnowHeight,
-    Columns.NewSnow,
-    Columns.AirTemperatureAvg,
-    Columns.WindSpeedAvg,
-    Columns.WindDirectionAvg,
-    Columns.WindSpeedGust,
-    Columns.RelativeHumidity,
-]
+function useHeaders() {
+    const intl = useIntl()
+
+    return useMemo(
+        () => [
+            [
+                Headers.createSnow(intl),
+                Headers.createAirTemperature(intl),
+                Headers.createWind(intl),
+                Headers.createRelativeHumidity(intl),
+            ],
+            [
+                Headers.createSnowHeight(intl),
+                Headers.createNewSnow(intl),
+                Headers.createAirTemperatureAvg(intl),
+                Headers.createWindSpeedAvg(intl),
+                Headers.createWindDirectionAvg(intl),
+                Headers.createWindSpeedGust(intl),
+            ],
+        ],
+        [intl.locale]
+    )
+}
+function useColumns() {
+    const intl = useIntl()
+
+    return useMemo(
+        () => [
+            Columns.createHour(intl),
+            Columns.createSnowHeight(intl),
+            Columns.createNewSnow(intl),
+            Columns.createAirTemperatureAvg(intl),
+            Columns.createWindSpeedAvg(intl),
+            Columns.createWindDirectionAvg(intl),
+            Columns.createWindSpeedGust(intl),
+            Columns.createRelativeHumidity(intl),
+        ],
+        [intl.locale]
+    )
+}

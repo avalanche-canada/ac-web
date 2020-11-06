@@ -1,5 +1,6 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, FormattedNumber } from 'react-intl'
 import { Metadata, Entry, LocationEntry } from 'components/metadata'
 
 WeatherStationMetadata.propTypes = {
@@ -12,7 +13,7 @@ WeatherStationMetadata.propTypes = {
     owner: PropTypes.string,
 }
 
-function WeatherStationMetadata({
+export default function WeatherStationMetadata({
     longitude,
     latitude,
     elevation,
@@ -23,25 +24,67 @@ function WeatherStationMetadata({
 }) {
     return (
         <Metadata>
-            <Entry term="Source">{source}</Entry>
+            <Entry
+                term={
+                    <FormattedMessage
+                        description="Component weather/station/Metadata"
+                        defaultMessage="Source"
+                    />
+                }>
+                {source}
+            </Entry>
             <LocationEntry longitude={longitude} latitude={latitude} />
-            <Entry term="Elevation">
-                <span style={NO_TEXT_TRANSFORM}>{elevation} m.</span>
+            <Entry
+                term={
+                    <FormattedMessage
+                        description="Component weather/station/Metadata"
+                        defaultMessage="Elevation"
+                    />
+                }>
+                <span style={NO_TEXT_TRANSFORM}>
+                    <FormattedNumber
+                        description="Component weather/station/Metadata"
+                        value={elevation}
+                        style="unit"
+                        unit="meter"
+                        unitDisplay="long"
+                    />
+                </span>
             </Entry>
-            <Entry term="Time zone">
-                UTC-0
-                {Math.abs(utcOffset)}
-                :00
+            <Entry
+                term={
+                    <FormattedMessage
+                        description="Component weather/station/Metadata"
+                        defaultMessage="Time zone"
+                    />
+                }>
+                UTC-0{Math.abs(utcOffset)}:00
             </Entry>
-            {description && <Entry title="Description">{description}</Entry>}
+            {description && (
+                <Entry
+                    title={
+                        <FormattedMessage
+                            description="Component weather/station/Metadata"
+                            defaultMessage="Description"
+                        />
+                    }>
+                    {description}
+                </Entry>
+            )}
             {owner && typeof owner === 'object' && (
-                <Entry title="Owner">{owner}</Entry>
+                <Entry
+                    title={
+                        <FormattedMessage
+                            description="Component weather/station/Metadata"
+                            defaultMessage="Owner"
+                        />
+                    }>
+                    {owner}
+                </Entry>
             )}
         </Metadata>
     )
 }
-
-export default memo(WeatherStationMetadata)
 
 // Constants
 const NO_TEXT_TRANSFORM = {

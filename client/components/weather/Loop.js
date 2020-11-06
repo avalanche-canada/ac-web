@@ -7,6 +7,7 @@ import Base from 'components/loop'
 import { computeUrls, getNotes, isForecast } from 'services/msc/loop'
 import metadata from 'services/msc/loop/metadata.json'
 import { Loading, Error } from 'components/text'
+import { FormattedMessage } from 'react-intl'
 
 // TODO: HOOKS + FUNCTIONAL
 // TODO Improve the speed, we do not need to load all images...
@@ -110,11 +111,25 @@ export default class Loop extends PureComponent {
         const { isLoading, isError, notes } = this.state
 
         if (isLoading) {
-            return <Loading>Creating the loop...</Loading>
+            return (
+                <Loading>
+                    <FormattedMessage
+                        description="Component weather/Loop"
+                        defaultMessage="Creating the loop..."
+                    />
+                </Loading>
+            )
         }
 
         if (isError) {
-            return <Error>Sorry, we are not able to create the loop.</Error>
+            return (
+                <Error>
+                    <FormattedMessage
+                        description="Component weather/Loop"
+                        defaultMessage="Sorry, we are not able to create the loop."
+                    />
+                </Error>
+            )
         }
 
         return (
@@ -141,7 +156,12 @@ function NoteSet({ notes = [] }) {
 
     return (
         <section>
-            <p>Please note:</p>
+            <p>
+                <FormattedMessage
+                    description="Component weather/Loop"
+                    defaultMessage="Please note:"
+                />
+            </p>
             <ul>
                 {notes.map((note, index) => (
                     <li key={index}>{note}</li>

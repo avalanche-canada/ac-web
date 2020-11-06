@@ -1,75 +1,140 @@
-export const Hour = {
-    name: 'hour',
-    title: 'Hour',
-    rowSpan: 2,
+export function createHour(intl) {
+    return {
+        name: 'hour',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Hour',
+        }),
+        rowSpan: 2,
+    }
 }
 
-export const AirTemperature = {
-    name: 'air-temperature',
-    title: 'Air Temperature (°C)',
-    colSpan: 1,
+export function createAirTemperature(intl) {
+    return {
+        name: 'air-temperature',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Air Temperature (°C)',
+        }),
+        colSpan: 1,
+    }
 }
 
-export const Wind = {
-    name: 'wind',
-    title: 'Wind (km/h)',
-    colSpan: 3,
+export function createWind(intl) {
+    return {
+        name: 'wind',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Wind (km/h)',
+        }),
+        colSpan: 3,
+    }
 }
 
-export const RelativeHumidity = {
-    name: 'relative-humidity',
-    title: 'RH (%)',
-    rowSpan: 2,
-    style: {
-        whiteSpace: 'normal',
-    },
+export function createRelativeHumidity(intl) {
+    return {
+        name: 'relative-humidity',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'RH (%)',
+        }),
+        rowSpan: 2,
+        style: {
+            whiteSpace: 'normal',
+        },
+    }
 }
 
-export const Snow = {
-    name: 'snow',
-    title: 'Snow (cm)',
-    colSpan: 2,
-    style: {
-        whiteSpace: 'normal',
-    },
+export function createSnow(intl) {
+    return {
+        name: 'snow',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Snow (cm)',
+        }),
+        colSpan: 2,
+        style: {
+            whiteSpace: 'normal',
+        },
+    }
 }
 
-export const SnowHeight = {
-    name: 'snow-height',
-    title: 'Height',
+export function createSnowHeight(intl) {
+    return {
+        name: 'snow-height',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Height',
+        }),
+    }
 }
 
-export const NewSnow = {
-    name: 'new-snow',
-    title: 'New',
+export function createNewSnow(intl) {
+    return {
+        name: 'new-snow',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'New',
+        }),
+    }
 }
 
-export const AirTemperatureAvg = {
-    name: 'airTempAvg',
-    title: 'Average',
+export function createAirTemperatureAvg(intl) {
+    return {
+        name: 'airTempAvg',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Average',
+        }),
+    }
 }
 
-export const AirTemperatureMax = {
-    name: 'airTempMax',
-    title: 'Max',
+export function createAirTemperatureMax(intl) {
+    return {
+        name: 'airTempMax',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Max',
+        }),
+    }
 }
 
-export const AirTemperatureMin = {
-    name: 'airTempMin',
-    title: 'Min',
+export function createAirTemperatureMin(intl) {
+    return {
+        name: 'airTempMin',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Min',
+        }),
+    }
 }
 
-export const WindSpeedAvg = {
-    name: 'windSpeedAvg',
-    title: 'Speed',
+export function createWindSpeedAvg(intl) {
+    return {
+        name: 'windSpeedAvg',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Speed',
+        }),
+    }
 }
 
-export const WindDirectionAvg = {
-    name: 'windDirAvg',
-    title: 'Direction',
+export function createWindDirectionAvg(intl) {
+    return {
+        name: 'windDirAvg',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Direction',
+        }),
+    }
 }
 
-export const WindSpeedGust = {
-    name: 'windSpeedGust',
-    title: 'Gust',
+export function createWindSpeedGust(intl) {
+    return {
+        name: 'windSpeedGust',
+        title: intl.formatMessage({
+            description: 'Component weather/station/headers',
+            defaultMessage: 'Gust',
+        }),
+    }
 }

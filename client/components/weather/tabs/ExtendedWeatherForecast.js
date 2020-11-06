@@ -1,16 +1,18 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import GramSet, { Location } from './gram'
 import ExceedanceProbability from './ExceedanceProbability'
 import { carte, epsgram, spaghetti } from 'services/msc/naefs'
 import { OpenInNewTab } from 'components/misc'
 import Loop from 'components/loop'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 ExtendedWeatherForecast.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
 }
 
 export default function ExtendedWeatherForecast({ date }) {
+    const loopTitles = useLoopTitles()
     const hpaUrls = SEQUENCE.map(factor =>
         carte({
             product: 'GZ500',
@@ -34,13 +36,31 @@ export default function ExtendedWeatherForecast({ date }) {
 
     return (
         <Fragment>
-            <Section header="500 hPa Mean / Standard Deviation (N. American Ensemble)">
-                <Loop urls={hpaUrls} titles={LOOP_ITLES} />
+            <Section
+                header={
+                    <FormattedMessage
+                        description="Component weather/ExtendedWeatherForecast"
+                        defaultMessage="500 hPa Mean / Standard Deviation (N. American Ensemble)"
+                    />
+                }>
+                <Loop urls={hpaUrls} titles={loopTitles} />
             </Section>
-            <Section header="1000 – 500 hPa Thickness (N. American Ensemble)">
-                <Loop urls={thicknessUrls} titles={LOOP_ITLES} />
+            <Section
+                header={
+                    <FormattedMessage
+                        description="Component weather/ExtendedWeatherForecast"
+                        defaultMessage="1000 – 500 hPa Thickness (N. American Ensemble)"
+                    />
+                }>
+                <Loop urls={thicknessUrls} titles={loopTitles} />
             </Section>
-            <Section header="EPSgrams (N. American Ensemble)">
+            <Section
+                header={
+                    <FormattedMessage
+                        description="Component weather/ExtendedWeatherForecast"
+                        defaultMessage="EPSgrams (N. American Ensemble)"
+                    />
+                }>
                 <GramSet>
                     <Location>
                         <header>Terrace</header>
@@ -68,11 +88,24 @@ export default function ExtendedWeatherForecast({ date }) {
                     </Location>
                 </GramSet>
             </Section>
-            <Section header="Exceedance Probability (N. American Ensemble)">
+
+            <Section
+                header={
+                    <FormattedMessage
+                        description="Component weather/ExtendedWeatherForecast"
+                        defaultMessage="Exceedance Probability (N. American Ensemble)"
+                    />
+                }>
                 <ExceedanceProbability date={date} />
             </Section>
-            <Section header="546 dam – 500 hPa Contour Line (Canadian Ensemble)">
-                <Loop urls={spaghettiUrls} titles={LOOP_ITLES} />
+            <Section
+                header={
+                    <FormattedMessage
+                        description="Component weather/ExtendedWeatherForecast"
+                        defaultMessage="546 dam – 500 hPa Contour Line (Canadian Ensemble)"
+                    />
+                }>
+                <Loop urls={spaghettiUrls} titles={loopTitles} />
             </Section>
         </Fragment>
     )
@@ -87,7 +120,24 @@ function Section({ children, header }) {
         </section>
     )
 }
+function useLoopTitles() {
+    const intl = useIntl()
+
+    return useMemo(
+        () =>
+            SEQUENCE.map(value =>
+                intl.formatMessage(
+                    {
+                        description:
+                            'Component weather/ExtendedWeatherForecast',
+                        defaultMessage: 'Day {value}',
+                    },
+                    { value }
+                )
+            ),
+        [intl.locale]
+    )
+}
 
 // Constants
 const SEQUENCE = [5, 6, 7, 8, 9, 10]
-const LOOP_ITLES = SEQUENCE.map(value => `Day ${value}`)

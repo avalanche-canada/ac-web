@@ -2,6 +2,7 @@ import parse from 'date-fns/parse'
 import endOfDay from 'date-fns/end_of_day'
 
 // http://www.bt-tb.tpsgc-pwgsc.gc.ca/btb.php?lang=eng&cont=867
+// TODO Should eventually switch to options objects
 export const DATE = 'dddd, MMMM D, YYYY'
 export const DATETIME = 'dddd, MMMM D, YYYY HH:mm'
 export const TIME = 'HH:mm'

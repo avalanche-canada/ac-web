@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { StructuredText, Image } from 'prismic/components/base'
 import { DateElement } from 'components/time'
 import addDays from 'date-fns/add_days'
+import { FormattedMessage } from 'react-intl'
 
 const SEQUENCE = [0, 1, 2, 3]
 
@@ -28,15 +29,20 @@ function Outlook({ forecast }) {
 
     return (
         <section>
-            <h2>Outlook</h2>
+            <h2>
+                <FormattedMessage
+                    description="Component weather/Legacy"
+                    defaultMessage="Outlook"
+                />
+            </h2>
             <StructuredText value={outlook} />
-            {SEQUENCE.map(increment =>
+            {SEQUENCE.map(increment => (
                 <Content
                     key={increment}
                     image={forecast[`outlookImage${increment + 1}`]}
                     text={forecast[`outlookText${increment + 1}`]}
                 />
-            )}
+            ))}
         </section>
     )
 }
@@ -57,13 +63,13 @@ function Day({ forecast, date, index }) {
             <h2>
                 <DateElement value={date} />
             </h2>
-            {SEQUENCE.map(increment =>
+            {SEQUENCE.map(increment => (
                 <Content
                     key={increment}
                     image={get('Image', increment)}
                     text={get('Text', increment)}
                 />
-            )}
+            ))}
         </section>
     )
 }
@@ -78,14 +84,14 @@ export default function Legacy({ forecast }) {
     return (
         <div>
             <StructuredText value={synopsis} />
-            {SEQUENCE.map(index =>
+            {SEQUENCE.map(index => (
                 <Day
                     key={index}
                     index={index}
                     date={addDays(date, index)}
                     forecast={forecast}
                 />
-            )}
+            ))}
             <Outlook forecast={forecast} />
         </div>
     )

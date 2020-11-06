@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import Time from './Time'
+import { DateTime } from './'
 import { FormattedMessage } from 'react-intl'
 
 DateRange.propTypes = {
@@ -12,12 +12,16 @@ DateRange.propTypes = {
 export default function DateRange({ from, to, format }) {
     return (
         <Fragment>
-            <Time value={from} format={format} />
             <FormattedMessage
                 description="Component time/DateRange"
-                defaultMessage=" to "
-            />
-            <Time value={to} format={format} />
+                defaultMessage="From"
+            />{' '}
+            <DateTime value={from} format={format} />{' '}
+            <FormattedMessage
+                description="Component time/DateRange"
+                defaultMessage="to"
+            />{' '}
+            <DateTime value={to} format={format} />
         </Fragment>
     )
 }
