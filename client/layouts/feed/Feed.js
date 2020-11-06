@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { Link } from '@reach/router'
-import format from 'date-fns/format'
 import { feed } from 'prismic/params'
 import { Content, Header, Main } from 'components/page'
 import { Page } from 'layouts/pages'
@@ -23,7 +22,7 @@ import useParams, {
     BooleanParam,
 } from 'hooks/params'
 import { useLocation } from 'router/hooks'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { useMonths, useIntlMemo } from 'hooks/intl'
 
 export function BlogPostFeed({ navigate }) {
