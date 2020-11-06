@@ -7,6 +7,7 @@ import { feed } from 'prismic/params'
 import { pathname } from 'router/prismic'
 import { useDocuments } from 'prismic/hooks'
 import { EVENT, NEWS, BLOG, FEED } from 'constants/prismic'
+import { useIntlMemo } from 'hooks/intl'
 
 FeedSidebar.propTypes = {
     type: PropTypes.oneOf(FEED).isRequired,
@@ -15,10 +16,11 @@ FeedSidebar.propTypes = {
 
 export default function FeedSidebar(props) {
     const [documents = [], pending] = useDocuments(feed.sidebar(props))
+    const headers = useHeaders()
 
     return (
         <Sidebar share follow>
-            <Header>{Headers.get(props.type)}</Header>
+            <Header>{headers.get(props.type)}</Header>
             {pending && <Loading />}
             {documents.map(renderItem)}
         </Sidebar>
@@ -33,8 +35,20 @@ function renderItem(document) {
         </Item>
     )
 }
-const Headers = new Map([
-    [BLOG, 'Latest blog posts'],
-    [NEWS, 'Latest news'],
-    [EVENT, 'Upcoming events'],
-])
+
+function useHeaders() {
+    return useIntlMemo((intl) => new Map([
+        [BLOG, intl.formatMessage({
+            defaultMessage: 'Latest blog posts',
+            description: 'Layout feed/Sidebar',
+        })],
+        [NEWS, intl.formatMessage({
+            defaultMessage: 'Latest news',
+            description: 'Layout feed/Sidebar',
+        })],
+        [EVENT, intl.formatMessage({
+            defaultMessage: 'Upcoming events',
+            description: 'Layout feed/Sidebar',
+        })],
+    ]))
+}
