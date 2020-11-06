@@ -1,3 +1,5 @@
+import { useIntlMemo } from 'hooks/intl'
+
 export const GENERIC = 'generic'
 export const STATIC_PAGE = 'static-page'
 export const EVENT = 'event'
@@ -15,4 +17,19 @@ export const DEFINITION = 'definition'
 export const GLOSSARY = 'glossary'
 export const SPONSOR = 'sponsor'
 
-export const FEED = [NEWS, BLOG, EVENT]
+export function useFeedTexts() {
+  return useIntlMemo((intl) => new Map([
+    [BLOG, intl.formatMessage({
+      defaultMessage: 'blog',
+      description: 'Constants prismic',
+    })],
+    [NEWS, intl.formatMessage({
+      defaultMessage: 'news',
+      description: 'Constants prismic',
+    })],
+    [EVENT, intl.formatMessage({
+      defaultMessage: 'event',
+      description: 'Constants prismic',
+    })]
+  ]))
+}

@@ -10,14 +10,16 @@ import { DateElement, Range, dateTimeFormatGetter } from 'components/time'
 import TagTitle from './TagTitle'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
-import { FEED } from 'constants/prismic'
+import { useFeedTexts } from 'constants/prismic'
 import { TagSet, Tag } from 'components/tag'
 import { feed } from 'router/prismic'
 import { useDocument } from 'prismic/hooks'
 import { useIntl } from 'react-intl'
 
+const feedTexts = useFeedTexts()
+
 Post.propTypes = {
-    type: PropTypes.oneOf(FEED).isRequired,
+    type: PropTypes.oneOf(feedTexts).isRequired,
     uid: PropTypes.string.isRequired,
 }
 

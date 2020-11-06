@@ -24,6 +24,7 @@ import useParams, {
 import { useLocation } from 'router/hooks'
 import { FormattedMessage } from 'react-intl'
 import { useMonths, useIntlMemo } from 'hooks/intl'
+import { useFeedTexts } from 'constants/prismic'
 
 export function BlogPostFeed({ navigate }) {
     const [params, stringify] = useParams({
@@ -173,7 +174,7 @@ function FeedContent({ params, type, onPageChange }) {
     const [spaw] = useSPAW()
     const { results = [], page, total_pages } = data
     let rearranged = results
-    const itemType = useType()
+    const itemType = useFeedTexts()
 
     if (page === 1 && rearranged.some(isFeaturedPost)) {
         const featured = rearranged.find(isFeaturedPost)
@@ -236,23 +237,6 @@ function TagsDropdown({ type, value, onChange }) {
 
 // Constants
 const CURRENT_YEAR = new Date().getFullYear()
-
-function useType() {
-    return useIntlMemo((intl) => new Map([
-        [BLOG, intl.formatMessage({
-            defaultMessage: 'blog',
-            description: 'Layout feed/Feed',
-        })],
-        [NEWS, intl.formatMessage({
-            defaultMessage: 'news',
-            description: 'Layout feed/Feed',
-        })],
-        [EVENT, intl.formatMessage({
-            defaultMessage: 'event',
-            description: 'Layout feed/Feed',
-        })]
-    ]))
-}
 
 const YearOptions = new Map([
     [undefined, 'All years'],

@@ -6,11 +6,13 @@ import { Loading } from 'components/text'
 import { feed } from 'prismic/params'
 import { pathname } from 'router/prismic'
 import { useDocuments } from 'prismic/hooks'
-import { EVENT, NEWS, BLOG, FEED } from 'constants/prismic'
+import { useFeedTexts } from 'constants/prismic'
 import { useIntlMemo } from 'hooks/intl'
 
+const feedTexts = useFeedTexts()
+
 FeedSidebar.propTypes = {
-    type: PropTypes.oneOf(FEED).isRequired,
+    type: PropTypes.oneOf(feedTexts).isRequired,
     uid: PropTypes.string.isRequired,
 }
 
