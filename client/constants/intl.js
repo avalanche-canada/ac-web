@@ -11,3 +11,7 @@ export const DATETIME = {
     minute: 'numeric',
     hour12: false,
 }
+
+export const MONTH = {
+    month: 'long'
+}
