@@ -6,6 +6,7 @@ import * as Page from 'components/page'
 import * as Layouts from 'layouts/pages'
 import Button, { ButtonSet } from 'components/button'
 import styles from 'layouts/pages/pages.css'
+import { FormattedMessage } from 'react-intl'
 
 Bundle.propTypes = {
     children: PropTypes.element.isRequired,
@@ -38,11 +39,7 @@ function Error({ error }) {
 }
 
 // TODO Reuse existig page layouts!
-function ErrorPage({
-    title = 'Uh oh! We never thought that would happen...',
-    headline = 'An error happened while loading this page.',
-    message,
-}) {
+function ErrorPage({ title, headline, message }) {
     function reload() {
         window.location.reload(true)
     }
@@ -50,14 +47,29 @@ function ErrorPage({
     return (
         <Layouts.Error>
             <Page.Main>
-                <h1>{title}</h1>
+                <h1>
+                    {title || (
+                        <FormattedMessage
+                            description="Component Bundle: Error page"
+                            defaultMessage="Uh oh! We never thought that would happen..."
+                        />
+                    )}
+                </h1>
                 <Page.Headline>
-                    {headline}
+                    {headline || (
+                        <FormattedMessage
+                            description="Component Bundle: Error page"
+                            defaultMessage="An error happened while loading this page."
+                        />
+                    )}
                     {message && <Text.Error>{message}</Text.Error>}
                 </Page.Headline>
                 <ButtonSet>
                     <Button onClick={reload} className={styles.Link}>
-                        Reload this page
+                        <FormattedMessage
+                            description="Component Bundle: Error page"
+                            defaultMessage="Reload this page"
+                        />
                     </Button>
                 </ButtonSet>
             </Page.Main>
