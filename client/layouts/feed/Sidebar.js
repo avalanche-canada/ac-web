@@ -6,7 +6,7 @@ import { Loading } from 'components/text'
 import { feed } from 'prismic/params'
 import { pathname } from 'router/prismic'
 import { useDocuments } from 'prismic/hooks'
-import { useFeedTexts } from 'constants/prismic'
+import { useFeedTexts, BLOG, NEWS, EVENT } from 'constants/prismic'
 import { useIntlMemo } from 'hooks/intl'
 
 const feedTexts = useFeedTexts()
