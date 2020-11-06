@@ -5,12 +5,15 @@ import Shim from 'components/Shim'
 import { useReport } from './Context'
 import TerrainSummary from './TerrainSummary'
 import AdviceText from './AdviceText'
+import { FormattedMessage } from 'react-intl'
+import { useTexts, ALP, TLN, BTL } from 'constants/forecast/elevation'
 
 TerrainAndTravelAdviceComponent.propTypes = {
     report: PropTypes.object.isRequired,
 }
 
 function TerrainAndTravelAdviceComponent({ report }) {
+    const ratings = useTexts()
     const {
         treelineTerrainAvoidanceTravelAdvice,
         belowTreelineTerrainAvoidanceTravelAdvice,
@@ -27,24 +30,24 @@ function TerrainAndTravelAdviceComponent({ report }) {
     }
 
     return (
-        <Panel header="Terrain and Travel Advice" expanded>
+        <Panel
+            header={
+                <FormattedMessage
+                    description="Layout products/hzr/TerrainAdviceAdvice"
+                    defaultMessage="Terrain and Travel Advice"
+                />
+            }
+            expanded>
             <Shim horizontal>
                 <AdviceText />
-                <TerrainSummary
-                    prefix="alpineTerrainAvoidance"
-                    title="Alpine"
-                    report={report}
-                />
-                <TerrainSummary
-                    prefix="treelineTerrainAvoidance"
-                    title="Treeline"
-                    report={report}
-                />
-                <TerrainSummary
-                    prefix="belowTreelineTerrainAvoidance"
-                    title="Below treeline"
-                    report={report}
-                />
+                {Array.from(ratings, ([rating, title]) => (
+                    <TerrainSummary
+                        key={rating}
+                        prefix={keys.get(rating)}
+                        title={title}
+                        report={report}
+                    />
+                ))}
             </Shim>
         </Panel>
     )
@@ -57,3 +60,8 @@ export default function TerrainAndTravelAdvice() {
         <TerrainAndTravelAdviceComponent report={report.data} />
     ) : null
 }
+const keys = new Map([
+    [ALP, 'alpineTerrainAvoidance'],
+    [TLN, 'treelineTerrainAvoidance'],
+    [BTL, 'belowTreelineTerrainAvoidance'],
+])
