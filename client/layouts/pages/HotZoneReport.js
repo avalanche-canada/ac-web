@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
+import { FormattedMessage } from 'react-intl'
 import { Header, Main, Content, Aside } from 'components/page'
 import { Page } from 'layouts/pages'
 import { Loading } from 'components/text'
@@ -25,13 +26,15 @@ export default function HotZoneReportLayout({ region, uid }) {
         <Page>
             <Header
                 title={
-                    pending
-                        ? 'Loading...'
-                        : utils.title({
-                              region,
-                              report: document,
-                              hotZone: area,
-                          })
+                    pending ? (
+                        <Loading as="span" />
+                    ) : (
+                        utils.title({
+                            region,
+                            report: document,
+                            hotZone: area,
+                        })
+                    )
                 }
             />
             <Content>
@@ -56,7 +59,10 @@ export default function HotZoneReportLayout({ region, uid }) {
                         <Hzr.Sidebar shareable>
                             <Item>
                                 <Link to={`/map/advisories/${region}`}>
-                                    See that advisory on the main map
+                                    <FormattedMessage
+                                        description="Layout pages/HtoZoneReport"
+                                        defaultMessage="See that advisory on the main map"
+                                    />
                                 </Link>
                             </Item>
                         </Hzr.Sidebar>
