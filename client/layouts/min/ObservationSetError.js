@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import groupBy from 'lodash/groupBy'
 import noop from 'lodash/noop'
-import { NAMES } from 'constants/min'
+import { useNames } from 'constants/min'
 import styles from './Form.css'
 import { pluralize } from 'utils/string'
 
@@ -19,6 +19,7 @@ export default function ObservationSetError({
     errors = [],
     onErrorClick = noop,
 }) {
+    const names = useNames()
     const errorsPerType = groupBy(errors, err => err.path[1])
     const types = Object.keys(errorsPerType)
     const [type] = types
@@ -42,7 +43,7 @@ export default function ObservationSetError({
                                 <a
                                     href="#"
                                     onClick={onErrorClick.bind(null, type)}>
-                                    {NAMES.get(type)}
+                                    {names.get(type)}
                                 </a>{' '}
                                 report
                             </li>

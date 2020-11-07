@@ -1,4 +1,4 @@
-import { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Quick from './Quick'
 import Weather from './Weather'
@@ -21,5 +21,7 @@ Observation.propTypes = {
 }
 
 export default function Observation({ type, observation }) {
-    return createElement(Components.get(type), observation)
+    const Component = Components.get(type)
+
+    return <Component {...observation} />
 }

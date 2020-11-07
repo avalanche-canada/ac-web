@@ -1,5 +1,6 @@
 import React, { Fragment, Children } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import Section from './Section'
 import { List as Base, Term, Definition } from 'components/description'
 import { DateTime } from 'components/time'
@@ -10,7 +11,10 @@ List.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,
 }
 
-export default function List({ title = 'Information', children }) {
+export default function List({
+    title = <FormattedMessage defaultMessage="Information" />,
+    children,
+}) {
     children = Children.toArray(children)
 
     if (
@@ -59,7 +63,11 @@ function Value({ value }) {
         case 'number':
             return value
         case 'boolean':
-            return value ? 'Yes' : 'No'
+            return value ? (
+                <FormattedMessage defaultMessage="Yes" />
+            ) : (
+                <FormattedMessage defaultMessage="No" />
+            )
         case 'function':
             return value(this)
         case 'object': {

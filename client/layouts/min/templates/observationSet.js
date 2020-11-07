@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import t from 'vendor/tcomb-form'
 import { HeaderSet, ColoredHeader, Panel } from 'components/tabs'
 import { Reset } from 'components/button'
-import { NAMES, COLORS, TYPES } from 'constants/min'
+import { COLORS, TYPES, useNames, useName } from 'constants/min'
 import { useClientRect } from 'hooks'
+import { FormattedMessage } from 'react-intl'
 
 const { struct } = t.form.Form.templates
 
@@ -36,11 +37,11 @@ export default struct.clone({
                         return (
                             <Panel key={type}>
                                 {child}
-                                <Reset
+                                <RemoveReport
+                                    type={type}
                                     disabled={disabled || !value}
-                                    onClick={handleReset}>
-                                    Remove your {NAMES.get(type)} report
-                                </Reset>
+                                    onClick={handleReset}
+                                />
                             </Panel>
                         )
                     })}
@@ -50,8 +51,23 @@ export default struct.clone({
     },
 })
 
+function RemoveReport({ type, disabled, onClick }) {
+    return (
+        <Reset disabled={disabled} onClick={onClick}>
+            <FormattedMessage
+                description="Layout min/templates/observationsSet"
+                defaultMessage="Remove your {name} report"
+                values={{
+                    name: useName(type),
+                }}
+            />
+        </Reset>
+    )
+}
+
 function MINHeaderSet({ activeTab, onTabActivate, children }) {
     const [{ width }, ref] = useClientRect({ width: window.innerWidth })
+    const names = useNames()
 
     return (
         <div ref={ref}>
@@ -69,7 +85,7 @@ function MINHeaderSet({ activeTab, onTabActivate, children }) {
                             arrow={Boolean(value)}
                             key={type}
                             color={color}>
-                            {NAMES.get(type)}
+                            {names.get(type)}
                         </ColoredHeader>
                     )
                 })}

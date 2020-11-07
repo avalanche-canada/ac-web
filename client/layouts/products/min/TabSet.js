@@ -8,7 +8,7 @@ import Tabs, {
     Panel,
 } from 'components/tabs'
 import Observation from './Observation'
-import { INCIDENT, NAMES, TYPES, COLORS } from 'constants/min'
+import { INCIDENT, TYPES, COLORS, useNames } from 'constants/min'
 
 export default function TabSet() {
     const report = useReport()
@@ -24,16 +24,18 @@ TabSetComponent.propTypes = {
 }
 
 function TabSetComponent({ observations }) {
+    const names = useNames()
+
     return (
         <Tabs activeTab={getActiveTab(observations)}>
             <HeaderSet>
-                {TYPES.map(type => (
+                {Array.from(names, ([type, name]) => (
                     <ColoredHeader
                         arrow
                         key={type}
                         disabled={!observations.some(FILTERS.get(type))}
                         color={COLORS.get(type)}>
-                        {NAMES.get(type)}
+                        {name}
                     </ColoredHeader>
                 ))}
             </HeaderSet>

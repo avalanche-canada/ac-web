@@ -22,13 +22,12 @@ import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
 import { DateElement, DateTime, Relative } from 'components/time'
 import * as links from 'components/links'
-import { INCIDENT, NAMES } from 'constants/min'
+import { INCIDENT, useNames } from 'constants/min'
 import { NONE, DESC } from 'constants/sortings'
 import { Boundary as ErrorBoundary } from 'components/error'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
 import pin from 'components/icons/min/min-pin.svg'
 import Shim from 'components/Shim'
-import { pluralize } from 'utils/string'
 import styles from 'components/text/Text.css'
 import { useFilters, useSorting } from 'hooks/collection'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
@@ -100,6 +99,7 @@ export default function SubmissionListLayout({ navigate }) {
 
 // Components
 function Form({ params, onParamsChange }) {
+    const names = useNames()
     const [data] = useForecastRegionsMetadata()
     const options = useMemo(() => new Map(data.map(createRegionOption)), [data])
     const from = subDays(new Date(), params.days || DAYS)
@@ -133,7 +133,7 @@ function Form({ params, onParamsChange }) {
                 <Dropdown
                     value={params.types}
                     onChange={handleTypesChange}
-                    options={NAMES}
+                    options={names}
                     placeholder="Show all"
                 />
             </Entry>
@@ -358,18 +358,23 @@ const COLUMNS = [
         name: 'types',
         title: 'Available reports',
         property({ obs }) {
-            return (
-                <ul>
-                    {obs.map(pluckObtype).map(type => (
-                        <li key={type}>{NAMES.get(type)}</li>
-                    ))}
-                </ul>
-            )
+            return <NamesList types={obs.map(pluckObtype)} />
         },
     },
 ]
 
 // Utils
+function NamesList({ types }) {
+    const names = useNames()
+
+    return (
+        <ul>
+            {types.map(type => (
+                <li key={type}>{names.get(type)}</li>
+            ))}
+        </ul>
+    )
+}
 function pluckObtype({ obtype }) {
     return obtype
 }

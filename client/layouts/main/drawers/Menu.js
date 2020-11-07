@@ -5,7 +5,7 @@ import * as components from 'components/page/drawer/layers'
 import { useLayer } from 'contexts/layers'
 import * as Layers from 'constants/drawers'
 import * as Icons from 'components/icons'
-import { NAMES } from 'constants/min'
+import { useNames } from 'constants/min'
 import { Dropdown, Option } from 'components/controls'
 import Shim from 'components/Shim'
 
@@ -14,6 +14,8 @@ Menu.propTypes = {
 }
 
 export default function Menu({ onCloseClick }) {
+    const names = useNames()
+
     return (
         <Fragment>
             <Navbar>
@@ -35,7 +37,7 @@ export default function Menu({ onCloseClick }) {
                                 ))}
                             </Dropdown>
                             <Dropdown name="types">
-                                {Array.from(NAMES, ([value, name]) => (
+                                {Array.from(names, ([value, name]) => (
                                     <Option key={value} value={value}>
                                         {name}
                                     </Option>
