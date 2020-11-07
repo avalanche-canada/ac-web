@@ -1,12 +1,16 @@
 import { useMemo } from 'react'
 import { useIntl } from 'react-intl'
-import { MONTH } from 'constants/intl'
+import { DATE, MONTH } from 'constants/intl'
 import { FR } from 'constants/locale'
 
-export function useIntlMemo(compute) {
+export function useIntlMemo(compute, dependencies) {
     const intl = useIntl()
 
-    return useMemo(() => compute(intl), [intl.locale])
+    dependencies = Array.isArray(dependencies)
+        ? [intl.locale, ...dependencies]
+        : dependencies
+
+    return useMemo(() => compute(intl), dependencies)
 }
 
 export function useMonths() {
@@ -25,6 +29,11 @@ export function useAspects() {
     )
 }
 
+export function useFormatDate(date) {
+    return useIntlMemo(intl => intl.formatDate(date, DATE), [date])
+}
+
+// Constants and utils
 const ASPECTS = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW']
 function translateAspect(aspect) {
     return aspect.replace('W', 'O')
