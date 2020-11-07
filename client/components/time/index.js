@@ -7,12 +7,12 @@ import * as FORMATS from 'constants/intl'
 export Relative from './Relative'
 export Range from './Range'
 
-export function Time({ value }) {
+export function Time({ value = new Date() }) {
     value = parse(value)
     return <FormattedTime value={value} />
 }
 
-export function DateTime({ value, skipTimeIfStartOfDay = false }) {
+export function DateTime({ value = new Date(), skipTimeIfStartOfDay = false }) {
     value = parse(value)
     let options = FORMATS.DATE
 
@@ -23,13 +23,13 @@ export function DateTime({ value, skipTimeIfStartOfDay = false }) {
     return <FormattedDate value={value} {...options} />
 }
 
-export function Day({ value }) {
+export function Day({ value = new Date() }) {
     value = parse(value)
 
     return <FormattedDate value={value} weekday="long" />
 }
 
-export function DateElement({ value }) {
+export function DateElement({ value = new Date() }) {
     value = parse(value)
 
     return <FormattedDate value={value} {...FORMATS.DATE} />
