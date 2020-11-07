@@ -37,7 +37,7 @@ import {
 import styles from './Map.css'
 import typography from 'components/text/Text.css'
 
-export default !supported() ? Wrapper : UnsupportedMap
+export default supported() ? Wrapper : UnsupportedMap
 
 function Wrapper() {
     return (
