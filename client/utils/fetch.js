@@ -28,13 +28,24 @@ export function empty() {
 // Constants & utils
 const REQUESTS = new Map()
 async function status(response) {
-    const payload = await response.json()
+    try {
+        if (response.ok) {
+            return await response.json()
+        } else {
+            const text = await response.text()
+            let payload
 
-    if (response.ok) {
-        return payload
+            try {
+                payload = JSON.parse(text) // Returned payload is a JSON
+            } catch {
+                payload = text // Returned payload is a String
+            }
+
+            const error = new HTTPError(response, payload)
+
+            return Promise.reject(error)
+        }
+    } catch (error) {
+        return Promise.reject(error)
     }
-
-    const error = new HTTPError(response, payload)
-
-    return Promise.reject(error)
 }
