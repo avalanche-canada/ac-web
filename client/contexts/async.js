@@ -85,6 +85,24 @@ export function Error({ children }) {
     return children
 }
 
+export function Errors({ children }) {
+    const errors = useError()
+
+    if (!Array.isArray(errors) || errors.length === 0) {
+        return null
+    }
+
+    if (typeof children === 'function') {
+        return children(errors)
+    }
+
+    if (isValidElement(children)) {
+        return cloneElement(children, { errors })
+    }
+
+    return children
+}
+
 HTTPError.propTypes = {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
     status: PropTypes.number,
