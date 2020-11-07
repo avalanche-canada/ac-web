@@ -41,7 +41,7 @@ export function Mailto({
 }) {
     const params = new URLSearchParams(clean({ subject, cc, bcc, body }))
     const search = params.toString()
-    let href = `mailto:${email}`
+    let href = 'mailto:' + email
 
     if (search) {
         href = `${href}?${search}`
