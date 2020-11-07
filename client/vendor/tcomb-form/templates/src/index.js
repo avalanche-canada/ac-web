@@ -43,8 +43,8 @@ export const pickers = {
 
             return (
                 <DayPicker
-                    onChange={onChange}
                     date={value}
+                    onChange={onChange}
                     disabledDays={disabledDaysFactory(min, max)}
                 />
             )
