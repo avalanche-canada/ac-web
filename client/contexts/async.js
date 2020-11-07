@@ -78,12 +78,8 @@ export function Error({ children }) {
         return null
     }
 
-    if (typeof children === 'function') {
-        return children(error)
-    }
-
     if (isValidElement(children)) {
-        return cloneElement(children, { error })
+        children = cloneElement(children, { error })
     }
 
     return children
@@ -154,20 +150,20 @@ export function FirstError({ children }) {
 
 // Util hooks
 function usePayload() {
-    return useAsyncContextAt(0)
+    return useAsyncContext(0)
 }
 function usePending() {
-    return useAsyncContextAt(1)
+    return useAsyncContext(1)
 }
 function useError() {
-    return useAsyncContextAt(2)
+    return useAsyncContext(2)
 }
 function useHTTPError() {
     const error = useError()
 
     return error instanceof utils.HTTPError ? error : null
 }
-function useAsyncContextAt(index) {
+function useAsyncContext(index) {
     const context = useContext(AsyncContext)
 
     return context[index]
