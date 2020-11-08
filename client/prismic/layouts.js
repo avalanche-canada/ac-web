@@ -11,6 +11,7 @@ import Sidebar from 'components/sidebar'
 import { useDocument, useGeneric } from './hooks'
 import * as Async from 'contexts/async'
 import { Details } from 'components/error'
+import { FormattedMessage } from 'react-intl'
 
 StaticPage.propTypes = {
     uid: PropTypes.string.isRequired,
@@ -26,7 +27,7 @@ export function StaticPage({ uid, title, ...props }) {
 }
 
 export function Static({ uid, title }) {
-    const summary = `An error happened while getting document ${title || uid}.`
+    const name = title || uid
     const props = {
         ...params.uid(STATIC_PAGE, uid),
         fetchLinks: `${SPONSOR}.name,${SPONSOR}.url,${SPONSOR}.image-229`,
@@ -42,7 +43,7 @@ export function Static({ uid, title }) {
                 <Pending title={title} />
                 <Main>
                     <Async.Empty>
-                        <Error>Document {title || uid} not found.</Error>
+                        <DocumentNotFound title={name} />
                     </Async.Empty>
                     <Async.Found>
                         <StaticPageBody />
@@ -53,7 +54,14 @@ export function Static({ uid, title }) {
                 </Async.Found>
                 <Async.FirstError>
                     <Async.HTTPError>
-                        <Details summary={summary}></Details>
+                        <Details
+                            summary={
+                                <FormattedMessage
+                                    description="Prismic layouts/Static"
+                                    defaultMessage="An error happened while getting document {title}."
+                                    values={{ title: name }}
+                                />
+                            }></Details>
                     </Async.HTTPError>
                     <Async.Throw />
                 </Async.FirstError>
@@ -80,9 +88,7 @@ export function GenericPage({ uid, title }) {
                         </Async.Found>
                         <Async.FirstError>
                             <Async.Empty>
-                                <Error>
-                                    Document {title || uid} not found.
-                                </Error>
+                                <DocumentNotFound title={title || uid} />
                             </Async.Empty>
                             <Async.Throw />
                         </Async.FirstError>
@@ -140,16 +146,33 @@ export function Title({ children = null }) {
             <Async.Found>
                 {document => document.data.title || children}
             </Async.Found>
-            <Async.Empty>Document not found</Async.Empty>
+            <Async.Empty>
+                <DocumentNotFound />
+            </Async.Empty>
             <Async.Error>{children}</Async.Error>
         </Fragment>
+    )
+}
+function DocumentNotFound({ title = '' }) {
+    return (
+        <Error>
+            <FormattedMessage
+                description="Prismic layouts/Static"
+                defaultMessage="Document {title} not found."
+                values={{ title }}
+            />
+        </Error>
     )
 }
 function Pending({ title }) {
     return (
         <Async.Pending>
             <Loading>
-                {title ? `Loading ${title} page...` : 'Loading page...'}
+                <FormattedMessage
+                    description="Prismic layouts"
+                    defaultMessage="Loading {title} page..."
+                    values={{ title }}
+                />
             </Loading>
         </Async.Pending>
     )
