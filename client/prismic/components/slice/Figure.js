@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Media, Caption } from 'components/media'
 import { List, Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
@@ -21,7 +22,12 @@ export default function Figure({ value }) {
                     {hasContent(caption) && <StructuredText value={caption} />}
                     {hasContent(credit) && (
                         <List>
-                            <Term>Credit</Term>
+                            <Term>
+                                <FormattedMessage
+                                    description="credit"
+                                    defaultMessage="Credit"
+                                />
+                            </Term>
                             <Definition>
                                 <StructuredText value={credit} />
                             </Definition>

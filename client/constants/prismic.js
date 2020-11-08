@@ -18,18 +18,30 @@ export const GLOSSARY = 'glossary'
 export const SPONSOR = 'sponsor'
 
 export function useFeedTexts() {
-  return useIntlMemo((intl) => new Map([
-    [BLOG, intl.formatMessage({
-      defaultMessage: 'blog',
-      description: 'Constants prismic',
-    })],
-    [NEWS, intl.formatMessage({
-      defaultMessage: 'news',
-      description: 'Constants prismic',
-    })],
-    [EVENT, intl.formatMessage({
-      defaultMessage: 'event',
-      description: 'Constants prismic',
-    })]
-  ]))
+    return useIntlMemo(
+        intl =>
+            new Map([
+                [
+                    BLOG,
+                    intl.formatMessage({
+                        description: 'Constants prismic',
+                        defaultMessage: 'blog',
+                    }),
+                ],
+                [
+                    NEWS,
+                    intl.formatMessage({
+                        description: 'Constants prismic',
+                        defaultMessage: 'news',
+                    }),
+                ],
+                [
+                    EVENT,
+                    intl.formatMessage({
+                        description: 'Constants prismic',
+                        defaultMessage: 'event',
+                    }),
+                ],
+            ])
+    )
 }
