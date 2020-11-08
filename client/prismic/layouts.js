@@ -134,7 +134,9 @@ function StaticPageBody({ payload }) {
 export function Title({ children = null }) {
     return (
         <Fragment>
-            <Async.Pending>{children || 'Loading...'}</Async.Pending>
+            <Async.Pending>
+                <Loading as="span">{children}</Loading>
+            </Async.Pending>
             <Async.Found>
                 {document => document.data.title || children}
             </Async.Found>
