@@ -12,6 +12,7 @@ import { useVisibility } from 'hooks/session'
 import { useSPAW } from 'prismic/hooks'
 import * as url from 'utils/url'
 import styles from './SPAW.css'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 export default function Alert() {
     const [spaw] = useSPAW()
@@ -60,9 +61,17 @@ export function Page(props) {
                     title={
                         <Fragment>
                             <Async.Found>
-                                <Tag>In effect</Tag>
+                                <Tag>
+                                    <FormattedMessage
+                                        description="in-effect"
+                                        defaultMessage="In effect"
+                                    />
+                                </Tag>
                             </Async.Found>
-                            Special Public Avalanche Warning
+                            <FormattedMessage
+                                id="special-public-avalanche-warning"
+                                defaultMessage="Special Public Avalanche Warning"
+                            />
                         </Fragment>
                     }
                 />
@@ -73,8 +82,10 @@ export function Page(props) {
                                 <Loading />
                             </Async.Pending>
                             <Async.Empty>
-                                There is currently no Special Public Avalanche
-                                Warning in effect.
+                                <FormattedMessage
+                                    description="Layout SPAW"
+                                    defaultMessage="There is currently no Special Public Avalanche Warning in effect."
+                                />
                             </Async.Empty>
                             <Async.Found>
                                 {spaw => (
@@ -93,8 +104,13 @@ export function Page(props) {
                     <Pages.Aside>
                         <Sidebars.Sidebar>
                             {/* <Sidebars.Item>
-                                    <Link to="/spaw/faq">What is a SPAW?</Link>
-                                </Sidebars.Item> */}
+                                <Link to="/spaw/faq">
+                                    <FormattedMessage
+                                        description="Layout SPAW"
+                                        defaultMessage="What is a SPAW?"
+                                    />
+                                </Link>
+                            </Sidebars.Item> */}
                             <Sidebars.Contact />
                             <Async.Found>
                                 <Sidebars.Share />
@@ -108,6 +124,12 @@ export function Page(props) {
 }
 
 export function Tag({ children, as = 'strong', region, ...props }) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        id: 'special-public-avalanche-warning',
+        defaultMessage: 'Special Public Avalanche Warning',
+    })
+
     if (region) {
         return (
             <Region id={region}>
@@ -121,10 +143,15 @@ export function Tag({ children, as = 'strong', region, ...props }) {
     return (
         <BaseTag as={as} className={styles.Tag} {...props}>
             {children || (
-                <Fragment>
-                    <abbr title="Special Public Avalanche Warning">SPAW</abbr>{' '}
-                    In Effect
-                </Fragment>
+                <FormattedMessage
+                    description="Layout SPAW"
+                    defaultMessage="<abbr>SPAW</abbr> In effect"
+                    values={{
+                        abbr(chunks) {
+                            return <abbr title={title}>{chunks}</abbr>
+                        },
+                    }}
+                />
             )}
         </BaseTag>
     )
