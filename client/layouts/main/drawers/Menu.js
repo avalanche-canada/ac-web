@@ -8,6 +8,7 @@ import * as Icons from 'components/icons'
 import { useNames } from 'constants/min'
 import { Dropdown, Option } from 'components/controls'
 import Shim from 'components/Shim'
+import { FormattedMessage } from 'react-intl'
 
 Menu.propTypes = {
     onCloseClick: PropTypes.func.isRequired,
@@ -23,16 +24,32 @@ export default function Menu({ onCloseClick }) {
             </Navbar>
             <Body>
                 <Shim horizontal>
-                    <components.LayerSet title="Analysis">
+                    <components.LayerSet
+                        title={
+                            <FormattedMessage
+                                description="Layout main map menu"
+                                defaultMessage="Analysis"
+                            />
+                        }>
                         <Layer id={Layers.FORECASTS} />
                         <Layer id={Layers.HOT_ZONE_REPORTS} />
                     </components.LayerSet>
-                    <components.LayerSet title="Observations">
+                    <components.LayerSet
+                        title={
+                            <FormattedMessage
+                                description="Layout main map menu"
+                                defaultMessage="Observations"
+                            />
+                        }>
                         <Layer id={Layers.MOUNTAIN_INFORMATION_NETWORK}>
                             <Dropdown name="days">
-                                {DAYS.map(day => (
-                                    <Option key={day} value={day}>
-                                        {day} day
+                                {DAYS.map(amount => (
+                                    <Option key={amount} value={amount}>
+                                        <FormattedMessage
+                                            description="Layout main map menu"
+                                            defaultMessage="{amount, plural, one {# day} others {# days}}"
+                                            values={{ amount }}
+                                        />
                                     </Option>
                                 ))}
                             </Dropdown>
@@ -62,11 +79,13 @@ Layer.propTypes = {
 
 function Layer({ id, children }) {
     const { visible, disabled, filters, toggle, setFilterValue } = useLayer(id)
+    const title = Layers.useTitle(id)
+    const Icon = ICONS.get(id)
 
     return (
         <components.Layer
-            title={TITLES.get(id)}
-            icon={ICONS.get(id)}
+            title={title}
+            icon={<Icon />}
             visible={visible}
             disabled={disabled}
             onClick={toggle}>
@@ -89,18 +108,10 @@ function Layer({ id, children }) {
 // Constants
 const DAYS = [1, 3, 7, 14, 30]
 const ICONS = new Map([
-    [Layers.FORECASTS, <Icons.Forecast />],
-    [Layers.HOT_ZONE_REPORTS, <Icons.HotZoneReport />],
-    [Layers.MOUNTAIN_INFORMATION_NETWORK, <Icons.MountainInformationNetwork />],
-    [Layers.MOUNTAIN_CONDITIONS_REPORTS, <Icons.MountainConditionsReport />],
-    [Layers.WEATHER_STATION, <Icons.WeatherStation />],
-    [Layers.FATAL_ACCIDENT, <Icons.FatalAccident />],
-])
-const TITLES = new Map([
-    [Layers.FORECASTS, 'Forecasts'],
-    [Layers.HOT_ZONE_REPORTS, 'Advisories'],
-    [Layers.MOUNTAIN_INFORMATION_NETWORK, 'Mountain Information Network'],
-    [Layers.MOUNTAIN_CONDITIONS_REPORTS, 'Mountain Conditions Reports'],
-    [Layers.WEATHER_STATION, 'Weather stations'],
-    [Layers.FATAL_ACCIDENT, 'Fatal recreational accidents'],
+    [Layers.FORECASTS, Icons.Forecast],
+    [Layers.HOT_ZONE_REPORTS, Icons.HotZoneReport],
+    [Layers.MOUNTAIN_INFORMATION_NETWORK, Icons.MountainInformationNetwork],
+    [Layers.MOUNTAIN_CONDITIONS_REPORTS, Icons.MountainConditionsReport],
+    [Layers.WEATHER_STATION, Icons.WeatherStation],
+    [Layers.FATAL_ACCIDENT, Icons.FatalAccident],
 ])

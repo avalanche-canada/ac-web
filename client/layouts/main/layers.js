@@ -117,7 +117,7 @@ export function useForecastMarkers(map) {
         }
 
         return metadata
-            .filter(({id}) => Boolean(forecasts[id]))
+            .filter(({ id }) => Boolean(forecasts[id]))
             .map(({ id, name, centroid, type }) => {
                 const element = document.createElement('img')
                 const forecast = forecasts[id]
@@ -489,6 +489,7 @@ function useSearchPanelId(type) {
 }
 
 // Constants
+// TODO(i18n) Should use "useTitles" from module "constants/drawers"
 const TITLES = new Map([
     [WEATHER_STATION, 'weather stations'],
     [MOUNTAIN_INFORMATION_NETWORK, 'Mountain Information Network reports'],
