@@ -1,4 +1,3 @@
 {
-    "root": "https://avalancheca.cdn.prismic.io/api",
-    "version": "v2"
+    "api": "https://avalancheca.cdn.prismic.io/api/v2"
 }

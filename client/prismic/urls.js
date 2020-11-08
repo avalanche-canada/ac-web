@@ -1,9 +1,5 @@
 import * as Predicates from 'prismic/predicates'
-import { root, version } from './config.json'
-
-export function api() {
-    return `${root}/${version}`
-}
+import { api } from './config.json'
 
 export function search(ref, predicates = [], options = {}) {
     const params = serializeParams({
@@ -13,7 +9,7 @@ export function search(ref, predicates = [], options = {}) {
         ref,
     })
 
-    return `${api()}/documents/search?${params}`
+    return `${api}/documents/search?${params}`
 }
 
 // Utils

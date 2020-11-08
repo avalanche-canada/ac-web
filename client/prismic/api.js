@@ -1,9 +1,10 @@
+import { api } from './config.json'
 import * as urls from './urls'
 import * as params from './params'
 import request from 'utils/fetch'
 
 export async function ref() {
-    const { refs } = await request(urls.api())
+    const { refs } = await request(api)
 
     return refs.find(({ isMasterRef }) => isMasterRef).ref
 }
