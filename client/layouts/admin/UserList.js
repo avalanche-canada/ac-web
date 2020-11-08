@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import throttle from 'lodash/throttle'
 import { Page } from 'layouts/pages'
 import { Header, Main, Content } from 'components/page'
@@ -10,7 +11,7 @@ import { Mailto } from 'components/anchors'
 import { Search } from 'components/form'
 import PaginationComponent from 'components/pagination'
 import Shim from 'components/Shim'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
 
 export default function UserList() {
     const intl = useIntl()
@@ -20,10 +21,12 @@ export default function UserList() {
 
     return (
         <Page>
-            <Header title={intl.formatMessage({
-                defaultMessage: 'Users',
-                description: 'Layout admin/UserList',
-            })} />
+            <Header
+                title={intl.formatMessage({
+                    defaultMessage: 'Users',
+                    description: 'Layout admin/UserList',
+                })}
+            />
             <Content>
                 <Main>
                     <Shim all>
@@ -79,14 +82,16 @@ function Table({ username }) {
                     <Found>
                         {({ itemCount }) => (
                             <T.Muted>
-                                <FormattedMessage description="Layout admin/UserList" defaultMessage="{itemCount, plural,
+                                <FormattedMessage
+                                    description="Layout admin/UserList"
+                                    defaultMessage="{itemCount, plural,
                                 =0 {No users}
                                 one {# user}
-                                other {# users}} found." values={
-                                        {
-                                            itemCount
-                                        }
-                                    } />
+                                other {# users}} found."
+                                    values={{
+                                        itemCount,
+                                    }}
+                                />
                             </T.Muted>
                         )}
                     </Found>
@@ -120,7 +125,7 @@ function Error({ error }) {
     return <T.Error>{error.payload.message}</T.Error>
 }
 function Body({ payload }) {
-    const columns = useColumns();
+    const columns = useColumns()
     return payload.items.map(user => (
         <tr key={user.id}>
             {columns.map(({ name, property }) => (
@@ -131,8 +136,7 @@ function Body({ payload }) {
 }
 
 function useColumns() {
-    const intl = useIntl();
-    return useMemo(() => [
+    return useIntlMemo(intl => [
         {
             name: 'username',
             title: intl.formatMessage({
@@ -153,7 +157,5 @@ function useColumns() {
                 return email ? <Mailto email={email} /> : null
             },
         },
-    ], [intl.locale])
-
+    ])
 }
-
