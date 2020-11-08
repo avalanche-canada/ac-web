@@ -10,6 +10,7 @@ import { loadMessages } from 'services/intl'
 import { useLocalStorage } from 'hooks'
 import Button from 'components/button'
 import LOCALE, { FR, LOCALES } from 'constants/locale'
+import { noop } from 'utils/function'
 
 const LocaleContext = createContext()
 
@@ -54,6 +55,7 @@ export function Provider({ children, defaultLocale }) {
         <LocaleContext.Provider value={context}>
             {messages && (
                 <IntlProvider
+                    onError={noop}
                     key={locale}
                     locale={locale}
                     messages={messages}
@@ -76,12 +78,9 @@ export function LocaleSwitch({ children, value = FR }) {
 export function LocaleSwitcher() {
     const { locale, set } = useLocale()
 
-    return Array.from(LOCALES).map(LOCALE => (
-        <Button
-            key={LOCALE}
-            disabled={LOCALE === locale}
-            onClick={() => set(LOCALE)}>
-            <FormattedDisplayName type="language" value={LOCALE.substr(0, 2)} />
+    return Array.from(LOCALES, loc => (
+        <Button key={loc} disabled={loc === locale} onClick={() => set(loc)}>
+            <FormattedDisplayName type="language" value={loc.substr(0, 2)} />
         </Button>
     ))
 }
