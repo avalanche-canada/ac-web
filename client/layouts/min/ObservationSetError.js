@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import groupBy from 'lodash/groupBy'
 import noop from 'lodash/noop'
 import { useNames } from 'constants/min'
 import styles from './Form.css'
-import { pluralize } from 'utils/string'
 
 ObservationSetError.propTypes = {
     errors: PropTypes.arrayOf(
@@ -31,21 +31,35 @@ export default function ObservationSetError({
     return (
         <div className={styles.ObservationSetError}>
             {type === 'undefined' ? (
-                'Add information on one, some, or all tabs.'
+                <FormattedMessage
+                    description="Layout min/ObservationSetError"
+                    defaultMessage="Add information on one, some, or all tabs."
+                />
             ) : (
                 <ul>
                     {types.filter(Boolean).map(type => {
                         const { length } = errorsPerType[type]
+                        const handleClick = onErrorClick.bind(null, type)
+                        const name = names.get(type)
 
                         return (
                             <li key={type}>
-                                {pluralize('error', length, true)} found in your{' '}
-                                <a
-                                    href="#"
-                                    onClick={onErrorClick.bind(null, type)}>
-                                    {names.get(type)}
-                                </a>{' '}
-                                report
+                                <FormattedMessage
+                                    description="Layout min/ObservationSetError"
+                                    defaultMessage="{count, plural, one {# error} others {# errors}} found in your <link></link> report."
+                                    values={{
+                                        count: length,
+                                        link() {
+                                            return (
+                                                <a
+                                                    href="#"
+                                                    onClick={handleClick}>
+                                                    {name}
+                                                </a>
+                                            )
+                                        },
+                                    }}
+                                />
                             </li>
                         )
                     })}
