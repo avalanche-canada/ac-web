@@ -12,7 +12,10 @@ export default function AvalancheCanadaNavbar() {
     const menuWithAmbassadors = useMemo(() => {
         // FIXME It is risky to access these properties
 
-        const value = ambassadors?.data?.content?.[0]?.value
+        const value = ambassadors?.data.content
+            .filter(slice => slice.slice_type === 'ambassador')
+            .map(slice => slice.value)
+            .flat()
 
         if (!Array.isArray(value)) {
             return menu
