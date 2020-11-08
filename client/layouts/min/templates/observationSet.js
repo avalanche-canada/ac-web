@@ -1,11 +1,11 @@
 import React, { Children, Fragment, cloneElement } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import t from 'vendor/tcomb-form'
 import { HeaderSet, ColoredHeader, Panel } from 'components/tabs'
 import { Reset } from 'components/button'
 import { COLORS, TYPES, useNames, useName } from 'constants/min'
 import { useClientRect } from 'hooks'
-import { FormattedMessage } from 'react-intl'
 
 const { struct } = t.form.Form.templates
 
