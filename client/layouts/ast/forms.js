@@ -5,7 +5,7 @@ import { DateUtils } from 'react-day-picker'
 import format from 'date-fns/format'
 import { Form, Legend, ControlSet, Control } from 'components/form'
 import { DropdownFromOptions, Geocoder } from 'components/controls'
-import { LEVELS, TAGS } from './constants'
+import { LEVELS, useLevels, useTags } from './constants'
 import { ASC } from 'constants/sortings'
 import { useBoolean } from 'hooks'
 import controls from 'components/controls/Controls.css'
@@ -26,6 +26,8 @@ Courses.propTypes = {
 
 export function Courses({ level, from, to, tags, place, onParamsChange }) {
     const intl = useIntl()
+    const itemTags = useTags()
+    const levels = useLevels()
     return (
         <Layout legend={
             intl.formatMessage({
@@ -47,7 +49,7 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
                             description: 'Layout ast/forms',
                         })
                     }
-                    options={LEVELS}
+                    options={levels}
                 />
             </Control>
             <DateRangeControl from={from} to={to} onChange={onParamsChange} />
@@ -62,7 +64,7 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
                             description: 'Layout ast/forms',
                         })
                     }
-                    options={TAGS}
+                    options={itemTags}
                 />
             </Control>
             <Control>
@@ -95,6 +97,7 @@ Providers.propTypes = {
 
 export function Providers({ tags, place, onParamsChange }) {
     const intl = useIntl()
+    const itemTags = useTags()
     return (
         <Layout
             legend={
@@ -113,7 +116,7 @@ export function Providers({ tags, place, onParamsChange }) {
                             description: 'Layout ast/forms',
                         })
                     }
-                    options={TAGS}
+                    options={itemTags}
                 />
             </Control>
             <Control>
