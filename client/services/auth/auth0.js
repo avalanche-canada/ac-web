@@ -96,7 +96,7 @@ async function lock() {
             },
             error => {
                 if (error.name === 'ChunkLoadError') {
-                    window.location.reload(true)
+                    window.location.reload()
 
                     // TODO That is not enough, need to reload and open the login screen as well,
                     // so user will not get too confused. Need to create a "/login" route and then pass the
