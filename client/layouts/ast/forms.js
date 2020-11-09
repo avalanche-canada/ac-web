@@ -13,6 +13,7 @@ import { Close, Expand } from 'components/button'
 import { WHITE } from 'constants/colors'
 import 'react-day-picker/lib/style.css'
 import styles from './Forms.css'
+import { useIntl } from 'react-intl'
 
 Courses.propTypes = {
     level: PropTypes.oneOf(Array.from(LEVELS.keys())),
@@ -24,8 +25,14 @@ Courses.propTypes = {
 }
 
 export function Courses({ level, from, to, tags, place, onParamsChange }) {
+    const intl = useIntl()
     return (
-        <Layout legend="Find a course">
+        <Layout legend={
+            intl.formatMessage({
+                defaultMessage: 'Find a course',
+                description: 'Layout ast/forms',
+            })
+        }>
             <Control>
                 <DropdownFromOptions
                     onChange={niveau => {
@@ -34,7 +41,12 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
                         })
                     }}
                     value={level}
-                    placeholder="Level"
+                    placeholder={
+                        intl.formatMessage({
+                            defaultMessage: 'Level',
+                            description: 'Layout ast/forms',
+                        })
+                    }
                     options={LEVELS}
                 />
             </Control>
@@ -44,13 +56,24 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
                     multiple
                     onChange={tags => onParamsChange({ tags })}
                     value={tags}
-                    placeholder="Filter by"
+                    placeholder={
+                        intl.formatMessage({
+                            defaultMessage: 'Filter by',
+                            description: 'Layout ast/forms',
+                        })
+                    }
                     options={TAGS}
                 />
             </Control>
             <Control>
                 <Geocoder
                     placeholder="Location"
+                    placeholder={
+                        intl.formatMessage({
+                            defaultMessage: 'Location',
+                            description: 'Layout ast/forms',
+                        })
+                    }
                     onChange={place =>
                         onParamsChange({
                             place,
@@ -71,19 +94,36 @@ Providers.propTypes = {
 }
 
 export function Providers({ tags, place, onParamsChange }) {
+    const intl = useIntl()
     return (
-        <Layout legend="Find a provider">
+        <Layout
+            legend={
+                intl.formatMessage({
+                    defaultMessage: 'Find a provider',
+                    description: 'Layout ast/forms',
+                })
+            }>
             <Control>
                 <DropdownFromOptions
                     onChange={tags => onParamsChange({ tags })}
                     value={tags}
-                    placeholder="Filter by"
+                    placeholder={
+                        intl.formatMessage({
+                            defaultMessage: 'Filter by',
+                            description: 'Layout ast/forms',
+                        })
+                    }
                     options={TAGS}
                 />
             </Control>
             <Control>
                 <Geocoder
-                    placeholder="Location"
+                    placeholder={
+                        intl.formatMessage({
+                            defaultMessage: 'Location',
+                            description: 'Layout ast/forms',
+                        })
+                    }
                     onChange={place =>
                         onParamsChange({
                             place,
@@ -116,6 +156,7 @@ function DateRangeControl({ from, to, onChange }) {
     const [mouseEntered, setMouseEntered] = useState(null)
     const [opened, show, hide] = useBoolean(from && !to)
     const value = formatDateRange(from, to)
+    const intl = useIntl()
     function reset() {
         // https://github.com/gpbl/react-day-picker/issues/804
         ref.current.setState(
@@ -137,7 +178,12 @@ function DateRangeControl({ from, to, onChange }) {
                 value={value}
                 showOverlay={opened}
                 formatDate={formatDate}
-                placeholder="Date range"
+                placeholder={
+                    intl.formatMessage({
+                        defaultMessage: 'Date range',
+                        description: 'Layout ast/forms',
+                    })
+                }
                 onDayPickerHide={hide}
                 onDayPickerShow={show}
                 hideOnDayClick={false}
@@ -190,18 +236,18 @@ function DateRangeControl({ from, to, onChange }) {
             {showClear ? (
                 <Close onClick={reset} />
             ) : (
-                <Expand
-                    chevron
-                    expanded={opened}
-                    onClick={() => {
-                        const { current } = ref
+                    <Expand
+                        chevron
+                        expanded={opened}
+                        onClick={() => {
+                            const { current } = ref
 
-                        opened
-                            ? current.hideDayPicker()
-                            : current.showDayPicker()
-                    }}
-                />
-            )}
+                            opened
+                                ? current.hideDayPicker()
+                                : current.showDayPicker()
+                        }}
+                    />
+                )}
         </Control>
     )
 }
