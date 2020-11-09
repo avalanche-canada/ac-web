@@ -14,6 +14,7 @@ import useParams, {
     StringParam,
 } from 'hooks/params'
 import styles from 'styles/components.css'
+import { FormattedMessage } from 'react-intl'
 
 export default function Layout() {
     return (
@@ -27,10 +28,17 @@ export default function Layout() {
                                     props.match?.type === 'providers'
                                 )}>
                                 <Item>
-                                    <Link to="courses">Courses</Link>
+                                    <Link to="courses">
+                                        <FormattedMessage
+                                            description="Layout ast/layouts"
+                                            defaultMessage="Courses"
+                                        /></Link>
                                 </Item>
                                 <Item>
-                                    <Link to="providers">Providers</Link>
+                                    <Link to="providers"> <FormattedMessage
+                                        description="Layout ast/layouts"
+                                        defaultMessage="Providers"
+                                    /></Link>
                                 </Item>
                             </Set>
                         )}
