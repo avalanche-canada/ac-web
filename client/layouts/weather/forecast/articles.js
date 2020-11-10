@@ -1,10 +1,10 @@
 import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Article } from 'components/page'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import { Loop } from 'components/weather'
-import metadata from 'services/msc/loop/metadata.json'
+import { useMetadata } from 'services/msc/loop/metadata/context'
 import Tutorial from './Tutorial'
-import { FormattedMessage } from 'react-intl'
 
 export function HourlyPrecipitation() {
     const title = (
@@ -423,13 +423,16 @@ export function Warnings() {
 }
 
 // Utils
+// Important to pass props to <Header>
 function LoopHeader({ id, ...props }) {
-    // TODO Need to translate loops metadata
-    return <Header {...props}>{metadata[id].shortTitle}</Header>
+    const metadata = useMetadata()
+    const title = metadata.getTitle(id)
+
+    return <Header {...props}>{title}</Header>
 }
-function TutorialsHeader() {
+function TutorialsHeader(props) {
     return (
-        <Header>
+        <Header {...props}>
             <FormattedMessage
                 description="Layout weather/forecast/articles"
                 defaultMessage="Tutorials"
