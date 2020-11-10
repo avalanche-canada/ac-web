@@ -28,18 +28,12 @@ export const CM = {
 
 export const M = {
     style: 'unit',
-    unit: 'centimeter',
+    unit: 'meter',
     unitDisplay: 'narrow',
 }
 
 export const KM = {
     style: 'unit',
     unit: 'kilometer',
-    unitDisplay: 'narrow',
-}
-
-export const MBAR = {
-    style: 'unit',
-    unit: 'millibar',
     unitDisplay: 'narrow',
 }
