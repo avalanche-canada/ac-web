@@ -62,10 +62,10 @@ function Incident({
                         {groupDetails.numberPartlyBuriedAbleBreathing}
                     </Entry>
                     <Entry term="People injured (caught but not buried)?">
-                        {groupDetails.numberCaughtOnly}
+                        {groupDetails.numberPeopleInjured}
                     </Entry>
                     <Entry term="People not injured (caught but not buried)?">
-                        {groupDetails.numberPeopleInjured}
+                        {groupDetails.numberCaughtOnly}
                     </Entry>
                 </List>
             )}
