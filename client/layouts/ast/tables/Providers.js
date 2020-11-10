@@ -15,6 +15,9 @@ import { NONE, DESC } from 'constants/sortings'
 import { useSorting, usePagination } from 'hooks/collection'
 import * as Async from 'contexts/async'
 import table from 'styles/table.css'
+import { FormattedMessage, defineMessages } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
+
 
 Providers.propTypes = {
     tags: PropTypes.instanceOf(Set),
@@ -33,9 +36,9 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
             ...provider,
             distance: place
                 ? Math.max(
-                      Math.round(distance(turf.point(provider.loc), place)),
-                      MINIMUM_DISTANCE
-                  )
+                    Math.round(distance(turf.point(provider.loc), place)),
+                    MINIMUM_DISTANCE
+                )
                 : null,
         }))
     }, [providers, place])
@@ -65,6 +68,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
     }, [tags, place, sorting])
 
     const count = filtered.length + sponsors.length
+    const columns = useColumns()
 
     return (
         <Async.Provider value={context}>
@@ -78,7 +82,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                 <Responsive>
                     <table>
                         <Header
-                            columns={COLUMNS}
+                            columns={columns}
                             onSortingChange={handleSortingChange}
                             sorting={sorting}
                             place={place}
@@ -86,27 +90,44 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                         {sponsors.length > 0 && (
                             <tbody className={table.Featured}>
                                 <tr>
-                                    <th colSpan={COLUMNS.length}>
+                                    <th colSpan={columns.length}>
                                         Our sponsors
                                     </th>
                                 </tr>
-                                {renderRows(sponsors)}
+                                {renderRows(sponsors, columns)}
                             </tbody>
                         )}
-                        <tbody>{renderRows(paginated)}</tbody>
+                        <tbody>{renderRows(paginated, columns)}</tbody>
                         <Caption type="provider" empty={count === 0}>
                             <p>
-                                No providers match your criteria, consider
-                                finding a course on the{' '}
-                                <Link to="/training/courses">courses page</Link>
-                                .
+                                <FormattedMessage
+                                    description="Layout ast/tables/Providers"
+                                    defaultMessage="No providers match your criteria, consider finding a course on the <link>courses page</link>."
+                                    values={{
+                                        link(text) {
+                                            return (
+                                                <Link to="/training/courses">
+                                                    {text}
+                                                </Link>
+                                            )
+                                        },
+                                    }}
+                                />
                             </p>
                             <p>
-                                You can also{' '}
-                                <Link to="/training/providers">
-                                    reset your criteria
-                                </Link>{' '}
-                                to see them all.
+                                <FormattedMessage
+                                    description="Layout ast/tables/Providers"
+                                    defaultMessage="You can also <link>reset your criteria</link> to see them all."
+                                    values={{
+                                        link(text) {
+                                            return (
+                                                <Link to="/training/providers">
+                                                    {text}
+                                                </Link>
+                                            )
+                                        },
+                                    }}
+                                />
                             </p>
                         </Caption>
                     </table>
@@ -117,78 +138,112 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
     )
 }
 
-const COLUMNS = [
-    {
-        name: 'provider',
-        title: 'Provider name',
-        property({ name }) {
-            return name
+function useColumns() {
+    const messages = defineMessages({
+        distanceDescription: {
+            id: 'app.distanceDescription',
+            defaultMessage: 'Straight line between {place} and the provider.',
+            description: 'Layout ast/tables/Providers',
+        }
+    })
+    return useIntlMemo((intl) => [
+        {
+            name: 'provider',
+            title: intl.formatMessage({
+                defaultMessage: 'Provider name',
+                description: 'Layout ast/tables/Providers',
+            }),
+            property({ name }) {
+                return name
+            },
+            sorting: NONE,
         },
-        sorting: NONE,
-    },
-    {
-        name: 'contacts',
-        title: 'Contacts',
-        property({ email, phone, website }) {
-            return (
-                <List>
-                    {email && (
-                        <Entry term="Email">
-                            <Mailto email={email} />
-                        </Entry>
-                    )}
-                    {phone && (
-                        <Entry term="Phone">
-                            <Phone phone={phone} />
-                        </Entry>
-                    )}
-                    {website && (
-                        <Entry term="Website">
-                            <Anchor href={website} />
-                        </Entry>
-                    )}
-                </List>
-            )
+        {
+            name: 'contacts',
+            title: intl.formatMessage({
+                defaultMessage: 'Contacts',
+                description: 'Layout ast/tables/Providers',
+            }),
+            property({ email, phone, website }) {
+                return (
+                    <List>
+                        {email && (
+                            <Entry term="Email">
+                                <Mailto email={email} />
+                            </Entry>
+                        )}
+                        {phone && (
+                            <Entry term="Phone">
+                                <Phone phone={phone} />
+                            </Entry>
+                        )}
+                        {website && (
+                            <Entry term="Website">
+                                <Anchor href={website} />
+                            </Entry>
+                        )}
+                    </List>
+                )
+            },
         },
-    },
-    {
-        name: 'distance',
-        title({ place }) {
-            return place ? (
-                <Helper
-                    title={`Straight line between ${place.text} and the provider.`}>
-                    Distance
-                </Helper>
-            ) : (
-                'Distance'
-            )
+        {
+            name: 'distance',
+            title({ place }) {
+                return place ? (
+                    <Helper
+                        title={
+                            intl.formatMessage(
+                                messages.distanceDescription,
+                                { place: place.text }
+                            )
+                        }
+                    >
+                        <FormattedMessage
+                            description="Layout ast/tables/Courses"
+                            defaultMessage="Distance"
+                        />
+                    </Helper>
+                ) : (
+                        intl.formatMessage({
+                            defaultMessage: 'Distance',
+                            description: 'Layout ast/tables/Courses',
+                        })
+                    )
+            },
+            property({ distance }) {
+                return <Distance value={distance} />
+            },
+            sorting: NONE,
         },
-        property({ distance }) {
-            return <Distance value={distance} />
+        {
+            name: 'location',
+            title: intl.formatMessage({
+                defaultMessage: 'Location',
+                description: 'Layout ast/tables/Providers',
+            }),
+            property({ loc_description }) {
+                return loc_description
+            },
         },
-        sorting: NONE,
-    },
-    {
-        name: 'location',
-        title: 'Location',
-        property({ loc_description }) {
-            return loc_description
+        {
+            name: 'tags',
+            title: intl.formatMessage({
+                defaultMessage: 'Tags',
+                description: 'Layout ast/tables/Providers',
+            }),
+            property({ tags }) {
+                return <Tags value={tags} />
+            },
         },
-    },
-    {
-        name: 'tags',
-        title: 'Tags',
-        property({ tags }) {
-            return <Tags value={tags} />
-        },
-    },
-]
+    ])
+}
+
 
 // Utils
-function renderRows(providers) {
+function renderRows(providers, columns) {
     return providers.map(row => (
         <tr key={row.id}>
-            {COLUMNS.map(({ property, name }) => (
+            {columns.map(({ property, name }) => (
                 <td key={name}>{property(row)}</td>
             ))}
         </tr>
