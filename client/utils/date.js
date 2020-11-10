@@ -37,3 +37,13 @@ export function isStartOfDay(date) {
         date.getMilliseconds() === 0
     )
 }
+
+export function splitTime(time = 0) {
+    const hours = Math.floor(time)
+    const minutes = (time - hours) * 60
+
+    return {
+        hours,
+        minutes,
+    }
+}
