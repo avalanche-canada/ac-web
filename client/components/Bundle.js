@@ -41,7 +41,7 @@ function Error({ error }) {
 // TODO Reuse existig page layouts!
 function ErrorPage({ title, headline, message }) {
     function reload() {
-        window.location.reload(true)
+        window.location.reload()
     }
 
     return (
