@@ -46,7 +46,7 @@ export default function ObservationSetError({
                             <li key={type}>
                                 <FormattedMessage
                                     description="Layout min/ObservationSetError"
-                                    defaultMessage="{count, plural, one {# error} others {# errors}} found in your <link></link> report."
+                                    defaultMessage="{count, plural, one {# error} other {# errors}} found in your <link></link> report."
                                     values={{
                                         count: length,
                                         link() {

@@ -47,7 +47,7 @@ export default function Menu({ onCloseClick }) {
                                     <Option key={amount} value={amount}>
                                         <FormattedMessage
                                             description="Layout main map menu"
-                                            defaultMessage="{amount, plural, one {# day} others {# days}}"
+                                            defaultMessage="{amount, plural, one {# day} other {# days}}"
                                             values={{ amount }}
                                         />
                                     </Option>
