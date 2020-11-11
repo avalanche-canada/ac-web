@@ -97,25 +97,37 @@ export function Kananaskis() {
                 />
             </Item>
             <Item>
-                <Phone phone="403-679-3511" />
                 <FormattedMessage
                     description="FX Header"
-                    defaultMessage="is the Public Safety office phone
+                    defaultMessage="<phone>403-679-3511</phone> is the Public Safety office phone
                     number (weekdays)"
+                    values={{
+                        phone(phone) {
+                            return <Phone phone={phone} />
+                        },
+                    }}
                 />
             </Item>
             <Item>
-                <Phone phone="403-591-7755" />
                 <FormattedMessage
                     description="FX Header"
-                    defaultMessage="is the dispatch office non-emergency line"
+                    defaultMessage="<phone>403-591-7755</phone> is the dispatch office non-emergency line"
+                    values={{
+                        phone(phone) {
+                            return <Phone phone={phone} />
+                        },
+                    }}
                 />
             </Item>
             <Item>
-                <Phone phone="911" />
                 <FormattedMessage
                     description="FX Header"
-                    defaultMessage="for backcountry rescues and tell them you are in Kananaskis Country"
+                    defaultMessage="<phone>911</phone> for backcountry rescues and tell them you are in Kananaskis Country"
+                    values={{
+                        phone(phone) {
+                            return <Phone phone={phone} />
+                        },
+                    }}
                 />
             </Item>
             <Header>
