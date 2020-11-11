@@ -80,17 +80,7 @@ function Title({ product, children }) {
             })
             break
         default:
-            throw new Error(
-                intl.formatMessage(
-                    {
-                        description: 'Component weather/ExceedanceProbability',
-                        defaultMessage: 'product = {product} not recognized.',
-                    },
-                    {
-                        product,
-                    }
-                )
-            )
+            throw new Error('product = {product} not recognized.')
     }
 
     return (
