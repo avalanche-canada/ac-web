@@ -17,7 +17,7 @@ import {
     format,
 } from 'services/msc/naefs'
 import Shim from 'components/Shim'
-import { useIntl } from 'react-intl'
+import { FormattedList, FormattedMessage, useIntl } from 'react-intl'
 
 Image.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -45,39 +45,44 @@ function Image({ date, product, from, to, param }) {
 
 function Title({ product, children }) {
     const intl = useIntl()
-    let prefix = null
-    let suffix = null
+    const description = 'Component weather/ExceedanceProbability'
+    const values = {
+        children() {
+            return children
+        },
+    }
+    let selector = null
 
     switch (product) {
         case TEMPERATURE:
-            prefix = intl.formatMessage({
-                description: 'Component weather/ExceedanceProbability',
-                defaultMessage: 'Probability of temperature',
-            })
-            suffix = intl.formatMessage({
-                description: 'Component weather/ExceedanceProbability',
-                defaultMessage: 'at least one day',
-            })
+            selector = intl.formatMessage(
+                {
+                    description,
+                    defaultMessage:
+                        'Probability of temperature <children></children> at least one day',
+                },
+                values
+            )
             break
         case PRECIPITATION:
-            prefix = intl.formatMessage({
-                description: 'Component weather/ExceedanceProbability',
-                defaultMessage: 'Probability of precipitation',
-            })
-            suffix = intl.formatMessage({
-                description: 'Component weather/ExceedanceProbability',
-                defaultMessage: 'at least one day',
-            })
+            selector = intl.formatMessage(
+                {
+                    description,
+                    defaultMessage:
+                        'Probability of precipitation <children></children> at least one day',
+                },
+                values
+            )
             break
         case ACCUMULATED_PRECIPITATION:
-            prefix = intl.formatMessage({
-                description: 'Component weather/ExceedanceProbability',
-                defaultMessage: 'Probability of precipitation accumulation',
-            })
-            suffix = intl.formatMessage({
-                description: 'Component weather/ExceedanceProbability',
-                defaultMessage: 'for the whole period',
-            })
+            selector = intl.formatMessage(
+                {
+                    description,
+                    defaultMessage:
+                        'Probability of precipitation accumulation <children></children> for the whole period',
+                },
+                values
+            )
             break
         default:
             throw new Error('product = {product} not recognized.')
@@ -85,9 +90,7 @@ function Title({ product, children }) {
 
     return (
         <h4 className={styles.Title} style={{ marginBottom: 0 }}>
-            {prefix}
-            {children}
-            {suffix}
+            {selector}
         </h4>
     )
 }
@@ -149,22 +152,39 @@ export default function ExceedanceProbability({ date }) {
             </Container>
             <Shim right bottom left>
                 <Title product={product}>
-                    <DropdownFromOptions
-                        value={param}
-                        options={options.get(product)}
-                        onChange={handleParamChange}
-                    />
-                    <div>between</div>
-                    <DayPicker
-                        date={from}
-                        onChange={handleFromChange}
-                        disabledDays={fromDisabledDays}
-                    />
-                    <div>and</div>
-                    <DayPicker
-                        date={to}
-                        onChange={handleToChange}
-                        disabledDays={toDisabledDays}
+                    <FormattedMessage
+                        description="Component weather/ExceedanceProbability"
+                        defaultMessage="<prefix></prefix> between <sufix></sufix>"
+                        values={{
+                            prefix() {
+                                return (
+                                    <DropdownFromOptions
+                                        value={param}
+                                        options={options.get(product)}
+                                        onChange={handleParamChange}
+                                    />
+                                )
+                            },
+                            sufix() {
+                                return (
+                                    <FormattedList
+                                        type="conjunction"
+                                        value={[
+                                            <DayPicker
+                                                date={from}
+                                                onChange={handleFromChange}
+                                                disabledDays={fromDisabledDays}
+                                            />,
+                                            <DayPicker
+                                                date={to}
+                                                onChange={handleToChange}
+                                                disabledDays={toDisabledDays}
+                                            />,
+                                        ]}
+                                    />
+                                )
+                            },
+                        }}
                     />
                 </Title>
                 <Image {...state} product={realProduct} date={date} />
@@ -190,10 +210,11 @@ function getRealProduct(product, param) {
 const TEMPERATURE = 'TEMPERATURE'
 function useOptions() {
     const intl = useIntl()
+    const description = 'Component weather/ExceedanceProbability'
     function under(temperature) {
         return intl.formatMessage(
             {
-                description: 'Component weather/ExceedanceProbability',
+                description,
                 defaultMessage: 'under {temperature, number}°C',
             },
             { temperature }
@@ -202,7 +223,7 @@ function useOptions() {
     function over(temperature) {
         return intl.formatMessage(
             {
-                description: 'Component weather/ExceedanceProbability',
+                description,
                 defaultMessage: 'over {temperature, number}°C',
             },
             { temperature }
@@ -211,7 +232,7 @@ function useOptions() {
     function moreThan(value) {
         return intl.formatMessage(
             {
-                description: 'Component weather/ExceedanceProbability',
+                description,
                 defaultMessage: 'more than {value, number}mm',
             },
             { value }
@@ -261,6 +282,7 @@ const DEFAULT_PARAMETERS = new Map([
 ])
 function useTitles() {
     const intl = useIntl()
+    const description = 'Component weather/ExceedanceProbability'
 
     return useMemo(
         () =>
@@ -268,21 +290,21 @@ function useTitles() {
                 [
                     TEMPERATURE,
                     intl.formatMessage({
-                        description: 'Component weather/ExceedanceProbability',
+                        description,
                         defaultMessage: 'Temperature',
                     }),
                 ],
                 [
                     PRECIPITATION,
                     intl.formatMessage({
-                        description: 'Component weather/ExceedanceProbability',
+                        description,
                         defaultMessage: 'Precipitation',
                     }),
                 ],
                 [
                     ACCUMULATED_PRECIPITATION,
                     intl.formatMessage({
-                        description: 'Component weather/ExceedanceProbability',
+                        description,
                         defaultMessage: 'Accumulated precipitation',
                     }),
                 ],
