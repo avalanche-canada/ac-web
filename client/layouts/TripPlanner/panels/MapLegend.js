@@ -121,7 +121,7 @@ function useNames() {
         }),
         intl.formatMessage({
             description,
-            defaultMessage: 'Destnation',
+            defaultMessage: 'Destination',
         }),
         intl.formatMessage({
             description,
