@@ -63,7 +63,7 @@ export default function WeatherSidebar() {
                 <Link to={forecast('other-maps')}>
                     <FormattedMessage
                         description="Layout weather/forecast/Sidebar"
-                        defaultMessage="500 mb & Precipitable Water"
+                        defaultMessage="500 mbar & Precipitable Water"
                     />
                 </Link>
             </Item>

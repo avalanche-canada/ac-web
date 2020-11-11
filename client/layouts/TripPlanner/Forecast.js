@@ -74,7 +74,7 @@ function Content({ name }) {
                 <Warning>
                     <FormattedMessage
                         description="Layout TripPlanner/Forecast"
-                        defaultMessage="No avalanche forecast has been been found for {name}."
+                        defaultMessage="No avalanche forecast has been found for {name}."
                         values={{ name }}
                     />
                 </Warning>

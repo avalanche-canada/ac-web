@@ -24,7 +24,7 @@ export default function Station({ measurements, utcOffset }) {
             <Muted>
                 <FormattedMessage
                     description="Component weather/station/Station"
-                    defaultMessage="This station currently has no data avaliable."
+                    defaultMessage="This station currently has no data available."
                 />
             </Muted>
         )

@@ -55,7 +55,7 @@ function useTitles() {
                     DESC,
                     intl.formatMessage({
                         description: 'Sorting Button component',
-                        defaultMessage: 'Desccending',
+                        defaultMessage: 'Descending',
                     }),
                 ],
                 [NONE, null],

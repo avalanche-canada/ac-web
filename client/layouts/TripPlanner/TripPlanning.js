@@ -73,7 +73,7 @@ export default class TripPlanning extends Component {
                 <p>
                     <FormattedMessage
                         description="Layout TripPlanner/TripPlanning"
-                        defaultMessage="Avalanche Forecast are not produce for every regions, in some cases they are available externally."
+                        defaultMessage="Avalanche Forecast are not produce for every region, in some cases they are available externally."
                     />
                 </p>
             </Fragment>

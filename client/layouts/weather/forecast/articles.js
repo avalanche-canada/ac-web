@@ -220,7 +220,7 @@ export function OtherMaps() {
     const title = (
         <FormattedMessage
             description="Layout weather/forecast/articles"
-            defaultMessage="500 mb & Precipitable Water"
+            defaultMessage="500 mbar & Precipitable Water"
         />
     )
 
@@ -415,7 +415,7 @@ export function Warnings() {
                 target="weather-warnings">
                 <FormattedMessage
                     description="Layout weather/forecast/articles"
-                    defaultMessage="Warnings are avaialble on weather.gc.ca"
+                    defaultMessage="Warnings are available on weather.gc.ca"
                 />
             </a>
         </Article>

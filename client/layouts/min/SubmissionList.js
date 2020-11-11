@@ -243,7 +243,7 @@ function FallbackError({ error, onReset, days }) {
             <Error>
                 <FormattedMessage
                     description="Layout min/SubmissionList"
-                    defaultMessage="An error happened while retrieving Mountain Information Information reports for the last {days} days."
+                    defaultMessage="An error happened while retrieving Mountain Information Network reports for the last {days} days."
                     values={{ days }}
                 />
             </Error>

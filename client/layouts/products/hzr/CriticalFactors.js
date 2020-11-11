@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { useReport } from './Context'
 import Comment from 'layouts/products/min/Comment'
 import List from 'layouts/products/min/List'
@@ -10,6 +10,7 @@ import Panel from 'components/panel'
 import Shim from 'components/Shim'
 import { RED, ORANGE } from 'constants/forecast/palette'
 import styles from './HotZoneReport.css'
+import { CM } from 'constants/intl'
 
 CriticalFactor.propTypes = {
     value: PropTypes.oneOf(['Yes', 'No']),
@@ -56,6 +57,7 @@ function CriticalFactorsComponent({
     criticalFactorsQuestions,
     criticalFactorsComments,
 }) {
+    const intl = useIntl()
     const header = (
         <FormattedMessage
             description="Layout products/hzr/CriticalFactors"
@@ -97,7 +99,10 @@ function CriticalFactorsComponent({
                     <CriticalFactor value={criticalFactorsRecentSnowfall}>
                         <FormattedMessage
                             description="Layout products/hzr/CriticalFactors"
-                            defaultMessage="Recent snowfall > 30cm"
+                            defaultMessage="Recent snowfall > {height}"
+                            values={{
+                                height: intl.formatNumber(30, CM),
+                            }}
                         />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsRecentWindLoading}>
@@ -124,7 +129,7 @@ function CriticalFactorsComponent({
                         title={
                             <FormattedMessage
                                 description="Layout products/hzr/CriticalFactors"
-                                defaultMessage="Information to collect while traveling"
+                                defaultMessage="Information to collect while travelling"
                             />
                         }>
                         <StructuredText value={criticalFactorsQuestions} />

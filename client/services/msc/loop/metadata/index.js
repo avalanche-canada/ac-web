@@ -24,7 +24,7 @@ export default function createMetadata(intl) {
     const metadata = [
         {
             id: 'AC_GDPS_EPA_clds-th-500hts',
-            title: '500 mb',
+            title: '500 mbar',
             runs: [0, 12],
             updates: [5, 17],
             hours: range(12, 144, 6),
