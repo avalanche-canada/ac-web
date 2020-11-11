@@ -25,21 +25,21 @@ export function useFeedTexts() {
                     BLOG,
                     intl.formatMessage({
                         description: 'Constants prismic',
-                        defaultMessage: 'blog',
+                        defaultMessage: 'Blog',
                     }),
                 ],
                 [
                     NEWS,
                     intl.formatMessage({
                         description: 'Constants prismic',
-                        defaultMessage: 'news',
+                        defaultMessage: 'News',
                     }),
                 ],
                 [
                     EVENT,
                     intl.formatMessage({
                         description: 'Constants prismic',
-                        defaultMessage: 'event',
+                        defaultMessage: 'Event',
                     }),
                 ],
             ])

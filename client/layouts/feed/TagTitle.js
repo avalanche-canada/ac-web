@@ -5,8 +5,8 @@ export default function TagTitle({ value }) {
 
     return value === 'foundation'
         ? intl.formatMessage({
-            defaultMessage: 'AVALANCHE CANADA FOUNDATION',
-            description: 'Layout feed/TagTitle',
-        })
+              defaultMessage: 'Avalanche Canada Foundation',
+              description: 'Layout feed/TagTitle',
+          })
         : value.toUpperCase()
 }
