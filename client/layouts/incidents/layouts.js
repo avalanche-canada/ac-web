@@ -181,7 +181,7 @@ function IncidentDetails({ id }) {
                     <Details
                         summary={
                             intl.formatMessage({
-                                defaultMessage: 'An error occured while loading incident.',
+                                defaultMessage: 'An error occurred while loading incident.',
                                 description: 'Layout incidents/layouts',
                             })
                         } />

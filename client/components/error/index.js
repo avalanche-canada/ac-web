@@ -59,7 +59,7 @@ export function Details({
     summary = (
         <FormattedMessage
             description="Component Error"
-            defaultMessage="An error occured."
+            defaultMessage="An error occurred."
         />
     ),
     children,

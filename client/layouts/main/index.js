@@ -224,7 +224,7 @@ function ErrorDialog({ opened, close }) {
                     <strong>
                         <FormattedMessage
                             description="Layout main/index"
-                            defaultMessage="{count, plural, one {One error} other {# errors}} occured."
+                            defaultMessage="{count, plural, one {One error} other {# errors}} occurred."
                             values={{ count: errors.total }}
                         />
                     </strong>

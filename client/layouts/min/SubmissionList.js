@@ -197,7 +197,7 @@ function TableContent(params) {
                         <Error>
                             <FormattedMessage
                                 description="Layout min/SubmissionList"
-                                defaultMessage="{count, plural, one {One error} other {# errors}} occured while loading Mountain Information Network reports."
+                                defaultMessage="{count, plural, one {One error} other {# errors}} occurred while loading Mountain Information Network reports."
                                 values={{ count: errors.length }}
                             />
                         </Error>

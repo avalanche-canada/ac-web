@@ -265,7 +265,7 @@ export function Fallback({ error, navbar, children }) {
                 <small>
                     <FormattedMessage
                         description="Layout pages/Fallback"
-                        defaultMessage="An error occured on the page you are visiting."
+                        defaultMessage="An error occurred on the page you are visiting."
                     />
                 </small>
             </h1>
