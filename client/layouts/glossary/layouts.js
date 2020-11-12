@@ -14,6 +14,7 @@ import { useDocument, useDefinitions } from 'prismic/hooks'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 export default function Layout() {
     return (
@@ -34,19 +35,30 @@ export default function Layout() {
 function GlossarySidebar() {
     return (
         <Sidebar.default>
-            <Sidebar.Header>Related links</Sidebar.Header>
+            <Sidebar.Header>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="Related links"
+                />
+            </Sidebar.Header>
             <Sidebar.Item>
                 <a
-                    href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
+                    href="https://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
                     target="ICAR">
-                    ICAR Glossary
+                    <FormattedMessage
+                        description="Layout glossary/layouts"
+                        defaultMessage="ICAR Glossary"
+                    />
                 </a>
             </Sidebar.Item>
             <Sidebar.Item>
                 <a
-                    href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
+                    href="https://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
                     target="LexiqueLexicon">
-                    Lexique Avalanche - Avalanche Lexicon
+                    <FormattedMessage
+                        description="Layout glossary/layouts"
+                        defaultMessage="Lexique Avalanche—Avalanche Lexicon"
+                    />
                 </a>
             </Sidebar.Item>
         </Sidebar.default>
@@ -57,6 +69,7 @@ export function Glossary({ location, navigate, uid }) {
     const params = new URLSearchParams(location.search)
     const [term, setTerm] = useState(params.has('q') ? params.get('q') : '')
     const [document, pending] = useDocument(glossary.glossary(uid))
+    const intl = useIntl()
 
     useEffect(() => {
         const { hash } = location
@@ -83,7 +96,10 @@ export function Glossary({ location, navigate, uid }) {
                 <Search
                     onChange={debounce(setTerm, 500)}
                     value={term}
-                    placeholder="Search for a definition"
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Search for a definition',
+                        description: 'Layout glossary/layouts',
+                    })}
                 />
                 <GlossaryContent layout={document.data} term={term} />
             </Fragment>
@@ -157,7 +173,12 @@ function Related({ items, linkToExternal }) {
     items = items.filter(isDefinition)
     return items.length === 0 ? null : (
         <div>
-            <Muted>See also: </Muted>
+            <Muted>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="See also: "
+                />
+            </Muted>
             <ul>
                 {items.filter(isNotBroken).map(({ definition }) => {
                     const { uid } = definition
@@ -261,11 +282,25 @@ function GlossaryContent({ layout, term }) {
     }, [sections, term])
 
     if (loading) {
-        return <Loading>Loading definitions...</Loading>
+        return (
+            <Loading>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="Loading definitions..."
+                />
+            </Loading>
+        )
     }
 
     if (sectionsToRender.size === 0) {
-        return <Muted>No definition matches your criteria.</Muted>
+        return (
+            <Muted>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="No definition matches your criteria."
+                />
+            </Muted>
+        )
     }
 
     return (

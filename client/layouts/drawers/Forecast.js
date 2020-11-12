@@ -23,6 +23,7 @@ import * as Async from 'contexts/async'
 import shim from 'components/Shim.css'
 import typography from 'components/text/Text.css'
 import { useText, FORECAST } from 'requests/api/types'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 ForeastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -34,6 +35,7 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
     const subject = useText(FORECAST)
     // "key" in <Body> to mount/remount the tabs, so the first tab appears and
     // scroll gets reset as the name changes
+    const intl = useIntl()
 
     return (
         <Async.Provider value={useForecast(name)}>
@@ -41,41 +43,69 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject={subject}>
-                <h1>
+            <Header
+                subject={intl.formatMessage({
+                    defaultMessage: 'Avalanche Forecast',
+                    description: 'Layout drawers/Forecast',
+                })}>
+                <Async.Provider value={useForecastRegionMetadata(name)}>
+                    <h1>
+                        <Async.Pending>
+                            <span className={typography.Muted}>
+                                <FormattedMessage
+                                    description="Layout drawers/Forecast"
+                                    defaultMessage="Loading..."
+                                />
+                            </span>
+                        </Async.Pending>
+                        <Async.Found>
+                            <ForecastRegionHeader
+                                onLocateClick={onLocateClick}
+                            />
+                        </Async.Found>
+                        <Async.Empty>
+                            <span className={typography.Warning}>
+                                <FormattedMessage
+                                    description="Layout drawers/Forecast"
+                                    defaultMessage="Forecast {name} not found"
+                                    values={{
+                                        name,
+                                    }}
+                                />
+                            </span>
+                        </Async.Empty>
+                    </h1>
+                </Async.Provider>
+            </Header>
+            <Body key={name}>
+                <Async.Provider value={useForecast(name)}>
                     <Async.Pending>
-                        <span className={typography.Muted}>Loading...</span>
+                        <p className={classnames(typography.Muted, shim.all)}>
+                            <FormattedMessage
+                                description="Layout drawers/Forecast"
+                                defaultMessage="Loading avalanche forecast..."
+                            />
+                        </p>
                     </Async.Pending>
                     <Async.Found>
                         <ForecastRegionHeader onLocateClick={onLocateClick} />
                     </Async.Found>
-                    <Async.Empty>
-                        <span className={typography.Warning}>
-                            Forecast {name} not found
-                        </span>
-                    </Async.Empty>
-                </h1>
-            </Header>
-            <Body key={name}>
-                <Async.Pending>
-                    <p className={classnames(typography.Muted, shim.all)}>
-                        Loading avalanche forecast...
-                    </p>
-                </Async.Pending>
-                <Async.Found>
-                    <Forecast />
-                </Async.Found>
-                <Async.FirstError>
-                    <Async.NotFound>
-                        <OtherRegions />
-                    </Async.NotFound>
-                    <Async.Error>
-                        <Details
-                            summary="An error happened while loading forecast."
-                            className={shim.all}
-                        />
-                    </Async.Error>
-                </Async.FirstError>
+                    <Async.FirstError>
+                        <Async.NotFound>
+                            <OtherRegions />
+                        </Async.NotFound>
+                        <Async.Error>
+                            <Details
+                                summary={intl.formatMessage({
+                                    defaultMessage:
+                                        'An error happened while loading the forecast.',
+                                    description: 'Layout drawers/Forecast',
+                                })}
+                                className={shim.all}
+                            />
+                        </Async.Error>
+                    </Async.FirstError>
+                </Async.Provider>
             </Body>
         </Async.Provider>
     )
@@ -100,7 +130,12 @@ function OtherRegions() {
 
     return (
         <Shim horizontal as="section">
-            <h3>Click on a link below to see another forecast:</h3>
+            <h3>
+                <FormattedMessage
+                    description="Layout drawers/Forecast"
+                    defaultMessage="Click on a link below to see another forecast:"
+                />
+            </h3>
             <List column={1}>
                 {forecasts.map(({ id, name }) => (
                     <ListItem

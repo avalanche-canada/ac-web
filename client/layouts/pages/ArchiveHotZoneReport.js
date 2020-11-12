@@ -10,12 +10,13 @@ import { Muted } from 'components/text'
 import { Loading } from 'components/text'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
-import { DateElement } from 'components/time'
 import { Report } from 'layouts/products/hzr'
 import { hotZone } from 'prismic/params'
 import { useDocuments, useDocument } from 'prismic/hooks'
 import { DateParam } from 'hooks/params'
 import * as urls from 'utils/url'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useFormatDate } from 'hooks/intl'
 
 ArchiveHotZoneReport.propTypes = {
     name: PropTypes.string,
@@ -23,6 +24,18 @@ ArchiveHotZoneReport.propTypes = {
 }
 
 export default function ArchiveHotZoneReport(props) {
+    const title = (
+        <FormattedMessage
+            description="Layout pages/ArchiveHotZoneReport"
+            defaultMessage="Avalanche Advisory Archive"
+        />
+    )
+    const placeholder = (
+        <FormattedMessage
+            description="Layout pages/ArchiveHotZoneReport"
+            defaultMessage="Select an area"
+        />
+    )
     const [{ name, date, month }, setState] = useState({
         ...props,
         month: props.date || new Date(),
@@ -41,7 +54,7 @@ export default function ArchiveHotZoneReport(props) {
 
     return (
         <Page>
-            <Header title="Avalanche Advisory Archive" />
+            <Header title={title} />
             <Content>
                 <Main>
                     <Metadata>
@@ -51,7 +64,7 @@ export default function ArchiveHotZoneReport(props) {
                                 value={name}
                                 onChange={handleNameChange}
                                 disabled
-                                placeholder="Select an area"
+                                placeholder={placeholder}
                             />
                         </Entry>
                         {name && (
@@ -75,13 +88,18 @@ export default function ArchiveHotZoneReport(props) {
 
 // Utils
 function AdvisoryDayPicker({ name, date, month, onDateChange, onMonthChange }) {
+    const intl = useIntl()
     const [documents = []] = useDocuments(hotZone.reports.monthly(name, month))
     const days = documents.reduce(monthReducer, new Set())
+    const placeholder = intl.formatMessage({
+        description: 'Layout pages/ArchiveHotZoneReport',
+        defaultMessage: 'Select a date',
+    })
 
     return (
         <DayPicker
             date={date}
-            placeholder="Select a date"
+            placeholder={placeholder}
             onChange={onDateChange}
             onMonthChange={onMonthChange}
             disabledDays={day => !days.has(startOfDay(day).getTime())}
@@ -111,11 +129,26 @@ const AREAS = new Map([
 ])
 function ArchiveContent({ name, date }) {
     if (!name) {
-        return <Muted>Select an area.</Muted>
+        return (
+            <Muted>
+                <FormattedMessage
+                    description="Layout pages/ArchiveHotZoneReport"
+                    defaultMessage="Select an area."
+                />
+            </Muted>
+        )
     }
 
     if (!date) {
-        return <Muted>Select a date for the {name} area.</Muted>
+        return (
+            <Muted>
+                <FormattedMessage
+                    description="Layout pages/ArchiveHotZoneReport"
+                    defaultMessage="Select a date for the {name} area."
+                    values={{ name }}
+                />
+            </Muted>
+        )
     }
 
     return <Advisory name={name} date={date} />
@@ -129,7 +162,14 @@ function Advisory({ name, date }) {
         <Report value={document} />
     ) : (
         <Muted>
-            No advisory available in {name} for <DateElement value={date} />.
+            <FormattedMessage
+                description="Layout pages/ArchiveHotZoneReport"
+                defaultMessage="No advisory available in {name} for {date}."
+                values={{
+                    name,
+                    date: useFormatDate(date),
+                }}
+            />
         </Muted>
     )
 }

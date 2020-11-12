@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import PropTypes from 'prop-types'
-import { Link } from '@reach/router'
 import classnames from 'classnames'
+import { Link } from '@reach/router'
 import { isExternal } from 'utils/url'
 import styles from './Navbar.css'
 

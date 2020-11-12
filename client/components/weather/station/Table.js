@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import format from 'date-fns/format'
-import { DATE, setUTCOffset } from 'utils/date'
+import { setUTCOffset } from 'utils/date'
 import css from './Table.css'
 import table from 'styles/table.css'
+import { useIntl } from 'react-intl'
 
 StationTable.propTypes = {
     columns: PropTypes.arrayOf(PropTypes.object).isRequired,
@@ -19,9 +19,16 @@ export default function StationTable({
     headers,
     caption,
 }) {
+    const intl = useIntl()
     const bodies = measurements.reduce((groups, measurements) => {
         const { measurementDateTime, utcOffset } = measurements
-        const title = format(setUTCOffset(measurementDateTime, utcOffset), DATE)
+        const date = setUTCOffset(measurementDateTime, utcOffset)
+        const title = intl.formatDate(date, {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+        })
 
         if (!(title in groups)) {
             groups[title] = []

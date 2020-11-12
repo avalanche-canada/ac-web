@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { Input } from 'components/controls'
 import { Submit } from 'components/button'
 import styles from './Subscribe.css'
@@ -10,6 +11,11 @@ Subscribe.propTypes = {
 
 export function Subscribe({ url }) {
     const params = new URLSearchParams(url)
+    const intl = useIntl()
+    const placeholder = intl.formatMessage({
+        description: 'Services mailchimp',
+        defaultMessage: 'Enter your email address',
+    })
 
     return (
         <form
@@ -20,11 +26,16 @@ export function Subscribe({ url }) {
             <Input
                 type="email"
                 name="EMAIL"
-                placeholder="Email address"
+                placeholder={placeholder}
                 required
                 className={styles.Input}
             />
-            <Submit chevron="RIGHT">Subscribe</Submit>
+            <Submit chevron="RIGHT">
+                <FormattedMessage
+                    description="Services mailchimp - Suibscribe component"
+                    defaultMessage="Subscribe"
+                />
+            </Submit>
             {Array.from(params.entries(), ([name, value]) => (
                 <input key={name} name={name} type="hidden" value={value} />
             ))}

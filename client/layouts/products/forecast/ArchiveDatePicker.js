@@ -6,8 +6,9 @@ import DayPicker from 'react-day-picker'
 import { FormattedMessage, useIntl } from 'react-intl'
 import * as urls from 'utils/url'
 import styles from './ArchiveDatePicker.css'
-import { DateParam } from 'hooks/params'
 import { useLocaleUtils } from 'components/controls/DayPicker'
+import { DateParam } from 'hooks/params'
+import { DATE } from 'constants/intl'
 
 ArchiveDatePicker.propTypes = {
     region: PropTypes.string.isRequired,
@@ -43,13 +44,7 @@ export default function ArchiveDatePicker(props) {
                 <FormattedMessage
                     defaultMessage="Read the {date} avalanche forecast"
                     values={{
-                        date: intl.formatDate(date, {
-                            // TODO Extract these values into constants so we can reuse across website
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        }),
+                        date: intl.formatDate(date, DATE),
                     }}
                 />
             </Link>

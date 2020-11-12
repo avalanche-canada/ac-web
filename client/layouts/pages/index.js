@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
 import { Helmet } from 'react-helmet'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { Header, Main, Content, Section } from 'components/page'
 import * as Text from 'components/text'
 import { ButtonSet } from 'components/button'
@@ -80,24 +81,47 @@ export function NotFound({ location, navbar }) {
     return (
         <Error navbar={navbar}>
             <h1>
-                This is an avalanche size 404 error...
-                <small>The page you are looking for has not been found.</small>
+                <FormattedMessage
+                    description="Layout pages/NotFound"
+                    defaultMessage="This is an avalanche size 404 error..."
+                />
+                <small>
+                    <FormattedMessage
+                        description="Layout pages/NotFound"
+                        defaultMessage="The page you are looking for has not been found."
+                    />
+                </small>
             </h1>
             <ButtonSet>
                 <Link to="/" className={styles.Link}>
-                    Forecasts
+                    <FormattedMessage
+                        description="Layout pages/NotFound"
+                        defaultMessage="Forecasts"
+                    />
                 </Link>
                 <Link to="/training" className={styles.Link}>
-                    Training
+                    <FormattedMessage
+                        description="Layout pages/NotFound"
+                        defaultMessage="Training"
+                    />
                 </Link>
                 <Link to="/news" className={styles.Link}>
-                    Latest news
+                    <FormattedMessage
+                        description="Layout pages/NotFound"
+                        defaultMessage="Latest news"
+                    />
                 </Link>
                 <Link to="/events" className={styles.Link}>
-                    Upcoming events
+                    <FormattedMessage
+                        description="Layout pages/NotFound"
+                        defaultMessage="Upcoming events"
+                    />
                 </Link>
                 <Link to="/blogs" className={styles.Link}>
-                    Our blog
+                    <FormattedMessage
+                        description="Layout pages/NotFound"
+                        defaultMessage="Our blog"
+                    />
                 </Link>
             </ButtonSet>
         </Error>
@@ -138,57 +162,95 @@ export function Layout({ title, headline, children }) {
     )
 }
 
-UnsupportedMap.propTypes = {
-    links: PropTypes.instanceOf(Map),
-    headline: PropTypes.node,
-}
-
-export function UnsupportedMap({
-    headline = 'It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche - related information on our map.',
-    links = new Map([
-        ['/forecasts', 'Forecast regions'],
-        ['/advisories', 'Avalanche Advisories'],
-        ['/weather/stations', 'Weather stations'],
-    ]),
-}) {
+export function UnsupportedMap() {
     return (
         <Error>
-            <h1>Uh oh! You never thought that would happen...</h1>
-            <div>
-                <p>{headline}</p>
-                <p>
-                    We suggest you{' '}
-                    <a href="//outdatedbrowser.com" target="_blank">
-                        update your browser
-                    </a>{' '}
-                    and make sure that WebGL is{' '}
-                    <a href="//get.webgl.org/" target="_blank">
-                        enabled
-                    </a>
-                    .
-                </p>
-                <p>
-                    If you need help or have questions, do not hesitate to send
-                    us an{' '}
-                    <Mailto
-                        email={SUPPORT}
-                        subject="Unsupported map"
-                        body={`\n\n\nMapBox GL supported: ${supported()}\nNavigator: ${
-                            navigator.userAgent
-                        }`}>
-                        email
-                    </Mailto>
-                    .
-                </p>
-            </div>
+            <h1>
+                <FormattedMessage
+                    description="Layout pages/UnsupportedMap"
+                    defaultMessage="Uh oh! You never thought that would happen..."
+                />
+            </h1>
+            <p>
+                <FormattedMessage
+                    description="Layout pages/UnsupportedMap"
+                    defaultMessage="It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche-related information on our map."
+                />
+            </p>
+            <p>
+                <FormattedMessage
+                    description="Layout pages/UnsupportedMap"
+                    defaultMessage="We suggest you <browser>update your browser</browser> and make sure that WebGL is <webGL>enabled</webGL>."
+                    values={{
+                        browser(chunks) {
+                            return (
+                                <a
+                                    href="https://outdatedbrowser.com"
+                                    target="_blank">
+                                    {chunks}
+                                </a>
+                            )
+                        },
+                        webGL(chunks) {
+                            return (
+                                <a
+                                    href="https://get.webgl.org/"
+                                    target="_blank">
+                                    {chunks}
+                                </a>
+                            )
+                        },
+                    }}
+                />
+            </p>
+            <p>
+                <FormattedMessage
+                    description="Layout pages/UnsupportedMap"
+                    defaultMessage="If you need help or have questions, do not hesitate to send us an <link>email</link>."
+                    values={{
+                        link(chunks) {
+                            return <Support>{chunks}</Support>
+                        },
+                    }}
+                />
+            </p>
             <ButtonSet>
-                {Array.from(links, ([link, text]) => (
-                    <Link key={link} className={styles.Link} to={link}>
-                        {text}
-                    </Link>
-                ))}
+                <Link className={styles.Link} to="/forecasts">
+                    <FormattedMessage
+                        description="Layout pages/UnsupportedMap"
+                        defaultMessage="Forecast regions"
+                    />
+                </Link>
+                <Link className={styles.Link} to="/advisories">
+                    <FormattedMessage
+                        description="Layout pages/UnsupportedMap"
+                        defaultMessage="Avalanche Advisories"
+                    />
+                </Link>
+                <Link className={styles.Link} to="/weather/stations">
+                    <FormattedMessage
+                        description="Layout pages/UnsupportedMap"
+                        defaultMessage="Weather stations"
+                    />
+                </Link>
             </ButtonSet>
         </Error>
+    )
+}
+
+function Support({ children }) {
+    const intl = useIntl()
+    const { userAgent } = navigator
+    const body = `\n\n\nMapBox GL supported: ${supported()}\nNavigator: ${userAgent}`
+    const subject = intl.formatMessage({
+        description: 'Layout pages/UnsupportedMap',
+        defaultMessage: 'Unsupported map',
+    })
+
+    return (
+        <Mailto email={SUPPORT} subject={subject} body={body}>
+            {children}
+        </Mailto>
     )
 }
 
@@ -196,17 +258,29 @@ export function Fallback({ error, navbar, children }) {
     return (
         <Error navbar={navbar}>
             <h1>
-                Uh oh! We never thought that would happen...
-                <small>An error occured on the page you are visiting.</small>
+                <FormattedMessage
+                    description="Layout pages/Fallback"
+                    defaultMessage="Uh oh! We never thought that would happen..."
+                />
+                <small>
+                    <FormattedMessage
+                        description="Layout pages/Fallback"
+                        defaultMessage="An error occurred on the page you are visiting."
+                    />
+                </small>
             </h1>
             <p>
-                We have been notified about that error and we will try to fix as
-                soon as possible.
+                <FormattedMessage
+                    description="Layout pages/Fallback"
+                    defaultMessage="We have been notified about that error; we will try fix it as soon as possible."
+                />
             </p>
             <details>
-                <summary>More details</summary>
-                <Text.Error>{error.toString()}</Text.Error>
-                <Text.Error>{JSON.stringify(error.extra, null, 4)}</Text.Error>
+                <summary>
+                    <FormattedMessage defaultMessage="More details" />
+                </summary>
+                <Text.Error>{error.name}</Text.Error>
+                <Text.Error>{error.message}</Text.Error>
             </details>
             {children}
         </Error>

@@ -80,6 +80,7 @@ const PROVIDER_NAMES = new Map([
     [TWITTER, 'Twitter'],
     [INSTAGRAM, 'Instagram'],
     [VIMEO, 'Vimeo'],
+    [null, 'Internet'],
 ])
 const PROVIDER_ICONS = new Map([
     [FACEBOOK, <Icons.Facebook />],

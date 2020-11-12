@@ -14,6 +14,7 @@ import { Error, Loading, Warning } from 'components/text'
 import * as hooks from 'hooks/async/weather'
 import { path } from 'utils/station'
 import * as Async from 'contexts/async'
+import { FormattedMessage } from 'react-intl'
 
 WeatherStation.propTypes = {
     id: PropTypes.string.isRequired,
@@ -27,7 +28,12 @@ export default function WeatherStation({ id }) {
                 <Content>
                     <Main>
                         <Async.Pending>
-                            <Loading>Loading weather station data...</Loading>
+                            <Loading>
+                                <FormattedMessage
+                                    description="Layout weather/station/WeatherStation"
+                                    defaultMessage="Loading weather station data..."
+                                />
+                            </Loading>
                         </Async.Pending>
                         <Async.Found>
                             <StationLayout />
@@ -38,8 +44,11 @@ export default function WeatherStation({ id }) {
                             </Async.NotFound>
                             <Async.HTTPError>
                                 <Error>
-                                    An error happened while loading weather
-                                    station data.
+                                    <FormattedMessage
+                                        description="Layout weather/station/WeatherStation"
+                                        defaultMessage="An error happened while loading weather
+                                    station data."
+                                    />
                                 </Error>
                             </Async.HTTPError>
                         </Async.FirstError>
@@ -57,7 +66,12 @@ function StationLayout({ payload }) {
         <Async.Provider value={hooks.useMeasurements(id)}>
             <Metadata {...payload} id={id} />
             <Async.Pending>
-                <Loading>Loading measurements...</Loading>
+                <Loading>
+                    <FormattedMessage
+                        description="Layout weather/station/WeatherStation"
+                        defaultMessage="Loading measurements..."
+                    />
+                </Loading>
             </Async.Pending>
             <Async.Found>
                 {measurements => (
@@ -75,10 +89,18 @@ function NoStation() {
     return (
         <Async.Provider value={hooks.useStations()}>
             <Headline>
-                Click on a link below to see another weather station.
+                <FormattedMessage
+                    description="Layout weather/station/WeatherStation"
+                    defaultMessage="Click on a link below to see another weather station."
+                />
             </Headline>
             <Async.Pending>
-                <Loading>Loading all weather stations...</Loading>
+                <Loading>
+                    <FormattedMessage
+                        description="Layout weather/station/WeatherStation"
+                        defaultMessage="Loading all weather stations..."
+                    />
+                </Loading>
             </Async.Pending>
             <Async.Found>
                 {stations => (
@@ -102,7 +124,13 @@ function Title({ id }) {
             </Async.Pending>
             <Async.Found>{station => station.name}</Async.Found>
             <Async.NotFound>
-                <Warning>Weather station #{id} does not exist.</Warning>
+                <Warning>
+                    <FormattedMessage
+                        description="Layout weather/station/WeatherStation"
+                        defaultMessage="Weather station #{id} does not exist."
+                        values={{ id }}
+                    />
+                </Warning>
             </Async.NotFound>
         </Fragment>
     )

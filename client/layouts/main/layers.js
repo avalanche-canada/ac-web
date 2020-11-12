@@ -457,6 +457,7 @@ function useSearchPanelId(type) {
 }
 
 // Constants
+// TODO(i18n) Should use "useTitles" from module "constants/drawers"
 const TITLES = new Map([
     [WEATHER_STATION, 'weather stations'],
     [MOUNTAIN_INFORMATION_NETWORK, 'Mountain Information Network reports'],

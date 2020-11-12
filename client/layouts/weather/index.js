@@ -1,5 +1,6 @@
 import React, { lazy } from 'react'
 import { Router, Redirect } from '@reach/router'
+import { FormattedMessage } from 'react-intl'
 import Bundle from 'components/Bundle'
 import WeatherStation from './station/WeatherStation'
 import WeatherStationList from './station/WeatherStationList'
@@ -37,9 +38,16 @@ function MountainWeatherForecast(props) {
 }
 
 function WeatherGlossary(props) {
+    const title = (
+        <FormattedMessage
+            description="Layout weather"
+            defaultMessage="Weather Glossary"
+        />
+    )
+
     return (
         <Page className={styles.Page}>
-            <Header title="Weather Glossary" />
+            <Header title={title} />
             <Content>
                 <Main>
                     <Bundle>

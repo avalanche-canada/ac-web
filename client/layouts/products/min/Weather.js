@@ -1,8 +1,10 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import parse from 'date-fns/parse'
 import List, { Entry } from './List'
 import Comment from './Comment'
+
+// No i18n required: will be provided by the API
 
 Weather.propTypes = {
     snowfallRate: PropTypes.number,
@@ -24,7 +26,7 @@ Weather.propTypes = {
     tempLatlng: PropTypes.string,
 }
 
-function Weather({
+export default function Weather({
     skyCondition,
     precipitationType,
     snowfallRate,
@@ -79,5 +81,3 @@ function Weather({
         </Fragment>
     )
 }
-
-export default memo(Weather)

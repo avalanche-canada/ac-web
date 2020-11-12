@@ -43,6 +43,7 @@ export default function ArchiveForecast({ name, date, onParamsChange }) {
         defaultMessage: 'Select a date',
     })
     const title = intl.formatMessage({
+        description: 'Layout pages/ArchiveForecast',
         defaultMessage: 'Forecast Archive',
     })
     function handleNameChange(name) {
@@ -113,7 +114,10 @@ function ForecastSwitch(props) {
     if (!name) {
         return (
             <Texts.Muted>
-                <FormattedMessage defaultMessage="Select a forecast region." />
+                <FormattedMessage
+                    description="Layout pages/ArchiveForecast"
+                    defaultMessage="Select a forecast region."
+                />
             </Texts.Muted>
         )
     }
@@ -121,7 +125,10 @@ function ForecastSwitch(props) {
     if (!date) {
         return (
             <Texts.Muted>
-                <FormattedMessage defaultMessage="Select a forecast date." />
+                <FormattedMessage
+                    description="Layout pages/ArchiveForecast"
+                    defaultMessage="Select a forecast date."
+                />
             </Texts.Muted>
         )
     }
@@ -150,7 +157,12 @@ function ForecastContent({ name, date, children }) {
     return (
         <Async.Provider value={useProduct(name)}>
             <Async.Pending>
-                <Texts.Loading>Loading forecast...</Texts.Loading>
+                <Texts.Loading>
+                    <FormattedMessage
+                        description="Layout pages/ArchiveForecast"
+                        defaultMessage="Loading forecast..."
+                    />
+                </Texts.Loading>
             </Async.Pending>
             <Async.Found>
                 {forecast => (
@@ -176,7 +188,8 @@ function WarningMessage({ name, owner }) {
         case PARKS_CANADA:
             return (
                 <FormattedMessage
-                    defaultMessage="Archived forecast bulletins for {name} region are available on the Parks Canada - Public Avalanche Information website"
+                    description="Layout pages/ArchiveForecast"
+                    defaultMessage="Archived forecast bulletins for {name} region are available on the Parks Canada — Public Avalanche Information website"
                     values={values}
                 />
             )
@@ -184,6 +197,7 @@ function WarningMessage({ name, owner }) {
         case VANCOUVER_ISLAND:
             return (
                 <FormattedMessage
+                    description="Layout pages/ArchiveForecast"
                     defaultMessage="You can get more information for {name} region on their website"
                     values={values}
                 />
@@ -226,7 +240,10 @@ function ForecastLayout({ date }) {
             <Components.Metadata />
             <Shim top>
                 <Warning>
-                    <FormattedMessage defaultMessage="This is an archived avalanche bulletin." />
+                    <FormattedMessage
+                        description="Layout pages/ArchiveForecast"
+                        defaultMessage="This is an archived avalanche bulletin."
+                    />
                 </Warning>
             </Shim>
             <Components.Headline />

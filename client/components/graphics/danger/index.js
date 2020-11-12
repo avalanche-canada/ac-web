@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { NO_RATING } from 'constants/forecast/rating'
 import { ALP, TLN, BTL } from 'constants/forecast/elevation'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
 import * as Ratings from 'constants/forecast/rating'
-import { FormattedMessage } from 'react-intl'
 
 PositionText.propTypes = {
     children: PropTypes.string.isRequired,

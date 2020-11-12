@@ -1,21 +1,15 @@
 import React, { Fragment } from 'react'
 import { Link } from '@reach/router'
 import t from 'vendor/tcomb-form'
-import {
-    QUICK,
-    WEATHER,
-    SNOWPACK,
-    AVALANCHE,
-    INCIDENT,
-    NAMES,
-} from 'constants/min'
+import { QUICK, WEATHER, SNOWPACK, AVALANCHE, INCIDENT } from 'constants/min'
 import { layout, observationSet } from './templates'
 import { ObservationSet } from './factories'
 import format from 'date-fns/format'
 import endOfToday from 'date-fns/end_of_today'
 import styles from './Form.css'
 import { supported } from 'utils/mapbox'
-import { Tag } from 'components/tag'
+
+// i18n not necessary
 
 function handleNumberInputWheel(event) {
     if (document.activeElement === event.currentTarget) {
@@ -145,7 +139,7 @@ const UploadSet = {
 }
 
 const Quick = {
-    label: NAMES.get(QUICK),
+    label: 'Quick',
     help:
         'Use the Quick Report to quickly share information about your trip. You can create a comprehensive report by adding more details in the Avalanche, Snowpack, Weather, and/or Incident tabs.',
     fields: {
@@ -198,7 +192,7 @@ const Quick = {
     },
 }
 const Weather = {
-    label: NAMES.get(WEATHER),
+    label: 'Weather',
     help:
         'Key data includes information about current and accumulated precipitation, wind speed and direction, temperatures, and cloud cover.',
     fields: {
@@ -335,7 +329,7 @@ const Weather = {
     },
 }
 const Snowpack = {
-    label: NAMES.get(SNOWPACK),
+    label: 'Snowpack',
     help:
         'Snowpack depth, layering, and bonding are key data. Test results are very useful.',
     fields: {
@@ -462,7 +456,7 @@ const Snowpack = {
     },
 }
 const Avalanche = {
-    label: NAMES.get(AVALANCHE),
+    label: 'Avalanche',
     help:
         'Share information about a single, notable avalanche or tell us about overall avalanche conditions by describing many avalanches in a general sense. Aspect, elevation, trigger, dimensions/size are key data.',
     fields: {
@@ -628,7 +622,7 @@ const Avalanche = {
     },
 }
 const Incident = {
-    label: NAMES.get(INCIDENT),
+    label: 'Incident',
     help: (
         <span>
             Sharing incidents can help us all learn. Describe close calls and

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { Section, Header, Content } from 'components/explanation'
 import Ratings, {
     NO_RATING,
@@ -16,20 +16,14 @@ export default function RatingExplanation() {
     const sizeAndDistribution = useSizeAndDistribution()
     const ratings = Array.from(Ratings).filter(rating => rating !== NO_RATING)
 
-    return (
-        <Fragment>
-            {ratings.map(rating => (
-                <Section key={rating}>
-                    <Header className={RatingStyles[rating]}>
-                        {texts.get(rating)}
-                    </Header>
-                    <Content>
-                        <p>{travelAdvices.get(rating)}</p>
-                        <p>{likehoodOfAvalanche.get(rating)}</p>
-                        <p>{sizeAndDistribution.get(rating)}</p>
-                    </Content>
-                </Section>
-            ))}
-        </Fragment>
-    )
+    return ratings.map(rating => (
+        <Section key={rating}>
+            <Header style={getStyle(rating)}>{texts.get(rating)}</Header>
+            <Content>
+                <p>{travelAdvices.get(rating)}</p>
+                <p>{likehoodOfAvalanche.get(rating)}</p>
+                <p>{sizeAndDistribution.get(rating)}</p>
+            </Content>
+        </Section>
+    ))
 }

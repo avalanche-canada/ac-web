@@ -1,5 +1,6 @@
 import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import keycodes from 'constants/keycodes'
 import Holder from '../Holder'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
@@ -15,11 +16,8 @@ export default class DropdownControl extends PureComponent {
             PropTypes.instanceOf(Date),
             PropTypes.instanceOf(Set),
         ]),
-        placeholder: PropTypes.string,
+        placeholder: PropTypes.node,
         style: PropTypes.object,
-    }
-    static defaultProps = {
-        placeholder: 'Select',
     }
     state = {
         isOpen: false,
@@ -144,7 +142,15 @@ export default class DropdownControl extends PureComponent {
     }
     render() {
         const { isOpen } = this
-        const { placeholder, style } = this.props
+        const {
+            placeholder = (
+                <FormattedMessage
+                    description="Component controls/Dropdown/Dropdown"
+                    defaultMessage="Search"
+                />
+            ),
+            style,
+        } = this.props
         const className = isOpen ? 'Input--Open' : 'Input'
 
         return (

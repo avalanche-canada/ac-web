@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button from 'components/button'
 import styles from './Pager.css'
 import { WHITE } from 'constants/colors'
+import { FormattedMessage } from 'react-intl'
 
 Pager.propTypes = {
     children: PropTypes.element,
@@ -18,40 +19,59 @@ export default function Pager({ children, ...props }) {
     )
 }
 
-export const Previous = withNavigation(
-    'Previous',
-    styles.Previous,
-    <ChevronLeft color={WHITE} width={32} height={32} />
-)
+export function Previous({
+    subtitle = (
+        <FormattedMessage
+            description="Component pager/Previous"
+            defaultMessage="Previous"
+        />
+    ),
+    ...props
+}) {
+    return (
+        <Navigation
+            {...props}
+            subtitle={subtitle}
+            className={styles.Previous}
+            icon={<ChevronLeft color={WHITE} width={32} height={32} />}
+        />
+    )
+}
 
-export const Next = withNavigation(
-    'Next',
-    styles.Next,
-    <ChevronRight color={WHITE} width={32} height={32} />
-)
+export function Next({
+    subtitle = (
+        <FormattedMessage
+            description="Component pager/Next"
+            defaultMessage="Next"
+        />
+    ),
+    ...props
+}) {
+    return (
+        <Navigation
+            {...props}
+            subtitle={subtitle}
+            className={styles.Next}
+            icon={<ChevronRight color={WHITE} width={32} height={32} />}
+        />
+    )
+}
 
-// Utils, HOC
-function withNavigation(defaultSubtitle, className, icon) {
-    return function Navigation({
-        title,
-        children,
-        subtitle = defaultSubtitle,
-        ...link
-    }) {
-        let linkTitle = title
+// Base component
+function Navigation({ title, children, subtitle, className, icon, ...link }) {
+    let linkTitle = title
 
-        if (!linkTitle && typeof children === 'string') {
-            linkTitle = children
-        }
-
-        return (
-            <Link {...link} title={linkTitle} className={className}>
-                <div className={styles.TextSection}>
-                    <div className={styles.Subtitle}>{subtitle}</div>
-                    <div className={styles.Title}>{children}</div>
-                </div>
-                <Button className={styles.Icon}>{icon}</Button>
-            </Link>
-        )
+    if (!linkTitle && typeof children === 'string') {
+        linkTitle = children
     }
+
+    return (
+        <Link {...link} title={linkTitle} className={className}>
+            <div className={styles.TextSection}>
+                <div className={styles.Subtitle}>{subtitle}</div>
+                <div className={styles.Title}>{children}</div>
+            </div>
+            <Button className={styles.Icon}>{icon}</Button>
+        </Link>
+    )
 }

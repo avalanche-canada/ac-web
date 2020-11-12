@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { useReport } from './Context'
 import {
     Metadata,
@@ -17,15 +18,35 @@ MountainInformationNetworkMetadata.propTypes = {
 export default function MountainInformationNetworkMetadata({ shareable }) {
     const report = useReport()
 
-    return report ? (
+    if (!report) {
+        return null
+    }
+
+    return (
         <Metadata>
-            <Entry term="Submitted by">{report.user}</Entry>
-            <TimestampEntry term="Observations date" value={report.datetime} />
+            <Entry
+                term={
+                    <FormattedMessage
+                        description="Layout products/min/Metadata"
+                        defaultMessage="Submitted by"
+                    />
+                }>
+                {report.user}
+            </Entry>
+            <TimestampEntry
+                term={
+                    <FormattedMessage
+                        description="Layout products/min/Metadata"
+                        defaultMessage="Observations date"
+                    />
+                }
+                value={report.datetime}
+            />
             <LocationEntry
                 longitude={report.lnglat[0]}
                 latitude={report.lnglat[1]}
             />
             {shareable && <ShareEntry url={utils.shareUrl(report.subid)} />}
         </Metadata>
-    ) : null
+    )
 }

@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import { ExpandLess, ExpandMore, Remove } from 'components/icons'
 import Button from './Button'
 import { SUBTILE } from './kinds'
 import { NONE, ASC, DESC } from 'constants/sortings'
+import { useIntl } from 'react-intl'
 
 const SORTINGS = [NONE, ASC, DESC]
 
@@ -15,7 +16,8 @@ Sorting.propTypes = {
 
 export default function Sorting({ sorting = NONE, onChange = noop }) {
     const Icon = IconComponents.get(sorting)
-    const title = TITLES.get(sorting)
+    const titles = useTitles()
+    const title = titles.get(sorting)
     function handleClick() {
         onChange(getNext(sorting))
     }
@@ -36,8 +38,28 @@ const IconComponents = new Map([
     [DESC, ExpandMore],
     [NONE, Remove],
 ])
-const TITLES = new Map([
-    [ASC, 'Ascending'],
-    [DESC, 'Desccending'],
-    [NONE, null],
-])
+function useTitles() {
+    const intl = useIntl()
+
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    ASC,
+                    intl.formatMessage({
+                        description: 'Sorting Button component',
+                        defaultMessage: 'Ascending',
+                    }),
+                ],
+                [
+                    DESC,
+                    intl.formatMessage({
+                        description: 'Sorting Button component',
+                        defaultMessage: 'Descending',
+                    }),
+                ],
+                [NONE, null],
+            ]),
+        [intl.locale]
+    )
+}

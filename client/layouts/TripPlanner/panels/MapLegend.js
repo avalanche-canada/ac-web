@@ -7,10 +7,19 @@ import destination from './destination.svg'
 import { Warning } from 'components/icons'
 import { WARNING } from 'constants/colors'
 import { Entries as TerrainRatingsEntries } from './TerrainRatings'
+import { FormattedMessage } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
 
 export default function MapLegend() {
+    const header = (
+        <FormattedMessage
+            description="Layout TripPlanner/panels/MapLegend"
+            defaultMessage="Map legend"
+        />
+    )
+
     return (
-        <Panel header="Map legend">
+        <Panel header={header}>
             <TerrainRatingsEntries />
             <Entries />
         </Panel>
@@ -19,16 +28,18 @@ export default function MapLegend() {
 
 // Constants and utils
 export function Entries() {
+    const names = useNames()
+
     return (
         <Fragment>
             <Entry>
-                <Symbol>
+                <Symbol title={names[0]}>
                     <Warning color={WARNING} />
                 </Symbol>
-                <Name>Decision Point</Name>
+                <Name>{names[0]}</Name>
             </Entry>
             <Entry>
-                <Symbol>
+                <Symbol title={names[1]}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="100%"
@@ -47,11 +58,16 @@ export function Entries() {
                         />
                     </svg>
                 </Symbol>
-                <Name>Major avalanche path</Name>
-                <Description>The arrow is pointing down the path.</Description>
+                <Name>{names[1]}</Name>
+                <Description>
+                    <FormattedMessage
+                        description="Layout TripPlanner/panels/MapLegend"
+                        defaultMessage="The arrow is pointing down the path."
+                    />
+                </Description>
             </Entry>
             <Entry>
-                <Symbol style={LIGHT_BACKGROUND}>
+                <Symbol style={LIGHT_BACKGROUND} title={names[2]}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="100%"
@@ -64,43 +80,58 @@ export function Entries() {
                         />
                     </svg>
                 </Symbol>
-                <Name>Main access trail</Name>
+                <Name>{names[2]}</Name>
             </Entry>
             <Entry>
-                <Symbol>
-                    <img
-                        width={20}
-                        src={destination}
-                        title="Destnation"
-                        alt="destination"
-                    />
+                <Symbol title={names[3]}>
+                    <img width={20} src={destination} alt={names[3]} />
                 </Symbol>
-                <Name>Destnation</Name>
+                <Name>{names[3]}</Name>
             </Entry>
             <Entry>
-                <Symbol>
-                    <img
-                        width={20}
-                        src={shelter}
-                        title="Hut, Cabin or shelter"
-                        alt="shelter"
-                    />
+                <Symbol title={names[4]}>
+                    <img width={20} src={shelter} alt={names[4]} />
                 </Symbol>
-                <Name>Hut, cabin or shelter</Name>
+                <Name>{names[4]}</Name>
             </Entry>
             <Entry>
-                <Symbol>
-                    <img
-                        width={20}
-                        src={parking}
-                        title="Parking"
-                        alt="parking"
-                    />
+                <Symbol title={names[5]}>
+                    <img width={20} src={parking} alt={names[5]} />
                 </Symbol>
-                <Name>Parking</Name>
+                <Name>{names[5]}</Name>
             </Entry>
         </Fragment>
     )
+}
+function useNames() {
+    const description = 'Layout TripPlanner/panels/MapLegend'
+
+    return useIntlMemo(intl => [
+        intl.formatMessage({
+            description,
+            defaultMessage: 'Decision Point',
+        }),
+        intl.formatMessage({
+            description,
+            defaultMessage: 'Major avalanche path',
+        }),
+        intl.formatMessage({
+            description,
+            defaultMessage: 'Main access trail',
+        }),
+        intl.formatMessage({
+            description,
+            defaultMessage: 'Destination',
+        }),
+        intl.formatMessage({
+            description,
+            defaultMessage: 'Hut, cabin or shelter',
+        }),
+        intl.formatMessage({
+            description,
+            defaultMessage: 'Parking',
+        }),
+    ])
 }
 const LIGHT_BACKGROUND = {
     backgroundColor: '#EBEBEB',

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Router, Link } from '@reach/router'
 import isToday from 'date-fns/is_today'
+import { FormattedMessage } from 'react-intl'
 import { Content, Header, Main, Aside } from 'components/page'
 import { Warning } from 'components/alert'
 import { Page } from 'layouts/pages'
@@ -11,10 +12,19 @@ import * as articles from './articles'
 import { DateParam } from 'hooks/params'
 import { useVisibility } from 'hooks/session'
 import { path } from 'utils/url'
+import { Generic } from 'prismic/layouts'
+import { Provider } from 'services/msc/loop/metadata/context'
 
 export default function Weather({ uri }) {
-    const title = <Link to={uri}>Mountain Weather Forecast</Link>
-    const [visible, hide] = useVisibility('mwf-covid-warning')
+    const [visible, hide] = useVisibility('mwf-warning')
+    const title = (
+        <Link to={uri}>
+            <FormattedMessage
+                description="Layout weather/forecast/MountainWeather"
+                defaultMessage="Mountain Weather Forecast"
+            />
+        </Link>
+    )
 
     return (
         <Page>
@@ -23,30 +33,25 @@ export default function Weather({ uri }) {
                 <Main>
                     {visible && (
                         <Warning onDismiss={hide}>
-                            The Meteorological Service of Canada will continue
-                            to produce the mountain weather forecast as
-                            regularly as we can during the pandemic.
-                            Occasionally the forecast may be shorter than usual
-                            and it’s possible that some days it might not be
-                            issued at all. Content will shift seasonally to
-                            address provincial concerns. We will do our best to
-                            keep the daily product as consistent as possible.
+                            <Generic uid="mountain-weather-forecast-warning" />
                         </Warning>
                     )}
-                    <Router>
-                        <ForecastRoute path="/" />
-                        <ForecastRoute path=":date" />
-                        <articles.HourlyPrecipitation path="hourly-precipitation" />
-                        <articles.Precipitation12h path="12h-precipitation" />
-                        <articles.Temperatures path="temperatures" />
-                        <articles.Winds path="winds" />
-                        <articles.SurfaceMaps path="surface-maps" />
-                        <articles.OtherMaps path="other-maps" />
-                        <articles.Radar path="radar" />
-                        <articles.Satellite path="satellite" />
-                        <articles.ActualTemperatures path="actual-temperatures" />
-                        <articles.Warnings path="warnings" />
-                    </Router>
+                    <Provider>
+                        <Router>
+                            <ForecastRoute path="/" />
+                            <ForecastRoute path=":date" />
+                            <articles.HourlyPrecipitation path="hourly-precipitation" />
+                            <articles.Precipitation12h path="12h-precipitation" />
+                            <articles.Temperatures path="temperatures" />
+                            <articles.Winds path="winds" />
+                            <articles.SurfaceMaps path="surface-maps" />
+                            <articles.OtherMaps path="other-maps" />
+                            <articles.Radar path="radar" />
+                            <articles.Satellite path="satellite" />
+                            <articles.ActualTemperatures path="actual-temperatures" />
+                            <articles.Warnings path="warnings" />
+                        </Router>
+                    </Provider>
                     <Footer />
                 </Main>
                 <Aside>

@@ -1,5 +1,6 @@
 import React, { Children } from 'react'
 import PropTypes from 'prop-types'
+import classnames from 'classnames'
 import styles from './styles.css'
 
 Entry.propTypes = {
@@ -19,11 +20,12 @@ export function Entry({ children }) {
 
 Symbol.propTypes = {
     children: PropTypes.node.isRequired,
+    className: PropTypes.string,
 }
 
-export function Symbol({ children, ...props }) {
+export function Symbol({ children, className, ...props }) {
     return (
-        <div className={styles.Symbol} {...props}>
+        <div className={classnames(styles.Symbol, className)} {...props}>
             {children}
         </div>
     )

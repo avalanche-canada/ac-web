@@ -1,4 +1,3 @@
-import formatDate from 'date-fns/format'
 import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import startOfMonth from 'date-fns/start_of_month'
@@ -6,6 +5,7 @@ import endOfMonth from 'date-fns/end_of_month'
 import { startOfSeason, endOfSeason } from 'utils/date'
 import * as Predicates from 'prismic/predicates'
 import * as types from 'constants/prismic'
+import { DateParam } from 'hooks/params'
 
 // TODO: Find a way to reduce this file size and KEEP it easy to read
 // Should it be splited into different modules?
@@ -36,7 +36,7 @@ export const mw = {
                 Predicates.field(
                     types.WEATHER_FORECAST,
                     'date',
-                    formatDateForQuery(date)
+                    DateParam.format(date)
                 ),
             ],
         }
@@ -74,11 +74,11 @@ export const fatal = {
             predicates: [
                 Predicates.dateAfter(
                     field,
-                    formatDateForQuery(addDays(startOfSeason(), -1))
+                    DateParam.format(addDays(startOfSeason(), -1))
                 ),
                 Predicates.dateBefore(
                     field,
-                    formatDateForQuery(addDays(endOfSeason(), 1))
+                    DateParam.format(addDays(endOfSeason(), 1))
                 ),
             ],
             pageSize: MAX_PAGE_SIZE,
@@ -122,8 +122,8 @@ export const hotZone = {
 Object.assign(hotZone.reports, {
     monthly(region, date) {
         const { HOTZONE_REPORT } = types
-        const start = formatDateForQuery(startOfMonth(date))
-        const end = formatDateForQuery(endOfMonth(date))
+        const start = DateParam.format(startOfMonth(date))
+        const end = DateParam.format(endOfMonth(date))
 
         return {
             predicates: [
@@ -170,10 +170,7 @@ export const feed = {
 
         if (type === types.EVENT) {
             predicates.push(
-                Predicates.dateAfter(
-                    my(type, 'start_date'),
-                    formatDateForQuery()
-                )
+                Predicates.dateAfter(my(type, 'start_date'), DateParam.format())
             )
         }
 
@@ -244,7 +241,7 @@ export const feed = {
             ? `${FEED_ORDERINGS.get(EVENT)} desc`
             : FEED_ORDERINGS.get(EVENT)
         const predicate = past ? Predicates.dateBefore : Predicates.dateAfter
-        const timestamp = formatDateForQuery(addDays(new Date(), -1))
+        const timestamp = DateParam.format(addDays(new Date(), -1))
         const predicates = []
 
         predicates.push(predicate(my(EVENT, 'end_date'), timestamp))
@@ -279,8 +276,8 @@ const FETCH_DEFINITION_TITLE_OPTIONS = {
 }
 function rangePredicates(start, end, date = new Date()) {
     return [
-        Predicates.dateBefore(start, formatDateForQuery(addDays(date, 1))),
-        Predicates.dateAfter(end, formatDateForQuery(subDays(date, 1))),
+        Predicates.dateBefore(start, DateParam.format(addDays(date, 1))),
+        Predicates.dateAfter(end, DateParam.format(subDays(date, 1))),
     ]
 }
 function rangeForType(type) {
@@ -296,9 +293,6 @@ const FEED_ORDERINGS = new Map([
     [types.BLOG, `${my(types.BLOG, 'date')} desc`],
     [types.EVENT, my(types.EVENT, 'start_date')],
 ])
-function formatDateForQuery(date = new Date()) {
-    return formatDate(date, 'YYYY-MM-DD')
-}
 function my(type, field) {
     return `my.${type}.${field}`
 }

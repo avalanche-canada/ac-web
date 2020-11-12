@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { isRedirect } from '@reach/router'
 import { captureException } from 'services/sentry'
 import typography from 'components/text/Text.css'
+import { FormattedMessage } from 'react-intl'
 
 export class Boundary extends Component {
     static propTypes = {
@@ -55,7 +56,12 @@ Details.propTypes = {
 export function Details({
     error,
     className,
-    summary = 'An error occured.',
+    summary = (
+        <FormattedMessage
+            description="Component Error"
+            defaultMessage="An error occurred."
+        />
+    ),
     children,
 }) {
     return (

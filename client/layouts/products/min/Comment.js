@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import Section from './Section'
 import { MultiLine } from 'components/misc'
 
@@ -8,7 +9,10 @@ Comment.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Comment({ title = 'Comments', children }) {
+export default function Comment({
+    title = <FormattedMessage defaultMessage="Comments" />,
+    children,
+}) {
     if (!children) {
         return null
     }

@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { DateElement } from 'components/time'
 import Section from './Section'
 import Loop from '../Loop'
 import addDays from 'date-fns/add_days'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { DATE } from 'constants/intl'
 
 Day3To4.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,
@@ -33,12 +34,17 @@ Title.propTypes = {
 }
 
 function Title({ date }) {
-    const day3 = addDays(date, 2)
-    const day4 = addDays(date, 3)
+    const intl = useIntl()
+    const values = {
+        from: intl.formatDate(addDays(date, 2), DATE),
+        to: intl.formatDate(addDays(date, 3), DATE),
+    }
 
     return (
-        <div>
-            <DateElement value={day3} /> and <DateElement value={day4} />
-        </div>
+        <FormattedMessage
+            description="Component weather/tabs/Day3To4"
+            defaultMessage="{from} and {to}"
+            values={values}
+        />
     )
 }

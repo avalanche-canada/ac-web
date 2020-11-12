@@ -1,9 +1,10 @@
+import { linkHorizontal } from 'd3-shape'
 import React from 'react'
-import { memo } from 'utils/react'
+import { FormattedMessage } from 'react-intl'
 import logo from 'styles/mcr-logo.jpg'
 import styles from './MountainConditionsReport.css'
 
-function Footer() {
+export default function Footer() {
     const url = 'https://mountainconditions.com'
 
     return (
@@ -12,14 +13,20 @@ function Footer() {
                 <img src={logo} alt="MCR" />
             </a>
             <div>
-                For more photos and more information about the professional
-                mountain guide who created this report visit:
-                <a href={url} target="mcr">
-                    mountainconditions.com
-                </a>
+                <FormattedMessage
+                    description="Layout products/mcr/Footer"
+                    defaultMessage="For more photos and more information about the professional mountain guide who created this report visit: <link>mountainconditions.com</link>."
+                    values={{
+                        link(text) {
+                            return (
+                                <a href={url} target="mcr">
+                                    {text}
+                                </a>
+                            )
+                        },
+                    }}
+                />
             </div>
         </div>
     )
 }
-
-export default memo.static(Footer)

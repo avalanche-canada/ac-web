@@ -26,6 +26,7 @@ import Button, { SUBTILE } from 'components/button'
 import { Download } from 'components/icons'
 import Dialog from './Download'
 import styles from './TripPlanner.css'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 export default class TripPlannerLayout extends PureComponent {
     state = {
@@ -120,9 +121,10 @@ export default class TripPlannerLayout extends PureComponent {
     handleRightCloseClick = () => this.setState({ right: false })
     renderRegionHeader() {
         const { name, id } = this.state.region
+        const subject = <FormattedMessage defaultMessage="Avalanche forecast" />
 
         return (
-            <Header subject="Avalanche forecast">
+            <Header subject={subject}>
                 <h1>
                     <Link to={`/forecasts/${id}`} target={id}>
                         {name}
@@ -147,8 +149,14 @@ export default class TripPlannerLayout extends PureComponent {
     }
     renderLeftDrawer(withRegion) {
         const { zone, region } = this.state
+        const subject = (
+            <FormattedMessage
+                description="Layout TripPlanner/Layout"
+                defaultMessage="Trip Planning"
+            />
+        )
         const header = (
-            <Header subject="Trip Planning">
+            <Header subject={subject}>
                 {zone && (
                     <HeaderContent
                         onLocateClick={this.handleZoneLocateClick}
@@ -162,7 +170,12 @@ export default class TripPlannerLayout extends PureComponent {
         return (
             <Fragment>
                 <Navbar style={NAVBAR_STYLE}>
-                    <Home style={HOME_STYLE}>Back to main map</Home>
+                    <Home style={HOME_STYLE}>
+                        <FormattedMessage
+                            description="Layout TripPlanner/Layout"
+                            defaultMessage="Back to main map"
+                        />
+                    </Home>
                     <Close onClick={this.handleLeftCloseClick} />
                 </Navbar>
                 {withRegion || header}
@@ -273,6 +286,12 @@ const HOME_STYLE = {
     paddingLeft: '1em',
 }
 function HeaderContent({ children, onLocateClick, onDownloadClick }) {
+    const intl = useIntl()
+    const tooltip = intl.formatMessage({
+        description: 'Layout TripPlanner/Layout',
+        defaultMessage: 'Download ATES data as KMZ',
+    })
+
     return (
         <h1>
             <span>{children}</span>
@@ -280,7 +299,7 @@ function HeaderContent({ children, onLocateClick, onDownloadClick }) {
                 <DisplayOnMap onClick={onLocateClick} />
                 <Button
                     kind={SUBTILE}
-                    data-tooltip="Download ATES data as KMZ"
+                    data-tooltip={tooltip}
                     data-tooltip-placement="left"
                     onClick={onDownloadClick}>
                     <Download />

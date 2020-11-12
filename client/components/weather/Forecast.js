@@ -12,6 +12,7 @@ import Day5To7 from './tabs/Day5to7'
 import SliceSet from './tabs/SliceSet'
 import { StructuredText } from 'prismic/components/base'
 import Tutorial from 'layouts/weather/forecast/Tutorial'
+import { FormattedMessage } from 'react-intl'
 
 Forecast.propTypes = {
     forecast: PropTypes.object.isRequired,
@@ -25,12 +26,44 @@ export default function Forecast({ forecast }) {
     return (
         <Tabs>
             <HeaderSet>
-                <Header>Synopsis</Header>
-                <Header>Day 1</Header>
-                <Header>Day 2</Header>
-                <Header>Day 3-4</Header>
-                {isDay5To7TabVisible && <Header>Day 5-7</Header>}
-                <Header>Tutorial</Header>
+                <Header>
+                    <FormattedMessage
+                        description="Component weather/Forecast"
+                        defaultMessage="Synopsis"
+                    />
+                </Header>
+                <Header>
+                    <FormattedMessage
+                        description="Component weather/Forecast"
+                        defaultMessage="Day 1"
+                    />
+                </Header>
+                <Header>
+                    <FormattedMessage
+                        description="Component weather/Forecast"
+                        defaultMessage="Day 2"
+                    />
+                </Header>
+                <Header>
+                    <FormattedMessage
+                        description="Component weather/Forecast"
+                        defaultMessage="Day 3-4"
+                    />
+                </Header>
+                {isDay5To7TabVisible && (
+                    <Header>
+                        <FormattedMessage
+                            description="Component weather/Forecast"
+                            defaultMessage="Day 5-7"
+                        />
+                    </Header>
+                )}
+                <Header>
+                    <FormattedMessage
+                        description="Component weather/Forecast"
+                        defaultMessage="Tutorial"
+                    />
+                </Header>
             </HeaderSet>
             <PanelSet>
                 <Panel>{createPanel(forecast, Synopsis, 'synopsis')}</Panel>

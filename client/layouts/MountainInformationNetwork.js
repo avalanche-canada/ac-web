@@ -17,17 +17,11 @@ export default function MountainInformationNetwork() {
             <StaticPage
                 path="submission-guidelines"
                 uid="mountain-information-network-submission-guidelines"
-                title="Mountain Information Network — Submission Guidelines"
             />
-            <StaticPage
-                path="faq"
-                uid="mountain-information-network-faq"
-                title="Mountain Information Network — FAQ"
-            />
+            <StaticPage path="faq" uid="mountain-information-network-faq" />
             <StaticPage
                 path="/"
                 uid="mountain-information-network-overview"
-                title="Mountain Information Network — Overview"
                 className={styles.MINOverview}
             />
         </Router>

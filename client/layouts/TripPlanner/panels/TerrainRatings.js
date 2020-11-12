@@ -1,17 +1,26 @@
-import React, { Fragment } from 'react'
+import React from 'react'
+import { FormattedMessage } from 'react-intl'
 import { Entry, Symbol, Name, Description } from 'components/map/legend'
 import Panel from './Panel'
 import Ratings, {
     SIMPLE,
-    Texts,
-    Descriptions,
-    Palette,
+    COMPLEX,
+    CHALLENGING,
+    useRatingTexts,
+    useRatingDescriptions,
 } from 'constants/forecast/ates'
-import { WHITE, BLACK } from 'constants/forecast/palette'
+import atesStyles from 'styles/ates.css'
 
 export default function TerrainRatingsPanel() {
+    const header = (
+        <FormattedMessage
+            description="TripPlanner panels title"
+            defaultMessage="Terrain Ratings Explained"
+        />
+    )
+
     return (
-        <Panel header="Terrain Ratings Explained">
+        <Panel header={header}>
             <Entries />
         </Panel>
     )
@@ -19,20 +28,20 @@ export default function TerrainRatingsPanel() {
 
 // Utils
 export function Entries() {
-    return (
-        <Fragment>
-            {Array.from(Ratings, rating => (
-                <Entry key={rating}>
-                    <Symbol style={getStyle(rating)}></Symbol>
-                    <Name>{Texts.get(rating)}</Name>
-                    <Description>{Descriptions.get(rating)}</Description>
-                </Entry>
-            ))}
-        </Fragment>
-    )
+    const texts = useRatingTexts()
+    const descriptions = useRatingDescriptions()
+
+    return Array.from(Ratings, rating => (
+        <Entry key={rating}>
+            <Symbol className={ATESClassNames.get(rating)}></Symbol>
+            <Name>{texts.get(rating)}</Name>
+            <Description>{descriptions.get(rating)}</Description>
+        </Entry>
+    ))
 }
-function getStyle(rating) {
-    return {
-        backgroundColor: Palette.get(rating),
-    }
-}
+
+const ATESClassNames = new Map([
+    [SIMPLE, atesStyles.simple],
+    [COMPLEX, atesStyles.complex],
+    [CHALLENGING, atesStyles.challenging],
+])

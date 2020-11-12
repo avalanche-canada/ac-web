@@ -6,6 +6,7 @@ import Entry from './Entry'
 import EntrySet from './EntrySet'
 import { feed } from 'prismic/params'
 import { useDocuments } from 'prismic/hooks'
+import { FormattedMessage } from 'react-intl'
 
 FeedSplash.propTypes = {
     type: PropTypes.string.isRequired,
@@ -23,8 +24,21 @@ export default function FeedSplash({ children, ...props }) {
     return (
         <Splash>
             {children}
-            {pending && <Loading>{`Loading latest ${type}...`}</Loading>}
-            {isEmpty && <Muted>Nothing found.</Muted>}
+            {pending && <Loading>
+                <FormattedMessage
+                    description="Layout feed/Splash"
+                    defaultMessage="Loading latest {type}..."
+                    values={{
+                        type
+                    }}
+                />
+            </Loading>}
+            {isEmpty && <Muted>
+                <FormattedMessage
+                    description="Layout feed/Splash"
+                    defaultMessage="Nothing found."
+                />
+            </Muted>}
             {featured && <EntrySet>{createEntry(featured)}</EntrySet>}
             {others.length > 0 && (
                 <EntrySet>{others.map(createEntry)}</EntrySet>

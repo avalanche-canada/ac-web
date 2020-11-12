@@ -11,6 +11,7 @@ import Gallery from './Gallery'
 import TerrainAdviceSet from './TerrainAdviceSet'
 import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 import CriticalFactors from './CriticalFactors'
+import StructuredText from 'prismic/components/base/StructuredText'
 
 export Metadata from './Metadata'
 export Header from './Header'
@@ -44,16 +45,22 @@ export function Report({ children, value }) {
 export function Footer() {
     return (
         <Fragment>
-            <Panel header="More information">
-                <Shim horizontal>
-                    <Generic uid="hot-zone-report-more-information" />
-                </Shim>
-            </Panel>
-            <Panel header="About">
-                <Shim horizontal>
-                    <Generic uid="hot-zone-report-about" />
-                </Shim>
-            </Panel>
+            <FooterPanel uid="hot-zone-report-more-information" />
+            <FooterPanel uid="hot-zone-report-about" />
         </Fragment>
+    )
+}
+
+function FooterPanel({ uid }) {
+    return (
+        <Generic uid={uid}>
+            {({ data }) => (
+                <Panel header={data.title}>
+                    <Shim horizontal>
+                        <StructuredText value={data.body} />
+                    </Shim>
+                </Panel>
+            )}
+        </Generic>
     )
 }

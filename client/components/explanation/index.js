@@ -9,11 +9,7 @@ Section.propTypes = {
 }
 
 export function Section({ style, children }) {
-    return (
-        <section style={style} className={styles.Section}>
-            {children}
-        </section>
-    )
+    return <section style={style}>{children}</section>
 }
 
 Header.propTypes = {

@@ -1,17 +1,18 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import isAfter from 'date-fns/is_after'
 import isBefore from 'date-fns/is_before'
 import isEqual from 'lodash/isEqual'
 import Base from 'components/loop'
-import { computeUrls, getNotes, isForecast } from 'services/msc/loop'
-import metadata from 'services/msc/loop/metadata.json'
+import { Context as MetadataContext } from 'services/msc/loop/metadata/context'
 import { Loading, Error } from 'components/text'
 
 // TODO: HOOKS + FUNCTIONAL
 // TODO Improve the speed, we do not need to load all images...
 
 export default class Loop extends PureComponent {
+    static contextType = MetadataContext
     static propTypes = {
         type: PropTypes.string.isRequired,
         date: PropTypes.instanceOf(Date),
@@ -36,7 +37,7 @@ export default class Loop extends PureComponent {
         this.computeUrls()
 
         // Autorefresh the urls for current conditions!
-        if (metadata.hasOwnProperty(type) && !isForecast(metadata[type])) {
+        if (this.context.has(type) && !this.context.isForecast(type)) {
             this.intervalId = window.setInterval(
                 this.computeUrls,
                 5 * 60 * 1000, // every 5 minutes!
@@ -60,10 +61,9 @@ export default class Loop extends PureComponent {
                 isLoading: silent ? false : true,
             },
             () => {
-                computeUrls(this.props).then(
-                    this.handleFulfilled,
-                    this.handleRejected
-                )
+                this.context
+                    .computeUrls(this.props)
+                    .then(this.handleFulfilled, this.handleRejected)
             }
         )
     }
@@ -71,16 +71,16 @@ export default class Loop extends PureComponent {
         const { type } = this.props
         let startsAt
 
-        if (metadata.hasOwnProperty(type)) {
+        if (this.context.has(type)) {
             // runs means it a forecast product, not real time
-            startsAt = 'runs' in metadata[type] ? 0 : urls.length - 1
+            startsAt = 'runs' in this.context.get(type) ? 0 : urls.length - 1
         }
 
         this.setState({
             isLoading: false,
             isError: false,
             urls,
-            notes: getNotes(type),
+            notes: this.context.getNotes(type),
             startsAt,
         })
     }
@@ -110,11 +110,25 @@ export default class Loop extends PureComponent {
         const { isLoading, isError, notes } = this.state
 
         if (isLoading) {
-            return <Loading>Creating the loop...</Loading>
+            return (
+                <Loading>
+                    <FormattedMessage
+                        description="Component weather/Loop"
+                        defaultMessage="Creating the loop..."
+                    />
+                </Loading>
+            )
         }
 
         if (isError) {
-            return <Error>Sorry, we are not able to create the loop.</Error>
+            return (
+                <Error>
+                    <FormattedMessage
+                        description="Component weather/Loop"
+                        defaultMessage="Sorry, we are not able to create the loop."
+                    />
+                </Error>
+            )
         }
 
         return (
@@ -141,7 +155,12 @@ function NoteSet({ notes = [] }) {
 
     return (
         <section>
-            <p>Please note:</p>
+            <p>
+                <FormattedMessage
+                    description="Component weather/Loop"
+                    defaultMessage="Please note:"
+                />
+            </p>
             <ul>
                 {notes.map((note, index) => (
                     <li key={index}>{note}</li>

@@ -2,7 +2,7 @@ import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Link } from '@reach/router'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { useForecasts, useForecast } from 'hooks/async/api/products'
 import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
 import { Page } from 'layouts/pages'
@@ -13,6 +13,7 @@ import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
 import typography from 'components/text/Text.css'
 import { Details } from 'components/error'
+import { Loading } from 'components/text'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -20,7 +21,6 @@ ForecastLayout.propTypes = {
 }
 
 export default function ForecastLayout({ name, date }) {
-    const intl = useIntl()
     const isPrintable = !date || isToday(date)
 
     return (
@@ -31,7 +31,10 @@ export default function ForecastLayout({ name, date }) {
                     <Main>
                         <Async.Pending>
                             <p className={typography.Muted}>
-                                <FormattedMessage defaultMessage="Loading forecast..." />
+                                <FormattedMessage
+                                    description="Layout pages/Forecast"
+                                    defaultMessage="Loading forecast..."
+                                />
                             </p>
                         </Async.Pending>
                         <Async.Found>
@@ -43,10 +46,12 @@ export default function ForecastLayout({ name, date }) {
                             </Async.NotFound>
                             <Async.Error>
                                 <Details
-                                    summary={intl.formatMessage({
-                                        defaultMessage:
-                                            'An error happened while loading forecast.',
-                                    })}
+                                    summary={
+                                        <FormattedMessage
+                                            description="Layout pages/Forecast"
+                                            defaultMessage="An error happened while loading forecast."
+                                        />
+                                    }
                                     className={shim.all}
                                 />
                             </Async.Error>
@@ -70,9 +75,7 @@ function Title({ name }) {
     return (
         <Fragment>
             <Async.Pending>
-                <span className={typography.Muted}>
-                    <FormattedMessage defaultMessage="Loading..." />
-                </span>
+                <Loading />
             </Async.Pending>
             <Async.Found>
                 <ForecastHeader />
@@ -80,6 +83,7 @@ function Title({ name }) {
             <Async.Empty>
                 <span className={typography.Warning}>
                     <FormattedMessage
+                        description="Layout pages/Forecast"
                         defaultMessage="{name} forecast not found"
                         values={{ name }}
                     />
@@ -105,7 +109,10 @@ function OtherRegions() {
     return (
         <Fragment>
             <h3>
-                <FormattedMessage defaultMessage="Click on a link below to see another forecast:" />
+                <FormattedMessage
+                    description="Layout pages/Forecast"
+                    defaultMessage="Click on a link below to see another forecast:"
+                />
             </h3>
             <List column={1}>
                 {forecasts.map(({ area: { id, name } }) => (

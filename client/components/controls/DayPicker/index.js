@@ -1,11 +1,10 @@
-import React, { useMemo, useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
-import format from 'date-fns/format'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { useIntl } from 'react-intl'
 import { Expand } from 'components/button'
-import { DATE } from 'utils/date'
 import { useBoolean } from 'hooks'
+import { DATE } from 'constants/intl'
 import styles from './DayPicker.css'
 import 'react-day-picker/lib/style.css'
 
@@ -13,6 +12,11 @@ DayPicker.propTypes = {
     date: PropTypes.instanceOf(Date),
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired,
+    formatDate: PropTypes.func,
+    hideOnDayClick: PropTypes.func,
+    keepFocus: PropTypes.bool,
+    style: PropTypes.object,
+    overlayComponent: PropTypes.element,
 }
 
 export default function DayPicker({
@@ -21,14 +25,24 @@ export default function DayPicker({
     onChange,
     overlayComponent,
     hideOnDayClick,
-    formatDate = date => format(date, DATE),
     keepFocus,
     style,
     ...props
 }) {
+    const intl = useIntl()
     const ref = useRef(null)
     const localeUtils = useLocaleUtils()
     const [opened, show, hide] = useBoolean(false)
+    const formatDate = useCallback(
+        date => {
+            if (typeof props.formatDate === 'function') {
+                return props.formatDate(date)
+            }
+
+            return intl.formatDate(date, DATE)
+        },
+        [intl.locale, props.formatDate]
+    )
 
     return (
         <div className={styles.Container} style={style}>

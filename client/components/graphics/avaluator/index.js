@@ -1,7 +1,14 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { SIMPLE, CHALLENGING, COMPLEX } from 'constants/forecast/ates'
+import { FormattedMessage } from 'react-intl'
+import ATESRatings, {
+    SIMPLE,
+    CHALLENGING,
+    COMPLEX,
+    useRatingTexts,
+} from 'constants/forecast/ates'
 import {
+    useTexts as useDangerRatingTexts,
     LOW,
     MODERATE,
     CONSIDERABLE,
@@ -11,13 +18,16 @@ import {
 
 // TODO Can shave off a lot by removing/reusing
 
-AvaluatorChart.propTypes = {
-    terrain: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX]).isRequired,
+Chart.propTypes = {
+    terrain: PropTypes.oneOf(Array.from(ATESRatings)).isRequired,
     danger: PropTypes.oneOf([LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME])
         .isRequired,
 }
 
-function AvaluatorChart({ terrain, danger }) {
+export function Chart({ terrain, danger }) {
+    const ratingTexts = useRatingTexts()
+    const dangerRatingTexts = useDangerRatingTexts()
+
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="16 0 277 200">
             <path
@@ -77,7 +87,7 @@ function AvaluatorChart({ terrain, danger }) {
                 fill={LIGHT_BLUE}
                 bold={terrain === SIMPLE}
                 textAnchor="middle">
-                Simple
+                {ratingTexts.get(SIMPLE)}
             </Text>
             <Text
                 x="188.5"
@@ -85,7 +95,7 @@ function AvaluatorChart({ terrain, danger }) {
                 fill={LIGHT_BLUE}
                 bold={terrain === CHALLENGING}
                 textAnchor="middle">
-                Challenging
+                {ratingTexts.get(CHALLENGING)}
             </Text>
             <Text
                 x="257.6"
@@ -93,30 +103,30 @@ function AvaluatorChart({ terrain, danger }) {
                 fill={LIGHT_BLUE}
                 bold={terrain === COMPLEX}
                 textAnchor="middle">
-                Complex
+                {ratingTexts.get(COMPLEX)}
             </Text>
             <Text x="58.4" y="147.9" fill={DARK_BLUE} bold={danger === LOW}>
-                Low
+                {dangerRatingTexts.get(LOW)}
             </Text>
             <Text
                 x="35.2"
                 y="119.8"
                 fill={DARK_BLUE}
                 bold={danger === MODERATE}>
-                Moderate
+                {dangerRatingTexts.get(MODERATE)}
             </Text>
             <Text
                 x="16.9"
                 y="87.8"
                 fill={DARK_BLUE}
                 bold={danger === CONSIDERABLE}>
-                Considerable
+                {dangerRatingTexts.get(CONSIDERABLE)}
             </Text>
             <Text x="56.2" y="55.2" fill={DARK_BLUE} bold={danger === HIGH}>
-                High
+                {dangerRatingTexts.get(HIGH)}
             </Text>
             <Text x="40.6" y="24" fill={DARK_BLUE} bold={danger === EXTREME}>
-                Extreme
+                {dangerRatingTexts.get(EXTREME)}
             </Text>
             <path
                 fill="none"
@@ -126,14 +136,30 @@ function AvaluatorChart({ terrain, danger }) {
                 opacity=".6"
             />
             <Text x="224" y="40" bold textAnchor="middle" fill="white">
-                Not recommended
+                <FormattedMessage
+                    description="ATES Chart"
+                    defaultMessage="Not recommended"
+                />
             </Text>
             <Text x="250" y="106" bold textAnchor="middle" fill="black">
-                <tspan>Extra</tspan>
-                <tspan dy="28">caution</tspan>
+                <tspan>
+                    <FormattedMessage
+                        description="ATES Chart"
+                        defaultMessage="Extra"
+                    />
+                </tspan>
+                <tspan dy="28">
+                    <FormattedMessage
+                        description="ATES Chart"
+                        defaultMessage="caution"
+                    />
+                </tspan>
             </Text>
             <Text x="156" y="134" bold textAnchor="middle" fill="black">
-                Caution
+                <FormattedMessage
+                    description="ATES Chart"
+                    defaultMessage="Caution"
+                />
             </Text>
             <circle
                 cx={X_COORDINATES.get(terrain)}
@@ -145,8 +171,6 @@ function AvaluatorChart({ terrain, danger }) {
         </svg>
     )
 }
-
-export const Chart = memo(AvaluatorChart)
 
 // Constants
 const X_COORDINATES = new Map([

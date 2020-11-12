@@ -7,7 +7,7 @@ import * as links from 'components/links'
 import OPTIONS from './options'
 import Submission from './types'
 import AuthContext from 'contexts/auth'
-import { Submit } from 'components/button'
+import Button, { Submit } from 'components/button'
 import { Error } from 'components/text'
 import { TYPES } from 'constants/min'
 import { Mailto } from 'components/anchors'
@@ -18,14 +18,14 @@ import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
 import styles from './Form.css'
 import { clearCachedReports } from 'hooks/async/min'
-import Button from 'components/button/Button'
 import Shim from 'components/Shim'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 export default class SubmissionForm extends Component {
     static contextType = AuthContext
     form = createRef()
-    constructor(props) {
-        super(props)
+    constructor(...props) {
+        super(...props)
 
         const options = { ...OPTIONS }
 
@@ -178,20 +178,10 @@ export default class SubmissionForm extends Component {
         const { options, type, value, isSubmitting, error } = this.state
         const { login, profile, isAuthenticated } = this.context
         const nickname = profile?.user_metadata?.nickname || profile?.nickname
-        const title = (
-            <Fragment>
-                Mountain Information Network — Create report
-                {nickname && (
-                    <small>
-                        Hi <Link to="/account">{nickname}</Link>,
-                    </small>
-                )}
-            </Fragment>
-        )
 
         return (
             <Page>
-                <Header title={title} />
+                <Header title={<Title username={nickname} />} />
                 <Content>
                     <Main>
                         {isAuthenticated ? (
@@ -208,40 +198,20 @@ export default class SubmissionForm extends Component {
                                     onChange={this.handleChange}
                                 />
                                 {error && (
-                                    <Error as="details">
-                                        <summary>
-                                            An error happened while submitting
-                                            your report.
-                                        </summary>
-                                        <p>
-                                            An error happened while submitting
-                                            and saving your report to our
-                                            servers. Do not hesitate to contact
-                                            us to get more details so you can
-                                            have your report submitted. Thanks
-                                            for your understanding and
-                                            cooperation!{' '}
-                                            <Mailto
-                                                email={SUPPORT}
-                                                subject={`Problem submitting report: ${value.required.title}`}
-                                            />
-                                        </p>
-                                        <p>
-                                            {error.name}: {error.message}
-                                        </p>
-                                    </Error>
+                                    <FormError
+                                        error={error}
+                                        title={value.required.title}
+                                    />
                                 )}
-                                <Submit large disabled={isSubmitting}>
-                                    {isSubmitting
-                                        ? 'Submitting your report...'
-                                        : 'Submit your report'}
-                                </Submit>
+                                <FormSubmit isSubmitting={isSubmitting} />
                             </form>
                         ) : (
                             <Shim all className={styles.Login}>
                                 <Button onClick={login} large>
-                                    Login to post to the Mountain Information
-                                    Network
+                                    <FormattedMessage
+                                        description="Layout min/Form"
+                                        defaultMessage="Login to post to the Mountain Information Network"
+                                    />
                                 </Button>
                             </Shim>
                         )}
@@ -255,4 +225,74 @@ export default class SubmissionForm extends Component {
 // Utils
 function isObservationError(error) {
     return error.path[0] === 'observations'
+}
+function Title({ username }) {
+    return (
+        <Fragment>
+            <FormattedMessage
+                description="Layout min/Form"
+                defaultMessage="Mountain Information Network — Create report"
+            />
+            {username && (
+                <small>
+                    <FormattedMessage
+                        description="Layout min/Form"
+                        defaultMessage="Hi <link></link>,"
+                        values={{
+                            link() {
+                                return <Link to="/account">{username}</Link>
+                            },
+                        }}
+                    />
+                </small>
+            )}
+        </Fragment>
+    )
+}
+function FormError({ error, title }) {
+    const intl = useIntl()
+    const subject = intl.formatMessage({
+        description: 'Layout min/Form',
+        defaultMessage: 'Problem submitting report: ${title}',
+        values: { title },
+    })
+
+    return (
+        <Error as="details">
+            <summary>
+                <FormattedMessage
+                    description="Layout min/Form"
+                    defaultMessage="An error happened while submitting your report."
+                />
+            </summary>
+            <p>
+                <FormattedMessage
+                    description="Layout min/Form"
+                    defaultMessage="An error happened while submitting and saving your report to our servers. Do not hesitate to contact us to get more details so you can have your report submitted. Thanks for your understanding and cooperation!"
+                />
+                <br />
+                <Mailto email={SUPPORT} subject={subject} />
+            </p>
+            <p>
+                {error.name}: {error.message}
+            </p>
+        </Error>
+    )
+}
+function FormSubmit({ isSubmitting }) {
+    return (
+        <Submit large disabled={isSubmitting}>
+            {isSubmitting ? (
+                <FormattedMessage
+                    description="Layout min/Form"
+                    defaultMessage="Submitting your report..."
+                />
+            ) : (
+                <FormattedMessage
+                    description="Layout min/Form"
+                    defaultMessage="Submit your report"
+                />
+            )}
+        </Submit>
+    )
 }

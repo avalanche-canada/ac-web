@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import { FormattedMessage, useIntl } from 'react-intl'
 import throttle from 'lodash/throttle'
 import { Page } from 'layouts/pages'
 import { Header, Main, Content } from 'components/page'
@@ -10,22 +11,32 @@ import { Mailto } from 'components/anchors'
 import { Search } from 'components/form'
 import PaginationComponent from 'components/pagination'
 import Shim from 'components/Shim'
+import { useIntlMemo } from 'hooks/intl'
 
 export default function UserList() {
+    const intl = useIntl()
     const [username, setUsername] = useState()
     const { isAuthenticated } = useAuth(true)
     const handleUsernameChange = useCallback(throttle(setUsername, 750), [])
 
     return (
         <Page>
-            <Header title="Users" />
+            <Header
+                title={intl.formatMessage({
+                    defaultMessage: 'Users',
+                    description: 'Layout admin/UserList',
+                })}
+            />
             <Content>
                 <Main>
                     <Shim all>
                         <Search
                             value={username}
                             onChange={handleUsernameChange}
-                            placeholder="Search by username..."
+                            placeholder={intl.formatMessage({
+                                defaultMessage: 'Search by username...',
+                                description: 'Layout admin/UserList',
+                            })}
                         />
                     </Shim>
                     {isAuthenticated && <Table username={username} />}
@@ -38,6 +49,7 @@ export default function UserList() {
 // Utils
 function Table({ username }) {
     const [page, setPage] = useState(1)
+    const columns = useColumns()
 
     useEffect(() => {
         setPage(1)
@@ -48,7 +60,7 @@ function Table({ username }) {
             <table>
                 <thead>
                     <tr>
-                        {COLUMNS.map(({ name, title }) => (
+                        {columns.map(({ name, title }) => (
                             <th key={name}>{title}</th>
                         ))}
                     </tr>
@@ -60,11 +72,27 @@ function Table({ username }) {
                 </tbody>
                 <caption>
                     <Pending>
-                        <T.Loading>Loading users...</T.Loading>
+                        <T.Loading>
+                            <FormattedMessage
+                                description="Layout admin/UserList"
+                                defaultMessage="Loading users..."
+                            />
+                        </T.Loading>
                     </Pending>
                     <Found>
                         {({ itemCount }) => (
-                            <T.Muted>{itemCount} users found.</T.Muted>
+                            <T.Muted>
+                                <FormattedMessage
+                                    description="Layout admin/UserList"
+                                    defaultMessage="{itemCount, plural,
+                                =0 {No users}
+                                one {# user}
+                                other {# users}} found."
+                                    values={{
+                                        itemCount,
+                                    }}
+                                />
+                            </T.Muted>
                         )}
                     </Found>
                     <HTTPError>
@@ -97,28 +125,37 @@ function Error({ error }) {
     return <T.Error>{error.payload.message}</T.Error>
 }
 function Body({ payload }) {
+    const columns = useColumns()
     return payload.items.map(user => (
         <tr key={user.id}>
-            {COLUMNS.map(({ name, property }) => (
+            {columns.map(({ name, property }) => (
                 <td key={name}>{property(user)}</td>
             ))}
         </tr>
     ))
 }
 
-const COLUMNS = [
-    {
-        name: 'username',
-        title: 'Username',
-        property({ username }) {
-            return username
+function useColumns() {
+    return useIntlMemo(intl => [
+        {
+            name: 'username',
+            title: intl.formatMessage({
+                defaultMessage: 'Username',
+                description: 'Layout admin/UserList',
+            }),
+            property({ username }) {
+                return username
+            },
         },
-    },
-    {
-        name: 'email',
-        title: 'Email',
-        property({ email }) {
-            return email ? <Mailto email={email} /> : null
+        {
+            name: 'email',
+            title: intl.formatMessage({
+                defaultMessage: 'Email',
+                description: 'Layout admin/UserList',
+            }),
+            property({ email }) {
+                return email ? <Mailto email={email} /> : null
+            },
         },
-    },
-]
+    ])
+}

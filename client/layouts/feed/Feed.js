@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react'
 import { Link } from '@reach/router'
-import format from 'date-fns/format'
 import { feed } from 'prismic/params'
 import { Content, Header, Main } from 'components/page'
 import { Page } from 'layouts/pages'
@@ -24,6 +23,9 @@ import useParams, {
     BooleanParam,
 } from 'hooks/params'
 import { useLocation } from 'router/hooks'
+import { FormattedMessage } from 'react-intl'
+import { useMonths, useIntlMemo } from 'hooks/intl'
+import { useFeedTexts } from 'constants/prismic'
 
 export function BlogPostFeed({ navigate }) {
     const [params, stringify] = useParams({
@@ -33,6 +35,8 @@ export function BlogPostFeed({ navigate }) {
         category: StringParam,
     })
     const changeHandler = useChangeHandlerFactory(navigate, stringify)
+    const categoryOptions = useCategoryOptions()
+    const monthsOptions = useMonthsOptions()
 
     return (
         <FeedLayout title="Blogs">
@@ -41,8 +45,8 @@ export function BlogPostFeed({ navigate }) {
                     <Dropdown
                         value={params.category}
                         onChange={changeHandler('category', 1)}
-                        options={CategoryOptions}
-                        placeholder={CategoryOptions.get()}
+                        options={categoryOptions}
+                        placeholder={categoryOptions.get()}
                     />
                 </Control>
                 <Control style={CONTROL_STYLE}>
@@ -57,8 +61,8 @@ export function BlogPostFeed({ navigate }) {
                     <Dropdown
                         value={params.month}
                         onChange={changeHandler('month', 1)}
-                        options={MonthsOptions}
-                        placeholder={MonthsOptions.get()}
+                        options={monthsOptions}
+                        placeholder={monthsOptions.get()}
                     />
                 </Control>
             </ControlSet>
@@ -79,6 +83,7 @@ export function NewsFeed({ navigate }) {
         tags: SetParam,
     })
     const changeHandler = useChangeHandlerFactory(navigate, stringify)
+    const monthsOptions = useMonthsOptions()
 
     return (
         <FeedLayout title="Recent news">
@@ -95,8 +100,8 @@ export function NewsFeed({ navigate }) {
                     <Dropdown
                         value={params.month}
                         onChange={changeHandler('month', 1)}
-                        options={MonthsOptions}
-                        placeholder={MonthsOptions.get()}
+                        options={monthsOptions}
+                        placeholder={monthsOptions.get()}
                     />
                 </Control>
                 <Control style={CONTROL_STYLE}>
@@ -123,6 +128,7 @@ export function EventFeed({ navigate }) {
         tags: SetParam,
     })
     const changeHandler = useChangeHandlerFactory(navigate, stringify)
+    const timeLineOptions = useTimelineOptions()
 
     return (
         <FeedLayout title="Events">
@@ -131,8 +137,8 @@ export function EventFeed({ navigate }) {
                     <Dropdown
                         value={params.past}
                         onChange={changeHandler('past', 1)}
-                        options={TimelineOptions}
-                        placeholder={TimelineOptions.get(params.past)}
+                        options={timeLineOptions}
+                        placeholder={timeLineOptions.get(params.past)}
                     />
                 </Control>
                 <Control style={CONTROL_STYLE}>
@@ -169,6 +175,7 @@ function FeedContent({ params, type, onPageChange }) {
     const [spaw] = useSPAW()
     const { results = [], page, total_pages } = data
     let rearranged = results
+    const itemType = useFeedTexts()
 
     if (page === 1 && rearranged.some(isFeaturedPost)) {
         const featured = rearranged.find(isFeaturedPost)
@@ -184,9 +191,15 @@ function FeedContent({ params, type, onPageChange }) {
                 <Loading />
             ) : results.length === 0 ? (
                 <Muted>
-                    No {TYPE_TEXT.get(type)} match your criteria. You can{' '}
-                    <Link to={location.pathname}>reset your criteria</Link> to
-                    find more articles.
+                    <FormattedMessage
+                        description="Layout feed/Feed"
+                        defaultMessage="No {type} match your criteria. You can <link>reset your criteria</link> to find more articles."
+                        values={{
+                            type: itemType.get(type),
+                            link: text => <Link to={location.pathname}>{text}</Link>
+                        }}
+                    />
+
                 </Muted>
             ) : null}
             <EntrySet>
@@ -225,7 +238,7 @@ function TagsDropdown({ type, value, onChange }) {
 
 // Constants
 const CURRENT_YEAR = new Date().getFullYear()
-const TYPE_TEXT = new Map([[BLOG, 'blog'], [NEWS, 'news'], [EVENT, 'event']])
+
 const YearOptions = new Map([
     [undefined, 'All years'],
     ...Array(CURRENT_YEAR - 2012) // We are are going back to 2013!
@@ -233,25 +246,66 @@ const YearOptions = new Map([
         .map((value, index) => value - index)
         .map(year => [year, String(year)]),
 ])
-const MonthsOptions = new Map([
-    [undefined, 'All Months'],
-    ...Array(12)
-        .fill(0)
-        .map((value, index) => format(new Date(1, index, 1), 'MMMM'))
-        .map(string => [string.toLowerCase(), string]),
-])
 
-const TimelineOptions = new Map([
-    [false, 'Upcoming events'],
-    [true, 'Past events'],
-])
-const CategoryOptions = new Map([
-    ['forecaster blog', 'Forecaster blog'],
-    ['north-rockies', 'North Rockies'],
-    ['south-rockies', 'South Rockies'],
-    ['yukon', 'Yukon'],
-    [undefined, 'All categories'],
-])
+function useMonthsOptions() {
+    const month = useMonths();
+    return useIntlMemo((intl) => new Map([
+        [undefined, intl.formatMessage({
+            defaultMessage: 'All months',
+            description: 'Layout feed/Feed',
+        })],
+        ['january', month[0]],
+        ['february', month[1]],
+        ['march', month[2]],
+        ['april', month[3]],
+        ['may', month[4]],
+        ['june', month[5]],
+        ['july', month[6]],
+        ['august', month[7]],
+        ['september', month[8]],
+        ['october', month[9]],
+        ['november', month[10]],
+        ['december', month[11]],
+    ]))
+}
+
+function useTimelineOptions() {
+    return useIntlMemo((intl) => new Map([
+        [false, intl.formatMessage({
+            defaultMessage: 'Upcoming events',
+            description: 'Layout feed/Feed',
+        })],
+        [true, intl.formatMessage({
+            defaultMessage: 'Past events',
+            description: 'Layout feed/Feed',
+        })],
+    ]))
+}
+
+function useCategoryOptions() {
+    return useIntlMemo((intl) => new Map([
+        ['forecaster blog', intl.formatMessage({
+            defaultMessage: 'Forecaster blog',
+            description: 'Layout feed/Feed',
+        })],
+        ['north-rockies', intl.formatMessage({
+            defaultMessage: 'North Rockies',
+            description: 'Layout feed/Feed',
+        })],
+        ['south-rockies', intl.formatMessage({
+            defaultMessage: 'South Rockies',
+            description: 'Layout feed/Feed',
+        })],
+        ['yukon', intl.formatMessage({
+            defaultMessage: 'Yukon',
+            description: 'Layout feed/Feed',
+        })],
+        ['undefined', intl.formatMessage({
+            defaultMessage: 'All categories',
+            description: 'Layout feed/Feed',
+        })],
+    ]))
+}
 
 // Utils
 function isFeaturedPost({ tags }) {
@@ -261,8 +315,8 @@ function isFeaturedPost({ tags }) {
 // That super awesome function could be moved to "hooks/params" to generate handlers...
 // But need some experience with it to know exactly what these handlers should do
 function useChangeHandlerFactory(navigate, stringify) {
-    return function(key, page) {
-        return function(value) {
+    return function (key, page) {
+        return function (value) {
             return navigate(stringify({ page, [key]: value }))
         }
     }

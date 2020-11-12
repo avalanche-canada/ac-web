@@ -8,6 +8,7 @@ import AdviceText from './AdviceText'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
 import styles from './HotZoneReport.css'
+import { FormattedMessage } from 'react-intl'
 
 function createAdvice({ feature, where, elevation }) {
     const items = [feature, where, elevation].filter(Boolean)
@@ -83,17 +84,45 @@ function TerrainAdviceSetComponent({
     const allAdvices = [terrainToAvoid, terrainToWatch, goodTerrainChoices]
     const advices = allAdvices.some(Boolean) ? (
         <Fragment>
-            <AdviceSection header="Terrain to Avoid" advices={terrainToAvoid} />
-            <AdviceSection header="Terrain to Watch" advices={terrainToWatch} />
             <AdviceSection
-                header="Good Terrain Choices"
+                header={
+                    <FormattedMessage
+                        description="Layout products/hzr/TerrainAdviceSet"
+                        defaultMessage="Terrain to Avoid"
+                    />
+                }
+                advices={terrainToAvoid}
+            />
+            <AdviceSection
+                header={
+                    <FormattedMessage
+                        description="Layout products/hzr/TerrainAdviceSet"
+                        defaultMessage="Terrain to Watch"
+                    />
+                }
+                advices={terrainToWatch}
+            />
+            <AdviceSection
+                header={
+                    <FormattedMessage
+                        description="Layout products/hzr/TerrainAdviceSet"
+                        defaultMessage="Good Terrain Choices"
+                    />
+                }
                 advices={goodTerrainChoices}
             />
         </Fragment>
     ) : null
 
     return comments === null && advices === null ? null : (
-        <Panel header="Terrain Advice" expanded>
+        <Panel
+            header={
+                <FormattedMessage
+                    description="Layout products/hzr/TerrainAdviceSet"
+                    defaultMessage="Terrain Advice"
+                />
+            }
+            expanded>
             <Shim horizontal>
                 <AdviceText />
                 {advices}

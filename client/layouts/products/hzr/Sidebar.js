@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
+import { FormattedMessage } from 'react-intl'
 import { useReport } from './Context'
 import { Sidebar, Contact, Follow, Share, Item } from 'components/sidebar'
 import * as utils from 'utils/hzr'
@@ -16,19 +17,35 @@ export default function AdvisorySidebar({ shareable, children, ...props }) {
         <Sidebar {...props}>
             {children}
             <Item>
-                <Link to="/weather">Your daily Mountain Weather Forecast</Link>
-            </Item>
-            <Item>
-                <Link to="/mountain-information-network/submit">
-                    Submit a Mountain Information Report
+                <Link to="/weather">
+                    <FormattedMessage
+                        description="Layout products/hzr/Sidebar"
+                        defaultMessage="Your daily Mountain Weather Forecast"
+                    />
                 </Link>
             </Item>
             <Item>
-                <Link to="/blogs">Visit our Blog</Link>
+                <Link to="/mountain-information-network/submit">
+                    <FormattedMessage
+                        description="Layout products/hzr/Sidebar"
+                        defaultMessage="Submit a Mountain Information Report"
+                    />
+                </Link>
+            </Item>
+            <Item>
+                <Link to="/blogs">
+                    <FormattedMessage
+                        description="Layout products/hzr/Sidebar"
+                        defaultMessage="Visit our Blog"
+                    />
+                </Link>
             </Item>
             <Item>
                 <Link to="/advisories/archives">
-                    Avalanche Advisory Archive
+                    <FormattedMessage
+                        description="Layout products/hzr/Sidebar"
+                        defaultMessage="Avalanche Advisory Archive"
+                    />
                 </Link>
             </Item>
             <Follow />

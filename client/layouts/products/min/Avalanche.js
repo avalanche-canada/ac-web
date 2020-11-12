@@ -1,8 +1,10 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import parse from 'date-fns/parse'
 import List, { Entry } from './List'
 import Comment from './Comment'
+
+// No i18n required: will be provided by the API
 
 Avalanche.propTypes = {
     windExposure: PropTypes.string,
@@ -31,7 +33,7 @@ Avalanche.propTypes = {
     vegetationCover: PropTypes.string,
 }
 
-function Avalanche({
+export default function Avalanche({
     weakLayerBurialDate,
     avalancheOccurrenceEpoch,
     avalancheOccurrenceTime,
@@ -104,5 +106,3 @@ function Avalanche({
         </Fragment>
     )
 }
-
-export default memo(Avalanche)

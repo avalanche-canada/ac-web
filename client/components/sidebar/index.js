@@ -15,7 +15,7 @@ export function Sidebar({ children }) {
 }
 
 SocialItem.propTypes = {
-    label: PropTypes.string,
+    label: PropTypes.node,
     children: PropTypes.node.isRequired,
 }
 
@@ -98,7 +98,7 @@ export function Print({ url }) {
 
     return (
         <SocialItem>
-            <a href={url} target="avcan-print-forecast" title={title}>
+            <a href={url} target="printable-forecast" title={title}>
                 <FormattedMessage
                     description="Sidebar"
                     defaultMessage="Printable version"
@@ -131,13 +131,11 @@ Follow.propTypes = {
     label: PropTypes.string,
 }
 
-export function Follow({ label, urls = URLS }) {
+export function Follow({
+    label = <FormattedMessage defaultMessage="Follow us" />,
+    urls = URLS,
+}) {
     const intl = useIntl()
-    label =
-        label ||
-        intl.formatMessage({
-            defaultMessage: 'Follow us',
-        })
     function createTitle(name) {
         return intl.formatMessage({
             defaultMessage: '{label} on {name}',

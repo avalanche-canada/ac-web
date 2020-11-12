@@ -16,11 +16,11 @@ export default function Avatar({ size = 60, url, name }) {
     const style = {
         height: size,
         width: size,
-        fontSize: size < 50 ? '0.75em' : '1em',
     }
     const className = classnames({
         [css.Initials]: on,
         [css.Avatar]: !on,
+        [css.Small]: size < 50,
     })
 
     return (
