@@ -98,7 +98,7 @@ var AVCAN = {
 
 
 var KCOUNTRY =  {
-    'kananaskis': get('kananaskis', 'America/Edmonton').avid('Kananaskis Country')
+    'kananaskis': get('kananaskis', 'America/Edmonton').avidKananaskis('Kananaskis Country')
     // .prismic()
     // .avalx(20)
 };
@@ -160,6 +160,17 @@ function get(region, timezone) {
 
             return createConfig(function() {
                 return fetch.fetchAvid()
+                        .then(fetch.filterAvidByLocation(avid_mappings.byName[region]))
+                        .then(avid.parseAvid(region, name))
+                        .then(addOwner('avalanche-canada'))
+                        .then(createIconSet(timezone))
+            })
+        },
+        avidKananaskis: function(name, createIconSet) {
+            createIconSet = typeof createIconSet === 'function' ? createIconSet : addStaticIcons
+
+            return createConfig(function() {
+                return fetch.fetchAvidKananaskis()
                         .then(fetch.filterAvidByLocation(avid_mappings.byName[region]))
                         .then(avid.parseAvid(region, name))
                         .then(addOwner('avalanche-canada'))
