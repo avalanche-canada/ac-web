@@ -83,20 +83,6 @@
       "value": "Vous traversez quelques zones dangereuses. Faites attention!"
     }
   ],
-  "5mM3fv": [
-    {
-      "type": 0,
-      "value": "Les prévisions d'avalanche archivés pour la région "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " sont disponibles sur le site de Parcs Canada - Information sur les avalanches"
-    }
-  ],
   "5vzyAa": [
     {
       "type": 0,
@@ -163,12 +149,6 @@
       "value": "Probabilité de déclenchement"
     }
   ],
-  "CsgxJT": [
-    {
-      "type": 0,
-      "value": "Ceux-ci sont des prévisions d’avalanche archivées."
-    }
-  ],
   "D4JBvM": [
     {
       "type": 0,
@@ -179,20 +159,6 @@
     {
       "type": 0,
       "value": "Zone alpine"
-    }
-  ],
-  "DsokKh": [
-    {
-      "type": 0,
-      "value": "Prévisions d'avalanches pour "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " sont introuvables."
     }
   ],
   "DxUvN0": [
@@ -249,6 +215,12 @@
     {
       "type": 0,
       "value": "."
+    }
+  ],
+  "FLCIcU": [
+    {
+      "type": 0,
+      "value": "Trouver un cours"
     }
   ],
   "GUfQm1": [
@@ -319,12 +291,6 @@
       "value": "Conseils sur le terrain et les déplacements"
     }
   ],
-  "Kn1qrS": [
-    {
-      "type": 0,
-      "value": "Sélectionnez une date."
-    }
-  ],
   "KotpK6": [
     {
       "type": 0,
@@ -355,22 +321,10 @@
       "value": "Danger accru sur des reliefs de terrain précis. Évaluer soigneusement le manteau neigeux et le terrain; repérer les reliefs de terrain préoccupants."
     }
   ],
-  "OherfE": [
-    {
-      "type": 0,
-      "value": "Archive des prévisions"
-    }
-  ],
   "Oiag/N": [
     {
       "type": 0,
       "value": "Contact"
-    }
-  ],
-  "PabL84": [
-    {
-      "type": 0,
-      "value": "pour les sauvetages dans l’arrière-pays et mentionnez que vous êtes dans le pays de kananaskis"
     }
   ],
   "Q2/+Ze": [
@@ -383,12 +337,6 @@
     {
       "type": 0,
       "value": "Notre réponse"
-    }
-  ],
-  "QeZYWz": [
-    {
-      "type": 0,
-      "value": "est la ligne de répartition pour les cas non-urgent"
     }
   ],
   "RI1ANN": [
@@ -451,52 +399,6 @@
       "value": "Conditions de début de saison"
     }
   ],
-  "aSPqYO": [
-    {
-      "offset": 0,
-      "options": {
-        "one": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " photo attaché"
-            }
-          ]
-        },
-        "other": {
-          "value": [
-            {
-              "type": 7
-            },
-            {
-              "type": 0,
-              "value": " photos attachés"
-            }
-          ]
-        }
-      },
-      "pluralType": "cardinal",
-      "type": 6,
-      "value": "count"
-    }
-  ],
-  "b+O7HY": [
-    {
-      "type": 0,
-      "value": "Vous pouvez obtenir davantage d’informations de la région "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " sur leur site Web."
-    }
-  ],
   "ei59iy": [
     {
       "type": 0,
@@ -507,12 +409,6 @@
     {
       "type": 0,
       "value": "Chargement..."
-    }
-  ],
-  "hG4qnf": [
-    {
-      "type": 0,
-      "value": "Sélectionnez une région."
     }
   ],
   "iUn2hD": [
@@ -565,12 +461,6 @@
     {
       "type": 0,
       "value": "Suivez-nous"
-    }
-  ],
-  "mjDIYS": [
-    {
-      "type": 0,
-      "value": "est le numéro de téléphone du bureau de la Sécurité publique (sur semaine)"
     }
   ],
   "mpFOGM": [
@@ -649,6 +539,12 @@
     {
       "type": 0,
       "value": "Problèmes"
+    }
+  ],
+  "s0Gj69": [
+    {
+      "type": 0,
+      "value": "Trouver un cours"
     }
   ],
   "s9Ojlo": [
