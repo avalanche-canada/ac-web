@@ -43,19 +43,19 @@ export function useLevels() {
 export function useTags() {
     return useIntlMemo(intl => new Map([
         ['SKI', intl.formatMessage({
-            defaultMessage: 'SKI',
+            defaultMessage: 'Ski',
             description: 'Constants layouts/ast',
         })],
         ['SLED', intl.formatMessage({
-            defaultMessage: 'SLED',
+            defaultMessage: 'Sled',
             description: 'Constants layouts/ast',
         })],
         ['SNOWSHOE', intl.formatMessage({
-            defaultMessage: 'SNOWSHOE',
+            defaultMessage: 'Snowshoe',
             description: 'Constants layouts/ast',
         })],
         ['YOUTH', intl.formatMessage({
-            defaultMessage: 'YOUTH',
+            defaultMessage: 'Youth',
             description: 'Constants layouts/ast',
         })]
     ]))
