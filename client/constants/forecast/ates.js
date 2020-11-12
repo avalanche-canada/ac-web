@@ -64,7 +64,7 @@ export function useRatingDescriptions() {
                     intl.formatMessage({
                         description: 'ATES Rating Description',
                         defaultMessage:
-                            'Exposure to well defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist.',
+                            'Exposure to well-defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist.',
                     }),
                 ],
                 [

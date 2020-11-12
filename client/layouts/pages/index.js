@@ -174,7 +174,7 @@ export function UnsupportedMap() {
             <p>
                 <FormattedMessage
                     description="Layout pages/UnsupportedMap"
-                    defaultMessage="It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche - related information on our map."
+                    defaultMessage="It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche-related information on our map."
                 />
             </p>
             <p>
@@ -272,7 +272,7 @@ export function Fallback({ error, navbar, children }) {
             <p>
                 <FormattedMessage
                     description="Layout pages/Fallback"
-                    defaultMessage="We have been notified about that error and we will try to fix as soon as possible."
+                    defaultMessage="We have been notified about that error; we will try fix it as soon as possible."
                 />
             </p>
             <details>

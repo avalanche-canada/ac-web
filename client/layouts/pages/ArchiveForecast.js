@@ -189,7 +189,7 @@ function WarningMessage({ name, owner }) {
             return (
                 <FormattedMessage
                     description="Layout pages/ArchiveForecast"
-                    defaultMessage="Archived forecast bulletins for {name} region are available on the Parks Canada - Public Avalanche Information website"
+                    defaultMessage="Archived forecast bulletins for {name} region are available on the Parks Canada — Public Avalanche Information website"
                     values={values}
                 />
             )

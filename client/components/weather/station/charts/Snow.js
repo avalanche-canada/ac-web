@@ -50,7 +50,7 @@ export default function SnowHeight({ data, min, max, width, height }) {
     const desc = intl.formatMessage({
         description: 'Component weather/station/charts/Snow',
         defaultMessage:
-            'Show height and new snow in centimeter (cm) every hour from {min} to {max}.',
+            'Show height and new snow in centimetre (cm) every hour from {min} to {max}.',
         values: { min, max },
     })
     const heightLabel = intl.formatMessage({

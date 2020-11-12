@@ -67,7 +67,7 @@ export default function Account() {
                         <p>
                             <FormattedMessage
                                 description="Layout Account"
-                                defaultMessage="In the meantime, do not hesitate to send us an email at <mailto></mailto> if you need help for these."
+                                defaultMessage="In the meantime, do not hesitate to email us at <mailto></mailto> if you need help for these."
                                 values={{
                                     mailto() {
                                         return <Mailto />
@@ -226,7 +226,7 @@ function Message({ status, code, children }) {
                         <p>
                             <FormattedMessage
                                 description="Layout Account"
-                                defaultMessage="This could happen for few reasons, do not hesitate to contact us at <mail></mail> so we can help you sorting that out."
+                                defaultMessage="This could happen for few reasons. Do not hesitate to contact us at <mail></mail> so we can help you sort that out."
                                 values={{
                                     mail() {
                                         return <Mailto />

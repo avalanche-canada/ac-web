@@ -58,8 +58,10 @@ export default function MountainConditionsReport({
                     </Banner>
                     <Header
                         subject={intl.formatMessage({
-                            defaultMessage: "Arc'Teryx Mountain Conditions Report",
-                            description: 'Layout drawers/MountainConditionsReport',
+                            defaultMessage:
+                                "Arc'teryx Mountain Conditions Report",
+                            description:
+                                'Layout drawers/MountainConditionsReport',
                         })}>
                         {title && (
                             <h1>
@@ -95,7 +97,7 @@ export default function MountainConditionsReport({
                                     description="Layout drawers/MountainConditionsReport"
                                     defaultMessage="Report #{id} is not available anymore."
                                     values={{
-                                        id
+                                        id,
                                     }}
                                 />
                             </Muted>

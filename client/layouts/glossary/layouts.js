@@ -16,7 +16,6 @@ import SliceComponents from 'prismic/components/slice/rework'
 import styles from './Glossary.css'
 import { FormattedMessage, useIntl } from 'react-intl'
 
-
 export default function Layout() {
     return (
         <Content>
@@ -44,7 +43,7 @@ function GlossarySidebar() {
             </Sidebar.Header>
             <Sidebar.Item>
                 <a
-                    href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
+                    href="https://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
                     target="ICAR">
                     <FormattedMessage
                         description="Layout glossary/layouts"
@@ -54,11 +53,11 @@ function GlossarySidebar() {
             </Sidebar.Item>
             <Sidebar.Item>
                 <a
-                    href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
+                    href="https://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
                     target="LexiqueLexicon">
                     <FormattedMessage
                         description="Layout glossary/layouts"
-                        defaultMessage="Lexique Avalanche - Avalanche Lexicon"
+                        defaultMessage="Lexique Avalanche—Avalanche Lexicon"
                     />
                 </a>
             </Sidebar.Item>
@@ -97,12 +96,10 @@ export function Glossary({ location, navigate, uid }) {
                 <Search
                     onChange={debounce(setTerm, 500)}
                     value={term}
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'Search for a definition',
-                            description: 'Layout glossary/layouts',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Search for a definition',
+                        description: 'Layout glossary/layouts',
+                    })}
                 />
                 <GlossaryContent layout={document.data} term={term} />
             </Fragment>
@@ -180,7 +177,8 @@ function Related({ items, linkToExternal }) {
                 <FormattedMessage
                     description="Layout glossary/layouts"
                     defaultMessage="See also: "
-                /></Muted>
+                />
+            </Muted>
             <ul>
                 {items.filter(isNotBroken).map(({ definition }) => {
                     const { uid } = definition
@@ -193,10 +191,10 @@ function Related({ items, linkToExternal }) {
                                     {title}
                                 </Link>
                             ) : (
-                                    <a href={`#${uid}`} title={title}>
-                                        {title}
-                                    </a>
-                                )}
+                                <a href={`#${uid}`} title={title}>
+                                    {title}
+                                </a>
+                            )}
                         </li>
                     )
                 })}
@@ -224,10 +222,10 @@ function useDefaultSections(layout = {}) {
     const definitionsByUID = useMemo(() => {
         return Array.isArray(definitions)
             ? definitions.reduce(
-                (all, definition) =>
-                    all.set(definition.uid, createDefinition(definition)),
-                new Map()
-            )
+                  (all, definition) =>
+                      all.set(definition.uid, createDefinition(definition)),
+                  new Map()
+              )
             : new Map()
     }, [definitions])
     const sections = useMemo(() => {
@@ -284,21 +282,25 @@ function GlossaryContent({ layout, term }) {
     }, [sections, term])
 
     if (loading) {
-        return <Loading>
-            <FormattedMessage
-                description="Layout glossary/layouts"
-                defaultMessage="Loading definitions..."
-            />
-        </Loading>
+        return (
+            <Loading>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="Loading definitions..."
+                />
+            </Loading>
+        )
     }
 
     if (sectionsToRender.size === 0) {
-        return <Muted>
-            <FormattedMessage
-                description="Layout glossary/layouts"
-                defaultMessage="No definition matches your criteria."
-            />
-        </Muted>
+        return (
+            <Muted>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="No definition matches your criteria."
+                />
+            </Muted>
+        )
     }
 
     return (

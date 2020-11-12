@@ -101,7 +101,7 @@ function useTerrainFeatureTitles() {
                 'CrossloadedSlopes',
                 intl.formatMessage({
                     description,
-                    defaultMessage: 'Crossloaded slopes',
+                    defaultMessage: 'Cross-loaded slopes',
                 }),
             ],
             [
