@@ -77,10 +77,6 @@
     "notes": "Layout incidents/layouts",
     "translation": "From"
   },
-  "/bQkF4": {
-    "notes": "Constants layouts/ast",
-    "translation": "YOUTH"
-  },
   "/cpFFk": {
     "notes": "Layout products/hzr/CriticalFactors",
     "translation": "Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches."
@@ -426,6 +422,10 @@
     "notes": "Layout main/index",
     "translation": "{count, plural, one {One error} other {# errors}} occurred."
   },
+  "8HqzPv": {
+    "notes": "Layout pages/UnsupportedMap",
+    "translation": "It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche-related information on our map."
+  },
   "8PAu18": {
     "notes": "Component weather/ExtendedWeatherForecast",
     "translation": "546 dam – 500 hPa Contour Line (Canadian Ensemble)"
@@ -472,10 +472,6 @@
   "9G7scK": {
     "notes": "Layout incidents/layout",
     "translation": "Location"
-  },
-  "9JNV+F": {
-    "notes": "Component weather/station/charts/Snow",
-    "translation": "Show height and new snow in centimeter (cm) every hour from {min} to {max}."
   },
   "9PqwAx": {
     "notes": "Component weather/station/charts/RelativeHumidity",
@@ -632,10 +628,6 @@
     "notes": "FX Header",
     "translation": "<phone>403-679-3511</phone> is the Public Safety office phone number (weekdays)"
   },
-  "DwD91L": {
-    "notes": "Constants layouts/ast",
-    "translation": "SLED"
-  },
   "DxUvN0": {
     "notes": "Ratings Texts for NO_RATING",
     "translation": "0 - No Rating"
@@ -765,10 +757,6 @@
     "notes": "AvCan menu",
     "translation": "Contact us"
   },
-  "H+sIZr": {
-    "notes": "Constants prismic",
-    "translation": "asc"
-  },
   "H/wqZi": {
     "notes": "Layout TripPlanner/Download",
     "translation": "Download ATES data for {name}"
@@ -826,6 +814,10 @@
     "notes": "Layout ForecastRegionList",
     "translation": "Click on a link below to read the avalanche forecast:"
   },
+  "IV4BOT": {
+    "notes": "Constants layouts/ast",
+    "translation": "Snowshoe"
+  },
   "IZtayi": {
     "notes": "Layout incidents/layouts",
     "translation": "Source"
@@ -880,10 +872,6 @@
   },
   "JMac37": {
     "translation": "Show all"
-  },
-  "JOzhPQ": {
-    "notes": "Layout pages/Fallback",
-    "translation": "We have been notified about that error and we will try to fix as soon as possible."
   },
   "JQsrhq": {
     "notes": "Elevation text",
@@ -949,6 +937,10 @@
     "notes": "Layout ast/tables/cells",
     "translation": "N/A"
   },
+  "KuQVY7": {
+    "notes": "Layout pages/ArchiveForecast",
+    "translation": "Archived forecast bulletins for {name} region are available on the Parks Canada — Public Avalanche Information website"
+  },
   "KxbmQC": {
     "notes": "Component table/PageSizeSelector prefix",
     "translation": "Show"
@@ -960,6 +952,10 @@
   "L/68Mg": {
     "notes": "AvCan menu",
     "translation": "Essential gear"
+  },
+  "L0GLT1": {
+    "notes": "Layout pages/Fallback",
+    "translation": "We have been notified about that error; we will try fix it as soon as possible."
   },
   "L3tjFh": {
     "notes": "Travel Advice message for LOW",
@@ -1026,10 +1022,6 @@
     "notes": "FX mode SPRING_SITUATION",
     "translation": "Spring Conditions"
   },
-  "M1XFDg": {
-    "notes": "Layout Account",
-    "translation": "This could happen for few reasons, do not hesitate to contact us at <mail></mail> so we can help you sorting that out."
-  },
   "MFKutU": {
     "notes": "AvCan menu",
     "translation": "Dangerator"
@@ -1080,10 +1072,6 @@
   "N5wkSH": {
     "notes": "Layout incidents/layouts",
     "translation": "Weather Comment"
-  },
-  "N9Yx2h": {
-    "notes": "Layout glossary/layouts",
-    "translation": "Lexique Avalanche - Avalanche Lexicon"
   },
   "NCx3L5": {
     "notes": "AvCan menu",
@@ -1219,6 +1207,10 @@
     "notes": "Component weather/station/charts/Wind",
     "translation": "Wind speed and direction"
   },
+  "Q05qE6": {
+    "notes": "Constants layouts/ast",
+    "translation": "Ski"
+  },
   "Q2/+Ze": {
     "notes": "Avalanche Details section",
     "translation": "Snowpack Summary"
@@ -1239,10 +1231,6 @@
     "notes": "Component weather/station/columns",
     "translation": "Wind Direction Average"
   },
-  "QANlop": {
-    "notes": "Constants layouts/ast",
-    "translation": "SNOWSHOE"
-  },
   "QYXOBY": {
     "notes": "Layout products/hzr/TerrainSummary",
     "translation": "Travel advice"
@@ -1260,6 +1248,10 @@
   "QjMlZz": {
     "notes": "Component form/Search",
     "translation": "Search..."
+  },
+  "QvimSq": {
+    "notes": "Component weather/station/charts/Snow",
+    "translation": "Show height and new snow in centimetre (cm) every hour from {min} to {max}."
   },
   "Qvwvqu": {
     "notes": "AvCan menu",
@@ -1441,6 +1433,10 @@
   "VA+DE/": {
     "notes": "AvCan menu",
     "translation": "Reports list view"
+  },
+  "VAjdA4": {
+    "notes": "Layout Account",
+    "translation": "This could happen for few reasons. Do not hesitate to contact us at <mail></mail> so we can help you sort that out."
   },
   "VecW4F": {
     "notes": "AvCan menu",
@@ -1871,10 +1867,6 @@
     "notes": "Layout incidents/layouts",
     "translation": "Type"
   },
-  "fQtuCW": {
-    "notes": "ATES Rating Description",
-    "translation": "Exposure to well defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist."
-  },
   "fTIjqa": {
     "notes": "Layout drawers/Forecast",
     "translation": "Forecast {name} not found"
@@ -1885,10 +1877,6 @@
   "fb3qcN": {
     "notes": "Layout drawers/FatalAccident",
     "translation": "Loading fatal recreational accident..."
-  },
-  "fiau6S": {
-    "notes": "Constants layouts/ast",
-    "translation": "SKI"
   },
   "forecasts": {
     "translation": "Forecasts"
@@ -1977,6 +1965,10 @@
     "notes": "Layout main/index",
     "translation": "{count, plural, one {One error} other {# errors}} occurred. Click for more details."
   },
+  "hJ1ugx": {
+    "notes": "Layout drawers/MountainConditionsReport",
+    "translation": "Arc'teryx Mountain Conditions Report"
+  },
   "hNq0pE": {
     "translation": "0-144 Hours"
   },
@@ -2011,6 +2003,14 @@
   "iEAZIi": {
     "notes": "Layout min/Form",
     "translation": "Submitting your report..."
+  },
+  "iEI8pm": {
+    "notes": "Constants layouts/ast",
+    "translation": "Youth"
+  },
+  "iNi0FV": {
+    "notes": "ATES Rating Description",
+    "translation": "Exposure to well-defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist."
   },
   "iUn2hD": {
     "notes": "Social media",
@@ -2135,6 +2135,10 @@
   "l1XTI5": {
     "translation": "Follow us"
   },
+  "l4fsUL": {
+    "notes": "Layout glossary/layouts",
+    "translation": "Lexique Avalanche—Avalanche Lexicon"
+  },
   "lE1Ifz": {
     "notes": "Layout ast/forms",
     "translation": "Level"
@@ -2243,13 +2247,6 @@
   },
   "mpFOGM": {
     "translation": "Visit the"
-  },
-  "mr0pFr": {
-    "translation": "Crossloaded slopes"
-  },
-  "mt0ZM1": {
-    "notes": "Layout drawers/MountainConditionsReport",
-    "translation": "Arc'Teryx Mountain Conditions Report"
   },
   "mvd+ai": {
     "notes": "Layout min/Report",
@@ -2492,10 +2489,6 @@
   "rbrahO": {
     "translation": "Close"
   },
-  "rf0ogR": {
-    "notes": "Layout pages/UnsupportedMap",
-    "translation": "It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche - related information on our map."
-  },
   "rt8N8F": {
     "notes": "Layout pages/NotFound",
     "translation": "Latest news"
@@ -2530,6 +2523,10 @@
   },
   "sRpc3I": {
     "translation": "Updated at approximately {updates} every day."
+  },
+  "sYssP3": {
+    "notes": "Constants layouts/ast",
+    "translation": "Sled"
   },
   "scPADm": {
     "notes": "AvCan menu",
@@ -2630,14 +2627,6 @@
     "notes": "AvCan menu",
     "translation": "Managing Avalanche Terrain"
   },
-  "vSSfQx": {
-    "notes": "Constants prismic",
-    "translation": "none"
-  },
-  "vYC6+e": {
-    "notes": "Layout pages/ArchiveForecast",
-    "translation": "Archived forecast bulletins for {name} region are available on the Parks Canada - Public Avalanche Information website"
-  },
   "vYSLmy": {
     "notes": "ATES Rating",
     "translation": "Challenging"
@@ -2732,6 +2721,10 @@
     "notes": "FX Sidebar",
     "translation": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
   },
+  "wpexYN": {
+    "notes": "Layout Account",
+    "translation": "In the meantime, do not hesitate to email us at <mailto></mailto> if you need help for these."
+  },
   "wrfULV": {
     "notes": "Layout min/SubmissionList",
     "translation": "{count, plural, =0 {No report} one {One report} other {Total of # reports}} found."
@@ -2750,6 +2743,9 @@
   "x4Ch6V": {
     "notes": "Layout products/hzr/TerrainSummary",
     "translation": "Aspect"
+  },
+  "xBqzzk": {
+    "translation": "Cross-loaded slopes"
   },
   "xOPjK4": {
     "notes": "Constants prismic",
@@ -2774,10 +2770,6 @@
     "notes": "Layout products/hzr/CriticalFactors",
     "translation": "Signs of instability"
   },
-  "xd5OR2": {
-    "notes": "Layout Account",
-    "translation": "In the meantime, do not hesitate to send us an email at <mailto></mailto> if you need help for these."
-  },
   "xeCA+8": {
     "notes": "Component metadata/ShareEntry",
     "translation": "Share on {provider}"
@@ -2801,10 +2793,6 @@
   "xpPoqQ": {
     "notes": "Layout pages/ArchiveForecast",
     "translation": "Forecast Archive"
-  },
-  "y0iamy": {
-    "notes": "Constants prismic",
-    "translation": "desc"
   },
   "y6C4VC": {
     "notes": "Component loop",
