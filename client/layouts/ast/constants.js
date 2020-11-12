@@ -1,39 +1,37 @@
 import { useIntlMemo } from 'hooks/intl'
 
-export const LEVELS = new Map([
-    ['AST1', 'AST 1'],
-    ['AST1+', 'AST 1 + MAT'],
-    ['AST1+2', 'AST 1 + AST 2 Combined'],
-    ['AST2', 'AST 2'],
-    ['CRS', 'Companion Rescue (CRS)'],
-    ['MAT', 'Managing Avalanche Terrain (MAT)'],
-])
+const AST1 = 'AST1'
+const AST1plus = 'AST1+'
+const AST1plus2 = 'AST1+2'
+const AST2 = 'AST2'
+const CRS = 'CRS'
+const MAT = 'MAT'
 
-// TODO Make LEVELS/useLevels DRYer
+export const LEVELS = [AST1, AST1plus, AST1plus2, AST2, CRS, MAT]
 
 export function useLevels() {
     return useIntlMemo(intl => new Map([
-        ['AST1', intl.formatMessage({
+        [AST1, intl.formatMessage({
             defaultMessage: 'AST 1',
             description: 'Constants layouts/ast',
         })],
-        ['AST1+', intl.formatMessage({
+        [AST1plus, intl.formatMessage({
             defaultMessage: 'AST 1 + MAT',
             description: 'Constants layouts/ast',
         })],
-        ['AST1+2', intl.formatMessage({
+        [AST1plus2, intl.formatMessage({
             defaultMessage: 'AST 1 + AST 2 Combined',
             description: 'Constants layouts/ast',
         })],
-        ['AST2', intl.formatMessage({
+        [AST2, intl.formatMessage({
             defaultMessage: 'AST 2',
             description: 'Constants layouts/ast',
         })],
-        ['CRS', intl.formatMessage({
+        [CRS, intl.formatMessage({
             defaultMessage: 'Companion Rescue (CRS)',
             description: 'Constants layouts/ast',
         })],
-        ['MAT', intl.formatMessage({
+        [MAT, intl.formatMessage({
             defaultMessage: 'Managing Avalanche Terrain (MAT)',
             description: 'Constants layouts/ast',
         })]
