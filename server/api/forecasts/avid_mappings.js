@@ -13,7 +13,7 @@ var byName = {
     'south-rockies'      : '505a3b20-0f76-431a-934e-8f68baedeb19',
     'lizard-range'       : '6fa00a5a-e829-4dcb-8733-c9eae75f8821',
     'yukon'              : '0b23a25d-0346-4fa4-8412-faa4c3581d2a',
-    'kananaskis'         : '69c3043f-ab2d-4508-b144-78ac4f745159',
+    'kananaskis'         : '2e710073-a73a-49d1-9603-0c0b5ff90033',
 };
 
 //var byId = {}
