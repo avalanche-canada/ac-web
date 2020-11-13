@@ -28,8 +28,14 @@ function getAvid(regionId, date, callback) {
         return callback(null, null);
     }
 
-
     var areaId = avid_mappings.byName[regionId];
+    if (regionId === "kananaskis") {
+        if (date.isBefore('2020-11-12T07:00:00.000Z')){
+            areaId = "69c3043f-ab2d-4508-b144-78ac4f745159" //old k-country
+        }else{
+            //avidUrl = "https://avid-api.avalanche.ca/v1/public/en/products?date="
+        }
+    }
 
     return fetchAvidText(date, function(err, data) {
         if (err) {
@@ -38,7 +44,7 @@ function getAvid(regionId, date, callback) {
             return callback(e, null);
         }
 
-        var filterFn = fetch.filterAvidByLocation(avid_mappings.byName[regionId]);
+        var filterFn = fetch.filterAvidByLocation(areaId);
         var avidfx   = filterFn(data);
         var avidJson = avid.parseAvid(regionId, regionNamesHuman[regionId])(avidfx);
 
