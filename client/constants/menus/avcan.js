@@ -145,7 +145,7 @@ const OnlineEducation = {
         },
         {
             id: id++,
-            label: 'Cours d’avalanche en ligne (français)',
+            label: "Tutoriel en ligne d'avalanche (français)",
             to: '/tutoriel',
         },
         {
