@@ -29,15 +29,16 @@ function getAvid(regionId, date, callback) {
     }
 
     var areaId = avid_mappings.byName[regionId];
+    var avidUrl = "https://avid-api.avalanche.ca/v1/public/en/products?date="+date.toISOString();
     if (regionId === "kananaskis") {
-        if (date.isBefore('2020-11-12T07:00:00.000Z')){
+        if (date.isBefore('2020-11-13T07:00:00.000Z')){
             areaId = "69c3043f-ab2d-4508-b144-78ac4f745159" //old k-country
         }else{
-            //avidUrl = "https://avid-api.avalanche.ca/v1/public/en/products?date="
+            avidUrl = "https://avid-kananaskis-api.avalanche.ca/v1/public/en/products?date="+date.toISOString();
         }
     }
 
-    return fetchAvidText(date, function(err, data) {
+    return fetchAvidText(date, avidUrl, function(err, data) {
         if (err) {
             logger.warn("bulletin_archive getAvid error="+err);
             e = new Error("Error fetching from archive backend");
@@ -56,8 +57,7 @@ function getAvid(regionId, date, callback) {
     });
 }
 
-function fetchAvidText(date, callback) {
-    var url = "https://avid-api.avalanche.ca/v1/public/en/products?date="+date.toISOString();
+function fetchAvidText(date, url, callback) {
     logger.debug('archive_fetch url='+url);
     var options = {
         uri: url,
