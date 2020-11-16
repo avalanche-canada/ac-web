@@ -1,0 +1,111 @@
+@import './colors.module.css';
+@import './components.module.css';
+
+@custom-media --more-then-700 (width > 700px);
+@custom-media --full-nav-height (height > 320px);
+
+:global(.block-img) {
+    & > img {
+        max-width: 100%;
+    }
+}
+
+:global(.float-left) {
+    float: left;
+    margin-right: 1em;
+}
+
+:global(.float-right) {
+    float: right;
+    margin-left: 1em;
+}
+
+:global(.primary-text) {
+    color: var(--primary);
+}
+
+:global(.secondary-text) {
+    color: var(--secondary);
+}
+
+:global(.read-more-link a) {
+    color: var(--gray-light);
+    text-transform: uppercase;
+    font-size: 0.75em;
+
+    &:hover {
+        color: var(--gray);
+    }
+}
+
+:global(.callout-info) {
+    background-color: var(--info);
+    color: white;
+    display: block;
+    padding: 1em 2em;
+    margin: 1em auto;
+    font-style: italic;
+}
+
+:global(.callout-warning) {
+    background-color: var(--danger);
+    color: white;
+    display: block;
+    padding: 1em 2em;
+    margin: 1em auto;
+    font-style: italic;
+}
+
+:global(.primary-big-button) {
+    text-align: center;
+
+    & > a {
+        display: inline-block;
+        min-width: 150px;
+        padding: 1em;
+        margin: 0.5em 0;
+        font-weight: 700;
+        color: white;
+        text-transform: uppercase;
+        text-align: center;
+        background-color: var(--primary);
+        font-size: 1em;
+
+        &:hover {
+            background-color: color-mod(var(--primary) blackness(15%));
+        }
+
+        &:after {
+            content: '\00a0›';
+            color: white;
+            font-size: 1.25em;
+        }
+    }
+}
+
+:global(.secondary-big-button) {
+    text-align: center;
+
+    & > a {
+        display: inline-block;
+        min-width: 150px;
+        padding: 1em;
+        margin: 0.5em 0;
+        font-weight: 700;
+        color: white;
+        text-transform: uppercase;
+        text-align: center;
+        background-color: var(--brand-secondary);
+        font-size: 1em;
+
+        &:hover {
+            background-color: color-mod(var(--brand-secondary) blackness(15%));
+        }
+
+        &:after {
+            content: '\00a0›';
+            color: white;
+            font-size: 1.25em;
+        }
+    }
+}

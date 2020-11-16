@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import noop from 'lodash/noop'
 import { useToggle } from 'hooks'
 import { Expand } from 'components/button'
-import css from './Layer.css'
+import css from './Layer.module.css'
 
 Layer.propTypes = {
     title: PropTypes.string.isRequired,
@@ -15,14 +15,7 @@ Layer.propTypes = {
     children: PropTypes.element,
 }
 
-export default function Layer({
-    title,
-    visible,
-    disabled,
-    icon,
-    onClick,
-    children,
-}) {
+export default function Layer({ title, visible, disabled, icon, onClick, children }) {
     const [expanded, toggle] = useToggle(false)
     const className = classnames({
         [css.Layer]: true,
@@ -41,11 +34,7 @@ export default function Layer({
                 {icon}
                 <span className={css.Title}>{title}</span>
                 {Boolean(children && !disabled) && (
-                    <Expand
-                        chevron
-                        expanded={expanded}
-                        onClick={handleExpandClick}
-                    />
+                    <Expand chevron expanded={expanded} onClick={handleExpandClick} />
                 )}
             </div>
             {Boolean(expanded && !disabled) && children}

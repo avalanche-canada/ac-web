@@ -21,7 +21,7 @@ import { DATE } from 'utils/date'
 import { useCourses } from 'hooks/async/ast'
 import { useSorting, usePagination, useFilters } from 'hooks/collection'
 import * as Async from 'contexts/async'
-import styles from './Courses.css'
+import styles from './Courses.module.css'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { useIntlMemo } from 'hooks/intl'
 

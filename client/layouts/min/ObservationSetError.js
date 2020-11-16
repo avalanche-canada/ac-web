@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import groupBy from 'lodash/groupBy'
 import noop from 'lodash/noop'
 import { useNames } from 'constants/min'
-import styles from './Form.css'
+import styles from './Form.module.css'
 
 ObservationSetError.propTypes = {
     errors: PropTypes.arrayOf(
@@ -15,10 +15,7 @@ ObservationSetError.propTypes = {
     onErrorClick: PropTypes.func,
 }
 
-export default function ObservationSetError({
-    errors = [],
-    onErrorClick = noop,
-}) {
+export default function ObservationSetError({ errors = [], onErrorClick = noop }) {
     const names = useNames()
     const errorsPerType = groupBy(errors, err => err.path[1])
     const types = Object.keys(errorsPerType)
@@ -51,9 +48,7 @@ export default function ObservationSetError({
                                         count: length,
                                         link() {
                                             return (
-                                                <a
-                                                    href="#"
-                                                    onClick={handleClick}>
+                                                <a href="#" onClick={handleClick}>
                                                     {name}
                                                 </a>
                                             )

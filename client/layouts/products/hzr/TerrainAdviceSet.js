@@ -7,7 +7,7 @@ import { StructuredText } from 'prismic/components/base'
 import AdviceText from './AdviceText'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
-import styles from './HotZoneReport.css'
+import styles from './HotZoneReport.module.css'
 import { FormattedMessage } from 'react-intl'
 
 function createAdvice({ feature, where, elevation }) {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { useScroll } from 'hooks'
 import * as Buttons from 'components/button'
-import styles from './Drawer.css'
+import styles from './Drawer.module.css'
 import { useIntl } from 'react-intl'
 
 export const LEFT = 'LEFT'

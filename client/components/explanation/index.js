@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Explanation.css'
+import styles from './Explanation.module.css'
 
 Section.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,

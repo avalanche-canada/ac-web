@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { memo } from 'utils/react'
 import Link from 'components/navbar/Link'
-import styles from './Drawer.css'
+import styles from './Drawer.module.css'
 
 ItemSet.propTypes = {
     items: PropTypes.arrayOf(PropTypes.object),
@@ -44,10 +44,7 @@ function Item({ children }) {
 function renderItem({ to, label, headline, children = [], onClick }, index) {
     return (
         <Item key={index}>
-            <Link
-                to={to}
-                title={headline || label}
-                onClick={children.length > 0 ? onClick : null}>
+            <Link to={to} title={headline || label} onClick={children.length > 0 ? onClick : null}>
                 {label}
             </Link>
         </Item>

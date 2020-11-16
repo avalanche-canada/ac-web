@@ -21,7 +21,7 @@ import { Close } from 'components/button'
 import Button from 'components/button'
 import { Details } from 'components/error'
 import Shim from 'components/Shim'
-import shim from 'components/Shim.css'
+import shim from 'components/Shim.module.css'
 import { useMapClickHandler } from './drawers/hooks'
 import { Map as MapComponent, useNavigationControl } from 'hooks/mapbox'
 import {
@@ -33,8 +33,8 @@ import {
     useMountainInformationNetwork,
     useForecastMarkers,
 } from './layers'
-import styles from './Map.css'
-import typography from 'components/text/Text.css'
+import styles from './Map.module.css'
+import typography from 'components/text/Text.module.css'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useIntlMemo } from 'hooks/intl'
 
@@ -108,11 +108,7 @@ function Main() {
 
     return (
         <Screen>
-            <MapComponent
-                ref={setMap}
-                options={options}
-                className={styles.Map}
-            />
+            <MapComponent ref={setMap} options={options} className={styles.Map} />
             <Primary map={map} />
             <Secondary map={map} />
             <Menu />
@@ -145,8 +141,7 @@ function LinkControlSet() {
                 to="/submit"
                 data-tooltip={intl.formatMessage({
                     description: 'Layout main/index',
-                    defaultMessage:
-                        'Create a Mountain Information Network (MIN) report',
+                    defaultMessage: 'Create a Mountain Information Network (MIN) report',
                 })}
                 data-tooltip-placement="right"
             />
@@ -278,16 +273,14 @@ function useSummaries() {
                 ERRORS.FORECAST,
                 intl.formatMessage({
                     description,
-                    defaultMessage:
-                        'A problem happened while loading forecast on the map.',
+                    defaultMessage: 'A problem happened while loading forecast on the map.',
                 }),
             ],
             [
                 ERRORS.WEATHER_STATION,
                 intl.formatMessage({
                     description,
-                    defaultMessage:
-                        'A problem happened while loading Weather Station on the map.',
+                    defaultMessage: 'A problem happened while loading Weather Station on the map.',
                 }),
             ],
             [
@@ -302,16 +295,14 @@ function useSummaries() {
                 ERRORS.INCIDENT,
                 intl.formatMessage({
                     description,
-                    defaultMessage:
-                        'A problem happened while loading Incidents on the map.',
+                    defaultMessage: 'A problem happened while loading Incidents on the map.',
                 }),
             ],
             [
                 ERRORS.ADVISORY,
                 intl.formatMessage({
                     description,
-                    defaultMessage:
-                        'A problem happened while loading Advisories on the map.',
+                    defaultMessage: 'A problem happened while loading Advisories on the map.',
                 }),
             ],
             [

@@ -1,0 +1,232 @@
+@import '../../styles/colors.module.css';
+
+@custom-media --two-columns-inputs (width > 600px);
+@custom-media --two-columns (width > 900px);
+
+/* TODO: Some clean up here */
+
+.Container {
+    & button[type='submit'] {
+        display: block;
+        width: 100%;
+    }
+}
+
+.Login > button {
+    margin: auto;
+}
+
+.Layout {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    margin: 1em 0;
+
+    @media (--two-columns) {
+        flex-direction: row;
+    }
+
+    & :global(.field) {
+        margin-bottom: 1em;
+
+        & input + label {
+            padding-left: 0.5em;
+        }
+    }
+
+    & :global(.field.error) {
+        & :global(.label.red) {
+            color: ;
+        }
+    }
+
+    & button[type='submit'] {
+        width: 100%;
+    }
+
+    & :global(div[role='tabpanel'] > fieldset > legend) {
+        /* Hide label but still accesible */
+        position: absolute;
+        left: 99999px;
+    }
+
+    & :global(.fieldset-content),
+    & :global(.field-radio-set) {
+        margin-bottom: 1em;
+    }
+
+    & :global(.fieldset-depth-1 .fieldset-depth-2:last-child > .fieldset-content) {
+        margin: 0;
+    }
+
+    & :global(.ui.pointing.label.visible) {
+        display: block;
+        color: var(--gray-dark);
+        margin: 0.25em 0;
+
+        &:global(.red) {
+            color: var(--brand-secondary);
+        }
+    }
+
+    & :global(.ui.message) {
+        display: block;
+        color: var(--gray-dark);
+        margin-bottom: 1em;
+    }
+
+    & :global(.fieldset.error > legend),
+    & :global(.ui.message.error),
+    & :global(.field.error > label),
+    & :global(.fieldset-observations.error > .ui.message.info) {
+        color: var(--brand-secondary);
+    }
+
+    & :global(.field-uploads-files) {
+        position: relative;
+
+        & > label {
+            position: absolute;
+            top: 1px;
+            left: 1px;
+            right: 1px;
+            line-height: 38px;
+            pointer-events: none;
+            padding: 0 1em;
+            margin: 0;
+            text-align: center;
+            background-color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        & > input {
+            outline: none;
+        }
+    }
+
+    & div[role='tabpanel'] {
+        margin: 0.5em;
+        & fieldset {
+            border: none;
+            margin: 0;
+            padding: 0;
+        }
+    }
+}
+
+.Sidebar {
+    display: flex;
+    flex-direction: column;
+
+    @media (--two-columns) {
+        flex: 0 1 35%;
+        margin-right: 0.5em;
+    }
+}
+
+.MainFieldsetContainer {
+    & > fieldset {
+        position: relative;
+        border: 8px solid white;
+        margin-bottom: 1em;
+        padding: 0.5em;
+
+        & > legend {
+            line-height: 2em;
+            font-size: 1.5em;
+
+            &:before {
+                content: '';
+                height: 2em;
+                position: absolute;
+                top: auto;
+                right: -8px;
+                bottom: auto;
+                left: -8px;
+                background-color: white;
+                z-index: -1;
+            }
+        }
+    }
+
+    & fieldset > legend,
+    & :global(.field) > label {
+        font-size: 1.25em;
+    }
+}
+
+.ObservationSet {
+    composes: MainFieldsetContainer;
+
+    flex: 1;
+}
+
+.RequiredInformation {
+    composes: MainFieldsetContainer;
+
+    & > fieldset {
+        border-color: #ffd740;
+        & > legend {
+            &:before {
+                background-color: #ffd740;
+            }
+        }
+    }
+}
+
+.UploadSet {
+    composes: MainFieldsetContainer;
+}
+
+.GeoPosition {
+    & :global(.fieldset-content) {
+        display: flex;
+        justify-content: space-between;
+
+        & :global(.field) {
+            flex: 0 0 49%;
+        }
+    }
+}
+
+.TwoColumnsField {
+    & :global(.fieldset-content),
+    & :global(.field-radio-set) {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+
+        @media (--two-columns-inputs) {
+            flex-direction: row;
+            & :global(.field) {
+                flex: 1 0 50%;
+            }
+        }
+    }
+}
+
+/* TODO: Remove the selector below. There an issue with rendering of the that field, it does not add the className */
+:global(div[class*='otherActivityDescription']),
+.WihoutLabel {
+    & > label {
+        position: absolute;
+        left: 99999px;
+    }
+}
+
+.WihoutLegend {
+    & > legend {
+        position: absolute;
+        left: 99999px;
+    }
+}
+
+.ObservationSetError {
+    color: var(--brand-secondary);
+
+    & ul {
+        margin-top: 0;
+    }
+}

@@ -4,7 +4,7 @@ import { Link } from '@reach/router'
 import classnames from 'classnames'
 import { FormattedMessage } from 'react-intl'
 import { supported } from 'utils/mapbox'
-import typography from 'styles/typography.css'
+import typography from 'styles/typography.module.css'
 import * as utils from 'utils/min'
 
 Home.propTypes = {
@@ -15,10 +15,7 @@ Home.propTypes = {
 
 export function Home({ to = '/', className, children, ...props }) {
     return (
-        <Link
-            className={classnames(typography.Back, className)}
-            to={to}
-            {...props}>
+        <Link className={classnames(typography.Back, className)} to={to} {...props}>
             {children || (
                 <FormattedMessage
                     description="Component links/Home"

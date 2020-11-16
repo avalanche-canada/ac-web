@@ -2,7 +2,7 @@ import React from 'react'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useAuth } from 'contexts/auth'
 import { Mailto } from 'components/anchors'
-import styles from './Forecast.css'
+import styles from './Forecast.module.css'
 
 export default function Footer() {
     const { isAuthenticated } = useAuth()

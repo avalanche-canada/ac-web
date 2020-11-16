@@ -2,16 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useIntl } from 'react-intl'
 import Button from 'components/button'
-import {
-    Play,
-    Pause,
-    ChevronRight,
-    ChevronLeft,
-    FirstPage,
-    LastPage,
-} from 'components/icons'
+import { Play, Pause, ChevronRight, ChevronLeft, FirstPage, LastPage } from 'components/icons'
 import { WHITE } from 'constants/colors'
-import styles from './Loop.css'
+import styles from './Loop.module.css'
 
 ButtonSet.propTypes = {
     isPlaying: PropTypes.bool,
@@ -36,11 +29,7 @@ export default function ButtonSet({
         <div className={styles.ButtonSet}>
             {onFirst && <FirstButton onClick={onFirst} />}
             {onPrevious && <PreviousButton onClick={onPrevious} />}
-            {isPlaying ? (
-                <PauseButton onClick={onPause} />
-            ) : (
-                <PlayButton onClick={onPlay} />
-            )}
+            {isPlaying ? <PauseButton onClick={onPause} /> : <PlayButton onClick={onPlay} />}
             {onNext && <NextButton onClick={onNext} />}
             {onLast && <LastButton onClick={onLast} />}
         </div>

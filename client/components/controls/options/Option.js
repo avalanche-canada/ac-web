@@ -1,7 +1,7 @@
 import React, { isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
-import styles from './OptionSet.css'
+import styles from './OptionSet.module.css'
 
 Option.propTypes = {
     children: PropTypes.node.isRequired,
@@ -18,10 +18,7 @@ export default function Option({ children, value, active, onClick = noop }) {
     }
 
     return (
-        <div
-            title={title}
-            className={styles[name]}
-            onMouseDown={handleMouseDown}>
+        <div title={title} className={styles[name]} onMouseDown={handleMouseDown}>
             {children}
         </div>
     )

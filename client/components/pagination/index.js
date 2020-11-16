@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Pagination.css'
+import styles from './Pagination.module.css'
 import Segment, { Disabled } from './Segment'
 import pagination from 'utils/pagination'
 import { noop } from 'utils/function'
@@ -18,20 +18,12 @@ export default function Pagination({ total = 0, active = 1, onChange = noop }) {
         return null
     }
 
-    const segments =
-        total <= 10
-            ? generateSequence(total)
-            : pagination(active, total, 3, null)
+    const segments = total <= 10 ? generateSequence(total) : pagination(active, total, 3, null)
 
     function createSegment(page) {
         if (typeof page === 'number') {
             return (
-                <Segment
-                    key={page}
-                    page={page}
-                    onActivate={onChange}
-                    isActive={active === page}
-                />
+                <Segment key={page} page={page} onActivate={onChange} isActive={active === page} />
             )
         } else {
             return <Disabled key={page}>…</Disabled>

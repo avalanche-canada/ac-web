@@ -25,7 +25,7 @@ import { Screen } from 'layouts/pages'
 import Button, { SUBTILE } from 'components/button'
 import { Download } from 'components/icons'
 import Dialog from './Download'
-import styles from './TripPlanner.css'
+import styles from './TripPlanner.module.css'
 import { FormattedMessage, useIntl } from 'react-intl'
 
 export default class TripPlannerLayout extends PureComponent {

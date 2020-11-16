@@ -2,7 +2,7 @@ import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
-import styles from './Drawer.css'
+import styles from './Drawer.module.css'
 
 Drawer.propTypes = {
     label: PropTypes.string.isRequired,

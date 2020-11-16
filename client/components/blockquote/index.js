@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Blockquote.css'
+import styles from './Blockquote.module.css'
 
 Blockquote.propTypes = {
     children: PropTypes.node.isRequired,

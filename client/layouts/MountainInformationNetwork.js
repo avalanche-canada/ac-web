@@ -4,7 +4,7 @@ import Bundle from 'components/Bundle'
 import Submission from 'layouts/min/Submission'
 import { StaticPage } from 'prismic/layouts'
 import { Loading } from 'layouts/pages'
-import styles from './AvalancheCanada.css'
+import styles from './AvalancheCanada.module.css'
 
 export default function MountainInformationNetwork() {
     return (

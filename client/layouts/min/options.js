@@ -6,7 +6,7 @@ import { layout, observationSet } from './templates'
 import { ObservationSet } from './factories'
 import format from 'date-fns/format'
 import endOfToday from 'date-fns/end_of_today'
-import styles from './Form.css'
+import styles from './Form.module.css'
 import { supported } from 'utils/mapbox'
 
 // i18n not necessary
@@ -67,15 +67,12 @@ const Required = {
             help: (
                 <Fragment>
                     <p style={{ margin: 0 }}>
-                        {supported()
-                            ? 'Click on the map to place a pin or enter '
-                            : 'Enter '}
-                        a latitude and a longitude in fields below.
+                        {supported() ? 'Click on the map to place a pin or enter ' : 'Enter '}a
+                        latitude and a longitude in fields below.
                     </p>
                     <p>
-                        If your coordinates are expressed in Degrees, Minutes
-                        and seconds (DMS), you might want to convert them to
-                        degree decimals using this{' '}
+                        If your coordinates are expressed in Degrees, Minutes and seconds (DMS), you
+                        might want to convert them to degree decimals using this{' '}
                         <a
                             href="//www.latlong.net/degrees-minutes-seconds-to-decimal-degrees"
                             target="converter">
@@ -83,24 +80,19 @@ const Required = {
                         </a>
                         .
                     </p>
-                    <p>
-                        Once you have placed a pin, you can now drag it to
-                        adjust the location.
-                    </p>
+                    <p>Once you have placed a pin, you can now drag it to adjust the location.</p>
                 </Fragment>
             ),
             className: styles.GeoPosition,
             fields: {
                 longitude: {
-                    error:
-                        'Enter a number between -180° and 180° in degree decimals.',
+                    error: 'Enter a number between -180° and 180° in degree decimals.',
                     attrs: {
                         placeholder: 'e.g. -118.18',
                     },
                 },
                 latitude: {
-                    error:
-                        'Enter a number between -90° and 90° in degree decimals.',
+                    error: 'Enter a number between -90° and 90° in degree decimals.',
                     attrs: {
                         placeholder: 'e.g. 50.98',
                     },
@@ -120,12 +112,12 @@ const UploadSet = {
                 <ul>
                     <li>You can upload one or more images in one go.</li>
                     <li>
-                        Click again to add more photos or the remove button to
-                        remove some from your report.
+                        Click again to add more photos or the remove button to remove some from your
+                        report.
                     </li>
                     <li>
-                        We suggest adding one photo at a time if you want your
-                        photos in a specific order.
+                        We suggest adding one photo at a time if you want your photos in a specific
+                        order.
                     </li>
                 </ul>
             ),
@@ -181,8 +173,7 @@ const Quick = {
                         '30cm + of new snow, or significant drifting, or rain in the last 48 hours.',
                 },
                 temp: {
-                    label:
-                        'Rapid temperature rise to near zero degrees or wet surface snow.',
+                    label: 'Rapid temperature rise to near zero degrees or wet surface snow.',
                 },
             },
         },
@@ -198,8 +189,7 @@ const Weather = {
     fields: {
         temperatureTrend: {
             factory: t.form.Radio,
-            label:
-                'Describe how the temperature changed in the last 3 hours. (optional)',
+            label: 'Describe how the temperature changed in the last 3 hours. (optional)',
         },
         snowfallRate: {
             label: 'Snowfall rate (cm/hour) (optional)',
@@ -229,8 +219,7 @@ const Weather = {
             },
         },
         precipitation24Hours: {
-            label:
-                'Total rain and snow combined in last 24 hours (mm) (optional)',
+            label: 'Total rain and snow combined in last 24 hours (mm) (optional)',
             error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
@@ -330,12 +319,10 @@ const Weather = {
 }
 const Snowpack = {
     label: 'Snowpack',
-    help:
-        'Snowpack depth, layering, and bonding are key data. Test results are very useful.',
+    help: 'Snowpack depth, layering, and bonding are key data. Test results are very useful.',
     fields: {
         snowpackObsType: {
-            label:
-                'Is this a point observation or a summary of your day? (optional)',
+            label: 'Is this a point observation or a summary of your day? (optional)',
             factory: t.form.Radio,
         },
         snowpackSiteElevation: {
@@ -357,8 +344,7 @@ const Snowpack = {
         },
         snowpackDepth: {
             label: 'Snowpack depth (cm) (optional)',
-            help:
-                'Total height of snow in centimetres. Averaged if this is a summary.',
+            help: 'Total height of snow in centimetres. Averaged if this is a summary.',
             error: 'Enter a number between 0 and 10000',
             type: 'number',
             attrs: {
@@ -384,8 +370,7 @@ const Snowpack = {
         },
         snowpackFootPenetration: {
             label: 'Foot penetration (cm) (optional)',
-            help:
-                'How far you sink into the snow when standing on one fully-weighted foot',
+            help: 'How far you sink into the snow when standing on one fully-weighted foot',
             error: 'Enter a number between 0 and 100',
             type: 'number',
             attrs: {
@@ -397,8 +382,7 @@ const Snowpack = {
         },
         snowpackSkiPenetration: {
             label: 'Ski penetration (cm) (optional)',
-            help:
-                'How far you sink into the snow when standing on one fully-weighted ski.',
+            help: 'How far you sink into the snow when standing on one fully-weighted ski.',
             error: 'Enter a number between 0 and 200',
             type: 'number',
             attrs: {
@@ -410,8 +394,7 @@ const Snowpack = {
         },
         snowpackSledPenetration: {
             label: 'Sled penetration (cm) (optional)',
-            help:
-                'The depth a sled sinks into the snow after stopping slowly on level terrain.',
+            help: 'The depth a sled sinks into the snow after stopping slowly on level terrain.',
             error: 'Enter a number between 0 and 200',
             type: 'number',
             attrs: {
@@ -472,8 +455,7 @@ const Avalanche = {
         },
         avalancheObservation: {
             factory: t.form.Radio,
-            help:
-                'If you observed evidence of recent avalanches, estimate occurrence time.',
+            help: 'If you observed evidence of recent avalanches, estimate occurrence time.',
         },
         avalancheNumber: {
             factory: t.form.Radio,
@@ -625,12 +607,9 @@ const Incident = {
     label: 'Incident',
     help: (
         <span>
-            Sharing incidents can help us all learn. Describe close calls and
-            accidents here. Be sensitive to the privacy of others. Before
-            reporting serious accidents check our{' '}
-            <Link
-                to="/mountain-information-network/submission-guidelines"
-                target="guidelines">
+            Sharing incidents can help us all learn. Describe close calls and accidents here. Be
+            sensitive to the privacy of others. Before reporting serious accidents check our{' '}
+            <Link to="/mountain-information-network/submission-guidelines" target="guidelines">
                 submission guidelines
             </Link>
             .
@@ -671,8 +650,7 @@ const Incident = {
                     },
                 },
                 numberPartlyBuriedImpairedBreathing: {
-                    label:
-                        'People partly buried with impaired breathing? (optional)',
+                    label: 'People partly buried with impaired breathing? (optional)',
                     error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
@@ -683,8 +661,7 @@ const Incident = {
                     },
                 },
                 numberPartlyBuriedAbleBreathing: {
-                    label:
-                        'People partly buried with normal breathing? (optional)',
+                    label: 'People partly buried with normal breathing? (optional)',
                     error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
@@ -695,8 +672,7 @@ const Incident = {
                     },
                 },
                 numberCaughtOnly: {
-                    label:
-                        'People not injured (caught but not buried)? (optional)',
+                    label: 'People not injured (caught but not buried)? (optional)',
                     error: 'Enter a number between 0 and 100',
                     type: 'number',
                     attrs: {
@@ -720,8 +696,7 @@ const Incident = {
             },
         },
         terrainTrap: {
-            help:
-                'Terrain traps are features that increase the consequences of an avalanche.',
+            help: 'Terrain traps are features that increase the consequences of an avalanche.',
         },
         otherActivityDescription: {
             attrs: {

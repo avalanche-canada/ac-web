@@ -4,7 +4,7 @@ import { Generic } from 'prismic/layouts'
 import Panel from './Panel'
 import { Entries as TerrainRatingsEntries } from './TerrainRatings'
 import { Entries as MapLegendEntries } from './MapLegend'
-import styles from '../TripPlanner.css'
+import styles from '../TripPlanner.module.css'
 import StructuredText from 'prismic/components/base/StructuredText'
 
 export default function Welcome() {
@@ -23,10 +23,7 @@ export default function Welcome() {
 
 export function Help() {
     const header = (
-        <FormattedMessage
-            description="Layout TripPlanner/panels/Welcome"
-            defaultMessage="Help"
-        />
+        <FormattedMessage description="Layout TripPlanner/panels/Welcome" defaultMessage="Help" />
     )
 
     return (

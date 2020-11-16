@@ -9,7 +9,7 @@ import { StructuredText } from 'prismic/components/base'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
 import { RED, ORANGE } from 'constants/forecast/palette'
-import styles from './HotZoneReport.css'
+import styles from './HotZoneReport.module.css'
 import { CM } from 'constants/intl'
 
 CriticalFactor.propTypes = {
@@ -25,9 +25,7 @@ function CriticalFactor({ children, value }) {
             <Term className={styles['CriticalFactors--Term']} style={style}>
                 {children}
             </Term>
-            <Definition
-                className={styles['CriticalFactors--Definition']}
-                style={style}>
+            <Definition className={styles['CriticalFactors--Definition']} style={style}>
                 {value || <FormattedMessage defaultMessage="Unknown" />}
             </Definition>
         </Fragment>
@@ -83,8 +81,7 @@ function CriticalFactorsComponent({
                             defaultMessage="Signs of instability"
                         />
                     </CriticalFactor>
-                    <CriticalFactor
-                        value={criticalFactorsPersistentAvalancheProblem}>
+                    <CriticalFactor value={criticalFactorsPersistentAvalancheProblem}>
                         <FormattedMessage
                             description="Layout products/hzr/CriticalFactors"
                             defaultMessage="Persistent avalanche problem"

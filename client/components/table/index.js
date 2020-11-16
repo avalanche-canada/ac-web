@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { useToggle } from 'hooks'
 import { Expand } from 'components/button'
 import { DropdownFromOptions as Dropdown } from 'components/controls'
-import css from './Table.css'
+import css from './Table.module.css'
 
 export function ExpandableRow({ children: [first, second] }) {
     const [expanded, toggleExpanded] = useToggle(false)
@@ -18,11 +18,7 @@ export function ExpandableRow({ children: [first, second] }) {
         return (
             <FlexContentCell as="td">
                 {child.props.children}
-                <Expand
-                    key="expand"
-                    expanded={expanded}
-                    onClick={toggleExpanded}
-                />
+                <Expand key="expand" expanded={expanded} onClick={toggleExpanded} />
             </FlexContentCell>
         )
     })
@@ -102,12 +98,7 @@ FlexContentCell.propTypes = {
     className: PropTypes.string,
 }
 
-export function FlexContentCell({
-    as: As = 'th',
-    className,
-    children,
-    ...props
-}) {
+export function FlexContentCell({ as: As = 'th', className, children, ...props }) {
     return (
         <As className={classnames(css.FlexContentCell, className)} {...props}>
             <div>{children}</div>

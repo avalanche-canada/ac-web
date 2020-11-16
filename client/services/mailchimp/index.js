@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { Input } from 'components/controls'
 import { Submit } from 'components/button'
-import styles from './Subscribe.css'
+import styles from './Subscribe.module.css'
 
 Subscribe.propTypes = {
     url: PropTypes.string.isRequired,
@@ -18,11 +18,7 @@ export function Subscribe({ url }) {
     })
 
     return (
-        <form
-            action={url}
-            method="post"
-            target="_blank"
-            className={styles.Subscribe}>
+        <form action={url} method="post" target="_blank" className={styles.Subscribe}>
             <Input
                 type="email"
                 name="EMAIL"

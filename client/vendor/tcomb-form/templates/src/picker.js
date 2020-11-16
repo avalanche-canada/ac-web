@@ -1,6 +1,6 @@
 import React from 'react'
 import { Close } from 'components/button'
-import controls from 'components/controls/Controls.css'
+import controls from 'components/controls/Controls.module.css'
 import noop from 'lodash/noop'
 
 function defaultFormat(value) {

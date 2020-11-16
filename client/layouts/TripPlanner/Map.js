@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import bbox from '@turf/bbox'
 import { useIntl } from 'react-intl'
 import { useMapState } from 'contexts/map/state'
-import styles from './TripPlanner.css'
+import styles from './TripPlanner.module.css'
 import { useNavigationControl, useMap } from 'hooks/mapbox'
 import { STYLES } from 'services/mapbox/config'
 import { Popup } from 'mapbox-gl'
@@ -25,11 +25,7 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
         style: STYLES.ates,
     })
     function setActiveZone(id) {
-        map.setFilter('active-ates-zones', [
-            '==',
-            'id',
-            typeof id === 'number' ? id : -1,
-        ])
+        map.setFilter('active-ates-zones', ['==', 'id', typeof id === 'number' ? id : -1])
     }
 
     useNavigationControl(map)
@@ -94,18 +90,15 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
                             )
 
                             if (warnings.length > 0) {
-                                warnings = warnings.reduce(
-                                    (warnings, { type, warning }) => {
-                                        if (!(type in warnings)) {
-                                            warnings[type] = []
-                                        }
+                                warnings = warnings.reduce((warnings, { type, warning }) => {
+                                    if (!(type in warnings)) {
+                                        warnings[type] = []
+                                    }
 
-                                        warnings[type].push(warning)
+                                    warnings[type].push(warning)
 
-                                        return warnings
-                                    },
-                                    {}
-                                )
+                                    return warnings
+                                }, {})
                                 html = Object.entries(warnings).reduce(
                                     (html, [type, warnings]) =>
                                         html +
@@ -114,9 +107,7 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
                                             <h3>${type}</h3>
                                             <ul>
                                                 ${warnings.reduce(
-                                                    (html, warning) =>
-                                                        html +
-                                                        `<li>${warning}</li>`,
+                                                    (html, warning) => html + `<li>${warning}</li>`,
                                                     ''
                                                 )}
                                             </ul>
@@ -178,11 +169,7 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
             canvas.title = ''
         }
 
-        for (const layer of [
-            ...ATES_ZONES_LAYERS,
-            ...ATES_AREAS_LAYERS,
-            ...FORECAST_LAYERS,
-        ]) {
+        for (const layer of [...ATES_ZONES_LAYERS, ...ATES_AREAS_LAYERS, ...FORECAST_LAYERS]) {
             map.on('mouseenter', layer, handleMouseEnter)
             map.on('mouseleave', layer, handleMouseLeave)
         }

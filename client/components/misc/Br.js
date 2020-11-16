@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Br.css'
+import styles from './Br.module.css'
 
 Br.propTypes = {
     ribbon: PropTypes.bool,

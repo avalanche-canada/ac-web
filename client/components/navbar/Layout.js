@@ -9,7 +9,7 @@ import Button, { INCOGNITO } from '../button'
 import { useWindowSize, useBoolean } from 'hooks'
 import { useLocation } from 'router/hooks'
 import LOGO from 'styles/AvalancheCanada.svg'
-import styles from './Navbar.css'
+import styles from './Navbar.module.css'
 
 Layout.propTypes = {
     menu: PropTypes.object,
@@ -46,13 +46,7 @@ export default function Layout({ menu = MENU, logo = LOGO, children }) {
                     <Burger onClick={showCabinet} />
                 )}
             </nav>
-            {fullNavbar || (
-                <Cabinet
-                    menu={menu}
-                    show={isCabinetOpened}
-                    onClose={hideCabinet}
-                />
-            )}
+            {fullNavbar || <Cabinet menu={menu} show={isCabinetOpened} onClose={hideCabinet} />}
         </div>
     )
 }
@@ -68,10 +62,7 @@ function Brand({ children, ...props }) {
 function Burger({ onClick }) {
     return (
         <div className={styles['Burger--Container']}>
-            <Button
-                kind={INCOGNITO}
-                className={styles.Burger}
-                onClick={onClick}>
+            <Button kind={INCOGNITO} className={styles.Burger} onClick={onClick}>
                 <Menu width={32} height={32} />
             </Button>
         </div>

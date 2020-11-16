@@ -16,15 +16,10 @@ import Highlight from 'layouts/Highlight'
 import { notFound } from 'services/analytics'
 import { supported } from 'utils/mapbox'
 import { SUPPORT } from 'constants/emails'
-import styles from './pages.css'
+import styles from './pages.module.css'
 
 // High level components
-export function Page({
-    navbar = <Navbar />,
-    footer = <Footer />,
-    className,
-    children,
-}) {
+export function Page({ navbar = <Navbar />, footer = <Footer />, className, children }) {
     return (
         <Fragment>
             <Helmet>
@@ -184,18 +179,14 @@ export function UnsupportedMap() {
                     values={{
                         browser(chunks) {
                             return (
-                                <a
-                                    href="https://outdatedbrowser.com"
-                                    target="_blank">
+                                <a href="https://outdatedbrowser.com" target="_blank">
                                     {chunks}
                                 </a>
                             )
                         },
                         webGL(chunks) {
                             return (
-                                <a
-                                    href="https://get.webgl.org/"
-                                    target="_blank">
+                                <a href="https://get.webgl.org/" target="_blank">
                                     {chunks}
                                 </a>
                             )

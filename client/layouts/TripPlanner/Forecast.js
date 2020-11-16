@@ -7,7 +7,7 @@ import Shim from 'components/Shim'
 import * as components from 'layouts/products/forecast'
 import { Disclaimer, DangerRatings } from 'layouts/products/forecast/Footer'
 import externals from 'router/externals'
-import styles from './TripPlanner.css'
+import styles from './TripPlanner.module.css'
 
 Content.propTypes = {
     id: PropTypes.string.isRequired,

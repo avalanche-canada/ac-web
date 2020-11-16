@@ -4,7 +4,7 @@ import Link from './Link'
 import classnames from 'classnames'
 import { Gear } from 'components/icons'
 import { GRAY_DARK } from 'constants/colors'
-import css from './Navbar.css'
+import css from './Navbar.module.css'
 
 Item.propTypes = {
     title: PropTypes.node.isRequired,
@@ -25,11 +25,7 @@ function Item({ isActive = false, title, onClick, children, to, id }) {
     return (
         <li id={id} className={className}>
             <Link to={to} onClick={onClick}>
-                {isSettings ? (
-                    <Gear height={18} width={18} color={GRAY_DARK}></Gear>
-                ) : (
-                    title
-                )}
+                {isSettings ? <Gear height={18} width={18} color={GRAY_DARK}></Gear> : title}
             </Link>
             {children}
         </li>

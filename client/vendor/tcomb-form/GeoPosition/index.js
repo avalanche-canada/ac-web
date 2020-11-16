@@ -9,7 +9,7 @@ import {
 } from 'hooks/mapbox'
 import { supported } from 'utils/mapbox'
 import place from 'components/icons/place.svg'
-import styles from './GeoPosition.css'
+import styles from './GeoPosition.module.css'
 import inside from '@turf/inside'
 import * as turf from '@turf/helpers'
 import bboxPolygon from '@turf/bbox-polygon'
@@ -106,12 +106,7 @@ function isValidNumber(number) {
 }
 
 function areValidCoordinates(longitude, latitude) {
-    return (
-        isValidNumber(latitude) &&
-        latitude <= 90 &&
-        latitude >= -90 &&
-        isValidNumber(longitude)
-    )
+    return isValidNumber(latitude) && latitude <= 90 && latitude >= -90 && isValidNumber(longitude)
 }
 
 function round(number) {

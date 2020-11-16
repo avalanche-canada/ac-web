@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './HotZoneReport.css'
+import styles from './HotZoneReport.module.css'
 
 Title.propTypes = {
     children: PropTypes.string.isRequired,

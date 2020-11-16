@@ -1,0 +1,20 @@
+@import '../../../styles/colors.module.css';
+@import '../../../styles/components.module.css';
+
+.Container {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+    font-weight: 700;
+}
+
+.Input {
+    composes: import Input from '../Controls.module.css';
+    composes: import CloseState from '../Controls.module.css';
+}
+
+.Input--Open {
+    composes: Input;
+
+    background-image: url('../../icons/expand-less.svg');
+}

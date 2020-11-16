@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Navbar.css'
+import styles from './Navbar.module.css'
 
 Header.propTypes = {
     children: PropTypes.node.isRequired,

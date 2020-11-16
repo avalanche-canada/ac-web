@@ -16,7 +16,7 @@ import transform from './transform'
 import * as requests from 'requests/min'
 import { SUPPORT } from 'constants/emails'
 import Accessor from 'services/auth/accessor'
-import styles from './Form.css'
+import styles from './Form.module.css'
 import { clearCachedReports } from 'hooks/async/min'
 import Shim from 'components/Shim'
 import { FormattedMessage, useIntl } from 'react-intl'
@@ -197,12 +197,7 @@ export default class SubmissionForm extends Component {
                                     disabled={isSubmitting}
                                     onChange={this.handleChange}
                                 />
-                                {error && (
-                                    <FormError
-                                        error={error}
-                                        title={value.required.title}
-                                    />
-                                )}
+                                {error && <FormError error={error} title={value.required.title} />}
                                 <FormSubmit isSubmitting={isSubmitting} />
                             </form>
                         ) : (

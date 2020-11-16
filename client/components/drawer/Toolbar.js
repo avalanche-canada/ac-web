@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { useIntl } from 'react-intl'
 import { memo } from 'utils/react'
-import styles from './Drawer.css'
+import styles from './Drawer.module.css'
 
 Toolbar.propTypes = {
     onClose: PropTypes.func.isRequired,

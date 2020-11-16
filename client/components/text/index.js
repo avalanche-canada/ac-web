@@ -1,6 +1,6 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
-import styles from './Text.css'
+import styles from './Text.module.css'
 
 // TODO Should be a typography???????
 // typography.css

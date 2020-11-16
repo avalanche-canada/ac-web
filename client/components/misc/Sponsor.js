@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { forceHttps } from 'utils/url'
 import { handleOutboundSponsorClick } from 'services/analytics'
-import styles from './Sponsor.css'
+import styles from './Sponsor.module.css'
 
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
@@ -30,12 +30,7 @@ export default function Sponsor({ name, logo, url, label, children }) {
                 </span>
             )}
             {logo ? (
-                <img
-                    src={forceHttps(logo)}
-                    alt={name}
-                    title={name}
-                    className={styles.Logo}
-                />
+                <img src={forceHttps(logo)} alt={name} title={name} className={styles.Logo} />
             ) : (
                 children
             )}

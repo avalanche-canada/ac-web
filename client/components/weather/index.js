@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Forecast from './Forecast'
 import Legacy from './Legacy'
-import styles from './Forecast.css'
+import styles from './Forecast.module.css'
 import Loop from './Loop'
 import Image from 'components/loop'
 

@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { InnerHTML } from 'components/misc'
 import { useClientRect } from 'hooks'
-import styles from './Problem.css'
+import styles from './Problem.module.css'
 
 ProblemSet.propTypes = {
     problems: PropTypes.array.isRequired,
@@ -128,9 +128,7 @@ function Problem({ type, icons, comment, travelAndTerrainAdvice, counter }) {
                 src={icons.expectedSize}
             />
             <Comment>{comment}</Comment>
-            {travelAndTerrainAdvice && (
-                <Advice>{travelAndTerrainAdvice}</Advice>
-            )}
+            {travelAndTerrainAdvice && <Advice>{travelAndTerrainAdvice}</Advice>}
         </Section>
     )
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import { useIntlMemo } from 'hooks/intl'
 import { LocaleSwitcher } from 'contexts/intl'
 import Shim from 'components/Shim'
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 export default function useMenu() {
     return useIntlMemo(intl => {
@@ -300,8 +300,7 @@ export default function useMenu() {
                                     id: id++,
                                     label: intl.formatMessage({
                                         description: 'AvCan menu',
-                                        defaultMessage:
-                                            'Avalanche advisory archive',
+                                        defaultMessage: 'Avalanche advisory archive',
                                     }),
                                     to: '/advisories/archives',
                                 },
@@ -309,8 +308,7 @@ export default function useMenu() {
                                     id: id++,
                                     label: intl.formatMessage({
                                         description: 'AvCan menu',
-                                        defaultMessage:
-                                            'Avalanche incident database',
+                                        defaultMessage: 'Avalanche incident database',
                                     }),
                                     to: '/incidents',
                                 },
@@ -415,8 +413,7 @@ export default function useMenu() {
                                     id: id++,
                                     label: intl.formatMessage({
                                         description: 'AvCan menu',
-                                        defaultMessage:
-                                            'Curriculum & resources',
+                                        defaultMessage: 'Curriculum & resources',
                                     }),
                                     to: '/youth#curriculum',
                                 },
@@ -443,8 +440,7 @@ export default function useMenu() {
                             id: id++,
                             label: intl.formatMessage({
                                 description: 'AvCan menu',
-                                defaultMessage:
-                                    'Fresh to the Backcountry? Start Here',
+                                defaultMessage: 'Fresh to the Backcountry? Start Here',
                             }),
                             header: true,
                             to: '/start-here',
@@ -453,8 +449,7 @@ export default function useMenu() {
                                     id: id++,
                                     label: intl.formatMessage({
                                         description: 'AvCan menu',
-                                        defaultMessage:
-                                            'What is avalanche terrain?',
+                                        defaultMessage: 'What is avalanche terrain?',
                                     }),
                                     to: '/start-here#avalanche-terrain',
                                 },
@@ -462,15 +457,13 @@ export default function useMenu() {
                                     id: id++,
                                     label: intl.formatMessage({
                                         description: 'AvCan menu',
-                                        defaultMessage:
-                                            'What are avalanche conditions?',
+                                        defaultMessage: 'What are avalanche conditions?',
                                     }),
                                     to: '/start-here#weather-factors',
                                 },
                                 {
                                     id: id++,
-                                    label:
-                                        'What does snowpack instability look like?',
+                                    label: 'What does snowpack instability look like?',
                                     to: '/start-here#instability-signs',
                                 },
                             ],
@@ -651,8 +644,7 @@ export default function useMenu() {
                                     id: id++,
                                     label: intl.formatMessage({
                                         description: 'AvCan menu',
-                                        defaultMessage:
-                                            'Other agencies and organizations',
+                                        defaultMessage: 'Other agencies and organizations',
                                     }),
                                     to: '/collaborators#agencies',
                                 },

@@ -7,14 +7,12 @@ import Shim from 'components/Shim'
 import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
 import { Generic } from 'prismic/layouts'
 import ArchiveDatePicker from './ArchiveDatePicker'
-import styles from './Forecast.css'
+import styles from './Forecast.module.css'
 
 export default function Footer() {
     const forecast = useForecast()
 
-    return forecast ? (
-        <FooterComponent region={forecast.region} date={forecast.date} />
-    ) : null
+    return forecast ? <FooterComponent region={forecast.region} date={forecast.date} /> : null
 }
 
 export function ArchivedBulletins(props) {
@@ -89,12 +87,7 @@ function FooterComponent({ children, region }) {
         }
     }
 
-    children = children || [
-        <ArchivedBulletins />,
-        <DangerRatings />,
-        <Inbox />,
-        <Disclaimer />,
-    ]
+    children = children || [<ArchivedBulletins />, <DangerRatings />, <Inbox />, <Disclaimer />]
 
     return (
         <footer className={styles.Footer}>

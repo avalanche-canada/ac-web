@@ -4,7 +4,7 @@ import * as Icons from 'components/icons'
 import { Close } from 'components/button'
 import { Control } from 'components/form'
 import { GRAY_LIGHT } from 'constants/colors'
-import styles from './Search.css'
+import styles from './Search.module.css'
 import { useIntl } from 'react-intl'
 
 Search.propTypes = {

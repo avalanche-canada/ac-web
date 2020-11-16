@@ -1,0 +1,17 @@
+@import '../../../styles/colors.module.css';
+
+.Container {
+}
+
+.ChartSet {
+    /* :not(:root) to make it selector stronger */
+    & svg:not(:root) {
+        overflow: visible;
+    }
+}
+
+.UnavaliableMessage {
+    text-align: center;
+    font-size: 200%;
+    margin: 2em;
+}

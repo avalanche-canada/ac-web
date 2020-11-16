@@ -6,7 +6,7 @@ import { ChevronRight } from 'components/icons'
 import { GRAY } from 'constants/colors'
 import classnames from 'classnames'
 import { useLocation } from 'router/hooks'
-import css from './Tree.css'
+import css from './Tree.module.css'
 
 Tree.propTypes = {
     children: PropTypes.node,
@@ -26,21 +26,12 @@ Node.propTypes = {
     level: PropTypes.number,
 }
 
-export function Node({
-    isExpanded = false,
-    level = 0,
-    children,
-    link,
-    title,
-    onClick,
-    label,
-}) {
+export function Node({ isExpanded = false, level = 0, children, link, title, onClick, label }) {
     const { location } = useLocation()
     const { pathname } = location
     const [expanded, setExpanded] = useState(isExpanded)
     const hasChildren = Children.count(children) > 0
-    const finalIsExpanded =
-        expanded || (pathname.includes(link) && !pathname.endsWith(link))
+    const finalIsExpanded = expanded || (pathname.includes(link) && !pathname.endsWith(link))
     function getLinkProps({ isPartiallyCurrent }) {
         return {
             className: classnames({
@@ -53,11 +44,7 @@ export function Node({
 
     return (
         <Fragment>
-            <Link
-                to={link || '#'}
-                title={title}
-                onClick={onClick}
-                getProps={getLinkProps}>
+            <Link to={link || '#'} title={title} onClick={onClick} getProps={getLinkProps}>
                 <div
                     className={classnames({
                         [css.NodeControl]: true,

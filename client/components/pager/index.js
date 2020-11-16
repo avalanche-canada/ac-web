@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { ChevronLeft, ChevronRight } from 'components/icons'
 import Button from 'components/button'
-import styles from './Pager.css'
+import styles from './Pager.module.css'
 import { WHITE } from 'constants/colors'
 import { FormattedMessage } from 'react-intl'
 
@@ -21,10 +21,7 @@ export default function Pager({ children, ...props }) {
 
 export function Previous({
     subtitle = (
-        <FormattedMessage
-            description="Component pager/Previous"
-            defaultMessage="Previous"
-        />
+        <FormattedMessage description="Component pager/Previous" defaultMessage="Previous" />
     ),
     ...props
 }) {
@@ -39,12 +36,7 @@ export function Previous({
 }
 
 export function Next({
-    subtitle = (
-        <FormattedMessage
-            description="Component pager/Next"
-            defaultMessage="Next"
-        />
-    ),
+    subtitle = <FormattedMessage description="Component pager/Next" defaultMessage="Next" />,
     ...props
 }) {
     return (

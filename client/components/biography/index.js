@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Avatar from 'components/avatar'
 import { Mailto, Phone } from 'components/anchors'
-import styles from './Biography.css'
+import styles from './Biography.module.css'
 import { useIntl } from 'react-intl'
 
 // FIXME: This component is asking for too much! Find a way to be more generic. Look at Blocquote.

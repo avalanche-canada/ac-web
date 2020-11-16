@@ -1,0 +1,53 @@
+@import '../../styles/colors.module.css';
+
+.List {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+}
+
+.Inline {
+    & .Child {
+        flex: 0 1 100%;
+    }
+}
+
+.Condensed {
+    & .Child {
+        padding: 0.25em 0;
+    }
+}
+
+.Bordered {
+    & .Child:not(.Block),
+    & .Definition.Block {
+        border-bottom: 1px solid var(--gray-lighter);
+    }
+}
+
+.Child {
+    flex: 0 1 50%;
+
+    margin: 0;
+    padding: 0.75em 0;
+    color: var(--gray);
+
+    &.Block {
+        flex: 100%;
+    }
+}
+
+.Term {
+    composes: Child;
+
+    color: var(--gray-darker);
+    font-weight: 700;
+}
+
+.Definition {
+    composes: Child;
+
+    & > ul {
+        margin: 0;
+    }
+}

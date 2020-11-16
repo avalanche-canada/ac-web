@@ -4,18 +4,15 @@ import isToday from 'date-fns/is_today'
 import { Link } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
 import { useForecast } from 'hooks/async/forecast'
-import {
-    useForecastRegionsMetadata,
-    useForecastRegionMetadata,
-} from 'hooks/async/features'
+import { useForecastRegionsMetadata, useForecastRegionMetadata } from 'hooks/async/features'
 import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Tag } from 'layouts/SPAW'
-import shim from 'components/Shim.css'
+import shim from 'components/Shim.module.css'
 import * as Async from 'contexts/async'
-import typography from 'components/text/Text.css'
+import typography from 'components/text/Text.module.css'
 import { Details } from 'components/error'
 import { Loading } from 'components/text'
 

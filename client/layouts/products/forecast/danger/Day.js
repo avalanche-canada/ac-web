@@ -16,7 +16,7 @@ import Ratings, {
 import { WHITE, BLACK } from 'constants/forecast/palette'
 import DangerCard from 'components/graphics/danger'
 import { useClientRect } from 'hooks'
-import styles from './Danger.css'
+import styles from './Danger.module.css'
 
 Day.propTypes = {
     date: PropTypes.instanceOf(Date).isRequired,

@@ -1,0 +1,10 @@
+.Subscribe {
+    display: flex;
+    max-width: 500px;
+}
+
+.Input {
+    composes: import WithBorder from '../../components/controls/Controls.module.css';
+
+    flex: 1;
+}

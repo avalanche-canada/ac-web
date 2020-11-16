@@ -1,0 +1,153 @@
+@import '../../styles/components.module.css';
+
+.Common {
+    display: flex;
+    align-content: center;
+    align-items: center;
+
+    padding: 0.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+    border: none;
+    cursor: pointer;
+    line-height: inherit;
+
+    @media print {
+        display: none;
+    }
+}
+
+.Disabled {
+    cursor: inherit;
+}
+
+.Primary {
+    composes: Common;
+
+    background-color: var(--component-primary-bg);
+
+    &:hover {
+        background-color: var(--component-primary-bg-hover);
+    }
+
+    &:active,
+    &.Active {
+        background-color: var(--component-primary-bg-active);
+    }
+}
+
+.Primary--Active {
+    composes: Primary;
+
+    background-color: var(--component-primary-bg-active);
+}
+
+.Primary--Disabled {
+    composes: Primary;
+    composes: Disabled;
+    background-color: var(--component-primary-bg-hover);
+
+    &:active {
+        background-color: var(--component-primary-bg-hover);
+    }
+}
+
+.Secondary {
+    composes: Common;
+
+    background-color: var(--component-secondary-bg);
+
+    &:hover {
+        background-color: var(--component-secondary-bg-hover);
+    }
+
+    &:active,
+    &.Active {
+        background-color: var(--component-secondary-bg-active);
+    }
+}
+
+.Tertiary {
+    composes: Common;
+
+    background-color: var(--component-tertiary-bg);
+
+    &:hover {
+        background-color: var(--component-tertiary-bg-hover);
+    }
+
+    &:active,
+    &.Active {
+        background-color: var(--component-tertiary-bg-active);
+    }
+}
+
+.Incognito {
+    composes: Common;
+
+    background-color: transparent;
+    color: var(--black);
+    outline: none;
+}
+
+.Subtile {
+    composes: Common;
+
+    background-color: transparent;
+    color: var(--gray);
+    outline: none;
+
+    &.Active {
+        background-color: var(--component-bg-active);
+    }
+}
+
+/* Modifiers */
+.Large {
+    padding: 1em;
+    text-align: center;
+}
+
+.ChevronRight {
+    &:after {
+        content: '\00a0›';
+        color: white;
+        font-size: 1.25em;
+        line-height: 0;
+    }
+}
+
+.ChevronLeft {
+    &:before {
+        content: '‹\00a0';
+        color: white;
+        font-size: 1.25em;
+        line-height: 0;
+    }
+}
+
+.Chevron {
+    composes: ChevronRight;
+}
+
+.Close {
+    font-size: 1.25rem;
+    font-weight: normal;
+    padding: 0.25em 0.5em;
+}
+
+.Set {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    & > .Common {
+        margin: 0.5em;
+    }
+}
+
+.Shadow {
+    box-shadow: 3px 3px 3px color-mod(black alpha(25%));
+}

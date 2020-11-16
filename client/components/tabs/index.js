@@ -5,7 +5,7 @@ import noop from 'lodash/noop'
 import { Expand } from 'components/button'
 import { useToggle } from 'hooks'
 import { WHITE } from 'constants/colors'
-import css from './Tabs.css'
+import css from './Tabs.module.css'
 
 const COMPACT = 'COMPACT'
 const LOOSE = 'LOOSE'
@@ -17,12 +17,7 @@ Tabs.propTypes = {
     onTabChange: PropTypes.func,
 }
 
-export default function Tabs({
-    onTabChange = noop,
-    children,
-    theme = COMPACT,
-    ...props
-}) {
+export default function Tabs({ onTabChange = noop, children, theme = COMPACT, ...props }) {
     const [activeTab, setActiveTab] = useState(props.activeTab || 0)
 
     return (
@@ -51,10 +46,8 @@ export default function Tabs({
 }
 
 PanelSet.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.element),
-        PropTypes.element,
-    ]).isRequired,
+    children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.element), PropTypes.element])
+        .isRequired,
     activeTab: PropTypes.number,
 }
 
@@ -85,13 +78,7 @@ HeaderSet.propTypes = {
     stacked: PropTypes.bool,
 }
 
-export function HeaderSet({
-    theme = COMPACT,
-    stacked,
-    children,
-    onTabChange,
-    activeTab,
-}) {
+export function HeaderSet({ theme = COMPACT, stacked, children, onTabChange, activeTab }) {
     const [expanded, toggleExpanded] = useToggle(false)
     const className = classnames({
         [css.HeaderSet]: true,
@@ -102,9 +89,7 @@ export function HeaderSet({
     })
 
     return (
-        <div
-            className={className}
-            onClick={stacked ? toggleExpanded : undefined}>
+        <div className={className} onClick={stacked ? toggleExpanded : undefined}>
             {Children.toArray(children)
                 .filter(Boolean)
                 .map((header, index) =>
@@ -133,14 +118,7 @@ Header.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
-export function Header({
-    isActive,
-    disabled,
-    arrow,
-    onActivate,
-    children,
-    style,
-}) {
+export function Header({ isActive, disabled, arrow, onActivate, children, style }) {
     const className = classnames({
         [css.Header]: true,
         [css['Header--Arrow']]: arrow,
@@ -149,11 +127,7 @@ export function Header({
     })
 
     return (
-        <div
-            role="tab"
-            className={className}
-            style={style}
-            onClick={onActivate}>
+        <div role="tab" className={className} style={style} onClick={onActivate}>
             {children}
         </div>
     )

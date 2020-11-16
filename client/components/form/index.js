@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Search from './Search'
-import css from './Form.css'
+import css from './Form.module.css'
 
 export { Search }
 

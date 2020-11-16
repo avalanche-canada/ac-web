@@ -8,7 +8,7 @@ import Wind from './charts/Wind'
 import { getDateExtent } from './utils'
 import { Boundary as ErrorBoundary } from 'components/error'
 import { Error } from 'components/text'
-import styles from './Station.css'
+import styles from './Station.module.css'
 import { useRatio } from 'hooks'
 
 ChartSet.propTypes = {

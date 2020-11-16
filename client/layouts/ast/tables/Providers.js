@@ -14,10 +14,9 @@ import { Distance, Tags } from './cells'
 import { NONE, DESC } from 'constants/sortings'
 import { useSorting, usePagination } from 'hooks/collection'
 import * as Async from 'contexts/async'
-import table from 'styles/table.css'
+import table from 'styles/table.module.css'
 import { FormattedMessage, defineMessages } from 'react-intl'
 import { useIntlMemo } from 'hooks/intl'
-
 
 Providers.propTypes = {
     tags: PropTypes.instanceOf(Set),
@@ -35,10 +34,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
         return providers.map(provider => ({
             ...provider,
             distance: place
-                ? Math.max(
-                    Math.round(distance(turf.point(provider.loc), place)),
-                    MINIMUM_DISTANCE
-                )
+                ? Math.max(Math.round(distance(turf.point(provider.loc), place)), MINIMUM_DISTANCE)
                 : null,
         }))
     }, [providers, place])
@@ -47,9 +43,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
     }, [all])
     const filtered = useMemo(() => {
         if (tags.size > 0) {
-            return others.filter(provider =>
-                provider.tags.some(tag => tags.has(tag))
-            )
+            return others.filter(provider => provider.tags.some(tag => tags.has(tag)))
         }
 
         return others
@@ -72,13 +66,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
 
     return (
         <Async.Provider value={context}>
-            <Layout
-                title={
-                    <Title
-                        type="provider"
-                        count={count}
-                        total={providers.length}></Title>
-                }>
+            <Layout title={<Title type="provider" count={count} total={providers.length}></Title>}>
                 <Responsive>
                     <table>
                         <Header
@@ -90,9 +78,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                         {sponsors.length > 0 && (
                             <tbody className={table.Featured}>
                                 <tr>
-                                    <th colSpan={columns.length}>
-                                        Our sponsors
-                                    </th>
+                                    <th colSpan={columns.length}>Our sponsors</th>
                                 </tr>
                                 {renderRows(sponsors, columns)}
                             </tbody>
@@ -105,11 +91,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                                     defaultMessage="No providers match your criteria, consider finding a course on the <link>courses page</link>."
                                     values={{
                                         link(text) {
-                                            return (
-                                                <Link to="/training/courses">
-                                                    {text}
-                                                </Link>
-                                            )
+                                            return <Link to="/training/courses">{text}</Link>
                                         },
                                     }}
                                 />
@@ -120,11 +102,7 @@ export default function Providers({ tags, sorting, place, onParamsChange }) {
                                     defaultMessage="You can also <link>reset your criteria</link> to see them all."
                                     values={{
                                         link(text) {
-                                            return (
-                                                <Link to="/training/providers">
-                                                    {text}
-                                                </Link>
-                                            )
+                                            return <Link to="/training/providers">{text}</Link>
                                         },
                                     }}
                                 />
@@ -144,9 +122,9 @@ function useColumns() {
             id: 'app.distanceDescription',
             defaultMessage: 'Straight line between {place} and the provider.',
             description: 'Layout ast/tables/Providers',
-        }
+        },
     })
-    return useIntlMemo((intl) => [
+    return useIntlMemo(intl => [
         {
             name: 'provider',
             title: intl.formatMessage({
@@ -191,24 +169,20 @@ function useColumns() {
             title({ place }) {
                 return place ? (
                     <Helper
-                        title={
-                            intl.formatMessage(
-                                messages.distanceDescription,
-                                { place: place.text }
-                            )
-                        }
-                    >
+                        title={intl.formatMessage(messages.distanceDescription, {
+                            place: place.text,
+                        })}>
                         <FormattedMessage
                             description="Layout ast/tables/Courses"
                             defaultMessage="Distance"
                         />
                     </Helper>
                 ) : (
-                        intl.formatMessage({
-                            defaultMessage: 'Distance',
-                            description: 'Layout ast/tables/Courses',
-                        })
-                    )
+                    intl.formatMessage({
+                        defaultMessage: 'Distance',
+                        description: 'Layout ast/tables/Courses',
+                    })
+                )
             },
             property({ distance }) {
                 return <Distance value={distance} />
@@ -237,7 +211,6 @@ function useColumns() {
         },
     ])
 }
-
 
 // Utils
 function renderRows(providers, columns) {

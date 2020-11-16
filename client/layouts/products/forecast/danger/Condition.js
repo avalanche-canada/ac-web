@@ -1,14 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Modes, {
-    useText,
-    EARLY_SEASON,
-    SPRING_SITUATION,
-    OFF_SEASON,
-} from 'constants/forecast/mode'
+import Modes, { useText, EARLY_SEASON, SPRING_SITUATION, OFF_SEASON } from 'constants/forecast/mode'
 import { Generic } from 'prismic/layouts'
 import { domain } from 'assets/config.json'
-import styles from './Danger.css'
+import styles from './Danger.module.css'
 
 Condition.propTypes = {
     mode: PropTypes.oneOf(Array.from(Modes)).isRequired,

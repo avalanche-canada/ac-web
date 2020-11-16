@@ -6,7 +6,7 @@ import { Ribbon } from 'components/misc'
 import { useWindowSize } from 'hooks'
 import { useLocation } from 'router/hooks'
 import Sponsor from 'layouts/Sponsor'
-import styles from './Page.css'
+import styles from './Page.module.css'
 
 // TODO Perhaps remove that component
 Content.propTypes = {
