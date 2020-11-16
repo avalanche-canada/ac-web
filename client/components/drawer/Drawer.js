@@ -6,21 +6,16 @@ import styles from './Drawer.css'
 
 Drawer.propTypes = {
     label: PropTypes.string.isRequired,
-    home: Toolbar.propTypes.home,
+    home: PropTypes.shape({
+        to: PropTypes.string.isRequired,
+    }).isRequired,
     to: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func,
     children: PropTypes.node.isRequired,
 }
 
-export default function Drawer({
-    label,
-    to,
-    onClose,
-    onClick,
-    children,
-    home,
-}) {
+export default function Drawer({ label, to, onClose, onClick, children, home }) {
     function handleClick(event) {
         const { target, currentTarget } = event
 

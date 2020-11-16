@@ -155,6 +155,10 @@ function ArchiveContent({ name, date }) {
 }
 function Advisory({ name, date }) {
     const [document, pending] = useDocument(hotZone.report(name, date))
+    const values = {
+        name,
+        date: useFormatDate(date),
+    }
 
     return pending ? (
         <Loading />
@@ -165,10 +169,7 @@ function Advisory({ name, date }) {
             <FormattedMessage
                 description="Layout pages/ArchiveHotZoneReport"
                 defaultMessage="No advisory available in {name} for {date}."
-                values={{
-                    name,
-                    date: useFormatDate(date),
-                }}
+                values={values}
             />
         </Muted>
     )
