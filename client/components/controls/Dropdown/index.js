@@ -1,2 +1,5 @@
-export Dropdown from './Dropdown'
-export DropdownFromOptions from './DropdownFromOptions'
+import Dropdown from './Dropdown'
+import DropdownFromOptions from './DropdownFromOptions'
+
+export { Dropdown }
+export { DropdownFromOptions }

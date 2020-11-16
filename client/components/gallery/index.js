@@ -1,2 +1,5 @@
-export CloudinaryGallery from './CloudinaryGallery'
-export default from './Gallery'
+import CloudinaryGallery from './CloudinaryGallery'
+import Gallery from './Gallery'
+
+export default Gallery
+export { CloudinaryGallery }

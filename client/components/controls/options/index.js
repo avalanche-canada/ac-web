@@ -1,3 +1,7 @@
-export Option from './Option'
-export OptionSet from './OptionSet'
-export Dropdown from './Dropdown'
+import Option from './Option'
+import OptionSet from './OptionSet'
+import Dropdown from './Dropdown'
+
+export { Option }
+export { OptionSet }
+export { Dropdown }
