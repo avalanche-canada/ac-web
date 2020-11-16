@@ -11,9 +11,9 @@ import { useBoolean } from 'hooks'
 import controls from 'components/controls/Controls.module.css'
 import { Close, Expand } from 'components/button'
 import { WHITE } from 'constants/colors'
-import 'react-day-picker/lib/style.module.css'
 import styles from './Forms.module.css'
 import { useIntl } from 'react-intl'
+import 'react-day-picker/lib/style.css'
 
 Courses.propTypes = {
     level: PropTypes.oneOf(Array.from(LEVELS.keys())),

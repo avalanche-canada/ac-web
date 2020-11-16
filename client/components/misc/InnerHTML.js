@@ -12,23 +12,15 @@ function InnerHTML({ children, ...props }) {
         return null
     }
 
-    return (
-        <div
-            onClick={handleClick}
-            {...props}
-            dangerouslySetInnerHTML={{ __html: children }}
-        />
-    )
+    return <div onClick={handleClick} {...props} dangerouslySetInnerHTML={{ __html: children }} />
 }
 
 export default memo(InnerHTML)
 
-function handleClick({ target, metaKey }) {
-    if (
-        target.tagName === 'A' &&
-        metaKey === false &&
-        isAvalancheCanada(target.href)
-    ) {
+function handleClick(event) {
+    const { target, metaKey } = event
+
+    if (target.tagName === 'A' && metaKey === false && isAvalancheCanada(target.href)) {
         event.preventDefault()
         navigate(href(target.href))
     }

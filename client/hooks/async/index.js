@@ -2,11 +2,7 @@ import { useEffect, useRef, useReducer, useMemo } from 'react'
 import { useMounted } from 'hooks'
 import { Memory } from 'services/cache'
 
-export function useAsync(
-    asyncFunction,
-    params = [],
-    initialState = [undefined, true, null]
-) {
+export function useAsync(asyncFunction, params = [], initialState = [undefined, true, null]) {
     const [state, dispatch] = useReducer(reducer, initialState)
     const controller = useRef(null)
     const mounted = useMounted()
@@ -68,23 +64,17 @@ export function createKey(...paths) {
 }
 
 export function useMerge(...asyncs) {
-    if (asyncs.length === 1) {
-        return asyncs[0]
-    }
-
-    function factory() {
+    return useMemo(() => {
         function reducer(result, current) {
-            return [
-                [...result[0], current[0]],
-                current[1] || result[1],
-                [...result[2], current[2]],
-            ]
+            return [[...result[0], current[0]], current[1] || result[1], [...result[2], current[2]]]
+        }
+
+        if (asyncs.length === 1) {
+            return asyncs[0]
         }
 
         return asyncs.reduce(reducer, [[], false, []])
-    }
-
-    return useMemo(factory, asyncs.flat())
+    }, asyncs.flat())
 }
 
 // Reducer

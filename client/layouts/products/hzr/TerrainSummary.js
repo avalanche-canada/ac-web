@@ -7,6 +7,35 @@ import { List, Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
 import styles from './HotZoneReport.module.css'
 
+const TerrainFeatureKeys = new Map([
+    [
+        'treelineTerrainAvoidance',
+        [
+            'Unsupported',
+            'LeeSlopes',
+            'CrossloadedSlopes',
+            'Convex',
+            'ShallowSnowpack',
+            'VariableDepthSnowpack',
+        ],
+    ],
+    [
+        'belowTreelineTerrainAvoidance',
+        ['Creeks', 'Unsupported', 'LeeSlopes', 'Convex', 'Cutblocks', 'RunoutZones'],
+    ],
+    [
+        'alpineTerrainAvoidance',
+        [
+            'Unsupported',
+            'LeeSlopes',
+            'CrossloadedSlopes',
+            'Convex',
+            'ShallowSnowpack',
+            'VariableDepthSnowpack',
+        ],
+    ],
+])
+
 function AvoidItem({ children, value }) {
     const className = value === 'Yes' ? 'Avoid' : 'Okay'
 
@@ -161,31 +190,3 @@ function useTerrainFeatureTitles() {
         ])
     })
 }
-const TerrainFeatureKeys = new Map([
-    [
-        'treelineTerrainAvoidance',
-        [
-            'Unsupported',
-            'LeeSlopes',
-            'CrossloadedSlopes',
-            'Convex',
-            'ShallowSnowpack',
-            'VariableDepthSnowpack',
-        ],
-    ],
-    [
-        'belowTreelineTerrainAvoidance',
-        ['Creeks', 'Unsupported', 'LeeSlopes', 'Convex', 'Cutblocks', 'RunoutZones'],
-    ],
-    [
-        'alpineTerrainAvoidance',
-        [
-            'Unsupported',
-            'LeeSlopes',
-            'CrossloadedSlopes',
-            'Convex',
-            'ShallowSnowpack',
-            'VariableDepthSnowpack',
-        ],
-    ],
-])

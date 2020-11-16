@@ -17,6 +17,8 @@ export const DEFINITION = 'definition'
 export const GLOSSARY = 'glossary'
 export const SPONSOR = 'sponsor'
 
+export const FEED = [BLOG, EVENT, NEWS]
+
 export function useFeedTexts() {
     return useIntlMemo(
         intl =>
