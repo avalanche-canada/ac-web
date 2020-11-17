@@ -190,7 +190,7 @@ List.propTypes = {
     children: PropTypes.node,
     column: PropTypes.number,
     data: PropTypes.array,
-    renderItem: PropTypes.function,
+    renderItem: PropTypes.func,
 }
 
 export function List({ data, renderItem, children, column }) {
