@@ -21,10 +21,7 @@ import { INCIDENT } from 'constants/min'
 import { useLayer as useLayerState } from 'contexts/layers'
 import { useLocation } from 'router/hooks'
 import externals, { open } from 'router/externals'
-import {
-    usePrimaryDrawerParams,
-    useSecondaryDrawerParams,
-} from './drawers/hooks'
+import { usePrimaryDrawerParams, useSecondaryDrawerParams } from './drawers/hooks'
 import { path } from 'utils/url'
 import { captureException } from 'services/sentry'
 import { useMerge } from 'hooks/async'
@@ -71,36 +68,10 @@ export function useForecastRegions(map) {
         }
     }, [map, type, id, sourceLoaded])
 
-    useSource(
-        map,
-        key,
-        { ...GEOJSON, generateId: true },
-        regions || EMPTY_FEATURE_COLLECTION
-    )
-    useLayer(
-        map,
-        createLayer(IDS[0], key, 'fill'),
-        undefined,
-        visible,
-        undefined,
-        EVENTS
-    )
-    useLayer(
-        map,
-        createLayer(IDS[1], key, 'line'),
-        undefined,
-        visible,
-        undefined,
-        EVENTS
-    )
-    useLayer(
-        map,
-        createLayer(IDS[2], key, 'symbol'),
-        undefined,
-        visible,
-        undefined,
-        EVENTS
-    )
+    useSource(map, key, { ...GEOJSON, generateId: true }, regions || EMPTY_FEATURE_COLLECTION)
+    useLayer(map, createLayer(IDS[0], key, 'fill'), undefined, visible, undefined, EVENTS)
+    useLayer(map, createLayer(IDS[1], key, 'line'), undefined, visible, undefined, EVENTS)
+    useLayer(map, createLayer(IDS[2], key, 'symbol'), undefined, visible, undefined, EVENTS)
 }
 
 export function useForecastMarkers(map) {
@@ -176,10 +147,9 @@ export function useWeatherStations(map) {
     const key = WEATHER_STATION
     const { visible } = useLayerState(key)
     const [stations, , error] = weather.useStations()
-    const features = useMemo(
-        () => createFeatureCollection(stations, createWeatherStationFeature),
-        [stations]
-    )
+    const features = useMemo(() => createFeatureCollection(stations, createWeatherStationFeature), [
+        stations,
+    ])
 
     useMapError(ERRORS.WEATHER_STATION, error)
     useSymbolLayer(map, key, features, visible)
@@ -189,10 +159,7 @@ export function useMountainConditionReports(map) {
     const key = MOUNTAIN_CONDITIONS_REPORTS
     const { visible } = useLayerState(key)
     const id = useSearchPanelId('mountain-conditions-reports')
-    const [[reports, report], , errors] = useMerge(
-        mcr.useReports(),
-        mcr.useReport(id)
-    )
+    const [[reports, report], , errors] = useMerge(mcr.useReports(), mcr.useReport(id))
     const features = useMemo(
         () =>
             createFeatureCollection(
@@ -203,10 +170,7 @@ export function useMountainConditionReports(map) {
     )
     const single = useMemo(
         () =>
-            createFeatureCollection(
-                [report].filter(Boolean),
-                createMountainConditionReportFeature
-            ),
+            createFeatureCollection([report].filter(Boolean), createMountainConditionReportFeature),
         [report]
     )
 
@@ -219,10 +183,9 @@ export function useFatalAccidents(map) {
     const key = FATAL_ACCIDENT
     const { visible } = useLayerState(key)
     const [documents, , error] = prismic.useDocuments(params.fatal.accidents())
-    const features = useMemo(
-        () => createFeatureCollection(documents, createFatalAccidentFeature),
-        [documents]
-    )
+    const features = useMemo(() => createFeatureCollection(documents, createFatalAccidentFeature), [
+        documents,
+    ])
 
     useMapError(ERRORS.INCIDENT, error)
     useSymbolLayer(map, key, features, visible)
@@ -268,10 +231,7 @@ export function useMountainInformationNetwork(map) {
             turf.featureCollection(features.filter(isIncident)),
         ]
     }, [data])
-    const filter = useMemo(
-        () => createMountainInformationNetworkFilter(types),
-        [types]
-    )
+    const filter = useMemo(() => createMountainInformationNetworkFilter(types), [types])
 
     // Incident icons
     key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
@@ -305,9 +265,7 @@ export function useMountainInformationNetwork(map) {
             return EMPTY_FEATURE_COLLECTION
         }
 
-        return turf.featureCollection([
-            createMountainInformationNetworkFeature(report),
-        ])
+        return turf.featureCollection([createMountainInformationNetworkFeature(report)])
     }, [report])
 
     useSource(map, key, GEOJSON, activeReport)
@@ -317,12 +275,7 @@ export function useMountainInformationNetwork(map) {
 }
 
 // Utils for MIN
-function createMountainInformationNetworkFeature({
-    subid,
-    title,
-    lnglat,
-    obs,
-}) {
+function createMountainInformationNetworkFeature({ subid, title, lnglat, obs }) {
     return turf.point(lnglat, {
         id: subid,
         type: MOUNTAIN_INFORMATION_NETWORK,
@@ -339,10 +292,7 @@ function createMountainInformationNetworkFilter(types) {
         return ['boolean', true]
     }
 
-    return [
-        'any',
-        ...Array.from(types, type => ['boolean', ['get', type], false]),
-    ]
+    return ['any', ...Array.from(types, type => ['boolean', ['get', type], false])]
 }
 function isIncident({ properties }) {
     return INCIDENT in properties
@@ -379,9 +329,7 @@ const EVENTS = [
 ]
 function createForecastIconURL({ iconSet }) {
     const now = new Date()
-    const icon = iconSet.find(
-        ({ from, to }) => new Date(from) < now && now < new Date(to)
-    )
+    const icon = iconSet.find(({ from, to }) => new Date(from) < now && now < new Date(to))
     const { iconType } = icon || {}
 
     if (!ICONS.has(iconType)) {
@@ -392,12 +340,11 @@ function createForecastIconURL({ iconSet }) {
 
     return createURL(icon)
 }
-const GRAPHICS = '/api/forecasts/graphics'
+const GRAPHICS = 'https://avalanche.ca/api/forecasts/graphics'
 const ICONS = new Map([
     [
         'RATINGS',
-        ({ ratings: { alp, tln, btl } }) =>
-            path(GRAPHICS, alp, tln, btl, 'danger-rating-icon.svg'),
+        ({ ratings: { alp, tln, btl } }) => path(GRAPHICS, alp, tln, btl, 'danger-rating-icon.svg'),
     ],
     ['SPRING', () => path(GRAPHICS, 'spring.svg')],
     ['OFF_SEASON', () => path(GRAPHICS, 'off-season.svg')],
@@ -411,9 +358,7 @@ function handleMouseMove({ target, features }) {
     const [feature] = features
     const { name, title, point_count, cluster } = feature.properties
 
-    canvas.title = cluster
-        ? `${point_count} ${TITLES.get(feature.source)}`
-        : name || title
+    canvas.title = cluster ? `${point_count} ${TITLES.get(feature.source)}` : name || title
 }
 let COUNTER = 0
 function handleMouseEnter({ target }) {
@@ -521,12 +466,7 @@ const STYLES = {
         line: {
             paint: {
                 'line-color': '#B43A7E',
-                'line-width': [
-                    'case',
-                    ['boolean', ['feature-state', 'active'], false],
-                    4,
-                    1.5,
-                ],
+                'line-width': ['case', ['boolean', ['feature-state', 'active'], false], 4, 1.5],
             },
         },
         symbol: {
@@ -622,12 +562,7 @@ const STYLES = {
                     'min-pin-with-incident',
                     'min-pin',
                 ],
-                'icon-size': [
-                    'case',
-                    ['boolean', ['get', 'cluster'], false],
-                    0.8,
-                    0.7,
-                ],
+                'icon-size': ['case', ['boolean', ['get', 'cluster'], false], 0.8, 0.7],
                 'icon-allow-overlap': true,
                 'text-field': '{point_count}',
                 'text-offset': [0, -0.25],
