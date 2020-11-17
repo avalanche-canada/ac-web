@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { NO_RATING } from 'constants/forecast/rating'
 import { ALP, TLN, BTL } from 'constants/forecast/elevation'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
@@ -27,17 +26,26 @@ const STYLE = {
 }
 
 Card.propTypes = {
-    alp: PropTypes.oneOf(Array.from(Ratings)).isRequired,
-    tln: PropTypes.oneOf(Array.from(Ratings)).isRequired,
-    btl: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+    alp: PropTypes.shape({
+        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+        display: PropTypes.string.isRequired,
+    }).isRequired,
+    tln: PropTypes.shape({
+        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+        display: PropTypes.string.isRequired,
+    }).isRequired,
+    btl: PropTypes.shape({
+        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+        display: PropTypes.string.isRequired,
+    }).isRequired,
     showTravelAdvice: PropTypes.bool,
     showExtraInformation: PropTypes.bool,
 }
 
 export default function Card({
-    alp = NO_RATING,
-    tln = NO_RATING,
-    btl = NO_RATING,
+    alp,
+    tln,
+    btl,
     showTravelAdvice = false,
     showExtraInformation = false,
 }) {

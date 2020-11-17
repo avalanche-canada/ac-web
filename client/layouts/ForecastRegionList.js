@@ -1,7 +1,6 @@
 import React from 'react'
-import { useForecasts } from 'hooks/async/api/products'
 import { FormattedMessage } from 'react-intl'
-import { useForecastRegionsMetadata } from 'hooks/async/features'
+import { useForecasts } from 'hooks/async/api/products'
 import * as Async from 'contexts/async'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
@@ -23,7 +22,7 @@ export default function ForecastRegionList() {
 
     return (
         <Layout title={title} headline={headline}>
-            <Async.Provider value={useForecastRegionsMetadata()}>
+            <Async.Provider value={useForecasts()}>
                 <Async.Pending>
                     <Loading />
                 </Async.Pending>
@@ -36,13 +35,12 @@ export default function ForecastRegionList() {
 }
 
 function renderRegions(regions) {
-    return regions.map(({ id, name }) => {
-        const to = externals.has(id) ? externals.get(id) : id
-        const target = externals.has(id) ? id : null
+    return regions.map(({ id, slug, report }) => {
+        const target = slug ? null : id
 
         return (
-            <ListItem key={id} to={to} target={target}>
-                {name}
+            <ListItem key={id} to={slug} target={target}>
+                {report.title}
             </ListItem>
         )
     })

@@ -43,39 +43,31 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header
-                subject={intl.formatMessage({
-                    defaultMessage: 'Avalanche Forecast',
-                    description: 'Layout drawers/Forecast',
-                })}>
-                <Async.Provider value={useForecastRegionMetadata(name)}>
-                    <h1>
-                        <Async.Pending>
-                            <span className={typography.Muted}>
-                                <FormattedMessage
-                                    description="Layout drawers/Forecast"
-                                    defaultMessage="Loading..."
-                                />
-                            </span>
-                        </Async.Pending>
-                        <Async.Found>
-                            <ForecastRegionHeader
-                                onLocateClick={onLocateClick}
+            <Header subject={subject}>
+                <h1>
+                    <Async.Pending>
+                        <span className={typography.Muted}>
+                            <FormattedMessage
+                                description="Layout drawers/Forecast"
+                                defaultMessage="Loading..."
                             />
-                        </Async.Found>
-                        <Async.Empty>
-                            <span className={typography.Warning}>
-                                <FormattedMessage
-                                    description="Layout drawers/Forecast"
-                                    defaultMessage="Forecast {name} not found"
-                                    values={{
-                                        name,
-                                    }}
-                                />
-                            </span>
-                        </Async.Empty>
-                    </h1>
-                </Async.Provider>
+                        </span>
+                    </Async.Pending>
+                    <Async.Found>
+                        <ForecastRegionHeader onLocateClick={onLocateClick} />
+                    </Async.Found>
+                    <Async.Empty>
+                        <span className={typography.Warning}>
+                            <FormattedMessage
+                                description="Layout drawers/Forecast"
+                                defaultMessage="Forecast {name} not found"
+                                values={{
+                                    name,
+                                }}
+                            />
+                        </span>
+                    </Async.Empty>
+                </h1>
             </Header>
             <Body key={name}>
                 <Async.Provider value={useForecast(name)}>

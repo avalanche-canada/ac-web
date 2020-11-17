@@ -14,7 +14,7 @@ ProblemSet.propTypes = {
 export default function ProblemSet() {
     const report = useReport()
 
-    if (report?.problems?.length === 0) {
+    if (report.problems.length === 0) {
         return (
             <h3>
                 <FormattedMessage defaultMessage="No problems identified." />
@@ -22,13 +22,12 @@ export default function ProblemSet() {
         )
     }
 
-    return report.problems.map(render)
+    return report.problems.map((problem, index) => (
+        <Problem key={problem.type} {...problem} counter={index + 1} />
+    ))
 }
 
 // Utils components
-function render(problem, index) {
-    return <Problem key={problem.type} {...problem} counter={index + 1} />
-}
 Section.propTypes = {
     children: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,

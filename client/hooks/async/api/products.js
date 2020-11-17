@@ -24,11 +24,8 @@ export function useForecasts() {
     return useProductsOfType(types.FORECAST)
 }
 
-export function useForecast() {
-    // TODO Finish proper implementation
-    const [forecasts, ...rest] = useForecasts()
-
-    return [forecasts[0], ...rest]
+export function useForecast(id) {
+    return useProductOfType(types.FORECAST, id)
 }
 
 export function useSPAW() {
@@ -42,8 +39,11 @@ function useProductsOfType(type, date) {
     return [products, ...rest]
 }
 
-function useProductOfType(type) {
+function useProductOfType(type, id) {
     const [products, ...rest] = useProductsOfType(type)
+    function find(product) {
+        return product.slug === id || product.id == id
+    }
 
-    return [products[0], ...rest]
+    return [products.find(find), ...rest]
 }

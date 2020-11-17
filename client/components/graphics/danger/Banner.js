@@ -100,7 +100,10 @@ const ELEVATIONS_VALUES = new Map([[ALP, 0], [TLN, 1], [BTL, 2]])
 
 Banner.propTypes = {
     elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
-    rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
+    rating: PropTypes.shape({
+        value: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
+        display: PropTypes.string.isRequired,
+    }).isRequired,
     showTravelAdvice: PropTypes.bool,
     onExpandClick: PropTypes.func,
     expandable: PropTypes.bool,
@@ -109,19 +112,20 @@ Banner.propTypes = {
 
 export default function Banner({
     elevation = ALP,
-    rating = NO_RATING,
+    rating,
     showTravelAdvice = false,
     expanded,
     expandable = false,
     onExpandClick,
 }) {
-    const value = ELEVATIONS_VALUES.get(elevation)
-    const dx = 255 + 130 + value * 20
-    const dy = 205 + 6 + value * 50
-    const width = 301 - value * 20
-    const fill = BannerFill.get(rating)
-    const stroke = BannerStroke.get(rating)
-    const Icon = IconByRating.get(rating)
+    const step = ELEVATIONS_VALUES.get(elevation)
+    const dx = 255 + 130 + step * 20
+    const dy = 205 + 6 + step * 50
+    const width = 301 - step * 20
+    const { value, display } = rating
+    const fill = BannerFill.get(value)
+    const stroke = BannerStroke.get(value)
+    const Icon = IconByRating.get(value)
 
     return (
         <g transform={`translate(${dx} ${dy})`}>
@@ -134,9 +138,11 @@ export default function Banner({
                 strokeWidth={0.5}
                 strokeMiterlimit={10}
             />
-            <RatingText rating={rating} showTravelAdvice={showTravelAdvice} />
+            <RatingText rating={value} showTravelAdvice={showTravelAdvice}>
+                {display}
+            </RatingText>
             {showTravelAdvice && (
-                <ExtraInformation rating={rating} expanded={expanded} />
+                <ExtraInformation rating={value} expanded={expanded} />
             )}
             <g transform="scale(0.45)">
                 <Icon />
