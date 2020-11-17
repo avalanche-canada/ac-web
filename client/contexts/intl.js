@@ -5,11 +5,11 @@ import React, {
     useMemo,
     useContext,
 } from 'react'
-import { IntlProvider, FormattedDisplayName } from 'react-intl'
+import { IntlProvider } from 'react-intl'
 import { loadMessages } from 'services/intl'
 import { useLocalStorage } from 'hooks'
 import Button from 'components/button'
-import LOCALE, { FR, LOCALES } from 'constants/locale'
+import LOCALE, { FR, LOCALES, TEXTS } from 'constants/locale'
 import { noop } from 'utils/function'
 
 const LocaleContext = createContext()
@@ -80,7 +80,7 @@ export function LocaleSwitcher() {
 
     return Array.from(LOCALES, loc => (
         <Button key={loc} disabled={loc === locale} onClick={() => set(loc)}>
-            <FormattedDisplayName type="language" value={loc.substr(0, 2)} />
+            {TEXTS.get(loc)}
         </Button>
     ))
 }
