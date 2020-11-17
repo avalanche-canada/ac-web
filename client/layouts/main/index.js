@@ -13,7 +13,6 @@ import {
     ERRORS,
     useGuessBounds,
 } from 'contexts/map/state'
-import { pluralize } from 'utils/string'
 import keycodes from 'constants/keycodes'
 import { useBoolean, useEventListener } from 'hooks'
 import Dialog, { Header, Footer, Body } from 'components/dialog'
