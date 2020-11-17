@@ -1,6 +1,7 @@
 import React from 'react'
 import { useReport } from './Context'
 import ImageGallery from 'components/gallery'
+import config from 'assets/config.json'
 
 export default function Gallery() {
     const report = useReport()
@@ -10,7 +11,7 @@ export default function Gallery() {
     }
 
     const items = report.uploads.map(upload => ({
-        original: `/api/min/uploads/${upload}`,
+        original: config.min + upload,
     }))
 
     return (
