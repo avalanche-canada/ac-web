@@ -23,7 +23,9 @@ function InnerHTML({ children, ...props }) {
 
 export default memo(InnerHTML)
 
-function handleClick({ target, metaKey }) {
+function handleClick(event) {
+    const { target, metaKey } = event
+
     if (
         target.tagName === 'A' &&
         metaKey === false &&
