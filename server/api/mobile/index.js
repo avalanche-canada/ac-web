@@ -91,7 +91,7 @@ const MESSAGES = [
 function createRelease150Message(platform) {
     return new StatusMessage(
         new StatusParams(APP, '1.5.0', platform),
-        'New application released for season 2019-2020',
+        'New application released for 2019-2020 season',
         '<h1>A new Avalanche Canada mobile app has been released for the 2019-2020 season</h1><p>Our app has undergone a major update for the 2019-20 season. The update adds the North Rockies and Yukon as full forecast regions and makes some minor changes to the way information is shown in the forecasts.</p><a href="' +
             STORE_URLS[platform] +
             '">' +
