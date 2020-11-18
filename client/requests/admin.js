@@ -1,4 +1,4 @@
-import { apiBaseURL } from './config.json'
+import { apiBaseURL } from './config'
 import fetch from 'utils/fetch'
 import { build } from 'utils/url'
 import LOCALE from 'constants/locale'
@@ -12,11 +12,7 @@ export function users(token, username, page = 1) {
 }
 
 export function changeUsername(token, userid, username, locale) {
-    const url = build(
-        '/users/' + encodeURIComponent(userid),
-        undefined,
-        apiBaseURL
-    )
+    const url = build('/users/' + encodeURIComponent(userid), undefined, apiBaseURL)
 
     return fetch(url, {
         method: 'PATCH',

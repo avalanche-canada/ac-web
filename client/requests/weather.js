@@ -1,4 +1,4 @@
-import { weatherBaseUrl } from './config.json'
+import { weatherBaseUrl } from './config'
 import fetch from 'utils/fetch'
 
 export function stations() {

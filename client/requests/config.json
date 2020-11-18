@@ -1,8 +1,0 @@
-{
-    "baseURL": "https://avalanche.ca/api",
-    "staticBaseURL": "https://avalanche.ca/static",
-    "apiBaseURL": "https://api.avalanche.ca",
-    "astBaseUrl": "https://ast.avalanche.ca/api",
-    "weatherBaseUrl": "https://api.avalanche.ca/weather",
-    "incidentsBaseUrl": "https://incidents.avalanche.ca"
-}

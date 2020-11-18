@@ -2,7 +2,7 @@ import parseDate from 'date-fns/parse'
 import isBefore from 'date-fns/is_before'
 import isValid from 'date-fns/is_valid'
 import startOfToday from 'date-fns/start_of_today'
-import { baseURL } from './config.json'
+import { baseURL } from './config'
 import fetch from 'utils/fetch'
 import * as utils from 'utils/url'
 import * as Ratings from 'constants/forecast/rating'
@@ -18,12 +18,7 @@ export function forecasts() {
     const url = buildForecastURL('all')
 
     return fetch(url).then(payload =>
-        Object.fromEntries(
-            Object.entries(payload).map(([id, forecast]) => [
-                id,
-                parse(forecast),
-            ])
-        )
+        Object.fromEntries(Object.entries(payload).map(([id, forecast]) => [id, parse(forecast)]))
     )
 }
 
@@ -32,9 +27,7 @@ export function regions() {
 
     return fetch(url).then(payload => ({
         ...payload,
-        features: payload.features.filter(
-            region => region.properties.type !== 'hotzone'
-        ),
+        features: payload.features.filter(region => region.properties.type !== 'hotzone'),
     }))
 }
 
@@ -98,8 +91,7 @@ function parse(forecast) {
 
 // Utils transformers
 function asConfidenceObject(confidence) {
-    const [level, comment] =
-        typeof confidence === 'string' ? confidence.split(' - ') : []
+    const [level, comment] = typeof confidence === 'string' ? confidence.split(' - ') : []
 
     return {
         level,
