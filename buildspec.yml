@@ -1,7 +1,7 @@
 version: 0.2
 
 env:
-  sercrets-manager:
+  secrets-manager:
     DOCKER_USER: "BuildEnv:DOCKER_USER"
     DOCKER_PASSWORD: "BuildEnv:DOCKER_PASSWORD"
 
