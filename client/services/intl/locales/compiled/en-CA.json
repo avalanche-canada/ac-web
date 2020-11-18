@@ -1,0 +1,5612 @@
+{
+  "+/kDI8": [
+    {
+      "type": 0,
+      "value": "No advisory available in "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " for "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "+2V9nb": [
+    {
+      "type": 0,
+      "value": "A new image is added to the loop every 60 minutes."
+    }
+  ],
+  "+9YFIt": [
+    {
+      "type": 0,
+      "value": "Analysis"
+    }
+  ],
+  "+ALzpC": [
+    {
+      "type": 0,
+      "value": "Click on a link below to see weather station data."
+    }
+  ],
+  "+EmH+m": [
+    {
+      "type": 0,
+      "value": "Decision Point"
+    }
+  ],
+  "+F+eyp": [
+    {
+      "type": 0,
+      "value": "Contributors"
+    }
+  ],
+  "+HSXlh": [
+    {
+      "type": 0,
+      "value": "External programs"
+    }
+  ],
+  "+OvFHB": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network — Submission Guidelines"
+    }
+  ],
+  "+Q4vtp": [
+    {
+      "type": 0,
+      "value": "All categories"
+    }
+  ],
+  "+QNm85": [
+    {
+      "type": 0,
+      "value": "Parking"
+    }
+  ],
+  "+daSk/": [
+    {
+      "type": 0,
+      "value": "You can also "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "reset your criteria"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to see them all."
+    }
+  ],
+  "+jNk3E": [
+    {
+      "type": 0,
+      "value": "Loading forecast..."
+    }
+  ],
+  "+vIwIZ": [
+    {
+      "type": 0,
+      "value": "entries per page."
+    }
+  ],
+  "+zUHgM": [
+    {
+      "type": 0,
+      "value": "Previous"
+    }
+  ],
+  "/3jGaX": [
+    {
+      "type": 0,
+      "value": "Avalanche Forecasts in your Inbox"
+    }
+  ],
+  "/AElfC": [
+    {
+      "type": 0,
+      "value": "Surface"
+    }
+  ],
+  "/F6OrO": [
+    {
+      "type": 0,
+      "value": "Water Vapour/Jet"
+    }
+  ],
+  "/NqjPa": [
+    {
+      "type": 0,
+      "value": "Date"
+    }
+  ],
+  "/Pksc9": [
+    {
+      "type": 0,
+      "value": "Email the Kananaskis Country Public Safety Section"
+    }
+  ],
+  "/PphbK": [
+    {
+      "type": 0,
+      "value": "Hi "
+    },
+    {
+      "type": 1,
+      "value": "username"
+    },
+    {
+      "type": 0,
+      "value": ","
+    }
+  ],
+  "/Qpbuj": [
+    {
+      "type": 0,
+      "value": "From"
+    }
+  ],
+  "/cpFFk": [
+    {
+      "type": 0,
+      "value": "Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches."
+    }
+  ],
+  "/ebplO": [
+    {
+      "type": 0,
+      "value": "Persistent avalanche problem"
+    }
+  ],
+  "/lHrXG": [
+    {
+      "type": 0,
+      "value": "Owner"
+    }
+  ],
+  "/lz0Zy": [
+    {
+      "type": 0,
+      "value": "South Rockies"
+    }
+  ],
+  "06YBx2": [
+    {
+      "type": 0,
+      "value": "An error happened while loading forecast."
+    }
+  ],
+  "08vHHF": [
+    {
+      "type": 0,
+      "value": "No "
+    },
+    {
+      "type": 1,
+      "value": "type"
+    },
+    {
+      "type": 0,
+      "value": " match your criteria. You can "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "reset your criteria"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to find more articles."
+    }
+  ],
+  "0IrREY": [
+    {
+      "type": 0,
+      "value": "Select a forecast region."
+    }
+  ],
+  "0J6il2": [
+    {
+      "type": 0,
+      "value": "Cutblocks"
+    }
+  ],
+  "0TjAGd": [
+    {
+      "type": 0,
+      "value": "Click on a link below to read an Avalanche Advisory."
+    }
+  ],
+  "0Ydt2k": [
+    {
+      "type": 0,
+      "value": "view"
+    }
+  ],
+  "0lzKZE": [
+    {
+      "type": 0,
+      "value": "Weather station #"
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " does not exist."
+    }
+  ],
+  "1+R0DV": [
+    {
+      "type": 0,
+      "value": "Hut, cabin or shelter"
+    }
+  ],
+  "1+xqK4": [
+    {
+      "type": 0,
+      "value": "Probability of precipitation accumulation "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "children"
+    },
+    {
+      "type": 0,
+      "value": " for the whole period"
+    }
+  ],
+  "1D6FM6": [
+    {
+      "type": 0,
+      "value": "Natural and human-triggered avalanches unlikely."
+    }
+  ],
+  "1WXUMT": [
+    {
+      "type": 0,
+      "value": "Avoid all avalanche terrain."
+    }
+  ],
+  "1kY+r/": [
+    {
+      "type": 0,
+      "value": "Terms of use"
+    }
+  ],
+  "1mmIsb": [
+    {
+      "type": 0,
+      "value": "If you need help or have questions, do not hesitate to send us an "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "email"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "1nJY2/": [
+    {
+      "type": 0,
+      "value": "Your answer"
+    }
+  ],
+  "1syIDU": [
+    {
+      "type": 0,
+      "value": "Good Terrain Choices"
+    }
+  ],
+  "1xUmX4": [
+    {
+      "type": 0,
+      "value": "Tags"
+    }
+  ],
+  "216rUN": [
+    {
+      "type": 0,
+      "value": "Tagged under"
+    }
+  ],
+  "26Gwz5": [
+    {
+      "type": 0,
+      "value": "Board of directors"
+    }
+  ],
+  "2BrINg": [
+    {
+      "type": 0,
+      "value": "Uh oh! We never thought that would happen..."
+    }
+  ],
+  "2DDvdI": [
+    {
+      "type": 0,
+      "value": "Forecasts and graphics produced by the Meteorological Service of Canada (MSC)"
+    }
+  ],
+  "2LRegK": [
+    {
+      "type": 0,
+      "value": "Visible imagery not available at night."
+    }
+  ],
+  "2SmYNl": [
+    {
+      "type": 0,
+      "value": "Date"
+    }
+  ],
+  "2UF3eI": [
+    {
+      "type": 0,
+      "value": "Select an area."
+    }
+  ],
+  "2cCG+C": [
+    {
+      "type": 0,
+      "value": "Username"
+    }
+  ],
+  "2d7Vp3": [
+    {
+      "type": 0,
+      "value": "Avalanche Advisory"
+    }
+  ],
+  "2qCVIs": [
+    {
+      "type": 0,
+      "value": "Go to home page"
+    }
+  ],
+  "2shqaL": [
+    {
+      "type": 0,
+      "value": "Problem submitting report: $"
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
+  "2y+Sqk": [
+    {
+      "type": 0,
+      "value": "Mountain Weather Forecast Feedback"
+    }
+  ],
+  "36Tu55": [
+    {
+      "type": 0,
+      "value": "Changing your username will change all previously submitted reports as well as all reports you will submit in the future."
+    }
+  ],
+  "3GWnIa": [
+    {
+      "type": 0,
+      "value": "Forecasters’ blogs"
+    }
+  ],
+  "3M/Kkc": [
+    {
+      "type": 0,
+      "value": "Weather Forecast"
+    }
+  ],
+  "3hIm21": [
+    {
+      "type": 0,
+      "value": "1000 – 500 hPa Thickness (N. American Ensemble)"
+    }
+  ],
+  "3jrid5": [
+    {
+      "type": 0,
+      "value": "Uh oh! We never thought that would happen..."
+    }
+  ],
+  "3ljngv": [
+    {
+      "type": 0,
+      "value": "Warnings"
+    }
+  ],
+  "3ofh0S": [
+    {
+      "type": 0,
+      "value": "Loading Mountain Conditions Report..."
+    }
+  ],
+  "3yPJzl": [
+    {
+      "type": 0,
+      "value": "Snow height: "
+    },
+    {
+      "type": 1,
+      "value": "amount"
+    }
+  ],
+  "41g4WQ": [
+    {
+      "type": 0,
+      "value": "Select a region"
+    }
+  ],
+  "42E5Ej": [
+    {
+      "type": 0,
+      "value": "Please note:"
+    }
+  ],
+  "46M0qD": [
+    {
+      "type": 0,
+      "value": "24hr Snow"
+    }
+  ],
+  "47FYwb": [
+    {
+      "type": 0,
+      "value": "Cancel"
+    }
+  ],
+  "49cz1r": [
+    {
+      "type": 0,
+      "value": "3 - Considerable"
+    }
+  ],
+  "4T+ECN": [
+    {
+      "type": 0,
+      "value": "over "
+    },
+    {
+      "style": null,
+      "type": 2,
+      "value": "temperature"
+    },
+    {
+      "type": 0,
+      "value": "°C"
+    }
+  ],
+  "4U2ie6": [
+    {
+      "type": 0,
+      "value": "Managing Avalanche Terrain (MAT)"
+    }
+  ],
+  "4X1cAW": [
+    {
+      "type": 0,
+      "value": "Settings"
+    }
+  ],
+  "4X9D7R": [
+    {
+      "type": 0,
+      "value": "No problems identified."
+    }
+  ],
+  "4bY8Ee": [
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "prefix"
+    },
+    {
+      "type": 0,
+      "value": " between "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "sufix"
+    }
+  ],
+  "4rTaR5": [
+    {
+      "type": 0,
+      "value": "4 - High"
+    }
+  ],
+  "4uCRas": [
+    {
+      "type": 0,
+      "value": "Search by username..."
+    }
+  ],
+  "4xmegO": [
+    {
+      "type": 0,
+      "value": "Email"
+    }
+  ],
+  "5AyUem": [
+    {
+      "type": 0,
+      "value": "IR - Canada West"
+    }
+  ],
+  "5DLY8m": [
+    {
+      "type": 0,
+      "value": "Actual Temperatures (12 hours)"
+    }
+  ],
+  "5FUoif": [
+    {
+      "type": 0,
+      "value": "Privacy Policy"
+    }
+  ],
+  "5H37zr": [
+    {
+      "type": 0,
+      "value": "SledComm"
+    }
+  ],
+  "5IZ5dl": [
+    {
+      "type": 0,
+      "value": "Sponsors & Collaborators"
+    }
+  ],
+  "5L/S5e": [
+    {
+      "type": 0,
+      "value": "Loading information..."
+    }
+  ],
+  "5OMfMf": [
+    {
+      "type": 0,
+      "value": "Observations date"
+    }
+  ],
+  "5QyluP": [
+    {
+      "type": 0,
+      "value": "Simple"
+    }
+  ],
+  "5WW37y": [
+    {
+      "type": 0,
+      "value": "Watch out, you are crossing some danger zones."
+    }
+  ],
+  "5jeq8P": [
+    {
+      "type": 0,
+      "value": "Unknown"
+    }
+  ],
+  "5vzyAa": [
+    {
+      "type": 0,
+      "value": "Details"
+    }
+  ],
+  "6+HK6s": [
+    {
+      "type": 0,
+      "value": "Loading Mountain Information Network reports..."
+    }
+  ],
+  "62LRPS": [
+    {
+      "type": 0,
+      "value": "Location"
+    }
+  ],
+  "668eFJ": [
+    {
+      "type": 0,
+      "value": "Loading forecast..."
+    }
+  ],
+  "68fkXH": [
+    {
+      "type": 0,
+      "value": "This is an avalanche size 404 error..."
+    }
+  ],
+  "6DF8Lr": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network report with id "
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " has not been found."
+    }
+  ],
+  "6LqYAS": [
+    {
+      "type": 0,
+      "value": "Weather forecasts are usually published at 4:00 PST, read yesterday's weather forecast "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "here"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "6MB16L": [
+    {
+      "type": 0,
+      "value": "Annual reports"
+    }
+  ],
+  "6jMXw4": [
+    {
+      "type": 0,
+      "value": "There is currently no Special Public Avalanche Warning in effect."
+    }
+  ],
+  "7+7JgL": [
+    {
+      "type": 0,
+      "value": "An error occurred while loading incident."
+    }
+  ],
+  "7/Ulf8": [
+    {
+      "type": 0,
+      "value": "Winds"
+    }
+  ],
+  "7754AK": [
+    {
+      "type": 0,
+      "value": "Forecaster blog"
+    }
+  ],
+  "77PH71": [
+    {
+      "type": 0,
+      "value": "A problem happened while loading Mountain Conditions Reports on the map."
+    }
+  ],
+  "7C1Zq6": [
+    {
+      "type": 0,
+      "value": "Conditions in the green area are appropriate for informed backcountry travel in avalanche terrain and accidents are generally infrequent. Use caution, including hazard recognition and safe travel skills as taught in introductory avalanche courses. Rescue skills are always essential when travelling in avalanche terrain."
+    }
+  ],
+  "7OHV6q": [
+    {
+      "type": 0,
+      "value": "Play the animation"
+    }
+  ],
+  "7QzE6V": [
+    {
+      "type": 0,
+      "value": "You can still use the map. However, some data might be missing and behaviour not working as expected. Click on the arrow for more details."
+    }
+  ],
+  "7dR24s": [
+    {
+      "type": 0,
+      "value": "Visit our Blog"
+    }
+  ],
+  "7hQ4Wl": [
+    {
+      "type": 0,
+      "value": "From the reel"
+    }
+  ],
+  "7jVymW": [
+    {
+      "type": 0,
+      "value": "Accident Date"
+    }
+  ],
+  "7offaS": [
+    {
+      "type": 0,
+      "value": "Treeline"
+    }
+  ],
+  "7qLvcS": [
+    {
+      "type": 0,
+      "value": "To"
+    }
+  ],
+  "7qOQpv": [
+    {
+      "type": 0,
+      "value": "Select a date"
+    }
+  ],
+  "7so8ca": [
+    {
+      "type": 0,
+      "value": "No courses match your criteria, consider finding a provider on the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "providers page"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to contact directly."
+    }
+  ],
+  "7xMTaU": [
+    {
+      "type": 0,
+      "value": "Loading weather station data..."
+    }
+  ],
+  "82wRfY": [
+    {
+      "type": 0,
+      "value": "Avalanche Problem "
+    },
+    {
+      "type": 1,
+      "value": "counter"
+    },
+    {
+      "type": 0,
+      "value": ": "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "85N0tP": [
+    {
+      "type": 0,
+      "value": "Type the new username you would like..."
+    }
+  ],
+  "8Emi7W": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "One error"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " errors"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " occurred."
+    }
+  ],
+  "8HqzPv": [
+    {
+      "type": 0,
+      "value": "It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche-related information on our map."
+    }
+  ],
+  "8PAu18": [
+    {
+      "type": 0,
+      "value": "546 dam – 500 hPa Contour Line (Canadian Ensemble)"
+    }
+  ],
+  "8PfI21": [
+    {
+      "type": 0,
+      "value": "caution"
+    }
+  ],
+  "8SzjVN": [
+    {
+      "type": 0,
+      "value": "Radar Imagery"
+    }
+  ],
+  "8cRnvP": [
+    {
+      "type": 0,
+      "value": "Group the table by "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    }
+  ],
+  "8cbAw/": [
+    {
+      "type": 0,
+      "value": "Events"
+    }
+  ],
+  "8hB/aX": [
+    {
+      "type": 0,
+      "value": "Avalanche advisory archive"
+    }
+  ],
+  "8kFo5V": [
+    {
+      "type": 0,
+      "value": "Valid Until"
+    }
+  ],
+  "8kLR2G": [
+    {
+      "type": 0,
+      "value": "Avalanche Skills Training 2"
+    }
+  ],
+  "8wv5uw": [
+    {
+      "type": 0,
+      "value": "Small avalanches in many areas; or large avalanches in specific areas; or very large avalanches in isolated areas."
+    }
+  ],
+  "8yS+3H": [
+    {
+      "type": 0,
+      "value": "Click on a link below to see another forecast:"
+    }
+  ],
+  "9EpKuG": [
+    {
+      "type": 0,
+      "value": "Danger ratings"
+    }
+  ],
+  "9G7scK": [
+    {
+      "type": 0,
+      "value": "Location"
+    }
+  ],
+  "9PqwAx": [
+    {
+      "type": 0,
+      "value": "Relative humidity (%)"
+    }
+  ],
+  "9QTpR8": [
+    {
+      "type": 0,
+      "value": "A problem happened while showing the map"
+    }
+  ],
+  "9Z6Jm+": [
+    {
+      "type": 0,
+      "value": "Source"
+    }
+  ],
+  "9a9+ww": [
+    {
+      "type": 0,
+      "value": "Title"
+    }
+  ],
+  "9j3hXO": [
+    {
+      "type": 0,
+      "value": "To"
+    }
+  ],
+  "9s7GOe": [
+    {
+      "type": 0,
+      "value": "Help"
+    }
+  ],
+  "9xG/qT": [
+    {
+      "type": 0,
+      "value": "Ready?"
+    }
+  ],
+  "9xMUh7": [
+    {
+      "type": 0,
+      "value": "Loading avalanche forecast..."
+    }
+  ],
+  "AJkDyl": [
+    {
+      "type": 0,
+      "value": "Rescue at Cherry Bowl"
+    }
+  ],
+  "AOlBrj": [
+    {
+      "type": 0,
+      "value": "Large to very large avalanches in many areas."
+    }
+  ],
+  "AUQJym": [
+    {
+      "type": 0,
+      "value": "Relative humidity"
+    }
+  ],
+  "AW4vJq": [
+    {
+      "type": 0,
+      "value": "Exposure to low angle or primarily forested terrain. Some forest openings may involve the runout zones of infrequent avalanches. Many options to reduce or eliminate exposure. No glacier travel."
+    }
+  ],
+  "AiTJQz": [
+    {
+      "type": 0,
+      "value": "Variable depth snowpack"
+    }
+  ],
+  "AlX3Ht": [
+    {
+      "type": 0,
+      "value": "Caution"
+    }
+  ],
+  "Aov7Td": [
+    {
+      "type": 0,
+      "value": "Throttle Decisions"
+    }
+  ],
+  "BGOmRh": [
+    {
+      "type": 0,
+      "value": "Loading tutorial..."
+    }
+  ],
+  "BJ77yt": [
+    {
+      "type": 0,
+      "value": "Chances of Avalanches?"
+    }
+  ],
+  "BQVMOp": [
+    {
+      "type": 0,
+      "value": "Wind speed in kilometre per hour (km/h) and direction in degree (°) every hour from "
+    },
+    {
+      "style": null,
+      "type": 3,
+      "value": "min"
+    },
+    {
+      "type": 0,
+      "value": " to "
+    },
+    {
+      "style": null,
+      "type": 3,
+      "value": "max"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "BjomlV": [
+    {
+      "type": 0,
+      "value": "Hour"
+    }
+  ],
+  "BzQPM+": [
+    {
+      "type": 0,
+      "value": "Destination"
+    }
+  ],
+  "C9K+TI": [
+    {
+      "type": 0,
+      "value": "Avalanche"
+    }
+  ],
+  "CFbqyU": [
+    {
+      "type": 0,
+      "value": "Loading avalanche forecast..."
+    }
+  ],
+  "CUQebg": [
+    {
+      "type": 0,
+      "value": "Loading latest "
+    },
+    {
+      "type": 1,
+      "value": "type"
+    },
+    {
+      "type": 0,
+      "value": "..."
+    }
+  ],
+  "Cb0zQT": [
+    {
+      "type": 0,
+      "value": "More details about this error..."
+    }
+  ],
+  "CbCYyB": [
+    {
+      "type": 0,
+      "value": "The Aspect newsletter"
+    }
+  ],
+  "Cf6TiZ": [
+    {
+      "type": 0,
+      "value": "A problem happened while loading Advisories on the map."
+    }
+  ],
+  "CiSQ0s": [
+    {
+      "type": 0,
+      "value": "Welcome to the Trip Planner"
+    }
+  ],
+  "CkFq5N": [
+    {
+      "type": 0,
+      "value": "MIN To Win"
+    }
+  ],
+  "CpGrub": [
+    {
+      "type": 0,
+      "value": "Companion Rescue (CRS)"
+    }
+  ],
+  "CrgO5L": [
+    {
+      "type": 0,
+      "value": "Terrain Ratings Explained"
+    }
+  ],
+  "Crk8sd": [
+    {
+      "type": 0,
+      "value": "Slab Thickness"
+    }
+  ],
+  "CsmCN0": [
+    {
+      "type": 0,
+      "value": "Major avalanche path"
+    }
+  ],
+  "CugkBE": [
+    {
+      "type": 0,
+      "value": "Issued at"
+    }
+  ],
+  "Cv5PHD": [
+    {
+      "type": 0,
+      "value": "Your daily Mountain Weather Forecast"
+    }
+  ],
+  "CwqvmD": [
+    {
+      "type": 0,
+      "value": "Shallow snowpack"
+    }
+  ],
+  "CxoLwZ": [
+    {
+      "type": 0,
+      "value": "Injury"
+    }
+  ],
+  "D3InHA": [
+    {
+      "type": 0,
+      "value": "500 mbar & Precipitable Water"
+    }
+  ],
+  "D4JBvM": [
+    {
+      "type": 0,
+      "value": "Well done — You’re right!"
+    }
+  ],
+  "D5zf4H": [
+    {
+      "type": 0,
+      "value": "AST 1+"
+    }
+  ],
+  "DRm/Ps": [
+    {
+      "type": 0,
+      "value": "Report #"
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " is not available anymore."
+    }
+  ],
+  "DdTMYY": [
+    {
+      "type": 0,
+      "value": "Alpine"
+    }
+  ],
+  "DiJSHu": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-679-3511"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the Public Safety office phone number (weekdays)"
+    }
+  ],
+  "DxUvN0": [
+    {
+      "type": 0,
+      "value": "0 - No Rating"
+    }
+  ],
+  "E4BRRv": [
+    {
+      "type": 0,
+      "value": "Weather station #"
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " not found"
+    }
+  ],
+  "E80WrK": [
+    {
+      "type": 0,
+      "value": "Information"
+    }
+  ],
+  "EA22jQ": [
+    {
+      "type": 0,
+      "value": "Prepared by"
+    }
+  ],
+  "EEoUHw": [
+    {
+      "type": 0,
+      "value": "This is eventually where you will be able to:"
+    }
+  ],
+  "EGB/bf": [
+    {
+      "type": 0,
+      "value": "Latest news"
+    }
+  ],
+  "EYGWzB": [
+    {
+      "type": 0,
+      "value": "Forecast Archive"
+    }
+  ],
+  "EajE3m": [
+    {
+      "type": 0,
+      "value": "Learn"
+    }
+  ],
+  "EbuhsU": [
+    {
+      "type": 0,
+      "value": "Information to collect while travelling"
+    }
+  ],
+  "Eca5XB": [
+    {
+      "type": 0,
+      "value": "Treeline"
+    }
+  ],
+  "Ee5E3w": [
+    {
+      "type": 0,
+      "value": "Natural avalanches likely; human-triggered avalanches very likely."
+    }
+  ],
+  "EoNF9S": [
+    {
+      "type": 0,
+      "value": "An error happened while authenticating you in. You can try another "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "login"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "EoQTj0": [
+    {
+      "type": 0,
+      "value": "Confidence"
+    }
+  ],
+  "Ew50FU": [
+    {
+      "type": 0,
+      "value": "What Elevation?"
+    }
+  ],
+  "EwRIOm": [
+    {
+      "type": 0,
+      "value": "User"
+    }
+  ],
+  "FCYuTW": [
+    {
+      "type": 0,
+      "value": "Map legend"
+    }
+  ],
+  "FFBBla": [
+    {
+      "type": 0,
+      "value": "There is no document for "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "FLCIcU": [
+    {
+      "type": 0,
+      "value": "Find a course"
+    }
+  ],
+  "FT+IWg": [
+    {
+      "type": 0,
+      "value": "Loading Mountain Information Network reports..."
+    }
+  ],
+  "Fb0Sd/": [
+    {
+      "type": 0,
+      "value": "ATES are:"
+    }
+  ],
+  "Fhmv0E": [
+    {
+      "type": 0,
+      "value": "Forecast regions"
+    }
+  ],
+  "Fq1tt3": [
+    {
+      "type": 0,
+      "value": "Tutorial"
+    }
+  ],
+  "Fwyx7W": [
+    {
+      "type": 0,
+      "value": "Speed (km/h)"
+    }
+  ],
+  "FzhVSF": [
+    {
+      "type": 0,
+      "value": "Lee slopes"
+    }
+  ],
+  "GFhajG": [
+    {
+      "type": 0,
+      "value": "Send feedback to Meteorological Service of Canada"
+    }
+  ],
+  "GIT7Z/": [
+    {
+      "type": 0,
+      "value": "Government partners"
+    }
+  ],
+  "GQ1GrS": [
+    {
+      "type": 0,
+      "value": "Special Public Avalanche Warning"
+    }
+  ],
+  "GUfQm1": [
+    {
+      "type": 0,
+      "value": "Forecast Archive"
+    }
+  ],
+  "GXFJtl": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "One error"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " errors"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " occurred while loading Mountain Information Network reports."
+    }
+  ],
+  "Gacp29": [
+    {
+      "type": 0,
+      "value": "Read the "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    },
+    {
+      "type": 0,
+      "value": " avalanche forecast"
+    }
+  ],
+  "GexYFB": [
+    {
+      "type": 0,
+      "value": "A problem happened while loading Weather Station on the map."
+    }
+  ],
+  "Ggk7AI": [
+    {
+      "type": 0,
+      "value": "Quick"
+    }
+  ],
+  "GjZDVR": [
+    {
+      "type": 0,
+      "value": "Companion Rescue Skills"
+    }
+  ],
+  "GtRtos": [
+    {
+      "type": 0,
+      "value": "News"
+    }
+  ],
+  "GzjTkI": [
+    {
+      "type": 0,
+      "value": "Contact us"
+    }
+  ],
+  "H/wqZi": [
+    {
+      "type": 0,
+      "value": "Download ATES data for "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "HBELLZ": [
+    {
+      "type": 0,
+      "value": "Very dangerous avalanche conditions. Travel in avalanche terrain not recommended."
+    }
+  ],
+  "HGGdGz": [
+    {
+      "type": 0,
+      "value": "Share this page on "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "HUZh6A": [
+    {
+      "type": 0,
+      "value": "Distance"
+    }
+  ],
+  "Hny4nb": [
+    {
+      "type": 0,
+      "value": "More questions?"
+    }
+  ],
+  "HtEmSg": [
+    {
+      "type": 0,
+      "value": "Sorry, that isn’t the right answer. Try again!"
+    }
+  ],
+  "HyJt/f": [
+    {
+      "type": 0,
+      "value": "Max"
+    }
+  ],
+  "I/WGzq": [
+    {
+      "type": 0,
+      "value": "Satellite"
+    }
+  ],
+  "I12OPN": [
+    {
+      "type": 0,
+      "value": "Avalanche incident database"
+    }
+  ],
+  "I3RuRu": [
+    {
+      "type": 0,
+      "value": "An error happened while loading weather stations."
+    }
+  ],
+  "I4kCsU": [
+    {
+      "type": 0,
+      "value": "Recent rainfall"
+    }
+  ],
+  "I80cZb": [
+    {
+      "type": 0,
+      "value": "Speed"
+    }
+  ],
+  "IAPH04": [
+    {
+      "type": 0,
+      "value": "Your answer is required."
+    }
+  ],
+  "IAhDUz": [
+    {
+      "type": 0,
+      "value": "Add information on one, some, or all tabs."
+    }
+  ],
+  "IIUFEi": [
+    {
+      "type": 0,
+      "value": "Click on a link below to read the avalanche forecast:"
+    }
+  ],
+  "IV4BOT": [
+    {
+      "type": 0,
+      "value": "Snowshoe"
+    }
+  ],
+  "IZtayi": [
+    {
+      "type": 0,
+      "value": "Source"
+    }
+  ],
+  "Iu1HqA": [
+    {
+      "type": 0,
+      "value": "Fresh to the Backcountry? Start Here"
+    }
+  ],
+  "Iw97xA": [
+    {
+      "type": 0,
+      "value": "Terrain Advice"
+    }
+  ],
+  "J3oh4c": [
+    {
+      "type": 0,
+      "value": "Currently showing "
+    },
+    {
+      "type": 1,
+      "value": "items"
+    },
+    {
+      "type": 0,
+      "value": ", "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "reset your criteria"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "J4Pdl+": [
+    {
+      "type": 0,
+      "value": "Loading Mountain Information Network report..."
+    }
+  ],
+  "J8jnsU": [
+    {
+      "type": 0,
+      "value": "Date Issued"
+    }
+  ],
+  "JAKhvf": [
+    {
+      "type": 0,
+      "value": "Change your username"
+    }
+  ],
+  "JG6rPS": [
+    {
+      "type": 0,
+      "value": "Download ATES data as KMZ"
+    }
+  ],
+  "JHAVp7": [
+    {
+      "type": 0,
+      "value": "Trigger"
+    }
+  ],
+  "JHv3fg": [
+    {
+      "type": 0,
+      "value": "Elevation"
+    }
+  ],
+  "JIsU05": [
+    {
+      "type": 0,
+      "value": "Loading weather station data..."
+    }
+  ],
+  "JKU+nb": [
+    {
+      "type": 0,
+      "value": "In effect"
+    }
+  ],
+  "JMG6+l": [
+    {
+      "type": 0,
+      "value": "Height (cm)"
+    }
+  ],
+  "JMac37": [
+    {
+      "type": 0,
+      "value": "Show all"
+    }
+  ],
+  "JQsrhq": [
+    {
+      "type": 0,
+      "value": "Alpine"
+    }
+  ],
+  "JgLxsC": [
+    {
+      "type": 0,
+      "value": "Start again"
+    }
+  ],
+  "JjRe8S": [
+    {
+      "type": 0,
+      "value": "Loading..."
+    }
+  ],
+  "Jjb/Xo": [
+    {
+      "type": 0,
+      "value": "Weather Glossary"
+    }
+  ],
+  "KB/9UQ": [
+    {
+      "type": 0,
+      "value": "There is no rating available to show the chart."
+    }
+  ],
+  "KCQO1c": [
+    {
+      "type": 0,
+      "value": "Glossary"
+    }
+  ],
+  "KF5ERp": [
+    {
+      "type": 0,
+      "value": "Travel and Terrain Advice"
+    }
+  ],
+  "KHIdQ3": [
+    {
+      "type": 0,
+      "value": "No danger ratings are available to run the TripPlanner in that zone."
+    }
+  ],
+  "KJcQde": [
+    {
+      "type": 0,
+      "value": "Hi "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": ","
+    }
+  ],
+  "KN3F+D": [
+    {
+      "type": 0,
+      "value": "Subscribe"
+    }
+  ],
+  "KNDIgK": [
+    {
+      "type": 0,
+      "value": "No information has been found for that decision point."
+    }
+  ],
+  "KVwrN8": [
+    {
+      "type": 0,
+      "value": "Online avalanche tutorial"
+    }
+  ],
+  "KZkA6O": [
+    {
+      "type": 0,
+      "value": "Hosted by"
+    }
+  ],
+  "Kb9puO": [
+    {
+      "type": 0,
+      "value": "Actual Temperatures"
+    }
+  ],
+  "KjhZA9": [
+    {
+      "type": 0,
+      "value": "Height"
+    }
+  ],
+  "KotpK6": [
+    {
+      "type": 0,
+      "value": "Archived bulletins"
+    }
+  ],
+  "KrVTJE": [
+    {
+      "type": 0,
+      "value": "N/A"
+    }
+  ],
+  "KuQVY7": [
+    {
+      "type": 0,
+      "value": "Archived forecast bulletins for "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " region are available on the Parks Canada — Public Avalanche Information website"
+    }
+  ],
+  "KxbmQC": [
+    {
+      "type": 0,
+      "value": "Show"
+    }
+  ],
+  "L+sgZO": [
+    {
+      "type": 0,
+      "value": "Incident Summary"
+    }
+  ],
+  "L/68Mg": [
+    {
+      "type": 0,
+      "value": "Essential gear"
+    }
+  ],
+  "L0GLT1": [
+    {
+      "type": 0,
+      "value": "We have been notified about that error; we will try fix it as soon as possible."
+    }
+  ],
+  "L3tjFh": [
+    {
+      "type": 0,
+      "value": "Generally safe avalanche conditions. Watch for unstable snow on isolated terrain features."
+    }
+  ],
+  "L7DcSH": [
+    {
+      "type": 0,
+      "value": "0-48 Hours"
+    }
+  ],
+  "LA543e": [
+    {
+      "type": 0,
+      "value": "Our programs"
+    }
+  ],
+  "LE0Wjb": [
+    {
+      "type": 0,
+      "value": "Province"
+    }
+  ],
+  "LIkDJZ": [
+    {
+      "type": 0,
+      "value": "Date Updated"
+    }
+  ],
+  "LMf+i1": [
+    {
+      "type": 0,
+      "value": "Snowpack"
+    }
+  ],
+  "LNArWr": [
+    {
+      "type": 0,
+      "value": "Program partners"
+    }
+  ],
+  "LQLo+C": [
+    {
+      "type": 0,
+      "value": "Loading weather station measurements..."
+    }
+  ],
+  "LQMRIg": [
+    {
+      "type": 0,
+      "value": "Avalanche forecast"
+    }
+  ],
+  "LaLZR3": [
+    {
+      "type": 0,
+      "value": "Day 3-4"
+    }
+  ],
+  "LbiRuN": [
+    {
+      "type": 0,
+      "value": "12hr Total Precipitation"
+    }
+  ],
+  "LcxXMg": [
+    {
+      "type": 0,
+      "value": "Involvement"
+    }
+  ],
+  "LeccD8": [
+    {
+      "type": 0,
+      "value": "Day 5-7"
+    }
+  ],
+  "LjfT9d": [
+    {
+      "type": 0,
+      "value": "Winds"
+    }
+  ],
+  "Llm2Wa": [
+    {
+      "type": 0,
+      "value": "Snowpack"
+    }
+  ],
+  "LzDAkq": [
+    {
+      "type": 0,
+      "value": "Pick a from date"
+    }
+  ],
+  "M/Tq3r": [
+    {
+      "type": 0,
+      "value": "Spring Conditions"
+    }
+  ],
+  "MFKutU": [
+    {
+      "type": 0,
+      "value": "Dangerator"
+    }
+  ],
+  "MPPCK+": [
+    {
+      "type": 0,
+      "value": "AST 1 + MAT"
+    }
+  ],
+  "MY4AwB": [
+    {
+      "type": 0,
+      "value": "Ambassadors"
+    }
+  ],
+  "MbKJy3": [
+    {
+      "type": 0,
+      "value": "Day 2"
+    }
+  ],
+  "MgqL0c": [
+    {
+      "type": 0,
+      "value": "Avalanche Advisory Archive"
+    }
+  ],
+  "Ml7yHV": [
+    {
+      "type": 0,
+      "value": "Supporters"
+    }
+  ],
+  "MnV9R0": [
+    {
+      "type": 0,
+      "value": "Valid Until"
+    }
+  ],
+  "MoZLbF": [
+    {
+      "type": 0,
+      "value": "Unsupported"
+    }
+  ],
+  "Mp4ZFP": [
+    {
+      "type": 0,
+      "value": "Our blog"
+    }
+  ],
+  "N/SISd": [
+    {
+      "type": 0,
+      "value": "Loading..."
+    }
+  ],
+  "N1cgil": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network — FAQ"
+    }
+  ],
+  "N3I9BQ": [
+    {
+      "type": 0,
+      "value": "Subscribe to our RSS Feed"
+    }
+  ],
+  "N5wkSH": [
+    {
+      "type": 0,
+      "value": "Weather Comment"
+    }
+  ],
+  "NCx3L5": [
+    {
+      "type": 0,
+      "value": "Avalanche Canada"
+    }
+  ],
+  "NDnzH9": [
+    {
+      "type": 0,
+      "value": "Warnings"
+    }
+  ],
+  "NGL434": [
+    {
+      "type": 0,
+      "value": "Backcountry Resources"
+    }
+  ],
+  "NO4LEv": [
+    {
+      "type": 0,
+      "value": "Not recommended"
+    }
+  ],
+  "Na2ozi": [
+    {
+      "type": 0,
+      "value": "Fatal Recreational Accident"
+    }
+  ],
+  "NevKuT": [
+    {
+      "type": 0,
+      "value": "Create a report"
+    }
+  ],
+  "NfTHjT": [
+    {
+      "type": 0,
+      "value": "Select a date"
+    }
+  ],
+  "NhZX3+": [
+    {
+      "type": 0,
+      "value": "Level"
+    }
+  ],
+  "NjzSyk": [
+    {
+      "type": 0,
+      "value": "News"
+    }
+  ],
+  "Nrf21I": [
+    {
+      "type": 0,
+      "value": "to"
+    }
+  ],
+  "Nw8Wlj": [
+    {
+      "type": 0,
+      "value": "South Coast"
+    }
+  ],
+  "O2sqh9": [
+    {
+      "type": 0,
+      "value": "Weather"
+    }
+  ],
+  "O3pRGx": [
+    {
+      "type": 0,
+      "value": "500 mbar & Precipitable Water"
+    }
+  ],
+  "O7tp1J": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "SPAW"
+        }
+      ],
+      "type": 8,
+      "value": "abbr"
+    },
+    {
+      "type": 0,
+      "value": " In effect"
+    }
+  ],
+  "O8EG5J": [
+    {
+      "type": 0,
+      "value": "Submit your report"
+    }
+  ],
+  "OEp5QR": [
+    {
+      "type": 0,
+      "value": "From"
+    }
+  ],
+  "OG/m5X": [
+    {
+      "type": 0,
+      "value": "Find a provider"
+    }
+  ],
+  "OHt9Yu": [
+    {
+      "type": 0,
+      "value": "Remove your "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " report"
+    }
+  ],
+  "OOpDs9": [
+    {
+      "type": 0,
+      "value": "Critical Factors Summary"
+    }
+  ],
+  "OWhwRL": [
+    {
+      "type": 0,
+      "value": "Fatal recreational accident "
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " available anymore."
+    }
+  ],
+  "OaPbee": [
+    {
+      "type": 0,
+      "value": "Title"
+    }
+  ],
+  "Ob2vt+": [
+    {
+      "type": 0,
+      "value": "Your daily Mountain Weather Forecast"
+    }
+  ],
+  "Oce/Vs": [
+    {
+      "type": 0,
+      "value": "Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern."
+    }
+  ],
+  "Oiag/N": [
+    {
+      "type": 0,
+      "value": "Contact"
+    }
+  ],
+  "OlJJ7I": [
+    {
+      "type": 0,
+      "value": "Event"
+    }
+  ],
+  "OwRkQO": [
+    {
+      "type": 0,
+      "value": "Curriculum & resources"
+    }
+  ],
+  "OxljSy": [
+    {
+      "type": 0,
+      "value": "Select a date for the "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " area."
+    }
+  ],
+  "P03AFY": [
+    {
+      "type": 0,
+      "value": "Report not found."
+    }
+  ],
+  "P7PLVj": [
+    {
+      "type": 0,
+      "value": "Date"
+    }
+  ],
+  "PJ3qoY": [
+    {
+      "type": 0,
+      "value": "Visible - South Interior"
+    }
+  ],
+  "PSYq6V": [
+    {
+      "type": 0,
+      "value": "Teaching guidelines"
+    }
+  ],
+  "PaXe1q": [
+    {
+      "type": 0,
+      "value": "Description"
+    }
+  ],
+  "Ppx673": [
+    {
+      "type": 0,
+      "value": "Reports"
+    }
+  ],
+  "Pw2f4c": [
+    {
+      "type": 1,
+      "value": "resolution"
+    },
+    {
+      "type": 0,
+      "value": " VIS BC"
+    }
+  ],
+  "Pyz1fl": [
+    {
+      "type": 0,
+      "value": "Wind speed and direction"
+    }
+  ],
+  "Q05qE6": [
+    {
+      "type": 0,
+      "value": "Ski"
+    }
+  ],
+  "Q2/+Ze": [
+    {
+      "type": 0,
+      "value": "Snowpack Summary"
+    }
+  ],
+  "Q5SHJ1": [
+    {
+      "type": 0,
+      "value": "Courses"
+    }
+  ],
+  "Q6lxuZ": [
+    {
+      "type": 0,
+      "value": "No documents available."
+    }
+  ],
+  "Q8iaTl": [
+    {
+      "type": 0,
+      "value": "Back to home"
+    }
+  ],
+  "Q9P1Fw": [
+    {
+      "type": 0,
+      "value": "Wind Direction Average"
+    }
+  ],
+  "QYXOBY": [
+    {
+      "type": 0,
+      "value": "Travel advice"
+    }
+  ],
+  "QZomE3": [
+    {
+      "type": 0,
+      "value": "Document Date"
+    }
+  ],
+  "QcpZTi": [
+    {
+      "type": 0,
+      "value": "Visible South Coast"
+    }
+  ],
+  "Qd+Cop": [
+    {
+      "type": 0,
+      "value": "Our answer"
+    }
+  ],
+  "QjMlZz": [
+    {
+      "type": 0,
+      "value": "Search..."
+    }
+  ],
+  "QvimSq": [
+    {
+      "type": 0,
+      "value": "Show height and new snow in centimetre (cm) every hour from "
+    },
+    {
+      "type": 1,
+      "value": "min"
+    },
+    {
+      "type": 0,
+      "value": " to "
+    },
+    {
+      "type": 1,
+      "value": "max"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "Qvwvqu": [
+    {
+      "type": 0,
+      "value": "Featured resources"
+    }
+  ],
+  "R8WsMH": [
+    {
+      "type": 0,
+      "value": "Historical Incidents"
+    }
+  ],
+  "RI1ANN": [
+    {
+      "type": 0,
+      "value": "2 - Moderate"
+    }
+  ],
+  "RQGHrd": [
+    {
+      "type": 0,
+      "value": "Uh oh! We never thought that would happen..."
+    }
+  ],
+  "RQGr/c": [
+    {
+      "type": 0,
+      "value": "Brought to you by"
+    }
+  ],
+  "RRPHGp": [
+    {
+      "type": 0,
+      "value": "Main access trail"
+    }
+  ],
+  "RSZdsy": [
+    {
+      "type": 0,
+      "value": "Alberta Rockies"
+    }
+  ],
+  "RZFJLe": [
+    {
+      "type": 0,
+      "value": "Avalanche forecast is available at: "
+    },
+    {
+      "type": 0,
+      "value": "<link />"
+    }
+  ],
+  "Ra1yqW": [
+    {
+      "type": 0,
+      "value": "Remove or edit reports you have submitted."
+    }
+  ],
+  "RmnEm5": [
+    {
+      "type": 0,
+      "value": "Report with id "
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " has not been found."
+    }
+  ],
+  "RrRyfP": [
+    {
+      "type": 0,
+      "value": "Time zone"
+    }
+  ],
+  "RumeRz": [
+    {
+      "type": 0,
+      "value": "Regions"
+    }
+  ],
+  "S+GDxJ": [
+    {
+      "type": 0,
+      "value": "Your daily Mountain Weather Forecast"
+    }
+  ],
+  "S0GJ2r": [
+    {
+      "type": 0,
+      "value": "Loading Mountain Information Network report..."
+    }
+  ],
+  "S1/qyL": [
+    {
+      "type": 0,
+      "value": "Mountain Sledding"
+    }
+  ],
+  "S77MlZ": [
+    {
+      "type": 0,
+      "value": "A problem happened while loading forecast on the map."
+    }
+  ],
+  "S8FkTR": [
+    {
+      "type": 0,
+      "value": "AST 2"
+    }
+  ],
+  "S8m8si": [
+    {
+      "type": 0,
+      "value": "Loading..."
+    }
+  ],
+  "SKojS6": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network — Reports"
+    }
+  ],
+  "SaG3kV": [
+    {
+      "type": 0,
+      "value": "Find a provider"
+    }
+  ],
+  "SiR2AW": [
+    {
+      "type": 0,
+      "value": "Wind Speed Average (km/h)"
+    }
+  ],
+  "SlXuCK": [
+    {
+      "type": 0,
+      "value": "Outside a region"
+    }
+  ],
+  "SsYBcd": [
+    {
+      "type": 0,
+      "value": "Elevation"
+    }
+  ],
+  "SxXAWS": [
+    {
+      "type": 0,
+      "value": "Select a forecast date."
+    }
+  ],
+  "T3e4KH": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network"
+    }
+  ],
+  "T5cbLZ": [
+    {
+      "type": 0,
+      "value": "A new image is added to the loop every 10 minutes."
+    }
+  ],
+  "TEgYqN": [
+    {
+      "type": 0,
+      "value": "Select an area"
+    }
+  ],
+  "TKISVn": [
+    {
+      "type": 0,
+      "value": "Avalanche Canada Foundation"
+    }
+  ],
+  "TMp/ih": [
+    {
+      "type": 0,
+      "value": "24hr Trend"
+    }
+  ],
+  "Texvtz": [
+    {
+      "type": 0,
+      "value": "Credit"
+    }
+  ],
+  "TgYk8t": [
+    {
+      "type": 0,
+      "value": "See all reports"
+    }
+  ],
+  "TkE+dd": [
+    {
+      "type": 0,
+      "value": "Your username"
+    }
+  ],
+  "TkNZrJ": [
+    {
+      "type": 0,
+      "value": "Loading all weather stations..."
+    }
+  ],
+  "Tm5kg9": [
+    {
+      "type": 0,
+      "value": "Snow (cm)"
+    }
+  ],
+  "TtEB5V": [
+    {
+      "type": 0,
+      "value": "Visit all submitted reports"
+    }
+  ],
+  "TwWQNx": [
+    {
+      "type": 0,
+      "value": "Wind Speed"
+    }
+  ],
+  "TxwX//": [
+    {
+      "type": 0,
+      "value": "Backcountry travel in the red area is not recommended without professional–level safety systems and guidance. Conditions are primed for avalanche accidents and even careful decisions can result in serious accidents. Finding terrain with an acceptable level of avalanche risk under these conditions requires detailed knowledge and comprehensive understanding of the development of the local snowpack to date, the effect of the current weather on the existing avalanche problem, and the small- scale characteristics of the local terrain, including avalanche activity history."
+    }
+  ],
+  "UGRKnY": [
+    {
+      "type": 0,
+      "value": "more than "
+    },
+    {
+      "style": null,
+      "type": 2,
+      "value": "value"
+    },
+    {
+      "type": 0,
+      "value": "mm"
+    }
+  ],
+  "UJsB3G": [
+    {
+      "type": 0,
+      "value": "Storm Snow"
+    }
+  ],
+  "URqWAH": [
+    {
+      "type": 0,
+      "value": "Weather stations"
+    }
+  ],
+  "UY1p4F": [
+    {
+      "type": 0,
+      "value": "See this submission on the main map"
+    }
+  ],
+  "UhV7f7": [
+    {
+      "type": 0,
+      "value": "Glossary"
+    }
+  ],
+  "UhypXW": [
+    {
+      "type": 0,
+      "value": "Source"
+    }
+  ],
+  "Ulbgnu": [
+    {
+      "type": 0,
+      "value": "See also:"
+    }
+  ],
+  "Ut/ezC": [
+    {
+      "type": 0,
+      "value": "An error happened while getting decision point information."
+    }
+  ],
+  "V7pNoh": [
+    {
+      "type": 0,
+      "value": "Natural avalanches unlikely; human-triggered avalanches possible."
+    }
+  ],
+  "VA+DE/": [
+    {
+      "type": 0,
+      "value": "Reports list view"
+    }
+  ],
+  "VAjdA4": [
+    {
+      "type": 0,
+      "value": "This could happen for few reasons. Do not hesitate to contact us at "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "mail"
+    },
+    {
+      "type": 0,
+      "value": " so we can help you sort that out."
+    }
+  ],
+  "VecW4F": [
+    {
+      "type": 0,
+      "value": "Our staff"
+    }
+  ],
+  "VlqGrp": [
+    {
+      "type": 0,
+      "value": "Direction"
+    }
+  ],
+  "VuDwBa": [
+    {
+      "type": 0,
+      "value": "An error happened while loading the forecast."
+    }
+  ],
+  "VuUEEB": [
+    {
+      "type": 0,
+      "value": "Weather station"
+    }
+  ],
+  "W8F0HN": [
+    {
+      "type": 0,
+      "value": "Email the Kananaskis Country Public Safety Section"
+    }
+  ],
+  "WAkhuA": [
+    {
+      "type": 0,
+      "value": "Caution"
+    }
+  ],
+  "WBxRMD": [
+    {
+      "type": 0,
+      "value": "Available reports"
+    }
+  ],
+  "WCKpbe": [
+    {
+      "type": 0,
+      "value": "500 hPa Mean / Standard Deviation (N. American Ensemble)"
+    }
+  ],
+  "WDiGF0": [
+    {
+      "type": 0,
+      "value": "Send "
+    },
+    {
+      "type": 1,
+      "value": "fullName"
+    },
+    {
+      "type": 0,
+      "value": " an email"
+    }
+  ],
+  "WMq6So": [
+    {
+      "type": 0,
+      "value": "Loading..."
+    }
+  ],
+  "WNGaI0": [
+    {
+      "type": 0,
+      "value": "Location"
+    }
+  ],
+  "WOkXMl": [
+    {
+      "type": 0,
+      "value": "Access all the reports you have submitted."
+    }
+  ],
+  "WZRlM4": [
+    {
+      "type": 0,
+      "value": "How to GIVE information?"
+    }
+  ],
+  "WeGi2C": [
+    {
+      "type": 0,
+      "value": "Avalanche Summary"
+    }
+  ],
+  "WePE/Y": [
+    {
+      "type": 0,
+      "value": "Large avalanches in many areas; or very large avalanches in specific areas."
+    }
+  ],
+  "WhW499": [
+    {
+      "type": 0,
+      "value": "AST 1 + AST 2 Combined"
+    }
+  ],
+  "WlYJie": [
+    {
+      "type": 0,
+      "value": "Contacts"
+    }
+  ],
+  "Wn0WGR": [
+    {
+      "type": 0,
+      "value": "How to GET information?"
+    }
+  ],
+  "X0mGc4": [
+    {
+      "type": 0,
+      "value": "Look at "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " report on the map"
+    }
+  ],
+  "X4A2RL": [
+    {
+      "type": 0,
+      "value": "Tutorials"
+    }
+  ],
+  "X4eU4b": [
+    {
+      "type": 0,
+      "value": "Search for a definition"
+    }
+  ],
+  "X4fq+c": [
+    {
+      "type": 0,
+      "value": "From"
+    }
+  ],
+  "X6pshk": [
+    {
+      "type": 0,
+      "value": "Which Slopes?"
+    }
+  ],
+  "X83AXU": [
+    {
+      "type": 0,
+      "value": "Search"
+    }
+  ],
+  "XVMUAR": [
+    {
+      "type": 0,
+      "value": "1 - Low"
+    }
+  ],
+  "Xzbf14": [
+    {
+      "type": 0,
+      "value": "Share this page"
+    }
+  ],
+  "Y+s5Pd": [
+    {
+      "type": 0,
+      "value": "Reset to the last "
+    },
+    {
+      "type": 1,
+      "value": "days"
+    },
+    {
+      "type": 0,
+      "value": " days"
+    }
+  ],
+  "YObgko": [
+    {
+      "type": 0,
+      "value": "Storm Date"
+    }
+  ],
+  "YSkrN2": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No users"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " user"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " users"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "itemCount"
+    },
+    {
+      "type": 0,
+      "value": " found."
+    }
+  ],
+  "YZxsM8": [
+    {
+      "type": 0,
+      "value": "Exceedance Probability (N. American Ensemble)"
+    }
+  ],
+  "YcECia": [
+    {
+      "type": 0,
+      "value": "Date range"
+    }
+  ],
+  "Yhzvef": [
+    {
+      "type": 0,
+      "value": "Exposure to multiple overlapping avalanche paths or large expanses of steep, open terrain; multiple avalanche starting zones and terrain traps below; minimal options to reduce exposure. Complicated glacier travel with extensive crevasse bands or icefalls."
+    }
+  ],
+  "Yk/+o9": [
+    {
+      "type": 0,
+      "value": "Synopsis"
+    }
+  ],
+  "Ykeofn": [
+    {
+      "type": 0,
+      "value": "The arrow is pointing down the path."
+    }
+  ],
+  "Yu49Is": [
+    {
+      "type": 0,
+      "value": "Trip Planning"
+    }
+  ],
+  "Z/WHoY": [
+    {
+      "type": 0,
+      "value": "Forecast regions"
+    }
+  ],
+  "Z6NFiK": [
+    {
+      "type": 0,
+      "value": "Information"
+    }
+  ],
+  "Z7dIFE": [
+    {
+      "type": 0,
+      "value": "Snow"
+    }
+  ],
+  "ZBJwKE": [
+    {
+      "type": 0,
+      "value": "Snowpack Comment"
+    }
+  ],
+  "ZGD8bt": [
+    {
+      "type": 0,
+      "value": "You will be redirected once we are done!"
+    }
+  ],
+  "ZJ+oes": [
+    {
+      "type": 0,
+      "value": "Display on map"
+    }
+  ],
+  "ZMxtNy": [
+    {
+      "type": 0,
+      "value": "Activity"
+    }
+  ],
+  "ZOelDD": [
+    {
+      "type": 0,
+      "value": "All months"
+    }
+  ],
+  "ZRo059": [
+    {
+      "type": 0,
+      "value": "Use extra caution in the yellow area. Avalanches are likely to occur with human or natural triggers, and accidents are frequent. Safe travelling under these conditions demands an advanced understanding of the character of the current avalanche problem. This includes knowing which field observations are most useful under the given conditions and which terrain features to favour or avoid. Advanced trip planning and group management skills, significant personal experience, and humility are essential."
+    }
+  ],
+  "ZXj6PT": [
+    {
+      "type": 0,
+      "value": "Move to the previous image"
+    }
+  ],
+  "Zo+y8O": [
+    {
+      "type": 0,
+      "value": "1980/1981 and earlier"
+    }
+  ],
+  "ZpUwKG": [
+    {
+      "type": 0,
+      "value": "Latest blog posts"
+    }
+  ],
+  "ZtQ9DU": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " day"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " days"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "amount"
+    }
+  ],
+  "a0unHU": [
+    {
+      "type": 0,
+      "value": "Providers"
+    }
+  ],
+  "a2JuFd": [
+    {
+      "type": 0,
+      "value": "Early Season Conditions"
+    }
+  ],
+  "a3lNIo": [
+    {
+      "type": 0,
+      "value": "News & Events"
+    }
+  ],
+  "a5msuh": [
+    {
+      "type": 0,
+      "value": "Yes"
+    }
+  ],
+  "aBCy53": [
+    {
+      "type": 0,
+      "value": "Store"
+    }
+  ],
+  "aBPUuk": [
+    {
+      "type": 0,
+      "value": "This is an archived Avalanche Advisory."
+    }
+  ],
+  "aCsFX1": [
+    {
+      "type": 0,
+      "value": "North Rockies"
+    }
+  ],
+  "aEft73": [
+    {
+      "type": 0,
+      "value": "Filter by"
+    }
+  ],
+  "aUBpA8": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network"
+    }
+  ],
+  "abQ+FP": [
+    {
+      "type": 0,
+      "value": "Forecast archive"
+    }
+  ],
+  "aoXWRy": [
+    {
+      "type": 0,
+      "value": "Observations"
+    }
+  ],
+  "aoroMT": [
+    {
+      "type": 0,
+      "value": "Loading incident..."
+    }
+  ],
+  "app.distanceDescription": [
+    {
+      "type": 0,
+      "value": "Straight line between "
+    },
+    {
+      "type": 1,
+      "value": "place"
+    },
+    {
+      "type": 0,
+      "value": " and the provider."
+    }
+  ],
+  "app.loadingError": [
+    {
+      "type": 0,
+      "value": "An error happened while loading the "
+    },
+    {
+      "type": 1,
+      "value": "pluralized"
+    },
+    {
+      "type": 0,
+      "value": "..."
+    }
+  ],
+  "avalanche-advisories": [
+    {
+      "type": 0,
+      "value": "Avalanche Advisories"
+    }
+  ],
+  "avalanche-forecasts": [
+    {
+      "type": 0,
+      "value": "Avalanche Forecasts"
+    }
+  ],
+  "b05fd7": [
+    {
+      "type": 0,
+      "value": "Temperatures"
+    }
+  ],
+  "b40Pr7": [
+    {
+      "type": 0,
+      "value": "Reporter"
+    }
+  ],
+  "bK2mzd": [
+    {
+      "type": 0,
+      "value": "Create a report"
+    }
+  ],
+  "bMyk2U": [
+    {
+      "type": 0,
+      "value": "No definition matches your criteria."
+    }
+  ],
+  "bZ1WF2": [
+    {
+      "type": 0,
+      "value": "Descending"
+    }
+  ],
+  "bpQq40": [
+    {
+      "type": 0,
+      "value": "Careers"
+    }
+  ],
+  "c+ir6d": [
+    {
+      "type": 0,
+      "value": "For more photos and more information about the professional mountain guide who created this report visit: "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "mountainconditions.com"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "c3Z95X": [
+    {
+      "type": 0,
+      "value": "Weather stations"
+    }
+  ],
+  "cG0Q8M": [
+    {
+      "type": 0,
+      "value": "Temperature"
+    }
+  ],
+  "cGNPZd": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " photo"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " photos"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " attached"
+    }
+  ],
+  "cJ8MIq": [
+    {
+      "type": 0,
+      "value": "Reload the map"
+    }
+  ],
+  "cRTHzR": [
+    {
+      "type": 0,
+      "value": "This station currently has no data available."
+    }
+  ],
+  "cdHupa": [
+    {
+      "type": 0,
+      "value": "Loading measurements..."
+    }
+  ],
+  "ch+P3A": [
+    {
+      "type": 0,
+      "value": "Terrain features"
+    }
+  ],
+  "cj0fgl": [
+    {
+      "type": 0,
+      "value": "Pause the animation"
+    }
+  ],
+  "ckeXb6": [
+    {
+      "type": 0,
+      "value": "Loading mountain weather forecast for "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    },
+    {
+      "type": 0,
+      "value": "..."
+    }
+  ],
+  "cuIJWp": [
+    {
+      "type": 0,
+      "value": "Pick a to date"
+    }
+  ],
+  "d7cAvi": [
+    {
+      "type": 0,
+      "value": "An error occurred."
+    }
+  ],
+  "dCN3Up": [
+    {
+      "type": 0,
+      "value": "Probability of precipitation "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "children"
+    },
+    {
+      "type": 0,
+      "value": " at least one day"
+    }
+  ],
+  "dE2CES": [
+    {
+      "type": 0,
+      "value": "Loading "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " page..."
+    }
+  ],
+  "dILW+f": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network — Create report"
+    }
+  ],
+  "dM+p3/": [
+    {
+      "type": 0,
+      "value": "From"
+    }
+  ],
+  "dQKFUX": [
+    {
+      "type": 0,
+      "value": "Enter your email address"
+    }
+  ],
+  "dZ+4FV": [
+    {
+      "type": 0,
+      "value": "Creeks"
+    }
+  ],
+  "dZKvmR": [
+    {
+      "type": 0,
+      "value": "An error occurred on the page you are visiting."
+    }
+  ],
+  "dfnWPN": [
+    {
+      "type": 0,
+      "value": "Visible - Alberta Rockies"
+    }
+  ],
+  "dk3C5G": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " error"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " errors"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " found in your "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " report."
+    }
+  ],
+  "e0UxRX": [
+    {
+      "type": 0,
+      "value": "Wind Direction"
+    }
+  ],
+  "e7SQt4": [
+    {
+      "type": 0,
+      "value": "An error happened while submitting and saving your report to our servers. Do not hesitate to contact us to get more details so you can have your report submitted. Thanks for your understanding and cooperation!"
+    }
+  ],
+  "eCkcGF": [
+    {
+      "type": 0,
+      "value": "An error happened."
+    }
+  ],
+  "eRUb0Z": [
+    {
+      "type": 0,
+      "value": "Look at this report on the map"
+    }
+  ],
+  "eWOewv": [
+    {
+      "type": 0,
+      "value": "Authentication in progress..."
+    }
+  ],
+  "eYyw2/": [
+    {
+      "type": 0,
+      "value": "Gust"
+    }
+  ],
+  "ei59iy": [
+    {
+      "type": 0,
+      "value": "Off season"
+    }
+  ],
+  "eu8sFr": [
+    {
+      "type": 0,
+      "value": "See that advisory on the main map"
+    }
+  ],
+  "eyGq6Y": [
+    {
+      "type": 0,
+      "value": "Visit the Mountain Weather Forecast"
+    }
+  ],
+  "eyccwu": [
+    {
+      "type": 0,
+      "value": "Recent snowfall > "
+    },
+    {
+      "type": 1,
+      "value": "height"
+    }
+  ],
+  "ez+kCq": [
+    {
+      "type": 0,
+      "value": "Height"
+    }
+  ],
+  "eztvsv": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "911"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " for backcountry rescues and tell them you are in Kananaskis Country"
+    }
+  ],
+  "f1lt+W": [
+    {
+      "type": 0,
+      "value": "No providers match your criteria, consider finding a course on the "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "courses page"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "f8z90J": [
+    {
+      "type": 0,
+      "value": "Ascending"
+    }
+  ],
+  "fBD05b": [
+    {
+      "type": 0,
+      "value": "Avalanche basics"
+    }
+  ],
+  "fD/vNZ": [
+    {
+      "type": 0,
+      "value": "Wind (km/h)"
+    }
+  ],
+  "fDXBCA": [
+    {
+      "type": 0,
+      "value": "Name"
+    }
+  ],
+  "fFqMmX": [
+    {
+      "type": 0,
+      "value": "You need to be logged in to see some content."
+    }
+  ],
+  "fLpQyj": [
+    {
+      "type": 0,
+      "value": "Warnings are available on weather.gc.ca"
+    }
+  ],
+  "fPfNNr": [
+    {
+      "type": 0,
+      "value": "Type"
+    }
+  ],
+  "fTIjqa": [
+    {
+      "type": 0,
+      "value": "Forecast "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " not found"
+    }
+  ],
+  "fatal-recreational-accidents": [
+    {
+      "type": 0,
+      "value": "Fatal Recreational Accidents"
+    }
+  ],
+  "fb3qcN": [
+    {
+      "type": 0,
+      "value": "Loading fatal recreational accident..."
+    }
+  ],
+  "forecasts": [
+    {
+      "type": 0,
+      "value": "Forecasts"
+    }
+  ],
+  "fpLYvo": [
+    {
+      "type": 0,
+      "value": "Max Temp"
+    }
+  ],
+  "frtcDi": [
+    {
+      "type": 0,
+      "value": "A problem happened while loading Mountain Information Network (MIN) Reports on the map."
+    }
+  ],
+  "ftA+E2": [
+    {
+      "type": 0,
+      "value": "BC Mosaic"
+    }
+  ],
+  "fxGwIN": [
+    {
+      "type": 0,
+      "value": "Size"
+    }
+  ],
+  "g+HSsV": [
+    {
+      "type": 0,
+      "value": "Air Temperature"
+    }
+  ],
+  "g2EOhL": [
+    {
+      "type": 0,
+      "value": "Online Education"
+    }
+  ],
+  "g8ZiK0": [
+    {
+      "type": 0,
+      "value": "Table"
+    }
+  ],
+  "gDCRKI": [
+    {
+      "type": 0,
+      "value": "Fatal"
+    }
+  ],
+  "gFP2S8": [
+    {
+      "type": 0,
+      "value": "Avalanche Forecast"
+    }
+  ],
+  "gSPD2F": [
+    {
+      "type": 0,
+      "value": "RH (%)"
+    }
+  ],
+  "gTmr43": [
+    {
+      "type": 0,
+      "value": "An error happened while showing charts."
+    }
+  ],
+  "gXCzdT": [
+    {
+      "type": 0,
+      "value": "Submit a Mountain Information Report"
+    }
+  ],
+  "gc5sS2": [
+    {
+      "type": 0,
+      "value": "Forecasts"
+    }
+  ],
+  "gcZ44W": [
+    {
+      "type": 0,
+      "value": "Mountain Weather Forecast"
+    }
+  ],
+  "gghcvY": [
+    {
+      "type": 0,
+      "value": "Incident #"
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " not found"
+    }
+  ],
+  "gjBiyj": [
+    {
+      "type": 0,
+      "value": "Loading..."
+    }
+  ],
+  "h/Nirh": [
+    {
+      "type": 0,
+      "value": "Loading users..."
+    }
+  ],
+  "h0Kju5": [
+    {
+      "type": 0,
+      "value": "Donate to Foundation"
+    }
+  ],
+  "h7KXl7": [
+    {
+      "type": 0,
+      "value": "Air Temperature Min (°C)"
+    }
+  ],
+  "hDJDN/": [
+    {
+      "type": 0,
+      "value": "More details"
+    }
+  ],
+  "hHvvfI": [
+    {
+      "type": 0,
+      "value": "Loading..."
+    }
+  ],
+  "hIYH8G": [
+    {
+      "offset": 0,
+      "options": {
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "One error"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " errors"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " occurred. Click for more details."
+    }
+  ],
+  "hJ1ugx": [
+    {
+      "type": 0,
+      "value": "Arc'teryx Mountain Conditions Report"
+    }
+  ],
+  "hNq0pE": [
+    {
+      "type": 0,
+      "value": "0-144 Hours"
+    }
+  ],
+  "hTNVGU": [
+    {
+      "type": 0,
+      "value": "Click on a link below to see another weather station:"
+    }
+  ],
+  "heRKCG": [
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " forecast not found"
+    }
+  ],
+  "hiAkhj": [
+    {
+      "type": 0,
+      "value": "No avalanche forecast has been found for "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "i+AGCP": [
+    {
+      "type": 0,
+      "value": "Email"
+    }
+  ],
+  "i6Tori": [
+    {
+      "type": 0,
+      "value": "Submit a Mountain Information Report"
+    }
+  ],
+  "i8CXtl": [
+    {
+      "type": 0,
+      "value": "Weather stations list view"
+    }
+  ],
+  "i9XkAs": [
+    {
+      "type": 0,
+      "value": "Provider name"
+    }
+  ],
+  "iEAZIi": [
+    {
+      "type": 0,
+      "value": "Submitting your report..."
+    }
+  ],
+  "iEI8pm": [
+    {
+      "type": 0,
+      "value": "Youth"
+    }
+  ],
+  "iNi0FV": [
+    {
+      "type": 0,
+      "value": "Exposure to well-defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist."
+    }
+  ],
+  "iUn2hD": [
+    {
+      "type": 0,
+      "value": "Visit on "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "iWgEgL": [
+    {
+      "type": 1,
+      "value": "label"
+    },
+    {
+      "type": 0,
+      "value": " on "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    }
+  ],
+  "iXC6aX": [
+    {
+      "type": 0,
+      "value": "Printable version"
+    }
+  ],
+  "iY/ewP": [
+    {
+      "type": 0,
+      "value": "Unsupported map"
+    }
+  ],
+  "iYqjbT": [
+    {
+      "type": 0,
+      "value": "Precipitation Type"
+    }
+  ],
+  "iek8Zl": [
+    {
+      "type": 0,
+      "value": "An error happened while submitting your report."
+    }
+  ],
+  "ificVq": [
+    {
+      "type": 0,
+      "value": "Air Temperature Max (°C)"
+    }
+  ],
+  "ikdt7M": [
+    {
+      "type": 0,
+      "value": "Avalanche Skills Training 1"
+    }
+  ],
+  "iliHrV": [
+    {
+      "type": 0,
+      "value": "Website"
+    }
+  ],
+  "iq87Si": [
+    {
+      "type": 0,
+      "value": "Loading avalanche forecast..."
+    }
+  ],
+  "irzEgi": [
+    {
+      "type": 0,
+      "value": "Convex"
+    }
+  ],
+  "iuhMmM": [
+    {
+      "type": 0,
+      "value": "Terrain to Avoid"
+    }
+  ],
+  "iwgtE3": [
+    {
+      "type": 0,
+      "value": "Past events"
+    }
+  ],
+  "j9NdGF": [
+    {
+      "type": 0,
+      "value": "Login to post to the Mountain Information Network"
+    }
+  ],
+  "jHMwxP": [
+    {
+      "type": 0,
+      "value": "Next"
+    }
+  ],
+  "jOywnT": [
+    {
+      "type": 0,
+      "value": "Contact us"
+    }
+  ],
+  "jTbugS": [
+    {
+      "type": 1,
+      "value": "from"
+    },
+    {
+      "type": 0,
+      "value": " and "
+    },
+    {
+      "type": 1,
+      "value": "to"
+    }
+  ],
+  "jW0/kq": [
+    {
+      "type": 0,
+      "value": "Hourly Precipitation"
+    }
+  ],
+  "jXSbrK": [
+    {
+      "type": 0,
+      "value": "Average"
+    }
+  ],
+  "jjbFGi": [
+    {
+      "type": 0,
+      "value": "Freezing Level R"
+    }
+  ],
+  "jkokZp": [
+    {
+      "type": 0,
+      "value": "Planning"
+    }
+  ],
+  "jwimQJ": [
+    {
+      "type": 0,
+      "value": "Ok"
+    }
+  ],
+  "k8fnrh": [
+    {
+      "type": 0,
+      "value": "Min"
+    }
+  ],
+  "kNifCP": [
+    {
+      "type": 0,
+      "value": "Land of Thundering Snow"
+    }
+  ],
+  "kO2GwF": [
+    {
+      "type": 0,
+      "value": "Natural avalanches possible; human-triggered avalanches likely."
+    }
+  ],
+  "kPjMZR": [
+    {
+      "type": 0,
+      "value": "Elevation"
+    }
+  ],
+  "kR4i6x": [
+    {
+      "type": 0,
+      "value": "Precipitation Type & Intensity"
+    }
+  ],
+  "kWx9C+": [
+    {
+      "type": 0,
+      "value": "An error happened while retrieving Mountain Information Network reports for the last "
+    },
+    {
+      "type": 1,
+      "value": "days"
+    },
+    {
+      "type": 0,
+      "value": " days."
+    }
+  ],
+  "kYJIjt": [
+    {
+      "type": 0,
+      "value": "AST 1"
+    }
+  ],
+  "kpYbyf": [
+    {
+      "type": 0,
+      "value": "Videos"
+    }
+  ],
+  "kzP1IM": [
+    {
+      "type": 0,
+      "value": "Air Temperature (°C)"
+    }
+  ],
+  "l1XTI5": [
+    {
+      "type": 0,
+      "value": "Follow us"
+    }
+  ],
+  "l4fsUL": [
+    {
+      "type": 0,
+      "value": "Lexique Avalanche—Avalanche Lexicon"
+    }
+  ],
+  "lE1Ifz": [
+    {
+      "type": 0,
+      "value": "Level"
+    }
+  ],
+  "lFTyzM": [
+    {
+      "type": 0,
+      "value": "New"
+    }
+  ],
+  "lHofeR": [
+    {
+      "type": 0,
+      "value": "An error happened while loading weather station data."
+    }
+  ],
+  "lXtFHJ": [
+    {
+      "type": 0,
+      "value": "Click on a link below to see another weather station."
+    }
+  ],
+  "latest-news": [
+    {
+      "type": 0,
+      "value": "Latest news"
+    }
+  ],
+  "lb38CE": [
+    {
+      "type": 0,
+      "value": "under "
+    },
+    {
+      "style": null,
+      "type": 2,
+      "value": "temperature"
+    },
+    {
+      "type": 0,
+      "value": "°C"
+    }
+  ],
+  "lcn90r": [
+    {
+      "type": 0,
+      "value": "New"
+    }
+  ],
+  "leFeKC": [
+    {
+      "type": 0,
+      "value": "Day "
+    },
+    {
+      "type": 1,
+      "value": "value"
+    }
+  ],
+  "lnaWo/": [
+    {
+      "type": 0,
+      "value": "Region"
+    }
+  ],
+  "login": [
+    {
+      "type": 0,
+      "value": "Login"
+    }
+  ],
+  "logout": [
+    {
+      "type": 0,
+      "value": "Logout"
+    }
+  ],
+  "lxxl0Q": [
+    {
+      "type": 0,
+      "value": "Surface Maps"
+    }
+  ],
+  "lywdxo": [
+    {
+      "type": 0,
+      "value": "Change my username"
+    }
+  ],
+  "m67oal": [
+    {
+      "type": 0,
+      "value": "Cost"
+    }
+  ],
+  "mBli9B": [
+    {
+      "type": 0,
+      "value": "Click on a link below to see another forecast:"
+    }
+  ],
+  "mEyhzr": [
+    {
+      "type": 0,
+      "value": "Accumulated precipitation"
+    }
+  ],
+  "mJzUsv": [
+    {
+      "type": 0,
+      "value": "Create a Mountain Information Network (MIN) report"
+    }
+  ],
+  "mR0hCD": [
+    {
+      "type": 0,
+      "value": "Close"
+    }
+  ],
+  "mTRqfE": [
+    {
+      "type": 0,
+      "value": "COVID-19 Safety Plan"
+    }
+  ],
+  "mXsQGA": [
+    {
+      "type": 0,
+      "value": "Reload this page"
+    }
+  ],
+  "mZG9tS": [
+    {
+      "type": 0,
+      "value": "Tags"
+    }
+  ],
+  "mf35p3": [
+    {
+      "type": 0,
+      "value": "Date/Time"
+    }
+  ],
+  "mghfAi": [
+    {
+      "type": 0,
+      "value": "Runout Zone"
+    }
+  ],
+  "mhKwHa": [
+    {
+      "type": 0,
+      "value": "Snow height and new snow"
+    }
+  ],
+  "mjp5Qx": [
+    {
+      "type": 0,
+      "value": "IR-VIS Canada West"
+    }
+  ],
+  "mn53El": [
+    {
+      "type": 0,
+      "value": "AvCan Training Courses"
+    }
+  ],
+  "mountain-conditions-reports": [
+    {
+      "type": 0,
+      "value": "Mountain Conditions Reports"
+    }
+  ],
+  "mountain-information-network": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network"
+    }
+  ],
+  "moy+Yz": [
+    {
+      "type": 0,
+      "value": "Mountain Weather Forecast"
+    }
+  ],
+  "mpFOGM": [
+    {
+      "type": 0,
+      "value": "Visit the"
+    }
+  ],
+  "mvd+ai": [
+    {
+      "type": 0,
+      "value": "You can "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "clear your search criteria"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to find more reports."
+    }
+  ],
+  "my-account": [
+    {
+      "type": 0,
+      "value": "My account"
+    }
+  ],
+  "n0GuWA": [
+    {
+      "type": 0,
+      "value": "Below treeline"
+    }
+  ],
+  "nDlutf": [
+    {
+      "type": 0,
+      "value": "Your daily Mountain Weather Forecast"
+    }
+  ],
+  "nF4SkN": [
+    {
+      "type": 0,
+      "value": "Natural and human-triggered avalanches certain."
+    }
+  ],
+  "nFOC+A": [
+    {
+      "type": 0,
+      "value": "The page you are looking for has not been found."
+    }
+  ],
+  "nGs5Kj": [
+    {
+      "type": 0,
+      "value": "To"
+    }
+  ],
+  "nHnEJS": [
+    {
+      "type": 0,
+      "value": "Forecast Disclaimer"
+    }
+  ],
+  "nILfLj": [
+    {
+      "type": 0,
+      "value": "Small avalanches in specific areas; or large avalanches in isolated areas."
+    }
+  ],
+  "nLpim0": [
+    {
+      "type": 0,
+      "value": "Sky Condition"
+    }
+  ],
+  "nODkXm": [
+    {
+      "type": 0,
+      "value": "Users"
+    }
+  ],
+  "nRbl1m": [
+    {
+      "type": 0,
+      "value": "Visit our Blog"
+    }
+  ],
+  "nTysmd": [
+    {
+      "type": 0,
+      "value": "Surface Maps"
+    }
+  ],
+  "nW3GXB": [
+    {
+      "type": 0,
+      "value": "Visit our Blog"
+    }
+  ],
+  "nYuP02": [
+    {
+      "type": 0,
+      "value": "Credit"
+    }
+  ],
+  "ngvAxX": [
+    {
+      "type": 0,
+      "value": "Min Temp"
+    }
+  ],
+  "nk7KjJ": [
+    {
+      "type": 0,
+      "value": "Satellite Imagery"
+    }
+  ],
+  "nlCgTV": [
+    {
+      "type": 0,
+      "value": "Related links"
+    }
+  ],
+  "noGIwm": [
+    {
+      "type": 0,
+      "value": "South Interior"
+    }
+  ],
+  "noRJYo": [
+    {
+      "type": 0,
+      "value": "Avalanche Forecast are not produce for every region, in some cases they are available externally."
+    }
+  ],
+  "o2JQpy": [
+    {
+      "type": 0,
+      "value": "Premier sponsors"
+    }
+  ],
+  "o3E2Lo": [
+    {
+      "type": 0,
+      "value": "Description"
+    }
+  ],
+  "oCd58D": [
+    {
+      "type": 0,
+      "value": "Recent wind loading"
+    }
+  ],
+  "oRm/jl": [
+    {
+      "type": 0,
+      "value": "Below treeline"
+    }
+  ],
+  "oUWADl": [
+    {
+      "type": 0,
+      "value": "No"
+    }
+  ],
+  "oZHUhy": [
+    {
+      "type": 0,
+      "value": "Forecast Region"
+    }
+  ],
+  "oaRPi+": [
+    {
+      "type": 0,
+      "value": "Move to the next image"
+    }
+  ],
+  "od9wO8": [
+    {
+      "type": 0,
+      "value": "Provider"
+    }
+  ],
+  "oklciV": [
+    {
+      "type": 0,
+      "value": "Map legend"
+    }
+  ],
+  "our-blog": [
+    {
+      "type": 0,
+      "value": "Our blog"
+    }
+  ],
+  "owC1mn": [
+    {
+      "type": 0,
+      "value": "What are avalanche conditions?"
+    }
+  ],
+  "owr/bM": [
+    {
+      "type": 0,
+      "value": "Print this forecast bulletin"
+    }
+  ],
+  "oznI18": [
+    {
+      "type": 0,
+      "value": "Give another answer"
+    }
+  ],
+  "pBV5pm": [
+    {
+      "type": 0,
+      "value": "12hr Total Precipitation"
+    }
+  ],
+  "pGj8aX": [
+    {
+      "type": 0,
+      "value": "Date"
+    }
+  ],
+  "pI2NhH": [
+    {
+      "type": 0,
+      "value": "There is currently no Avalanche Advisories available."
+    }
+  ],
+  "pNNW8+": [
+    {
+      "type": 0,
+      "value": "Radar"
+    }
+  ],
+  "pbZmUg": [
+    {
+      "type": 0,
+      "value": "Other agencies and organizations"
+    }
+  ],
+  "pdh/6l": [
+    {
+      "type": 0,
+      "value": "Recorded Webinars"
+    }
+  ],
+  "piIZFq": [
+    {
+      "type": 0,
+      "value": "Precipitable Water"
+    }
+  ],
+  "pqAB6W": [
+    {
+      "type": 0,
+      "value": "Sorry, we are not able to create the loop."
+    }
+  ],
+  "q+ddcA": [
+    {
+      "type": 0,
+      "value": "Hourly Precipitation"
+    }
+  ],
+  "qCBBh7": [
+    {
+      "type": 0,
+      "value": "A new image is added to the loop every 30 minutes."
+    }
+  ],
+  "qE3wGW": [
+    {
+      "type": 0,
+      "value": "Back to main map"
+    }
+  ],
+  "qLsFst": [
+    {
+      "type": 0,
+      "value": "Submitted by"
+    }
+  ],
+  "qMA7U8": [
+    {
+      "type": 0,
+      "value": "Contact"
+    }
+  ],
+  "qOhJmk": [
+    {
+      "type": 0,
+      "value": "Small avalanches in isolated areas or extreme terrain."
+    }
+  ],
+  "qQxbl5": [
+    {
+      "type": 0,
+      "value": "Yukon"
+    }
+  ],
+  "qV1HTT": [
+    {
+      "type": 0,
+      "value": "Extra"
+    }
+  ],
+  "qd8vka": [
+    {
+      "type": 0,
+      "value": "BC/AB"
+    }
+  ],
+  "qeyB1n": [
+    {
+      "type": 0,
+      "value": "Dates"
+    }
+  ],
+  "qifwIi": [
+    {
+      "type": 0,
+      "value": "Probability of temperature "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "children"
+    },
+    {
+      "type": 0,
+      "value": " at least one day"
+    }
+  ],
+  "quSa+R": [
+    {
+      "type": 0,
+      "value": "What is avalanche terrain?"
+    }
+  ],
+  "qvMtAj": [
+    {
+      "type": 0,
+      "value": "Temperature (°C)"
+    }
+  ],
+  "qwen7s": [
+    {
+      "type": 0,
+      "value": "IR Pacific"
+    }
+  ],
+  "qxhsXy": [
+    {
+      "type": 0,
+      "value": "Terrain and Travel Advice"
+    }
+  ],
+  "qxumc0": [
+    {
+      "type": 0,
+      "value": "Trip planner"
+    }
+  ],
+  "r5IMiF": [
+    {
+      "type": 0,
+      "value": "Problems"
+    }
+  ],
+  "r7S3V1": [
+    {
+      "type": 0,
+      "value": "Visit "
+    },
+    {
+      "type": 1,
+      "value": "fullName"
+    },
+    {
+      "type": 0,
+      "value": " on "
+    },
+    {
+      "type": 1,
+      "value": "service"
+    }
+  ],
+  "rJcJ53": [
+    {
+      "type": 0,
+      "value": "Day 1"
+    }
+  ],
+  "rKirbN": [
+    {
+      "type": 0,
+      "value": "Relative humidity (%) every hour from "
+    },
+    {
+      "type": 1,
+      "value": "min"
+    },
+    {
+      "type": 0,
+      "value": " to "
+    },
+    {
+      "type": 1,
+      "value": "max"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "rYSMcj": [
+    {
+      "type": 0,
+      "value": "Location"
+    }
+  ],
+  "rZiCe8": [
+    {
+      "type": 0,
+      "value": "Precipitation"
+    }
+  ],
+  "rbrahO": [
+    {
+      "type": 0,
+      "value": "Close"
+    }
+  ],
+  "rt8N8F": [
+    {
+      "type": 0,
+      "value": "Latest news"
+    }
+  ],
+  "s0Gj69": [
+    {
+      "type": 0,
+      "value": "Find a course"
+    }
+  ],
+  "s6yaAo": [
+    {
+      "type": 0,
+      "value": "We suggest you "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "update your browser"
+        }
+      ],
+      "type": 8,
+      "value": "browser"
+    },
+    {
+      "type": 0,
+      "value": " and make sure that WebGL is "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "enabled"
+        }
+      ],
+      "type": 8,
+      "value": "webGL"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "s9Ojlo": [
+    {
+      "type": 0,
+      "value": "5 - Extreme"
+    }
+  ],
+  "sCTnlT": [
+    {
+      "type": 0,
+      "value": "Current Conditions"
+    }
+  ],
+  "sCu44f": [
+    {
+      "type": 0,
+      "value": "More information"
+    }
+  ],
+  "sHDYEY": [
+    {
+      "type": 0,
+      "value": "About"
+    }
+  ],
+  "sQZfhJ": [
+    {
+      "type": 0,
+      "value": "You can get more information for "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " region on their website"
+    }
+  ],
+  "sRpc3I": [
+    {
+      "type": 0,
+      "value": "Updated at approximately "
+    },
+    {
+      "type": 1,
+      "value": "updates"
+    },
+    {
+      "type": 0,
+      "value": " every day."
+    }
+  ],
+  "sYssP3": [
+    {
+      "type": 0,
+      "value": "Sled"
+    }
+  ],
+  "scPADm": [
+    {
+      "type": 0,
+      "value": "Mountain Weather Forecast"
+    }
+  ],
+  "sgc79g": [
+    {
+      "type": 0,
+      "value": "Surface R"
+    }
+  ],
+  "special-public-avalanche-warning": [
+    {
+      "type": 0,
+      "value": "Special Public Avalanche Warning"
+    }
+  ],
+  "sstcBc": [
+    {
+      "type": 0,
+      "value": "Loading "
+    },
+    {
+      "type": 1,
+      "value": "pluralized"
+    },
+    {
+      "type": 0,
+      "value": "..."
+    }
+  ],
+  "sueUsu": [
+    {
+      "type": 0,
+      "value": "Relative Humidity (%)"
+    }
+  ],
+  "t+/o8z": [
+    {
+      "type": 0,
+      "value": "Start Here"
+    }
+  ],
+  "tBoaxE": [
+    {
+      "type": 0,
+      "value": "Dangerous avalanche conditions. Careful snowpack evaluation, cautious route-finding and conservative decision-making essential."
+    }
+  ],
+  "tK835M": [
+    {
+      "type": 0,
+      "value": "A problem happened while loading Incidents on the map."
+    }
+  ],
+  "tbsKby": [
+    {
+      "type": 0,
+      "value": "Outlook"
+    }
+  ],
+  "tf/0E1": [
+    {
+      "type": 0,
+      "value": "Phone"
+    }
+  ],
+  "tfGE48": [
+    {
+      "type": 0,
+      "value": "ICAR Glossary"
+    }
+  ],
+  "tiwIFt": [
+    {
+      "type": 0,
+      "value": "Air Temperature Average (°C)"
+    }
+  ],
+  "tkjvUf": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network"
+    }
+  ],
+  "toZ0lO": [
+    {
+      "type": 0,
+      "value": "Avalanche Advisories"
+    }
+  ],
+  "training": [
+    {
+      "type": 0,
+      "value": "Training"
+    }
+  ],
+  "u4Hv7v": [
+    {
+      "type": 0,
+      "value": "Document "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": " not found."
+    }
+  ],
+  "uM+u3j": [
+    {
+      "type": 0,
+      "value": "Not recommended"
+    }
+  ],
+  "uPQdpF": [
+    {
+      "type": 0,
+      "value": "Upcoming events"
+    }
+  ],
+  "uZFJU5": [
+    {
+      "type": 0,
+      "value": "Nothing found."
+    }
+  ],
+  "uZNjbN": [
+    {
+      "type": 0,
+      "value": "Avalanche Advisory Archive"
+    }
+  ],
+  "uaPrKi": [
+    {
+      "type": 0,
+      "value": "Created by"
+    }
+  ],
+  "uh7dXb": [
+    {
+      "type": 0,
+      "value": "Weather Glossary"
+    }
+  ],
+  "upcoming-events": [
+    {
+      "type": 0,
+      "value": "Upcoming events"
+    }
+  ],
+  "v890BT": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-591-7755"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the dispatch office non-emergency line"
+    }
+  ],
+  "vD3KLj": [
+    {
+      "type": 0,
+      "value": "Youth Education"
+    }
+  ],
+  "vP+E8G": [
+    {
+      "type": 0,
+      "value": "Managing Avalanche Terrain"
+    }
+  ],
+  "vYSLmy": [
+    {
+      "type": 0,
+      "value": "Challenging"
+    }
+  ],
+  "vcE2BE": [
+    {
+      "type": 0,
+      "value": "Slab avalanches in the last 48 hours"
+    }
+  ],
+  "vequEq": [
+    {
+      "type": 0,
+      "value": "Give "
+    },
+    {
+      "type": 1,
+      "value": "fullName"
+    },
+    {
+      "type": 0,
+      "value": " a call"
+    }
+  ],
+  "vf46CG": [
+    {
+      "type": 0,
+      "value": "Location"
+    }
+  ],
+  "vge4TT": [
+    {
+      "type": 0,
+      "value": "Loading definitions..."
+    }
+  ],
+  "vh+/Mn": [
+    {
+      "type": 0,
+      "value": "Training"
+    }
+  ],
+  "vhjtbT": [
+    {
+      "type": 0,
+      "value": "This is an archived avalanche bulletin."
+    }
+  ],
+  "vj8cZ/": [
+    {
+      "type": 0,
+      "value": "Charts"
+    }
+  ],
+  "vr8LVS": [
+    {
+      "type": 0,
+      "value": "An error happened while loading this page."
+    }
+  ],
+  "w2Nb8W": [
+    {
+      "type": 0,
+      "value": "Good job! You can try to find other routes."
+    }
+  ],
+  "wCgTu5": [
+    {
+      "type": 0,
+      "value": "Comments"
+    }
+  ],
+  "wF1p7K": [
+    {
+      "type": 0,
+      "value": "Uh oh! You never thought that would happen..."
+    }
+  ],
+  "wF4e0m": [
+    {
+      "type": 0,
+      "value": "Danger Ratings Explained"
+    }
+  ],
+  "wHV6rf": [
+    {
+      "type": 0,
+      "value": "New (cm)"
+    }
+  ],
+  "wJHFjD": [
+    {
+      "type": 0,
+      "value": "Aspect"
+    }
+  ],
+  "wKOpEQ": [
+    {
+      "type": 0,
+      "value": "Expected Size?"
+    }
+  ],
+  "wKQ3vV": [
+    {
+      "type": 0,
+      "value": "Submit a Mountain Information Report"
+    }
+  ],
+  "wNCO0M": [
+    {
+      "type": 0,
+      "value": "No weather forecast available yet for "
+    },
+    {
+      "type": 1,
+      "value": "date"
+    }
+  ],
+  "wR6Gt2": [
+    {
+      "type": 0,
+      "value": "RSS Feed"
+    }
+  ],
+  "wRewEU": [
+    {
+      "type": 0,
+      "value": "Search"
+    }
+  ],
+  "wUPRFU": [
+    {
+      "type": 0,
+      "value": "Move to the first image"
+    }
+  ],
+  "wYBiNj": [
+    {
+      "type": 0,
+      "value": "New snow: "
+    },
+    {
+      "type": 1,
+      "value": "amount"
+    }
+  ],
+  "weather-stations": [
+    {
+      "type": 0,
+      "value": "Weather stations"
+    }
+  ],
+  "wiGfb7": [
+    {
+      "type": 0,
+      "value": "Find another route"
+    }
+  ],
+  "wp6n1n": [
+    {
+      "type": 0,
+      "value": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
+    }
+  ],
+  "wpexYN": [
+    {
+      "type": 0,
+      "value": "In the meantime, do not hesitate to email us at "
+    },
+    {
+      "children": [
+      ],
+      "type": 8,
+      "value": "mailto"
+    },
+    {
+      "type": 0,
+      "value": " if you need help for these."
+    }
+  ],
+  "wrfULV": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No report"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "One report"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Total of "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " reports"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " found."
+    }
+  ],
+  "wv2of/": [
+    {
+      "type": 0,
+      "value": "Upcoming events"
+    }
+  ],
+  "wyIZp9": [
+    {
+      "type": 0,
+      "value": "Start with"
+    }
+  ],
+  "wzEVz0": [
+    {
+      "type": 0,
+      "value": "Until further notice"
+    }
+  ],
+  "x4Ch6V": [
+    {
+      "type": 0,
+      "value": "Aspect"
+    }
+  ],
+  "xBqzzk": [
+    {
+      "type": 0,
+      "value": "Cross-loaded slopes"
+    }
+  ],
+  "xOPjK4": [
+    {
+      "type": 0,
+      "value": "Blog"
+    }
+  ],
+  "xUDVUH": [
+    {
+      "type": 0,
+      "value": "Terrain to Watch"
+    }
+  ],
+  "xVvJB7": [
+    {
+      "type": 0,
+      "value": "See answers"
+    }
+  ],
+  "xX1hzi": [
+    {
+      "type": 0,
+      "value": "Loading incidents..."
+    }
+  ],
+  "xXgvZL": [
+    {
+      "type": 0,
+      "value": "Forecast regions list view"
+    }
+  ],
+  "xaJS8r": [
+    {
+      "type": 0,
+      "value": "Signs of instability"
+    }
+  ],
+  "xeCA+8": [
+    {
+      "type": 0,
+      "value": "Share on "
+    },
+    {
+      "type": 1,
+      "value": "provider"
+    }
+  ],
+  "xeuLwX": [
+    {
+      "type": 0,
+      "value": "Teaching Avalanche Skills Training"
+    }
+  ],
+  "xiGg+I": [
+    {
+      "type": 0,
+      "value": "An error happened while getting document "
+    },
+    {
+      "type": 1,
+      "value": "title"
+    },
+    {
+      "type": 0,
+      "value": "."
+    }
+  ],
+  "xnLcaL": [
+    {
+      "type": 0,
+      "value": "Slab width"
+    }
+  ],
+  "xnl8OC": [
+    {
+      "type": 0,
+      "value": "Chart legend"
+    }
+  ],
+  "xpPoqQ": [
+    {
+      "type": 0,
+      "value": "Forecast Archive"
+    }
+  ],
+  "y6C4VC": [
+    {
+      "type": 0,
+      "value": "Move to the last image"
+    }
+  ],
+  "yD1Xpo": [
+    {
+      "type": 0,
+      "value": "Day"
+    }
+  ],
+  "yFzXru": [
+    {
+      "type": 0,
+      "value": "©"
+    },
+    {
+      "type": 1,
+      "value": "year"
+    },
+    {
+      "type": 0,
+      "value": " Avalanche Canada, All Rights Reserved"
+    }
+  ],
+  "yIBCSS": [
+    {
+      "type": 0,
+      "value": "Complex"
+    }
+  ],
+  "yM2ene": [
+    {
+      "type": 0,
+      "value": "Temperatures"
+    }
+  ],
+  "yS8hft": [
+    {
+      "type": 0,
+      "value": "Wind Speed Gust (km/h)"
+    }
+  ],
+  "yWrori": [
+    {
+      "offset": 0,
+      "options": {
+        "=0": {
+          "value": [
+            {
+              "type": 0,
+              "value": "No report"
+            }
+          ]
+        },
+        "one": {
+          "value": [
+            {
+              "type": 0,
+              "value": "One report"
+            }
+          ]
+        },
+        "other": {
+          "value": [
+            {
+              "type": 0,
+              "value": "Total of "
+            },
+            {
+              "type": 7
+            },
+            {
+              "type": 0,
+              "value": " reports"
+            }
+          ]
+        }
+      },
+      "pluralType": "cardinal",
+      "type": 6,
+      "value": "count"
+    },
+    {
+      "type": 0,
+      "value": " found from "
+    },
+    {
+      "type": 1,
+      "value": "from"
+    },
+    {
+      "type": 0,
+      "value": " (start of the day) to "
+    },
+    {
+      "type": 1,
+      "value": "to"
+    },
+    {
+      "type": 0,
+      "value": " (end of the day)."
+    }
+  ],
+  "yZkzOl": [
+    {
+      "type": 0,
+      "value": "You can "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "clear your search criteria"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to find more reports."
+    }
+  ],
+  "yb+Gbh": [
+    {
+      "type": 0,
+      "value": "Creating the loop..."
+    }
+  ],
+  "yb8Oqb": [
+    {
+      "type": 0,
+      "value": "Date Issued"
+    }
+  ],
+  "ysUAAU": [
+    {
+      "type": 0,
+      "value": "Extra caution"
+    }
+  ],
+  "z9fPF4": [
+    {
+      "type": 0,
+      "value": "You can also "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "reset your criteria"
+        }
+      ],
+      "type": 8,
+      "value": "link"
+    },
+    {
+      "type": 0,
+      "value": " to see them all."
+    }
+  ],
+  "zBnK8W": [
+    {
+      "type": 0,
+      "value": "Back to"
+    }
+  ],
+  "zCe6Ex": [
+    {
+      "type": 0,
+      "value": "EPSgrams (N. American Ensemble)"
+    }
+  ],
+  "zJp3FB": [
+    {
+      "type": 0,
+      "value": "Significant warming"
+    }
+  ],
+  "zNaqzT": [
+    {
+      "type": 0,
+      "value": "Hour"
+    }
+  ],
+  "zSmg4V": [
+    {
+      "type": 0,
+      "value": "Upcoming events"
+    }
+  ],
+  "zaYxwd": [
+    {
+      "type": 0,
+      "value": "Incident"
+    }
+  ],
+  "zfrygz": [
+    {
+      "type": 0,
+      "value": "Visit Avalanche Canada Blog"
+    }
+  ],
+  "zpKok5": [
+    {
+      "type": 0,
+      "value": "Present Temp"
+    }
+  ],
+  "zv0eNH": [
+    {
+      "type": 0,
+      "value": "Location"
+    }
+  ],
+  "zwvGck": [
+    {
+      "type": 0,
+      "value": "Service awards"
+    }
+  ]
+}
