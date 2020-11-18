@@ -3057,7 +3057,7 @@
     {
       "offset": 0,
       "options": {
-        "one": {
+        "=1": {
           "value": [
             {
               "type": 7
@@ -3082,7 +3082,7 @@
       },
       "pluralType": "cardinal",
       "type": 6,
-      "value": "amount"
+      "value": "ZtQ9DU"
     }
   ],
   "a0unHU": [

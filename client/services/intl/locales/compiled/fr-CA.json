@@ -89,6 +89,12 @@
       "value": "Détails"
     }
   ],
+  "7dR24s": [
+    {
+      "type": 0,
+      "value": "Visitez notre blogue"
+    }
+  ],
   "7offaS": [
     {
       "type": 0,
@@ -147,6 +153,12 @@
     {
       "type": 0,
       "value": "Probabilité de déclenchement"
+    }
+  ],
+  "Cv5PHD": [
+    {
+      "type": 0,
+      "value": "Vos prévisions météorologiques en montagne quotidiennes"
     }
   ],
   "D4JBvM": [
@@ -239,6 +251,12 @@
       "value": "date"
     }
   ],
+  "GzjTkI": [
+    {
+      "type": 0,
+      "value": "Contactez-nous"
+    }
+  ],
   "HBELLZ": [
     {
       "type": 0,
@@ -285,6 +303,12 @@
       "value": "Recommencer"
     }
   ],
+  "JjRe8S": [
+    {
+      "type": 0,
+      "value": "Chargement..."
+    }
+  ],
   "KF5ERp": [
     {
       "type": 0,
@@ -300,7 +324,7 @@
   "L3tjFh": [
     {
       "type": 0,
-      "value": "Conditions avalancheuses généralement sécuritaires. Faire attention à la neige instable sur des reliefs de terrain isolés. "
+      "value": "Conditions avalancheuses généralement sécuritaires. Faire attention à la neige instable sur des reliefs de terrain isolés."
     }
   ],
   "M/Tq3r": [
@@ -309,10 +333,34 @@
       "value": "Conditions printanières"
     }
   ],
+  "MnV9R0": [
+    {
+      "type": 0,
+      "value": "Valide jusqu'à"
+    }
+  ],
+  "N/SISd": [
+    {
+      "type": 0,
+      "value": "Chargement..."
+    }
+  ],
   "N3I9BQ": [
     {
       "type": 0,
       "value": "Abonnez-vous à notre flux RSS"
+    }
+  ],
+  "NfTHjT": [
+    {
+      "type": 0,
+      "value": "Sélectionnez une date"
+    }
+  ],
+  "Ob2vt+": [
+    {
+      "type": 0,
+      "value": "Vos prévisions météorologiques en montagne quotidiennes"
     }
   ],
   "Oce/Vs": [
@@ -351,6 +399,12 @@
       "value": "Vos prévisions météorologiques en montagne quotidiennes"
     }
   ],
+  "S8m8si": [
+    {
+      "type": 0,
+      "value": "Chargement..."
+    }
+  ],
   "V7pNoh": [
     {
       "type": 0,
@@ -361,6 +415,12 @@
     {
       "type": 0,
       "value": "Envoyer un courriel à la section de la sécurité publique du pays de Kananaskis"
+    }
+  ],
+  "WMq6So": [
+    {
+      "type": 0,
+      "value": "Chargement..."
     }
   ],
   "WeGi2C": [
@@ -405,10 +465,28 @@
       "value": "Hors saison"
     }
   ],
+  "gXCzdT": [
+    {
+      "type": 0,
+      "value": "Soumettre un rapport d'informations de la situation en montagne"
+    }
+  ],
   "gjBiyj": [
     {
       "type": 0,
       "value": "Chargement..."
+    }
+  ],
+  "hHvvfI": [
+    {
+      "type": 0,
+      "value": "Chargement..."
+    }
+  ],
+  "i6Tori": [
+    {
+      "type": 0,
+      "value": "Soumettre un rapport d'informations de la situation en montagne"
     }
   ],
   "iUn2hD": [
@@ -478,7 +556,7 @@
   "nDlutf": [
     {
       "type": 0,
-      "value": "Votre \"Mountain Weather Forecast\" journalier"
+      "value": "Vos prévisions météorologiques en montagne quotidiennes"
     }
   ],
   "nF4SkN": [
@@ -500,6 +578,12 @@
     }
   ],
   "nRbl1m": [
+    {
+      "type": 0,
+      "value": "Visitez notre blogue"
+    }
+  ],
+  "nW3GXB": [
     {
       "type": 0,
       "value": "Visitez notre blogue"
@@ -625,6 +709,12 @@
       "value": "Voir les réponses"
     }
   ],
+  "xpPoqQ": [
+    {
+      "type": 0,
+      "value": "Archive des prévisions"
+    }
+  ],
   "yFzXru": [
     {
       "type": 0,
@@ -639,6 +729,12 @@
       "value": " Avalanche Canada, Tous droits réservés"
     }
   ],
+  "yb8Oqb": [
+    {
+      "type": 0,
+      "value": "Émi le"
+    }
+  ],
   "zBnK8W": [
     {
       "type": 0,
@@ -649,6 +745,12 @@
     {
       "type": 0,
       "value": "Visitez le blogue d’Avalanche Canada"
+    }
+  ],
+  "zwvGck": [
+    {
+      "type": 0,
+      "value": "Prix de service"
     }
   ]
 }
