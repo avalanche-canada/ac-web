@@ -5,6 +5,8 @@ import * as Async from 'contexts/async'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import { Layout } from 'layouts/pages'
+import { FORECAST } from 'constants/products'
+import { Section } from 'components/page'
 
 export default function ForecastRegionList() {
     const title = (
@@ -37,27 +39,46 @@ export default function ForecastRegionList() {
 function Regions({ payload }) {
     const sections = useSections(payload)
 
-    return sections.map(({ header, regions }, index) => {
+    return Array.from(sections.entries(), ([owner, regions], index) => {
         return (
-            <List key={index}>
-                {regions.map(({ product, url, owner }) => {
-                    const { slug, id, title } = product
-                    const target = owner.isExternal ? slug : null
-                    const to = owner.isExternal ? url : slug
+            <Section key={index} title={owner}>
+                <List>
+                    {regions.map(({ product, url, owner }) => {
+                        const { slug, id, title } = product
+                        const target = owner.isExternal ? slug : null
+                        const to = owner.isExternal ? url : slug
 
-                    return (
-                        <ListItem key={id} to={to} target={target}>
-                            {title}
-                        </ListItem>
-                    )
-                })}
-            </List>
+                        return (
+                            <ListItem key={id} to={to} target={target}>
+                                {title}
+                            </ListItem>
+                        )
+                    })}
+                </List>
+            </Section>
         )
     })
 }
 
-function useSections(regions) {
+function useSections(metadata) {
     return useMemo(() => {
-        return [{ regions }]
-    }, [regions])
+        const forecasts = metadata.filter(m => m.product.type === FORECAST)
+        const owners = new Set(forecasts.map(f => f.owner.display).sort())
+        const sections = new Map(Array.from(owners, owner => [owner, null]))
+
+        for (const [owner] of sections) {
+            sections.set(
+                owner,
+                forecasts
+                    .filter(f => f.owner.display === owner)
+                    .sort(sortForecast)
+            )
+        }
+
+        return sections
+    }, [metadata])
+}
+
+function sortForecast(a, b) {
+    return a.product.title.localeCompare(b.product.title)
 }
