@@ -110,7 +110,7 @@
   "82wRfY": [
     {
       "type": 0,
-      "value": "Problème "
+      "value": "Problème d'avalanche "
     },
     {
       "type": 1,
@@ -152,7 +152,7 @@
   "BJ77yt": [
     {
       "type": 0,
-      "value": "Probabilité de déclenchement"
+      "value": "Déclenchements d'avalanche"
     }
   ],
   "Cv5PHD": [
@@ -170,7 +170,7 @@
   "DdTMYY": [
     {
       "type": 0,
-      "value": "Zone alpine"
+      "value": "Alpin"
     }
   ],
   "DxUvN0": [
@@ -212,7 +212,7 @@
   "Ew50FU": [
     {
       "type": 0,
-      "value": "Altitude"
+      "value": "Quelle altitude ?"
     }
   ],
   "FFBBla": [
@@ -288,13 +288,13 @@
   "J8jnsU": [
     {
       "type": 0,
-      "value": "Émi le"
+      "value": "Publié le"
     }
   ],
   "JQsrhq": [
     {
       "type": 0,
-      "value": "Zone alpine"
+      "value": "Alpin"
     }
   ],
   "JgLxsC": [
@@ -438,7 +438,7 @@
   "X6pshk": [
     {
       "type": 0,
-      "value": "Orientation"
+      "value": "Quelles pentes ?"
     }
   ],
   "XVMUAR": [
@@ -550,7 +550,7 @@
   "n0GuWA": [
     {
       "type": 0,
-      "value": "Au-dessous de la limite forestière"
+      "value": "Sous la limite forestière"
     }
   ],
   "nDlutf": [
@@ -664,7 +664,7 @@
   "wKOpEQ": [
     {
       "type": 0,
-      "value": "Taille prévue"
+      "value": "Taille prévue ?"
     }
   ],
   "wKQ3vV": [
