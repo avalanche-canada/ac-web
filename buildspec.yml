@@ -1,5 +1,10 @@
 version: 0.2
 
+env:
+  secrets-manager:
+    DOCKER_USER: "BuildEnv:DOCKER_USER"
+    DOCKER_PASSWORD: "BuildEnv:DOCKER_PASSWORD"
+
 phases:
   pre_build:
     commands:
@@ -7,6 +12,8 @@ phases:
       - $(aws ecr get-login --no-include-email --region $AWS_DEFAULT_REGION)
       - echo changing node version
       - n 8.17.0
+      - echo Logging into docker
+      - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
   build:
     commands:
       - echo Build started on `date`

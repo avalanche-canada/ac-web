@@ -174,7 +174,10 @@ export const feed = {
 
         if (type === types.EVENT) {
             predicates.push(
-                Predicates.dateAfter(my(type, 'start_date'), DateParam.format())
+                Predicates.dateAfter(
+                    my(type, 'start_date'),
+                    DateParam.format(new Date())
+                )
             )
         }
 
