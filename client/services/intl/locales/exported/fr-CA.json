@@ -54,7 +54,7 @@
         "translation": "Sélectionnez une date"
     },
     "82wRfY": {
-        "translation": "Problème {counter} : {name}"
+        "translation": "Problème d'avalanche {counter} : {name}"
     },
     "8kFo5V": {
         "translation": "Valide jusqu'à"
@@ -69,7 +69,7 @@
         "translation": "Avalanches variant de grosses à très grosses dans de nombreux secteurs."
     },
     "BJ77yt": {
-        "translation": "Probabilité de déclenchement"
+        "translation": "Déclenchements d'avalanche"
     },
     "Cv5PHD": {
         "translation": "Vos prévisions météorologiques en montagne quotidiennes"
@@ -78,7 +78,7 @@
         "translation": "Bien jouer, c'est la bonne réponse!"
     },
     "DdTMYY": {
-        "translation": "Zone alpine"
+        "translation": "Alpin"
     },
     "DxUvN0": {
         "translation": "0 - Aucun indice"
@@ -99,7 +99,7 @@
         "translation": "Fiabilité"
     },
     "Ew50FU": {
-        "translation": "Altitude"
+        "translation": "Quelle altitude ?"
     },
     "FFBBla": {
         "translation": "Il n’existe aucun document pour {title}."
@@ -129,10 +129,10 @@
         "translation": "Votre réponse est requise."
     },
     "J8jnsU": {
-        "translation": "Émi le"
+        "translation": "Publié le"
     },
     "JQsrhq": {
-        "translation": "Zone alpine"
+        "translation": "Alpin"
     },
     "JgLxsC": {
         "translation": "Recommencer"
@@ -204,7 +204,7 @@
         "translation": "Grosses avalanches dans de nombreux secteurs ou très grosses avalanches localisées."
     },
     "X6pshk": {
-        "translation": "Orientation"
+        "translation": "Quelles pentes ?"
     },
     "XVMUAR": {
         "translation": "1 - Faible"
@@ -252,7 +252,7 @@
         "translation": "Consulter le"
     },
     "n0GuWA": {
-        "translation": "Au-dessous de la limite forestière"
+        "translation": "Sous la limite forestière"
     },
     "nDlutf": {
         "translation": "Vos prévisions météorologiques en montagne quotidiennes"
@@ -309,7 +309,7 @@
         "translation": "Information sur les indices de danger"
     },
     "wKOpEQ": {
-        "translation": "Taille prévue"
+        "translation": "Taille prévue ?"
     },
     "wKQ3vV": {
         "translation": "Soumettre un rapport d'informations de la situation en montagne"
