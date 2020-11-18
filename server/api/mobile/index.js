@@ -84,8 +84,8 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
-    createMINIssuesMessage(IOS),
-    createMINIssuesMessage(ANDROID),
+    createMINIssuesFixedMessage(IOS),
+    createMINIssuesFixedMessage(ANDROID),
 ]
 
 function createRelease150Message(platform) {
@@ -109,5 +109,15 @@ function createMINIssuesMessage(platform) {
         '<h1>Experiencing issues with the MIN</h1><p>We have received reports of MIN users experiencing issues uploading their observations.</p><p>We are looking into them.</p><p>In the meantime, you can post your observations to the MIN through our website: <a href="https://www.avalanche.ca/min/submit">https://www.avalanche.ca/min/submit</a>.</p><p>Thank you for your understanding.</p>',
         undefined,
         'warning'
+    )
+}
+
+function createMINIssuesFixedMessage(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '9.9.9', platform),
+        'MIN issues resolved',
+        '<h1>MIN issues resolved</h1><p>Our issues with the Mountain Information Network have been resolved!</p><p>If you had trouble submitting an observation in the last few days, please try again.</p><p>If you continue to experience problems, please let us know by emailing <a href="mailto:support@avalanche.ca">support@avalanche.ca</a>.</p>',
+        undefined,
+        'info'
     )
 }
