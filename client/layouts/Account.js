@@ -54,19 +54,23 @@ export default function Account() {
                     <Sidebar.default>
                         <Sidebar.Header>Ready?</Sidebar.Header>
                         <Sidebar.Item>
-                            <Link to="../submit">Create a report</Link>
+                            <Link to="mountain-information-network/submit">
+                                Create a report
+                            </Link>
                         </Sidebar.Item>
                         <Sidebar.Item>
-                            <Link to="../submissions">See all reports</Link>
+                            <Link to="mountain-information-network/submissions">
+                                See all reports
+                            </Link>
                         </Sidebar.Item>
                         <Sidebar.Header>More questions?</Sidebar.Header>
                         <Sidebar.Item>
-                            <Link to="../faq">
+                            <Link to="mountain-information-network/faq">
                                 Mountain Information Network — FAQ
                             </Link>
                         </Sidebar.Item>
                         <Sidebar.Item>
-                            <Link to="../submission-guidelines">
+                            <Link to="mountain-information-network/submission-guidelines">
                                 Mountain Information Network — Submission
                                 Guidelines
                             </Link>
