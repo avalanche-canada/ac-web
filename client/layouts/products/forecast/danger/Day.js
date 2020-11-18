@@ -5,7 +5,7 @@ import Time from 'components/time/Time'
 import ELEVATIONS, {
     useText as useElevationText,
 } from 'constants/forecast/elevation'
-import Ratings, { useText as useRatingText } from 'constants/forecast/rating'
+import Ratings from 'constants/forecast/rating'
 import DangerCard from 'components/graphics/danger'
 import { useClientRect } from 'hooks'
 import Styles from './Danger.css'

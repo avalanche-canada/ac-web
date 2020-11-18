@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useForecasts } from 'hooks/async/api/products'
+import { useMetadata } from 'hooks/async/api/metadata'
 import * as Async from 'contexts/async'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
@@ -22,26 +22,42 @@ export default function ForecastRegionList() {
 
     return (
         <Layout title={title} headline={headline}>
-            <Async.Provider value={useForecasts()}>
+            <Async.Provider value={useMetadata()}>
                 <Async.Pending>
                     <Loading />
                 </Async.Pending>
-                <List>
-                    <Async.Found>{renderRegions}</Async.Found>
-                </List>
+                <Async.Found>
+                    <Regions />
+                </Async.Found>
             </Async.Provider>
         </Layout>
     )
 }
 
-function renderRegions(regions) {
-    return regions.map(({ id, slug, report }) => {
-        const target = slug ? null : id
+function Regions({ payload }) {
+    const sections = useSections(payload)
 
+    return sections.map(({ header, regions }, index) => {
         return (
-            <ListItem key={id} to={slug} target={target}>
-                {report.title}
-            </ListItem>
+            <List key={index}>
+                {regions.map(({ product, url, owner }) => {
+                    const { slug, id, title } = product
+                    const target = owner.isExternal ? slug : null
+                    const to = owner.isExternal ? url : slug
+
+                    return (
+                        <ListItem key={id} to={to} target={target}>
+                            {title}
+                        </ListItem>
+                    )
+                })}
+            </List>
         )
     })
+}
+
+function useSections(regions) {
+    return useMemo(() => {
+        return [{ regions }]
+    }, [regions])
 }

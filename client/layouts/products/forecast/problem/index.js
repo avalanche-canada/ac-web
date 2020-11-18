@@ -12,9 +12,9 @@ ProblemSet.propTypes = {
 }
 
 export default function ProblemSet() {
-    const report = useReport()
+    const { problems } = useReport()
 
-    if (report.problems.length === 0) {
+    if (!Array.isArray(problems) || problems.length === 0) {
         return (
             <h3>
                 <FormattedMessage defaultMessage="No problems identified." />
@@ -22,8 +22,8 @@ export default function ProblemSet() {
         )
     }
 
-    return report.problems.map((problem, index) => (
-        <Problem key={problem.type} {...problem} counter={index + 1} />
+    return problems.map((problem, index) => (
+        <Problem key={problem.type.value} {...problem} counter={index + 1} />
     ))
 }
 
@@ -93,62 +93,29 @@ function Figure({ title, src, alt }) {
 // TODO Remove the double bottom border when the comment is empty.
 // Tried a soluton in CSS only, and it is not complete.
 // I do not want to test for <p></p> and make the border disappear.
-function Problem({
-    type,
-    icons = {},
-    comment,
-    travelAndTerrainAdvice,
-    counter,
-}) {
+function Problem({ type, graphics, comment, travelAndTerrainAdvice, counter }) {
     const intl = useIntl()
-    const title = intl.formatMessage(
-        {
-            defaultMessage: 'Avalanche Problem {counter}: {name}',
-        },
-        {
-            name: type,
-            counter: String(counter),
-        }
+    const values = {
+        name: type.display,
+        counter: String(counter),
+    }
+    const title = (
+        <FormattedMessage
+            defaultMessage="Avalanche Problem {counter}: {name}"
+            values={values}
+        />
     )
 
     return (
         <Section title={title}>
-            <Figure
-                title={intl.formatMessage({
-                    defaultMessage: 'What Elevation?',
-                })}
-                src={icons.elevations}
-                alt={intl.formatMessage({
-                    defaultMessage: 'Elevation',
-                })}
-            />
-            <Figure
-                title={intl.formatMessage({
-                    defaultMessage: 'Which Slopes?',
-                })}
-                src={icons.aspects}
-                alt={intl.formatMessage({
-                    defaultMessage: 'Slope',
-                })}
-            />
-            <Figure
-                title={intl.formatMessage({
-                    defaultMessage: 'Chances of Avalanches?',
-                })}
-                src={icons.likelihood}
-                alt={intl.formatMessage({
-                    defaultMessage: 'Likelihood',
-                })}
-            />
-            <Figure
-                title={intl.formatMessage({
-                    defaultMessage: 'Expected Size?',
-                })}
-                src={icons.expectedSize}
-                alt={intl.formatMessage({
-                    defaultMessage: 'Expeceted size',
-                })}
-            />
+            {graphics.map(({ type, label, graphic }) => (
+                <Figure
+                    key={type}
+                    title={label}
+                    src={graphic.url}
+                    alt={label}
+                />
+            ))}
             <Comment>{comment}</Comment>
             {travelAndTerrainAdvice && (
                 <Advice>{travelAndTerrainAdvice}</Advice>

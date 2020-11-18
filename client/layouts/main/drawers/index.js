@@ -1,7 +1,7 @@
-import React, { createElement } from 'react'
+import React from 'react'
 import { Router, Redirect } from '@reach/router'
 import Forecast from 'layouts/drawers/Forecast'
-import HotZoneReport from 'layouts/drawers/HotZoneReport'
+import Advisory from 'layouts/drawers/HotZoneReport'
 import MountainInformationNetwork from 'layouts/drawers/MountainInformationNetwork'
 import WeatherStation from 'layouts/drawers/WeatherStation'
 import FatalAccident from 'layouts/drawers/FatalAccident'
@@ -12,12 +12,14 @@ import { Menu as Icon } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 import Content from './Menu'
 import {
-    usePrimaryDrawerParams,
-    useSecondaryDrawerParams,
+    usePrimaryDrawer,
+    useSecondaryDrawer,
     useFlyTo,
     useFitBounds,
 } from './hooks'
 import styles from 'components/page/drawer/Drawer.css'
+import * as products from 'constants/products'
+import { createPath } from 'utils/product'
 
 export function Menu() {
     const { opened, close } = useMenu()
@@ -45,7 +47,7 @@ export function ToggleMenu() {
 }
 
 export function Primary({ map }) {
-    const { opened, close } = usePrimaryDrawerParams()
+    const { opened, close } = usePrimaryDrawer()
     const flyTo = useFlyTo(map)
     const fitBounds = useFitBounds(map)
 
@@ -53,18 +55,18 @@ export function Primary({ map }) {
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
                 <Forecast
-                    path="forecasts/:name"
+                    path={createPath(products.FORECAST, ':slug', null)}
                     onCloseClick={close}
                     onLocateClick={fitBounds}
                 />
-                <HotZoneReport
-                    path="advisories/:name"
+                <Advisory
+                    path={createPath(products.ADVISORY, ':slug', null)}
                     onCloseClick={close}
                     onLocateClick={flyTo}
                 />
                 <Redirect
-                    from="hot-zone-reports/:name"
-                    to="map/advisories/:name"
+                    from="hot-zone-reports/:slug"
+                    to={createPath(products.ADVISORY, ':slug')}
                 />
             </Router>
         </Drawer>
@@ -72,30 +74,34 @@ export function Primary({ map }) {
 }
 
 export function Secondary({ map }) {
-    const { type, id, opened, close } = useSecondaryDrawerParams()
+    const { product, id, opened, close } = useSecondaryDrawer()
     const onLocateClick = useFlyTo(map)
-    const props = {
-        id,
-        onCloseClick: close,
-        onLocateClick,
-    }
-    const children = opened
-        ? createElement(SecondaryComponents.get(type), props)
-        : null
 
     return (
         <Drawer open={opened} side={LEFT}>
-            {children}
+            {ProductComponents.has(product) ? (
+                <ProductComponent
+                    product={product}
+                    id={id}
+                    onCloseClick={close}
+                    onLocateClick={onLocateClick}
+                />
+            ) : null}
         </Drawer>
     )
 }
 
 // Components
-const SecondaryComponents = new Map([
-    ['mountain-information-network-submissions', MountainInformationNetwork],
-    ['weather-stations', WeatherStation],
-    ['fatal-accidents', FatalAccident],
-    ['mountain-conditions-reports', MountainConditionsReport],
+function ProductComponent({ product, ...props }) {
+    const Component = ProductComponents.get(product)
+
+    return <Component {...props} />
+}
+const ProductComponents = new Map([
+    [products.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetwork],
+    [products.WEATHER_STATION, WeatherStation],
+    [products.ACCIDENT, FatalAccident],
+    [products.MOUNTAIN_CONDITIONS_REPORT, MountainConditionsReport],
 ])
 
 // Style

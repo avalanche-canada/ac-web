@@ -20,23 +20,50 @@ import { useMapState, ERRORS } from 'contexts/map/state'
 import { INCIDENT } from 'constants/min'
 import { useLayer as useLayerState } from 'contexts/layers'
 import { useLocation } from 'router/hooks'
-import {
-    usePrimaryDrawerParams,
-    useSecondaryDrawerParams,
-} from './drawers/hooks'
-import { isAvalancheCanada, path } from 'utils/url'
+import { usePrimaryDrawer, useSecondaryDrawer } from './drawers/hooks'
 import { useMerge } from 'hooks/async'
 import { captureException } from 'services/sentry'
+import { createPath } from 'utils/product'
+import * as products from 'constants/products'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
     const IDS = [key, key + '-line', key + '-labels']
     const { visible } = useLayerState(key)
-    const [areas, , error] = useAreas()
+    const [[areas, metadata], , errors] = useMerge(useAreas(), useMetadata())
     const [sourceLoaded, setSourceLoaded] = useState(false)
-    const { type, id } = usePrimaryDrawerParams()
+    const { type, id } = usePrimaryDrawer()
+    const features = useMemo(() => {
+        if (!Array.isArray(areas?.features) || !Array.isArray(metadata)) {
+            return EMPTY_FEATURE_COLLECTION
+        }
 
-    useMapError(ERRORS.FORECAST, error)
+        const features = areas.features
+            // REMOVE THAT AFTER API RETURNS JUST AREA THAT HAVE A PRODUCT
+            .filter(area =>
+                metadata.some(metadata => metadata.area.id === area.id)
+            )
+            // REMOVE THAT AFTER API RETURNS JUST AREA THAT HAVE A PRODUCT
+            .map(area => {
+                const { product, owner, url } = metadata.find(
+                    metadata => metadata.area.id === area.id
+                )
+                const pathname = createPath(products.FORECAST, product.slug)
+                const extra = owner.isExternal ? { url } : { pathname }
+
+                return {
+                    ...area,
+                    properties: {
+                        ...area.properties,
+                        ...extra,
+                    },
+                }
+            })
+
+        return turf.featureCollection(features)
+    }, [areas, metadata])
+
+    useMapErrors(ERRORS.FORECAST, ...errors)
 
     useEffect(() => {
         if (!map) {
@@ -70,12 +97,7 @@ export function useForecastRegions(map) {
         }
     }, [map, type, id, sourceLoaded])
 
-    mapbox.useSource(
-        map,
-        key,
-        { ...GEOJSON, generateId: true },
-        areas || EMPTY_FEATURE_COLLECTION
-    )
+    mapbox.useSource(map, key, GEOJSON, features)
     mapbox.useLayer(
         map,
         createLayer(IDS[0], key, 'fill'),
@@ -106,24 +128,20 @@ export function useForecastMarkers(map) {
     const key = FORECASTS
     const [metadata, , error] = useMetadata()
     const { visible } = useLayerState(key)
-    const { location, navigate } = useLocation()
-
-    const definitions = useMemo(() => {
+    const { navigate } = useLocation()
+    const markers = useMemo(() => {
         if (!Array.isArray(metadata)) {
-            return []
+            return EMPTY_ARRAY
         }
 
-        return metadata.map(({ product, centroid, icon, url }) => {
+        return metadata.map(({ product, centroid, icons, url, owner }) => {
             const { slug, title } = product
             const element = document.createElement('img')
 
             element.style.cursor = 'pointer'
 
             Object.assign(element, {
-                src:
-                    icon.type === 'link'
-                        ? ICONS.get('LINK').call()
-                        : createIconURL(icon),
+                src: icons.find(findIcon).graphic,
                 width: 50,
                 height: 50,
                 alt: title,
@@ -131,10 +149,13 @@ export function useForecastMarkers(map) {
                 onclick(event) {
                     event.stopPropagation()
 
-                    if (isAvalancheCanada(url)) {
-                        navigate('/map/forecasts/' + slug + location.search)
-                    } else {
+                    if (owner.isExternal) {
                         window.open(url, title)
+                    } else {
+                        const pathname = createPath(products.FORECAST, slug)
+                        const url = pathname + window.location.search
+
+                        navigate(url)
                     }
                 },
             })
@@ -143,18 +164,16 @@ export function useForecastMarkers(map) {
         })
     }, [metadata])
 
-    useMapError(ERRORS.FORECAST, error)
-
-    const mapMarkers = mapbox.useMarkers(map, definitions)
+    useMapErrors(ERRORS.FORECAST, error)
 
     // Make markers visible or not
     useEffect(() => {
-        if (!Array.isArray(mapMarkers)) {
+        if (!Array.isArray(markers)) {
             return
         }
 
-        for (const marker of mapMarkers) {
-            const element = marker.getElement()
+        for (const marker of markers) {
+            const { element } = marker[1]
 
             if (visible) {
                 element.removeAttribute('hidden')
@@ -164,7 +183,7 @@ export function useForecastMarkers(map) {
         }
     }, [visible])
 
-    return mapMarkers
+    return mapbox.useMarkers(map, markers)
 }
 
 export function useWeatherStations(map) {
@@ -176,14 +195,14 @@ export function useWeatherStations(map) {
         [stations]
     )
 
-    useMapError(ERRORS.WEATHER_STATION, error)
+    useMapErrors(ERRORS.WEATHER_STATION, error)
     useSymbolLayer(map, key, features, visible)
 }
 
 export function useMountainConditionReports(map) {
     const key = MOUNTAIN_CONDITIONS_REPORTS
     const { visible } = useLayerState(key)
-    const id = useSearchPanelId('mountain-conditions-reports')
+    const id = useSearchPanelId(products.MOUNTAIN_CONDITIONS_REPORT)
     const [[reports, report], , errors] = useMerge(
         mcr.useReports(),
         mcr.useReport(id)
@@ -205,7 +224,7 @@ export function useMountainConditionReports(map) {
         [report]
     )
 
-    useMapError(ERRORS.MOUNTAIN_CONDITIONS_REPORT, ...errors)
+    useMapErrors(ERRORS.MOUNTAIN_CONDITIONS_REPORT, ...errors)
     useSymbolLayer(map, key, features, visible)
     useSymbolLayer(map, key + '-single', single, visible, STYLES[key].symbol)
 }
@@ -219,7 +238,7 @@ export function useFatalAccidents(map) {
         [documents]
     )
 
-    useMapError(ERRORS.INCIDENT, error)
+    useMapErrors(ERRORS.INCIDENT, error)
     useSymbolLayer(map, key, features, visible)
 }
 
@@ -261,7 +280,7 @@ export function useMountainInformationNetwork(map) {
     style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
     layer = createLayer(key, key, 'symbol', style)
 
-    let id = useSearchPanelId('mountain-information-network-submissions')
+    let id = useSearchPanelId(products.MOUNTAIN_INFORMATION_NETWORK)
 
     if (!pending) {
         id = data.some(({ subid }) => subid === id) ? null : id
@@ -281,7 +300,7 @@ export function useMountainInformationNetwork(map) {
     mapbox.useSource(map, key, GEOJSON, activeReport)
     mapbox.useLayer(map, layer, undefined, true, undefined, EVENTS)
 
-    useMapError(ERRORS.MOUNTAIN_INFORMATION_NETWORK, errorReports, errorReport)
+    useMapErrors(ERRORS.MOUNTAIN_INFORMATION_NETWORK, errorReports, errorReport)
 }
 
 // Utils for MIN
@@ -292,9 +311,8 @@ function createMountainInformationNetworkFeature({
     obs,
 }) {
     return turf.point(lnglat, {
-        id: subid,
-        type: MOUNTAIN_INFORMATION_NETWORK,
         title,
+        panel: createPath(products.MOUNTAIN_INFORMATION_NETWORK, subid),
         ...obs.reduce((types, { obtype }) => {
             types[obtype] = true
 
@@ -320,7 +338,7 @@ function isNotIncident(feature) {
 }
 
 // Errors handling
-function useMapError(type, ...errors) {
+function useMapErrors(type, ...errors) {
     const state = useMapState()
 
     useEffect(() => {
@@ -345,48 +363,11 @@ const EVENTS = [
     ['mouseleave', handleMouseLeave],
     ['mousemove', handleMouseMove],
 ]
-function createIconURL(icons) {
+function findIcon({ from, to }) {
     const now = new Date()
-    const icon = icons.find(
-        ({ from, to }) => new Date(from) < now && now < new Date(to)
-    )
-    const { type } = icon || {}
 
-    if (!ICONS.has(type)) {
-        return ''
-    }
-
-    const createURL = ICONS.get(type)
-
-    return createURL(icon)
+    return new Date(from) < now && now < new Date(to)
 }
-const GRAPHICS = '/api/forecasts/graphics'
-const RATINGS_PATH = new Map([
-    ['low', '1'],
-    ['moderate', '2'],
-    ['considerable', '3'],
-    ['high', '4'],
-    ['extreme', '5'],
-    ['no-rating', '0'],
-])
-const ICONS = new Map([
-    [
-        'RATINGS',
-        ({ ratings: { alp, tln, btl } }) =>
-            path(
-                GRAPHICS,
-                RATINGS_PATH.get(alp.toLowerCase()),
-                RATINGS_PATH.get(tln.toLowerCase()),
-                RATINGS_PATH.get(btl.toLowerCase()),
-                'danger-rating-icon.svg'
-            ),
-    ],
-    ['spring', () => path(GRAPHICS, 'spring.svg')],
-    ['offseason', () => path(GRAPHICS, 'off-season.svg')],
-    ['early-season', () => path(GRAPHICS, 'early-season.svg')],
-    ['EARLY_SEASON', () => path(GRAPHICS, 'early-season.svg')],
-    ['link', () => path(GRAPHICS, 'link.svg')],
-])
 function handleMouseMove({ target, features }) {
     // This is the best way to handle title!
     // mouseenter does not work as well
@@ -429,31 +410,28 @@ function createLayer(id, source, type, styles = STYLES[source][type]) {
 }
 function createWeatherStationFeature({ stationId, name, longitude, latitude }) {
     return turf.point([longitude, latitude], {
-        id: stationId,
-        type: WEATHER_STATION,
         title: name,
+        panel: createPath(products.WEATHER_STATION, stationId),
     })
 }
 function createMountainConditionReportFeature({ location, title, id }) {
     return turf.point(location, {
         title,
-        id,
-        type: MOUNTAIN_CONDITIONS_REPORTS,
+        panel: createPath(products.MOUNTAIN_CONDITIONS_REPORT, id),
     })
 }
 function createFatalAccidentFeature({ uid, data }) {
     const { location, title } = data
 
     return turf.point([location.longitude, location.latitude], {
-        id: uid,
-        type: FATAL_ACCIDENT,
         title,
+        panel: createPath(products.ACCIDENT, uid),
     })
 }
-function useSearchPanelId(type) {
-    const params = useSecondaryDrawerParams()
+function useSearchPanelId(product) {
+    const params = useSecondaryDrawer()
 
-    return useMemo(() => (params.type === type ? params.id : null), [params])
+    return params.product === product ? params.id : null
 }
 
 // Constants

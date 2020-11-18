@@ -19,18 +19,18 @@ import { useDocument } from 'prismic/hooks'
 import { useIntl } from 'react-intl'
 
 HotZoneReportDrawer.propTypes = {
-    name: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
     onCloseClick: PropTypes.func.isRequired,
     onLocateClick: PropTypes.func.isRequired,
 }
 
 export default function HotZoneReportDrawer({
-    name,
+    slug,
     onCloseClick,
     onLocateClick,
 }) {
-    const [area, areaPending] = useAdvisoryMetadata(name)
-    const [report, reportPending] = useDocument(hotZone.report(name))
+    const [area, areaPending] = useAdvisoryMetadata(slug)
+    const [report, reportPending] = useDocument(hotZone.report(slug))
     const intl = useIntl()
 
     function title(report, docPending) {
@@ -41,7 +41,7 @@ export default function HotZoneReportDrawer({
             })
         }
 
-        return utils.title({ region: name, report, hotZone: area })
+        return utils.title({ region: slug, report, hotZone: area })
     }
 
     return (
@@ -50,18 +50,19 @@ export default function HotZoneReportDrawer({
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject={intl.formatMessage({
-                defaultMessage: 'Avalanche Advisory',
-                description: 'Layout drawers/HotZoneReport',
-            })}>
+            <Header
+                subject={intl.formatMessage({
+                    defaultMessage: 'Avalanche Advisory',
+                    description: 'Layout drawers/HotZoneReport',
+                })}>
                 <h1>
                     {report ? (
-                        <Link to={`/advisories/${name}`}>
+                        <Link to={`/advisories/${slug}`}>
                             {title(report, reportPending)}
                         </Link>
                     ) : (
-                            <span>{title(report, reportPending)}</span>
-                        )}
+                        <span>{title(report, reportPending)}</span>
+                    )}
                     {area && (
                         <DisplayOnMap
                             onClick={() => onLocateClick(utils.geometry(area))}
@@ -75,18 +76,18 @@ export default function HotZoneReportDrawer({
                         <Loading />
                     </Shim>
                 ) : (
-                        <Hzr.Report value={report}>
-                            <Shim horizontal>
-                                <Hzr.Metadata shareable />
-                                <Hzr.Header />
-                            </Shim>
-                            <Hzr.Gallery />
-                            <Hzr.CriticalFactors />
-                            <Hzr.TerrainAndTravelAdvice />
-                            <Hzr.TerrainAdviceSet />
-                            <Hzr.Footer />
-                        </Hzr.Report>
-                    )}
+                    <Hzr.Report value={report}>
+                        <Shim horizontal>
+                            <Hzr.Metadata shareable />
+                            <Hzr.Header />
+                        </Shim>
+                        <Hzr.Gallery />
+                        <Hzr.CriticalFactors />
+                        <Hzr.TerrainAndTravelAdvice />
+                        <Hzr.TerrainAdviceSet />
+                        <Hzr.Footer />
+                    </Hzr.Report>
+                )}
             </Body>
         </Fragment>
     )

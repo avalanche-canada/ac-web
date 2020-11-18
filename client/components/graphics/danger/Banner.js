@@ -8,7 +8,6 @@ import RATINGS, {
     CONSIDERABLE,
     HIGH,
     EXTREME,
-    useTexts,
     useTravelAdvices,
     useLikehoodOfAvalanche,
     useSizeAndDistribution,
@@ -18,11 +17,11 @@ import * as Icons from './Icons'
 
 RatingText.propTypes = {
     rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
+    children: PropTypes.string.isRequired,
     showTravelAdvice: PropTypes.bool,
 }
 
-function RatingText({ rating, showTravelAdvice = false }) {
-    const texts = useTexts()
+function RatingText({ rating, children, showTravelAdvice = false }) {
     const hasTravelAdvice = showTravelAdvice && rating !== NO_RATING
     const fontSize = hasTravelAdvice ? 12 : null
     const fill = TextFill.get(rating)
@@ -30,7 +29,7 @@ function RatingText({ rating, showTravelAdvice = false }) {
 
     return (
         <text x={70} y={y} fill={fill} fontSize={fontSize}>
-            {texts.get(rating)}
+            {children}
         </text>
     )
 }

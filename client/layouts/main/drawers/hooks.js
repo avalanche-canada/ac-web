@@ -3,74 +3,53 @@ import bbox from '@turf/bbox'
 import { getCoord } from '@turf/invariant'
 import { useLocation } from 'router/hooks'
 import { useWindowSize } from 'hooks'
-import externals from 'router/externals'
-import * as TYPES from 'constants/drawers'
+import * as urls from 'utils/url'
+import { isAnalysis, isObservations, computeProductParams } from 'utils/product'
 
-export function usePrimaryDrawerParams() {
+export function usePrimaryDrawer() {
     const { location, navigate } = useLocation()
-    const params = useMemo(() => {
-        const [, type, id] = location.pathname
-            .split('/')
-            .filter(Boolean)
-            .map(String)
+    const { search, pathname } = location
 
-        if (!type || !id || !PRIMARY.has(type) || externals.has(id)) {
+    return useMemo(() => {
+        const { product, id } = computeProductParams(pathname)
+
+        if (!product || !id) {
             return BLANK_PARAMS
         }
 
         return {
-            type,
+            product,
             id,
-            opened: true,
-        }
-    }, [location.pathname])
-
-    return useMemo(
-        () => ({
-            ...params,
+            opened: isAnalysis(product),
             close() {
-                navigate('/map' + location.search)
+                navigate('/map' + search)
             },
-        }),
-        [params, location.search]
-    )
+        }
+    }, [pathname, search])
 }
 
-export function useSecondaryDrawerParams() {
+export function useSecondaryDrawer() {
     const { location, navigate } = useLocation()
-    const params = useMemo(() => {
-        const params = new URLSearchParams(location.search)
+    const { search, pathname } = location
+
+    return useMemo(() => {
+        const params = new URLSearchParams(search)
 
         if (!params.has('panel')) {
             return BLANK_PARAMS
         }
 
-        const [type, id] = params
-            .get('panel')
-            .split('/')
-            .filter(Boolean)
-            .map(String)
-
-        if (!SECONDARY.has(type)) {
-            return BLANK_PARAMS
-        }
+        const { product, id } = computeProductParams(params.get('panel'))
 
         return {
-            type,
+            product,
             id,
-            opened: true,
-        }
-    }, [location.search])
-
-    return useMemo(
-        () => ({
-            ...params,
+            opened: isObservations(product),
             close() {
-                navigate(location.pathname)
+                navigate(pathname)
             },
-        }),
-        [params, location.pathname]
-    )
+        }
+    }, [search, pathname])
 }
 export function useFlyTo(map) {
     const offset = useMapOffset()
@@ -125,7 +104,7 @@ export function useMapClickHandler(map) {
                 return
             }
 
-            const { properties, geometry, source } = feature
+            const { properties } = feature
 
             if (properties.cluster) {
                 const source = map.getSource(feature.source)
@@ -140,33 +119,24 @@ export function useMapClickHandler(map) {
                             zoom = map.getZoom() + 1
                         }
 
-                        flyTo(geometry, zoom)
+                        flyTo(feature.geometry, zoom)
                     }
                 )
             } else {
-                const { id, name, externalUrl } = properties
+                if ('url' in properties) {
+                    const { url, slug } = properties
 
-                if (externalUrl) {
-                    window.open(externalUrl, name)
+                    window.open(url, slug)
+                } else {
+                    const { pathname = location.pathname } = properties
+                    let { search } = location
 
-                    return // We are not navigating to the external location
+                    if ('panel' in properties) {
+                        search = `?panel=${properties.panel}`
+                    }
+
+                    navigate(pathname + search)
                 }
-
-                let { pathname, search } = location
-
-                if (pathname === '/') {
-                    pathname = '/map'
-                }
-
-                if (PATHS.has(source)) {
-                    pathname = `/map/${PATHS.get(source)}/${id}`
-                }
-
-                if (SEARCHS.has(source)) {
-                    search = `?panel=${SEARCHS.get(source)}/${id}`
-                }
-
-                navigate(pathname + search)
             }
         },
         [map, location.pathname, location.search]
@@ -175,8 +145,8 @@ export function useMapClickHandler(map) {
 
 // Utils
 function useMapOffset() {
-    const primary = usePrimaryDrawerParams()
-    const secondary = useSecondaryDrawerParams()
+    const primary = usePrimaryDrawer()
+    const secondary = useSecondaryDrawer()
     const size = useWindowSize()
     const width = Math.min(500, size.width)
 
@@ -199,25 +169,4 @@ function useMapOffset() {
 const WIDTH_TO_START_ADD_MAP_OFFSET = 750
 const BLANK_PARAMS = {
     opened: false,
-    type: null,
-    id: null,
 }
-const PATHS = new Map([
-    [TYPES.HOT_ZONE_REPORTS, 'advisories'],
-    [TYPES.FORECASTS, 'forecasts'],
-])
-const SEARCHS = new Map([
-    [TYPES.WEATHER_STATION, 'weather-stations'],
-    [
-        TYPES.MOUNTAIN_INFORMATION_NETWORK,
-        'mountain-information-network-submissions',
-    ],
-    [
-        TYPES.MOUNTAIN_INFORMATION_NETWORK + '-incidents',
-        'mountain-information-network-submissions',
-    ],
-    [TYPES.FATAL_ACCIDENT, 'fatal-accidents'],
-    [TYPES.MOUNTAIN_CONDITIONS_REPORTS, 'mountain-conditions-reports'],
-])
-const PRIMARY = new Set(PATHS.values())
-const SECONDARY = new Set(SEARCHS.values())
