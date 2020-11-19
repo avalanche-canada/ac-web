@@ -84,12 +84,14 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
+    createMINIssuesFixedMessage(IOS),
+    createMINIssuesFixedMessage(ANDROID),
 ]
 
 function createRelease150Message(platform) {
     return new StatusMessage(
         new StatusParams(APP, '1.5.0', platform),
-        'New application released for season 2019-2020',
+        'New application released for 2019-2020 season',
         '<h1>A new Avalanche Canada mobile app has been released for the 2019-2020 season</h1><p>Our app has undergone a major update for the 2019-20 season. The update adds the North Rockies and Yukon as full forecast regions and makes some minor changes to the way information is shown in the forecasts.</p><a href="' +
             STORE_URLS[platform] +
             '">' +
@@ -97,5 +99,25 @@ function createRelease150Message(platform) {
             '</a>',
         undefined,
         'warning'
+    )
+}
+
+function createMINIssuesMessage(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '9.9.9', platform),
+        'Experiencing issues with the MIN',
+        '<h1>Experiencing issues with the MIN</h1><p>We have received reports of MIN users experiencing issues uploading their observations.</p><p>We are looking into them.</p><p>In the meantime, you can post your observations to the MIN through our website: <a href="https://www.avalanche.ca/min/submit">https://www.avalanche.ca/min/submit</a>.</p><p>Thank you for your understanding.</p>',
+        undefined,
+        'warning'
+    )
+}
+
+function createMINIssuesFixedMessage(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '9.9.9', platform),
+        'MIN issues resolved',
+        '<h1>MIN issues resolved</h1><p>Our issues with the Mountain Information Network have been resolved!</p><p>If you had trouble submitting an observation in the last few days, please try again.</p><p>If you continue to experience problems, please let us know by emailing <a href="mailto:support@avalanche.ca">support@avalanche.ca</a>.</p>',
+        undefined,
+        'info'
     )
 }

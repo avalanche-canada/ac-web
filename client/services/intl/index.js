@@ -1,9 +1,11 @@
 export async function loadMessages(locale) {
-    if (locale.match(/^fr/i)) {
-        const module = await import('./locales/compiled/fr_CA.json')
+    let module
 
-        return module.default
+    if (locale.match(/^fr/i)) {
+        module = await import('./locales/compiled/fr-CA.json')
+    } else {
+        module = await import('./locales/compiled/en-CA.json')
     }
 
-    return {}
+    return module.default
 }
