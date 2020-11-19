@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import { List, ListItem } from 'components/page'
 import {
@@ -18,20 +17,17 @@ import Sponsor from 'layouts/Sponsor'
 import * as utils from 'utils/station'
 import { useLocation } from 'router/hooks'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { useFlyTo, useSecondaryDrawer } from 'layouts/main/drawers/hooks'
 
-WeatherStation.propTypes = {
-    id: PropTypes.string.isRequired,
-    onCloseClick: PropTypes.func.isRequired,
-    onLocateClick: PropTypes.func.isRequired,
-}
-
-export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
+export default function WeatherStation() {
+    const { close, id } = useSecondaryDrawer()
     const intl = useIntl()
+
     return (
         <Async.Provider value={hooks.useStation(id)}>
             <Navbar>
                 <Sponsor label={null} />
-                <Close onClick={onCloseClick} />
+                <Close onClick={close} />
             </Navbar>
             <Header
                 subject={intl.formatMessage({
@@ -43,16 +39,7 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
                         <Loading as="span" />
                     </Async.Pending>
                     <Async.Found>
-                        {station => (
-                            <Fragment>
-                                <Link to={utils.path(id)}>{station.name}</Link>
-                                <DisplayOnMap
-                                    onClick={() => {
-                                        onLocateClick(utils.geometry(station))
-                                    }}
-                                />
-                            </Fragment>
-                        )}
+                        <Heading />
                     </Async.Found>
                     <Async.NotFound>
                         <Warning as="span">
@@ -60,7 +47,7 @@ export default function WeatherStation({ id, onCloseClick, onLocateClick }) {
                                 description="Layout drawers/WeatherStation"
                                 defaultMessage="Weather station #{id} not found"
                                 values={{
-                                    id
+                                    id,
                                 }}
                             />
                         </Warning>
@@ -146,5 +133,20 @@ function StationList() {
                 )}
             </Async.Found>
         </Async.Provider>
+    )
+}
+
+function Heading({ payload }) {
+    const { id, name, longitude, latitude } = payload
+    const flyTo = useFlyTo()
+    function handleLocateClick() {
+        flyTo([longitude, latitude])
+    }
+
+    return (
+        <Fragment>
+            <Link to={utils.path(id)}>{name}</Link>
+            <DisplayOnMap onClick={handleLocateClick} />
+        </Fragment>
     )
 }

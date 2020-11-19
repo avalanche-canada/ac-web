@@ -11,12 +11,7 @@ import Drawer, { LEFT, RIGHT } from 'components/page/drawer'
 import { Menu as Icon } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 import Content from './Menu'
-import {
-    usePrimaryDrawer,
-    useSecondaryDrawer,
-    useFlyTo,
-    useFitBounds,
-} from './hooks'
+import { usePrimaryDrawer, useSecondaryDrawer } from './hooks'
 import styles from 'components/page/drawer/Drawer.css'
 import * as products from 'constants/products'
 import { createPath } from 'utils/product'
@@ -46,46 +41,30 @@ export function ToggleMenu() {
     )
 }
 
-export function Primary({ map }) {
-    const { opened, close } = usePrimaryDrawer()
-    const flyTo = useFlyTo(map)
-    const fitBounds = useFitBounds(map)
+export function Primary() {
+    const { opened } = usePrimaryDrawer()
 
     return (
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
-                <Forecast
-                    path={createPath(products.FORECAST, ':slug', null)}
-                    onCloseClick={close}
-                    onLocateClick={fitBounds}
-                />
-                <Advisory
-                    path={createPath(products.ADVISORY, ':slug', null)}
-                    onCloseClick={close}
-                    onLocateClick={flyTo}
-                />
+                <Forecast path={createPath(products.FORECAST, ':id', null)} />
+                <Advisory path={createPath(products.ADVISORY, ':id', null)} />
                 <Redirect
-                    from="hot-zone-reports/:slug"
-                    to={createPath(products.ADVISORY, ':slug')}
+                    from="hot-zone-reports/:id"
+                    to={createPath(products.ADVISORY, ':id')}
                 />
             </Router>
         </Drawer>
     )
 }
 
-export function Secondary({ map }) {
-    const { product, id, opened, close } = useSecondaryDrawer()
-    const onLocateClick = useFlyTo(map)
+export function Secondary() {
+    const { product, id, opened } = useSecondaryDrawer()
 
     return (
         <Drawer open={opened} side={LEFT}>
             {ProductComponents.has(product) ? (
-                <ProductComponent
-                    product={product}
-                    id={id}
-                    onCloseClick={close}
-                    onLocateClick={onLocateClick}
-                />
+                <ProductComponent product={product} id={id} />
             ) : null}
         </Drawer>
     )

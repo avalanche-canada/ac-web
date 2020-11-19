@@ -42,7 +42,7 @@ const PATHS = new Map([
     [products.ADVISORY, 'advisories'],
     [products.WEATHER_STATION, 'weather-stations'],
     [products.MOUNTAIN_CONDITIONS_REPORT, 'mountain-conditions-reports'],
-    [products.ACCIDENT, 'accidents'],
+    [products.ACCIDENT, 'fatal-accidents'],
     [
         products.MOUNTAIN_INFORMATION_NETWORK,
         'mountain-information-network-submissions',

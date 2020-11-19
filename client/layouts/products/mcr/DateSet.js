@@ -7,7 +7,11 @@ DateSet.propTypes = {
     values: PropTypes.arrayOf(PropTypes.instanceOf(Date)).isRequired,
 }
 
-export default function DateSet({ values }) {
+export default function DateSet({ values = [] }) {
+    if (!Array.isArray(values) || values.length === 0) {
+        return null
+    }
+
     const [from, to] = values
 
     return (

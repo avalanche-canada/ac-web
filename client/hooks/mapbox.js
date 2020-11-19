@@ -11,8 +11,9 @@ export function useMap(ref, options) {
     const [map, setMap] = useState()
 
     useEffect(() => {
-        // TODO Should we test the existance of ref.current? Or it will be always available?
-        // https://sentry.io/organizations/avalanche-canada/issues/1311359631
+        if (!ref.current) {
+            return
+        }
 
         const instance = new mapbox.Map({
             style: STYLES.default,
@@ -21,8 +22,8 @@ export function useMap(ref, options) {
             container: ref.current,
         })
 
-        instance.on('load', () => {
-            setMap(instance)
+        instance.on('load', event => {
+            setMap(event.target)
         })
         instance.on('error', event => {
             captureException(event.error)
@@ -31,7 +32,7 @@ export function useMap(ref, options) {
         return () => {
             instance.remove()
         }
-    }, [])
+    }, [ref.current])
 
     return map
 }

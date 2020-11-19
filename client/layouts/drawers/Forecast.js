@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import React, { Fragment, useCallback } from 'react'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
@@ -17,7 +16,7 @@ import Sponsor from 'layouts/Sponsor'
 import { useProduct } from 'hooks/async/api/products'
 import { useMetadata } from 'hooks/async/api/metadata'
 import { List, ListItem } from 'components/page'
-import * as utils from 'utils/region'
+import { Loading } from 'components/text'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Details } from 'components/error'
 import { useLocation } from 'router/hooks'
@@ -25,49 +24,41 @@ import * as Async from 'contexts/async'
 import shim from 'components/Shim.css'
 import typography from 'components/text/Text.css'
 import { useText, FORECAST } from 'requests/api/types'
+import { useFitBounds, usePrimaryDrawer } from 'layouts/main/drawers/hooks'
+import { useAreas } from 'hooks/async/api/areas'
 
-ForeastLayout.propTypes = {
-    slug: PropTypes.string.isRequired,
-    onCloseClick: PropTypes.func.isRequired,
-    onLocateClick: PropTypes.func.isRequired,
-}
-
-export default function ForeastLayout({ slug, onCloseClick, onLocateClick }) {
+export default function ForeastDrawer() {
     // "key" in <Body> to mount/remount the tabs, so the first tab appears and
     // scroll gets reset as the slug changes
+    const { id, close } = usePrimaryDrawer()
     const subject = useText(FORECAST)
 
     return (
-        <Async.Provider value={useProduct(slug)}>
+        <Async.Provider value={useProduct(id)}>
             <Navbar>
                 <Sponsor label={null} />
-                <Close onClick={onCloseClick} />
+                <Close onClick={close} />
             </Navbar>
             <Header subject={subject}>
                 <h1>
                     <Async.Pending>
-                        <span className={typography.Muted}>
-                            <FormattedMessage
-                                description="Layout drawers/Forecast"
-                                defaultMessage="Loading..."
-                            />
-                        </span>
+                        <Loading as="span" />
                     </Async.Pending>
                     <Async.Found>
-                        <ForecastRegionHeader onLocateClick={onLocateClick} />
+                        <ForecastRegionHeader />
                     </Async.Found>
                     <Async.Empty>
                         <span className={typography.Warning}>
                             <FormattedMessage
                                 description="Layout drawers/Forecast"
-                                defaultMessage="Forecast {slug} not found"
-                                values={{ slug }}
+                                defaultMessage="Forecast {id} not found"
+                                values={{ id }}
                             />
                         </span>
                     </Async.Empty>
                 </h1>
             </Header>
-            <Body key={slug}>
+            <Body key={id}>
                 <Async.Pending>
                     <p className={classnames(typography.Muted, shim.all)}>
                         <FormattedMessage
@@ -77,7 +68,7 @@ export default function ForeastLayout({ slug, onCloseClick, onLocateClick }) {
                     </p>
                 </Async.Pending>
                 <Async.Found>
-                    <Forecast onLocateClick={onLocateClick} />
+                    <Forecast />
                 </Async.Found>
                 <Async.FirstError>
                     <Async.NotFound>
@@ -139,18 +130,24 @@ function OtherRegions() {
     )
 }
 
-function ForecastRegionHeader({ payload, onLocateClick }) {
-    const { slug, report } = payload
+function ForecastRegionHeader({ payload: forecast }) {
+    const { id, slug = id } = forecast
+    const { title } = forecast.report
+    const [areas] = useAreas()
+    const area = areas?.features.find(area => area.id === forecast.area.id)
+    const fitBounds = useFitBounds()
+
+    const handleLocateClick = useCallback(() => {
+        fitBounds(area?.bbox)
+    }, [fitBounds, area])
 
     return (
         <Fragment>
             <div style={HEADER_STYLE}>
                 <Tag region={slug} as={Link} to="/spaw" />
-                <Link to={`/forecasts/${slug}`}>{report.title}</Link>
+                <Link to={`/forecasts/${slug}`}>{title}</Link>
             </div>
-            <DisplayOnMap
-                onClick={() => onLocateClick(utils.geometry(payload))}
-            />
+            <DisplayOnMap onClick={handleLocateClick} />
         </Fragment>
     )
 }

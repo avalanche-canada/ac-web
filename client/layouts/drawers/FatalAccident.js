@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import {
     Header,
     Body,
@@ -7,7 +7,7 @@ import {
     Close,
     DisplayOnMap,
 } from 'components/page/drawer'
-import { point } from '@turf/helpers'
+import * as Async from 'contexts/async'
 import { Loading, Muted } from 'components/text'
 import { DateTime } from 'components/time'
 import { Metadata, Entry } from 'components/metadata'
@@ -15,82 +15,89 @@ import { fatal } from 'prismic/params'
 import { StructuredText } from 'prismic/components/base'
 import { useDocument } from 'prismic/hooks'
 import Shim from 'components/Shim'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { useFlyTo, useSecondaryDrawer } from 'layouts/main/drawers/hooks'
 
-FatalAccident.propTypes = {
-    id: PropTypes.string.isRequired,
-    onCloseClick: PropTypes.func.isRequired,
-    onLocateClick: PropTypes.func.isRequired,
-}
-
-export default function FatalAccident({ id, onCloseClick, onLocateClick }) {
-    const [document, pending] = useDocument(fatal.accident(id))
-    const intl = useIntl()
+export default function FatalAccident() {
+    const { close, id } = useSecondaryDrawer()
+    const subject = (
+        <FormattedMessage
+            defaultMessage="Fatal Recreational Accident"
+            description="Layout drawers/FatalAccident"
+        />
+    )
 
     return (
-        <Fragment>
+        <Async.Provider value={useDocument(fatal.accident(id))}>
             <Navbar>
-                <Close onClick={onCloseClick} />
+                <Close onClick={close} />
             </Navbar>
-            <Header
-                subject={intl.formatMessage({
-                    defaultMessage: 'Fatal Recreational Accident',
-                    description: 'Layout drawers/FatalAccident',
-                })}>
-                {document && (
-                    <h1>
-                        <span>{document.data.title}</span>
-                        <DisplayOnMap
-                            onClick={() => {
-                                const {
-                                    longitude,
-                                    latitude,
-                                } = document.data.location
-
-                                onLocateClick(point([longitude, latitude]))
-                            }}
-                        />
-                    </h1>
-                )}
+            <Header subject={subject}>
+                <Async.Found>
+                    <FatalAccidentHeader />
+                </Async.Found>
             </Header>
             <Body>
                 <Shim horizontal>
-                    {pending ? (
+                    <Async.Pending>
                         <Loading>
                             <FormattedMessage
                                 description="Layout drawers/FatalAccident"
                                 defaultMessage="Loading fatal recreational accident..."
                             />
                         </Loading>
-                    ) : document ? (
-                        <Fragment>
-                            <Metadata>
-                                <Entry
-                                    term={intl.formatMessage({
-                                        defaultMessage: 'Accident Date',
-                                        description:
-                                            'Layout drawers/FatalAccident',
-                                    })}>
-                                    <DateTime
-                                        value={document.data.dateOfAccident}
-                                    />
-                                </Entry>
-                            </Metadata>
-                            <StructuredText value={document.data.content} />
-                        </Fragment>
-                    ) : (
-                                <Muted>
-                                    <FormattedMessage
-                                        description="Layout drawers/FatalAccident"
-                                        defaultMessage="Fatal recreational accident {id} available anymore."
-                                        values={{
-                                            id
-                                        }}
-                                    />
-                                </Muted>
-                            )}
+                    </Async.Pending>
+                    <Async.Found>
+                        <FatalAccidentBody />
+                    </Async.Found>
+                    <Async.NotFound>
+                        <Muted>
+                            <FormattedMessage
+                                description="Layout drawers/FatalAccident"
+                                defaultMessage="Fatal recreational accident {id} available anymore."
+                                values={{ id }}
+                            />
+                        </Muted>
+                    </Async.NotFound>
                 </Shim>
             </Body>
+        </Async.Provider>
+    )
+}
+
+// Utils
+function FatalAccidentHeader({ payload }) {
+    const { title } = payload.data
+    const flyTo = useFlyTo()
+    function locate() {
+        const { longitude, latitude } = payload.data.location
+
+        flyTo([longitude, latitude])
+    }
+
+    return (
+        <h1>
+            <span>{title}</span>
+            <DisplayOnMap onClick={locate} />
+        </h1>
+    )
+}
+function FatalAccidentBody({ payload }) {
+    const { dateOfAccident, content } = payload.data
+    const term = (
+        <FormattedMessage
+            defaultMessage="Accident Date"
+            description="Layout drawers/FatalAccident"
+        />
+    )
+
+    return (
+        <Fragment>
+            <Metadata>
+                <Entry term={term}>
+                    <DateTime value={dateOfAccident} />
+                </Entry>
+            </Metadata>
+            <StructuredText value={content} />
         </Fragment>
     )
 }

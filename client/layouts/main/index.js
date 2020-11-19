@@ -1,17 +1,16 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { Link, Match, Redirect } from '@reach/router'
+import React, { Fragment } from 'react'
+import { Link } from '@reach/router'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { supported } from 'utils/mapbox'
 import { UnsupportedMap, Screen } from 'layouts/pages'
 import { Warning } from 'components/icons'
 import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
-import externals, { open } from 'router/externals'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
 import {
     Provider as MapStateProvider,
     useMapState,
     ERRORS,
-    useGuessBounds,
 } from 'contexts/map/state'
 import keycodes from 'constants/keycodes'
 import { useBoolean, useEventListener } from 'hooks'
@@ -21,117 +20,34 @@ import Button from 'components/button'
 import { Details } from 'components/error'
 import Shim from 'components/Shim'
 import shim from 'components/Shim.css'
-import { useMapClickHandler } from './drawers/hooks'
-import { Map as MapComponent, useNavigationControl } from 'hooks/mapbox'
-import {
-    useForecastRegions,
-    useWeatherStations,
-    useMountainConditionReports,
-    useFatalAccidents,
-    useMountainInformationNetwork,
-    useForecastMarkers,
-} from './layers'
-import styles from './Map.css'
-import typography from 'components/text/Text.css'
-import { FormattedMessage, useIntl } from 'react-intl'
 import { useIntlMemo } from 'hooks/intl'
+import { Map as MapProvider } from './context'
+import typography from 'components/text/Text.css'
+import styles from './Map.css'
 
-export default supported() ? Wrapper : UnsupportedMap
-
-function Wrapper() {
-    return (
-        <LayersProvider>
-            <MenuProvider>
-                <MapStateProvider>
-                    <Main />
-                </MapStateProvider>
-            </MenuProvider>
-        </LayersProvider>
-    )
-}
+export default supported() ? Main : UnsupportedMap
 
 function Main() {
-    const [map, setMap] = useState(null)
-    const handleMapClick = useMapClickHandler(map)
-    const { zoom, center, errors } = useMapState()
-    const bounds = useGuessBounds()
-    const options = { zoom: zoom.value, center: center.value }
-
-    // Initialize map with listeners
-    useEffect(() => {
-        if (!map) {
-            return
-        }
-
-        map.on('zoomend', () => {
-            zoom.set(map.getZoom())
-        })
-        map.on('moveend', () => {
-            center.set(map.getCenter())
-        })
-        map.on('error', ({ error }) => {
-            errors.add(ERRORS.MAP, error)
-        })
-    }, [map])
-
-    // Initialize map click handler whenever "map" and the "listener" change
-    useEffect(() => {
-        if (!map) {
-            return
-        }
-
-        map.on('click', handleMapClick)
-
-        return () => {
-            map.off('click', handleMapClick)
-        }
-    }, [map, handleMapClick])
-
-    // Change map's camera based on the guessed bounds
-    useEffect(() => {
-        if (map && bounds) {
-            map.fitBounds(bounds)
-        }
-    }, [map, bounds, zoom.value])
-
-    useNavigationControl(map)
-
-    useForecastRegions(map)
-    useWeatherStations(map)
-    useMountainConditionReports(map)
-    useFatalAccidents(map)
-    useMountainInformationNetwork(map)
-    useForecastMarkers(map)
-
     return (
         <Screen>
-            <MapComponent
-                ref={setMap}
-                options={options}
-                className={styles.Map}
-            />
-            <Primary map={map} />
-            <Secondary map={map} />
-            <Menu />
-            <ToggleMenu />
-            <LinkControlSet />
-            <Match path="forecasts/:name">{openExternalForecast}</Match>
+            <LayersProvider>
+                <MenuProvider>
+                    <MapStateProvider>
+                        <MapProvider>
+                            <Primary />
+                            <Secondary />
+                            <Menu />
+                            <ToggleMenu />
+                            <LinkControlSet />
+                        </MapProvider>
+                    </MapStateProvider>
+                </MenuProvider>
+            </LayersProvider>
         </Screen>
     )
 }
 
 // Utils
-function openExternalForecast({ match, location }) {
-    // TODO Find a better way to do this! We should rely on what the server is providing as "externalURL"!
-
-    if (!match || !externals.has(match.name)) {
-        return null
-    }
-
-    open(match.name)
-
-    return <Redirect to={'/map' + location.search} />
-}
 function LinkControlSet() {
     const intl = useIntl()
 

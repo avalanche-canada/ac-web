@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { Link } from '@reach/router'
 import {
     Header,
@@ -14,27 +13,19 @@ import { Loading, Warning } from 'components/text'
 import { submission } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
 import { Provider, Pending, Found, NotFound } from 'contexts/async'
-import { point } from '@turf/helpers'
 import { useReport } from 'hooks/async/min'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { useFlyTo, useSecondaryDrawer } from 'layouts/main/drawers/hooks'
 
-MountainInformationNetwork.propTypes = {
-    id: PropTypes.string.isRequired,
-    onCloseClick: PropTypes.func.isRequired,
-    onLocateClick: PropTypes.func.isRequired,
-}
-
-export default function MountainInformationNetwork({
-    id,
-    onCloseClick,
-    onLocateClick,
-}) {
+export default function MountainInformationNetwork() {
+    const { id, close } = useSecondaryDrawer()
     const intl = useIntl()
+
     return (
         <Provider value={useReport(id)}>
             <Navbar>
                 <Sponsor label={null} />
-                <Close onClick={onCloseClick} />
+                <Close onClick={close} />
             </Navbar>
             <Header
                 subject={intl.formatMessage({
@@ -45,7 +36,7 @@ export default function MountainInformationNetwork({
                     <Loading as="h1" />
                 </Pending>
                 <Found>
-                    <ReportTitle onLocateClick={onLocateClick} />
+                    <ReportTitle />
                 </Found>
                 <NotFound>
                     <Warning as="h1">
@@ -72,7 +63,7 @@ export default function MountainInformationNetwork({
                                 description="Layout drawers/MountainInformationNetwork"
                                 defaultMessage="Report with id {id} has not been found."
                                 values={{
-                                    id
+                                    id,
                                 }}
                             />
                         </p>
@@ -97,13 +88,16 @@ export default function MountainInformationNetwork({
 }
 
 // Utils
-function ReportTitle({ onLocateClick, payload }) {
+function ReportTitle({ payload }) {
+    const flyTo = useFlyTo()
+    function handleLocationClick() {
+        flyTo(payload.lnglat)
+    }
+
     return (
         <h1>
             <Link to={submission(payload.subid)}>{payload.title}</Link>
-            <DisplayOnMap
-                onClick={() => onLocateClick(point(payload.lnglat))}
-            />
+            <DisplayOnMap onClick={handleLocationClick} />
         </h1>
     )
 }

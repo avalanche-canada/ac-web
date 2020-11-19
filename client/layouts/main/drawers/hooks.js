@@ -1,10 +1,8 @@
 import { useMemo, useCallback } from 'react'
-import bbox from '@turf/bbox'
-import { getCoord } from '@turf/invariant'
 import { useLocation } from 'router/hooks'
 import { useWindowSize } from 'hooks'
-import * as urls from 'utils/url'
 import { isAnalysis, isObservations, computeProductParams } from 'utils/product'
+import { useMap } from '../context'
 
 export function usePrimaryDrawer() {
     const { location, navigate } = useLocation()
@@ -39,7 +37,8 @@ export function useSecondaryDrawer() {
             return BLANK_PARAMS
         }
 
-        const { product, id } = computeProductParams(params.get('panel'))
+        const panel = params.get('panel')
+        const { product, id } = computeProductParams(panel)
 
         return {
             product,
@@ -51,17 +50,15 @@ export function useSecondaryDrawer() {
         }
     }, [search, pathname])
 }
-export function useFlyTo(map) {
+
+export function useFlyTo() {
+    const map = useMap()
     const offset = useMapOffset()
 
     return useCallback(
-        (geometryOrFeature, zoom = 13) => {
-            if (!map) {
-                return
-            }
-
-            map.flyTo({
-                center: getCoord(geometryOrFeature),
+        (center, zoom = 13) => {
+            map?.flyTo({
+                center,
                 zoom,
                 offset,
             })
@@ -69,16 +66,14 @@ export function useFlyTo(map) {
         [map, offset]
     )
 }
-export function useFitBounds(map) {
+
+export function useFitBounds() {
+    const map = useMap()
     const offset = useMapOffset()
 
     return useCallback(
-        geometryOrFeature => {
-            if (!map) {
-                return
-            }
-
-            map.fitBounds(bbox(geometryOrFeature), {
+        bounds => {
+            map?.fitBounds(bounds, {
                 offset,
                 padding: 75,
                 speed: 2.5,
@@ -88,63 +83,7 @@ export function useFitBounds(map) {
     )
 }
 
-export function useMapClickHandler(map) {
-    const { location, navigate } = useLocation()
-    const flyTo = useFlyTo(map)
-
-    return useCallback(
-        event => {
-            if (!map) {
-                return
-            }
-
-            const [feature] = map.queryRenderedFeatures(event.point)
-
-            if (!feature) {
-                return
-            }
-
-            const { properties } = feature
-
-            if (properties.cluster) {
-                const source = map.getSource(feature.source)
-
-                source.getClusterExpansionZoom(
-                    properties.cluster_id,
-                    (error, zoom) => {
-                        if (error) {
-                            // We do not really care if there is an error,
-                            // we will just zoom in a bit so user receives a
-                            // feedback to the click on the cluster!
-                            zoom = map.getZoom() + 1
-                        }
-
-                        flyTo(feature.geometry, zoom)
-                    }
-                )
-            } else {
-                if ('url' in properties) {
-                    const { url, slug } = properties
-
-                    window.open(url, slug)
-                } else {
-                    const { pathname = location.pathname } = properties
-                    let { search } = location
-
-                    if ('panel' in properties) {
-                        search = `?panel=${properties.panel}`
-                    }
-
-                    navigate(pathname + search)
-                }
-            }
-        },
-        [map, location.pathname, location.search]
-    )
-}
-
-// Utils
-function useMapOffset() {
+export function useMapOffset() {
     const primary = usePrimaryDrawer()
     const secondary = useSecondaryDrawer()
     const size = useWindowSize()
