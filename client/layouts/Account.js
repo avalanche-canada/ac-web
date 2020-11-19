@@ -101,7 +101,7 @@ export default function Account() {
                             />
                         </Sidebar.Header>
                         <Sidebar.Item>
-                            <Link to="../submit">
+                            <Link to="/mountain-information-network/submit">
                                 <FormattedMessage
                                     description="Layout Account"
                                     defaultMessage="Create a report"
@@ -109,7 +109,7 @@ export default function Account() {
                             </Link>
                         </Sidebar.Item>
                         <Sidebar.Item>
-                            <Link to="../submissions">
+                            <Link to="/mountain-information-network/submissions">
                                 <FormattedMessage
                                     description="Layout Account"
                                     defaultMessage="See all reports"
@@ -123,7 +123,7 @@ export default function Account() {
                             />
                         </Sidebar.Header>
                         <Sidebar.Item>
-                            <Link to="../faq">
+                            <Link to="/mountain-information-network/faq">
                                 <FormattedMessage
                                     description="Layout Account"
                                     defaultMessage="Mountain Information Network — FAQ"
@@ -131,7 +131,7 @@ export default function Account() {
                             </Link>
                         </Sidebar.Item>
                         <Sidebar.Item>
-                            <Link to="../submission-guidelines">
+                            <Link to="/mountain-information-network/submission-guidelines">
                                 <FormattedMessage
                                     description="Layout Account"
                                     defaultMessage="Mountain Information Network — Submission Guidelines"

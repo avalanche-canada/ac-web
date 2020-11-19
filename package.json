@@ -208,7 +208,9 @@
         "analyze:prod": "webpack --config webpack.production.config.js --profile --json > stats.json && webpack-bundle-analyzer stats.json ./dist/public",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "i18n:extract": "formatjs extract 'client/**/*.js' --out-file client/services/intl/locales/en_CA.json --format lokalise --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
-        "i18n:compile": "formatjs compile client/services/intl/locales/fr_CA.json --ast --format simple --out-file client/services/intl/locales/compiled/fr_CA.json"
+        "i18n:extract": "formatjs extract 'client/**/*.js' --out-file client/services/intl/locales/en-CA.json --format lokalise --id-interpolation-pattern '[sha512:contenthash:base64:6]'",
+        "i18n:compile": "npm run i18n:compile:fr && npm run i18n:compile:en",
+        "i18n:compile:en": "formatjs compile client/services/intl/locales/exported/en-CA.json --ast --format lokalise --out-file client/services/intl/locales/compiled/en-CA.json",
+        "i18n:compile:fr": "formatjs compile client/services/intl/locales/exported/fr-CA.json --ast --format lokalise --out-file client/services/intl/locales/compiled/fr-CA.json"
     }
 }
