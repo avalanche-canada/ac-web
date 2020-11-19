@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { useReport } from '../Context'
 import { InnerHTML } from 'components/misc'
 import { useClientRect } from 'hooks'
@@ -14,7 +14,7 @@ ProblemSet.propTypes = {
 export default function ProblemSet() {
     const { problems } = useReport()
 
-    if (!Array.isArray(problems) || problems.length === 0) {
+    if (problems.length === 0) {
         return (
             <h3>
                 <FormattedMessage defaultMessage="No problems identified." />
@@ -93,8 +93,7 @@ function Figure({ title, src, alt }) {
 // TODO Remove the double bottom border when the comment is empty.
 // Tried a soluton in CSS only, and it is not complete.
 // I do not want to test for <p></p> and make the border disappear.
-function Problem({ type, graphics, comment, travelAndTerrainAdvice, counter }) {
-    const intl = useIntl()
+function Problem({ type, factors, comment, travelAndTerrainAdvice, counter }) {
     const values = {
         name: type.display,
         counter: String(counter),
@@ -108,12 +107,12 @@ function Problem({ type, graphics, comment, travelAndTerrainAdvice, counter }) {
 
     return (
         <Section title={title}>
-            {graphics.map(({ type, label, graphic }) => (
+            {factors.map(({ type, graphic }) => (
                 <Figure
-                    key={type}
-                    title={label}
+                    key={type.value}
+                    title={type.display}
                     src={graphic.url}
-                    alt={label}
+                    alt={type.display}
                 />
             ))}
             <Comment>{comment}</Comment>

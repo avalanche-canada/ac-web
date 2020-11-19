@@ -15,6 +15,72 @@ import RATINGS, {
 import { BannerFill, BannerStroke, TextFill } from './colors'
 import * as Icons from './Icons'
 
+const ELEVATIONS_VALUES = new Map([[ALP, 0], [TLN, 1], [BTL, 2]])
+
+Banner.propTypes = {
+    elevation: PropTypes.shape({
+        value: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
+        display: PropTypes.string.isRequired,
+    }).isRequired,
+    rating: PropTypes.shape({
+        value: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
+        display: PropTypes.string.isRequired,
+    }).isRequired,
+    showTravelAdvice: PropTypes.bool,
+    onExpandClick: PropTypes.func,
+    expandable: PropTypes.bool,
+    expanded: PropTypes.bool,
+}
+
+export default function Banner({
+    elevation,
+    rating,
+    showTravelAdvice = false,
+    expanded,
+    expandable = false,
+    onExpandClick,
+}) {
+    const step = ELEVATIONS_VALUES.get(elevation.value)
+    const dx = 255 + 130 + step * 20
+    const dy = 205 + 6 + step * 50
+    const width = 301 - step * 20
+    const { value, display } = rating
+    const fill = BannerFill.get(value)
+    const stroke = BannerStroke.get(value)
+    const Icon = IconByRating.get(value)
+
+    return (
+        <g transform={`translate(${dx} ${dy})`}>
+            <rect
+                x={18}
+                width={width}
+                height={expanded ? 90 : 37}
+                fill={fill}
+                stroke={stroke}
+                strokeWidth={0.5}
+                strokeMiterlimit={10}
+            />
+            <RatingText rating={value} showTravelAdvice={showTravelAdvice}>
+                {display}
+            </RatingText>
+            {showTravelAdvice && (
+                <ExtraInformation rating={value} expanded={expanded} />
+            )}
+            <g transform="scale(0.45)">
+                <Icon />
+            </g>
+            {expandable && (
+                <ExpandButton
+                    rating={rating}
+                    onClick={onExpandClick}
+                    expanded={expanded}
+                    x={685 - dx}
+                />
+            )}
+        </g>
+    )
+}
+
 RatingText.propTypes = {
     rating: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
     children: PropTypes.string.isRequired,
@@ -91,69 +157,6 @@ function ExpandButton({ rating, x, onClick, expanded }) {
         <g transform={`translate(${x} 3)`} onClick={onClick} style={style}>
             <rect width={15} height={15} fill="transparent" />
             <path transform="translate(1.5 1.5) scale(0.5)" d={d} fill={fill} />
-        </g>
-    )
-}
-
-const ELEVATIONS_VALUES = new Map([[ALP, 0], [TLN, 1], [BTL, 2]])
-
-Banner.propTypes = {
-    elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
-    rating: PropTypes.shape({
-        value: PropTypes.oneOf(Array.from(RATINGS)).isRequired,
-        display: PropTypes.string.isRequired,
-    }).isRequired,
-    showTravelAdvice: PropTypes.bool,
-    onExpandClick: PropTypes.func,
-    expandable: PropTypes.bool,
-    expanded: PropTypes.bool,
-}
-
-export default function Banner({
-    elevation = ALP,
-    rating,
-    showTravelAdvice = false,
-    expanded,
-    expandable = false,
-    onExpandClick,
-}) {
-    const step = ELEVATIONS_VALUES.get(elevation)
-    const dx = 255 + 130 + step * 20
-    const dy = 205 + 6 + step * 50
-    const width = 301 - step * 20
-    const { value, display } = rating
-    const fill = BannerFill.get(value)
-    const stroke = BannerStroke.get(value)
-    const Icon = IconByRating.get(value)
-
-    return (
-        <g transform={`translate(${dx} ${dy})`}>
-            <rect
-                x={18}
-                width={width}
-                height={expanded ? 90 : 37}
-                fill={fill}
-                stroke={stroke}
-                strokeWidth={0.5}
-                strokeMiterlimit={10}
-            />
-            <RatingText rating={value} showTravelAdvice={showTravelAdvice}>
-                {display}
-            </RatingText>
-            {showTravelAdvice && (
-                <ExtraInformation rating={value} expanded={expanded} />
-            )}
-            <g transform="scale(0.45)">
-                <Icon />
-            </g>
-            {expandable && (
-                <ExpandButton
-                    rating={rating}
-                    onClick={onExpandClick}
-                    expanded={expanded}
-                    x={685 - dx}
-                />
-            )}
         </g>
     )
 }

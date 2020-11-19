@@ -6,7 +6,7 @@ export const MODERATE = 'moderate'
 export const CONSIDERABLE = 'considerable'
 export const HIGH = 'high'
 export const EXTREME = 'extreme'
-export const NO_RATING = 'no-rating'
+export const NO_RATING = 'norating'
 
 export const LEVELS = [NO_RATING, LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME]
 

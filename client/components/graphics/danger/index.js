@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
-import { ALP, TLN, BTL } from 'constants/forecast/elevation'
+import Elevations, { ALP, TLN, BTL } from 'constants/forecast/elevation'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
 import * as Ratings from 'constants/forecast/rating'
@@ -27,28 +26,36 @@ const STYLE = {
 
 Card.propTypes = {
     alp: PropTypes.shape({
-        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
         display: PropTypes.string.isRequired,
+        rating: PropTypes.shape({
+            value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+            display: PropTypes.string.isRequired,
+        }).isRequired,
     }).isRequired,
     tln: PropTypes.shape({
-        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
         display: PropTypes.string.isRequired,
+        rating: PropTypes.shape({
+            value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+            display: PropTypes.string.isRequired,
+        }).isRequired,
     }).isRequired,
     btl: PropTypes.shape({
-        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
         display: PropTypes.string.isRequired,
+        rating: PropTypes.shape({
+            value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+            display: PropTypes.string.isRequired,
+        }).isRequired,
     }).isRequired,
     showTravelAdvice: PropTypes.bool,
     showExtraInformation: PropTypes.bool,
 }
 
 export default function Card({
-    alp,
-    tln,
-    btl,
     showTravelAdvice = false,
     showExtraInformation = false,
+    ...ratings
 }) {
+    const { alp, tln, btl } = ratings
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -179,20 +186,27 @@ export default function Card({
                 d="M343.7 351l-46.1-25.5-37.3-4.4 15.1-23.2c1.8-.1 3.2-.3 3.4-.3.5 0 10.6-1.8 23 3.1s14.8 6.3 20.8 9.7c4.5 2.5 9.7 5.1 15.5 5.9l5.6 34.7z"
             />
             <PositionText x={302} y={265}>
-                <FormattedMessage defaultMessage="Alpine" />
+                {alp.display}
             </PositionText>
             <PositionText x={291} y={293}>
-                <FormattedMessage defaultMessage="Treeline" />
+                {tln.display}
             </PositionText>
             <PositionText x={269} y={320}>
-                <FormattedMessage defaultMessage="Below treeline" />
+                {btl.display}
             </PositionText>
             <BannerSet
                 showTravelAdvice={showTravelAdvice}
                 expandable={showExtraInformation}>
-                <Banner rating={btl} elevation={BTL} />
-                <Banner rating={tln} elevation={TLN} />
-                <Banner rating={alp} elevation={ALP} />
+                {Array.from(Elevations, elevation => (
+                    <Banner
+                        key={elevation}
+                        rating={ratings[elevation].rating}
+                        elevation={{
+                            value: elevation,
+                            display: ratings[elevation].display,
+                        }}
+                    />
+                ))}
             </BannerSet>
         </svg>
     )

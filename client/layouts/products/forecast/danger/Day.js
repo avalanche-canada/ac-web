@@ -2,9 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Time from 'components/time/Time'
-import ELEVATIONS, {
-    useText as useElevationText,
-} from 'constants/forecast/elevation'
+import ELEVATIONS from 'constants/forecast/elevation'
 import Ratings from 'constants/forecast/rating'
 import DangerCard from 'components/graphics/danger'
 import { useClientRect } from 'hooks'
@@ -18,16 +16,25 @@ Day.propTypes = {
         display: PropTypes.string.isRequired,
     }).isRequired,
     alp: PropTypes.shape({
-        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
         display: PropTypes.string.isRequired,
+        rating: PropTypes.shape({
+            value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+            display: PropTypes.string.isRequired,
+        }).isRequired,
     }).isRequired,
     tln: PropTypes.shape({
-        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
         display: PropTypes.string.isRequired,
+        rating: PropTypes.shape({
+            value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+            display: PropTypes.string.isRequired,
+        }).isRequired,
     }).isRequired,
     btl: PropTypes.shape({
-        value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
         display: PropTypes.string.isRequired,
+        rating: PropTypes.shape({
+            value: PropTypes.oneOf(Array.from(Ratings)).isRequired,
+            display: PropTypes.string.isRequired,
+        }).isRequired,
     }).isRequired,
     mountain: PropTypes.bool,
 }
@@ -47,34 +54,38 @@ export default function Day({ date, mountain, ...ratings }) {
                     showExtraInformation={width > 650}
                 />
             ) : (
-                Array.from(ELEVATIONS).map(elevation => (
-                    <Row
-                        key={elevation}
-                        rating={ratings[elevation]}
-                        elevation={elevation}
-                    />
-                ))
+                <DangerTable {...ratings} />
             )}
         </section>
     )
 }
 
 // Utils
+function DangerTable(ratings) {
+    return Array.from(ELEVATIONS, elevation => {
+        const rating = ratings[elevation].rating
+
+        elevation = {
+            value: elevation,
+            display: ratings[elevation].display,
+        }
+
+        return <Row key={elevation} rating={rating} elevation={elevation} />
+    })
+}
 function Row({ rating, elevation }) {
-    const { value, display } = rating
-    const elevationText = useElevationText(elevation)
+    const ratingStyle = classnames(Styles.Rating, RatingStyles[rating.value])
     const elevationStyle = classnames(
         Styles.Elevation,
-        ElevationStyles[elevation]
+        ElevationStyles[elevation.value]
     )
-    const ratingStyle = classnames(Styles.Rating, RatingStyles[value])
 
     // TODO Could be moved to a Description List: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 
     return (
         <div className={Styles.Row}>
-            <div className={elevationStyle}>{elevationText}</div>
-            <div className={ratingStyle}>{display}</div>
+            <div className={elevationStyle}>{elevation.display}</div>
+            <div className={ratingStyle}>{rating.display}</div>
         </div>
     )
 }

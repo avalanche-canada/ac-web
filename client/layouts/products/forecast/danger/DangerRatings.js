@@ -12,8 +12,8 @@ export default function DangerRatings() {
 
     return (
         <DaySet>
-            {report.dangerRatings.map(({ date, dangerRating }, index) => (
-                <Day key={index} date={date} {...dangerRating} />
+            {report.dangerRatings.map(({ date, ratings }, index) => (
+                <Day key={index} date={date} {...ratings} />
             ))}
         </DaySet>
     )

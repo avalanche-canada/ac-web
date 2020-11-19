@@ -141,7 +141,7 @@ export function useForecastMarkers(map) {
             element.style.cursor = 'pointer'
 
             Object.assign(element, {
-                src: icons.find(findIcon).graphic,
+                src: icons.find(findIcon).graphic.url,
                 width: 50,
                 height: 50,
                 alt: title,
