@@ -65,7 +65,7 @@ module.exports = function(app) {
 
     app.use('/basic-html', require('./mobile'))
     app.use('/schema', require('./schema/handlers'))
-    app.use('/static', require('./static'))
+    app.use('/api/static', require('./static'))
 
     //! Error middle ware \todo make this better and inc better logging (winston)
     app.use(function(err, req, res, next) {

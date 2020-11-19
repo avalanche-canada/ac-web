@@ -1,6 +1,6 @@
 {
     "baseURL": "/api",
-    "staticBaseURL": "/static",
+    "staticBaseURL": "/api/static",
     "apiBaseURL": "https://api.avalanche.ca",
     "astBaseUrl": "https://ast.avalanche.ca/api",
     "weatherBaseUrl": "https://api.avalanche.ca/weather",
