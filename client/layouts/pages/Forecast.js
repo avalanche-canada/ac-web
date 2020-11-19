@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import { Link } from '@reach/router'
+import { Router, Link } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
 import { useForecasts, useForecast } from 'hooks/async/api/products'
 import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
@@ -58,11 +58,13 @@ export default function ForecastLayout({ name, date }) {
                         </Async.FirstError>
                     </Main>
                     <Aside>
-                        {name === 'kananaskis' ? (
-                            <components.KananaskisSidebar />
-                        ) : (
-                            <components.Sidebar isPrintable={isPrintable} />
-                        )}
+                        <Router basepath="/forecasts/">
+                            <components.KananaskisSidebar path="kananaskis" />
+                            <components.Sidebar
+                                default
+                                isPrintable={isPrintable}
+                            />
+                        </Router>
                     </Aside>
                 </Content>
             </Async.Provider>

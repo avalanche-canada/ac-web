@@ -8,7 +8,6 @@ import endOfYesterday from 'date-fns/end_of_yesterday'
 import Forecast from 'layouts/pages/Forecast'
 import ForecastRegionList from 'layouts/ForecastRegionList'
 import Bundle from 'components/Bundle'
-import externals, { open } from 'router/externals'
 import { DateParam } from 'hooks/params'
 import { path } from 'utils/url'
 
@@ -16,7 +15,6 @@ export default function ForecastLayout() {
     return (
         <Router>
             <ForecastRegionList path="/" />
-            <Forecast name="kananaskis" path="kananaskis" />
             <ForecastRoute path=":name" />
             <ForecastRoute path=":name/:date" />
             <ArchiveForecastRoute path="archives" />
@@ -28,12 +26,6 @@ export default function ForecastLayout() {
 
 // Subroutes
 function ForecastRoute({ name, date }) {
-    if (externals.has(name)) {
-        open(name)
-
-        return <Redirect to="/forecasts" />
-    }
-
     if (typeof date === 'string') {
         const parsed = parse(date)
 
@@ -53,11 +45,6 @@ function ArchiveForecastRoute({ name, date, navigate }) {
     if (date && isAfter(parse(date), endOfYesterday())) {
         return <Redirect to={`/forecasts/${name}`} />
     }
-
-    if (name && date) {
-        open(name, date)
-    }
-
     function handleParamsChange({ name, date }) {
         navigate(path('/forecasts/archives', name, DateParam.format(date)))
     }

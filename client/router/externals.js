@@ -1,17 +1,10 @@
-import { VANCOUVER_ISLAND, CHIC_CHOCS } from 'constants/forecast/owners'
-
 // FIXME It is useful module, however we should rely on the settings coming from the server.
 
 const externals = new Map([
     ['little-yoho', createParkURL(5)],
     ['banff-yoho-kootenay', createParkURL(1)],
-    [VANCOUVER_ISLAND, '//www.islandavalanchebulletin.com/'],
     ['jasper', createParkURL(2)],
     ['waterton', createParkURL(4)],
-    [
-        CHIC_CHOCS,
-        '//avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche',
-    ],
     ['glacier', createParkURL(3)],
 ])
 
