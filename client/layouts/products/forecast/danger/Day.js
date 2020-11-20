@@ -63,7 +63,7 @@ export default function Day({ date, mountain, ...ratings }) {
 // Utils
 function DangerTable(ratings) {
     return Array.from(ELEVATIONS, elevation => {
-        const rating = ratings[elevation].rating
+        const { rating } = ratings[elevation]
 
         elevation = {
             value: elevation,

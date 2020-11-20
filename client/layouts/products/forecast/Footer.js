@@ -1,70 +1,58 @@
-import React, { Fragment, Children, cloneElement } from 'react'
+import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
-import { useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { useForecast } from './Context'
 import Panel from 'components/panel'
-import Shim from 'components/Shim'
 import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
-import { Generic } from 'prismic/layouts'
+import { GenericProvider } from 'prismic/layouts'
+import { Panel as RenderPanel } from 'prismic/layouts/renderers'
 import ArchiveDatePicker from './ArchiveDatePicker'
 import styles from './Forecast.css'
 
-export default function Footer() {
-    const forecast = useForecast()
+export default function Footer({ children }) {
+    const { slug } = useForecast()
 
-    return forecast ? (
-        <FooterComponent region={forecast.region} date={forecast.date} />
-    ) : null
+    return <FooterComponent slug={slug}>{children}</FooterComponent>
 }
 
-export function ArchivedBulletins(props) {
-    const intl = useIntl()
-    const header = intl.formatMessage({
-        defaultMessage: 'Archived bulletins',
-    })
+export function ArchivedBulletins({ slug }) {
+    const header = (
+        <FormattedMessage
+            description="FX Footer"
+            defaultMessage="Archived bulletins"
+        />
+    )
 
     return (
         <Panel header={header}>
-            <ArchiveDatePicker region={props.region} />
+            <ArchiveDatePicker slug={slug} />
         </Panel>
     )
 }
 
 export function Inbox() {
-    const intl = useIntl()
-    const header = intl.formatMessage({
-        defaultMessage: 'Avalanche Forecasts in your Inbox',
-    })
-
-    return (
-        <Panel header={header}>
-            <Shim horizontal>
-                <Generic uid="forecast-rss-message" />
-            </Shim>
-        </Panel>
-    )
+    return <Prismic uid="forecast-rss-message" />
 }
 
-export function Disclaimer() {
-    const intl = useIntl()
-    const header = intl.formatMessage({
-        defaultMessage: 'Forecast Disclaimer',
-    })
+export function Disclaimer({ uid = 'forecast-disclaimer' }) {
+    return <Prismic uid={uid} />
+}
 
+export function Prismic({ uid }) {
     return (
-        <Panel header={header}>
-            <Shim horizontal>
-                <Generic uid="forecast-disclaimer" />
-            </Shim>
-        </Panel>
+        <GenericProvider uid={uid}>
+            <RenderPanel />
+        </GenericProvider>
     )
 }
 
 export function DangerRatings() {
-    const intl = useIntl()
-    const header = intl.formatMessage({
-        defaultMessage: 'Danger Ratings Explained',
-    })
+    const header = (
+        <FormattedMessage
+            defaultMessage="Danger Ratings Explained"
+            description="FX Footer"
+        />
+    )
 
     return (
         <Panel header={header}>
@@ -74,16 +62,15 @@ export function DangerRatings() {
 }
 
 FooterComponent.propTypes = {
-    region: PropTypes.string.isRequired,
-    date: PropTypes.instanceOf(Date),
+    slug: PropTypes.string.isRequired,
     children: PropTypes.node,
 }
 
-function FooterComponent({ children, region }) {
+function FooterComponent({ children, slug }) {
     function cloneChild(child) {
         switch (child.type) {
             case ArchivedBulletins:
-                return cloneElement(child, { region })
+                return cloneElement(child, { slug })
             default:
                 return child
         }
@@ -98,11 +85,9 @@ function FooterComponent({ children, region }) {
 
     return (
         <footer className={styles.Footer}>
-            <Fragment>
-                {Children.toArray(children)
-                    .filter(Boolean)
-                    .map(cloneChild)}
-            </Fragment>
+            {Children.toArray(children)
+                .filter(Boolean)
+                .map(cloneChild)}
         </footer>
     )
 }

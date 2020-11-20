@@ -11,16 +11,16 @@ import { DateParam } from 'hooks/params'
 import { DATE } from 'constants/intl'
 
 ArchiveDatePicker.propTypes = {
-    region: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
     date: PropTypes.instanceOf(Date),
 }
 
 export default function ArchiveDatePicker(props) {
     const intl = useIntl()
     const localeUtils = useLocaleUtils()
-    const { region } = props
+    const { slug } = props
     const [date, setDate] = useState(props.date || endOfYesterday())
-    const to = urls.path('/forecasts/archives', region, DateParam.format(date))
+    const to = urls.path('/forecasts/archives', slug, DateParam.format(date))
     function handleDayClick(day, { disabled }) {
         if (disabled) {
             return

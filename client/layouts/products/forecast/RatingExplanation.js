@@ -18,7 +18,9 @@ export default function RatingExplanation() {
 
     return ratings.map(rating => (
         <Section key={rating}>
-            <Header style={RatingStyles[rating]}>{texts.get(rating)}</Header>
+            <Header className={RatingStyles[rating]}>
+                {texts.get(rating)}
+            </Header>
             <Content>
                 <p>{travelAdvices.get(rating)}</p>
                 <p>{likehoodOfAvalanche.get(rating)}</p>

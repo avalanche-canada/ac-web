@@ -6,13 +6,9 @@ import Summary from './Summary'
 export default function DetailSet() {
     const report = useReport()
 
-    return report ? report.summaries.map(render) : null
-}
-
-function render({ title, content }) {
-    return (
-        <Summary key={title} title={title}>
+    return report.summaries.map(({ type, content }) => (
+        <Summary key={type.value} title={type.display}>
             <InnerHTML>{content}</InnerHTML>
         </Summary>
-    )
+    ))
 }

@@ -70,7 +70,7 @@ export function Provider({ children, defaultLocale }) {
 // Utils component to display children only when locale is set to provided locale (value).
 // Useful to display warning about product not fully translated.
 export function LocaleSwitch({ children, value = FR }) {
-    const { locale } = useLocale()
+    const locale = useLocaleCode()
 
     return value === locale ? children : null
 }

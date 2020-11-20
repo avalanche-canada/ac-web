@@ -8,7 +8,7 @@ export const HIGH = 'high'
 export const EXTREME = 'extreme'
 export const NO_RATING = 'norating'
 
-export const LEVELS = [NO_RATING, LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME]
+export const LEVELS = [LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING]
 
 export default new Set(LEVELS)
 

@@ -1,19 +1,19 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import { Router, Link } from '@reach/router'
+import { Link } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
 import { useForecasts, useForecast } from 'hooks/async/api/products'
 import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
 import { Page } from 'layouts/pages'
-import * as components from 'layouts/products/forecast'
+import * as Components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Tag } from 'layouts/SPAW'
 import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
-import typography from 'components/text/Text.css'
 import { Details } from 'components/error'
 import { Loading } from 'components/text'
+import typography from 'components/text/Text.css'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -58,13 +58,9 @@ export default function ForecastLayout({ name, date }) {
                         </Async.FirstError>
                     </Main>
                     <Aside>
-                        <Router basepath="/forecasts/">
-                            <components.KananaskisSidebar path="kananaskis" />
-                            <components.Sidebar
-                                default
-                                isPrintable={isPrintable}
-                            />
-                        </Router>
+                        <Async.Payload>
+                            <Sidebar isPrintable={isPrintable} />
+                        </Async.Payload>
                     </Aside>
                 </Content>
             </Async.Provider>
@@ -73,6 +69,13 @@ export default function ForecastLayout({ name, date }) {
 }
 
 // Util components
+function Sidebar({ payload, ...props }) {
+    return (
+        <Components.Provider value={payload}>
+            <Components.Sidebar {...props} />
+        </Components.Provider>
+    )
+}
 function Title({ name }) {
     return (
         <Fragment>
@@ -96,13 +99,13 @@ function Title({ name }) {
 }
 function ForecastContent({ payload }) {
     return (
-        <components.Provider value={payload}>
-            <components.Metadata />
-            <components.LocaleWarning />
-            <components.Headline />
-            <components.TabSet onTabChange={handleForecastTabActivate} />
-            <components.Footer />
-        </components.Provider>
+        <Components.Provider value={payload}>
+            <Components.Metadata />
+            <Components.LocaleWarning />
+            <Components.Headline />
+            <Components.TabSet onTabChange={handleForecastTabActivate} />
+            <Components.Footer />
+        </Components.Provider>
     )
 }
 function OtherRegions() {
