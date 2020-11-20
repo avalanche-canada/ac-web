@@ -22,7 +22,7 @@
     border-bottom: white solid 4px;
 
     & > a {
-        display: flex;
+        display: inline-flex;
         align-items: center;
 
         &:hover {
