@@ -82,7 +82,7 @@ function Title({ name }) {
     return (
         <Fragment>
             <Async.Pending>
-                <Loading />
+                <Loading as="span" />
             </Async.Pending>
             <Async.Found>
                 <ForecastHeader />
