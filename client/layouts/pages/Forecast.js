@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
-import { Link } from '@reach/router'
+import { Link, Redirect } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
 import { useForecasts, useForecast } from 'hooks/async/api/products'
 import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
@@ -100,6 +100,12 @@ function Title({ name }) {
     )
 }
 function ForecastContent({ payload }) {
+    if (payload.owner.isExternal) {
+        open(payload.url, payload.slug)
+
+        return <Redirect to="/forecasts" />
+    }
+
     return (
         <Components.Provider value={payload}>
             <Async.Found>

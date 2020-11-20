@@ -1,6 +1,6 @@
 import React, { Fragment, useCallback } from 'react'
 import classnames from 'classnames'
-import { Link } from '@reach/router'
+import { Link, Redirect } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
 import { Tag } from 'layouts/SPAW'
 import {
@@ -68,7 +68,7 @@ export default function ForeastDrawer() {
                     </p>
                 </Async.Pending>
                 <Async.Found>
-                    <Forecast />
+                    <ForecastContent />
                 </Async.Found>
                 <Async.FirstError>
                     <Async.NotFound>
@@ -92,7 +92,13 @@ export default function ForeastDrawer() {
 }
 
 // Utils and Constants
-function Forecast({ payload }) {
+function ForecastContent({ payload }) {
+    if (payload.owner.isExternal) {
+        open(payload.url, payload.slug)
+
+        return <Redirect to="/map" />
+    }
+
     return (
         <Components.Provider value={payload}>
             <Shim horizontal>
