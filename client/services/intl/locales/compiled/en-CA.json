@@ -114,10 +114,6 @@
     }
   ],
   "/3jGaX": [
-    {
-      "type": 0,
-      "value": "Avalanche Forecasts in your Inbox"
-    }
   ],
   "/AElfC": [
     {
@@ -138,10 +134,6 @@
     }
   ],
   "/Pksc9": [
-    {
-      "type": 0,
-      "value": "Email the Kananaskis Country Public Safety Section"
-    }
   ],
   "/PphbK": [
     {
@@ -379,6 +371,18 @@
       "value": "Select an area."
     }
   ],
+  "2Z7oDB": [
+    {
+      "type": 0,
+      "value": "More information"
+    }
+  ],
+  "2aV3aQ": [
+    {
+      "type": 0,
+      "value": "Alpine weather forecast"
+    }
+  ],
   "2cCG+C": [
     {
       "type": 0,
@@ -389,6 +393,12 @@
     {
       "type": 0,
       "value": "Avalanche Advisory"
+    }
+  ],
+  "2gVYHB": [
+    {
+      "type": 0,
+      "value": "Email the Kananaskis Country Public Safety Section"
     }
   ],
   "2qCVIs": [
@@ -413,6 +423,12 @@
       "value": "Mountain Weather Forecast Feedback"
     }
   ],
+  "2yJisv": [
+    {
+      "type": 0,
+      "value": "Subscribe to our forecasts"
+    }
+  ],
   "36Tu55": [
     {
       "type": 0,
@@ -426,10 +442,6 @@
     }
   ],
   "3M/Kkc": [
-    {
-      "type": 0,
-      "value": "Weather Forecast"
-    }
   ],
   "3hIm21": [
     {
@@ -622,6 +634,12 @@
     {
       "type": 0,
       "value": "Unknown"
+    }
+  ],
+  "5mBM1r": [
+    {
+      "type": 0,
+      "value": "Avalanche Forecast"
     }
   ],
   "5vzyAa": [
@@ -1009,6 +1027,22 @@
       "value": "Relative humidity"
     }
   ],
+  "AVbrfN": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "911"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " for backcountry rescues and tell them you are in Kananaskis Country"
+    }
+  ],
   "AW4vJq": [
     {
       "type": 0,
@@ -1040,9 +1074,11 @@
     }
   ],
   "BJ77yt": [
+  ],
+  "BNaSG0": [
     {
       "type": 0,
-      "value": "Chances of Avalanches?"
+      "value": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
     }
   ],
   "BQVMOp": [
@@ -1073,6 +1109,12 @@
     {
       "type": 0,
       "value": "Hour"
+    }
+  ],
+  "BvR5MR": [
+    {
+      "type": 0,
+      "value": "Archived bulletins"
     }
   ],
   "BzQPM+": [
@@ -1137,6 +1179,12 @@
       "value": "MIN To Win"
     }
   ],
+  "Cmdoi3": [
+    {
+      "type": 0,
+      "value": "Advisory"
+    }
+  ],
   "CpGrub": [
     {
       "type": 0,
@@ -1197,10 +1245,30 @@
       "value": "Well done — You’re right!"
     }
   ],
+  "D4qYT5": [
+    {
+      "type": 0,
+      "value": "Avalanche report"
+    }
+  ],
   "D5zf4H": [
     {
       "type": 0,
       "value": "AST 1+"
+    }
+  ],
+  "DAXTto": [
+    {
+      "type": 0,
+      "value": "Forecast "
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " not found"
     }
   ],
   "DRm/Ps": [
@@ -1218,26 +1286,6 @@
     }
   ],
   "DdTMYY": [
-    {
-      "type": 0,
-      "value": "Alpine"
-    }
-  ],
-  "DiJSHu": [
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "403-679-3511"
-        }
-      ],
-      "type": 8,
-      "value": "phone"
-    },
-    {
-      "type": 0,
-      "value": " is the Public Safety office phone number (weekdays)"
-    }
   ],
   "DxUvN0": [
     {
@@ -1302,10 +1350,6 @@
     }
   ],
   "Eca5XB": [
-    {
-      "type": 0,
-      "value": "Treeline"
-    }
   ],
   "Ee5E3w": [
     {
@@ -1340,10 +1384,6 @@
     }
   ],
   "Ew50FU": [
-    {
-      "type": 0,
-      "value": "What Elevation?"
-    }
   ],
   "EwRIOm": [
     {
@@ -1432,10 +1472,6 @@
     }
   ],
   "GUfQm1": [
-    {
-      "type": 0,
-      "value": "Forecast Archive"
-    }
   ],
   "GXFJtl": [
     {
@@ -1825,10 +1861,6 @@
     }
   ],
   "KotpK6": [
-    {
-      "type": 0,
-      "value": "Archived bulletins"
-    }
   ],
   "KrVTJE": [
     {
@@ -2031,10 +2063,6 @@
     }
   ],
   "N/SISd": [
-    {
-      "type": 0,
-      "value": "Loading..."
-    }
   ],
   "N1cgil": [
     {
@@ -2219,10 +2247,6 @@
     }
   ],
   "Oiag/N": [
-    {
-      "type": 0,
-      "value": "Contact"
-    }
   ],
   "OlJJ7I": [
     {
@@ -2309,10 +2333,6 @@
     }
   ],
   "Q2/+Ze": [
-    {
-      "type": 0,
-      "value": "Snowpack Summary"
-    }
   ],
   "Q5SHJ1": [
     {
@@ -2475,10 +2495,6 @@
     }
   ],
   "S+GDxJ": [
-    {
-      "type": 0,
-      "value": "Your daily Mountain Weather Forecast"
-    }
   ],
   "S0GJ2r": [
     {
@@ -2532,6 +2548,12 @@
     {
       "type": 0,
       "value": "Outside a region"
+    }
+  ],
+  "SmpOMT": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network"
     }
   ],
   "SsYBcd": [
@@ -2709,6 +2731,26 @@
       "value": " so we can help you sort that out."
     }
   ],
+  "VBSQLa": [
+    {
+      "type": 0,
+      "value": "No "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " Avalanche Advisory is currently available."
+    }
+  ],
+  "VEy7NE": [
+    {
+      "type": 0,
+      "value": "Remote weather stations"
+    }
+  ],
   "VecW4F": [
     {
       "type": 0,
@@ -2731,6 +2773,12 @@
     {
       "type": 0,
       "value": "Weather station"
+    }
+  ],
+  "Vx5B5y": [
+    {
+      "type": 0,
+      "value": "Visit Avalanche Canada Blog"
     }
   ],
   "W8F0HN": [
@@ -2796,10 +2844,6 @@
     }
   ],
   "WeGi2C": [
-    {
-      "type": 0,
-      "value": "Avalanche Summary"
-    }
   ],
   "WePE/Y": [
     {
@@ -2858,10 +2902,6 @@
     }
   ],
   "X6pshk": [
-    {
-      "type": 0,
-      "value": "Which Slopes?"
-    }
   ],
   "X83AXU": [
     {
@@ -3082,7 +3122,7 @@
       },
       "pluralType": "cardinal",
       "type": 6,
-      "value": "ZtQ9DU"
+      "value": "amount"
     }
   ],
   "a0unHU": [
@@ -3345,6 +3385,22 @@
       "value": "..."
     }
   ],
+  "cnbRxD": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-591-7755"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the dispatch office non-emergency line"
+    }
+  ],
   "cuIJWp": [
     {
       "type": 0,
@@ -3539,22 +3595,6 @@
       "value": "Height"
     }
   ],
-  "eztvsv": [
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "911"
-        }
-      ],
-      "type": 8,
-      "value": "phone"
-    },
-    {
-      "type": 0,
-      "value": " for backcountry rescues and tell them you are in Kananaskis Country"
-    }
-  ],
   "f1lt+W": [
     {
       "type": 0,
@@ -3615,20 +3655,6 @@
     {
       "type": 0,
       "value": "Type"
-    }
-  ],
-  "fTIjqa": [
-    {
-      "type": 0,
-      "value": "Forecast "
-    },
-    {
-      "type": 1,
-      "value": "name"
-    },
-    {
-      "type": 0,
-      "value": " not found"
     }
   ],
   "fatal-recreational-accidents": [
@@ -3695,12 +3721,6 @@
     {
       "type": 0,
       "value": "Fatal"
-    }
-  ],
-  "gFP2S8": [
-    {
-      "type": 0,
-      "value": "Avalanche Forecast"
     }
   ],
   "gSPD2F": [
@@ -3778,10 +3798,6 @@
     }
   ],
   "hHvvfI": [
-    {
-      "type": 0,
-      "value": "Loading..."
-    }
   ],
   "hIYH8G": [
     {
@@ -3856,6 +3872,12 @@
     {
       "type": 0,
       "value": "."
+    }
+  ],
+  "hvMNVN": [
+    {
+      "type": 0,
+      "value": "Special Public Avalanche Warning"
     }
   ],
   "i+AGCP": [
@@ -4251,6 +4273,18 @@
       "value": "Close"
     }
   ],
+  "mSawI9": [
+    {
+      "type": 0,
+      "value": "Your daily Mountain Weather Forecast"
+    }
+  ],
+  "mSeuWm": [
+    {
+      "type": 0,
+      "value": "Danger Ratings Explained"
+    }
+  ],
   "mTRqfE": [
     {
       "type": 0,
@@ -4380,10 +4414,6 @@
     }
   ],
   "nHnEJS": [
-    {
-      "type": 0,
-      "value": "Forecast Disclaimer"
-    }
   ],
   "nILfLj": [
     {
@@ -4476,10 +4506,6 @@
     }
   ],
   "oRm/jl": [
-    {
-      "type": 0,
-      "value": "Below treeline"
-    }
   ],
   "oUWADl": [
     {
@@ -4623,6 +4649,22 @@
     {
       "type": 0,
       "value": "Yukon"
+    }
+  ],
+  "qU8wXd": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-679-3511"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the Public Safety office phone number (weekdays)"
     }
   ],
   "qV1HTT": [
@@ -4818,10 +4860,6 @@
     }
   ],
   "sCu44f": [
-    {
-      "type": 0,
-      "value": "More information"
-    }
   ],
   "sHDYEY": [
     {
@@ -5011,26 +5049,16 @@
       "value": "Weather Glossary"
     }
   ],
+  "unv0Z7": [
+    {
+      "type": 0,
+      "value": "Contact"
+    }
+  ],
   "upcoming-events": [
     {
       "type": 0,
       "value": "Upcoming events"
-    }
-  ],
-  "v890BT": [
-    {
-      "children": [
-        {
-          "type": 0,
-          "value": "403-591-7755"
-        }
-      ],
-      "type": 8,
-      "value": "phone"
-    },
-    {
-      "type": 0,
-      "value": " is the dispatch office non-emergency line"
     }
   ],
   "vD3KLj": [
@@ -5126,10 +5154,6 @@
     }
   ],
   "wF4e0m": [
-    {
-      "type": 0,
-      "value": "Danger Ratings Explained"
-    }
   ],
   "wHV6rf": [
     {
@@ -5144,10 +5168,6 @@
     }
   ],
   "wKOpEQ": [
-    {
-      "type": 0,
-      "value": "Expected Size?"
-    }
   ],
   "wKQ3vV": [
     {
@@ -5206,10 +5226,6 @@
     }
   ],
   "wp6n1n": [
-    {
-      "type": 0,
-      "value": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
-    }
   ],
   "wpexYN": [
     {
@@ -5288,6 +5304,12 @@
     {
       "type": 0,
       "value": "Until further notice"
+    }
+  ],
+  "x1UmLT": [
+    {
+      "type": 0,
+      "value": "Hot Zone"
     }
   ],
   "x4Ch6V": [
@@ -5398,6 +5420,12 @@
       "value": "Day"
     }
   ],
+  "yFX4u5": [
+    {
+      "type": 0,
+      "value": "Forecast Archive"
+    }
+  ],
   "yFzXru": [
     {
       "type": 0,
@@ -5410,6 +5438,12 @@
     {
       "type": 0,
       "value": " Avalanche Canada, All Rights Reserved"
+    }
+  ],
+  "yHhuHl": [
+    {
+      "type": 0,
+      "value": "Live Chic-Chocs conditions"
     }
   ],
   "yIBCSS": [
@@ -5561,6 +5595,26 @@
       "value": "EPSgrams (N. American Ensemble)"
     }
   ],
+  "zHorBS": [
+    {
+      "type": 0,
+      "value": "For backcountry rescue call "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "911"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " and tell them you are in the Chic-Chocs"
+    }
+  ],
   "zJp3FB": [
     {
       "type": 0,
@@ -5586,10 +5640,6 @@
     }
   ],
   "zfrygz": [
-    {
-      "type": 0,
-      "value": "Visit Avalanche Canada Blog"
-    }
   ],
   "zpKok5": [
     {
@@ -5601,6 +5651,12 @@
     {
       "type": 0,
       "value": "Location"
+    }
+  ],
+  "zvP02c": [
+    {
+      "type": 0,
+      "value": "Archives"
     }
   ],
   "zwvGck": [

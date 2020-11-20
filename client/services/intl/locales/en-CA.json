@@ -52,9 +52,6 @@
     "notes": "Component pager/Previous",
     "translation": "Previous"
   },
-  "/3jGaX": {
-    "translation": "Avalanche Forecasts in your Inbox"
-  },
   "/AElfC": {
     "translation": "Surface"
   },
@@ -64,10 +61,6 @@
   "/NqjPa": {
     "notes": "Layout weather/forecast/Forecast",
     "translation": "Date"
-  },
-  "/Pksc9": {
-    "notes": "FX Sidebar",
-    "translation": "Email the Kananaskis Country Public Safety Section"
   },
   "/PphbK": {
     "notes": "Layout Account",
@@ -180,6 +173,14 @@
     "notes": "Layout pages/ArchiveHotZoneReport",
     "translation": "Select an area."
   },
+  "2Z7oDB": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "More information"
+  },
+  "2aV3aQ": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "Alpine weather forecast"
+  },
   "2cCG+C": {
     "notes": "Layout admin/UserList",
     "translation": "Username"
@@ -187,6 +188,10 @@
   "2d7Vp3": {
     "notes": "Layout drawers/HotZoneReport",
     "translation": "Avalanche Advisory"
+  },
+  "2gVYHB": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "Email the Kananaskis Country Public Safety Section"
   },
   "2qCVIs": {
     "notes": "Component Drawer/Toolbar",
@@ -200,6 +205,10 @@
     "notes": "Layout weather/forecast/Footer",
     "translation": "Mountain Weather Forecast Feedback"
   },
+  "2yJisv": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "Subscribe to our forecasts"
+  },
   "36Tu55": {
     "notes": "Layout Account",
     "translation": "Changing your username will change all previously submitted reports as well as all reports you will submit in the future."
@@ -207,10 +216,6 @@
   "3GWnIa": {
     "notes": "AvCan menu",
     "translation": "Forecasters’ blogs"
-  },
-  "3M/Kkc": {
-    "notes": "Avalanche Details section",
-    "translation": "Weather Forecast"
   },
   "3hIm21": {
     "notes": "Component weather/ExtendedWeatherForecast",
@@ -316,6 +321,9 @@
   },
   "5jeq8P": {
     "translation": "Unknown"
+  },
+  "5mBM1r": {
+    "translation": "Avalanche Forecast"
   },
   "5vzyAa": {
     "notes": "FX tab header",
@@ -514,6 +522,10 @@
     "notes": "Component weather/station/charts/RelativeHumidity",
     "translation": "Relative humidity"
   },
+  "AVbrfN": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "<phone>911</phone> for backcountry rescues and tell them you are in Kananaskis Country"
+  },
   "AW4vJq": {
     "notes": "ATES Rating Description",
     "translation": "Exposure to low angle or primarily forested terrain. Some forest openings may involve the runout zones of infrequent avalanches. Many options to reduce or eliminate exposure. No glacier travel."
@@ -533,8 +545,9 @@
     "notes": "Layout weather/forecast/Tutorial",
     "translation": "Loading tutorial..."
   },
-  "BJ77yt": {
-    "translation": "Chances of Avalanches?"
+  "BNaSG0": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
   },
   "BQVMOp": {
     "notes": "Component weather/station/charts/Wind",
@@ -543,6 +556,10 @@
   "BjomlV": {
     "notes": "Component weather/station/headers",
     "translation": "Hour"
+  },
+  "BvR5MR": {
+    "notes": "FX Footer",
+    "translation": "Archived bulletins"
   },
   "BzQPM+": {
     "translation": "Destination"
@@ -575,6 +592,9 @@
   "CkFq5N": {
     "notes": "Layout min/Report",
     "translation": "MIN To Win"
+  },
+  "Cmdoi3": {
+    "translation": "Advisory"
   },
   "CpGrub": {
     "notes": "Constants layouts/ast",
@@ -613,20 +633,21 @@
   "D4JBvM": {
     "translation": "Well done — You’re right!"
   },
+  "D4qYT5": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "Avalanche report"
+  },
   "D5zf4H": {
     "notes": "AvCan menu",
     "translation": "AST 1+"
   },
+  "DAXTto": {
+    "notes": "Layout drawers/Forecast",
+    "translation": "Forecast {id} not found"
+  },
   "DRm/Ps": {
     "notes": "Layout drawers/MountainConditionsReport",
     "translation": "Report #{id} is not available anymore."
-  },
-  "DdTMYY": {
-    "translation": "Alpine"
-  },
-  "DiJSHu": {
-    "notes": "FX Header",
-    "translation": "<phone>403-679-3511</phone> is the Public Safety office phone number (weekdays)"
   },
   "DxUvN0": {
     "notes": "Ratings Texts for NO_RATING",
@@ -663,9 +684,6 @@
     "notes": "Layout products/hzr/CriticalFactors",
     "translation": "Information to collect while travelling"
   },
-  "Eca5XB": {
-    "translation": "Treeline"
-  },
   "Ee5E3w": {
     "notes": "Likelihood of Avalanche message for HIGH",
     "translation": "Natural avalanches likely; human-triggered avalanches very likely."
@@ -676,9 +694,6 @@
   },
   "EoQTj0": {
     "translation": "Confidence"
-  },
-  "Ew50FU": {
-    "translation": "What Elevation?"
   },
   "EwRIOm": {
     "translation": "User"
@@ -727,10 +742,6 @@
   "GQ1GrS": {
     "notes": "Layout feed/Entry",
     "translation": "Special Public Avalanche Warning"
-  },
-  "GUfQm1": {
-    "notes": "FX Header",
-    "translation": "Forecast Archive"
   },
   "GXFJtl": {
     "notes": "Layout min/SubmissionList",
@@ -930,9 +941,6 @@
     "notes": "Component weather/station/headers",
     "translation": "Height"
   },
-  "KotpK6": {
-    "translation": "Archived bulletins"
-  },
   "KrVTJE": {
     "notes": "Layout ast/tables/cells",
     "translation": "N/A"
@@ -1057,10 +1065,6 @@
     "notes": "Layout pages/NotFound",
     "translation": "Our blog"
   },
-  "N/SISd": {
-    "notes": "Layout drawers/Forecast",
-    "translation": "Loading..."
-  },
   "N1cgil": {
     "notes": "Layout Account",
     "translation": "Mountain Information Network — FAQ"
@@ -1163,10 +1167,6 @@
     "notes": "Travel Advice message for MODERATE",
     "translation": "Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern."
   },
-  "Oiag/N": {
-    "notes": "FX Sidebar",
-    "translation": "Contact"
-  },
   "OlJJ7I": {
     "notes": "Constants prismic",
     "translation": "Event"
@@ -1210,10 +1210,6 @@
   "Q05qE6": {
     "notes": "Constants layouts/ast",
     "translation": "Ski"
-  },
-  "Q2/+Ze": {
-    "notes": "Avalanche Details section",
-    "translation": "Snowpack Summary"
   },
   "Q5SHJ1": {
     "notes": "Layout ast/layouts",
@@ -1298,10 +1294,6 @@
   "RumeRz": {
     "translation": "Regions"
   },
-  "S+GDxJ": {
-    "notes": "FX Header",
-    "translation": "Your daily Mountain Weather Forecast"
-  },
   "S0GJ2r": {
     "notes": "Layout min/Submission",
     "translation": "Loading Mountain Information Network report..."
@@ -1335,6 +1327,10 @@
   },
   "SlXuCK": {
     "translation": "Outside a region"
+  },
+  "SmpOMT": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "Mountain Information Network"
   },
   "SsYBcd": {
     "notes": "Layout incidents/layouts",
@@ -1438,6 +1434,14 @@
     "notes": "Layout Account",
     "translation": "This could happen for few reasons. Do not hesitate to contact us at <mail></mail> so we can help you sort that out."
   },
+  "VBSQLa": {
+    "notes": "Layout drawers/HotZoneReport",
+    "translation": "No {name} Avalanche Advisory is currently available."
+  },
+  "VEy7NE": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "Remote weather stations"
+  },
   "VecW4F": {
     "notes": "AvCan menu",
     "translation": "Our staff"
@@ -1453,6 +1457,10 @@
   "VuUEEB": {
     "notes": "Layout drawers/WeatherStation",
     "translation": "Weather station"
+  },
+  "Vx5B5y": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "Visit Avalanche Canada Blog"
   },
   "W8F0HN": {
     "notes": "",
@@ -1489,10 +1497,6 @@
     "notes": "AvCan menu",
     "translation": "How to GIVE information?"
   },
-  "WeGi2C": {
-    "notes": "Avalanche Details section",
-    "translation": "Avalanche Summary"
-  },
   "WePE/Y": {
     "notes": "Size and Distribution message for HIGH",
     "translation": "Large avalanches in many areas; or very large avalanches in specific areas."
@@ -1524,9 +1528,6 @@
   "X4fq+c": {
     "notes": "Component time/DateRange",
     "translation": "From"
-  },
-  "X6pshk": {
-    "translation": "Which Slopes?"
   },
   "X83AXU": {
     "notes": "Component Controls/Geocoder",
@@ -1748,6 +1749,10 @@
     "notes": "Layout weather/forecast/Forecast",
     "translation": "Loading mountain weather forecast for {date}..."
   },
+  "cnbRxD": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "<phone>403-591-7755</phone> is the dispatch office non-emergency line"
+  },
   "cuIJWp": {
     "notes": "Layout min/Report",
     "translation": "Pick a to date"
@@ -1831,10 +1836,6 @@
     "notes": "Component weather/station/columns",
     "translation": "Height"
   },
-  "eztvsv": {
-    "notes": "FX Header",
-    "translation": "<phone>911</phone> for backcountry rescues and tell them you are in Kananaskis Country"
-  },
   "f1lt+W": {
     "notes": "Layout ast/tables/Providers",
     "translation": "No providers match your criteria, consider finding a course on the <link>courses page</link>."
@@ -1866,10 +1867,6 @@
   "fPfNNr": {
     "notes": "Layout incidents/layouts",
     "translation": "Type"
-  },
-  "fTIjqa": {
-    "notes": "Layout drawers/Forecast",
-    "translation": "Forecast {name} not found"
   },
   "fatal-recreational-accidents": {
     "translation": "Fatal Recreational Accidents"
@@ -1910,10 +1907,6 @@
   "gDCRKI": {
     "notes": "Layout incidents/layout",
     "translation": "Fatal"
-  },
-  "gFP2S8": {
-    "notes": "Layout drawers/Forecast",
-    "translation": "Avalanche Forecast"
   },
   "gSPD2F": {
     "notes": "Component weather/station/headers",
@@ -1957,10 +1950,6 @@
   "hDJDN/": {
     "translation": "More details"
   },
-  "hHvvfI": {
-    "notes": "Layout drawers/HotZoneReport",
-    "translation": "Loading..."
-  },
   "hIYH8G": {
     "notes": "Layout main/index",
     "translation": "{count, plural, one {One error} other {# errors}} occurred. Click for more details."
@@ -1983,6 +1972,9 @@
   "hiAkhj": {
     "notes": "Layout TripPlanner/Forecast",
     "translation": "No avalanche forecast has been found for {name}."
+  },
+  "hvMNVN": {
+    "translation": "Special Public Avalanche Warning"
   },
   "i+AGCP": {
     "notes": "Layout admin/UserList",
@@ -2205,6 +2197,14 @@
     "notes": "Component Drawer/Toolbar",
     "translation": "Close"
   },
+  "mSawI9": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "Your daily Mountain Weather Forecast"
+  },
+  "mSeuWm": {
+    "notes": "FX Footer",
+    "translation": "Danger Ratings Explained"
+  },
   "mTRqfE": {
     "notes": "AvCan menu",
     "translation": "COVID-19 Safety Plan"
@@ -2275,9 +2275,6 @@
     "notes": "Layout incidents/layouts",
     "translation": "To"
   },
-  "nHnEJS": {
-    "translation": "Forecast Disclaimer"
-  },
   "nILfLj": {
     "notes": "Size and Distribution message for MODERATE",
     "translation": "Small avalanches in specific areas; or large avalanches in isolated areas."
@@ -2336,9 +2333,6 @@
   "oCd58D": {
     "notes": "Layout products/hzr/CriticalFactors",
     "translation": "Recent wind loading"
-  },
-  "oRm/jl": {
-    "translation": "Below treeline"
   },
   "oUWADl": {
     "translation": "No"
@@ -2430,6 +2424,10 @@
     "notes": "Layout feed/Feed",
     "translation": "Yukon"
   },
+  "qU8wXd": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "<phone>403-679-3511</phone> is the Public Safety office phone number (weekdays)"
+  },
   "qV1HTT": {
     "notes": "ATES Chart",
     "translation": "Extra"
@@ -2508,10 +2506,6 @@
   "sCTnlT": {
     "notes": "Layout weather/forecast/Sidebar",
     "translation": "Current Conditions"
-  },
-  "sCu44f": {
-    "notes": "FX Header",
-    "translation": "More information"
   },
   "sHDYEY": {
     "notes": "AvCan menu",
@@ -2612,12 +2606,12 @@
     "notes": "Layout weather",
     "translation": "Weather Glossary"
   },
+  "unv0Z7": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "Contact"
+  },
   "upcoming-events": {
     "translation": "Upcoming events"
-  },
-  "v890BT": {
-    "notes": "FX Header",
-    "translation": "<phone>403-591-7755</phone> is the dispatch office non-emergency line"
   },
   "vD3KLj": {
     "notes": "AvCan menu",
@@ -2673,9 +2667,6 @@
     "notes": "Layout pages/UnsupportedMap",
     "translation": "Uh oh! You never thought that would happen..."
   },
-  "wF4e0m": {
-    "translation": "Danger Ratings Explained"
-  },
   "wHV6rf": {
     "notes": "Component weather/station/charts/Snow",
     "translation": "New (cm)"
@@ -2683,9 +2674,6 @@
   "wJHFjD": {
     "notes": "Layout incidents/layouts",
     "translation": "Aspect"
-  },
-  "wKOpEQ": {
-    "translation": "Expected Size?"
   },
   "wKQ3vV": {
     "notes": "FX Sidebar",
@@ -2717,10 +2705,6 @@
   "wiGfb7": {
     "translation": "Find another route"
   },
-  "wp6n1n": {
-    "notes": "FX Sidebar",
-    "translation": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
-  },
   "wpexYN": {
     "notes": "Layout Account",
     "translation": "In the meantime, do not hesitate to email us at <mailto></mailto> if you need help for these."
@@ -2739,6 +2723,9 @@
   "wzEVz0": {
     "notes": "FX Metadata",
     "translation": "Until further notice"
+  },
+  "x1UmLT": {
+    "translation": "Hot Zone"
   },
   "x4Ch6V": {
     "notes": "Layout products/hzr/TerrainSummary",
@@ -2802,9 +2789,17 @@
     "notes": "Layout TripPlanner/TripPlanning",
     "translation": "Day"
   },
+  "yFX4u5": {
+    "notes": "FX Kananaskis Sidebar",
+    "translation": "Forecast Archive"
+  },
   "yFzXru": {
     "notes": "Footer",
     "translation": "©{year} Avalanche Canada, All Rights Reserved"
+  },
+  "yHhuHl": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "Live Chic-Chocs conditions"
   },
   "yIBCSS": {
     "notes": "ATES Rating",
@@ -2849,6 +2844,10 @@
     "notes": "Component weather/ExtendedWeatherForecast",
     "translation": "EPSgrams (N. American Ensemble)"
   },
+  "zHorBS": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "For backcountry rescue call <phone>911</phone> and tell them you are in the Chic-Chocs"
+  },
   "zJp3FB": {
     "notes": "Layout products/hzr/CriticalFactors",
     "translation": "Significant warming"
@@ -2864,10 +2863,6 @@
   "zaYxwd": {
     "translation": "Incident"
   },
-  "zfrygz": {
-    "notes": "FX Header",
-    "translation": "Visit Avalanche Canada Blog"
-  },
   "zpKok5": {
     "notes": "Layout incidents/layouts",
     "translation": "Present Temp"
@@ -2875,6 +2870,10 @@
   "zv0eNH": {
     "notes": "Layout ast/tables/Courses",
     "translation": "Location"
+  },
+  "zvP02c": {
+    "notes": "FX Avalanche Quebec Sidebar",
+    "translation": "Archives"
   },
   "zwvGck": {
     "notes": "AvCan menu",
