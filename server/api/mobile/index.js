@@ -84,8 +84,6 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
-    createMINIssuesFixedMessage(IOS),
-    createMINIssuesFixedMessage(ANDROID),
 ]
 
 function createRelease150Message(platform) {
