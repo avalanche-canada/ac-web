@@ -100,11 +100,13 @@ function Title({ name }) {
 function ForecastContent({ payload }) {
     return (
         <Components.Provider value={payload}>
-            <Components.Metadata />
-            <Components.LocaleWarning />
-            <Components.Headline />
-            <Components.TabSet onTabChange={handleForecastTabActivate} />
-            <Components.Footer />
+            <Async.Found>
+                <Components.Metadata />
+                <Components.Notifications />
+                <Components.Headline />
+                <Components.TabSet onTabChange={handleForecastTabActivate} />
+                <Components.Footer />
+            </Async.Found>
         </Components.Provider>
     )
 }

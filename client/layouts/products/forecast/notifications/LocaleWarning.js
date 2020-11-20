@@ -3,7 +3,7 @@ import { LocaleSwitch, LocaleSwitcher } from 'contexts/intl'
 import { ButtonSet } from 'components/button'
 import { Warning } from 'components/alert'
 import Shim from 'components/Shim'
-import { useReport } from './Context'
+import { useReport } from '../Context'
 
 export default function LocaleWarning() {
     const report = useReport()

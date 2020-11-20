@@ -19,10 +19,6 @@ export default function ForecastMetadata({ shareUrl }) {
     const report = useReport()
     const intl = useIntl()
 
-    if (!report) {
-        return null
-    }
-
     return (
         <Metadata>
             <TimestampEntry

@@ -50,6 +50,9 @@ a[href] {
     composes: Alert;
 
     background-color: var(--info);
+    & a {
+        text-decoration: underline;
+    }
 }
 
 .Warning {

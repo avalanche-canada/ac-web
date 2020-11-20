@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import { FormattedMessage } from 'react-intl'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
-import { useReport } from './Context'
 import DetailSet from './DetailSet'
 import Confidence from './Confidence'
 import { Condition, TravelAndTerrainAdvice, DangerRatings } from './danger'
@@ -14,12 +13,6 @@ TabSet.propTypes = {
 }
 
 export default function TabSet({ onTabChange = noop }) {
-    const report = useReport()
-
-    if (!report) {
-        return null
-    }
-
     return (
         <Tabs onTabChange={onTabChange}>
             <HeaderSet>

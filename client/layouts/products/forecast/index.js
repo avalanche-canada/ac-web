@@ -11,7 +11,7 @@ export { Provider, useForecast } from './Context'
 export Metadata from './Metadata'
 export Headline from './Headline'
 export TabSet from './TabSet'
-export LocaleWarning from './LocaleWarning'
+export Notifications from './notifications'
 
 export function Sidebar(props) {
     const forecast = useForecast()
