@@ -32,7 +32,7 @@ export function useForecastRegions(map) {
     const { visible } = useLayerState(key)
     const [[areas, metadata], , errors] = useMerge(useAreas(), useMetadata())
     const [sourceLoaded, setSourceLoaded] = useState(false)
-    const { type, id } = usePrimaryDrawer()
+    const { product, id } = usePrimaryDrawer()
     const features = useMemo(() => {
         if (!Array.isArray(areas?.features) || !Array.isArray(metadata)) {
             return EMPTY_FEATURE_COLLECTION
@@ -66,38 +66,43 @@ export function useForecastRegions(map) {
     useMapErrors(ERRORS.FORECAST, ...errors)
 
     useEffect(() => {
-        if (!map) {
-            return
-        }
-
-        map.on('sourcedata', () => {
+        map?.on('sourcedata', () => {
             setSourceLoaded(map.isSourceLoaded(key))
         })
     }, [map])
 
     useEffect(() => {
-        if (!map || !sourceLoaded || !id || type !== 'forecasts') {
+        if (
+            !map ||
+            !sourceLoaded ||
+            !id ||
+            product !== products.FORECAST ||
+            !metadata
+        ) {
             return
         }
 
-        const [feature] = map.querySourceFeatures(key, {
-            filter: ['==', 'id', id],
+        const source = key
+        const { area } = metadata.find(meta => meta.product.slug === id)
+
+        const [feature] = map.querySourceFeatures(source, {
+            filter: ['==', ['get', 'id'], area.id],
         })
 
         if (!feature) {
             return
         }
 
-        const target = { source: key, id: feature.id }
+        const target = { source, id: feature.id }
 
         map.setFeatureState(target, { active: true })
 
         return () => {
             map.removeFeatureState(target, 'active')
         }
-    }, [map, type, id, sourceLoaded])
+    }, [map, product, id, sourceLoaded, metadata])
 
-    mapbox.useSource(map, key, GEOJSON, features)
+    mapbox.useSource(map, key, { ...GEOJSON, generateId: true }, features)
     mapbox.useLayer(
         map,
         createLayer(IDS[0], key, 'fill'),
@@ -354,7 +359,7 @@ const GEOJSON = {
     type: 'geojson',
 }
 const CLUSTER = {
-    ...GEOJSON,
+    type: 'geojson',
     cluster: true,
     clusterMaxZoom: 14,
 }
