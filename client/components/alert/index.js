@@ -4,10 +4,10 @@ import { Close } from 'components/button'
 import styles from './Alert.css'
 
 // Types
-const DANGER = 'DANGER'
-const INFO = 'INFO'
-const WARNING = 'WARNING'
-const SUCCESS = 'SUCCESS'
+export const DANGER = 'DANGER'
+export const INFO = 'INFO'
+export const WARNING = 'WARNING'
+export const SUCCESS = 'SUCCESS'
 
 export const Danger = createAlertForType(DANGER)
 export const Info = createAlertForType(INFO)
