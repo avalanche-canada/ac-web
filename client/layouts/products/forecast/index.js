@@ -5,7 +5,7 @@ import DefaultSidebar, {
     Kananaskis as KananaskisSidebar,
     AvalancheQuebec as AvalancheQuebecSidebar,
 } from './Sidebar'
-import DefaultFooter, { Disclaimer, Prismic, DangerRatings } from './Footer'
+import BaseFooter, { Disclaimer, Prismic, DangerRatings } from './Footer'
 
 export { Provider, useForecast } from './Context'
 export Metadata from './Metadata'
@@ -32,13 +32,13 @@ export function Footer() {
     switch (forecast?.owner.value) {
         case AVALANCHE_QUEBEC:
             return (
-                <DefaultFooter>
+                <BaseFooter>
                     <Prismic uid="areas-covered-bulletin" />
                     <DangerRatings />
                     <Disclaimer uid="forecast-disclaimer-avalanche-quebec" />
-                </DefaultFooter>
+                </BaseFooter>
             )
         default:
-            return <DefaultFooter />
+            return <BaseFooter />
     }
 }

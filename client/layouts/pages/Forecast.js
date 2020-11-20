@@ -58,9 +58,7 @@ export default function ForecastLayout({ name, date }) {
                         </Async.FirstError>
                     </Main>
                     <Aside>
-                        <Async.Payload>
-                            <Sidebar isPrintable={isPrintable} />
-                        </Async.Payload>
+                        <Sidebar isPrintable={isPrintable} />
                     </Aside>
                 </Content>
             </Async.Provider>
@@ -69,11 +67,15 @@ export default function ForecastLayout({ name, date }) {
 }
 
 // Util components
-function Sidebar({ payload, ...props }) {
+function Sidebar(props) {
     return (
-        <Components.Provider value={payload}>
-            <Components.Sidebar {...props} />
-        </Components.Provider>
+        <Async.Found>
+            {payload => (
+                <Components.Provider value={payload}>
+                    <Components.Sidebar {...props} />
+                </Components.Provider>
+            )}
+        </Async.Found>
     )
 }
 function Title({ name }) {

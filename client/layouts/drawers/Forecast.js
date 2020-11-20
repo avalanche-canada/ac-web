@@ -10,7 +10,7 @@ import {
     Close,
     DisplayOnMap,
 } from 'components/page/drawer'
-import * as components from 'layouts/products/forecast'
+import * as Components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { useProduct } from 'hooks/async/api/products'
@@ -94,14 +94,14 @@ export default function ForeastDrawer() {
 // Utils and Constants
 function Forecast({ payload }) {
     return (
-        <components.Provider value={payload}>
+        <Components.Provider value={payload}>
             <Shim horizontal>
-                <components.Metadata />
-                <components.Headline />
+                <Components.Metadata />
+                <Components.Headline />
             </Shim>
-            <components.TabSet onTabChange={handleForecastTabActivate} />
-            <components.Footer />
-        </components.Provider>
+            <Components.TabSet onTabChange={handleForecastTabActivate} />
+            <Components.Footer />
+        </Components.Provider>
     )
 }
 function OtherRegions() {
