@@ -98,7 +98,10 @@ export function useForecastRegions(map) {
         map.setFeatureState(target, { active: true })
 
         return () => {
-            map.removeFeatureState(target, 'active')
+            // To avoid an error when moving from the map and page forecast. Seems to be related with a style getting destroy before this gets called...
+            if (map.loaded()) {
+                map.removeFeatureState(target, 'active')
+            }
         }
     }, [map, product, id, sourceLoaded, metadata])
 
