@@ -12,15 +12,17 @@ Footer.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Footer({
-    children = [
-        <ArchivedBulletins />,
-        <DangerRatings />,
-        <Inbox />,
-        <Disclaimer />,
-    ],
-}) {
-    return <footer className={styles.Footer}>{children}</footer>
+export default function Footer({ children }) {
+    return (
+        <footer className={styles.Footer}>
+            {children || [
+                <ArchivedBulletins />,
+                <DangerRatings />,
+                <Inbox />,
+                <Disclaimer />,
+            ]}
+        </footer>
+    )
 }
 
 export function ArchivedBulletins() {
