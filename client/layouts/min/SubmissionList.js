@@ -113,7 +113,7 @@ function Form({ params, onParamsChange }) {
     const options = useMemo(() => new Map(data.map(createRegionOption)), [data])
     const from = subDays(new Date(), params.days || DAYS)
     function handleFromDateChange(from) {
-        const days = differenceInCalendarDays(new Date(), from) + 1
+        const days = differenceInCalendarDays(new Date(), from)
 
         onParamsChange({ days })
     }
