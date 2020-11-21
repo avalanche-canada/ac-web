@@ -1,6 +1,5 @@
 import React, { lazy } from 'react'
 import { Router, Redirect } from '@reach/router'
-import parse from 'date-fns/parse'
 import isAfter from 'date-fns/is_after'
 import isValid from 'date-fns/is_valid'
 import isPast from 'date-fns/is_past'
@@ -18,8 +17,7 @@ export default function ForecastLayout() {
             <ForecastRoute path=":name" />
             <ForecastRoute path=":name/:date" />
             <ArchiveForecastRoute path="archives" />
-            <ArchiveForecastRoute path="archives/:name" />
-            <ArchiveForecastRoute path="archives/:name/:date" />
+            <ArchiveForecastRoute path="archives/:date" />
         </Router>
     )
 }
@@ -27,35 +25,34 @@ export default function ForecastLayout() {
 // Subroutes
 function ForecastRoute({ name, date }) {
     if (typeof date === 'string') {
-        const parsed = parse(date)
+        const parsed = DateParam.parse(date)
 
         if (isValid(parsed)) {
             if (isPast(parsed)) {
-                return <Redirect to={`/forecasts/archives/${name}/${date}`} />
+                return <Redirect to={'/forecasts/archives/' + date} />
             }
 
-            return <Redirect to={`/forecasts/${name}`} />
+            return <Redirect to="/forecasts" />
         }
     }
 
     return <Forecast name={name} />
 }
 const ArchiveForecast = lazy(() => import('layouts/pages/ArchiveForecast'))
-function ArchiveForecastRoute({ name, date, navigate }) {
-    if (date && isAfter(parse(date), endOfYesterday())) {
-        return <Redirect to={`/forecasts/${name}`} />
+
+function ArchiveForecastRoute({ date, navigate }) {
+    const parsed = DateParam.parse(date)
+
+    if (parsed && isAfter(parsed, endOfYesterday())) {
+        return <Redirect to="/forecasts" />
     }
-    function handleParamsChange({ name, date }) {
-        navigate(path('/forecasts/archives', name, DateParam.format(date)))
+    function handleDateChange(date) {
+        navigate(path('/forecasts/archives', DateParam.format(date)))
     }
 
     return (
         <Bundle>
-            <ArchiveForecast
-                name={name}
-                date={DateParam.parse(date)}
-                onParamsChange={handleParamsChange}
-            />
+            <ArchiveForecast date={parsed} onDateChange={handleDateChange} />
         </Bundle>
     )
 }
