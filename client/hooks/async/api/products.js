@@ -1,3 +1,4 @@
+import * as React from 'react'
 import * as requests from 'requests/api'
 import * as types from 'requests/api/types'
 import { useCacheAsync, createKey } from '../'
@@ -14,14 +15,14 @@ export function useProduct(id) {
 
 export function useProducts(date) {
     const language = useLanguage()
-    const params = [language, date]
-    const key = createKey('products', language, DateParam.format(date))
+    const params = [language, DateParam.format(date)]
+    const key = createKey('products', params)
 
     return useCacheAsync(requests.products, params, undefined, key)
 }
 
-export function useForecasts() {
-    return useProductsOfType(types.FORECAST)
+export function useForecasts(date) {
+    return useProductsOfType(types.FORECAST, date)
 }
 
 export function useForecast(id) {
@@ -33,17 +34,24 @@ export function useSPAW() {
 }
 
 function useProductsOfType(type, date) {
-    const [allProducts = [], ...rest] = useProducts(date)
-    const products = allProducts.filter(product => product.type === type)
+    const [products = ARRAY, ...rest] = useProducts(date)
 
-    return [products, ...rest]
+    return React.useMemo(
+        () => [products.filter(product => product.type === type), ...rest],
+        [type, products, ...rest]
+    )
 }
 
 function useProductOfType(type, id) {
-    const [products, ...rest] = useProductsOfType(type)
-    function find(product) {
-        return product.slug === id || product.id == id
-    }
+    const [products = ARRAY, ...rest] = useProductsOfType(type)
 
-    return [products.find(find), ...rest]
+    return React.useMemo(
+        () => [
+            products.find(product => product.slug === id || product.id == id),
+            ...rest,
+        ],
+        [type, id, products, ...rest]
+    )
 }
+
+const ARRAY = []
