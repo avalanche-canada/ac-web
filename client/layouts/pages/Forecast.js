@@ -12,8 +12,7 @@ import { Tag } from 'layouts/SPAW'
 import shim from 'components/Shim.css'
 import * as Async from 'contexts/async'
 import { Details } from 'components/error'
-import { Loading } from 'components/text'
-import typography from 'components/text/Text.css'
+import { Loading, Warning } from 'components/text'
 
 ForecastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -30,12 +29,12 @@ export default function ForecastLayout({ name, date }) {
                 <Content>
                     <Main>
                         <Async.Pending>
-                            <p className={typography.Muted}>
+                            <Loading>
                                 <FormattedMessage
                                     description="Layout pages/Forecast"
                                     defaultMessage="Loading forecast..."
                                 />
-                            </p>
+                            </Loading>
                         </Async.Pending>
                         <Async.Found>
                             <ForecastContent />
@@ -88,13 +87,13 @@ function Title({ name }) {
                 <ForecastHeader />
             </Async.Found>
             <Async.Empty>
-                <span className={typography.Warning}>
+                <Warning as="span">
                     <FormattedMessage
                         description="Layout pages/Forecast"
                         defaultMessage="{name} forecast not found"
                         values={{ name }}
                     />
-                </span>
+                </Warning>
             </Async.Empty>
         </Fragment>
     )
