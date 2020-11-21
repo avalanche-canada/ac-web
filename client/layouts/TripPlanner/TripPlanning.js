@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import isSameDay from 'date-fns/is_same_day'
-import { useProduct } from 'hooks/async/api/products'
+import { useForecast } from 'hooks/async/api/products'
 import { Muted } from 'components/text'
 import { Day } from 'components/time'
 import Shim from 'components/Shim'
@@ -13,173 +13,135 @@ import { Option } from 'components/controls/options'
 import ChartLegend from './panels/ChartLegend'
 import MapLegend from './panels/MapLegend'
 import { Help } from './panels/Welcome'
-import ELEVATIONS, { ALP, useTexts } from 'constants/forecast/elevation'
-import { SIMPLE, CHALLENGING, COMPLEX } from 'constants/forecast/ates'
+import Elevations, { ALP, useTexts } from 'constants/forecast/elevation'
+import Ates, { SIMPLE } from 'constants/forecast/ates'
 import { FormattedMessage } from 'react-intl'
 import { Generic } from 'prismic/layouts'
+import * as Async from 'contexts/async'
 
-export default class TripPlanning extends Component {
-    static propTypes = {
-        region: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-        }),
-        zone: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            rating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX]).isRequired,
-        }),
-        elevation: PropTypes.oneOf(Array.from(ELEVATIONS)),
-        onElevationChange: PropTypes.func.isRequired,
-        date: PropTypes.instanceOf(Date),
-        onDateChange: PropTypes.func.isRequired,
-    }
-    static defaultProps = {
-        elevation: ALP,
-    }
-    renderContent(forecast) {
-        const { region, ...props } = this.props
-
-        return <Content {...props} forecast={forecast} />
-    }
-    renderChildren({ pending, data }) {
-        const hasDangerRatings = data && data.dangerRatings
-
-        return (
-            <Fragment>
-                <div style={CONTENT_STYLE}>
-                    {pending ? (
-                        <Muted>
-                            <FormattedMessage defaultMessage="Loading avalanche forecast..." />
-                        </Muted>
-                    ) : hasDangerRatings ? (
-                        this.renderContent(data)
-                    ) : null}
-                </div>
-                {hasDangerRatings ? <ChartLegend /> : null}
-                <MapLegend />
-            </Fragment>
-        )
-    }
-    get isLoadedMessage() {
-        return (
-            <Fragment>
-                <p>
-                    <FormattedMessage
-                        description="Layout TripPlanner/TripPlanning"
-                        defaultMessage="No danger ratings are available to run the TripPlanner in that zone."
-                    />
-                </p>
-                <p>
-                    <FormattedMessage
-                        description="Layout TripPlanner/TripPlanning"
-                        defaultMessage="Avalanche Forecast are not produce for every region, in some cases they are available externally."
-                    />
-                </p>
-            </Fragment>
-        )
-    }
-    render() {
-        const { region } = this.props
-
-        return (
-            <Fragment>
-                {region ? (
-                    <Forecast name={region.id}>
-                        {props => this.renderChildren(props)}
-                    </Forecast>
-                ) : (
-                    <Shim horizontal>
-                        <Muted>{this.isLoadedMessage}</Muted>
-                    </Shim>
-                )}
-                <Help />
-            </Fragment>
-        )
-    }
+TripPlanning.propTypes = {
+    region: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+    }),
+    zone: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        rating: PropTypes.oneOf(Array.from(Ates)).isRequired,
+    }),
+    elevation: PropTypes.oneOf(Array.from(Elevations)),
+    onElevationChange: PropTypes.func.isRequired,
+    date: PropTypes.instanceOf(Date),
+    onDateChange: PropTypes.func.isRequired,
 }
 
-// TODO Cleanup and removed that component
-function Forecast({ name, children }) {
-    const [data, pending] = useProduct(name)
-
-    return children({ data, pending })
+TripPlanning.defaultProps = {
+    elevation: ALP,
 }
 
-class Content extends Component {
-    static propTypes = {
-        elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
-        onElevationChange: PropTypes.func.isRequired,
-        date: PropTypes.instanceOf(Date),
-        onDateChange: PropTypes.func.isRequired,
-        forecast: PropTypes.object.isRequired,
-        zone: PropTypes.shape({
-            id: PropTypes.string.isRequired,
-            name: PropTypes.string.isRequired,
-            rating: PropTypes.oneOf([SIMPLE, CHALLENGING, COMPLEX]).isRequired,
-        }),
-    }
-    get date() {
-        return this.props.date || this.props.forecast.dangerRatings[0].date
-    }
-    get dates() {
-        return this.props.forecast.dangerRatings.map(({ date }) => date)
-    }
-    get activeDangerRatings() {
-        const { dangerRatings } = this.props.forecast
-        const { dangerRating } = dangerRatings.find(({ date }) =>
-            isSameDay(this.date, date)
-        )
+export default function TripPlanning(props) {
+    const { region } = props
 
-        return dangerRating
-    }
-    get danger() {
-        const { rating } = this.props.zone
-        const dangerRatings = this.activeDangerRatings
-
-        if (rating === SIMPLE) {
-            const { elevation } = this.props
-
-            return dangerRatings[elevation.toLowerCase()]
-        } else {
-            return LEVELS[
-                Math.max(
-                    LEVELS.indexOf(dangerRatings.alp),
-                    LEVELS.indexOf(dangerRatings.tln),
-                    LEVELS.indexOf(dangerRatings.btl)
-                )
-            ]
-        }
-    }
-    render() {
-        const { danger } = this
-
-        return (
-            <Fragment>
-                <Form {...this.props} date={this.date} dates={this.dates} />
-                {danger === NO_RATING ? (
-                    <Muted>
-                        <FormattedMessage
-                            description="Layout TripPlanner/TripPlanning"
-                            defaultMessage="There is no rating available to show the chart."
-                        />
-                    </Muted>
-                ) : (
-                    <div style={CHART_STYLE}>
-                        <Chart
-                            terrain={this.props.zone.rating}
-                            danger={this.danger}
-                        />
+    return (
+        <Fragment>
+            {region ? (
+                <Async.Provider value={useForecast(region.id)}>
+                    <div style={CONTENT_STYLE}>
+                        <Async.Pending>
+                            <Muted>
+                                <FormattedMessage defaultMessage="Loading avalanche forecast..." />
+                            </Muted>
+                        </Async.Pending>
+                        <Async.Found>
+                            <Content {...props} />
+                        </Async.Found>
                     </div>
-                )}
-                <Generic uid="trip-planner-interpretion-and-explanation" />
-            </Fragment>
-        )
+                    <MapLegend />
+                </Async.Provider>
+            ) : (
+                <Shim horizontal>
+                    <Muted>
+                        <p>
+                            <FormattedMessage
+                                description="Layout TripPlanner/TripPlanning"
+                                defaultMessage="No danger ratings are available to run the TripPlanner in that zone."
+                            />
+                        </p>
+                        <p>
+                            <FormattedMessage
+                                description="Layout TripPlanner/TripPlanning"
+                                defaultMessage="Avalanche Forecast are not produce for every region, in some cases they are available externally."
+                            />
+                        </p>
+                    </Muted>
+                </Shim>
+            )}
+            <Help />
+        </Fragment>
+    )
+}
+
+Content.propTypes = {
+    elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
+    onElevationChange: PropTypes.func.isRequired,
+    date: PropTypes.instanceOf(Date),
+    onDateChange: PropTypes.func.isRequired,
+    payload: PropTypes.object.isRequired,
+    zone: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        rating: PropTypes.oneOf(Array.from(Ates)).isRequired,
+    }),
+}
+
+function Content({ payload, ...props }) {
+    const { dangerRatings } = payload.report
+
+    if (!dangerRatings) {
+        return null
     }
+
+    const { zone } = props
+    const { elevation } = props
+    const date = props.date || new Date(dangerRatings[0].date.value)
+    const dates = dangerRatings.map(ratings => new Date(ratings.date.value))
+    const { ratings } = dangerRatings.find((_, index) =>
+        isSameDay(date, dates[index])
+    )
+    const danger =
+        zone.rating === SIMPLE
+            ? ratings[elevation.toLowerCase()].rating.value
+            : LEVELS[
+                  Math.max(
+                      LEVELS.indexOf(ratings.alp.rating.value),
+                      LEVELS.indexOf(ratings.tln.rating.value),
+                      LEVELS.indexOf(ratings.btl.rating.value)
+                  ) + 1
+              ]
+
+    return (
+        <Fragment>
+            <Form {...props} date={date} dates={dates} />
+            {danger === NO_RATING ? (
+                <Muted>
+                    <FormattedMessage
+                        description="Layout TripPlanner/TripPlanning"
+                        defaultMessage="There is no rating available to show the chart."
+                    />
+                </Muted>
+            ) : (
+                <div style={CHART_STYLE}>
+                    <Chart terrain={zone.rating} danger={danger} />
+                </div>
+            )}
+            <Generic uid="trip-planner-interpretion-and-explanation" />
+            <ChartLegend />
+        </Fragment>
+    )
 }
 
 Form.propTypes = {
-    elevation: PropTypes.oneOf(Array.from(ELEVATIONS)).isRequired,
+    elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
     onElevationChange: PropTypes.func.isRequired,
     date: PropTypes.instanceOf(Date).isRequired,
     onDateChange: PropTypes.func.isRequired,
