@@ -17,17 +17,13 @@ import { hotZone } from 'prismic/params'
 import { useDocument } from 'prismic/hooks'
 import { FormattedMessage } from 'react-intl'
 import { useFitBounds, usePrimaryDrawer } from 'layouts/main/drawers/hooks'
+import { useName } from 'constants/products/names'
+import { ADVISORY } from 'constants/products'
 
 export default function HotZoneReportDrawer() {
     const { id, close } = usePrimaryDrawer()
     const metadata = useAdvisoryMetadata(id)
     const report = useDocument(hotZone.report(id))
-    const subject = (
-        <FormattedMessage
-            defaultMessage="Avalanche Advisory"
-            description="Layout drawers/HotZoneReport"
-        />
-    )
 
     return (
         <Fragment>
@@ -35,7 +31,7 @@ export default function HotZoneReportDrawer() {
                 <Sponsor label={null} />
                 <Close onClick={close} />
             </Navbar>
-            <Header subject={subject}>
+            <Header subject={useName(ADVISORY)}>
                 <Async.Provider value={metadata}>
                     <Async.Found>
                         <AdvisoryHeader />

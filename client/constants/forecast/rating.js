@@ -8,6 +8,7 @@ export const HIGH = 'high'
 export const EXTREME = 'extreme'
 export const NO_RATING = 'norating'
 
+// It is an Array, order is important, so please do not change
 export const LEVELS = [LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING]
 
 export default new Set(LEVELS)

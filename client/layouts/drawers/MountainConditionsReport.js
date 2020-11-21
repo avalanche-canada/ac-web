@@ -16,15 +16,11 @@ import {
 import { useFlyTo, useSecondaryDrawer } from 'layouts/main/drawers/hooks'
 import Shim from 'components/Shim'
 import { WHITE } from 'constants/colors'
+import { useName } from 'constants/products/names'
+import { MOUNTAIN_CONDITIONS_REPORT } from 'constants/products'
 
 export default function MountainConditionsReport() {
     const { close, id } = useSecondaryDrawer()
-    const subject = (
-        <FormattedMessage
-            defaultMessage="Arc'teryx Mountain Conditions Report"
-            description="Layout drawers/MountainConditionsReport"
-        />
-    )
 
     return (
         <Async.Provider value={useReport(id)}>
@@ -37,7 +33,7 @@ export default function MountainConditionsReport() {
                         {payload => <Media images={payload?.images} />}
                     </Async.Payload>
                 </Banner>
-                <Header subject={subject}>
+                <Header subject={useName(MOUNTAIN_CONDITIONS_REPORT)}>
                     <Async.Found>
                         <MountainConditionHeader />
                     </Async.Found>

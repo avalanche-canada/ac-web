@@ -16,12 +16,13 @@ import * as hooks from 'hooks/async/weather'
 import Sponsor from 'layouts/Sponsor'
 import * as utils from 'utils/station'
 import { useLocation } from 'router/hooks'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { useFlyTo, useSecondaryDrawer } from 'layouts/main/drawers/hooks'
+import { useName } from 'constants/products/names'
+import { WEATHER_STATION } from 'constants/products'
 
 export default function WeatherStation() {
     const { close, id } = useSecondaryDrawer()
-    const intl = useIntl()
 
     return (
         <Async.Provider value={hooks.useStation(id)}>
@@ -29,11 +30,7 @@ export default function WeatherStation() {
                 <Sponsor label={null} />
                 <Close onClick={close} />
             </Navbar>
-            <Header
-                subject={intl.formatMessage({
-                    defaultMessage: 'Weather station',
-                    description: 'Layout drawers/WeatherStation',
-                })}>
+            <Header subject={useName(WEATHER_STATION)}>
                 <h1>
                     <Async.Pending>
                         <Loading as="span" />

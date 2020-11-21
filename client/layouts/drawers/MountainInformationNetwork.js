@@ -14,12 +14,13 @@ import { submission } from 'utils/min'
 import Sponsor from 'layouts/Sponsor'
 import { Provider, Pending, Found, NotFound } from 'contexts/async'
 import { useReport } from 'hooks/async/min'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { useFlyTo, useSecondaryDrawer } from 'layouts/main/drawers/hooks'
+import { useName } from 'constants/products/names'
+import { MOUNTAIN_INFORMATION_NETWORK } from 'constants/products'
 
 export default function MountainInformationNetwork() {
     const { id, close } = useSecondaryDrawer()
-    const intl = useIntl()
 
     return (
         <Provider value={useReport(id)}>
@@ -27,11 +28,7 @@ export default function MountainInformationNetwork() {
                 <Sponsor label={null} />
                 <Close onClick={close} />
             </Navbar>
-            <Header
-                subject={intl.formatMessage({
-                    defaultMessage: 'Mountain Information Network',
-                    description: 'Layout drawers/MountainInformationNetwork',
-                })}>
+            <Header subject={useName(MOUNTAIN_INFORMATION_NETWORK)}>
                 <Pending>
                     <Loading as="h1" />
                 </Pending>

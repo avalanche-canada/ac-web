@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as requests from 'requests/api'
-import * as types from 'requests/api/types'
+import * as products from 'constants/products'
 import { useCacheAsync, createKey } from '../'
 import { useLanguage } from 'contexts/intl'
 import { DateParam } from 'hooks/params'
@@ -22,15 +22,15 @@ export function useProducts(date) {
 }
 
 export function useForecasts(date) {
-    return useProductsOfType(types.FORECAST, date)
+    return useProductsOfType(products.FORECAST, date)
 }
 
 export function useForecast(id) {
-    return useProductOfType(types.FORECAST, id)
+    return useProductOfType(products.FORECAST, id)
 }
 
 export function useSPAW() {
-    return useProductOfType(types.SPAW)
+    return useProductOfType(products.SPAW)
 }
 
 function useProductsOfType(type, date) {

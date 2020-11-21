@@ -1,10 +1,10 @@
 import React, { Fragment, useRef } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { useIntl } from 'react-intl'
 import { useScroll } from 'hooks'
 import * as Buttons from 'components/button'
 import styles from './Drawer.css'
-import { useIntl } from 'react-intl'
 
 export const LEFT = 'LEFT'
 export const RIGHT = 'RIGHT'
@@ -75,7 +75,7 @@ export function Navbar({ style, children }) {
 }
 
 Header.propTypes = {
-    subject: PropTypes.string,
+    subject: PropTypes.node,
     children: PropTypes.node,
     style: PropTypes.object,
 }

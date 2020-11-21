@@ -23,15 +23,15 @@ import { useLocation } from 'router/hooks'
 import * as Async from 'contexts/async'
 import shim from 'components/Shim.css'
 import typography from 'components/text/Text.css'
-import { useText, FORECAST } from 'requests/api/types'
 import { useFitBounds, usePrimaryDrawer } from 'layouts/main/drawers/hooks'
 import { useAreas } from 'hooks/async/api/areas'
+import { useName } from 'constants/products/names'
+import { FORECAST } from 'constants/products'
 
 export default function ForeastDrawer() {
     // "key" in <Body> to mount/remount the tabs, so the first tab appears and
     // scroll gets reset as the slug changes
     const { id, close } = usePrimaryDrawer()
-    const subject = useText(FORECAST)
 
     return (
         <Async.Provider value={useProduct(id)}>
@@ -39,7 +39,7 @@ export default function ForeastDrawer() {
                 <Sponsor label={null} />
                 <Close onClick={close} />
             </Navbar>
-            <Header subject={subject}>
+            <Header subject={useName(FORECAST)}>
                 <h1>
                     <Async.Pending>
                         <Loading as="span" />

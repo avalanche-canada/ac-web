@@ -27,6 +27,8 @@ import { Download } from 'components/icons'
 import Dialog from './Download'
 import styles from './TripPlanner.css'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { useName } from 'constants/products/names'
+import { FORECAST } from 'constants/products'
 
 export default class TripPlannerLayout extends PureComponent {
     state = {
@@ -121,10 +123,9 @@ export default class TripPlannerLayout extends PureComponent {
     handleRightCloseClick = () => this.setState({ right: false })
     renderRegionHeader() {
         const { name, id } = this.state.region
-        const subject = <FormattedMessage defaultMessage="Avalanche forecast" />
 
         return (
-            <Header subject={subject}>
+            <Header subject={useName(FORECAST)}>
                 <h1>
                     <Link to={`/forecasts/${id}`} target={id}>
                         {name}

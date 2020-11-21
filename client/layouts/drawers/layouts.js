@@ -25,7 +25,7 @@ export function Navbar({ onCloseClick }) {
 }
 
 Header.propTypes = {
-    subject: PropTypes.string.isRequired,
+    subject: PropTypes.node.isRequired,
     title: PropTypes.string.isRequired,
     link: PropTypes.string.isRequired,
     onLocateClick: PropTypes.func.isRequired,
@@ -36,10 +36,13 @@ export function Header({ subject, link, title, onLocateClick }) {
     return (
         <Components.Header subject={subject}>
             <h1>
-                <Link to={link}>{title || intl.formatMessage({
-                    defaultMessage: 'Loading...',
-                    description: 'Layout drawers/layouts',
-                })}</Link>
+                <Link to={link}>
+                    {title ||
+                        intl.formatMessage({
+                            defaultMessage: 'Loading...',
+                            description: 'Layout drawers/layouts',
+                        })}
+                </Link>
                 {typeof onLocateClick === 'function' && (
                     <Components.DisplayOnMap onClick={onLocateClick} />
                 )}

@@ -16,22 +16,18 @@ import { StructuredText } from 'prismic/components/base'
 import { useDocument } from 'prismic/hooks'
 import Shim from 'components/Shim'
 import { useFlyTo, useSecondaryDrawer } from 'layouts/main/drawers/hooks'
+import { useName } from 'constants/products/names'
+import { ACCIDENT } from 'constants/products'
 
 export default function FatalAccident() {
     const { close, id } = useSecondaryDrawer()
-    const subject = (
-        <FormattedMessage
-            defaultMessage="Fatal Recreational Accident"
-            description="Layout drawers/FatalAccident"
-        />
-    )
 
     return (
         <Async.Provider value={useDocument(fatal.accident(id))}>
             <Navbar>
                 <Close onClick={close} />
             </Navbar>
-            <Header subject={subject}>
+            <Header subject={useName(ACCIDENT)}>
                 <Async.Found>
                     <FatalAccidentHeader />
                 </Async.Found>
