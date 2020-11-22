@@ -1,13 +1,5 @@
 import { useMemo, useEffect, useState } from 'react'
 import * as turf from '@turf/helpers'
-import {
-    FORECASTS,
-    WEATHER_STATION,
-    MOUNTAIN_CONDITIONS_REPORTS,
-    FATAL_ACCIDENT,
-    HOT_ZONE_REPORTS,
-    MOUNTAIN_INFORMATION_NETWORK,
-} from 'constants/drawers'
 import { useAreas } from 'hooks/async/api/areas'
 import { useMetadata } from 'hooks/async/api/metadata'
 import * as weather from 'hooks/async/weather'
@@ -27,7 +19,7 @@ import { createPath } from 'utils/product'
 import * as Products from 'constants/products'
 
 export function useForecastRegions(map) {
-    const key = FORECASTS
+    const key = Products.FORECAST
     const IDS = [key, key + '-line', key + '-labels']
     const { visible } = useLayerState(key)
     const [[areas, metadata], , errors] = useMerge(useAreas(), useMetadata())
@@ -148,7 +140,7 @@ export function useForecastRegions(map) {
 }
 
 export function useForecastMarkers(map) {
-    const key = FORECASTS
+    const key = Products.FORECAST
     const [metadata, , error] = useMetadata()
     const { visible } = useLayerState(key)
     const { navigate } = useLocation()
@@ -212,7 +204,7 @@ export function useForecastMarkers(map) {
 }
 
 export function useWeatherStations(map) {
-    const key = WEATHER_STATION
+    const key = Products.WEATHER_STATION
     const { visible } = useLayerState(key)
     const [stations, , error] = weather.useStations()
     const features = useMemo(
@@ -225,7 +217,7 @@ export function useWeatherStations(map) {
 }
 
 export function useMountainConditionReports(map) {
-    const key = MOUNTAIN_CONDITIONS_REPORTS
+    const key = Products.MOUNTAIN_CONDITIONS_REPORT
     const { visible } = useLayerState(key)
     const id = useSearchPanelId(Products.MOUNTAIN_CONDITIONS_REPORT)
     const [[reports, report], , errors] = useMerge(
@@ -255,7 +247,7 @@ export function useMountainConditionReports(map) {
 }
 
 export function useFatalAccidents(map) {
-    const key = FATAL_ACCIDENT
+    const key = Products.ACCIDENT
     const { visible } = useLayerState(key)
     const [documents, , error] = prismic.useDocuments(params.fatal.accidents())
     const features = useMemo(
@@ -268,7 +260,7 @@ export function useFatalAccidents(map) {
 }
 
 export function useMountainInformationNetwork(map) {
-    let key = MOUNTAIN_INFORMATION_NETWORK
+    let key = Products.MOUNTAIN_INFORMATION_NETWORK
     const { visible, filters } = useLayerState(key)
     const { days, types } = filters
     const [data = EMPTY_ARRAY, pending, errorReports] = min.useReports(days)
@@ -286,23 +278,23 @@ export function useMountainInformationNetwork(map) {
     )
 
     // Icons but not active and incidents
-    key = MOUNTAIN_INFORMATION_NETWORK
+    key = Products.MOUNTAIN_INFORMATION_NETWORK
     layer = createLayer(key, key, 'symbol')
 
     mapbox.useSource(map, key, CLUSTER, others)
     mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
 
     // Incident icons
-    key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
-    let style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
+    key = Products.MOUNTAIN_INFORMATION_NETWORK + '-incidents'
+    let style = STYLES[Products.MOUNTAIN_INFORMATION_NETWORK].symbol
     let layer = createLayer(key, key, 'symbol', style)
 
     mapbox.useSource(map, key, GEOJSON, incidents)
     mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
 
     // Active report, because a report could be filtered out by the filters...
-    key = MOUNTAIN_INFORMATION_NETWORK + '-active-report'
-    style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
+    key = Products.MOUNTAIN_INFORMATION_NETWORK + '-active-report'
+    style = STYLES[Products.MOUNTAIN_INFORMATION_NETWORK].symbol
     layer = createLayer(key, key, 'symbol', style)
 
     let id = useSearchPanelId(Products.MOUNTAIN_INFORMATION_NETWORK)
@@ -462,19 +454,22 @@ function useSearchPanelId(product) {
 // Constants
 // TODO(i18n) Should use "useTitles" from module "constants/drawers"
 const TITLES = new Map([
-    [WEATHER_STATION, 'weather stations'],
-    [MOUNTAIN_INFORMATION_NETWORK, 'Mountain Information Network reports'],
-    [FATAL_ACCIDENT, 'fatal recretional accidents'],
-    [HOT_ZONE_REPORTS, 'advisories'],
-    [MOUNTAIN_CONDITIONS_REPORTS, 'Mountain Condition reports'],
-    [FORECASTS, 'forecast'],
+    [Products.WEATHER_STATION, 'weather stations'],
+    [
+        Products.MOUNTAIN_INFORMATION_NETWORK,
+        'Mountain Information Network reports',
+    ],
+    [Products.ACCIDENT, 'fatal recretional accidents'],
+    [Products.ADVISORY, 'advisories'],
+    [Products.MOUNTAIN_CONDITIONS_REPORT, 'Mountain Condition reports'],
+    [Products.FORECAST, 'forecast'],
 ])
 const EMPTY_FEATURE_COLLECTION = turf.featureCollection([])
 const EMPTY_ARRAY = []
 
 // Styles
 const STYLES = {
-    [FORECASTS]: {
+    [Products.FORECAST]: {
         fill: {
             paint: {
                 'fill-color': [
@@ -512,7 +507,7 @@ const STYLES = {
             },
         },
     },
-    [WEATHER_STATION]: {
+    [Products.WEATHER_STATION]: {
         symbol: {
             layout: {
                 'icon-image': 'weather-station',
@@ -530,7 +525,7 @@ const STYLES = {
             },
         },
     },
-    [MOUNTAIN_CONDITIONS_REPORTS]: {
+    [Products.MOUNTAIN_CONDITIONS_REPORT]: {
         symbol: {
             layout: {
                 'icon-image': 'mountain-conditions-report',
@@ -548,7 +543,7 @@ const STYLES = {
             },
         },
     },
-    [FATAL_ACCIDENT]: {
+    [Products.ACCIDENT]: {
         symbol: {
             layout: {
                 'icon-image': 'fatal-accident',
@@ -566,7 +561,7 @@ const STYLES = {
             },
         },
     },
-    [HOT_ZONE_REPORTS]: {
+    [Products.ADVISORY]: {
         circle: {
             paint: {
                 'circle-blur': 0.75,
@@ -584,7 +579,7 @@ const STYLES = {
             },
         },
     },
-    [MOUNTAIN_INFORMATION_NETWORK]: {
+    [Products.MOUNTAIN_INFORMATION_NETWORK]: {
         symbol: {
             layout: {
                 'icon-image': [

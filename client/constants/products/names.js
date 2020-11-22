@@ -1,14 +1,11 @@
 import { useIntlMemo } from 'hooks/intl'
-import {
-    FORECAST,
-    OFFSEASON,
-    ADVISORY,
-    MOUNTAIN_INFORMATION_NETWORK,
-    MOUNTAIN_CONDITIONS_REPORT,
-    ACCIDENT,
-    WEATHER_STATION,
-    SPAW,
-} from './'
+import * as Products from './'
+
+export function useName(product) {
+    const names = useNames()
+
+    return names.get(product)
+}
 
 export default function useNames() {
     const description = 'Product name'
@@ -17,56 +14,56 @@ export default function useNames() {
         intl =>
             new Map([
                 [
-                    FORECAST,
+                    Products.FORECAST,
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Avalanche Forecast',
                     }),
                 ],
                 [
-                    OFFSEASON,
+                    Products.OFFSEASON,
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Off Season Message',
                     }),
                 ],
                 [
-                    ADVISORY,
+                    Products.ADVISORY,
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Avalanche Advisory',
                     }),
                 ],
                 [
-                    MOUNTAIN_INFORMATION_NETWORK,
+                    Products.MOUNTAIN_INFORMATION_NETWORK,
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Mountain Information Network',
                     }),
                 ],
                 [
-                    MOUNTAIN_CONDITIONS_REPORT,
+                    Products.MOUNTAIN_CONDITIONS_REPORT,
                     intl.formatMessage({
                         description,
                         defaultMessage: "Arc'teryx Mountain Conditions Report",
                     }),
                 ],
                 [
-                    ACCIDENT,
+                    Products.ACCIDENT,
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Fatal Recreational Accident',
                     }),
                 ],
                 [
-                    WEATHER_STATION,
+                    Products.WEATHER_STATION,
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Weather Station',
                     }),
                 ],
                 [
-                    SPAW,
+                    Products.SPAW,
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Special Public Avalanche Warning',
@@ -74,10 +71,4 @@ export default function useNames() {
                 ],
             ])
     )
-}
-
-export function useName(product) {
-    const names = useNames()
-
-    return names.get(product)
 }

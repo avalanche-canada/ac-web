@@ -1,68 +1,53 @@
 import { useIntlMemo } from 'hooks/intl'
+import * as Products from './'
 
-export const FORECASTS = 'FORECASTS'
-export const HOT_ZONE_REPORTS = 'HOT_ZONE_REPORTS'
-export const MOUNTAIN_INFORMATION_NETWORK = 'MOUNTAIN_INFORMATION_NETWORK'
-export const WEATHER_STATION = 'WEATHER_STATION'
-export const FATAL_ACCIDENT = 'FATAL_ACCIDENT'
-export const MOUNTAIN_CONDITIONS_REPORTS = 'MOUNTAIN_CONDITIONS_REPORTS'
-
-export default [
-    FORECASTS,
-    HOT_ZONE_REPORTS,
-    MOUNTAIN_INFORMATION_NETWORK,
-    WEATHER_STATION,
-    FATAL_ACCIDENT,
-    MOUNTAIN_CONDITIONS_REPORTS,
-]
-
-export function useTitle(layer) {
+export function useTitle(product) {
     const titles = useTitles()
 
-    return titles.get(layer)
+    return titles.get(product)
 }
 
-export function useTitles() {
+function useTitles() {
     return useIntlMemo(
         intl =>
             new Map([
                 [
-                    FORECASTS,
+                    Products.FORECAST,
                     intl.formatMessage({
                         id: 'avalanche-forecasts',
                         defaultMessage: 'Avalanche Forecasts',
                     }),
                 ],
                 [
-                    HOT_ZONE_REPORTS,
+                    Products.ADVISORY,
                     intl.formatMessage({
                         id: 'avalanche-advisories',
                         defaultMessage: 'Avalanche Advisories',
                     }),
                 ],
                 [
-                    MOUNTAIN_INFORMATION_NETWORK,
+                    Products.MOUNTAIN_INFORMATION_NETWORK,
                     intl.formatMessage({
                         id: 'mountain-information-network',
                         defaultMessage: 'Mountain Information Network',
                     }),
                 ],
                 [
-                    MOUNTAIN_CONDITIONS_REPORTS,
+                    Products.MOUNTAIN_CONDITIONS_REPORT,
                     intl.formatMessage({
                         id: 'mountain-conditions-reports',
                         defaultMessage: 'Mountain Conditions Reports',
                     }),
                 ],
                 [
-                    WEATHER_STATION,
+                    Products.WEATHER_STATION,
                     intl.formatMessage({
                         id: 'weather-stations',
                         defaultMessage: 'Weather stations',
                     }),
                 ],
                 [
-                    FATAL_ACCIDENT,
+                    Products.ACCIDENT,
                     intl.formatMessage({
                         id: 'fatal-recreational-accidents',
                         defaultMessage: 'Fatal Recreational Accidents',

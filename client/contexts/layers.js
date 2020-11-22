@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useMemo, useEffect } from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
-import * as LAYER_IDS from 'constants/drawers'
+import * as Products from 'constants/products'
 import { useLocalStorage } from 'hooks'
 
 Provider.propTypes = {
@@ -8,13 +8,13 @@ Provider.propTypes = {
 }
 
 export function Provider({ children }) {
-    const [layers, setLayers] = useLocalStorage('layers', LAYERS)
+    const [layers, setLayers] = useLocalStorage('map-layers', LAYERS)
 
-    useEffect(() => {
+    React.useEffect(() => {
         setLayers(resetLayers(layers))
     }, [])
 
-    const value = useMemo(() => {
+    const value = React.useMemo(() => {
         return {
             layers,
             toggle(id) {
@@ -50,13 +50,13 @@ export function Provider({ children }) {
 
 // Hooks
 export function useLayers() {
-    return useContext(LayersContext)
+    return React.useContext(LayersContext)
 }
 
 export function useLayer(id) {
     const { layers, toggle, setFilterValue } = useLayers()
 
-    return useMemo(
+    return React.useMemo(
         () => ({
             ...layers[id],
             toggle() {
@@ -76,39 +76,39 @@ function resetLayers(data) {
 
     return {
         ...LAYERS,
-        [LAYER_IDS.WEATHER_STATION]: {
-            ...LAYERS[LAYER_IDS.WEATHER_STATION],
-            visible: data[LAYER_IDS.WEATHER_STATION].visible,
+        [Products.WEATHER_STATION]: {
+            ...LAYERS[Products.WEATHER_STATION],
+            visible: data[Products.WEATHER_STATION].visible,
         },
-        [LAYER_IDS.FATAL_ACCIDENT]: {
-            ...LAYERS[LAYER_IDS.FATAL_ACCIDENT],
-            visible: data[LAYER_IDS.FATAL_ACCIDENT].visible,
+        [Products.ACCIDENT]: {
+            ...LAYERS[Products.ACCIDENT],
+            visible: data[Products.ACCIDENT].visible,
         },
     }
 }
 const LAYERS = {
-    [LAYER_IDS.FORECASTS]: {
+    [Products.FORECAST]: {
         visible: true,
     },
-    [LAYER_IDS.HOT_ZONE_REPORTS]: {
+    [Products.ADVISORY]: {
         visible: true,
     },
-    [LAYER_IDS.MOUNTAIN_CONDITIONS_REPORTS]: {
+    [Products.MOUNTAIN_CONDITIONS_REPORT]: {
         visible: false,
     },
-    [LAYER_IDS.WEATHER_STATION]: {
+    [Products.WEATHER_STATION]: {
         visible: true,
     },
-    [LAYER_IDS.MOUNTAIN_INFORMATION_NETWORK]: {
+    [Products.MOUNTAIN_INFORMATION_NETWORK]: {
         visible: true,
         filters: {
             days: 7,
             types: new Set(),
         },
     },
-    [LAYER_IDS.FATAL_ACCIDENT]: {
+    [Products.ACCIDENT]: {
         visible: false,
     },
 }
 
-const LayersContext = createContext(LAYERS)
+const LayersContext = React.createContext(LAYERS)

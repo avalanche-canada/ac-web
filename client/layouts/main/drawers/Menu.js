@@ -1,14 +1,15 @@
-import React, { Children, cloneElement, Fragment } from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Body, Navbar, Close } from 'components/page/drawer'
 import * as components from 'components/page/drawer/layers'
 import { useLayer } from 'contexts/layers'
-import * as Layers from 'constants/drawers'
+import * as Products from 'constants/products'
+import * as Layers from 'constants/products/layers'
 import * as Icons from 'components/icons'
 import { useNames } from 'constants/min'
 import { Dropdown, Option } from 'components/controls'
 import Shim from 'components/Shim'
-import { FormattedMessage } from 'react-intl'
 
 Menu.propTypes = {
     onCloseClick: PropTypes.func.isRequired,
@@ -18,7 +19,7 @@ export default function Menu({ onCloseClick }) {
     const names = useNames()
 
     return (
-        <Fragment>
+        <React.Fragment>
             <Navbar>
                 <Close onClick={onCloseClick} />
             </Navbar>
@@ -31,8 +32,8 @@ export default function Menu({ onCloseClick }) {
                                 defaultMessage="Analysis"
                             />
                         }>
-                        <Layer id={Layers.FORECASTS} />
-                        <Layer id={Layers.HOT_ZONE_REPORTS} />
+                        <Layer id={Products.FORECAST} />
+                        <Layer id={Products.ADVISORY} />
                     </components.LayerSet>
                     <components.LayerSet
                         title={
@@ -41,7 +42,7 @@ export default function Menu({ onCloseClick }) {
                                 defaultMessage="Observations"
                             />
                         }>
-                        <Layer id={Layers.MOUNTAIN_INFORMATION_NETWORK}>
+                        <Layer id={Products.MOUNTAIN_INFORMATION_NETWORK}>
                             <Dropdown name="days">
                                 {DAYS.map(amount => (
                                     <Option key={amount} value={amount}>
@@ -61,13 +62,13 @@ export default function Menu({ onCloseClick }) {
                                 ))}
                             </Dropdown>
                         </Layer>
-                        <Layer id={Layers.WEATHER_STATION} />
-                        <Layer id={Layers.FATAL_ACCIDENT} />
-                        <Layer id={Layers.MOUNTAIN_CONDITIONS_REPORTS} />
+                        <Layer id={Products.WEATHER_STATION} />
+                        <Layer id={Products.ACCIDENT} />
+                        <Layer id={Products.MOUNTAIN_CONDITIONS_REPORT} />
                     </components.LayerSet>
                 </Shim>
             </Body>
-        </Fragment>
+        </React.Fragment>
     )
 }
 
@@ -89,7 +90,7 @@ function Layer({ id, children }) {
             visible={visible}
             disabled={disabled}
             onClick={toggle}>
-            {Children.map(children, input => {
+            {React.Children.map(children, input => {
                 const { name, ...props } = input.props
 
                 Object.assign(props, {
@@ -99,7 +100,7 @@ function Layer({ id, children }) {
                     },
                 })
 
-                return cloneElement(input, props)
+                return React.cloneElement(input, props)
             })}
         </components.Layer>
     )
@@ -108,10 +109,10 @@ function Layer({ id, children }) {
 // Constants
 const DAYS = [1, 3, 7, 14, 30]
 const ICONS = new Map([
-    [Layers.FORECASTS, Icons.Forecast],
-    [Layers.HOT_ZONE_REPORTS, Icons.HotZoneReport],
-    [Layers.MOUNTAIN_INFORMATION_NETWORK, Icons.MountainInformationNetwork],
-    [Layers.MOUNTAIN_CONDITIONS_REPORTS, Icons.MountainConditionsReport],
-    [Layers.WEATHER_STATION, Icons.WeatherStation],
-    [Layers.FATAL_ACCIDENT, Icons.FatalAccident],
+    [Products.FORECAST, Icons.Forecast],
+    [Products.ADVISORY, Icons.HotZoneReport],
+    [Products.MOUNTAIN_INFORMATION_NETWORK, Icons.MountainInformationNetwork],
+    [Products.MOUNTAIN_CONDITIONS_REPORT, Icons.MountainConditionsReport],
+    [Products.WEATHER_STATION, Icons.WeatherStation],
+    [Products.ACCIDENT, Icons.FatalAccident],
 ])
