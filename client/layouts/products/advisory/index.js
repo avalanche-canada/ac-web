@@ -21,8 +21,6 @@ export TerrainAdviceSet from './TerrainAdviceSet'
 export TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 export CriticalFactors from './CriticalFactors'
 
-export Sidebar from './Sidebar'
-
 export function Report({ children, value }) {
     return (
         <Provider value={value}>
