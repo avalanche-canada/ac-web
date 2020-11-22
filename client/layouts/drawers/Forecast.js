@@ -13,7 +13,7 @@ import {
 import * as Components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
-import { useProduct } from 'hooks/async/api/products'
+import { useForecast } from 'hooks/async/api/products'
 import { useMetadata } from 'hooks/async/api/metadata'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
@@ -34,7 +34,7 @@ export default function ForeastDrawer() {
     const { id, close } = usePrimaryDrawer()
 
     return (
-        <Async.Provider value={useProduct(id)}>
+        <Async.Provider value={useForecast(id)}>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={close} />
