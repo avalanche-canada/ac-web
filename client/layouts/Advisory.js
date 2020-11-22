@@ -1,7 +1,7 @@
 import React, { lazy } from 'react'
-import { Router } from '@reach/router'
-import parse from 'date-fns/parse'
+import { Redirect, Router } from '@reach/router'
 import Bundle from 'components/Bundle'
+import { DateParam } from 'hooks/params'
 
 export default function HotZoneReportLayout() {
     return (
@@ -9,6 +9,7 @@ export default function HotZoneReportLayout() {
             <ArchiveAdvisoryRoute path="archives" />
             <ArchiveAdvisoryRoute path="archives/:name" />
             <ArchiveAdvisoryRoute path="archives/:name/:date" />
+            <Redirect from="/*" to="/advisories/archives" />
         </Router>
     )
 }
@@ -17,7 +18,7 @@ const ArchiveAdvisory = lazy(() => import('layouts/pages/ArchiveAdvisory'))
 
 function ArchiveAdvisoryRoute({ name, date }) {
     if (date) {
-        date = parse(date)
+        date = DateParam.parse(date)
     }
 
     return (
