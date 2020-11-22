@@ -89,8 +89,16 @@ export function useForecastRegions(map) {
             return
         }
 
+        function find({ product }) {
+            return product.slug === id
+        }
+
+        if (!metadata.some(find)) {
+            return
+        }
+
         const source = key
-        const { area } = metadata.find(meta => meta.product.slug === id)
+        const { area } = metadata.find(find)
 
         const [feature] = map.querySourceFeatures(source, {
             filter: ['==', ['get', 'id'], area.id],
