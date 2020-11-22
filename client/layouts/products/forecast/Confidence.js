@@ -4,19 +4,19 @@ import { useReport } from './Context'
 import Summary from './Summary'
 
 export default function Confidence() {
-    const report = useReport()
+    const { confidence } = useReport()
 
-    if (!report?.confidence?.ratings) {
+    if (!confidence?.rating) {
         return null
     }
 
-    const { ratings, statements } = report.confidence
+    const { rating, statements } = confidence
     const title = (
         <dl>
             <dt>
                 <FormattedMessage defaultMessage="Confidence" />
             </dt>
-            <dd>{ratings}</dd>
+            <dd>{rating.display}</dd>
         </dl>
     )
 
