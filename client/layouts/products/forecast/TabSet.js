@@ -5,7 +5,9 @@ import { FormattedMessage } from 'react-intl'
 import Tabs, { HeaderSet, Header, PanelSet, Panel } from 'components/tabs'
 import DetailSet from './DetailSet'
 import Confidence from './Confidence'
-import { Condition, TravelAndTerrainAdvice, DangerRatings } from './danger'
+import OffSeason from './OffSeason'
+import TravelAndTerrainAdvice from './TravelAndTerrainAdvice'
+import { DangerRatings } from './danger'
 import ProblemSet from './problem'
 
 TabSet.propTypes = {
@@ -37,7 +39,7 @@ export default function TabSet({ onTabChange = noop }) {
             </HeaderSet>
             <PanelSet>
                 <Panel>
-                    <Condition />
+                    <OffSeason />
                     <DangerRatings />
                     <TravelAndTerrainAdvice />
                 </Panel>

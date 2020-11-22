@@ -1,6 +1,6 @@
 import * as React from 'react'
-import * as requests from 'requests/api'
-import * as products from 'constants/products'
+import * as Requests from 'requests/api'
+import * as Products from 'constants/products'
 import { useCacheAsync, createKey } from '../'
 import { useLanguage } from 'contexts/intl'
 import { DateParam } from 'hooks/params'
@@ -10,47 +10,54 @@ export function useProduct(id) {
     const params = [language, id]
     const key = createKey('product', params)
 
-    return useCacheAsync(requests.product, params, undefined, key)
+    return useCacheAsync(Requests.product, params, undefined, key)
 }
 
 export function useProducts(date) {
     const language = useLanguage()
-    const params = [language, DateParam.format(date)]
-    const key = createKey('products', params)
+    const params = [language, date]
+    const key = createKey('products', language, DateParam.format(date))
 
-    return useCacheAsync(requests.products, params, undefined, key)
+    return useCacheAsync(Requests.products, params, undefined, key)
 }
 
 export function useForecasts(date) {
-    return useProductsOfType(products.FORECAST, date)
+    return useProductsOfTypes(Products.ExtendedForecastProducts, date)
 }
 
 export function useForecast(id) {
-    return useProductOfType(products.FORECAST, id)
+    return useProductOfTypes(Products.ExtendedForecastProducts, id)
 }
 
 export function useSPAW() {
-    return useProductOfType(products.SPAW)
+    return useProductOfTypes(Products.SPAW)
 }
 
-function useProductsOfType(type, date) {
+function useProductsOfTypes(types, date) {
     const [products = ARRAY, ...rest] = useProducts(date)
 
     return React.useMemo(
-        () => [products.filter(product => product.type === type), ...rest],
-        [type, products, ...rest]
+        () => [
+            products.filter(product =>
+                typeof types.has === 'function'
+                    ? types.has(product.type)
+                    : product.type === types
+            ),
+            ...rest,
+        ],
+        [types, products, ...rest]
     )
 }
 
-function useProductOfType(type, id) {
-    const [products = ARRAY, ...rest] = useProductsOfType(type)
+function useProductOfTypes(types, id) {
+    const [products = ARRAY, ...rest] = useProductsOfTypes(types)
 
     return React.useMemo(
         () => [
             products.find(product => product.slug === id || product.id == id),
             ...rest,
         ],
-        [type, id, products, ...rest]
+        [types, id, products, ...rest]
     )
 }
 

@@ -1,4 +1,4 @@
 {
-    "domain": "https://s3-us-west-2.amazonaws.com/ac-assets/",
-    "min": "https://ac-min-uploads.s3-us-west-2.amazonaws.com/"
+    "domain": "https://s3-us-west-2.amazonaws.com/ac-assets",
+    "min": "https://ac-min-uploads.s3-us-west-2.amazonaws.com"
 }

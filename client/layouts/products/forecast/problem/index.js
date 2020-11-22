@@ -14,10 +14,13 @@ ProblemSet.propTypes = {
 export default function ProblemSet() {
     const { problems } = useReport()
 
-    if (problems.length === 0) {
+    if (!Array.isArray(problems) || problems.length === 0) {
         return (
             <h3>
-                <FormattedMessage defaultMessage="No problems identified." />
+                <FormattedMessage
+                    description="Layout product/forecast/problems"
+                    defaultMessage="No problems identified."
+                />
             </h3>
         )
     }

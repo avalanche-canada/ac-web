@@ -1,6 +1,7 @@
 import { useIntlMemo } from 'hooks/intl'
 import {
     FORECAST,
+    OFFSEASON,
     ADVISORY,
     MOUNTAIN_INFORMATION_NETWORK,
     MOUNTAIN_CONDITIONS_REPORT,
@@ -20,6 +21,13 @@ export default function useNames() {
                     intl.formatMessage({
                         description,
                         defaultMessage: 'Avalanche Forecast',
+                    }),
+                ],
+                [
+                    OFFSEASON,
+                    intl.formatMessage({
+                        description,
+                        defaultMessage: 'Off Season Message',
                     }),
                 ],
                 [

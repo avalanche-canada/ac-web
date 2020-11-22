@@ -24,7 +24,7 @@ import { usePrimaryDrawer, useSecondaryDrawer } from './drawers/hooks'
 import { useMerge } from 'hooks/async'
 import { captureException } from 'services/sentry'
 import { createPath } from 'utils/product'
-import * as products from 'constants/products'
+import * as Products from 'constants/products'
 
 export function useForecastRegions(map) {
     const key = FORECASTS
@@ -38,17 +38,19 @@ export function useForecastRegions(map) {
             return EMPTY_FEATURE_COLLECTION
         }
 
-        const features = areas.features
-            // REMOVE THAT AFTER API RETURNS JUST AREA THAT HAVE A PRODUCT
-            .filter(area =>
-                metadata.some(metadata => metadata.area.id === area.id)
-            )
-            // REMOVE THAT AFTER API RETURNS JUST AREA THAT HAVE A PRODUCT
-            .map(area => {
-                const { product, owner, url } = metadata.find(
-                    metadata => metadata.area.id === area.id
+        const features = metadata
+            .filter(isForecastRegionMetadata)
+            .map(meta => {
+                const area = areas.features.find(
+                    area => area.properties.id === meta.area.id
                 )
-                const pathname = createPath(products.FORECAST, product.slug)
+
+                if (!area) {
+                    return
+                }
+
+                const { product, owner, url } = meta
+                const pathname = createPath(Products.FORECAST, product.slug)
                 const extra = owner.isExternal ? { url } : { pathname }
 
                 return {
@@ -59,6 +61,11 @@ export function useForecastRegions(map) {
                     },
                 }
             })
+            .filter(Boolean)
+
+        if (features.length === 0) {
+            return EMPTY_FEATURE_COLLECTION
+        }
 
         return turf.featureCollection(features)
     }, [areas, metadata])
@@ -76,7 +83,7 @@ export function useForecastRegions(map) {
             !map ||
             !sourceLoaded ||
             !id ||
-            product !== products.FORECAST ||
+            product !== Products.FORECAST ||
             !metadata
         ) {
             return
@@ -142,34 +149,36 @@ export function useForecastMarkers(map) {
             return EMPTY_ARRAY
         }
 
-        return metadata.map(({ product, centroid, icons, url, owner }) => {
-            const { slug, title } = product
-            const element = document.createElement('img')
+        return metadata
+            .filter(isForecastRegionMetadata)
+            .map(({ product, centroid, icons, url, owner }) => {
+                const { slug, title } = product
+                const element = document.createElement('img')
 
-            element.style.cursor = 'pointer'
+                element.style.cursor = 'pointer'
 
-            Object.assign(element, {
-                src: icons.find(findIcon).graphic.url,
-                width: 50,
-                height: 50,
-                alt: title,
-                title,
-                onclick(event) {
-                    event.stopPropagation()
+                Object.assign(element, {
+                    src: icons.find(findIcon).graphic.url,
+                    width: 50,
+                    height: 50,
+                    alt: title,
+                    title,
+                    onclick(event) {
+                        event.stopPropagation()
 
-                    if (owner.isExternal) {
-                        window.open(url, title)
-                    } else {
-                        const pathname = createPath(products.FORECAST, slug)
-                        const url = pathname + window.location.search
+                        if (owner.isExternal) {
+                            window.open(url, title)
+                        } else {
+                            const pathname = createPath(Products.FORECAST, slug)
+                            const url = pathname + window.location.search
 
-                        navigate(url)
-                    }
-                },
+                            navigate(url)
+                        }
+                    },
+                })
+
+                return [centroid, { element }]
             })
-
-            return [centroid, { element }]
-        })
     }, [metadata])
 
     useMapErrors(ERRORS.FORECAST, error)
@@ -210,7 +219,7 @@ export function useWeatherStations(map) {
 export function useMountainConditionReports(map) {
     const key = MOUNTAIN_CONDITIONS_REPORTS
     const { visible } = useLayerState(key)
-    const id = useSearchPanelId(products.MOUNTAIN_CONDITIONS_REPORT)
+    const id = useSearchPanelId(Products.MOUNTAIN_CONDITIONS_REPORT)
     const [[reports, report], , errors] = useMerge(
         mcr.useReports(),
         mcr.useReport(id)
@@ -268,6 +277,13 @@ export function useMountainInformationNetwork(map) {
         [types]
     )
 
+    // Icons but not active and incidents
+    key = MOUNTAIN_INFORMATION_NETWORK
+    layer = createLayer(key, key, 'symbol')
+
+    mapbox.useSource(map, key, CLUSTER, others)
+    mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
+
     // Incident icons
     key = MOUNTAIN_INFORMATION_NETWORK + '-incidents'
     let style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
@@ -276,19 +292,12 @@ export function useMountainInformationNetwork(map) {
     mapbox.useSource(map, key, GEOJSON, incidents)
     mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
 
-    // Other icons
-    key = MOUNTAIN_INFORMATION_NETWORK
-    layer = createLayer(key, key, 'symbol')
-
-    mapbox.useSource(map, key, CLUSTER, others)
-    mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
-
     // Active report, because a report could be filtered out by the filters...
     key = MOUNTAIN_INFORMATION_NETWORK + '-active-report'
     style = STYLES[MOUNTAIN_INFORMATION_NETWORK].symbol
     layer = createLayer(key, key, 'symbol', style)
 
-    let id = useSearchPanelId(products.MOUNTAIN_INFORMATION_NETWORK)
+    let id = useSearchPanelId(Products.MOUNTAIN_INFORMATION_NETWORK)
 
     if (!pending) {
         id = data.some(({ subid }) => subid === id) ? null : id
@@ -320,7 +329,7 @@ function createMountainInformationNetworkFeature({
 }) {
     return turf.point(lnglat, {
         title,
-        panel: createPath(products.MOUNTAIN_INFORMATION_NETWORK, subid),
+        panel: createPath(Products.MOUNTAIN_INFORMATION_NETWORK, subid),
         ...obs.reduce((types, { obtype }) => {
             types[obtype] = true
 
@@ -419,13 +428,13 @@ function createLayer(id, source, type, styles = STYLES[source][type]) {
 function createWeatherStationFeature({ stationId, name, longitude, latitude }) {
     return turf.point([longitude, latitude], {
         title: name,
-        panel: createPath(products.WEATHER_STATION, stationId),
+        panel: createPath(Products.WEATHER_STATION, stationId),
     })
 }
 function createMountainConditionReportFeature({ location, title, id }) {
     return turf.point(location, {
         title,
-        panel: createPath(products.MOUNTAIN_CONDITIONS_REPORT, id),
+        panel: createPath(Products.MOUNTAIN_CONDITIONS_REPORT, id),
     })
 }
 function createFatalAccidentFeature({ uid, data }) {
@@ -433,7 +442,7 @@ function createFatalAccidentFeature({ uid, data }) {
 
     return turf.point([location.longitude, location.latitude], {
         title,
-        panel: createPath(products.ACCIDENT, uid),
+        panel: createPath(Products.ACCIDENT, uid),
     })
 }
 function useSearchPanelId(product) {
@@ -594,4 +603,8 @@ const STYLES = {
             },
         },
     },
+}
+
+function isForecastRegionMetadata({ product }) {
+    return Products.ExtendedForecastProducts.has(product.type)
 }
