@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { StructuredText } from 'prismic/components/base'
-import styles from './HotZoneReport.css'
+import styles from './Advisory.css'
 
 Headline.propTypes = {
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.array])

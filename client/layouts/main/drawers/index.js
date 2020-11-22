@@ -1,7 +1,6 @@
 import React from 'react'
 import { Router, Redirect } from '@reach/router'
 import Forecast from 'layouts/drawers/Forecast'
-import Advisory from 'layouts/drawers/HotZoneReport'
 import MountainInformationNetwork from 'layouts/drawers/MountainInformationNetwork'
 import WeatherStation from 'layouts/drawers/WeatherStation'
 import FatalAccident from 'layouts/drawers/FatalAccident'
@@ -48,7 +47,6 @@ export function Primary() {
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
                 <Forecast path={createPath(products.FORECAST, ':id', null)} />
-                <Advisory path={createPath(products.ADVISORY, ':id', null)} />
                 <Redirect
                     from="hot-zone-reports/:id"
                     to={createPath(products.ADVISORY, ':id')}

@@ -18,21 +18,21 @@ import * as urls from 'utils/url'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useFormatDate } from 'hooks/intl'
 
-ArchiveHotZoneReport.propTypes = {
+ArchiveAdvisory.propTypes = {
     name: PropTypes.string,
     date: PropTypes.instanceOf(Date),
 }
 
-export default function ArchiveHotZoneReport(props) {
+export default function ArchiveAdvisory(props) {
     const title = (
         <FormattedMessage
-            description="Layout pages/ArchiveHotZoneReport"
+            description="Layout pages/ArchiveAdvisory"
             defaultMessage="Avalanche Advisory Archive"
         />
     )
     const placeholder = (
         <FormattedMessage
-            description="Layout pages/ArchiveHotZoneReport"
+            description="Layout pages/ArchiveAdvisory"
             defaultMessage="Select an area"
         />
     )
@@ -92,7 +92,7 @@ function AdvisoryDayPicker({ name, date, month, onDateChange, onMonthChange }) {
     const [documents = []] = useDocuments(hotZone.reports.monthly(name, month))
     const days = documents.reduce(monthReducer, new Set())
     const placeholder = intl.formatMessage({
-        description: 'Layout pages/ArchiveHotZoneReport',
+        description: 'Layout pages/ArchiveAdvisory',
         defaultMessage: 'Select a date',
     })
 
@@ -132,7 +132,7 @@ function ArchiveContent({ name, date }) {
         return (
             <Muted>
                 <FormattedMessage
-                    description="Layout pages/ArchiveHotZoneReport"
+                    description="Layout pages/ArchiveAdvisory"
                     defaultMessage="Select an area."
                 />
             </Muted>
@@ -143,7 +143,7 @@ function ArchiveContent({ name, date }) {
         return (
             <Muted>
                 <FormattedMessage
-                    description="Layout pages/ArchiveHotZoneReport"
+                    description="Layout pages/ArchiveAdvisory"
                     defaultMessage="Select a date for the {name} area."
                     values={{ name }}
                 />
@@ -163,7 +163,7 @@ function Advisory({ name, date }) {
     ) : (
         <Muted>
             <FormattedMessage
-                description="Layout pages/ArchiveHotZoneReport"
+                description="Layout pages/ArchiveAdvisory"
                 defaultMessage="No advisory available in {name} for {date}."
                 values={{
                     name,

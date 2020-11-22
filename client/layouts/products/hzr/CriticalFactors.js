@@ -9,7 +9,7 @@ import { StructuredText } from 'prismic/components/base'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
 import { RED, ORANGE } from 'constants/products/forecast/palette'
-import styles from './HotZoneReport.css'
+import styles from './Advisory.css'
 import { CM } from 'constants/intl'
 
 CriticalFactor.propTypes = {

@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import Section from 'layouts/products/min/Section'
 import { List, Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
-import styles from './HotZoneReport.css'
+import styles from './Advisory.css'
 
 function AvoidItem({ children, value }) {
     const className = value === 'Yes' ? 'Avoid' : 'Okay'

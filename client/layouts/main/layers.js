@@ -460,7 +460,6 @@ const TITLES = new Map([
         'Mountain Information Network reports',
     ],
     [Products.ACCIDENT, 'fatal recretional accidents'],
-    [Products.ADVISORY, 'advisories'],
     [Products.MOUNTAIN_CONDITIONS_REPORT, 'Mountain Condition reports'],
     [Products.FORECAST, 'forecast'],
 ])
@@ -558,24 +557,6 @@ const STYLES = {
                 'text-color': '#000000',
                 'text-halo-color': '#FFFFFF',
                 'text-halo-width': 2,
-            },
-        },
-    },
-    [Products.ADVISORY]: {
-        circle: {
-            paint: {
-                'circle-blur': 0.75,
-                'circle-opacity': 0.9,
-                'circle-color': [
-                    'case',
-                    ['boolean', ['get', 'active'], false],
-                    '#004285',
-                    'hsl(0, 0%, 55%)',
-                ],
-                'circle-radius': {
-                    base: 1,
-                    stops: [[0, 0], [5, 35], [10, 250], [20, 2000]],
-                },
             },
         },
     },

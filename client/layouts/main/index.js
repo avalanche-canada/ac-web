@@ -220,14 +220,6 @@ function useSummaries() {
                 }),
             ],
             [
-                ERRORS.ADVISORY,
-                intl.formatMessage({
-                    description,
-                    defaultMessage:
-                        'A problem happened while loading Advisories on the map.',
-                }),
-            ],
-            [
                 ERRORS.MOUNTAIN_INFORMATION_NETWORK,
                 intl.formatMessage({
                     description,

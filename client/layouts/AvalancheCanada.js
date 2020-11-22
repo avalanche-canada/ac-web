@@ -9,7 +9,7 @@ import Tutorial from './tutorial'
 import Ast from './ast'
 import MountainInformationNetwork from './MountainInformationNetwork'
 import Weather from './weather'
-import HotZoneReport from './HotZoneReport'
+import Advisory from './Advisory'
 import Incidents from './incidents'
 import Forecast from './Forecast'
 import TripPlanner from './TripPlanner'
@@ -69,7 +69,7 @@ function AvalancheCanada() {
                         <Tutorial path="tutoriel/*" />
                         <Redirect from="hot-zone-reports/*" to="advisories" />
                         <Redirect from="hot-zones/*" to="advisories" />
-                        <HotZoneReport path="advisories/*" />
+                        <Advisory path="advisories/*" />
                         <Forecast path="forecasts/*" />
                         <Redirect from={BLOG} to="/blogs" />
                         <Blogs path="blogs/*" />

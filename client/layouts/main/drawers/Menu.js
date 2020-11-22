@@ -33,7 +33,6 @@ export default function Menu({ onCloseClick }) {
                             />
                         }>
                         <Layer id={Products.FORECAST} />
-                        <Layer id={Products.ADVISORY} />
                     </components.LayerSet>
                     <components.LayerSet
                         title={
@@ -110,7 +109,6 @@ function Layer({ id, children }) {
 const DAYS = [1, 3, 7, 14, 30]
 const ICONS = new Map([
     [Products.FORECAST, Icons.Forecast],
-    [Products.ADVISORY, Icons.HotZoneReport],
     [Products.MOUNTAIN_INFORMATION_NETWORK, Icons.MountainInformationNetwork],
     [Products.MOUNTAIN_CONDITIONS_REPORT, Icons.MountainConditionsReport],
     [Products.WEATHER_STATION, Icons.WeatherStation],
