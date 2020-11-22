@@ -4,7 +4,7 @@ import { Link } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
 import { useReport } from './Context'
 import { Sidebar, Contact, Follow, Share, Item } from 'components/sidebar'
-import * as utils from 'utils/hzr'
+import * as utils from 'utils/advisory'
 import { FORECASTERS } from 'constants/emails'
 
 AdvisorySidebar.propTypes = {
@@ -19,7 +19,7 @@ export default function AdvisorySidebar({ shareable, children, ...props }) {
             <Item>
                 <Link to="/weather">
                     <FormattedMessage
-                        description="Layout products/hzr/Sidebar"
+                        description="Layout products/advisory/Sidebar"
                         defaultMessage="Your daily Mountain Weather Forecast"
                     />
                 </Link>
@@ -27,7 +27,7 @@ export default function AdvisorySidebar({ shareable, children, ...props }) {
             <Item>
                 <Link to="/mountain-information-network/submit">
                     <FormattedMessage
-                        description="Layout products/hzr/Sidebar"
+                        description="Layout products/advisory/Sidebar"
                         defaultMessage="Submit a Mountain Information Report"
                     />
                 </Link>
@@ -35,7 +35,7 @@ export default function AdvisorySidebar({ shareable, children, ...props }) {
             <Item>
                 <Link to="/blogs">
                     <FormattedMessage
-                        description="Layout products/hzr/Sidebar"
+                        description="Layout products/advisory/Sidebar"
                         defaultMessage="Visit our Blog"
                     />
                 </Link>
@@ -43,7 +43,7 @@ export default function AdvisorySidebar({ shareable, children, ...props }) {
             <Item>
                 <Link to="/advisories/archives">
                     <FormattedMessage
-                        description="Layout products/hzr/Sidebar"
+                        description="Layout products/advisory/Sidebar"
                         defaultMessage="Avalanche Advisory Archive"
                     />
                 </Link>

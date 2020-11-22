@@ -1,1 +1,1 @@
-export { geometry } from './hzr'
+export { geometry } from './advisory'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { useReport } from './Context'
 import { Metadata, ShareEntry, TimestampEntry } from 'components/metadata'
-import * as utils from 'utils/hzr'
+import * as utils from 'utils/advisory'
 
 HotZoneReportMetadata.propTypes = {
     shareable: PropTypes.bool,
@@ -17,7 +17,7 @@ export default function HotZoneReportMetadata({ shareable }) {
             <TimestampEntry
                 term={
                     <FormattedMessage
-                        description="Layout products/hzr/Metadata"
+                        description="Layout products/advisory/Metadata"
                         defaultMessage="Date Issued"
                     />
                 }
@@ -26,7 +26,7 @@ export default function HotZoneReportMetadata({ shareable }) {
             <TimestampEntry
                 term={
                     <FormattedMessage
-                        description="Layout products/hzr/Metadata"
+                        description="Layout products/advisory/Metadata"
                         defaultMessage="Valid Until"
                     />
                 }
@@ -36,7 +36,7 @@ export default function HotZoneReportMetadata({ shareable }) {
                 <TimestampEntry
                     term={
                         <FormattedMessage
-                            description="Layout products/hzr/Metadata"
+                            description="Layout products/advisory/Metadata"
                             defaultMessage="Date Updated"
                         />
                     }

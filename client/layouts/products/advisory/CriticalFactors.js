@@ -60,7 +60,7 @@ function CriticalFactorsComponent({
     const intl = useIntl()
     const header = (
         <FormattedMessage
-            description="Layout products/hzr/CriticalFactors"
+            description="Layout products/advisory/CriticalFactors"
             defaultMessage="Critical Factors Summary"
         />
     )
@@ -71,7 +71,7 @@ function CriticalFactorsComponent({
                 <p>
                     <strong>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches."
                         />
                     </strong>
@@ -79,26 +79,26 @@ function CriticalFactorsComponent({
                 <List>
                     <CriticalFactor value={criticalFactorsInstability}>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Signs of instability"
                         />
                     </CriticalFactor>
                     <CriticalFactor
                         value={criticalFactorsPersistentAvalancheProblem}>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Persistent avalanche problem"
                         />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsRecentRainfall}>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Recent rainfall"
                         />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsRecentSnowfall}>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Recent snowfall > {height}"
                             values={{
                                 height: intl.formatNumber(30, CM),
@@ -107,19 +107,19 @@ function CriticalFactorsComponent({
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsRecentWindLoading}>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Recent wind loading"
                         />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsSignificantWarming}>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Significant warming"
                         />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsSlabAvalanches}>
                         <FormattedMessage
-                            description="Layout products/hzr/CriticalFactors"
+                            description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Slab avalanches in the last 48 hours"
                         />
                     </CriticalFactor>
@@ -128,7 +128,7 @@ function CriticalFactorsComponent({
                     <Comment
                         title={
                             <FormattedMessage
-                                description="Layout products/hzr/CriticalFactors"
+                                description="Layout products/advisory/CriticalFactors"
                                 defaultMessage="Information to collect while travelling"
                             />
                         }>

@@ -87,7 +87,7 @@ function TerrainAdviceSetComponent({
             <AdviceSection
                 header={
                     <FormattedMessage
-                        description="Layout products/hzr/TerrainAdviceSet"
+                        description="Layout products/advisory/TerrainAdviceSet"
                         defaultMessage="Terrain to Avoid"
                     />
                 }
@@ -96,7 +96,7 @@ function TerrainAdviceSetComponent({
             <AdviceSection
                 header={
                     <FormattedMessage
-                        description="Layout products/hzr/TerrainAdviceSet"
+                        description="Layout products/advisory/TerrainAdviceSet"
                         defaultMessage="Terrain to Watch"
                     />
                 }
@@ -105,7 +105,7 @@ function TerrainAdviceSetComponent({
             <AdviceSection
                 header={
                     <FormattedMessage
-                        description="Layout products/hzr/TerrainAdviceSet"
+                        description="Layout products/advisory/TerrainAdviceSet"
                         defaultMessage="Good Terrain Choices"
                     />
                 }
@@ -118,7 +118,7 @@ function TerrainAdviceSetComponent({
         <Panel
             header={
                 <FormattedMessage
-                    description="Layout products/hzr/TerrainAdviceSet"
+                    description="Layout products/advisory/TerrainAdviceSet"
                     defaultMessage="Terrain Advice"
                 />
             }

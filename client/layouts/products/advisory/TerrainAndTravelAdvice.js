@@ -33,7 +33,7 @@ function TerrainAndTravelAdviceComponent({ report }) {
         <Panel
             header={
                 <FormattedMessage
-                    description="Layout products/hzr/TerrainAdviceAdvice"
+                    description="Layout products/advisory/TerrainAdviceAdvice"
                     defaultMessage="Terrain and Travel Advice"
                 />
             }

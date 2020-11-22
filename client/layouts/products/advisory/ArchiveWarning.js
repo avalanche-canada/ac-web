@@ -1,7 +1,7 @@
 import React from 'react'
 import { useReport } from './Context'
 import Shim from 'components/Shim'
-import * as utils from 'utils/hzr'
+import * as utils from 'utils/advisory'
 import { Warning } from 'components/alert'
 import { FormattedMessage } from 'react-intl'
 
@@ -16,7 +16,7 @@ export default function ArchiveWarning() {
         <Shim vertical>
             <Warning>
                 <FormattedMessage
-                    description="Layout products/hzr/ArchiveWarning"
+                    description="Layout products/advisory/ArchiveWarning"
                     defaultMessage="This is an archived Avalanche Advisory."
                 />
             </Warning>

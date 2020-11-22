@@ -55,7 +55,7 @@ export default function TerrainSummary({ title, prefix, report }) {
             <List>
                 <Term>
                     <FormattedMessage
-                        description="Layout products/hzr/TerrainSummary"
+                        description="Layout products/advisory/TerrainSummary"
                         defaultMessage="Aspect"
                     />
                 </Term>
@@ -64,7 +64,7 @@ export default function TerrainSummary({ title, prefix, report }) {
                 </Definition>
                 <Term>
                     <FormattedMessage
-                        description="Layout products/hzr/TerrainSummary"
+                        description="Layout products/advisory/TerrainSummary"
                         defaultMessage="Terrain features"
                     />
                 </Term>
@@ -73,7 +73,7 @@ export default function TerrainSummary({ title, prefix, report }) {
                 </Definition>
                 <Term block>
                     <FormattedMessage
-                        description="Layout products/hzr/TerrainSummary"
+                        description="Layout products/advisory/TerrainSummary"
                         defaultMessage="Travel advice"
                     />
                 </Term>
@@ -94,7 +94,8 @@ function AvoidList({ children }) {
 }
 function useTerrainFeatureTitles() {
     return useIntlMemo(intl => {
-        const description = 'Layout products/hzr - Advisory Terrain Summary'
+        const description =
+            'Layout products/advisory - Advisory Terrain Summary'
 
         return new Map([
             [
