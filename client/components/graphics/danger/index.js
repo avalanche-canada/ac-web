@@ -1,9 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Elevations, { ALP, TLN, BTL } from 'constants/forecast/elevation'
+import Elevations, {
+    ALP,
+    TLN,
+    BTL,
+} from 'constants/products/forecast/elevation'
 import Banner from './Banner'
 import BannerSet from './BannerSet'
-import * as Ratings from 'constants/forecast/rating'
+import * as Ratings from 'constants/products/forecast/rating'
 
 PositionText.propTypes = {
     children: PropTypes.string.isRequired,

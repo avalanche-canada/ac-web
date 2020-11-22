@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ELEVATIONS, { ALP, TLN, BTL } from 'constants/forecast/elevation'
+import ELEVATIONS, {
+    ALP,
+    TLN,
+    BTL,
+} from 'constants/products/forecast/elevation'
 import RATINGS, {
     NO_RATING,
     LOW,
@@ -11,7 +15,7 @@ import RATINGS, {
     useTravelAdvices,
     useLikehoodOfAvalanche,
     useSizeAndDistribution,
-} from 'constants/forecast/rating'
+} from 'constants/products/forecast/rating'
 import { BannerFill, BannerStroke, TextFill } from './colors'
 import * as Icons from './Icons'
 

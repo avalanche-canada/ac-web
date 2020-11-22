@@ -8,7 +8,7 @@ import Ratings, {
     CHALLENGING,
     useRatingTexts,
     useRatingDescriptions,
-} from 'constants/forecast/ates'
+} from 'constants/products/forecast/ates'
 import atesStyles from 'styles/ates.css'
 
 export default function TerrainRatingsPanel() {

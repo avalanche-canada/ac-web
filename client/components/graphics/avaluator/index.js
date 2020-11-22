@@ -6,7 +6,7 @@ import ATESRatings, {
     CHALLENGING,
     COMPLEX,
     useRatingTexts,
-} from 'constants/forecast/ates'
+} from 'constants/products/forecast/ates'
 import {
     useTexts as useDangerRatingTexts,
     LOW,
@@ -14,7 +14,7 @@ import {
     CONSIDERABLE,
     HIGH,
     EXTREME,
-} from 'constants/forecast/rating'
+} from 'constants/products/forecast/rating'
 
 // TODO Can shave off a lot by removing/reusing
 

@@ -6,7 +6,7 @@ import {
     YELLOW,
     ORANGE,
     RED,
-} from 'constants/forecast/palette'
+} from 'constants/products/forecast/palette'
 
 // TODO Ask Brent to help simplifying these shapes!
 // TODO Splitting these drawings into smaller reusable shapes.

@@ -6,7 +6,7 @@ import Ratings, {
     useTravelAdvices,
     useLikehoodOfAvalanche,
     useSizeAndDistribution,
-} from 'constants/forecast/rating'
+} from 'constants/products/forecast/rating'
 import RatingStyles from 'styles/forecasts/ratings.css'
 
 export default function RatingExplanation() {

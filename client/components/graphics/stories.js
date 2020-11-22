@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf, action } from '@storybook/react'
-import * as Ratings from 'constants/forecast/rating'
+import * as Ratings from 'constants/products/forecast/rating'
 import DangerIcon from './danger/Icon'
 import DangerCard from './danger'
 

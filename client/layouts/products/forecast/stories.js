@@ -3,13 +3,18 @@ import { storiesOf, action } from '@storybook/react'
 import { Table, Day, Condition } from './danger'
 import addDays from 'date-fns/add_days'
 import { Problem, Topic, Advice, Comment } from './problem'
-import { HIGH, LOW, MODERATE, CONSIDERABLE } from 'constants/forecast/rating'
+import {
+    HIGH,
+    LOW,
+    MODERATE,
+    CONSIDERABLE,
+} from 'constants/products/forecast/rating'
 import Panel from 'components/panel'
 import Footer from './Footer'
 import Headline from './Headline'
 import Summary from './Summary'
 import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
-import * as Modes from 'constants/forecast/mode'
+import * as Modes from 'constants/products/forecast/mode'
 
 function Forecast({ children }) {
     return <section>{children}</section>

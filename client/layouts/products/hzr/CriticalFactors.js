@@ -8,7 +8,7 @@ import { Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
-import { RED, ORANGE } from 'constants/forecast/palette'
+import { RED, ORANGE } from 'constants/products/forecast/palette'
 import styles from './HotZoneReport.css'
 import { CM } from 'constants/intl'
 

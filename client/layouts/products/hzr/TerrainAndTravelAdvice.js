@@ -6,7 +6,7 @@ import { useReport } from './Context'
 import TerrainSummary from './TerrainSummary'
 import AdviceText from './AdviceText'
 import { FormattedMessage } from 'react-intl'
-import { useTexts, ALP, TLN, BTL } from 'constants/forecast/elevation'
+import { useTexts, ALP, TLN, BTL } from 'constants/products/forecast/elevation'
 
 TerrainAndTravelAdviceComponent.propTypes = {
     report: PropTypes.object.isRequired,
