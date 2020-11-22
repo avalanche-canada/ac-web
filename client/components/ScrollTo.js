@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useLocation } from 'router/hooks'
 
 ScrollTo.propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.node.isRequired,
     x: PropTypes.number,
     y: PropTypes.number,
 }
