@@ -1,14 +1,13 @@
 import React from 'react'
 import { useReport } from './Context'
 import Shim from 'components/Shim'
-import * as utils from 'utils/advisory'
 import { Warning } from 'components/alert'
 import { FormattedMessage } from 'react-intl'
 
 export default function ArchiveWarning() {
     const report = useReport()
 
-    if (!report || utils.isValid(report.data)) {
+    if (!report) {
         return null
     }
 

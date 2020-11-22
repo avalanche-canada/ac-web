@@ -1,15 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { useReport } from './Context'
-import { Metadata, ShareEntry, TimestampEntry } from 'components/metadata'
-import * as utils from 'utils/advisory'
+import { Metadata, TimestampEntry } from 'components/metadata'
 
-HotZoneReportMetadata.propTypes = {
-    shareable: PropTypes.bool,
-}
-
-export default function HotZoneReportMetadata({ shareable }) {
+export default function AdvisoryMetadata() {
     const report = useReport()
 
     return report ? (
@@ -43,7 +37,6 @@ export default function HotZoneReportMetadata({ shareable }) {
                     value={report.data.dateUpdated}
                 />
             )}
-            {shareable && <ShareEntry url={utils.shareUrl(report)} />}
         </Metadata>
     ) : null
 }
