@@ -3,7 +3,6 @@ import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import { getGeom } from '@turf/invariant'
 import { Link } from '@reach/router'
-import { useForecastRegionsMetadata } from 'hooks/async/features'
 import Map from './Map'
 import TripPlanning from './TripPlanning'
 import Forecast from './Forecast'
@@ -29,6 +28,7 @@ import styles from './TripPlanner.css'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useName } from 'constants/products/names'
 import { FORECAST } from 'constants/products'
+import { useMetadata } from 'hooks/async/api/metadata'
 
 export default class TripPlannerLayout extends PureComponent {
     state = {
@@ -115,7 +115,7 @@ export default class TripPlannerLayout extends PureComponent {
         this.fitBounds(utils.geometry(region))
     }
     setData = ({ data }) => {
-        this.regions = data
+        this.regions = data || []
 
         return null
     }
@@ -276,7 +276,7 @@ function Window({ children }) {
 }
 // TODO Remove that component once converted to functionnal component
 function Regions({ children }) {
-    const [data, pending] = useForecastRegionsMetadata()
+    const [data, pending] = useMetadata()
 
     return children({ data, pending })
 }

@@ -13,10 +13,6 @@ import { Page } from 'layouts/pages'
 import { Muted, Error } from 'components/text'
 import { Br } from 'components/misc'
 import { Responsive, FlexContentCell } from 'components/table'
-import {
-    useForecastRegions,
-    useForecastRegionsMetadata,
-} from 'hooks/async/features'
 import * as min from 'hooks/async/min'
 import { Metadata, Entry } from 'components/metadata'
 import { DropdownFromOptions as Dropdown, DayPicker } from 'components/controls'
@@ -35,6 +31,8 @@ import { useMerge } from 'hooks/async'
 import { useLocation } from 'router/hooks'
 import { useIntlMemo } from 'hooks/intl'
 import * as Async from 'contexts/async'
+import { useAreas } from 'hooks/async/api/areas'
+import { useMetadata } from 'hooks/async/api/metadata'
 
 SubmissionListLayout.propTypes = {
     navigate: PropTypes.func.isRequired,
@@ -109,7 +107,7 @@ export default function SubmissionListLayout({ navigate }) {
 // Components
 function Form({ params, onParamsChange }) {
     const names = useNames()
-    const [data] = useForecastRegionsMetadata()
+    const [data = ARRAY] = useMetadata()
     const options = useMemo(() => new Map(data.map(createRegionOption)), [data])
     const from = subDays(new Date(), params.days || DAYS)
     function handleFromDateChange(from) {
@@ -266,15 +264,15 @@ function FallbackError({ error, onReset, days }) {
 // Hooks
 // Combine data fetching, filtering & sorting in one hook
 function useReports(params) {
-    const [[regions, reports], pending, errors] = useMerge(
-        useForecastRegions(),
+    const [[areas, reports], pending, errors] = useMerge(
+        useAreas(),
         min.useReports(params.days || DAYS)
     )
     let submissions = useMemo(() => {
-        if (regions && reports) {
-            return runSpatialAnalysis(reports, regions)
+        if (areas && reports) {
+            return runSpatialAnalysis(reports, areas)
         }
-    }, [regions, reports])
+    }, [areas, reports])
 
     const predicates = []
 
@@ -430,7 +428,9 @@ function NamesList({ types }) {
 function pluckObtype({ obtype }) {
     return obtype
 }
-function createRegionOption({ id, name }) {
+function createRegionOption({ area }) {
+    const { id, name } = area
+
     return [id, name]
 }
 function hasIncident({ obtype }) {
@@ -462,3 +462,5 @@ function getSorting(name, order, sorting) {
 
     return order
 }
+
+const ARRAY = []

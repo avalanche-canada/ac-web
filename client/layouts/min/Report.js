@@ -22,11 +22,11 @@ import pin from 'components/icons/min/min-pin.svg'
 import useParams, { DateParam } from 'hooks/params'
 import { useLocation } from 'router/hooks'
 import { useAuth } from 'contexts/auth'
-import { useForecastRegions } from 'hooks/async/features'
 import { useMerge } from 'hooks/async'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useFormatDate, useIntlMemo } from 'hooks/intl'
 import * as Async from 'contexts/async'
+import { useAreas } from 'hooks/async/api/areas'
 
 Report.propTypes = {
     navigate: PropTypes.func.isRequired,
@@ -298,17 +298,17 @@ function useReport(dateFrom, dateTo, grouping, columns) {
 }
 
 function useReports(dateFrom, dateTo) {
-    const [[regions, reports], pending, errors] = useMerge(
-        useForecastRegions(),
+    const [[areas, reports], pending, errors] = useMerge(
+        useAreas(),
         min.useMINToWinReports(dateFrom, dateTo)
     )
     const submissions = useMemo(() => {
-        if (regions && reports) {
-            const submissions = runSpatialAnalysis(reports, regions)
+        if (areas && reports) {
+            const submissions = runSpatialAnalysis(reports, areas)
 
             return submissions
         }
-    }, [regions, reports])
+    }, [areas, reports])
 
     return [submissions, pending, errors.filter(Boolean)]
 }
