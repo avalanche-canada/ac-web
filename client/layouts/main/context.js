@@ -1,18 +1,11 @@
-import React, {
-    createContext,
-    Fragment,
-    useContext,
-    useEffect,
-    useRef,
-    useCallback,
-} from 'react'
+import React, { createContext, useContext, useEffect, useRef, useCallback } from 'react'
 import { getCoord } from '@turf/invariant'
 import { useMapState, ERRORS, useGuessBounds } from 'contexts/map/state'
 import * as mapbox from 'hooks/mapbox'
 import { useLocation } from 'router/hooks'
 import { useMapOffset } from './drawers/hooks'
 import * as layers from './layers'
-import styles from './Map.css'
+import styles from './Map.module.css'
 
 const MapContext = createContext()
 
@@ -101,23 +94,20 @@ function useMapClickHandler() {
             if (properties.cluster) {
                 const source = map.getSource(feature.source)
 
-                source.getClusterExpansionZoom(
-                    properties.cluster_id,
-                    (error, zoom) => {
-                        if (error) {
-                            // We do not really care if there is an error,
-                            // we will just zoom in a bit so user receives a
-                            // feedback to the click on the cluster!
-                            zoom = map.getZoom() + 1
-                        }
-
-                        map.flyTo({
-                            center: getCoord(feature),
-                            zoom,
-                            offset,
-                        })
+                source.getClusterExpansionZoom(properties.cluster_id, (error, zoom) => {
+                    if (error) {
+                        // We do not really care if there is an error,
+                        // we will just zoom in a bit so user receives a
+                        // feedback to the click on the cluster!
+                        zoom = map.getZoom() + 1
                     }
-                )
+
+                    map.flyTo({
+                        center: getCoord(feature),
+                        zoom,
+                        offset,
+                    })
+                })
             } else {
                 if ('url' in properties) {
                     const { url, slug } = properties

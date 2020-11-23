@@ -15,11 +15,11 @@ import { Close } from 'components/button'
 import Button from 'components/button'
 import { Details } from 'components/error'
 import Shim from 'components/Shim'
-import shim from 'components/Shim.css'
 import { useIntlMemo } from 'hooks/intl'
 import { Map as MapProvider } from './context'
-import typography from 'components/text/Text.css'
-import styles from './Map.css'
+import typography from 'components/text/Text.module.css'
+import shim from 'components/Shim.module.css'
+import styles from './Map.module.css'
 
 export default supported() ? Main : UnsupportedMap
 

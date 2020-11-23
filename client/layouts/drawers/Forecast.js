@@ -15,12 +15,12 @@ import { handleForecastTabActivate } from 'services/analytics'
 import { Details } from 'components/error'
 import { useLocation } from 'router/hooks'
 import * as Async from 'contexts/async'
-import shim from 'components/Shim.css'
-import typography from 'components/text/Text.css'
 import { useFitBounds, usePrimaryDrawer } from 'layouts/main/drawers/hooks'
 import { useAreas } from 'hooks/async/api/areas'
 import { useName } from 'constants/products/names'
 import { FORECAST } from 'constants/products'
+import typography from 'components/text/Text.module.css'
+import shim from 'components/Shim.module.css'
 
 export default function ForeastDrawer() {
     // "key" in <Body> to mount/remount the tabs, so the first tab appears and

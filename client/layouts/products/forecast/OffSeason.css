@@ -1,7 +1,7 @@
 @custom-media --full-width (width > 420px);
 
 .Condition {
-    composes: import Section from './Forecast.css';
+    composes: import Section from './Forecast.module.css';
 
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@
 }
 
 .ConditionHeader {
-    composes: import SectionHeader from './Forecast.css';
+    composes: import SectionHeader from './Forecast.module.css';
 
     flex: 100%;
 }
