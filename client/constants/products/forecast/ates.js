@@ -1,5 +1,4 @@
-import { useMemo } from 'react'
-import { useIntl } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
 
 export const SIMPLE = 1
 export const CHALLENGING = 2
@@ -8,10 +7,8 @@ export const COMPLEX = 3
 export default new Set([SIMPLE, CHALLENGING, COMPLEX])
 
 export function useRatingTexts() {
-    const intl = useIntl()
-
-    return useMemo(
-        () =>
+    return useIntlMemo(
+        intl =>
             new Map([
                 [
                     SIMPLE,
@@ -34,8 +31,7 @@ export function useRatingTexts() {
                         defaultMessage: 'Complex',
                     }),
                 ],
-            ]),
-        [intl.locale]
+            ])
     )
 }
 
@@ -46,10 +42,8 @@ export function useRatingText(rating) {
 }
 
 export function useRatingDescriptions() {
-    const intl = useIntl()
-
-    return useMemo(
-        () =>
+    return useIntlMemo(
+        intl =>
             new Map([
                 [
                     SIMPLE,
@@ -75,7 +69,6 @@ export function useRatingDescriptions() {
                             'Exposure to multiple overlapping avalanche paths or large expanses of steep, open terrain; multiple avalanche starting zones and terrain traps below; minimal options to reduce exposure. Complicated glacier travel with extensive crevasse bands or icefalls.',
                     }),
                 ],
-            ]),
-        [intl.locale]
+            ])
     )
 }
