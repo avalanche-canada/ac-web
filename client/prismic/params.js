@@ -179,11 +179,10 @@ export const feed = {
         }
 
         if (type === types.EVENT) {
-            predicates.push(
-                Predicates.dateAfter(
-                    my(type, 'start_date'),
-                    DateParam.format(new Date())
-                )
+            rangeForType(type, 'start_date', 'end_date').predicates.forEach(
+                predicate => {
+                    predicates.push(predicate)
+                }
             )
         }
 
@@ -293,12 +292,9 @@ function rangePredicates(start, end, date = new Date()) {
         Predicates.dateAfter(end, DateParam.format(subDays(date, 1))),
     ]
 }
-function rangeForType(type) {
+function rangeForType(type, start = 'start', end = 'end') {
     return {
-        predicates: [
-            Predicates.type(type),
-            ...rangePredicates(my(type, 'start'), my(type, 'end')),
-        ],
+        predicates: rangePredicates(my(type, start), my(type, end)),
     }
 }
 const FEED_ORDERINGS = new Map([
