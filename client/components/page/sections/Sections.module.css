@@ -1,0 +1,24 @@
+@import '../../../styles/colors.module.css';
+
+@custom-media --splash-column (width < 860px);
+
+.Container {
+    margin: 2em 0;
+}
+
+.Content {
+    display: flex;
+
+    & > * {
+        flex: 1 0;
+
+        &:not(:first-child) {
+            border-left: 0.25em solid var(--gray-lighter);
+            padding: 0 0.5em 0 0.5em;
+        }
+    }
+
+    @media (--splash-column) {
+        flex-direction: column;
+    }
+}

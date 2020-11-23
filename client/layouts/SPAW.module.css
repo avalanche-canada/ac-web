@@ -1,0 +1,16 @@
+@import '../styles/colors.module.css';
+
+.Tag {
+    white-space: break-spaces;
+    text-align: center;
+    background-color: var(--danger);
+    color: white;
+
+    &:hover {
+        color: white;
+    }
+
+    &:after {
+        display: none;
+    }
+}

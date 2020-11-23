@@ -4,10 +4,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Forecast from './Forecast'
 import Legacy from './Legacy'
-import styles from './Forecast.css'
+import styles from './Forecast.module.css'
+import Loop from './Loop'
+import Image from 'components/loop'
 
-export Loop from './Loop'
-export Image from 'components/loop'
+export { Loop }
+export { Image }
 
 Index.propTypes = {
     forecast: PropTypes.object.isRequired,

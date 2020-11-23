@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Submit, Reset } from 'components/button'
 import { StructuredText } from 'prismic/components/base'
-import styles from './Question.css'
+import styles from './Question.module.css'
 
 Question.propTypes = {
     primary: PropTypes.shape({
@@ -39,11 +39,7 @@ export default function Question({ primary }) {
     }
 
     return (
-        <form
-            onSubmit={handleSubmit}
-            onReset={handleReset}
-            data-has-errors={!valid}
-            noValidate>
+        <form onSubmit={handleSubmit} onReset={handleReset} data-has-errors={!valid} noValidate>
             <fieldset>
                 <legend>Question</legend>
                 <label>
@@ -59,9 +55,7 @@ export default function Question({ primary }) {
                         <FormattedMessage defaultMessage="Your answer is required." />
                     </span>
                 </label>
-                {marking && (
-                    <Answers answer={answer} user={input.current.value} />
-                )}
+                {marking && <Answers answer={answer} user={input.current.value} />}
                 {marking ? (
                     <Reset className={styles.Button}>
                         <FormattedMessage defaultMessage="Give another answer" />

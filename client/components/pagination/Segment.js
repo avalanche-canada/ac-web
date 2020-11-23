@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Pagination.css'
+import styles from './Pagination.module.css'
 
 Segment.propTypes = {
     page: PropTypes.number.isRequired,
@@ -10,13 +10,7 @@ Segment.propTypes = {
     children: PropTypes.node,
 }
 
-export default function Segment({
-    page,
-    isActive,
-    children,
-    style,
-    onActivate,
-}) {
+export default function Segment({ page, isActive, children, style, onActivate }) {
     const className = isActive ? 'Segment--Active' : 'Segment'
     function handleClick(event) {
         event.preventDefault()
@@ -25,11 +19,7 @@ export default function Segment({
     }
 
     return (
-        <a
-            href="#"
-            onClick={handleClick}
-            className={styles[className]}
-            style={style}>
+        <a href="#" onClick={handleClick} className={styles[className]} style={style}>
             {children || page}
         </a>
     )

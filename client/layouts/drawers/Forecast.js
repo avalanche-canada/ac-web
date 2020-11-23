@@ -3,13 +3,7 @@ import classnames from 'classnames'
 import { Link, Redirect } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
 import { Tag } from 'layouts/SPAW'
-import {
-    Navbar,
-    Header,
-    Body,
-    Close,
-    DisplayOnMap,
-} from 'components/page/drawer'
+import { Navbar, Header, Body, Close, DisplayOnMap } from 'components/page/drawer'
 import * as Components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
@@ -124,10 +118,7 @@ function OtherRegions() {
             </h3>
             <List column={1}>
                 {forecasts.map(({ id, name }) => (
-                    <ListItem
-                        key={id}
-                        to={`/map/forecasts/${id}${location.search}`}
-                        replace>
+                    <ListItem key={id} to={`/map/forecasts/${id}${location.search}`} replace>
                         {name}
                     </ListItem>
                 ))}

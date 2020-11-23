@@ -1,4 +1,4 @@
-@import '../../../styles/colors.css';
+@import '../../../styles/colors.module.css';
 
 .Gallery {
     & :global(.image-gallery-slide .image-gallery-description) {

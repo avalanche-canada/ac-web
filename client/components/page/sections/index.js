@@ -1,1 +1,3 @@
-export Splash from './Splash'
+import Splash from './Splash'
+
+export { Splash }

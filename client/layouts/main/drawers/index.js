@@ -1,5 +1,5 @@
 import React from 'react'
-import { Router, Redirect } from '@reach/router'
+import { Router } from '@reach/router'
 import Forecast from 'layouts/drawers/Forecast'
 import MountainInformationNetwork from 'layouts/drawers/MountainInformationNetwork'
 import WeatherStation from 'layouts/drawers/WeatherStation'
@@ -11,7 +11,7 @@ import { Menu as Icon } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 import Content from './Menu'
 import { usePrimaryDrawer, useSecondaryDrawer } from './hooks'
-import styles from 'components/page/drawer/Drawer.css'
+import styles from 'components/page/drawer/Drawer.module.css'
 import * as products from 'constants/products'
 import { createPath } from 'utils/product'
 
@@ -19,12 +19,7 @@ export function Menu() {
     const { opened, close } = useMenu()
 
     return (
-        <Drawer
-            side={LEFT}
-            width={300}
-            backdrop
-            open={opened}
-            onCloseClick={close}>
+        <Drawer side={LEFT} width={300} backdrop open={opened} onCloseClick={close}>
             <Content onCloseClick={close} />
         </Drawer>
     )
@@ -47,10 +42,6 @@ export function Primary() {
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
                 <Forecast path={createPath(products.FORECAST, ':id', null)} />
-                <Redirect
-                    from="hot-zone-reports/:id"
-                    to={createPath(products.ADVISORY, ':id')}
-                />
             </Router>
         </Drawer>
     )
@@ -61,9 +52,7 @@ export function Secondary() {
 
     return (
         <Drawer open={opened} side={LEFT}>
-            {ProductComponents.has(product) ? (
-                <ProductComponent product={product} id={id} />
-            ) : null}
+            {ProductComponents.has(product) ? <ProductComponent product={product} id={id} /> : null}
         </Drawer>
     )
 }

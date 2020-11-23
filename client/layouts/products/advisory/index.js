@@ -3,7 +3,6 @@ import Panel from 'components/panel'
 import Shim from 'components/Shim'
 import { Generic } from 'prismic/layouts'
 import { Provider } from './Context'
-
 import Metadata from './Metadata'
 import Header from './Header'
 import ArchiveWarning from './ArchiveWarning'
@@ -13,13 +12,13 @@ import TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
 import CriticalFactors from './CriticalFactors'
 import StructuredText from 'prismic/components/base/StructuredText'
 
-export Metadata from './Metadata'
-export Header from './Header'
-export ArchiveWarning from './ArchiveWarning'
-export Gallery from './Gallery'
-export TerrainAdviceSet from './TerrainAdviceSet'
-export TerrainAndTravelAdvice from './TerrainAndTravelAdvice'
-export CriticalFactors from './CriticalFactors'
+export { Metadata }
+export { Header }
+export { ArchiveWarning }
+export { Gallery }
+export { TerrainAdviceSet }
+export { TerrainAndTravelAdvice }
+export { CriticalFactors }
 
 export function Report({ children, value }) {
     return (

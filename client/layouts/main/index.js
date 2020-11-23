@@ -7,11 +7,7 @@ import { Warning } from 'components/icons'
 import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
-import {
-    Provider as MapStateProvider,
-    useMapState,
-    ERRORS,
-} from 'contexts/map/state'
+import { Provider as MapStateProvider, useMapState, ERRORS } from 'contexts/map/state'
 import keycodes from 'constants/keycodes'
 import { useBoolean, useEventListener } from 'hooks'
 import Dialog, { Header, Footer, Body } from 'components/dialog'
@@ -58,8 +54,7 @@ function LinkControlSet() {
                 to="/submit"
                 data-tooltip={intl.formatMessage({
                     description: 'Layout main/index',
-                    defaultMessage:
-                        'Create a Mountain Information Network (MIN) report',
+                    defaultMessage: 'Create a Mountain Information Network (MIN) report',
                 })}
                 data-tooltip-placement="right"
             />
@@ -191,16 +186,14 @@ function useSummaries() {
                 ERRORS.FORECAST,
                 intl.formatMessage({
                     description,
-                    defaultMessage:
-                        'A problem happened while loading forecast on the map.',
+                    defaultMessage: 'A problem happened while loading forecast on the map.',
                 }),
             ],
             [
                 ERRORS.WEATHER_STATION,
                 intl.formatMessage({
                     description,
-                    defaultMessage:
-                        'A problem happened while loading Weather Station on the map.',
+                    defaultMessage: 'A problem happened while loading Weather Station on the map.',
                 }),
             ],
             [
@@ -215,8 +208,7 @@ function useSummaries() {
                 ERRORS.INCIDENT,
                 intl.formatMessage({
                     description,
-                    defaultMessage:
-                        'A problem happened while loading Incidents on the map.',
+                    defaultMessage: 'A problem happened while loading Incidents on the map.',
                 }),
             ],
             [

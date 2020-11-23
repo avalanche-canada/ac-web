@@ -1,0 +1,20 @@
+@import '../../../styles/colors.module.css';
+
+.Container {
+    display: flex;
+    background-color: white;
+
+    & svg {
+        height: 40px;
+        padding: 0 6px;
+        pointer-events: none;
+    }
+}
+
+.Input {
+    flex: 1;
+    padding: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

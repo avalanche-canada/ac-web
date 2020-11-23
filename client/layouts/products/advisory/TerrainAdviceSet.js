@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { useReport } from './Context'
 import Comment from 'layouts/products/min/Comment'
 import Section from 'layouts/products/min/Section'
@@ -7,8 +8,7 @@ import { StructuredText } from 'prismic/components/base'
 import AdviceText from './AdviceText'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
-import styles from './Advisory.css'
-import { FormattedMessage } from 'react-intl'
+import styles from './Advisory.module.css'
 
 function createAdvice({ feature, where, elevation }) {
     const items = [feature, where, elevation].filter(Boolean)

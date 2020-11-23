@@ -5,7 +5,7 @@ import { useIntl } from 'react-intl'
 import { Expand } from 'components/button'
 import { useBoolean } from 'hooks'
 import { DATE } from 'constants/intl'
-import styles from './DayPicker.css'
+import styles from './DayPicker.module.css'
 import 'react-day-picker/lib/style.css'
 
 DayPicker.propTypes = {

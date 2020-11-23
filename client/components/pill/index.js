@@ -2,7 +2,7 @@ import React, { Children, cloneElement, useState } from 'react'
 import PropTypes from 'prop-types'
 import noop from 'lodash/noop'
 import classnames from 'classnames'
-import styles from './Pill.css'
+import styles from './Pill.module.css'
 
 Item.propTypes = {
     children: PropTypes.node.isRequired,

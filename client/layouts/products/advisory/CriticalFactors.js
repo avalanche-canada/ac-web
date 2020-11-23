@@ -8,9 +8,9 @@ import { Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
-import { RED, ORANGE } from 'constants/products/forecast/palette'
-import styles from './Advisory.css'
 import { CM } from 'constants/intl'
+import { RED, ORANGE } from 'constants/products/forecast/palette'
+import styles from './Advisory.module.css'
 
 CriticalFactor.propTypes = {
     value: PropTypes.oneOf(['Yes', 'No']),
@@ -25,9 +25,7 @@ function CriticalFactor({ children, value }) {
             <Term className={styles['CriticalFactors--Term']} style={style}>
                 {children}
             </Term>
-            <Definition
-                className={styles['CriticalFactors--Definition']}
-                style={style}>
+            <Definition className={styles['CriticalFactors--Definition']} style={style}>
                 {value || <FormattedMessage defaultMessage="Unknown" />}
             </Definition>
         </Fragment>
@@ -83,8 +81,7 @@ function CriticalFactorsComponent({
                             defaultMessage="Signs of instability"
                         />
                     </CriticalFactor>
-                    <CriticalFactor
-                        value={criticalFactorsPersistentAvalancheProblem}>
+                    <CriticalFactor value={criticalFactorsPersistentAvalancheProblem}>
                         <FormattedMessage
                             description="Layout products/advisory/CriticalFactors"
                             defaultMessage="Persistent avalanche problem"

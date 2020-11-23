@@ -1,17 +1,21 @@
 import React from 'react'
-import { KANANASKIS, AVALANCHE_QUEBEC } from 'constants/owners'
-import { useForecast } from './Context'
+import { Provider, useForecast } from './Context'
+import Metadata from './Metadata'
+import Headline from './Headline'
+import TabSet from './TabSet'
 import DefaultSidebar, {
     Kananaskis as KananaskisSidebar,
     AvalancheQuebec as AvalancheQuebecSidebar,
 } from './Sidebar'
 import BaseFooter, { Disclaimer, Prismic, DangerRatings } from './Footer'
+import Notifications from './notifications'
+import { KANANASKIS, AVALANCHE_QUEBEC } from 'constants/owners'
 
-export { Provider, useForecast } from './Context'
-export Metadata from './Metadata'
-export Headline from './Headline'
-export TabSet from './TabSet'
-export Notifications from './notifications'
+export { Provider, useForecast }
+export { Metadata }
+export { Headline }
+export { TabSet }
+export { Notifications }
 
 export function Sidebar(props) {
     const forecast = useForecast()

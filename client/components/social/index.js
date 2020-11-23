@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { useIntl } from 'react-intl'
 import * as Icons from 'components/icons'
-import styles from './Social.css'
+import styles from './Social.module.css'
 
 const FACEBOOK = 'FACEBOOK'
 const TWITTER = 'TWITTER'
@@ -35,11 +35,7 @@ export function Item({ link, title, children, className }) {
     }
 
     return (
-        <a
-            className={classnames(styles.Item, className)}
-            target="_blank"
-            href={link}
-            title={title}>
+        <a className={classnames(styles.Item, className)} target="_blank" href={link} title={title}>
             {PROVIDER_ICONS.get(provider)}
             {children}
         </a>

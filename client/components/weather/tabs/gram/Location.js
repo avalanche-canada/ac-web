@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Gram.css'
+import styles from './Gram.module.css'
 
 Location.propTypes = {
     children: PropTypes.arrayOf(PropTypes.node).isRequired,

@@ -1,6 +1,6 @@
 import React, { useReducer } from 'react'
 import PropTypes from 'prop-types'
-import styles from './TimePicker.css'
+import styles from './TimePicker.module.css'
 
 TimePicker.propTypes = {
     value: PropTypes.string,

@@ -11,12 +11,11 @@ import Shim from 'components/Shim'
 import { Details } from 'components/error'
 import { Br } from 'components/misc'
 import * as Async from 'contexts/async'
-import { incidentsBaseUrl } from 'requests/config.json'
+import { incidentsBaseUrl } from 'requests/config'
 import { Metadata, Entry as MetadataEntry } from 'components/metadata'
-import styles from './incidents.css'
+import styles from './incidents.module.css'
 import { FormattedMessage, useIntl } from 'react-intl'
 import { useIntlMemo } from 'hooks/intl'
-
 
 export default function Layout() {
     return (
@@ -77,31 +76,44 @@ function IncidentTable({ incidents }) {
                             <FormattedMessage
                                 description="Layout incidents/layout"
                                 defaultMessage="Date"
-                            /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layout"
-                            defaultMessage="Location"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layout"
-                            defaultMessage="Province"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layout"
-                            defaultMessage="Activity"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layout"
-                            defaultMessage="Involvement"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layout"
-                            defaultMessage="Injury"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layout"
-                            defaultMessage="Fatal"
-                        /></th>
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layout"
+                                defaultMessage="Location"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layout"
+                                defaultMessage="Province"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layout"
+                                defaultMessage="Activity"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layout"
+                                defaultMessage="Involvement"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layout"
+                                defaultMessage="Injury"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layout"
+                                defaultMessage="Fatal"
+                            />
+                        </th>
                         <th />
                     </tr>
                 </thead>
@@ -109,9 +121,7 @@ function IncidentTable({ incidents }) {
                     {incidents.map(props => (
                         <tr key={props.id}>
                             <td>
-                                <span className={styles.DateCell}>
-                                    {props.date}
-                                </span>
+                                <span className={styles.DateCell}>{props.date}</span>
                             </td>
                             <td>{props.location}</td>
                             <Cell>{props.location_province}</Cell>
@@ -124,7 +134,8 @@ function IncidentTable({ incidents }) {
                                     <FormattedMessage
                                         description="Layout incidents/layout"
                                         defaultMessage="view"
-                                    /></Link>
+                                    />
+                                </Link>
                             </td>
                         </tr>
                     ))}
@@ -172,19 +183,18 @@ function IncidentDetails({ id }) {
                             description="Layout incidents/layouts"
                             defaultMessage="Incident #{id} not found"
                             values={{
-                                id
+                                id,
                             }}
                         />
                     </Warning>
                 </Async.NotFound>
                 <Async.Error>
                     <Details
-                        summary={
-                            intl.formatMessage({
-                                defaultMessage: 'An error occurred while loading incident.',
-                                description: 'Layout incidents/layouts',
-                            })
-                        } />
+                        summary={intl.formatMessage({
+                            defaultMessage: 'An error occurred while loading incident.',
+                            description: 'Layout incidents/layouts',
+                        })}
+                    />
                 </Async.Error>
                 <Async.Throw />
             </Async.FirstError>
@@ -200,18 +210,10 @@ function IncidentFilters({ onChange, values }) {
         // Validate this works when there are entries for this year
         const f = filters.slice(0, filters.length - 1)
 
-        return new Map(
-            f.filter(f => startsBefore(f, to)).map(f => [f.season, f.title])
-        )
+        return new Map(f.filter(f => startsBefore(f, to)).map(f => [f.season, f.title]))
     }, [to])
     const tos = useMemo(
-        () =>
-            new Map(
-                filters.filter(f => startsAfter(f, from)).map(f => [
-                    f.season,
-                    f.title,
-                ])
-            ),
+        () => new Map(filters.filter(f => startsAfter(f, from)).map(f => [f.season, f.title])),
 
         [from]
     )
@@ -226,38 +228,34 @@ function IncidentFilters({ onChange, values }) {
     return (
         <Metadata>
             <MetadataEntry
-                term={
-                    intl.formatMessage({
-                        defaultMessage: 'From',
-                        description: 'Layout incidents/layouts',
-                    })
-                } horizontal>
+                term={intl.formatMessage({
+                    defaultMessage: 'From',
+                    description: 'Layout incidents/layouts',
+                })}
+                horizontal>
                 <DropdownFromOptions
                     onChange={handleChangeFrom}
                     value={from}
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'From',
-                            description: 'Layout incidents/layouts',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'From',
+                        description: 'Layout incidents/layouts',
+                    })}
                     options={froms}
                 />
             </MetadataEntry>
-            <MetadataEntry term={
-                intl.formatMessage({
+            <MetadataEntry
+                term={intl.formatMessage({
                     defaultMessage: 'To',
                     description: 'Layout incidents/layouts',
-                })} horizontal>
+                })}
+                horizontal>
                 <DropdownFromOptions
                     onChange={handleChangeTo}
                     value={to}
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'To',
-                            description: 'Layout incidents/layouts',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'To',
+                        description: 'Layout incidents/layouts',
+                    })}
                     options={tos}
                 />
             </MetadataEntry>
@@ -277,13 +275,9 @@ function Summary({ incident }) {
             <List>
                 <Entry term="Date">{incident.ob_date}</Entry>
                 <Entry term="Location">{incident.location}</Entry>
-                <Entry term="Location Description">
-                    {incident.location_desc}
-                </Entry>
+                <Entry term="Location Description">{incident.location_desc}</Entry>
                 <Entry term="Province">{incident.location_province}</Entry>
-                <Entry term="Coordinates">
-                    {latLng(incident.location_coords)}
-                </Entry>
+                <Entry term="Coordinates">{latLng(incident.location_coords)}</Entry>
                 <Entry term="Elevation">{incident.location_elevation} m</Entry>
                 <Entry term="Activity">{incident.group_activity}</Entry>
                 <Entry term="Involvement">{incident.num_involved}</Entry>
@@ -314,38 +308,54 @@ function Avalanche({ avalanches }) {
             <table>
                 <thead>
                     <tr>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Date/Time"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Size"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Type"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Trigger"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Elevation"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Aspect"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Slab width"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Slab Thickness"
-                        /></th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Date/Time"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Size"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Type"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Trigger"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Elevation"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Aspect"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Slab width"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Slab Thickness"
+                            />
+                        </th>
                     </tr>
                 </thead>
                 <tbody>{rows}</tbody>
@@ -361,38 +371,54 @@ function Weather({ observations, comment }) {
             <table>
                 <thead>
                     <tr>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Present Temp"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Max Temp"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Min Temp"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="24hr Trend"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Wind Speed"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Wind Direction"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Sky Condition"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Precipitation Type & Intensity"
-                        /></th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Present Temp"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Max Temp"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Min Temp"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="24hr Trend"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Wind Speed"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Wind Direction"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Sky Condition"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Precipitation Type & Intensity"
+                            />
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -408,12 +434,13 @@ function Weather({ observations, comment }) {
                     </tr>
                 </tbody>
             </table>
-            <Comment title={
-                intl.formatMessage({
+            <Comment
+                title={intl.formatMessage({
                     defaultMessage: 'Weather Comment',
                     description: 'Layout incidents/layouts',
-                })
-            }>{comment}</Comment>
+                })}>
+                {comment}
+            </Comment>
         </Section>
     )
 }
@@ -425,22 +452,30 @@ function Snowpack({ observations, comment }) {
             <table>
                 <thead>
                     <tr>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Snowpack"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="24hr Snow"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Storm Snow"
-                        /></th>
-                        <th><FormattedMessage
-                            description="Layout incidents/layouts"
-                            defaultMessage="Storm Date"
-                        /></th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Snowpack"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="24hr Snow"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Storm Snow"
+                            />
+                        </th>
+                        <th>
+                            <FormattedMessage
+                                description="Layout incidents/layouts"
+                                defaultMessage="Storm Date"
+                            />
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -452,12 +487,13 @@ function Snowpack({ observations, comment }) {
                     </tr>
                 </tbody>
             </table>
-            <Comment title={
-                intl.formatMessage({
+            <Comment
+                title={intl.formatMessage({
                     defaultMessage: 'Snowpack Comment',
                     description: 'Layout incidents/layouts',
-                })
-            }>{comment}</Comment>
+                })}>
+                {comment}
+            </Comment>
         </Section>
     )
 }
@@ -470,10 +506,7 @@ function Documents({ docs }) {
             <td>{d.source}</td>
             <td>
                 <a href={incidentsBaseUrl + d.url} target={d.title}>
-                    <FormattedMessage
-                        description="Layout incidents/layout"
-                        defaultMessage="view"
-                    />
+                    <FormattedMessage description="Layout incidents/layout" defaultMessage="view" />
                 </a>
             </td>
         </tr>
@@ -486,29 +519,36 @@ function Documents({ docs }) {
                     <FormattedMessage
                         description="Layout incidents/layouts"
                         defaultMessage="No documents available."
-                    /></Muted>
+                    />
+                </Muted>
             ) : (
-                    <table>
-                        <thead>
-                            <tr>
-                                <th><FormattedMessage
+                <table>
+                    <thead>
+                        <tr>
+                            <th>
+                                <FormattedMessage
                                     description="Layout incidents/layouts"
                                     defaultMessage="Document Date"
-                                /></th>
-                                <th><FormattedMessage
+                                />
+                            </th>
+                            <th>
+                                <FormattedMessage
                                     description="Layout incidents/layouts"
                                     defaultMessage="Title"
-                                /></th>
-                                <th><FormattedMessage
+                                />
+                            </th>
+                            <th>
+                                <FormattedMessage
                                     description="Layout incidents/layouts"
                                     defaultMessage="Source"
-                                /></th>
-                                <th />
-                            </tr>
-                        </thead>
-                        <tbody>{rows}</tbody>
-                    </table>
-                )}
+                                />
+                            </th>
+                            <th />
+                        </tr>
+                    </thead>
+                    <tbody>{rows}</tbody>
+                </table>
+            )}
         </Section>
     )
 }
@@ -535,9 +575,7 @@ function Cell({ children, suffix }) {
         children = children.toString()
     }
 
-    return (
-        <td>{children ? [children, suffix].filter(Boolean).join(' ') : '-'}</td>
-    )
+    return <td>{children ? [children, suffix].filter(Boolean).join(' ') : '-'}</td>
 }
 
 // Utils
@@ -590,7 +628,7 @@ function startsAfter(filterVal, currentFromVal) {
  */
 
 function useFilters() {
-    return useIntlMemo((intl) => {
+    return useIntlMemo(intl => {
         var start = 1981
         var now = new Date()
         var end = now.getFullYear()

@@ -2,7 +2,7 @@ import { linkHorizontal } from 'd3-shape'
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import logo from 'styles/mcr-logo.jpg'
-import styles from './MountainConditionsReport.css'
+import styles from './MountainConditionsReport.module.css'
 
 export default function Footer() {
     const url = 'https://mountainconditions.com'

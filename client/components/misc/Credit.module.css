@@ -1,0 +1,70 @@
+@import '../../styles/colors.module.css';
+
+.Credit {
+    position: absolute;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    color: var(--gray-darkest);
+    background-color: white;
+    opacity: 0.75;
+    text-align: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    padding: 0 0.5em;
+    height: 1.5em;
+    line-height: 1.5em;
+
+    &:before {
+        content: 'Credit: ';
+    }
+}
+
+.Compact {
+    padding-right: 1.5em;
+    visibility: hidden;
+
+    &:hover {
+        visibility: visible;
+    }
+
+    &:after {
+        content: 'i';
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 1.5em;
+        height: 1.5em;
+        visibility: visible;
+        font-weight: bold;
+        color: white;
+        background-color: var(--gray-darkest);
+        cursor: pointer;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    &:hover:after {
+        background-color: transparent;
+        color: var(--gray-darkest);
+        border-color: transparent;
+    }
+}
+
+.Expanded {
+    visibility: visible;
+
+    &:after {
+        background-color: transparent;
+        color: var(--gray-darkest);
+        border-color: transparent;
+    }
+}
+
+.Top {
+    top: 0;
+    bottom: auto;
+}

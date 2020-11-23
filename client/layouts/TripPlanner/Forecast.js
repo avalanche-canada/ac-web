@@ -7,7 +7,7 @@ import { Muted, Warning } from 'components/text'
 import Shim from 'components/Shim'
 import * as components from 'layouts/products/forecast'
 import { Disclaimer, DangerRatings } from 'layouts/products/forecast/Footer'
-import styles from './TripPlanner.css'
+import styles from './TripPlanner.module.css'
 
 Forecast.propTypes = {
     id: PropTypes.string.isRequired,

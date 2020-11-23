@@ -6,7 +6,7 @@ import RatingExplanation from 'layouts/products/forecast/RatingExplanation'
 import { GenericProvider } from 'prismic/layouts'
 import { Panel as RenderPanel } from 'prismic/layouts/renderers'
 import ArchiveDatePicker from './ArchiveDatePicker'
-import styles from './Forecast.css'
+import styles from './Forecast.module.css'
 
 Footer.propTypes = {
     children: PropTypes.node,
@@ -15,23 +15,13 @@ Footer.propTypes = {
 export default function Footer({ children }) {
     return (
         <footer className={styles.Footer}>
-            {children || [
-                <ArchivedBulletins />,
-                <DangerRatings />,
-                <Inbox />,
-                <Disclaimer />,
-            ]}
+            {children || [<ArchivedBulletins />, <DangerRatings />, <Inbox />, <Disclaimer />]}
         </footer>
     )
 }
 
 export function ArchivedBulletins() {
-    const header = (
-        <FormattedMessage
-            description="FX Footer"
-            defaultMessage="Archived bulletins"
-        />
-    )
+    const header = <FormattedMessage description="FX Footer" defaultMessage="Archived bulletins" />
 
     return (
         <Panel header={header}>
@@ -58,10 +48,7 @@ export function Prismic({ uid }) {
 
 export function DangerRatings() {
     const header = (
-        <FormattedMessage
-            defaultMessage="Danger Ratings Explained"
-            description="FX Footer"
-        />
+        <FormattedMessage defaultMessage="Danger Ratings Explained" description="FX Footer" />
     )
 
     return (

@@ -12,7 +12,7 @@ import Button from 'components/button'
 import Shim from 'components/Shim'
 import { memo as react } from 'utils/react'
 import * as COLORS from 'constants/colors'
-import styles from './RouteFindingExercise.css'
+import styles from './RouteFindingExercise.module.css'
 
 // TODO: Using a state machine would simplify implementation
 
@@ -41,9 +41,7 @@ export default class RouteFindingExercise extends Component {
         super(...props)
 
         this.zones = props.items.map(({ coordinates, ...rest }) => {
-            coordinates = coordinates
-                .split(' ')
-                .map(coords => coords.split(',').map(Number))
+            coordinates = coordinates.split(' ').map(coords => coords.split(',').map(Number))
 
             return Object.assign(rest, {
                 coordinates,
@@ -121,13 +119,7 @@ export default class RouteFindingExercise extends Component {
     renderDangerZone = ({ coordinates }, index) => {
         const touched = this.state.touched.has(index)
 
-        return (
-            <DangerZone
-                key={index}
-                touched={touched}
-                coordinates={coordinates}
-            />
-        )
+        return <DangerZone key={index} touched={touched} coordinates={coordinates} />
     }
     renderDangerZoneLabel = (index, i) => {
         const { centroid } = this.zones[index]
@@ -152,24 +144,13 @@ export default class RouteFindingExercise extends Component {
                 <h2>{heading}</h2>
                 <Media className={styles.Media}>
                     <div className={styles.Media}>
-                        <svg
-                            ref={this.initializeDrawing}
-                            viewBox={`0 0 ${width} ${height}`}>
-                            <image
-                                width={width}
-                                height={height}
-                                xlinkHref={url}
-                            />
+                        <svg ref={this.initializeDrawing} viewBox={`0 0 ${width} ${height}`}>
+                            <image width={width} height={height} xlinkHref={url} />
                             <g>{zones.map(this.renderDangerZone)}</g>
                             <EndPoint coordinates={from} start />
                             <EndPoint coordinates={to} />
                             <Route coordinates={coordinates} />
-                            <g>
-                                {Array.from(
-                                    touched,
-                                    this.renderDangerZoneLabel
-                                )}
-                            </g>
+                            <g>{Array.from(touched, this.renderDangerZoneLabel)}</g>
                         </svg>
                         <Credit compact>{credit}</Credit>
                     </div>
@@ -184,9 +165,7 @@ export default class RouteFindingExercise extends Component {
 
                                     return (
                                         <li key={index}>
-                                            <StructuredText
-                                                value={description}
-                                            />
+                                            <StructuredText value={description} />
                                         </li>
                                     )
                                 })}

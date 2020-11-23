@@ -1,0 +1,31 @@
+@import '../../../styles/colors.module.css';
+
+.Figure {
+    position: relative;
+    margin: 0;
+    background-color: transparent;
+}
+
+.Image {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 auto;
+    opacity: 1;
+    transition: opacity 1s;
+}
+
+.Figure--Loading {
+    composes: Figure;
+
+    background: var(--gray-lightest) url('../../../styles/AvalanchePath.svg') center center
+        no-repeat;
+
+    & .Image {
+        opacity: 0;
+    }
+}
+
+.Figure + .Figure {
+    margin-top: 1em;
+}

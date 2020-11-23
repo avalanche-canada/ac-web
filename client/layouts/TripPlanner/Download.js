@@ -4,7 +4,7 @@ import { Machine } from 'xstate'
 import { FormattedMessage, useIntl } from 'react-intl'
 import Dialog, { Header, Footer, Body } from 'components/dialog'
 import Button, { Close, ButtonSet } from 'components/button'
-import button from 'components/button/Button.css'
+import button from 'components/button/Button.module.css'
 import * as Async from 'contexts/async'
 import { useGeneric } from 'prismic/hooks'
 import { GenericContent } from 'prismic/layouts'
@@ -30,9 +30,7 @@ export default function Download({ name, id, onClose }) {
             <Async.Provider value={useGeneric(uid)}>
                 <Header>
                     <Async.Pending>{prefix}</Async.Pending>
-                    <Async.Found>
-                        {document => `${prefix} — ${document.data.title}`}
-                    </Async.Found>
+                    <Async.Found>{document => `${prefix} — ${document.data.title}`}</Async.Found>
                     <Close onClick={onClose}></Close>
                 </Header>
                 <Body>

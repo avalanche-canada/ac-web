@@ -1,7 +1,7 @@
 import React from 'react'
 import { useReport } from './Context'
 import ImageGallery from 'components/gallery'
-import styles from './Advisory.css'
+import styles from './Advisory.module.css'
 
 export default function Gallery() {
     const report = useReport()

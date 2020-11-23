@@ -1,1 +1,3 @@
-export DangerRatings from './DangerRatings'
+import DangerRatings from './DangerRatings'
+
+export { DangerRatings }

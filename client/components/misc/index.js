@@ -1,8 +1,17 @@
-export Sponsor from './Sponsor'
-export Ribbon from './Ribbon'
-export InnerHTML from './InnerHTML'
-export { OpenInNewTab } from './Image'
-export Position from './Position'
-export Credit from './Credit'
-export Br from './Br'
-export MultiLine from './MultiLine'
+import Sponsor from './Sponsor'
+import Ribbon from './Ribbon'
+import InnerHTML from './InnerHTML'
+import { OpenInNewTab } from './Image'
+import Position from './Position'
+import Credit from './Credit'
+import Br from './Br'
+import MultiLine from './MultiLine'
+
+export { Sponsor }
+export { Ribbon }
+export { InnerHTML }
+export { OpenInNewTab }
+export { Position }
+export { Credit }
+export { Br }
+export { MultiLine }

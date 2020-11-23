@@ -1,0 +1,51 @@
+@import '../../styles/colors.module.css';
+
+.Tree {
+}
+
+.Node {
+    display: flex;
+    align-items: center;
+    min-height: 37px;
+    cursor: pointer;
+    color: inherit;
+
+    &:hover {
+        background-color: var(--gray-lightest);
+    }
+}
+
+.Node--Level1 {
+    padding-left: 15px;
+}
+.Node--Level2 {
+    padding-left: 30px;
+}
+.Node--Level3 {
+    padding-left: 45px;
+}
+.Node--Level4 {
+    padding-left: 60px;
+}
+.Node--Level5 {
+    padding-left: 75px;
+}
+
+.NodeControl {
+    min-width: 37px;
+}
+
+.Expanded {
+    transform: rotate(90deg);
+}
+
+.Label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-right: 1em;
+}
+
+.Active {
+    font-weight: 700;
+}

@@ -1,7 +1,7 @@
 import React, { Children } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import styles from './styles.css'
+import styles from './styles.module.css'
 
 Entry.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,

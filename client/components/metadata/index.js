@@ -6,7 +6,7 @@ import { Position } from 'components/misc'
 import { useToggle } from 'hooks'
 import { DateTime } from 'components/time'
 import { Set, Item, createShareUrls } from 'components/social'
-import css from './Metadata.css'
+import css from './Metadata.module.css'
 
 Metadata.propTypes = {
     children: PropTypes.node.isRequired,
@@ -60,12 +60,7 @@ export function LocationEntry({
 
     return (
         <Entry term={term} onClick={toggle} className={css.Toggleable}>
-            <Position
-                longitude={longitude}
-                latitude={latitude}
-                precision={precision}
-                dms={on}
-            />
+            <Position longitude={longitude} latitude={latitude} precision={precision} dms={on} />
         </Entry>
     )
 }
@@ -89,12 +84,7 @@ export function ShareEntry({ term = null, url = document.location.href }) {
         <Entry term={term}>
             <Set>
                 {createShareUrls(url).map(url => (
-                    <Item
-                        key={url}
-                        link={url}
-                        title={createTitle}
-                        className={css.ShareEntryItem}
-                    />
+                    <Item key={url} link={url} title={createTitle} className={css.ShareEntryItem} />
                 ))}
             </Set>
         </Entry>

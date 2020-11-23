@@ -8,12 +8,12 @@ import { DropdownFromOptions, Geocoder } from 'components/controls'
 import { LEVELS, useLevels, useTags } from './constants'
 import { ASC } from 'constants/sortings'
 import { useBoolean } from 'hooks'
-import controls from 'components/controls/Controls.css'
+import controls from 'components/controls/Controls.module.css'
 import { Close, Expand } from 'components/button'
 import { WHITE } from 'constants/colors'
-import 'react-day-picker/lib/style.css'
-import styles from './Forms.css'
+import styles from './Forms.module.css'
 import { useIntl } from 'react-intl'
+import 'react-day-picker/lib/style.css'
 
 Courses.propTypes = {
     level: PropTypes.oneOf(Array.from(LEVELS.keys())),
@@ -29,12 +29,11 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
     const itemTags = useTags()
     const levels = useLevels()
     return (
-        <Layout legend={
-            intl.formatMessage({
+        <Layout
+            legend={intl.formatMessage({
                 defaultMessage: 'Find a course',
                 description: 'Layout ast/forms',
-            })
-        }>
+            })}>
             <Control>
                 <DropdownFromOptions
                     onChange={niveau => {
@@ -43,12 +42,10 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
                         })
                     }}
                     value={level}
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'Level',
-                            description: 'Layout ast/forms',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Level',
+                        description: 'Layout ast/forms',
+                    })}
                     options={levels}
                 />
             </Control>
@@ -58,24 +55,20 @@ export function Courses({ level, from, to, tags, place, onParamsChange }) {
                     multiple
                     onChange={tags => onParamsChange({ tags })}
                     value={tags}
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'Filter by',
-                            description: 'Layout ast/forms',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Filter by',
+                        description: 'Layout ast/forms',
+                    })}
                     options={itemTags}
                 />
             </Control>
             <Control>
                 <Geocoder
                     placeholder="Location"
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'Location',
-                            description: 'Layout ast/forms',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Location',
+                        description: 'Layout ast/forms',
+                    })}
                     onChange={place =>
                         onParamsChange({
                             place,
@@ -100,33 +93,27 @@ export function Providers({ tags, place, onParamsChange }) {
     const itemTags = useTags()
     return (
         <Layout
-            legend={
-                intl.formatMessage({
-                    defaultMessage: 'Find a provider',
-                    description: 'Layout ast/forms',
-                })
-            }>
+            legend={intl.formatMessage({
+                defaultMessage: 'Find a provider',
+                description: 'Layout ast/forms',
+            })}>
             <Control>
                 <DropdownFromOptions
                     onChange={tags => onParamsChange({ tags })}
                     value={tags}
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'Filter by',
-                            description: 'Layout ast/forms',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Filter by',
+                        description: 'Layout ast/forms',
+                    })}
                     options={itemTags}
                 />
             </Control>
             <Control>
                 <Geocoder
-                    placeholder={
-                        intl.formatMessage({
-                            defaultMessage: 'Location',
-                            description: 'Layout ast/forms',
-                        })
-                    }
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Location',
+                        description: 'Layout ast/forms',
+                    })}
                     onChange={place =>
                         onParamsChange({
                             place,
@@ -181,12 +168,10 @@ function DateRangeControl({ from, to, onChange }) {
                 value={value}
                 showOverlay={opened}
                 formatDate={formatDate}
-                placeholder={
-                    intl.formatMessage({
-                        defaultMessage: 'Date range',
-                        description: 'Layout ast/forms',
-                    })
-                }
+                placeholder={intl.formatMessage({
+                    defaultMessage: 'Date range',
+                    description: 'Layout ast/forms',
+                })}
                 onDayPickerHide={hide}
                 onDayPickerShow={show}
                 hideOnDayClick={false}
@@ -239,18 +224,16 @@ function DateRangeControl({ from, to, onChange }) {
             {showClear ? (
                 <Close onClick={reset} />
             ) : (
-                    <Expand
-                        chevron
-                        expanded={opened}
-                        onClick={() => {
-                            const { current } = ref
+                <Expand
+                    chevron
+                    expanded={opened}
+                    onClick={() => {
+                        const { current } = ref
 
-                            opened
-                                ? current.hideDayPicker()
-                                : current.showDayPicker()
-                        }}
-                    />
-                )}
+                        opened ? current.hideDayPicker() : current.showDayPicker()
+                    }}
+                />
+            )}
         </Control>
     )
 }

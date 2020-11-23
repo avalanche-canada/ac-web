@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Navbar.css'
+import styles from './Navbar.module.css'
 
 export default function Section({ children, ...props }) {
     return (

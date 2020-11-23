@@ -6,7 +6,7 @@ import Button, { INCOGNITO } from 'components/button'
 import { Fullscreen as Icon } from 'components/icons'
 import { useFullscreen } from 'hooks'
 import { PRIMARY } from 'constants/colors'
-import styles from './Image.css'
+import styles from './Image.module.css'
 
 Image.propTypes = {
     primary: PropTypes.shape({
@@ -31,10 +31,7 @@ export default function Image({ primary, fullscreen }) {
                     </Caption>
                 )}
                 {fullscreen && enabled && (
-                    <Button
-                        kind={INCOGNITO}
-                        className={styles.Fullscreen}
-                        onClick={toggle}>
+                    <Button kind={INCOGNITO} className={styles.Fullscreen} onClick={toggle}>
                         <Icon color={PRIMARY} />
                     </Button>
                 )}
@@ -44,7 +41,5 @@ export default function Image({ primary, fullscreen }) {
 }
 
 function Toolbar({ children }) {
-    return Children.count(children) === 0 ? null : (
-        <div className={styles.Toolbar}>{children}</div>
-    )
+    return Children.count(children) === 0 ? null : <div className={styles.Toolbar}>{children}</div>
 }

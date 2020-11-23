@@ -1,0 +1,12 @@
+@import '../../../../styles/colors.module.css';
+
+.Toolbar {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--gray-lighter);
+}
+
+.Fullscreen {
+    flex-grow: 1;
+    justify-content: end;
+}

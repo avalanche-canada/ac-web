@@ -3,9 +3,11 @@ import parse from 'date-fns/parse'
 import { FormattedDate, FormattedTime } from 'react-intl'
 import { DATE, DATETIME, isStartOfDay } from 'utils/date'
 import * as FORMATS from 'constants/intl'
+import Relative from './Relative'
+import Range from './Range'
 
-export Relative from './Relative'
-export Range from './Range'
+export { Relative }
+export { Range }
 
 export function Time({ value = new Date() }) {
     value = parse(value)

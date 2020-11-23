@@ -1,0 +1,26 @@
+@import '../../styles/colors.module.css';
+
+.Muted {
+    color: var(--gray);
+}
+
+.Initial {
+    color: var(--gray-darker);
+}
+
+.Loading {
+    color: var(--gray);
+}
+
+.Error {
+    color: var(--brand-secondary);
+}
+
+.Helper {
+    cursor: help;
+    border-bottom: 1px dotted var(--gray);
+}
+
+.Warning {
+    color: #ec971f;
+}

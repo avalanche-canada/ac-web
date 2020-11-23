@@ -26,7 +26,7 @@ import { Download } from 'components/icons'
 import Dialog from './Download'
 import { useName } from 'constants/products/names'
 import { FORECAST } from 'constants/products'
-import styles from './TripPlanner.css'
+import styles from './TripPlanner.module.css'
 
 export default class TripPlannerLayout extends PureComponent {
     state = {

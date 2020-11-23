@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { initials } from 'utils/string'
 import { useBoolean } from 'hooks'
-import css from './Avatar.css'
+import css from './Avatar.module.css'
 
 Avatar.propTypes = {
     name: PropTypes.string.isRequired,
@@ -26,13 +26,7 @@ export default function Avatar({ size = 60, url, name }) {
     return (
         <div className={className} data-initials={initials(name)} style={style}>
             {url && (
-                <img
-                    src={url}
-                    alt={initials(name)}
-                    title={name}
-                    onLoad={unset}
-                    onError={unset}
-                />
+                <img src={url} alt={initials(name)} title={name} onLoad={unset} onError={unset} />
             )}
         </div>
     )

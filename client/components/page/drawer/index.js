@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { useIntl } from 'react-intl'
 import { useScroll } from 'hooks'
 import * as Buttons from 'components/button'
-import styles from './Drawer.css'
+import styles from './Drawer.module.css'
 
 export const LEFT = 'LEFT'
 export const RIGHT = 'RIGHT'

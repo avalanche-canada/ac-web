@@ -1,5 +1,5 @@
 import isAfter from 'date-fns/is_after'
-import { astBaseUrl } from './config.json'
+import { astBaseUrl } from './config'
 import { build } from 'utils/url'
 import fetch from 'utils/fetch'
 

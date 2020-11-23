@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { setUTCOffset } from 'utils/date'
-import css from './Table.css'
-import table from 'styles/table.css'
+import css from './Table.module.css'
+import table from 'styles/table.module.css'
 import { useIntl } from 'react-intl'
 
 StationTable.propTypes = {
@@ -13,12 +13,7 @@ StationTable.propTypes = {
     caption: PropTypes.string,
 }
 
-export default function StationTable({
-    columns,
-    measurements,
-    headers,
-    caption,
-}) {
+export default function StationTable({ columns, measurements, headers, caption }) {
     const intl = useIntl()
     const bodies = measurements.reduce((groups, measurements) => {
         const { measurementDateTime, utcOffset } = measurements
@@ -47,15 +42,11 @@ export default function StationTable({
                         {headers.map((headers, index) => (
                             <tr key={index}>
                                 <th />
-                                {headers.map(
-                                    ({ title, name, property, ...header }) => (
-                                        <th key={name} {...header}>
-                                            {typeof title === 'function'
-                                                ? title()
-                                                : title}
-                                        </th>
-                                    )
-                                )}
+                                {headers.map(({ title, name, property, ...header }) => (
+                                    <th key={name} {...header}>
+                                        {typeof title === 'function' ? title() : title}
+                                    </th>
+                                ))}
                             </tr>
                         ))}
                     </thead>
@@ -65,9 +56,7 @@ export default function StationTable({
                                 <th colSpan={columns.length}>{title}</th>
                             </tr>
                             {measurements.map((measurement, index) => (
-                                <tr key={index}>
-                                    {columns.map(renderRow, measurement)}
-                                </tr>
+                                <tr key={index}>{columns.map(renderRow, measurement)}</tr>
                             ))}
                         </tbody>
                     ))}
@@ -82,11 +71,7 @@ export default function StationTable({
 function renderRow({ property, name, ...props }, index) {
     if (index === 0) {
         return (
-            <th key={name}>
-                {typeof property === 'function'
-                    ? property(this)
-                    : this[property]}
-            </th>
+            <th key={name}>{typeof property === 'function' ? property(this) : this[property]}</th>
         )
     }
 

@@ -6,7 +6,7 @@ import ELEVATIONS from 'constants/products/forecast/elevation'
 import Ratings from 'constants/products/forecast/rating'
 import DangerCard from 'components/graphics/danger'
 import { useClientRect } from 'hooks'
-import Styles from './Danger.css'
+import Styles from './Danger.module.css'
 import RatingStyles from 'styles/forecasts/ratings.css'
 import ElevationStyles from 'styles/forecasts/elevations.css'
 
@@ -65,21 +65,12 @@ function DangerTable(ratings) {
     return Array.from(ELEVATIONS, elevation => {
         const { rating, display } = ratings[elevation]
 
-        return (
-            <Row
-                key={elevation}
-                rating={rating}
-                elevation={{ value: elevation, display }}
-            />
-        )
+        return <Row key={elevation} rating={rating} elevation={{ value: elevation, display }} />
     })
 }
 function Row({ rating, elevation }) {
     const ratingStyle = classnames(Styles.Rating, RatingStyles[rating.value])
-    const elevationStyle = classnames(
-        Styles.Elevation,
-        ElevationStyles[elevation.value]
-    )
+    const elevationStyle = classnames(Styles.Elevation, ElevationStyles[elevation.value])
 
     // TODO Could be moved to a Description List: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dl
 

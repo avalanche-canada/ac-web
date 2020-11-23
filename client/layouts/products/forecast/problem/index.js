@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { useReport } from '../Context'
 import { InnerHTML } from 'components/misc'
 import { useClientRect } from 'hooks'
-import styles from './Problem.css'
+import styles from './Problem.module.css'
 
 ProblemSet.propTypes = {
     problems: PropTypes.array.isRequired,
@@ -119,9 +119,7 @@ function Problem({ type, factors, comment, travelAndTerrainAdvice, counter }) {
                 />
             ))}
             <Comment>{comment}</Comment>
-            {travelAndTerrainAdvice && (
-                <Advice>{travelAndTerrainAdvice}</Advice>
-            )}
+            {travelAndTerrainAdvice && <Advice>{travelAndTerrainAdvice}</Advice>}
         </Section>
     )
 }

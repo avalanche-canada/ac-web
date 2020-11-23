@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { useEventListener, useBoolean } from 'hooks'
 import { Credit } from 'components/misc'
 import Hyperlink from './Hyperlink'
-import css from './Image.css'
+import css from './Image.module.css'
 
 Image.propTypes = {
     url: PropTypes.string.isRequired,
@@ -55,15 +55,7 @@ export default function Image({
         }
     }
 
-    const image = (
-        <img
-            ref={handleRef}
-            src={url}
-            alt={alt}
-            className={css.Image}
-            {...dimensions}
-        />
-    )
+    const image = <img ref={handleRef} src={url} alt={alt} className={css.Image} {...dimensions} />
     const className = classnames(label, {
         [css.Figure]: !loading,
         [css['Figure--Loading']]: loading,
@@ -71,11 +63,7 @@ export default function Image({
 
     return (
         <figure className={className}>
-            {typeof linkTo === 'object' ? (
-                <Hyperlink {...linkTo}>{image}</Hyperlink>
-            ) : (
-                image
-            )}
+            {typeof linkTo === 'object' ? <Hyperlink {...linkTo}>{image}</Hyperlink> : image}
             {(copyright || credit) && <Credit>{credit || copyright}</Credit>}
             {children}
         </figure>

@@ -10,7 +10,7 @@ import { Close } from 'components/button'
 import { PRIMARY } from 'constants/colors'
 import { useBoolean } from 'hooks'
 import { useCacheAsync, createKey } from 'hooks/async'
-import styles from './Geocoder.css'
+import styles from './Geocoder.module.css'
 
 Geocoder.propTypes = {
     onChange: PropTypes.func.isRequired,

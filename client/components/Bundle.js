@@ -5,7 +5,7 @@ import * as Text from 'components/text'
 import * as Page from 'components/page'
 import * as Layouts from 'layouts/pages'
 import Button, { ButtonSet } from 'components/button'
-import styles from 'layouts/pages/pages.css'
+import styles from 'layouts/pages/pages.module.css'
 import { FormattedMessage } from 'react-intl'
 
 Bundle.propTypes = {
@@ -22,10 +22,7 @@ export default function Bundle({ children, fallback = <Text.Loading /> }) {
 }
 
 function Error({ error }) {
-    if (
-        error.name === 'ChunkLoadError' ||
-        error.message.startsWith('Loading CSS chunk')
-    ) {
+    if (error.name === 'ChunkLoadError' || error.message.startsWith('Loading CSS chunk')) {
         window.location.reload(true)
 
         return null

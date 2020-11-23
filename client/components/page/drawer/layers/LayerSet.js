@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Subject } from '../'
-import styles from './Layer.css'
+import styles from './Layer.module.css'
 
 LayerSet.propTypes = {
     title: PropTypes.string.isRequired,

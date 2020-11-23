@@ -9,7 +9,7 @@ import Ratings, {
     useRatingTexts,
     useRatingDescriptions,
 } from 'constants/products/forecast/ates'
-import atesStyles from 'styles/ates.css'
+import atesStyles from 'styles/ates.module.css'
 
 export default function TerrainRatingsPanel() {
     const header = (

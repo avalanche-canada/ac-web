@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import css from './dialog.css'
+import css from './dialog.module.css'
 
 export default function Dialog({ children, open }) {
     const className = classnames({

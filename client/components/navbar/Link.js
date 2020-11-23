@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
 import { isExternal } from 'utils/url'
-import styles from './Navbar.css'
+import styles from './Navbar.module.css'
 
 Anchor.propTypes = {
     to: PropTypes.string.isRequired,

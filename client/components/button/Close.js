@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Button from './Button'
 import { SUBTILE } from './kinds'
-import styles from './Button.css'
+import styles from './Button.module.css'
 
 Close.propTypes = {
     className: PropTypes.string,
@@ -12,10 +12,7 @@ Close.propTypes = {
 
 export default function Close({ children = '×', ...props }) {
     return (
-        <Button
-            kind={SUBTILE}
-            {...props}
-            className={classnames(styles.Close, props.className)}>
+        <Button kind={SUBTILE} {...props} className={classnames(styles.Close, props.className)}>
             {children}
         </Button>
     )

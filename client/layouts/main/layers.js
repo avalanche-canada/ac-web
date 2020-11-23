@@ -33,9 +33,7 @@ export function useForecastRegions(map) {
         const features = metadata
             .filter(isForecastRegionMetadata)
             .map(meta => {
-                const area = areas.features.find(
-                    area => area.properties.id === meta.area.id
-                )
+                const area = areas.features.find(area => area.properties.id === meta.area.id)
 
                 if (!area) {
                     return
@@ -71,13 +69,7 @@ export function useForecastRegions(map) {
     }, [map])
 
     useEffect(() => {
-        if (
-            !map ||
-            !sourceLoaded ||
-            !id ||
-            product !== Products.FORECAST ||
-            !metadata
-        ) {
+        if (!map || !sourceLoaded || !id || product !== Products.FORECAST || !metadata) {
             return
         }
 
@@ -113,30 +105,9 @@ export function useForecastRegions(map) {
     }, [map, product, id, sourceLoaded, metadata])
 
     mapbox.useSource(map, key, { ...GEOJSON, generateId: true }, features)
-    mapbox.useLayer(
-        map,
-        createLayer(IDS[0], key, 'fill'),
-        undefined,
-        visible,
-        undefined,
-        EVENTS
-    )
-    mapbox.useLayer(
-        map,
-        createLayer(IDS[1], key, 'line'),
-        undefined,
-        visible,
-        undefined,
-        EVENTS
-    )
-    mapbox.useLayer(
-        map,
-        createLayer(IDS[2], key, 'symbol'),
-        undefined,
-        visible,
-        undefined,
-        EVENTS
-    )
+    mapbox.useLayer(map, createLayer(IDS[0], key, 'fill'), undefined, visible, undefined, EVENTS)
+    mapbox.useLayer(map, createLayer(IDS[1], key, 'line'), undefined, visible, undefined, EVENTS)
+    mapbox.useLayer(map, createLayer(IDS[2], key, 'symbol'), undefined, visible, undefined, EVENTS)
 }
 
 export function useForecastMarkers(map) {
@@ -207,10 +178,9 @@ export function useWeatherStations(map) {
     const key = Products.WEATHER_STATION
     const { visible } = useLayerState(key)
     const [stations, , error] = weather.useStations()
-    const features = useMemo(
-        () => createFeatureCollection(stations, createWeatherStationFeature),
-        [stations]
-    )
+    const features = useMemo(() => createFeatureCollection(stations, createWeatherStationFeature), [
+        stations,
+    ])
 
     useMapErrors(ERRORS.WEATHER_STATION, error)
     useSymbolLayer(map, key, features, visible)
@@ -220,10 +190,7 @@ export function useMountainConditionReports(map) {
     const key = Products.MOUNTAIN_CONDITIONS_REPORT
     const { visible } = useLayerState(key)
     const id = useSearchPanelId(Products.MOUNTAIN_CONDITIONS_REPORT)
-    const [[reports, report], , errors] = useMerge(
-        mcr.useReports(),
-        mcr.useReport(id)
-    )
+    const [[reports, report], , errors] = useMerge(mcr.useReports(), mcr.useReport(id))
     const features = useMemo(
         () =>
             createFeatureCollection(
@@ -234,10 +201,7 @@ export function useMountainConditionReports(map) {
     )
     const single = useMemo(
         () =>
-            createFeatureCollection(
-                [report].filter(Boolean),
-                createMountainConditionReportFeature
-            ),
+            createFeatureCollection([report].filter(Boolean), createMountainConditionReportFeature),
         [report]
     )
 
@@ -250,10 +214,9 @@ export function useFatalAccidents(map) {
     const key = Products.ACCIDENT
     const { visible } = useLayerState(key)
     const [documents, , error] = prismic.useDocuments(params.fatal.accidents())
-    const features = useMemo(
-        () => createFeatureCollection(documents, createFatalAccidentFeature),
-        [documents]
-    )
+    const features = useMemo(() => createFeatureCollection(documents, createFatalAccidentFeature), [
+        documents,
+    ])
 
     useMapErrors(ERRORS.INCIDENT, error)
     useSymbolLayer(map, key, features, visible)
@@ -272,10 +235,7 @@ export function useMountainInformationNetwork(map) {
             turf.featureCollection(features.filter(isIncident)),
         ]
     }, [data])
-    const filter = useMemo(
-        () => createMountainInformationNetworkFilter(types),
-        [types]
-    )
+    const filter = useMemo(() => createMountainInformationNetworkFilter(types), [types])
 
     // Icons but not active and incidents
     key = Products.MOUNTAIN_INFORMATION_NETWORK
@@ -309,9 +269,7 @@ export function useMountainInformationNetwork(map) {
             return EMPTY_FEATURE_COLLECTION
         }
 
-        return turf.featureCollection([
-            createMountainInformationNetworkFeature(report),
-        ])
+        return turf.featureCollection([createMountainInformationNetworkFeature(report)])
     }, [report])
 
     mapbox.useSource(map, key, GEOJSON, activeReport)
@@ -321,12 +279,7 @@ export function useMountainInformationNetwork(map) {
 }
 
 // Utils for MIN
-function createMountainInformationNetworkFeature({
-    subid,
-    title,
-    lnglat,
-    obs,
-}) {
+function createMountainInformationNetworkFeature({ subid, title, lnglat, obs }) {
     return turf.point(lnglat, {
         title,
         panel: createPath(Products.MOUNTAIN_INFORMATION_NETWORK, subid),
@@ -342,10 +295,7 @@ function createMountainInformationNetworkFilter(types) {
         return ['boolean', true]
     }
 
-    return [
-        'any',
-        ...Array.from(types, type => ['boolean', ['get', type], false]),
-    ]
+    return ['any', ...Array.from(types, type => ['boolean', ['get', type], false])]
 }
 function isIncident({ properties }) {
     return INCIDENT in properties
@@ -392,9 +342,7 @@ function handleMouseMove({ target, features }) {
     const [feature] = features
     const { name, title, point_count, cluster } = feature.properties
 
-    canvas.title = cluster
-        ? `${point_count} ${TITLES.get(feature.source)}`
-        : name || title
+    canvas.title = cluster ? `${point_count} ${TITLES.get(feature.source)}` : name || title
 }
 let COUNTER = 0
 function handleMouseEnter({ target }) {
@@ -455,10 +403,7 @@ function useSearchPanelId(product) {
 // TODO(i18n) Should use "useTitles" from module "constants/drawers"
 const TITLES = new Map([
     [Products.WEATHER_STATION, 'weather stations'],
-    [
-        Products.MOUNTAIN_INFORMATION_NETWORK,
-        'Mountain Information Network reports',
-    ],
+    [Products.MOUNTAIN_INFORMATION_NETWORK, 'Mountain Information Network reports'],
     [Products.ACCIDENT, 'fatal recretional accidents'],
     [Products.MOUNTAIN_CONDITIONS_REPORT, 'Mountain Condition reports'],
     [Products.FORECAST, 'forecast'],
@@ -486,12 +431,7 @@ const STYLES = {
         line: {
             paint: {
                 'line-color': '#B43A7E',
-                'line-width': [
-                    'case',
-                    ['boolean', ['feature-state', 'active'], false],
-                    4,
-                    1.5,
-                ],
+                'line-width': ['case', ['boolean', ['feature-state', 'active'], false], 4, 1.5],
             },
         },
         symbol: {
@@ -569,12 +509,7 @@ const STYLES = {
                     'min-pin-with-incident',
                     'min-pin',
                 ],
-                'icon-size': [
-                    'case',
-                    ['boolean', ['get', 'cluster'], false],
-                    0.8,
-                    0.7,
-                ],
+                'icon-size': ['case', ['boolean', ['get', 'cluster'], false], 0.8, 0.7],
                 'icon-allow-overlap': true,
                 'text-field': '{point_count}',
                 'text-offset': [0, -0.25],

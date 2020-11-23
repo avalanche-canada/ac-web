@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Mailto } from 'components/anchors'
 import * as Social from 'components/social'
 import * as Icons from 'components/icons'
-import styles from './Sidebar.css'
+import styles from './Sidebar.module.css'
 import { FormattedMessage, useIntl } from 'react-intl'
 
 Sidebar.propTypes = {
@@ -42,10 +42,7 @@ export function RSSFeed({ url }) {
     return (
         <SocialItem>
             <a href={url} target="_blank" title={title}>
-                <FormattedMessage
-                    defaultMessage="RSS Feed"
-                    description="Sidebar"
-                />
+                <FormattedMessage defaultMessage="RSS Feed" description="Sidebar" />
                 {'\u00A0'}
                 <Icons.RSS />
             </a>
@@ -99,10 +96,7 @@ export function Print({ url }) {
     return (
         <SocialItem>
             <a href={url} target="printable-forecast" title={title}>
-                <FormattedMessage
-                    description="Sidebar"
-                    defaultMessage="Printable version"
-                />
+                <FormattedMessage description="Sidebar" defaultMessage="Printable version" />
                 {'\u00A0'}
                 <Icons.Print />
             </a>
@@ -131,10 +125,7 @@ Follow.propTypes = {
     label: PropTypes.string,
 }
 
-export function Follow({
-    label = <FormattedMessage defaultMessage="Follow us" />,
-    urls = URLS,
-}) {
+export function Follow({ label = <FormattedMessage defaultMessage="Follow us" />, urls = URLS }) {
     const intl = useIntl()
     function createTitle(name) {
         return intl.formatMessage({
@@ -164,10 +155,7 @@ export function Contact(props) {
     return (
         <SocialItem>
             <Mailto {...props}>
-                <FormattedMessage
-                    defaultMessage="Contact us"
-                    description="Sidebar"
-                />
+                <FormattedMessage defaultMessage="Contact us" description="Sidebar" />
                 {'\u00A0'}
                 <Icons.Email fill="#245EAC" />
             </Mailto>

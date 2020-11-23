@@ -1,0 +1,37 @@
+@import '../../styles/colors.module.css';
+
+@custom-media --as-vertical (width > 600px);
+
+.Container {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+
+    @media (--as-vertical) {
+        flex-direction: column;
+    }
+}
+
+.Label {
+    width: 6em;
+    color: var(--gray-light);
+    font-weight: 700;
+    font-size: 0.75em;
+    text-transform: uppercase;
+
+    @media (--as-vertical) {
+        width: auto;
+        margin-right: auto;
+        margin-left: auto;
+        margin-bottom: 0.25em;
+    }
+}
+
+.Logo {
+    display: block;
+    flex: 1 0 auto;
+    margin: 0 auto;
+    max-height: 50px;
+    max-width: 150px;
+}

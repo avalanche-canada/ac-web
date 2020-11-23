@@ -2,25 +2,20 @@ import React, { createElement } from 'react'
 import PropTypes from 'prop-types'
 import ItemSet from './ItemSet'
 import Toolbar from './Toolbar'
-import styles from './Drawer.css'
+import styles from './Drawer.module.css'
 
 Drawer.propTypes = {
     label: PropTypes.string.isRequired,
-    home: Toolbar.propTypes.home,
+    home: PropTypes.shape({
+        to: PropTypes.string.isRequired,
+    }).isRequired,
     to: PropTypes.string,
     onClose: PropTypes.func.isRequired,
     onClick: PropTypes.func,
     children: PropTypes.node.isRequired,
 }
 
-export default function Drawer({
-    label,
-    to,
-    onClose,
-    onClick,
-    children,
-    home,
-}) {
+export default function Drawer({ label, to, onClose, onClick, children, home }) {
     function handleClick(event) {
         const { target, currentTarget } = event
 

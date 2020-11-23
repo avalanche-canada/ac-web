@@ -1,19 +1,13 @@
 import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
-import {
-    useCounter,
-    useBoolean,
-    useEventListener,
-    useTimeout,
-    useFullscreen,
-} from 'hooks'
+import { useCounter, useBoolean, useEventListener, useTimeout, useFullscreen } from 'hooks'
 import { OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import ButtonSet from './ButtonSet'
 import Button from 'components/button'
 import keycodes from 'constants/keycodes'
 import { WHITE } from 'constants/colors'
-import styles from './Loop.css'
+import styles from './Loop.module.css'
 
 Loop.propTypes = {
     urls: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -23,20 +17,8 @@ Loop.propTypes = {
     startsAt: PropTypes.number,
 }
 
-export default function Loop({
-    urls = [],
-    titles = [],
-    interval = 1000,
-    dwell = 2000,
-    startsAt,
-}) {
-    const [
-        fullscreen,
-        ,
-        ,
-        toggleFullscreen,
-        fullscreenAvailable,
-    ] = useFullscreen()
+export default function Loop({ urls = [], titles = [], interval = 1000, dwell = 2000, startsAt }) {
+    const [fullscreen, , , toggleFullscreen, fullscreenAvailable] = useFullscreen()
     const max = urls.length - 1
     const [loading, load, unload] = useBoolean(false)
     const [playing, play, pause, toggle] = useBoolean(false)
@@ -134,12 +116,7 @@ export default function Loop({
                 )}
             </div>
             <OpenInNewTab>
-                <img
-                    src={url}
-                    onError={unload}
-                    onLoad={unload}
-                    style={IMAGE_STYLE}
-                />
+                <img src={url} onError={unload} onLoad={unload} style={IMAGE_STYLE} />
             </OpenInNewTab>
         </div>
     )

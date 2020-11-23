@@ -1,7 +1,7 @@
 import React from 'react'
 import ImageGallery from 'components/gallery'
 import { StructuredText } from 'prismic/components/base'
-import styles from './Slider.css'
+import styles from './Slider.module.css'
 
 Slider.defaultProps = {
     showThumbnails: false,

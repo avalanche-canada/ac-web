@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Br } from 'components/misc'
-import styles from './Sections.css'
+import styles from './Sections.module.css'
 
 // TODO Move this component somewhere else
 

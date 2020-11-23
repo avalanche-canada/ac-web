@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Sponsor.css'
+import styles from './Sponsor.module.css'
 import { handleOutboundSponsorClick } from 'services/analytics'
 
 Item.propTypes = {

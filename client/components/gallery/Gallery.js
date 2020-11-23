@@ -1,15 +1,9 @@
 import React from 'react'
 import Base from 'react-image-gallery'
-import {
-    Play,
-    Pause,
-    Fullscreen,
-    ChevronRight,
-    ChevronLeft,
-} from 'components/icons'
+import { Play, Pause, Fullscreen, ChevronRight, ChevronLeft } from 'components/icons'
 import { WHITE } from 'constants/colors'
 import 'react-image-gallery/styles/css/image-gallery-no-icon.css'
-import './Gallery.css'
+import './Gallery.module.css'
 
 export default function Gallery(props) {
     return <Base {...props} {...buttons} />
@@ -23,20 +17,14 @@ function Button(props) {
 const buttons = {
     renderLeftNav(onClick, disabled) {
         return (
-            <Button
-                className="image-gallery-left-nav"
-                onClick={onClick}
-                disabled={disabled}>
+            <Button className="image-gallery-left-nav" onClick={onClick} disabled={disabled}>
                 <ChevronLeft height={36} width={36} color={WHITE} />
             </Button>
         )
     },
     renderRightNav(onClick, disabled) {
         return (
-            <Button
-                className="image-gallery-right-nav"
-                onClick={onClick}
-                disabled={disabled}>
+            <Button className="image-gallery-right-nav" onClick={onClick} disabled={disabled}>
                 <ChevronRight height={36} width={36} color={WHITE} />
             </Button>
         )
@@ -50,9 +38,7 @@ const buttons = {
     },
     renderFullscreenButton(onClick, _isFullscreen) {
         return (
-            <Button
-                className="image-gallery-fullscreen-button"
-                onClick={onClick}>
+            <Button className="image-gallery-fullscreen-button" onClick={onClick}>
                 <Fullscreen color={WHITE} />
             </Button>
         )

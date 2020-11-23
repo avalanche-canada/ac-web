@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './MountainInformationNetwork.css'
+import styles from './MountainInformationNetwork.module.css'
 
 Section.propTypes = {
     title: PropTypes.string.isRequired,

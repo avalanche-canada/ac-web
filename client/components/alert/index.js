@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Close } from 'components/button'
-import styles from './Alert.css'
+import styles from './Alert.module.css'
 
 // Types
 export const DANGER = 'DANGER'
@@ -23,12 +23,7 @@ export function OneLiner({ children }) {
 }
 
 // Constants
-const Components = new Map([
-    [DANGER, Danger],
-    [INFO, Info],
-    [WARNING, Warning],
-    [SUCCESS, Success],
-])
+const Components = new Map([[DANGER, Danger], [INFO, Info], [WARNING, Warning], [SUCCESS, Success]])
 
 // Components
 Alert.propTypes = {

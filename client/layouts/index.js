@@ -1,11 +1,12 @@
 import React, { lazy } from 'react'
 import Bundle from 'components/Bundle'
+import AvalancheCanada from './AvalancheCanada'
+
+export { AvalancheCanada }
 
 const LazyAvalancheCanadaFoundation = lazy(() =>
     import('./AvalancheCanadaFoundation')
 )
-
-export AvalancheCanada from './AvalancheCanada'
 
 export function AvalancheCanadaFoundation() {
     return (

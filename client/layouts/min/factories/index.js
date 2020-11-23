@@ -1,1 +1,3 @@
-export ObservationSet from './ObservationSet'
+import ObservationSet from './ObservationSet'
+
+export { ObservationSet }

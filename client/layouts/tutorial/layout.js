@@ -15,7 +15,7 @@ import Shim from 'components/Shim'
 import Drawer, { Close, Body, Navbar, Header } from 'components/page/drawer'
 import { Menu } from 'components/icons'
 import { Warning } from 'components/text'
-import ATESExercise from './ATESExercise'
+import ATESExercise from './AtesExercise'
 import RouteFindingExercise from './RouteFindingExercise'
 import Quiz from './Quiz'
 import Question from './Question'
@@ -38,12 +38,11 @@ export default function Layout(props) {
         <Page>
             <LocaleSwitch>
                 <Alert>
-                    Quelques sections de notre tutoriel ne sont pas à jour.
-                    Revenez regulièrement pour consulter les améliorations que
-                    nous y apportons.
+                    Quelques sections de notre tutoriel ne sont pas à jour. Revenez regulièrement
+                    pour consulter les améliorations que nous y apportons.
                     <br />
-                    Some sections of the French tutorial are outdated. We are
-                    currently working on improvements so stay tuned for updates!
+                    Some sections of the French tutorial are outdated. We are currently working on
+                    improvements so stay tuned for updates!
                 </Alert>
             </LocaleSwitch>
             <PageComponents.Content>
@@ -60,23 +59,9 @@ function LayoutContent({ uri, path, location }) {
 
     return (
         <Fragment>
-            <Sidebar
-                location={location}
-                items={document?.data?.items}
-                title={title}
-            />
+            <Sidebar location={location} items={document?.data?.items} title={title} />
             <Content>
-                <h1>
-                    {title ? (
-                        isExact ? (
-                            title
-                        ) : (
-                            <Link to={uri}>{title}</Link>
-                        )
-                    ) : (
-                        <Loading />
-                    )}
-                </h1>
+                <h1>{title ? isExact ? title : <Link to={uri}>{title}</Link> : <Loading />}</h1>
             </Content>
         </Fragment>
     )
@@ -93,11 +78,7 @@ function Sidebar({ title, location, items = [], path }) {
     const { width } = useWindowSize()
     const [opened, , close, toggle] = useBoolean(false)
     const tree = (
-        <Tree>
-            {items
-                .reduce(reduceTreeNode, [])
-                .map(node => renderTreeNode(node, path))}
-        </Tree>
+        <Tree>{items.reduce(reduceTreeNode, []).map(node => renderTreeNode(node, path))}</Tree>
     )
 
     useEffect(close, [location.pathname])
@@ -113,11 +94,7 @@ function Sidebar({ title, location, items = [], path }) {
             <Button kind={SUBTILE} onClick={toggle} style={BUTTON_STYLE}>
                 <Menu />
             </Button>
-            <Drawer
-                open={opened}
-                width={0.75 * width}
-                backdrop
-                onCloseClick={close}>
+            <Drawer open={opened} width={0.75 * width} backdrop onCloseClick={close}>
                 <Navbar>
                     <Close onClick={close} />
                 </Navbar>
@@ -146,6 +123,7 @@ function Content({ children }) {
 
 function Redirector({ uid }) {
     const [document] = useHome()
+    const location = useLocation()
 
     if (!document) {
         return null
@@ -194,10 +172,7 @@ function Home() {
 
     return (
         <Fragment>
-            <SliceZone
-                components={TutorialSliceComponents}
-                value={document.data.content}
-            />
+            <SliceZone components={TutorialSliceComponents} value={document.data.content} />
             <Pager>
                 <Next
                     to={getUIDFromMenuItem(first)}
@@ -233,10 +208,7 @@ function Tutorial(props) {
         return (
             <Fragment>
                 <h2>{article.data.title[0].text}</h2>
-                <SliceZone
-                    components={TutorialSliceComponents}
-                    value={article.data.content}
-                />
+                <SliceZone components={TutorialSliceComponents} value={article.data.content} />
                 <HomePager uid={uid} uri={uri} />
             </Fragment>
         )
@@ -269,9 +241,7 @@ function HomePager({ uid, uri }) {
                 subtitle={previousSubtitle}>
                 {previous ? previous.title : title[0].text}
             </Previous>
-            {next && (
-                <Next to={buildNodeLink(next, items, uri)}>{next.title}</Next>
-            )}
+            {next && <Next to={buildNodeLink(next, items, uri)}>{next.title}</Next>}
         </Pager>
     )
 }
@@ -289,9 +259,7 @@ function NoDocument({ uid, uri }) {
             return uid
         }
 
-        const item = document.data.items.find(
-            item => item.link?.value?.document?.uid === uid
-        )
+        const item = document.data.items.find(item => item.link?.value?.document?.uid === uid)
 
         return item ? item.title : uid
     }

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Advisory.css'
+import styles from './Advisory.module.css'
 
 Title.propTypes = {
     children: PropTypes.string.isRequired,

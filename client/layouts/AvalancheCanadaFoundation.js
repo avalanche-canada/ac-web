@@ -11,7 +11,7 @@ import { STATIC_PAGE } from 'constants/prismic'
 import * as Async from 'contexts/async'
 import menu from /* preval */ '../constants/menus/foundation'
 import logo from 'styles/AvalancheCanadaFoundation.svg'
-import styles from './AvalancheCanadaFoundation.css'
+import styles from './AvalancheCanadaFoundation.module.css'
 
 // TODO Could have an AvCan Foundation not found page, not just the AvCan one
 // TODO Should provide some useful links to the fallback page
@@ -24,16 +24,8 @@ export default function AvalancheCanadaFoundation() {
             <Router>
                 <Home path="/" />
                 <StaticPage path="about" uid="foundation-about" title="About" />
-                <StaticPage
-                    path="programs"
-                    uid="foundation-programs"
-                    title="Programs"
-                />
-                <StaticPage
-                    path="donors"
-                    uid="foundation-donors"
-                    title="Donors"
-                />
+                <StaticPage path="programs" uid="foundation-programs" title="Programs" />
+                <StaticPage path="donors" uid="foundation-donors" title="Donors" />
                 <StaticPage
                     path="event-sponsors"
                     uid="foundation-event-sponsors"
@@ -92,9 +84,7 @@ function Home() {
     return (
         <Pages.Screen navbar={<FoundationNavbar />} className={styles.Home}>
             <Async.Provider value={value}>
-                <Async.Found>
-                    {paylod => <SliceZone value={paylod.data.content} />}
-                </Async.Found>
+                <Async.Found>{paylod => <SliceZone value={paylod.data.content} />}</Async.Found>
             </Async.Provider>
         </Pages.Screen>
     )

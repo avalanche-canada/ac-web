@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import css from './Form.css'
+import Search from './Search'
+import css from './Form.module.css'
+
+export { Search }
 
 Form.propTypes = {
     children: PropTypes.node.isRequired,
@@ -15,8 +18,6 @@ export function Form({ children, style }) {
         </form>
     )
 }
-
-export Search from './Search'
 
 Fieldset.propTypes = {
     children: PropTypes.node.isRequired,

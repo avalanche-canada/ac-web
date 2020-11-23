@@ -6,13 +6,11 @@ import { Loading } from 'components/text'
 import { feed } from 'prismic/params'
 import { pathname } from 'router/prismic'
 import { useDocuments } from 'prismic/hooks'
-import { useFeedTexts, BLOG, NEWS, EVENT } from 'constants/prismic'
+import { BLOG, NEWS, EVENT, FEED } from 'constants/prismic'
 import { useIntlMemo } from 'hooks/intl'
 
-const feedTexts = useFeedTexts()
-
 FeedSidebar.propTypes = {
-    type: PropTypes.oneOf(feedTexts).isRequired,
+    type: PropTypes.oneOf(FEED).isRequired,
     uid: PropTypes.string.isRequired,
 }
 
@@ -39,18 +37,30 @@ function renderItem(document) {
 }
 
 function useHeaders() {
-    return useIntlMemo((intl) => new Map([
-        [BLOG, intl.formatMessage({
-            defaultMessage: 'Latest blog posts',
-            description: 'Layout feed/Sidebar',
-        })],
-        [NEWS, intl.formatMessage({
-            defaultMessage: 'Latest news',
-            description: 'Layout feed/Sidebar',
-        })],
-        [EVENT, intl.formatMessage({
-            defaultMessage: 'Upcoming events',
-            description: 'Layout feed/Sidebar',
-        })],
-    ]))
+    return useIntlMemo(
+        intl =>
+            new Map([
+                [
+                    BLOG,
+                    intl.formatMessage({
+                        defaultMessage: 'Latest blog posts',
+                        description: 'Layout feed/Sidebar',
+                    }),
+                ],
+                [
+                    NEWS,
+                    intl.formatMessage({
+                        defaultMessage: 'Latest news',
+                        description: 'Layout feed/Sidebar',
+                    }),
+                ],
+                [
+                    EVENT,
+                    intl.formatMessage({
+                        defaultMessage: 'Upcoming events',
+                        description: 'Layout feed/Sidebar',
+                    }),
+                ],
+            ])
+    )
 }

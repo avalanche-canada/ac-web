@@ -11,7 +11,7 @@ import { Page as PageLayout } from 'layouts/pages'
 import { useVisibility } from 'hooks/session'
 import { useSPAW } from 'hooks/async/api/products'
 import * as url from 'utils/url'
-import styles from './SPAW.css'
+import styles from './SPAW.module.css'
 import { FormattedMessage, useIntl } from 'react-intl'
 
 export default function Alert() {
@@ -88,17 +88,11 @@ export function Page(props) {
                                 />
                             </Async.Empty>
                             <Async.Found>
-                                {spaw => (
-                                    <StructuredText
-                                        value={spaw.data.description}
-                                    />
-                                )}
+                                {spaw => <StructuredText value={spaw.data.description} />}
                             </Async.Found>
                         </Pages.Headline>
                         <Async.Found>
-                            {spaw => (
-                                <StructuredText value={spaw.data.content} />
-                            )}
+                            {spaw => <StructuredText value={spaw.data.content} />}
                         </Async.Found>
                     </Pages.Main>
                     <Pages.Aside>

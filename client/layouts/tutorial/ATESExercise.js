@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Media, Caption } from 'components/media'
 import { Image, StructuredText } from 'prismic/components/base'
-import styles from './ATESExercise.css'
+import styles from './ATESExercise.module.css'
 
 // Constants
 const VALUES = ['Simple', 'Challenging', 'Complex']
@@ -61,12 +61,7 @@ Input.propTypes = {
 function Input({ value, onChange, children, picked }) {
     return (
         <label className={styles.Input}>
-            <input
-                type="radio"
-                value={value}
-                onChange={onChange}
-                checked={picked === value}
-            />
+            <input type="radio" value={value} onChange={onChange} checked={picked === value} />
             {children}
         </label>
     )

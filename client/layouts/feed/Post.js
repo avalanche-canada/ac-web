@@ -10,16 +10,14 @@ import { DateElement, Range, dateTimeFormatGetter } from 'components/time'
 import TagTitle from './TagTitle'
 import { StructuredText } from 'prismic/components/base'
 import Sidebar from './Sidebar'
-import { useFeedTexts } from 'constants/prismic'
 import { TagSet, Tag } from 'components/tag'
 import { feed } from 'router/prismic'
 import { useDocument } from 'prismic/hooks'
 import { useIntl } from 'react-intl'
-
-const feedTexts = useFeedTexts()
+import { FEED } from 'constants/prismic'
 
 Post.propTypes = {
-    type: PropTypes.oneOf(feedTexts).isRequired,
+    type: PropTypes.oneOf(FEED).isRequired,
     uid: PropTypes.string.isRequired,
 }
 
@@ -35,10 +33,15 @@ export default function Post(props) {
 
     return (
         <Page>
-            <Header title={post?.data?.title || intl.formatMessage({
-                defaultMessage: 'Loading...',
-                description: 'Layout feed/Post',
-            })} />
+            <Header
+                title={
+                    post?.data?.title ||
+                    intl.formatMessage({
+                        defaultMessage: 'Loading...',
+                        description: 'Layout feed/Post',
+                    })
+                }
+            />
             <Content>
                 <Main>
                     {pending && <Loading />}
@@ -55,67 +58,58 @@ export default function Post(props) {
 
 // Components
 function PostMetadata({ tags, type, data }) {
-    const {
-        source,
-        location,
-        hosted_by,
-        start_date,
-        end_date,
-        date = start_date,
-    } = data
-    const hasDateRange =
-        start_date &&
-        end_date &&
-        Date.parse(start_date) !== Date.parse(end_date)
+    const { source, location, hosted_by, start_date, end_date, date = start_date } = data
+    const hasDateRange = start_date && end_date && Date.parse(start_date) !== Date.parse(end_date)
     const intl = useIntl()
 
     return (
         <Metadata>
             {date && (
-                <Entry term={
-                    intl.formatMessage({
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Date',
                         description: 'Layout feed/Post',
-                    })
-                }>
+                    })}>
                     {hasDateRange ? (
-                        <Range
-                            from={start_date}
-                            to={end_date}
-                            format={dateTimeFormatGetter}
-                        />
+                        <Range from={start_date} to={end_date} format={dateTimeFormatGetter} />
                     ) : (
-                            <DateElement value={date} />
-                        )}
+                        <DateElement value={date} />
+                    )}
                 </Entry>
             )}
             {typeof location === 'string' && (
-                <Entry term={
-                    intl.formatMessage({
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Location',
                         description: 'Layout feed/Post',
-                    })
-                }>{location}</Entry>
+                    })}>
+                    {location}
+                </Entry>
             )}
-            {source && <Entry term={
-                intl.formatMessage({
-                    defaultMessage: 'Source',
-                    description: 'Layout feed/Post',
-                })
-            }>{source}</Entry>}
-            {hosted_by && <Entry term={
-                intl.formatMessage({
-                    defaultMessage: 'Hosted by',
-                    description: 'Layout feed/Post',
-                })
-            }>{hosted_by}</Entry>}
+            {source && (
+                <Entry
+                    term={intl.formatMessage({
+                        defaultMessage: 'Source',
+                        description: 'Layout feed/Post',
+                    })}>
+                    {source}
+                </Entry>
+            )}
+            {hosted_by && (
+                <Entry
+                    term={intl.formatMessage({
+                        defaultMessage: 'Hosted by',
+                        description: 'Layout feed/Post',
+                    })}>
+                    {hosted_by}
+                </Entry>
+            )}
             {tags.length > 0 && (
-                <Entry term={
-                    intl.formatMessage({
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Tagged under',
                         description: 'Layout feed/Post',
-                    })
-                }>
+                    })}>
                     <TagSet>
                         {tags.map(tag => (
                             <Tag key={tag}>

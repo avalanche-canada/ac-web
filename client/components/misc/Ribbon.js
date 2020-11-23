@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Ribbon.css'
+import styles from './Ribbon.module.css'
 import { useIntl } from 'react-intl'
 
 Ribbon.propTypes = {

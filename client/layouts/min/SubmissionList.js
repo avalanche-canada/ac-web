@@ -24,7 +24,7 @@ import { Boundary as ErrorBoundary } from 'components/error'
 import pinWithIncident from 'components/icons/min/min-pin-with-incident.svg'
 import pin from 'components/icons/min/min-pin.svg'
 import Shim from 'components/Shim'
-import styles from 'components/text/Text.css'
+import styles from 'components/text/Text.module.css'
 import { useFilters, useSorting } from 'hooks/collection'
 import useParams, { NumberParam, SetParam, SortingParam } from 'hooks/params'
 import { useMerge } from 'hooks/async'
@@ -136,9 +136,7 @@ function Form({ params, onParamsChange }) {
                     <DateElement />
                 </Shim>
             </Entry>
-            <Entry
-                term={<FormattedMessage defaultMessage="Reports" />}
-                horizontal>
+            <Entry term={<FormattedMessage defaultMessage="Reports" />} horizontal>
                 <Dropdown
                     value={params.types}
                     onChange={handleTypesChange}
@@ -146,9 +144,7 @@ function Form({ params, onParamsChange }) {
                     placeholder="Show all"
                 />
             </Entry>
-            <Entry
-                term={<FormattedMessage defaultMessage="Regions" />}
-                horizontal>
+            <Entry term={<FormattedMessage defaultMessage="Regions" />} horizontal>
                 <Dropdown
                     value={params.regions}
                     onChange={handleRegionsChange}
@@ -216,12 +212,7 @@ function TableContent(params) {
                                         defaultMessage="You can <link>clear your search criteria</link> to find more reports."
                                         values={{
                                             link(chunks) {
-                                                return (
-                                                    <Link
-                                                        to={location.pathname}>
-                                                        {chunks}
-                                                    </Link>
-                                                )
+                                                return <Link to={location.pathname}>{chunks}</Link>
                                             },
                                         }}
                                     />
@@ -397,11 +388,7 @@ function useColumns() {
             name: 'region',
             title: <FormattedMessage defaultMessage="Forecast Region" />,
             property({ region }) {
-                return region ? (
-                    <links.Forecast id={region.id}>
-                        {region.name}
-                    </links.Forecast>
-                ) : null
+                return region ? <links.Forecast id={region.id}>{region.name}</links.Forecast> : null
             },
             sorting: NONE,
         },

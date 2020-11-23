@@ -1,4 +1,4 @@
-import { baseURL } from './config.json'
+import { baseURL } from './config'
 import fetch from 'utils/fetch'
 
 export function report(id) {

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Button from 'components/button'
-import styles from './File.css'
+import styles from './File.module.css'
 
 Description.propTypes = {
     index: PropTypes.number.isRequired,

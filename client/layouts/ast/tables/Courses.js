@@ -21,7 +21,7 @@ import { DATE } from 'utils/date'
 import { useCourses } from 'hooks/async/ast'
 import { useSorting, usePagination, useFilters } from 'hooks/collection'
 import * as Async from 'contexts/async'
-import styles from './Courses.css'
+import styles from './Courses.module.css'
 import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 import { useIntlMemo } from 'hooks/intl'
 
@@ -35,15 +35,7 @@ Courses.propTypes = {
     onParamsChange: PropTypes.func.isRequired,
 }
 
-export default function Courses({
-    level,
-    from,
-    to,
-    tags,
-    sorting,
-    place,
-    onParamsChange,
-}) {
+export default function Courses({ level, from, to, tags, sorting, place, onParamsChange }) {
     const [name = null, order = NONE] = sorting
     const context = useCourses()
     const [courses = []] = context
@@ -52,18 +44,12 @@ export default function Courses({
         return courses.map(course => ({
             ...course,
             distance: place
-                ? Math.max(
-                    Math.round(distance(turf.point(course.loc), place)),
-                    MINIMUM_DISTANCE
-                )
+                ? Math.max(Math.round(distance(turf.point(course.loc), place)), MINIMUM_DISTANCE)
                 : null,
         }))
     }, [courses, place])
     const sorted = useSorting(all, SORTERS.get(order).get(name))
-    const filtered = useFilters(
-        sorted,
-        getPredicates({ level, from, to, tags })
-    )
+    const filtered = useFilters(sorted, getPredicates({ level, from, to, tags }))
     const paginated = usePagination(filtered, page)
 
     function handleSortingChange(name, order) {
@@ -81,10 +67,7 @@ export default function Courses({
 
     return (
         <Async.Provider value={context}>
-            <Layout
-                title={
-                    <Title type="course" count={count} total={courses.length} />
-                }>
+            <Layout title={<Title type="course" count={count} total={courses.length} />}>
                 <Responsive>
                     <table>
                         <Header
@@ -93,7 +76,25 @@ export default function Courses({
                             onSortingChange={handleSortingChange}
                             place={place}
                         />
-                        <tbody>{renderRows(paginated, columns)}</tbody>
+                        <tbody>
+                            {courses.map(row => (
+                                <ExpandableRow key={row.id}>
+                                    <tr>
+                                        {columns.map(({ property, name }) => (
+                                            <td key={name}>{property(row)}</td>
+                                        ))}
+                                    </tr>
+                                    <tr>
+                                        <td colSpan={columns.length + 1}>
+                                            <Controlled
+                                                description={row.description}
+                                                provider={row.provider}
+                                            />
+                                        </td>
+                                    </tr>
+                                </ExpandableRow>
+                            ))}
+                        </tbody>
                         <Caption type="course" empty={count === 0}>
                             <p>
                                 <FormattedMessage
@@ -101,11 +102,7 @@ export default function Courses({
                                     defaultMessage="No courses match your criteria, consider finding a provider on the <link>providers page</link> to contact directly."
                                     values={{
                                         link(text) {
-                                            return (
-                                                <Link to="/training/providers">
-                                                    {text}
-                                                </Link>
-                                            )
+                                            return <Link to="/training/providers">{text}</Link>
                                         },
                                     }}
                                 />
@@ -116,11 +113,7 @@ export default function Courses({
                                     defaultMessage="You can also <link>reset your criteria</link> to see them all."
                                     values={{
                                         link(text) {
-                                            return (
-                                                <Link to="/training/courses">
-                                                    {text}
-                                                </Link>
-                                            )
+                                            return <Link to="/training/courses">{text}</Link>
                                         },
                                     }}
                                 />
@@ -135,21 +128,7 @@ export default function Courses({
 }
 
 // Utils
-function renderRows(courses, columns) {
-    return courses.map(row =>
-        <ExpandableRow key={row.id}>
-            <tr>
-                {columns.map(({ property, name }) => (
-                    <td key={name}>{property(row)}</td>
-                ))}
-            </tr>
-            <tr>
-                <td colSpan={columns.length + 1}>{renderControlled(row)}</td>
-            </tr>
-        </ExpandableRow>
-    )
-}
-function renderControlled({ description, provider }) {
+function Controlled({ description, provider }) {
     const { name, website, email, phone, loc_description } = provider
     const intl = useIntl()
 
@@ -157,55 +136,53 @@ function renderControlled({ description, provider }) {
         <div className={styles.Controlled}>
             <Shim right>
                 <List inline>
-                    <Entry term={
-                        intl.formatMessage({
+                    <Entry
+                        term={intl.formatMessage({
                             defaultMessage: 'Description',
                             description: 'Layout ast/tables/Courses',
-                        })
-                    }>
+                        })}>
                         <MultiLine>{description}</MultiLine>
                     </Entry>
                 </List>
             </Shim>
             <List>
-                <Entry term={
-                    intl.formatMessage({
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Name',
                         description: 'Layout ast/tables/Courses',
-                    })
-                }>{name}</Entry>
-                <Entry term={
-                    intl.formatMessage({
+                    })}>
+                    {name}
+                </Entry>
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Website',
                         description: 'Layout ast/tables/Courses',
-                    })
-                }>
+                    })}>
                     <a href={website} target={name}>
                         {website}
                     </a>
                 </Entry>
-                <Entry term={
-                    intl.formatMessage({
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Email',
                         description: 'Layout ast/tables/Courses',
-                    })
-                }>
+                    })}>
                     <Mailto email={email} />
                 </Entry>
-                <Entry term={
-                    intl.formatMessage({
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Phone',
                         description: 'Layout ast/tables/Courses',
-                    })
-                }>
+                    })}>
                     <Phone phone={phone} />
                 </Entry>
-                <Entry term={
-                    intl.formatMessage({
+                <Entry
+                    term={intl.formatMessage({
                         defaultMessage: 'Location',
                         description: 'Layout ast/tables/Courses',
-                    })
-                }>{loc_description}</Entry>
+                    })}>
+                    {loc_description}
+                </Entry>
             </List>
         </div>
     )
@@ -218,9 +195,9 @@ function useColumns() {
             id: 'app.distanceDescription',
             defaultMessage: 'Straight line between {place} and the course.',
             description: 'Layout ast/tables/Courses',
-        }
+        },
     })
-    return useIntlMemo((intl) => [
+    return useIntlMemo(intl => [
         {
             name: 'dates',
             title: intl.formatMessage({
@@ -262,24 +239,20 @@ function useColumns() {
             title({ place }) {
                 return place ? (
                     <Helper
-                        title={
-                            intl.formatMessage(
-                                messages.distanceDescription,
-                                { place: place.text }
-                            )
-                        }
-                    >
+                        title={intl.formatMessage(messages.distanceDescription, {
+                            place: place.text,
+                        })}>
                         <FormattedMessage
                             description="Layout ast/tables/Courses"
                             defaultMessage="Distance"
                         />
                     </Helper>
                 ) : (
-                        intl.formatMessage({
-                            defaultMessage: 'Distance',
-                            description: 'Layout ast/tables/Courses',
-                        })
-                    )
+                    intl.formatMessage({
+                        defaultMessage: 'Distance',
+                        description: 'Layout ast/tables/Courses',
+                    })
+                )
             },
             property({ distance }) {
                 return <Distance value={distance} />
@@ -328,13 +301,7 @@ const SORTERS = new Map([
         ASC,
         new Map([
             ['provider', (a, b) => sortByName(a, b) || sortByDate(a, b)],
-            [
-                'distance',
-                (a, b) =>
-                    sortByDistance(a, b) ||
-                    sortByDate(a, b) ||
-                    sortByName(a, b),
-            ],
+            ['distance', (a, b) => sortByDistance(a, b) || sortByDate(a, b) || sortByName(a, b)],
             ['dates', (a, b) => sortByDate(a, b) || sortByName(a, b)],
         ]),
     ],
@@ -342,13 +309,7 @@ const SORTERS = new Map([
         DESC,
         new Map([
             ['provider', (a, b) => sortByName(b, a) || sortByDate(a, b)],
-            [
-                'distance',
-                (a, b) =>
-                    sortByDistance(b, a) ||
-                    sortByDate(a, b) ||
-                    sortByName(a, b),
-            ],
+            ['distance', (a, b) => sortByDistance(b, a) || sortByDate(a, b) || sortByName(a, b)],
             ['dates', (a, b) => sortByDate(b, a) || sortByName(a, b)],
         ]),
     ],

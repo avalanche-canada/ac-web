@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import css from './Description.css'
+import css from './Description.module.css'
 
 Term.propTypes = {
     children: PropTypes.node.isRequired,

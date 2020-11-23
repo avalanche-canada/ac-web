@@ -5,7 +5,36 @@ import { FormattedMessage } from 'react-intl'
 import Section from 'layouts/products/min/Section'
 import { List, Term, Definition } from 'components/description'
 import { StructuredText } from 'prismic/components/base'
-import styles from './Advisory.css'
+import styles from './Advisory.module.css'
+
+const TerrainFeatureKeys = new Map([
+    [
+        'treelineTerrainAvoidance',
+        [
+            'Unsupported',
+            'LeeSlopes',
+            'CrossloadedSlopes',
+            'Convex',
+            'ShallowSnowpack',
+            'VariableDepthSnowpack',
+        ],
+    ],
+    [
+        'belowTreelineTerrainAvoidance',
+        ['Creeks', 'Unsupported', 'LeeSlopes', 'Convex', 'Cutblocks', 'RunoutZones'],
+    ],
+    [
+        'alpineTerrainAvoidance',
+        [
+            'Unsupported',
+            'LeeSlopes',
+            'CrossloadedSlopes',
+            'Convex',
+            'ShallowSnowpack',
+            'VariableDepthSnowpack',
+        ],
+    ],
+])
 
 function AvoidItem({ children, value }) {
     const className = value === 'Yes' ? 'Avoid' : 'Okay'
@@ -20,9 +49,7 @@ function Aspects({ prefix, report }) {
     return (
         <AvoidList>
             {ASPECTS.map((aspect, index) => (
-                <AvoidItem value={report[prefix + aspect]}>
-                    {aspects.get(index)}
-                </AvoidItem>
+                <AvoidItem value={report[prefix + aspect]}>{aspects.get(index)}</AvoidItem>
             ))}
         </AvoidList>
     )
@@ -94,8 +121,7 @@ function AvoidList({ children }) {
 }
 function useTerrainFeatureTitles() {
     return useIntlMemo(intl => {
-        const description =
-            'Layout products/advisory - Advisory Terrain Summary'
+        const description = 'Layout products/advisory - Advisory Terrain Summary'
 
         return new Map([
             [
@@ -164,38 +190,3 @@ function useTerrainFeatureTitles() {
         ])
     })
 }
-const TerrainFeatureKeys = new Map([
-    [
-        'treelineTerrainAvoidance',
-        [
-            'Unsupported',
-            'LeeSlopes',
-            'CrossloadedSlopes',
-            'Convex',
-            'ShallowSnowpack',
-            'VariableDepthSnowpack',
-        ],
-    ],
-    [
-        'belowTreelineTerrainAvoidance',
-        [
-            'Creeks',
-            'Unsupported',
-            'LeeSlopes',
-            'Convex',
-            'Cutblocks',
-            'RunoutZones',
-        ],
-    ],
-    [
-        'alpineTerrainAvoidance',
-        [
-            'Unsupported',
-            'LeeSlopes',
-            'CrossloadedSlopes',
-            'Convex',
-            'ShallowSnowpack',
-            'VariableDepthSnowpack',
-        ],
-    ],
-])
