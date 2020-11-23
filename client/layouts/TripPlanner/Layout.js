@@ -3,6 +3,7 @@ import bbox from '@turf/bbox'
 import { geometryCollection } from '@turf/helpers'
 import { getGeom } from '@turf/invariant'
 import { Link } from '@reach/router'
+import { FormattedMessage, useIntl } from 'react-intl'
 import Map from './Map'
 import TripPlanning from './TripPlanning'
 import Forecast from './Forecast'
@@ -17,18 +18,15 @@ import Drawer, {
     RIGHT,
     LEFT,
 } from 'components/page/drawer'
-import * as utils from 'utils/region'
 import { useWindowSize } from 'hooks'
 import { Provider as MapStateProvider } from 'contexts/map/state'
 import { Screen } from 'layouts/pages'
 import Button, { SUBTILE } from 'components/button'
 import { Download } from 'components/icons'
 import Dialog from './Download'
-import styles from './TripPlanner.css'
-import { FormattedMessage, useIntl } from 'react-intl'
 import { useName } from 'constants/products/names'
 import { FORECAST } from 'constants/products'
-import { useMetadata } from 'hooks/async/api/metadata'
+import styles from './TripPlanner.css'
 
 export default class TripPlannerLayout extends PureComponent {
     state = {
@@ -108,29 +106,17 @@ export default class TripPlannerLayout extends PureComponent {
             showDownloadDialog: false,
         })
     }
-    handleRegionLocateClick = () => {
-        const { id } = this.state.region
-        const region = this.regions.find(region => region.id === id)
-
-        this.fitBounds(utils.geometry(region))
-    }
-    setData = ({ data }) => {
-        this.regions = data || []
-
-        return null
-    }
     handleLeftCloseClick = () => this.setState({ left: false, zone: null })
     handleRightCloseClick = () => this.setState({ right: false })
     renderRegionHeader() {
         const { name, id } = this.state.region
 
         return (
-            <Header subject={useName(FORECAST)}>
+            <Header subject={<Subject />}>
                 <h1>
                     <Link to={`/forecasts/${id}`} target={id}>
                         {name}
                     </Link>
-                    <DisplayOnMap onClick={this.handleRegionLocateClick} />
                 </h1>
             </Header>
         )
@@ -255,7 +241,6 @@ export default class TripPlannerLayout extends PureComponent {
                         onFeaturesSelect={this.handleFeaturesSelect}
                     />
                     <Window>{props => this.renderDrawers(props)}</Window>
-                    <Regions>{this.setData}</Regions>
                     {showDownloadDialog && (
                         <Dialog
                             onClose={this.handleDownloadClose}
@@ -271,14 +256,11 @@ export default class TripPlannerLayout extends PureComponent {
 
 // Constants & utils
 // TODO Remove that <Window> component
+function Subject() {
+    return useName(FORECAST)
+}
 function Window({ children }) {
     return children(useWindowSize())
-}
-// TODO Remove that component once converted to functionnal component
-function Regions({ children }) {
-    const [data, pending] = useMetadata()
-
-    return children({ data, pending })
 }
 const NAVBAR_STYLE = {
     justifyContent: 'space-between',
