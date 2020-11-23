@@ -239,7 +239,7 @@ export function useMountainInformationNetwork(map) {
 
     // Icons but not active and incidents
     key = Products.MOUNTAIN_INFORMATION_NETWORK
-    layer = createLayer(key, key, 'symbol')
+    let layer = createLayer(key, key, 'symbol')
 
     mapbox.useSource(map, key, CLUSTER, others)
     mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
@@ -247,7 +247,7 @@ export function useMountainInformationNetwork(map) {
     // Incident icons
     key = Products.MOUNTAIN_INFORMATION_NETWORK + '-incidents'
     let style = STYLES[Products.MOUNTAIN_INFORMATION_NETWORK].symbol
-    let layer = createLayer(key, key, 'symbol', style)
+    layer = createLayer(key, key, 'symbol', style)
 
     mapbox.useSource(map, key, GEOJSON, incidents)
     mapbox.useLayer(map, layer, undefined, visible, filter, EVENTS)
