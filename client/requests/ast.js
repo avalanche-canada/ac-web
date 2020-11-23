@@ -28,6 +28,7 @@ function filterOutPastCourses(courses) {
 
     return courses.filter(course => isAfter(course.date_end, now))
 }
+// FIXME This should be done on the server!
 function sortCourses(courses) {
     return courses.sort((a, b) => sortByDate(a, b) || sortByName(a, b))
 }
