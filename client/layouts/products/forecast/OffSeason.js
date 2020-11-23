@@ -5,7 +5,7 @@ import * as urls from 'utils/url'
 import config from 'assets/config.json'
 import { FALL, SPRING, SUMMER } from 'constants/offseason/seasons'
 import { OFFSEASON } from 'constants/products'
-import styles from './OffSeason.css'
+import styles from './OffSeason.module.css'
 
 export default function OffSeason() {
     const { type } = useForecast()
@@ -21,12 +21,7 @@ export default function OffSeason() {
     return (
         <div className={styles.Condition}>
             <h2 className={styles.ConditionHeader}>{display}</h2>
-            <img
-                className={styles.ConditionIcon}
-                title={display}
-                alt={display}
-                src={src}
-            />
+            <img className={styles.ConditionIcon} title={display} alt={display} src={src} />
             <div className={styles.ConditionContent}>
                 <InnerHTML>{message}</InnerHTML>
             </div>
