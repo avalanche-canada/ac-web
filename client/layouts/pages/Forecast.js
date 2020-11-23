@@ -100,7 +100,7 @@ function Title({ name }) {
 }
 function ForecastContent({ payload }) {
     if (payload.owner.isExternal) {
-        open(payload.url, payload.slug)
+        window.open(payload.url, payload.slug)
 
         return <Redirect to="/forecasts" />
     }

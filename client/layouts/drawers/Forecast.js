@@ -88,7 +88,7 @@ export default function ForeastDrawer() {
 // Utils and Constants
 function ForecastContent({ payload }) {
     if (payload.owner.isExternal) {
-        open(payload.url, payload.slug)
+        window.open(payload.url, payload.slug)
 
         return <Redirect to="/map" />
     }

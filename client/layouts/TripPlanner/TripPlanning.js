@@ -13,10 +13,7 @@ import { Option } from 'components/controls/options'
 import ChartLegend from './panels/ChartLegend'
 import MapLegend from './panels/MapLegend'
 import { Help } from './panels/Welcome'
-import Elevations, {
-    ALP,
-    useTexts,
-} from 'constants/products/forecast/elevation'
+import Elevations, { ALP, useTexts } from 'constants/products/forecast/elevation'
 import Ates, { SIMPLE } from 'constants/products/forecast/ates'
 import { FormattedMessage } from 'react-intl'
 import { Generic } from 'prismic/layouts'
@@ -47,43 +44,48 @@ export default function TripPlanning(props) {
 
     return (
         <Fragment>
-            {region ? (
-                <Async.Provider value={useForecast(region.id)}>
-                    <div style={CONTENT_STYLE}>
-                        <Async.Pending>
-                            <Muted>
-                                <FormattedMessage defaultMessage="Loading avalanche forecast..." />
-                            </Muted>
-                        </Async.Pending>
-                        <Async.Found>
-                            <Content {...props} />
-                        </Async.Found>
-                    </div>
-                    <MapLegend />
-                </Async.Provider>
-            ) : (
-                <Shim horizontal>
-                    <Muted>
-                        <p>
-                            <FormattedMessage
-                                description="Layout TripPlanner/TripPlanning"
-                                defaultMessage="No danger ratings are available to run the TripPlanner in that zone."
-                            />
-                        </p>
-                        <p>
-                            <FormattedMessage
-                                description="Layout TripPlanner/TripPlanning"
-                                defaultMessage="Avalanche Forecast are not produce for every region, in some cases they are available externally."
-                            />
-                        </p>
-                    </Muted>
-                </Shim>
-            )}
+            {region ? <Forecast id={region.id} {...props} /> : <NoDangerRatings />}
             <Help />
         </Fragment>
     )
 }
 
+// Utils
+function Forecast({ id, ...props }) {
+    return (
+        <Async.Provider value={useForecast(id)}>
+            <div style={CONTENT_STYLE}>
+                <Async.Pending>
+                    <Muted>
+                        <FormattedMessage defaultMessage="Loading avalanche forecast..." />
+                    </Muted>
+                </Async.Pending>
+                <Async.Found>
+                    <Content {...props} />
+                </Async.Found>
+            </div>
+            <MapLegend />
+        </Async.Provider>
+    )
+}
+function NoDangerRatings() {
+    return (
+        <Shim horizontal>
+            <Muted as="p">
+                <FormattedMessage
+                    description="Layout TripPlanner/TripPlanning"
+                    defaultMessage="No danger ratings are available to run the TripPlanner in that zone."
+                />
+            </Muted>
+            <Muted as="p">
+                <FormattedMessage
+                    description="Layout TripPlanner/TripPlanning"
+                    defaultMessage="Avalanche Forecast are not produce for every region, in some cases they are available externally."
+                />
+            </Muted>
+        </Shim>
+    )
+}
 Content.propTypes = {
     elevation: PropTypes.oneOf(Array.from(Elevations)).isRequired,
     onElevationChange: PropTypes.func.isRequired,
@@ -108,9 +110,7 @@ function Content({ payload, ...props }) {
     const { elevation } = props
     const date = props.date || new Date(dangerRatings[0].date.value)
     const dates = dangerRatings.map(ratings => new Date(ratings.date.value))
-    const { ratings } = dangerRatings.find((_, index) =>
-        isSameDay(date, dates[index])
-    )
+    const { ratings } = dangerRatings.find((_, index) => isSameDay(date, dates[index]))
     const danger =
         zone.rating === SIMPLE
             ? ratings[elevation.toLowerCase()].rating.value
@@ -166,10 +166,7 @@ function Form({ elevation, onElevationChange, onDateChange, date, dates }) {
                         defaultMessage="Day"
                     />
                 </label>
-                <Dropdown
-                    onChange={handleDateChange}
-                    value={date.getTime()}
-                    style={INPUT_STYLE}>
+                <Dropdown onChange={handleDateChange} value={date.getTime()} style={INPUT_STYLE}>
                     {dates.map((date, index) => (
                         <Option key={index} value={date.getTime()}>
                             <Day value={date} />
@@ -184,10 +181,7 @@ function Form({ elevation, onElevationChange, onDateChange, date, dates }) {
                         defaultMessage="Elevation"
                     />
                 </label>
-                <Dropdown
-                    onChange={onElevationChange}
-                    value={elevation}
-                    style={INPUT_STYLE}>
+                <Dropdown onChange={onElevationChange} value={elevation} style={INPUT_STYLE}>
                     {Array.from(elevationTexts, ([value, text]) => (
                         <Option key={value} value={value}>
                             {text}
