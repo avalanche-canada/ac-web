@@ -116,7 +116,7 @@ export default async function polyfills(self) {
         }
     } catch (error) {
         if (error.name === 'ChunkLoadError') {
-            window.location.reload(true)
+            window.location.reload()
 
             return
         }
