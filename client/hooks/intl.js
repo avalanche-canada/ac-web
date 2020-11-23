@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import * as React from 'react'
 import { useIntl } from 'react-intl'
 import { DATE, MONTH } from 'constants/intl'
 import { FR } from 'constants/locale'
@@ -10,7 +10,7 @@ export function useIntlMemo(compute, dependencies) {
         ? [intl.locale, ...dependencies]
         : dependencies
 
-    return useMemo(() => compute(intl), dependencies)
+    return React.useMemo(() => compute(intl), dependencies)
 }
 
 export function useMonths() {

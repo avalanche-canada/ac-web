@@ -1,7 +1,7 @@
-import { useMemo } from 'react'
+import * as React from 'react'
 
 export function useSorting(collection, compare, reversed = false) {
-    return useMemo(() => {
+    return React.useMemo(() => {
         if (!Array.isArray(collection)) {
             return
         }
@@ -18,7 +18,7 @@ export function useSorting(collection, compare, reversed = false) {
 }
 
 export function usePagination(collection, page = 1, pageSize = 25) {
-    return useMemo(() => {
+    return React.useMemo(() => {
         const begin = (page - 1) * pageSize
         const end = begin + pageSize
 
@@ -27,7 +27,7 @@ export function usePagination(collection, page = 1, pageSize = 25) {
 }
 
 export function useFilters(collection, predicates) {
-    return useMemo(() => {
+    return React.useMemo(() => {
         if (Array.isArray(collection)) {
             return predicates.reduce(predicateReducer, collection)
         }

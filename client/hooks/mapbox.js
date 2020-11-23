@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef, forwardRef } from 'react'
+import * as React from 'react'
 import mapbox from 'mapbox-gl/dist/mapbox-gl'
 import { ACCESS_TOKEN, STYLES } from 'services/mapbox/config'
 import { useLazyRef } from 'hooks'
@@ -8,9 +8,9 @@ import { captureException } from 'services/sentry'
 mapbox.accessToken = ACCESS_TOKEN
 
 export function useMap(ref, options) {
-    const [map, setMap] = useState()
+    const [map, setMap] = React.useState()
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!ref.current) {
             return
         }
@@ -38,15 +38,15 @@ export function useMap(ref, options) {
 }
 
 export function useSource(map, id, source, data) {
-    const added = useRef(false)
+    const added = React.useRef(false)
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (added.current) {
             map.getSource(id).setData(data)
         }
     }, [added.current, data])
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!map || map.getSource(id)) {
             return
         }
@@ -63,9 +63,9 @@ export function useSource(map, id, source, data) {
 // Perhaps more hooks could be created, but it not be as efficient
 export function useLayer(map, layer, beforeId, visible = true, filter, events) {
     const visibility = visible ? 'visible' : 'none'
-    const added = useRef(false)
+    const added = React.useRef(false)
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!map) {
             return
         }
@@ -88,13 +88,13 @@ export function useLayer(map, layer, beforeId, visible = true, filter, events) {
         added.current = true
     }, [map])
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (added.current) {
             map.setLayoutProperty(layer.id, 'visibility', visibility)
         }
     }, [visible, added.current])
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (added.current) {
             map.setFilter(layer.id, filter)
         }
@@ -104,7 +104,7 @@ export function useLayer(map, layer, beforeId, visible = true, filter, events) {
 }
 
 export function useMarkers(map, definitions) {
-    const markers = useMemo(() => {
+    const markers = React.useMemo(() => {
         if (!Array.isArray(definitions)) {
             return
         }
@@ -119,7 +119,7 @@ export function useMarkers(map, definitions) {
         })
     }, [definitions])
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!map || !Array.isArray(markers)) {
             return
         }
@@ -140,7 +140,7 @@ export function useMarkers(map, definitions) {
 
 export function useMarker(map, lnglat, options) {
     const definition = [lnglat, options]
-    const definitions = useMemo(() => [definition], definition)
+    const definitions = React.useMemo(() => [definition], definition)
 
     return useMarkers(map, definitions)[0]
 }
@@ -163,12 +163,12 @@ export function useGeolocateControl(map, props, position) {
 }
 
 // One component to make creating map easier(ish)
-export const Map = forwardRef(({ options, ...props }, ref) => {
-    const div = useRef(null)
+export const Map = React.forwardRef(({ options, ...props }, ref) => {
+    const div = React.useRef(null)
     const map = useMap(div, options)
 
     // To prevent an infinite loop
-    useEffect(() => {
+    React.useEffect(() => {
         if (map) {
             ref(map)
         }
@@ -181,7 +181,7 @@ export const Map = forwardRef(({ options, ...props }, ref) => {
 function useControl(map, ControlClass, props, position = 'bottom-right') {
     const control = useLazyRef(() => new ControlClass(props))
 
-    useEffect(() => {
+    React.useEffect(() => {
         if (!map) {
             return
         }

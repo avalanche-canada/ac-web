@@ -1,17 +1,10 @@
-import {
-    useState,
-    useEffect,
-    useRef,
-    useCallback,
-    useMemo,
-    useReducer,
-} from 'react'
+import * as React from 'react'
 import throttle from 'lodash/throttle'
 import { Local, Session } from 'services/storage'
 import { captureMessage } from 'services/sentry'
 
 export function useLazyRef(fn) {
-    const ref = useRef(null)
+    const ref = React.useRef(null)
 
     if (ref.current === null) {
         ref.current = fn()
@@ -22,13 +15,13 @@ export function useLazyRef(fn) {
 
 export function useBoolean(initial) {
     const [bool, toggle] = useToggle(initial)
-    const activate = useCallback(() => {
+    const activate = React.useCallback(() => {
         toggle(true)
     }, [])
-    const deactivate = useCallback(() => {
+    const deactivate = React.useCallback(() => {
         toggle(false)
     }, [])
-    const reset = useCallback(() => {
+    const reset = React.useCallback(() => {
         toggle(initial)
     }, [])
 
@@ -36,8 +29,8 @@ export function useBoolean(initial) {
 }
 
 export function useToggle(initial) {
-    const [bool, set] = useState(initial)
-    const toggle = useCallback(next => {
+    const [bool, set] = React.useState(initial)
+    const toggle = React.useCallback(next => {
         if (typeof next === 'boolean') {
             set(next)
         } else {
@@ -52,7 +45,7 @@ export function useToggle(initial) {
 export function useTimeout(elapse = 0) {
     const [ready, setReady] = useBoolean(false)
 
-    useEffect(() => {
+    React.useEffect(() => {
         const timer = setTimeout(setReady, elapse)
 
         return () => {
@@ -65,7 +58,7 @@ export function useTimeout(elapse = 0) {
 
 export function useWindowSize(wait = 250) {
     const [size, setSize] = useSafeState(getWindowSize())
-    const handleResize = useCallback(
+    const handleResize = React.useCallback(
         throttle(() => {
             setSize(getWindowSize())
         }, wait),
@@ -79,7 +72,7 @@ export function useWindowSize(wait = 250) {
 }
 
 export function useEventListener(eventName, handler, element = window) {
-    useEffect(() => {
+    React.useEffect(() => {
         if (
             element === null ||
             !element.addEventListener ||
@@ -97,9 +90,11 @@ export function useEventListener(eventName, handler, element = window) {
 }
 
 function useStorage(storage, key, defaultValue = null) {
-    const [value, setValue] = useState(() => storage.get(key, defaultValue))
+    const [value, setValue] = React.useState(() =>
+        storage.get(key, defaultValue)
+    )
 
-    useEffect(() => {
+    React.useEffect(() => {
         storage.set(key, value)
     }, [value])
 
@@ -120,7 +115,7 @@ export function useCounter(
     max = Number.MAX_SAFE_INTEGER,
     cycle = false
 ) {
-    const [counter, setCounter] = useState(initialCounter)
+    const [counter, setCounter] = React.useState(initialCounter)
     function increment(step = 1) {
         const value = counter + step
 
@@ -142,9 +137,9 @@ export function useCounter(
 }
 
 export function useClientRect(initialRect) {
-    const [rect, setRect] = useState(initialRect)
-    const node = useRef(null)
-    const ref = useCallback(current => {
+    const [rect, setRect] = React.useState(initialRect)
+    const node = React.useRef(null)
+    const ref = React.useCallback(current => {
         if (current) {
             setRect(current.getBoundingClientRect())
             node.current = current
@@ -152,7 +147,7 @@ export function useClientRect(initialRect) {
     }, [])
 
     // FIXME Use ResizeObserver instead, but it requires a polyfill!
-    useEffect(() => {
+    React.useEffect(() => {
         if (node.current) {
             setRect(node.current.getBoundingClientRect())
         }
@@ -163,7 +158,7 @@ export function useClientRect(initialRect) {
 
 export function useRatio(x = 16, y = 9) {
     const [rect, ref] = useClientRect()
-    const dimensions = useMemo(() => {
+    const dimensions = React.useMemo(() => {
         if (!rect) {
             return null
         }
@@ -180,8 +175,8 @@ export function useRatio(x = 16, y = 9) {
 }
 
 export function useFullscreen() {
-    const ref = useRef(null)
-    const enter = useCallback(() => {
+    const ref = React.useRef(null)
+    const enter = React.useCallback(() => {
         const { current } = ref
 
         if (!current || !document.fullscreenEnabled) {
@@ -202,7 +197,7 @@ export function useFullscreen() {
             captureMessage('Can not request Fullscreen. ' + error.message)
         }
     }, [ref.current])
-    const exit = useCallback(() => {
+    const exit = React.useCallback(() => {
         if (!getFullscreenElement()) {
             return
         }
@@ -217,7 +212,7 @@ export function useFullscreen() {
             document.msExitFullscreen()
         }
     }, [])
-    const toggle = useCallback(() => {
+    const toggle = React.useCallback(() => {
         getFullscreenElement() ? exit() : enter()
     }, [enter])
 
@@ -225,9 +220,9 @@ export function useFullscreen() {
 }
 
 export function useMounted() {
-    const mounted = useRef(false)
+    const mounted = React.useRef(false)
 
-    useEffect(() => {
+    React.useEffect(() => {
         mounted.current = true
 
         return () => {
@@ -239,8 +234,8 @@ export function useMounted() {
 }
 
 export function useScroll(ref) {
-    const [position, setPosition] = useState([0, 0]) // Could set position after mounted
-    const handler = useCallback(
+    const [position, setPosition] = React.useState([0, 0]) // Could set position after mounted
+    const handler = React.useCallback(
         throttle(event => {
             const { scrollLeft, scrollTop } = event.target
 
@@ -271,8 +266,8 @@ function getFullscreenElement() {
 }
 function useSafeState(initialState) {
     const mounted = useMounted()
-    const [state, setState] = useState(initialState)
-    const setStateSafely = useCallback(state => {
+    const [state, setState] = React.useState(initialState)
+    const setStateSafely = React.useCallback(state => {
         if (mounted.current) {
             setState(state)
         }
@@ -282,14 +277,14 @@ function useSafeState(initialState) {
 }
 
 export function useCurrentPosition(options) {
-    const [state, dispatch] = useReducer(positionReducer, {
+    const [state, dispatch] = React.useReducer(positionReducer, {
         status: 'idle',
         longitude: null,
         latitude: null,
         error: null,
     })
 
-    useEffect(() => {
+    React.useEffect(() => {
         const { geolocation } = navigator
 
         if (!geolocation) {

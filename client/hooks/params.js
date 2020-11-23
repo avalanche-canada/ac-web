@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import * as React from 'react'
 import formatDate from 'date-fns/format'
 import parseDate from 'date-fns/parse'
 import identity from 'lodash/identity'
@@ -7,7 +7,7 @@ import { ASC, DESC, NONE } from 'constants/sortings'
 
 export default function useParams(definition) {
     const { location } = useLocation()
-    const params = useMemo(() => {
+    const params = React.useMemo(() => {
         const params = new URLSearchParams(location.search)
         const values = {}
 
