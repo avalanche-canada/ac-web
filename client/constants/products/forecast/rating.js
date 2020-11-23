@@ -1,5 +1,4 @@
-import { useMemo } from 'react'
-import { useIntl } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
 
 export const LOW = 'low'
 export const MODERATE = 'moderate'
@@ -14,10 +13,8 @@ export const LEVELS = [LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME, NO_RATING]
 export default new Set(LEVELS)
 
 export function useTravelAdvices() {
-    const intl = useIntl()
-
-    return useMemo(
-        () =>
+    return useIntlMemo(
+        intl =>
             new Map([
                 [
                     EXTREME,
@@ -59,16 +56,13 @@ export function useTravelAdvices() {
                     }),
                 ],
                 [NO_RATING, null],
-            ]),
-        [intl]
+            ])
     )
 }
 
 export function useLikehoodOfAvalanche() {
-    const intl = useIntl()
-
-    return useMemo(
-        () =>
+    return useIntlMemo(
+        intl =>
             new Map([
                 [
                     EXTREME,
@@ -114,16 +108,13 @@ export function useLikehoodOfAvalanche() {
                     }),
                 ],
                 [NO_RATING, null],
-            ]),
-        [intl]
+            ])
     )
 }
 
 export function useSizeAndDistribution() {
-    const intl = useIntl()
-
-    return useMemo(
-        () =>
+    return useIntlMemo(
+        intl =>
             new Map([
                 [
                     EXTREME,
@@ -169,16 +160,13 @@ export function useSizeAndDistribution() {
                     }),
                 ],
                 [NO_RATING, null],
-            ]),
-        [intl]
+            ])
     )
 }
 
 export function useTexts() {
-    const intl = useIntl()
-
-    return useMemo(
-        () =>
+    return useIntlMemo(
+        intl =>
             new Map([
                 [
                     EXTREME,
@@ -222,8 +210,7 @@ export function useTexts() {
                         defaultMessage: '0 - No Rating',
                     }),
                 ],
-            ]),
-        [intl]
+            ])
     )
 }
 

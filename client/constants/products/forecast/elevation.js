@@ -1,5 +1,4 @@
-import { useMemo } from 'react'
-import { useIntl } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
 
 export const ALP = 'alp'
 export const TLN = 'tln'
@@ -14,10 +13,8 @@ export function useText(elevation) {
 }
 
 export function useTexts() {
-    const intl = useIntl()
-
-    return useMemo(
-        () =>
+    return useIntlMemo(
+        intl =>
             new Map([
                 [
                     ALP,
@@ -40,7 +37,6 @@ export function useTexts() {
                         defaultMessage: 'Below treeline',
                     }),
                 ],
-            ]),
-        [intl]
+            ])
     )
 }

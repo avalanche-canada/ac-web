@@ -1,5 +1,5 @@
-import * as MIN_COLORS from 'components/icons/min/colors'
 import { useIntlMemo } from 'hooks/intl'
+import * as Colors from 'components/icons/min/colors'
 
 export const QUICK = 'quick'
 export const WEATHER = 'weather'
@@ -60,9 +60,9 @@ export function useNames() {
 }
 
 export const COLORS = new Map([
-    [QUICK, MIN_COLORS.QUICK],
-    [AVALANCHE, MIN_COLORS.AVALANCHE],
-    [SNOWPACK, MIN_COLORS.SNOWPACK],
-    [WEATHER, MIN_COLORS.WEATHER],
-    [INCIDENT, MIN_COLORS.INCIDENT],
+    [QUICK, Colors.QUICK],
+    [AVALANCHE, Colors.AVALANCHE],
+    [SNOWPACK, Colors.SNOWPACK],
+    [WEATHER, Colors.WEATHER],
+    [INCIDENT, Colors.INCIDENT],
 ])
