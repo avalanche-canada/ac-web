@@ -23,7 +23,7 @@ export default function application() {
                     <StrictMode>
                         <Analytics>
                             <ScrollTo>
-                                <NotProductionWarning />
+                                {/* <NotProductionWarning /> */}
                                 <Router primary={false}>
                                     <AvalancheCanada path="/*" />
                                     <AvalancheCanadaFoundation path="foundation/*" />
@@ -62,9 +62,7 @@ function NotProductionWarning() {
                 <div style={STYLE}>
                     <h1>This is not the real Avalanche Canada website.</h1>
                     <p className="secondary-big-button" style={{ flex: 1 }}>
-                        <a href="https://avalanche.ca">
-                            Bring me to avalanche.ca
-                        </a>
+                        <a href="https://avalanche.ca">Bring me to avalanche.ca</a>
                     </p>
                 </div>
             </Body>
