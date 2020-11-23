@@ -5,6 +5,9 @@ import { shouldPolyfill as shouldPolyfillIntlDisplayNames } from '@formatjs/intl
 import { shouldPolyfill as shouldPolyfillIntlPluralRules } from '@formatjs/intl-pluralrules/should-polyfill'
 import { shouldPolyfill as shouldPolyfillIntlNumberFormat } from '@formatjs/intl-numberformat/should-polyfill'
 import { shouldPolyfill as shouldPolyfillIntlDatetimeFormat } from '@formatjs/intl-datetimeformat/should-polyfill'
+import { shouldPolyfill as shouldPolyfillIntlRelativetimeFormat } from '@formatjs/intl-relativetimeformat/should-polyfill'
+import { shouldPolyfill as shouldPolyfillIntlListFormat } from '@formatjs/intl-listformat/should-polyfill'
+import { shouldPolyfill as shouldPolyfillIntlLocaleFormat } from '@formatjs/intl-locale/should-polyfill'
 
 export default async function polyfills(self) {
     try {
@@ -40,8 +43,14 @@ export default async function polyfills(self) {
             await import('details-element-polyfill')
         }
 
+        // This platform already supports Intl.getCanonicalLocales
         if (shouldPolyfillIntlGetCanonicalLocales()) {
             await import('@formatjs/intl-getcanonicallocales/polyfill')
+        }
+
+        // This platform already supports Intl.Locale
+        if (shouldPolyfillIntlLocaleFormat()) {
+            await import('@formatjs/intl-locale/polyfill')
         }
 
         if (shouldPolyfillIntlPluralRules()) {
@@ -84,6 +93,27 @@ export default async function polyfills(self) {
                 import('@formatjs/intl-datetimeformat/locale-data/fr'),
             ])
         }
+
+        if (shouldPolyfillIntlRelativetimeFormat()) {
+            // Load the polyfill 1st BEFORE loading data
+            await import('@formatjs/intl-relativetimeformat/polyfill')
+        }
+
+        if (Intl.RelativeTimeFormat.polyfilled) {
+            await import('@formatjs/intl-relativetimeformat/locale-data/en')
+            await import('@formatjs/intl-relativetimeformat/locale-data/fr')
+        }
+
+        // This platform already supports Intl.ListFormat
+        if (shouldPolyfillIntlListFormat()) {
+            // Load the polyfill 1st BEFORE loading data
+            await import('@formatjs/intl-listformat/polyfill')
+        }
+
+        if (Intl.ListFormat.polyfilled) {
+            await import('@formatjs/intl-listformat/locale-data/en')
+            await import('@formatjs/intl-listformat/locale-data/fr')
+        }
     } catch (error) {
         if (error.name === 'ChunkLoadError') {
             window.location.reload(true)
@@ -103,12 +133,10 @@ function urlSearchParamsSupported(self) {
                 ? self.URLSearchParams
                 : null,
         isSupportObjectConstructor =
-            nativeURLSearchParams &&
-            new nativeURLSearchParams({ a: 1 }).toString() === 'a=1',
+            nativeURLSearchParams && new nativeURLSearchParams({ a: 1 }).toString() === 'a=1',
         // There is a bug in safari 10.1 (and earlier) that incorrectly decodes `%2B` as an empty space and not a plus.
         decodesPlusesCorrectly =
-            nativeURLSearchParams &&
-            new nativeURLSearchParams('s=%2B').get('s') === '+',
+            nativeURLSearchParams && new nativeURLSearchParams('s=%2B').get('s') === '+',
         // Fix bug in Edge which cannot encode ' &' correctly
         encodesAmpersandsCorrectly = nativeURLSearchParams
             ? (function() {
