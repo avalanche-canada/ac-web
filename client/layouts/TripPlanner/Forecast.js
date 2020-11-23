@@ -34,7 +34,7 @@ export default function Forecast({ id }) {
                     <FormattedMessage
                         description="Layout TripPlanner/Forecast"
                         defaultMessage="No avalanche forecast has been found for {name}."
-                        values={{ name }}
+                        values={{ name: id }}
                     />
                 </Warning>
             </Async.NotFound>
