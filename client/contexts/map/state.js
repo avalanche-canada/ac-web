@@ -26,6 +26,7 @@ export function Provider({ children }) {
 }
 
 function useContextValue() {
+    // Could also "useReducer"
     const [zoom, setZoom] = useSessionStorage('zoom', ZOOM)
     const [center, setCenter] = useSessionStorage('center', CENTER)
     const errors = useErrors()
@@ -64,9 +65,9 @@ export function useGuessBounds() {
     }
 
     const point = [position.longitude, position.latitude]
-    const Bounds = mapboxgl.LngLatBounds
+    const { LngLatBounds } = mapboxgl
 
-    return BOUNDS.find(bounds => Bounds.convert(bounds).contains(point))
+    return BOUNDS.find(bounds => LngLatBounds.convert(bounds).contains(point))
 }
 
 function useErrors() {
@@ -104,6 +105,7 @@ function useErrors() {
 }
 
 // Constants
+// TODO Reuse product
 export const ERRORS = {
     FORECAST: Symbol('fx'),
     WEATHER_STATION: Symbol('wx'),

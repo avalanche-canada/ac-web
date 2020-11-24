@@ -1,9 +1,9 @@
 @import '../../styles/colors.css';
 
 .Sidebar {
-    composes: import Hash from '../../styles/Textures.css';
     padding: 1.5em 1.5em 3em;
     margin-top: 2em;
+    background-color: var(--gray-lightest);
 }
 
 .Header {
