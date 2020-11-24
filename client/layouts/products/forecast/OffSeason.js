@@ -33,6 +33,6 @@ export default function OffSeason() {
 // Constants
 const IconFilenames = new Map([
     [FALL, 'early_season_icon.svg'],
-    [SPRING, 'spring_icon.svg'],
+    [SPRING, 'spring_situation_icon.svg'],
     [SUMMER, 'summer_conditions_icon.svg'],
 ])
