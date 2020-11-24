@@ -84,6 +84,8 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
+    createPowderOnlineAuctionMessage(IOS),
+    createPowderOnlineAuctionMessage(ANDROID),
 ]
 
 function createRelease150Message(platform) {
@@ -117,5 +119,15 @@ function createMINIssuesFixedMessage(platform) {
         '<h1>MIN issues resolved</h1><p>Our issues with the Mountain Information Network have been resolved!</p><p>If you had trouble submitting an observation in the last few days, please try again.</p><p>If you continue to experience problems, please let us know by emailing <a href="mailto:support@avalanche.ca">support@avalanche.ca</a>.</p>',
         undefined,
         'info'
+    )
+}
+
+function createPowderOnlineAuctionMessage(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '9.9.9', platform),
+        'Party for Powder! Bid to support avalanche safety!',
+        "<h1>Party for Powder Online Auction</h1><p>Party for Powder online auction is open NOW! Place your bids on your favourite items today.</p><p><strong><a href=https://givergy.ca/ACFAuction/?controller=home>ONLINE SILENT AUCTION</a></strong></p><p>Due to COVID-19 the ACF was forced to cancel both the Whistler and Calgary fundraisers. Don't despair, on November 22, 2020 we kicked off our virtual auction with all of our fabulous donations featuring heli and cat ski trips, ski resort packages, gear, and lots of artwork. We will be adding new items during the week of the auction. The auction will close at 6:00pm MT on 29th November, 2020. The <a href=https://givergy.ca/ACFAuction/?controller=home>ONLINE SILENT AUCTION</a> is open now with more than 60 items featuring original artwork, trips and adventures and lots of cool gear.</p><p>Our goal is to keep everyone safe in the backcountry this winter. By supporting the Avalanche Canada Foundation Fundraiser you’re helping to save lives.</p>",
+        undefined,
+        'success'
     )
 }

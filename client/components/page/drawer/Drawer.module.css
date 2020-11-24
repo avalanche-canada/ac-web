@@ -1,5 +1,4 @@
 @import '../../../styles/colors.module.css';
-@import '../../../styles/Textures.module.css';
 
 .Content {
     height: 100%;
@@ -105,12 +104,11 @@
 }
 
 .Subject {
-    composes: Hash--Before;
-
+    background-color: var(--gray-lightest);
     position: relative;
     color: var(--brand-primary);
     font-size: 0.75em;
-    line-height: 1.5;
+    /* line-height: 1.5; */
     font-weight: 700;
     text-transform: uppercase;
 
