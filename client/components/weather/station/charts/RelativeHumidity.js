@@ -8,7 +8,7 @@ import {
     VictoryContainer,
     VictoryTooltip,
 } from 'victory'
-import { FormattedMessage, useIntl } from 'react-intl'
+import { useIntl } from 'react-intl'
 import { formatHours, scatterEvents } from '../utils'
 import { setUTCOffset } from 'utils/date'
 import theme from './theme'
