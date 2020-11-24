@@ -1,4 +1,4 @@
-import React from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import Panel from 'components/panel'
@@ -15,7 +15,14 @@ Footer.propTypes = {
 export default function Footer({ children }) {
     return (
         <footer className={styles.Footer}>
-            {children || [<ArchivedBulletins />, <DangerRatings />, <Inbox />, <Disclaimer />]}
+            {children || (
+                <React.Fragment>
+                    <ArchivedBulletins />
+                    <DangerRatings />
+                    <Inbox />
+                    <Disclaimer />
+                </React.Fragment>
+            )}
         </footer>
     )
 }
