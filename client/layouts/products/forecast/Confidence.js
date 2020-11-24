@@ -6,7 +6,7 @@ import Summary from './Summary'
 export default function Confidence() {
     const { confidence } = useReport()
 
-    if (!confidence?.rating) {
+    if (!confidence) {
         return null
     }
 
@@ -16,17 +16,19 @@ export default function Confidence() {
             <dt>
                 <FormattedMessage defaultMessage="Confidence" />
             </dt>
-            <dd>{rating.display}</dd>
+            <dd>{rating?.display}</dd>
         </dl>
     )
 
     return (
         <Summary title={title}>
-            <ul>
-                {statements.map((statement, index) => (
-                    <li key={index}>{statement}</li>
-                ))}
-            </ul>
+            {Array.isArray(statements) ? (
+                <ul>
+                    {statements.map((statement, index) => (
+                        <li key={index}>{statement}</li>
+                    ))}
+                </ul>
+            ) : null}
         </Summary>
     )
 }
