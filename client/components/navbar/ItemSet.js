@@ -1,15 +1,8 @@
-import React, {
-    cloneElement,
-    Children,
-    useState,
-    useEffect,
-    useRef,
-    useMemo,
-} from 'react'
+import React, { cloneElement, Children, useState, useEffect, useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useEventListener } from 'hooks'
 import keycodes from 'constants/keycodes'
-import styles from './Navbar.css'
+import styles from './Navbar.module.css'
 
 ItemSet.propTypes = {
     children: PropTypes.node.isRequired,
@@ -35,12 +28,8 @@ export default function ItemSet({ children, location }) {
             close()
         }
     }
-    const handleClick = useMemo(() => (opened ? clickEventHandler : null), [
-        opened,
-    ])
-    const handleKeyUp = useMemo(() => (opened ? keyUpEventHandler : null), [
-        opened,
-    ])
+    const handleClick = useMemo(() => (opened ? clickEventHandler : null), [opened])
+    const handleKeyUp = useMemo(() => (opened ? keyUpEventHandler : null), [opened])
 
     useEventListener('keyup', handleKeyUp)
     useEventListener('click', handleClick, document)

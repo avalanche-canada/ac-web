@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+import { useIntl } from 'react-intl'
 import * as ForecastPalette from 'constants/forecast/palette'
 
 export const LOW = 'LOW'
@@ -11,44 +13,111 @@ export const LEVELS = [NO_RATING, LOW, MODERATE, CONSIDERABLE, HIGH, EXTREME]
 
 export default new Set(LEVELS)
 
-export const TravelAdvices = new Map([
-    [EXTREME, 'Avoid all avalanche terrain.'],
-    [
-        HIGH,
-        'Very dangerous avalanche conditions.\n Travel in avalanche terrain not recommended.',
-    ],
-    [
-        CONSIDERABLE,
-        'Dangerous avalanche conditions. Careful snowpack evaluation,\n cautious route-finding and conservative decision-making essential.',
-    ],
-    [
-        MODERATE,
-        'Heightened avalanche conditions on specific terrain features.\n Evaluate snow and terrain carefully; identify features of concern.',
-    ],
-    [
-        LOW,
-        'Generally safe avalanche conditions.\n Watch for unstable snow on isolated terrain features.',
-    ],
-    [NO_RATING, null],
-])
+export function useTravelAdvices() {
+    const intl = useIntl()
 
-export const LikehoodOfAvalanche = new Map([
-    [EXTREME, 'Natural and human-triggered avalanches certain.'],
-    [
-        HIGH,
-        'Natural avalanches likely;\n human-triggered avalanches very likely.',
-    ],
-    [
-        CONSIDERABLE,
-        'Natural avalanches possible;\n human-triggered avalanches likely.',
-    ],
-    [
-        MODERATE,
-        'Natural avalanches unlikely;\n human-triggered avalanches possible.',
-    ],
-    [LOW, 'Natural and human-triggered avalanches unlikely.'],
-    [NO_RATING, null],
-])
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    EXTREME,
+                    intl.formatMessage({
+                        description: 'Travel Advice message for EXTREME',
+                        defaultMessage: 'Avoid all avalanche terrain.',
+                    }),
+                ],
+                [
+                    HIGH,
+                    intl.formatMessage({
+                        description: 'Travel Advice message for HIGH',
+                        defaultMessage:
+                            'Very dangerous avalanche conditions. Travel in avalanche terrain not recommended.',
+                    }),
+                ],
+                [
+                    CONSIDERABLE,
+                    intl.formatMessage({
+                        description: 'Travel Advice message for CONSIDERABLE',
+                        defaultMessage:
+                            'Dangerous avalanche conditions. Careful snowpack evaluation, cautious route-finding and conservative decision-making essential.',
+                    }),
+                ],
+                [
+                    MODERATE,
+                    intl.formatMessage({
+                        description: 'Travel Advice message for MODERATE',
+                        defaultMessage:
+                            'Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern.',
+                    }),
+                ],
+                [
+                    LOW,
+                    intl.formatMessage({
+                        description: 'Travel Advice message for LOW',
+                        defaultMessage:
+                            'Generally safe avalanche conditions. Watch for unstable snow on isolated terrain features.',
+                    }),
+                ],
+                [NO_RATING, null],
+            ]),
+        [intl]
+    )
+}
+
+export function useLikehoodOfAvalanche() {
+    const intl = useIntl()
+
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    EXTREME,
+                    intl.formatMessage({
+                        description:
+                            'Likelihood of Avalanche message for EXTREME',
+                        defaultMessage:
+                            'Natural and human-triggered avalanches certain.',
+                    }),
+                ],
+                [
+                    HIGH,
+                    intl.formatMessage({
+                        description: 'Likelihood of Avalanche message for HIGH',
+                        defaultMessage:
+                            'Natural avalanches likely; human-triggered avalanches very likely.',
+                    }),
+                ],
+                [
+                    CONSIDERABLE,
+                    intl.formatMessage({
+                        description:
+                            'Likelihood of Avalanche message for CONSIDERABLE',
+                        defaultMessage:
+                            'Natural avalanches possible; human-triggered avalanches likely.',
+                    }),
+                ],
+                [
+                    MODERATE,
+                    intl.formatMessage({
+                        description:
+                            'Likelihood of Avalanche message for MODERATE',
+                        defaultMessage:
+                            'Natural avalanches unlikely; human-triggered avalanches possible.',
+                    }),
+                ],
+                [
+                    LOW,
+                    intl.formatMessage({
+                        description: 'Likelihood of Avalanche message for LOW',
+                        defaultMessage:
+                            'Natural and human-triggered avalanches unlikely.',
+                    }),
+                ],
+                [NO_RATING, null],
+            ]),
+        [intl]
+    )
+}
 
 export const Palette = new Map([
     [EXTREME, ForecastPalette.BLACK],
@@ -59,29 +128,116 @@ export const Palette = new Map([
     [NO_RATING, ForecastPalette.WHITE],
 ])
 
-export const SizeAndDistribution = new Map([
-    [EXTREME, 'Large to very large avalanches in many areas.'],
-    [
-        HIGH,
-        'Large avalanches in many areas;\n or very large avalanches in specific areas.',
-    ],
-    [
-        CONSIDERABLE,
-        'Small avalanches in many areas;\n or large avalanches in specific areas;\n or very large avalanches in isolated areas.',
-    ],
-    [
-        MODERATE,
-        'Small avalanches in specific areas;\n or large avalanches in isolated areas.',
-    ],
-    [LOW, 'Small avalanches in isolated areas or extreme terrain.'],
-    [NO_RATING, null],
-])
+export function useSizeAndDistribution() {
+    const intl = useIntl()
 
-export const Texts = new Map([
-    [EXTREME, '5 - Extreme'],
-    [HIGH, '4 - High'],
-    [CONSIDERABLE, '3 - Considerable'],
-    [MODERATE, '2 - Moderate'],
-    [LOW, '1 - Low'],
-    [NO_RATING, '0 - No Rating'],
-])
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    EXTREME,
+                    intl.formatMessage({
+                        description:
+                            'Size and Distribution message for EXTREME',
+                        defaultMessage:
+                            'Large to very large avalanches in many areas.',
+                    }),
+                ],
+                [
+                    HIGH,
+                    intl.formatMessage({
+                        description: 'Size and Distribution message for HIGH',
+                        defaultMessage:
+                            'Large avalanches in many areas; or very large avalanches in specific areas.',
+                    }),
+                ],
+                [
+                    CONSIDERABLE,
+                    intl.formatMessage({
+                        description:
+                            'Size and Distribution message for CONSIDERABLE',
+                        defaultMessage:
+                            'Small avalanches in many areas; or large avalanches in specific areas; or very large avalanches in isolated areas.',
+                    }),
+                ],
+                [
+                    MODERATE,
+                    intl.formatMessage({
+                        description:
+                            'Size and Distribution message for MODERATE',
+                        defaultMessage:
+                            'Small avalanches in specific areas; or large avalanches in isolated areas.',
+                    }),
+                ],
+                [
+                    LOW,
+                    intl.formatMessage({
+                        description: 'Size and Distribution message for LOW',
+                        defaultMessage:
+                            'Small avalanches in isolated areas or extreme terrain.',
+                    }),
+                ],
+                [NO_RATING, null],
+            ]),
+        [intl]
+    )
+}
+
+export function useTexts() {
+    const intl = useIntl()
+
+    return useMemo(
+        () =>
+            new Map([
+                [
+                    EXTREME,
+                    intl.formatMessage({
+                        description: 'Ratings Texts for EXTREME',
+                        defaultMessage: '5 - Extreme',
+                    }),
+                ],
+                [
+                    HIGH,
+                    intl.formatMessage({
+                        description: 'Ratings Texts for HIGH',
+                        defaultMessage: '4 - High',
+                    }),
+                ],
+                [
+                    CONSIDERABLE,
+                    intl.formatMessage({
+                        description: 'Ratings Texts for CONSIDERABLE',
+                        defaultMessage: '3 - Considerable',
+                    }),
+                ],
+                [
+                    MODERATE,
+                    intl.formatMessage({
+                        description: 'Ratings Texts for MODERATE',
+                        defaultMessage: '2 - Moderate',
+                    }),
+                ],
+                [
+                    LOW,
+                    intl.formatMessage({
+                        description: 'Ratings Texts for LOW',
+                        defaultMessage: '1 - Low',
+                    }),
+                ],
+                [
+                    NO_RATING,
+                    intl.formatMessage({
+                        description: 'Ratings Texts for NO_RATING',
+                        defaultMessage: '0 - No Rating',
+                    }),
+                ],
+            ]),
+        [intl]
+    )
+}
+
+export function useText(rating) {
+    const texts = useTexts()
+
+    return texts.get(rating)
+}

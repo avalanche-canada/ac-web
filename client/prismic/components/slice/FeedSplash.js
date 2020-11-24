@@ -8,8 +8,6 @@ import { EVENT, BLOG, NEWS } from 'constants/prismic'
 export default function FeedSplash({ value }) {
     let [{ type, tags, header, hash }] = value
 
-    header = <StructuredText value={header} />
-
     tags =
         typeof tags === 'string'
             ? tags.split(',').map(tag => tag.trim())
@@ -19,7 +17,7 @@ export default function FeedSplash({ value }) {
         <Splash type={TYPES.get(type)} tags={tags}>
             <Shim right>
                 <Heading as="div" hash={hash}>
-                    {header}
+                    <StructuredText value={header} />
                 </Heading>
             </Shim>
         </Splash>

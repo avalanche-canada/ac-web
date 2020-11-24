@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Controls.css'
+import styles from './Controls.module.css'
 
 Holder.propTypes = {
     placeholder: PropTypes.string,
@@ -12,9 +12,7 @@ export default function Holder({ value, placeholder }) {
 
     return (
         <div className={styles[className]}>
-            <div className={styles['Holder--Content']}>
-                {value || placeholder}
-            </div>
+            <div className={styles['Holder--Content']}>{value || placeholder}</div>
         </div>
     )
 }

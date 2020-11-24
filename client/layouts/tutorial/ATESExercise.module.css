@@ -1,0 +1,42 @@
+@import '../../styles/colors.module.css';
+
+.Container {
+    margin: 1em 0;
+
+    & img {
+        width: 100%;
+    }
+}
+
+.Input {
+    flex: 1;
+    text-align: center;
+
+    & > input {
+        margin: 0 0.5em;
+    }
+}
+
+.Choices {
+    display: flex;
+    margin-top: 1em;
+}
+
+.Result {
+    text-align: center;
+    padding: 1em;
+    margin-top: 1em;
+    color: white;
+}
+
+.Yep {
+    composes: Result;
+
+    background-color: var(--success);
+}
+
+.Nope {
+    composes: Result;
+
+    background-color: var(--danger);
+}

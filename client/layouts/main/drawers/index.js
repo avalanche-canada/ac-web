@@ -11,24 +11,14 @@ import Drawer, { LEFT, RIGHT } from 'components/page/drawer'
 import { Menu as Icon } from 'components/icons'
 import Button, { SUBTILE } from 'components/button'
 import Content from './Menu'
-import {
-    usePrimaryDrawerParams,
-    useSecondaryDrawerParams,
-    useFlyTo,
-    useFitBounds,
-} from './hooks'
-import styles from 'components/page/drawer/Drawer.css'
+import { usePrimaryDrawerParams, useSecondaryDrawerParams, useFlyTo, useFitBounds } from './hooks'
+import styles from 'components/page/drawer/Drawer.module.css'
 
 export function Menu() {
     const { opened, close } = useMenu()
 
     return (
-        <Drawer
-            side={LEFT}
-            width={300}
-            backdrop
-            open={opened}
-            onCloseClick={close}>
+        <Drawer side={LEFT} width={300} backdrop open={opened} onCloseClick={close}>
             <Content onCloseClick={close} />
         </Drawer>
     )
@@ -52,20 +42,9 @@ export function Primary({ map }) {
     return (
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
-                <Forecast
-                    path="forecasts/:name"
-                    onCloseClick={close}
-                    onLocateClick={fitBounds}
-                />
-                <HotZoneReport
-                    path="advisories/:name"
-                    onCloseClick={close}
-                    onLocateClick={flyTo}
-                />
-                <Redirect
-                    from="hot-zone-reports/:name"
-                    to="map/advisories/:name"
-                />
+                <Forecast path="forecasts/:name" onCloseClick={close} onLocateClick={fitBounds} />
+                <HotZoneReport path="advisories/:name" onCloseClick={close} onLocateClick={flyTo} />
+                <Redirect from="hot-zone-reports/:name" to="map/advisories/:name" />
             </Router>
         </Drawer>
     )
@@ -79,9 +58,7 @@ export function Secondary({ map }) {
         onCloseClick: close,
         onLocateClick,
     }
-    const children = opened
-        ? createElement(SecondaryComponents.get(type), props)
-        : null
+    const children = opened ? createElement(SecondaryComponents.get(type), props) : null
 
     return (
         <Drawer open={opened} side={LEFT}>

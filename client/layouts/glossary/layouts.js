@@ -13,7 +13,8 @@ import { glossary } from 'prismic/params'
 import { useDocument, useDefinitions } from 'prismic/hooks'
 import { StructuredText, SliceZone } from 'prismic/components/base'
 import SliceComponents from 'prismic/components/slice/rework'
-import styles from './Glossary.css'
+import styles from './Glossary.module.css'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 export default function Layout() {
     return (
@@ -34,19 +35,30 @@ export default function Layout() {
 function GlossarySidebar() {
     return (
         <Sidebar.default>
-            <Sidebar.Header>Related links</Sidebar.Header>
+            <Sidebar.Header>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="Related links"
+                />
+            </Sidebar.Header>
             <Sidebar.Item>
                 <a
-                    href="http://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
+                    href="https://www.alpine-rescue.org/xCMS5/WebObjects/nexus5.woa/wa/icar?menuid=1088"
                     target="ICAR">
-                    ICAR Glossary
+                    <FormattedMessage
+                        description="Layout glossary/layouts"
+                        defaultMessage="ICAR Glossary"
+                    />
                 </a>
             </Sidebar.Item>
             <Sidebar.Item>
                 <a
-                    href="//avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
+                    href="https://avalanche.ca/fxresources/AvalancheLexiqueLexicon.pdf"
                     target="LexiqueLexicon">
-                    Lexique Avalanche - Avalanche Lexicon
+                    <FormattedMessage
+                        description="Layout glossary/layouts"
+                        defaultMessage="Lexique Avalanche—Avalanche Lexicon"
+                    />
                 </a>
             </Sidebar.Item>
         </Sidebar.default>
@@ -57,6 +69,7 @@ export function Glossary({ location, navigate, uid }) {
     const params = new URLSearchParams(location.search)
     const [term, setTerm] = useState(params.has('q') ? params.get('q') : '')
     const [document, pending] = useDocument(glossary.glossary(uid))
+    const intl = useIntl()
 
     useEffect(() => {
         const { hash } = location
@@ -83,7 +96,10 @@ export function Glossary({ location, navigate, uid }) {
                 <Search
                     onChange={debounce(setTerm, 500)}
                     value={term}
-                    placeholder="Search for a definition"
+                    placeholder={intl.formatMessage({
+                        defaultMessage: 'Search for a definition',
+                        description: 'Layout glossary/layouts',
+                    })}
                 />
                 <GlossaryContent layout={document.data} term={term} />
             </Fragment>
@@ -138,10 +154,7 @@ function DefinitionLayout({ uid, tags, data, linkToExternal }) {
                     value={data.content.filter(isMedia)}
                     fullscreen
                 />
-                <SliceZone
-                    components={SliceComponents}
-                    value={data.content.filter(isNotMedia)}
-                />
+                <SliceZone components={SliceComponents} value={data.content.filter(isNotMedia)} />
                 <Related linkToExternal={linkToExternal} items={data.related} />
             </article>
         </Fragment>
@@ -157,7 +170,12 @@ function Related({ items, linkToExternal }) {
     items = items.filter(isDefinition)
     return items.length === 0 ? null : (
         <div>
-            <Muted>See also: </Muted>
+            <Muted>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="See also: "
+                />
+            </Muted>
             <ul>
                 {items.filter(isNotBroken).map(({ definition }) => {
                     const { uid } = definition
@@ -201,34 +219,25 @@ function useDefaultSections(layout = {}) {
     const definitionsByUID = useMemo(() => {
         return Array.isArray(definitions)
             ? definitions.reduce(
-                  (all, definition) =>
-                      all.set(definition.uid, createDefinition(definition)),
+                  (all, definition) => all.set(definition.uid, createDefinition(definition)),
                   new Map()
               )
             : new Map()
     }, [definitions])
     const sections = useMemo(() => {
-        return Object.entries(layout).reduce(
-            (layout, [letter, definitions]) => {
-                if (
-                    !LETTERS.has(letter) ||
-                    definitions.filter(isDefinition).length === 0
-                ) {
-                    return layout
-                }
+        return Object.entries(layout).reduce((layout, [letter, definitions]) => {
+            if (!LETTERS.has(letter) || definitions.filter(isDefinition).length === 0) {
+                return layout
+            }
 
-                return layout.set(
-                    letter,
-                    definitions
-                        .filter(isDefinition)
-                        .map(({ definition }) =>
-                            definitionsByUID.get(definition.uid)
-                        )
-                        .filter(Boolean)
-                )
-            },
-            new Map()
-        )
+            return layout.set(
+                letter,
+                definitions
+                    .filter(isDefinition)
+                    .map(({ definition }) => definitionsByUID.get(definition.uid))
+                    .filter(Boolean)
+            )
+        }, new Map())
     }, [layout, definitionsByUID])
 
     return [sections, pending]
@@ -246,26 +255,37 @@ function GlossaryContent({ layout, term }) {
             return regexp.test(definition.searchable)
         }
 
-        return Array.from(sections.entries()).reduce(
-            (filteredSections, [letter, definitions]) => {
-                const filteredDefinitions = definitions.filter(predicate)
+        return Array.from(sections.entries()).reduce((filteredSections, [letter, definitions]) => {
+            const filteredDefinitions = definitions.filter(predicate)
 
-                if (filteredDefinitions.length > 0) {
-                    filteredSections.set(letter, filteredDefinitions)
-                }
+            if (filteredDefinitions.length > 0) {
+                filteredSections.set(letter, filteredDefinitions)
+            }
 
-                return filteredSections
-            },
-            new Map()
-        )
+            return filteredSections
+        }, new Map())
     }, [sections, term])
 
     if (loading) {
-        return <Loading>Loading definitions...</Loading>
+        return (
+            <Loading>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="Loading definitions..."
+                />
+            </Loading>
+        )
     }
 
     if (sectionsToRender.size === 0) {
-        return <Muted>No definition matches your criteria.</Muted>
+        return (
+            <Muted>
+                <FormattedMessage
+                    description="Layout glossary/layouts"
+                    defaultMessage="No definition matches your criteria."
+                />
+            </Muted>
+        )
     }
 
     return (
@@ -275,15 +295,9 @@ function GlossaryContent({ layout, term }) {
                     <LetterTag key={letter} letter={letter} />
                 ))}
             </TagSet>
-            {Array.from(sectionsToRender.entries()).map(
-                ([letter, definitions]) => (
-                    <Section
-                        key={letter}
-                        letter={letter}
-                        definitions={definitions}
-                    />
-                )
-            )}
+            {Array.from(sectionsToRender.entries()).map(([letter, definitions]) => (
+                <Section key={letter} letter={letter} definitions={definitions} />
+            ))}
         </Fragment>
     )
 }
@@ -313,11 +327,7 @@ const LETTERS = new Set('abcdefghijklmnopqrstuvwxyz')
 
 // Utils
 function isDefinition({ definition }) {
-    return (
-        Boolean(definition) &&
-        definition.type === 'definition' &&
-        Boolean(definition.id)
-    )
+    return Boolean(definition) && definition.type === 'definition' && Boolean(definition.id)
 }
 function isNotBroken({ definition }) {
     return definition.isBroken === false
@@ -341,10 +351,7 @@ function createDefinition(definition) {
         data.title,
         related.map(({ definition }) => definition.data.title),
         texts.map(({ primary }) => primary.content.map(({ text }) => text)),
-        images.map(({ primary }) => [
-            primary.credit,
-            primary.caption.map(({ text }) => text),
-        ]),
+        images.map(({ primary }) => [primary.credit, primary.caption.map(({ text }) => text)]),
         tags,
     ].flat(2)
 

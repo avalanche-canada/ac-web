@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { findNode, getPath, getParent } from 'utils/tree'
 import Drawer from './Drawer'
-import styles from './Drawer.css'
+import styles from './Drawer.module.css'
 
 Layout.propTypes = {
     menu: PropTypes.object,
@@ -17,10 +17,7 @@ function Layout({ menu, ...props }) {
     return <Container root={menu} node={node} {...props} setNode={setNode} />
 }
 
-export default memo(
-    Layout,
-    (prevProps, nextProps) => prevProps.show === nextProps.show
-)
+export default memo(Layout, (prevProps, nextProps) => prevProps.show === nextProps.show)
 
 Container.propTypes = {
     show: PropTypes.bool.isRequired,

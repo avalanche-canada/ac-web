@@ -10,6 +10,8 @@ import { StructuredText } from 'prismic/components/base'
 import * as Predicates from 'prismic/predicates'
 import { useSearch } from 'prismic/hooks'
 
+// TODO I do not think we are using that table anymore. Needs to confirm with Youth and if it the case it should be removed. Including <PageSizeSelector>
+
 PrismicTable.propTypes = {
     value: PropTypes.array.isRequired,
 }

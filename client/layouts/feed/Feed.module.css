@@ -1,0 +1,70 @@
+@import '../../styles/colors.module.css';
+
+@custom-media --side-by-side (width > 600px);
+
+.Entry {
+    display: flex;
+    padding: 0.5em 0;
+    color: var(--gray-dark);
+
+    & > * {
+        margin: 0.5em;
+    }
+}
+
+.Entry--Featured {
+    composes: Entry;
+
+    & .Content:before {
+        content: 'featured';
+        color: var(--brand-secondary);
+        text-transform: uppercase;
+        display: block;
+    }
+}
+
+.Image {
+    display: none;
+
+    @media (--side-by-side) {
+        display: block;
+        flex: 250px;
+        max-width: 250px;
+    }
+}
+
+.Content {
+    flex: 1 0;
+
+    & a {
+        color: var(--gray-darker);
+    }
+
+    & h2 {
+        margin-top: 0.25em;
+    }
+}
+
+.EntrySet {
+    & > .Entry {
+        border-bottom: 2px solid var(--gray-light);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+}
+
+.Metadata {
+    display: flex;
+    flex-wrap: wrap;
+    color: var(--gray-light);
+    text-transform: uppercase;
+    padding: 0;
+    list-style: none;
+
+    & > *:not(:first-child):before {
+        content: '•';
+        padding: 0 0.25em;
+    }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Forecast.css'
+import styles from './Forecast.module.css'
 
 Summary.propTypes = {
     title: PropTypes.node,

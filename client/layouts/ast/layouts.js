@@ -7,13 +7,9 @@ import { Container, Set, Item } from 'components/pill'
 import { Page } from 'layouts/pages'
 import * as forms from './forms'
 import * as tables from './tables'
-import useParams, {
-    DateParam,
-    SetParam,
-    SortingParam,
-    StringParam,
-} from 'hooks/params'
-import styles from 'styles/components.css'
+import useParams, { DateParam, SetParam, SortingParam, StringParam } from 'hooks/params'
+import styles from 'styles/components.module.css'
+import { FormattedMessage } from 'react-intl'
 
 export default function Layout() {
     return (
@@ -22,23 +18,29 @@ export default function Layout() {
                 <Container>
                     <Match path=":type">
                         {props => (
-                            <Set
-                                activeIndex={Number(
-                                    props.match?.type === 'providers'
-                                )}>
+                            <Set activeIndex={Number(props.match?.type === 'providers')}>
                                 <Item>
-                                    <Link to="courses">Courses</Link>
+                                    <Link to="courses">
+                                        <FormattedMessage
+                                            description="Layout ast/layouts"
+                                            defaultMessage="Courses"
+                                        />
+                                    </Link>
                                 </Item>
                                 <Item>
-                                    <Link to="providers">Providers</Link>
+                                    <Link to="providers">
+                                        {' '}
+                                        <FormattedMessage
+                                            description="Layout ast/layouts"
+                                            defaultMessage="Providers"
+                                        />
+                                    </Link>
                                 </Item>
                             </Set>
                         )}
                     </Match>
                 </Container>
-                <Router
-                    primary={false}
-                    className={classnames(styles.MatchParent, styles.Flex)}>
+                <Router primary={false} className={classnames(styles.MatchParent, styles.Flex)}>
                     <ProvidersForm path="providers" />
                     <CoursesForm path="courses" />
                 </Router>

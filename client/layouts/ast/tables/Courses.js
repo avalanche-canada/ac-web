@@ -21,7 +21,9 @@ import { DATE } from 'utils/date'
 import { useCourses } from 'hooks/async/ast'
 import { useSorting, usePagination, useFilters } from 'hooks/collection'
 import * as Async from 'contexts/async'
-import styles from './Courses.css'
+import styles from './Courses.module.css'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
+import { useIntlMemo } from 'hooks/intl'
 
 Courses.propTypes = {
     level: PropTypes.oneOf(Array.from(LEVELS.keys())),
@@ -33,15 +35,7 @@ Courses.propTypes = {
     onParamsChange: PropTypes.func.isRequired,
 }
 
-export default function Courses({
-    level,
-    from,
-    to,
-    tags,
-    sorting,
-    place,
-    onParamsChange,
-}) {
+export default function Courses({ level, from, to, tags, sorting, place, onParamsChange }) {
     const [name = null, order = NONE] = sorting
     const context = useCourses()
     const [courses = []] = context
@@ -50,18 +44,12 @@ export default function Courses({
         return courses.map(course => ({
             ...course,
             distance: place
-                ? Math.max(
-                      Math.round(distance(turf.point(course.loc), place)),
-                      MINIMUM_DISTANCE
-                  )
+                ? Math.max(Math.round(distance(turf.point(course.loc), place)), MINIMUM_DISTANCE)
                 : null,
         }))
     }, [courses, place])
     const sorted = useSorting(all, SORTERS.get(order).get(name))
-    const filtered = useFilters(
-        sorted,
-        getPredicates({ level, from, to, tags })
-    )
+    const filtered = useFilters(sorted, getPredicates({ level, from, to, tags }))
     const paginated = usePagination(filtered, page)
 
     function handleSortingChange(name, order) {
@@ -75,37 +63,60 @@ export default function Courses({
     }, [level, from, to, tags, sorting])
 
     const count = filtered.length
+    const columns = useColumns()
 
     return (
         <Async.Provider value={context}>
-            <Layout
-                title={
-                    <Title type="course" count={count} total={courses.length} />
-                }>
+            <Layout title={<Title type="course" count={count} total={courses.length} />}>
                 <Responsive>
                     <table>
                         <Header
-                            columns={COLUMNS}
+                            columns={columns}
                             sorting={sorting}
                             onSortingChange={handleSortingChange}
                             place={place}
                         />
-                        <tbody>{paginated.map(renderRow)}</tbody>
+                        <tbody>
+                            {courses.map(row => (
+                                <ExpandableRow key={row.id}>
+                                    <tr>
+                                        {columns.map(({ property, name }) => (
+                                            <td key={name}>{property(row)}</td>
+                                        ))}
+                                    </tr>
+                                    <tr>
+                                        <td colSpan={columns.length + 1}>
+                                            <Controlled
+                                                description={row.description}
+                                                provider={row.provider}
+                                            />
+                                        </td>
+                                    </tr>
+                                </ExpandableRow>
+                            ))}
+                        </tbody>
                         <Caption type="course" empty={count === 0}>
                             <p>
-                                No courses match your criteria, consider finding
-                                a provider on the{' '}
-                                <Link to="/training/providers">
-                                    providers page
-                                </Link>{' '}
-                                to contact directly.
+                                <FormattedMessage
+                                    description="Layout ast/tables/Courses"
+                                    defaultMessage="No courses match your criteria, consider finding a provider on the <link>providers page</link> to contact directly."
+                                    values={{
+                                        link(text) {
+                                            return <Link to="/training/providers">{text}</Link>
+                                        },
+                                    }}
+                                />
                             </p>
                             <p>
-                                You can also{' '}
-                                <Link to="/training/courses">
-                                    reset your criteria
-                                </Link>{' '}
-                                to see them all.
+                                <FormattedMessage
+                                    description="Layout ast/tables/Courses"
+                                    defaultMessage="You can also <link>reset your criteria</link> to see them all."
+                                    values={{
+                                        link(text) {
+                                            return <Link to="/training/courses">{text}</Link>
+                                        },
+                                    }}
+                                />
                             </p>
                         </Caption>
                     </table>
@@ -117,135 +128,180 @@ export default function Courses({
 }
 
 // Utils
-function renderRow(row) {
-    return (
-        <ExpandableRow key={row.id}>
-            <tr>
-                {COLUMNS.map(({ property, name }) => (
-                    <td key={name}>{property(row)}</td>
-                ))}
-            </tr>
-            <tr>
-                <td colSpan={COLUMNS.length + 1}>{renderControlled(row)}</td>
-            </tr>
-        </ExpandableRow>
-    )
-}
-function renderControlled({ description, provider }) {
+function Controlled({ description, provider }) {
     const { name, website, email, phone, loc_description } = provider
+    const intl = useIntl()
 
     return (
         <div className={styles.Controlled}>
             <Shim right>
                 <List inline>
-                    <Entry term="Description">
+                    <Entry
+                        term={intl.formatMessage({
+                            defaultMessage: 'Description',
+                            description: 'Layout ast/tables/Courses',
+                        })}>
                         <MultiLine>{description}</MultiLine>
                     </Entry>
                 </List>
             </Shim>
             <List>
-                <Entry term="Name">{name}</Entry>
-                <Entry term="Website">
+                <Entry
+                    term={intl.formatMessage({
+                        defaultMessage: 'Name',
+                        description: 'Layout ast/tables/Courses',
+                    })}>
+                    {name}
+                </Entry>
+                <Entry
+                    term={intl.formatMessage({
+                        defaultMessage: 'Website',
+                        description: 'Layout ast/tables/Courses',
+                    })}>
                     <a href={website} target={name}>
                         {website}
                     </a>
                 </Entry>
-                <Entry term="Email">
+                <Entry
+                    term={intl.formatMessage({
+                        defaultMessage: 'Email',
+                        description: 'Layout ast/tables/Courses',
+                    })}>
                     <Mailto email={email} />
                 </Entry>
-                <Entry term="Phone">
+                <Entry
+                    term={intl.formatMessage({
+                        defaultMessage: 'Phone',
+                        description: 'Layout ast/tables/Courses',
+                    })}>
                     <Phone phone={phone} />
                 </Entry>
-                <Entry term="Location">{loc_description}</Entry>
+                <Entry
+                    term={intl.formatMessage({
+                        defaultMessage: 'Location',
+                        description: 'Layout ast/tables/Courses',
+                    })}>
+                    {loc_description}
+                </Entry>
             </List>
         </div>
     )
 }
 
 // Utils
-const COLUMNS = [
-    {
-        name: 'dates',
-        title: 'Dates',
-        property({ date_start, date_end }) {
-            if (isSameDay(date_start, date_end)) {
-                return <DateTime value={date_start} />
-            }
+function useColumns() {
+    const messages = defineMessages({
+        distanceDescription: {
+            id: 'app.distanceDescription',
+            defaultMessage: 'Straight line between {place} and the course.',
+            description: 'Layout ast/tables/Courses',
+        },
+    })
+    return useIntlMemo(intl => [
+        {
+            name: 'dates',
+            title: intl.formatMessage({
+                defaultMessage: 'Dates',
+                description: 'Layout ast/tables/Courses',
+            }),
+            property({ date_start, date_end }) {
+                if (isSameDay(date_start, date_end)) {
+                    return <DateTime value={date_start} />
+                }
 
-            return <Range format={DATE} from={date_start} to={date_end} />
+                return <Range format={DATE} from={date_start} to={date_end} />
+            },
+            sorting: NONE,
         },
-        sorting: NONE,
-    },
-    {
-        name: 'level',
-        title: 'Level',
-        property({ level }) {
-            return level
+        {
+            name: 'level',
+            title: intl.formatMessage({
+                defaultMessage: 'Level',
+                description: 'Layout ast/tables/Courses',
+            }),
+            property({ level }) {
+                return level
+            },
         },
-    },
-    {
-        name: 'provider',
-        title: 'Provider',
-        sorting: NONE,
-        property({ provider }) {
-            return provider.name
+        {
+            name: 'provider',
+            title: intl.formatMessage({
+                defaultMessage: 'Provider',
+                description: 'Layout ast/tables/Courses',
+            }),
+            sorting: NONE,
+            property({ provider }) {
+                return provider.name
+            },
         },
-    },
-    {
-        name: 'distance',
-        title({ place }) {
-            return place ? (
-                <Helper
-                    title={`Straight line between ${place.text} and the course.`}>
-                    Distance
-                </Helper>
-            ) : (
-                'Distance'
-            )
+        {
+            name: 'distance',
+            title({ place }) {
+                return place ? (
+                    <Helper
+                        title={intl.formatMessage(messages.distanceDescription, {
+                            place: place.text,
+                        })}>
+                        <FormattedMessage
+                            description="Layout ast/tables/Courses"
+                            defaultMessage="Distance"
+                        />
+                    </Helper>
+                ) : (
+                    intl.formatMessage({
+                        defaultMessage: 'Distance',
+                        description: 'Layout ast/tables/Courses',
+                    })
+                )
+            },
+            property({ distance }) {
+                return <Distance value={distance} />
+            },
+            sorting: NONE,
         },
-        property({ distance }) {
-            return <Distance value={distance} />
+        {
+            name: 'location',
+            title: intl.formatMessage({
+                defaultMessage: 'Location',
+                description: 'Layout ast/tables/Courses',
+            }),
+            property({ loc_description }) {
+                return loc_description
+            },
         },
-        sorting: NONE,
-    },
-    {
-        name: 'location',
-        title: 'Location',
-        property({ loc_description }) {
-            return loc_description
+        {
+            name: 'tags',
+            title: intl.formatMessage({
+                defaultMessage: 'Tags',
+                description: 'Layout ast/tables/Courses',
+            }),
+            property({ tags }) {
+                return <Tags value={tags} />
+            },
         },
-    },
-    {
-        name: 'tags',
-        title: 'Tags',
-        property({ tags }) {
-            return <Tags value={tags} />
+        {
+            name: 'cost',
+            title: intl.formatMessage({
+                defaultMessage: 'Cost',
+                description: 'Layout ast/tables/Courses',
+            }),
+            property({ cost }) {
+                return (
+                    <span className={styles.CostCell}>
+                        {cost.cost} {cost.currency}
+                    </span>
+                )
+            },
         },
-    },
-    {
-        name: 'cost',
-        title: 'Cost',
-        property({ cost }) {
-            return (
-                <span className={styles.CostCell}>
-                    {cost.cost} {cost.currency}
-                </span>
-            )
-        },
-    },
-]
+    ])
+}
+
 const SORTERS = new Map([
     [
         ASC,
         new Map([
             ['provider', (a, b) => sortByName(a, b) || sortByDate(a, b)],
-            [
-                'distance',
-                (a, b) =>
-                    sortByDistance(a, b) ||
-                    sortByDate(a, b) ||
-                    sortByName(a, b),
-            ],
+            ['distance', (a, b) => sortByDistance(a, b) || sortByDate(a, b) || sortByName(a, b)],
             ['dates', (a, b) => sortByDate(a, b) || sortByName(a, b)],
         ]),
     ],
@@ -253,13 +309,7 @@ const SORTERS = new Map([
         DESC,
         new Map([
             ['provider', (a, b) => sortByName(b, a) || sortByDate(a, b)],
-            [
-                'distance',
-                (a, b) =>
-                    sortByDistance(b, a) ||
-                    sortByDate(a, b) ||
-                    sortByName(a, b),
-            ],
+            ['distance', (a, b) => sortByDistance(b, a) || sortByDate(a, b) || sortByName(a, b)],
             ['dates', (a, b) => sortByDate(b, a) || sortByName(a, b)],
         ]),
     ],
@@ -290,6 +340,7 @@ const PREDICATES = new Map([
             areRangesOverlapping(from, addDays(to, 1), date_start, date_end),
     ],
 ])
+
 function getPredicates(props) {
     return Object.entries(props).reduce((filters, [key, value]) => {
         if (value && PREDICATES.has(key)) {

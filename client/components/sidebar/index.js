@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Mailto } from 'components/anchors'
 import * as Social from 'components/social'
 import * as Icons from 'components/icons'
-import styles from './Sidebar.css'
+import styles from './Sidebar.module.css'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 Sidebar.propTypes = {
     children: PropTypes.node.isRequired,
@@ -14,7 +15,7 @@ export function Sidebar({ children }) {
 }
 
 SocialItem.propTypes = {
-    label: PropTypes.string,
+    label: PropTypes.node,
     children: PropTypes.node.isRequired,
 }
 
@@ -32,10 +33,17 @@ RSSFeed.propTypes = {
 }
 
 export function RSSFeed({ url }) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Sidebar',
+        defaultMessage: 'Subscribe to our RSS Feed',
+    })
+
     return (
         <SocialItem>
-            <a href={url} target="_blank" title="Subscribe to our RSS Feed">
-                RSS Feed{'\u00A0'}
+            <a href={url} target="_blank" title={title}>
+                <FormattedMessage defaultMessage="RSS Feed" description="Sidebar" />
+                {'\u00A0'}
                 <Icons.RSS />
             </a>
         </SocialItem>
@@ -47,14 +55,28 @@ Share.propTypes = {
     label: PropTypes.string,
 }
 
-export function Share({ label = 'Share this', url = document.location.href }) {
-    const title = name => `Share this page on ${name}`
+export function Share({ label, url = document.location.href }) {
+    const intl = useIntl()
     const urls = Social.createShareUrls(url)
+    function createTitle(name) {
+        return intl.formatMessage({
+            defaultMessage: 'Share this page on {name}',
+            values: {
+                name,
+            },
+        })
+    }
+
+    label =
+        label ||
+        intl.formatMessage({
+            defaultMessage: 'Share this page',
+        })
 
     return (
         <SocialItem label={label}>
             {urls.map(url => (
-                <Social.Item key={url} link={url} title={title} />
+                <Social.Item key={url} link={url} title={createTitle} />
             ))}
         </SocialItem>
     )
@@ -65,13 +87,17 @@ Print.propTypes = {
 }
 
 export function Print({ url }) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'FX Sidebar',
+        defaultMessage: 'Print this forecast bulletin',
+    })
+
     return (
         <SocialItem>
-            <a
-                href={url}
-                target="avcan-print-forecast"
-                title="Print this forecast bulletin">
-                Printable version{'\u00A0'}
+            <a href={url} target="printable-forecast" title={title}>
+                <FormattedMessage description="Sidebar" defaultMessage="Printable version" />
+                {'\u00A0'}
                 <Icons.Print />
             </a>
         </SocialItem>
@@ -99,13 +125,23 @@ Follow.propTypes = {
     label: PropTypes.string,
 }
 
-export function Follow({ label = 'Follow us', urls = URLS }) {
-    const title = name => `${label} on ${name}`
+export function Follow({ label = <FormattedMessage defaultMessage="Follow us" />, urls = URLS }) {
+    const intl = useIntl()
+    function createTitle(name) {
+        return intl.formatMessage({
+            defaultMessage: '{label} on {name}',
+            description: '"Follow us on Facebook" in the Sidebar',
+            values: {
+                label,
+                name,
+            },
+        })
+    }
 
     return (
         <SocialItem label={label}>
             {urls.map(url => (
-                <Social.Item key={url} link={url} title={title} />
+                <Social.Item key={url} link={url} title={createTitle} />
             ))}
         </SocialItem>
     )
@@ -119,7 +155,8 @@ export function Contact(props) {
     return (
         <SocialItem>
             <Mailto {...props}>
-                Contact us{'\u00A0'}
+                <FormattedMessage defaultMessage="Contact us" description="Sidebar" />
+                {'\u00A0'}
                 <Icons.Email fill="#245EAC" />
             </Mailto>
         </SocialItem>

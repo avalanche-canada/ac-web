@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import { Heading } from 'components/page'
 import { Set, Item } from 'components/social'
 import { Image } from 'prismic/components/base'
-import styles from './Ambassador.css'
+import styles from './Ambassador.module.css'
+import { useIntl } from 'react-intl'
 
 Ambassador.propTypes = {
     fullName: PropTypes.string.isRequired,
@@ -14,16 +15,18 @@ Ambassador.propTypes = {
     hash: PropTypes.string,
 }
 
-export default function Ambassador({
-    fullName,
-    socials = [],
-    banner,
-    avatar,
-    children,
-}) {
+export default function Ambassador({ fullName, socials = [], banner, avatar, children }) {
+    const intl = useIntl()
     const hash = fullName.toLowerCase().replace(/\s/g, '-')
-    function title(name) {
-        return `Visit ${fullName} on ${name}`
+    function title(service) {
+        return intl.formatMessage({
+            description: 'Ambassador component',
+            defaultMessage: 'Visit {fullName} on {service}',
+            values: {
+                fullName,
+                service,
+            },
+        })
     }
 
     return (

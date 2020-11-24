@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Gram.css'
+import styles from './Gram.module.css'
 
 GramSet.propTypes = {
     children: PropTypes.node.isRequired,
 }
 
 export default function GramSet({ children }) {
-    return (
-        <div className={styles.GramSet}>
-            {children}
-        </div>
-    )
+    return <div className={styles.GramSet}>{children}</div>
 }

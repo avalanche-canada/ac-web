@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Avatar from 'components/avatar'
-import styles from './Navbar.css'
+import styles from './Navbar.module.css'
 
 UserProfile.propTypes = {
     name: PropTypes.string.isRequired,

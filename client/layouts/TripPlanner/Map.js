@@ -1,8 +1,9 @@
 import React, { useRef, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import bbox from '@turf/bbox'
+import { useIntl } from 'react-intl'
 import { useMapState } from 'contexts/map/state'
-import styles from './TripPlanner.css'
+import styles from './TripPlanner.module.css'
 import { useNavigationControl, useMap } from 'hooks/mapbox'
 import { STYLES } from 'services/mapbox/config'
 import { Popup } from 'mapbox-gl'
@@ -14,6 +15,7 @@ TripPlannerMap.propTypes = {
 }
 
 export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
+    const intl = useIntl()
     const ref = useRef(null)
     const counter = useRef(0)
     const { zoom, center } = useMapState()
@@ -23,11 +25,7 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
         style: STYLES.ates,
     })
     function setActiveZone(id) {
-        map.setFilter('active-ates-zones', [
-            '==',
-            'id',
-            typeof id === 'number' ? id : -1,
-        ])
+        map.setFilter('active-ates-zones', ['==', 'id', typeof id === 'number' ? id : -1])
     }
 
     useNavigationControl(map)
@@ -63,35 +61,44 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
             const [decisionPoint] = queryDecisionPoints(point)
 
             if (decisionPoint) {
-                const { properties, geometry } = decisionPoint
+                const { properties } = decisionPoint
+                const { coordinates } = decisionPoint.geometry
                 const url = `/api/ates/en/decision-points/${properties.id}.json`
                 const popup = new Popup()
+                const html = p(
+                    intl.formatMessage({
+                        description: 'Layout TripPlanner/Map',
+                        defaultMessage: 'Loading information...',
+                    })
+                )
 
                 popup
-                    .setLngLat(geometry.coordinates)
-                    .setHTML('<p>Loading information...</p>')
+                    .setLngLat(coordinates)
+                    .setHTML(html)
                     .addTo(map)
 
                 fetch(url)
                     .then(response => response.json())
                     .then(
                         ({ warnings }) => {
-                            let html =
-                                '<p>No information has been found for that decision point.</p>'
+                            let html = p(
+                                intl.formatMessage({
+                                    description: 'Layout TripPlanner/Map',
+                                    defaultMessage:
+                                        'No information has been found for that decision point.',
+                                })
+                            )
 
                             if (warnings.length > 0) {
-                                warnings = warnings.reduce(
-                                    (warnings, { type, warning }) => {
-                                        if (!(type in warnings)) {
-                                            warnings[type] = []
-                                        }
+                                warnings = warnings.reduce((warnings, { type, warning }) => {
+                                    if (!(type in warnings)) {
+                                        warnings[type] = []
+                                    }
 
-                                        warnings[type].push(warning)
+                                    warnings[type].push(warning)
 
-                                        return warnings
-                                    },
-                                    {}
-                                )
+                                    return warnings
+                                }, {})
                                 html = Object.entries(warnings).reduce(
                                     (html, [type, warnings]) =>
                                         html +
@@ -100,9 +107,7 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
                                             <h3>${type}</h3>
                                             <ul>
                                                 ${warnings.reduce(
-                                                    (html, warning) =>
-                                                        html +
-                                                        `<li>${warning}</li>`,
+                                                    (html, warning) => html + `<li>${warning}</li>`,
                                                     ''
                                                 )}
                                             </ul>
@@ -115,8 +120,14 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
                             popup.setHTML(html)
                         },
                         () => {
-                            const html =
-                                '<p>An error happened while getting decision point information.</p>'
+                            const html = p(
+                                intl.formatMessage({
+                                    description: 'Layout TripPlanner/Map',
+                                    defaultMessage:
+                                        'An error happened while getting decision point information.',
+                                })
+                            )
+
                             popup.setHTML(html)
                         }
                     )
@@ -158,11 +169,7 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
             canvas.title = ''
         }
 
-        for (const layer of [
-            ...ATES_ZONES_LAYERS,
-            ...ATES_AREAS_LAYERS,
-            ...FORECAST_LAYERS,
-        ]) {
+        for (const layer of [...ATES_ZONES_LAYERS, ...ATES_AREAS_LAYERS, ...FORECAST_LAYERS]) {
             map.on('mouseenter', layer, handleMouseEnter)
             map.on('mouseleave', layer, handleMouseLeave)
         }
@@ -173,8 +180,11 @@ export default function TripPlannerMap({ onFeaturesSelect, onLoad }) {
     return <div className={styles.Map} ref={ref} />
 }
 
-// Constants
+// Constants and utils
 const FORECAST_LAYERS = ['forecast-regions', 'forecast-regions-contours']
 const ATES_ZONES_LAYERS = ['ates-zones']
 const ATES_AREAS_LAYERS = ['ates-areas']
 const DECISION_POINTS = ['ates-decision-points']
+function p(inner) {
+    return `<p>${inner}</p>`
+}

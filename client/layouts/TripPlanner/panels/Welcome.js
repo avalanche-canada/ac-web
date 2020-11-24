@@ -1,23 +1,33 @@
 import React, { Fragment } from 'react'
+import { FormattedMessage } from 'react-intl'
+import { Generic } from 'prismic/layouts'
 import Panel from './Panel'
-import { isTouchable } from 'utils/device'
 import { Entries as TerrainRatingsEntries } from './TerrainRatings'
 import { Entries as MapLegendEntries } from './MapLegend'
-import screeenshot  from './download-instructions.jpg'
-import styles from '../TripPlanner.css'
+import styles from '../TripPlanner.module.css'
+import StructuredText from 'prismic/components/base/StructuredText'
 
 export default function Welcome() {
     return (
         <section className={styles.Welcome}>
-            <h2>Welcome to the Trip planner</h2>
+            <h2>
+                <FormattedMessage
+                    description="Layout TripPlanner/panels/Welcome"
+                    defaultMessage="Welcome to the Trip Planner"
+                />
+            </h2>
             <Content />
         </section>
     )
 }
 
 export function Help() {
+    const header = (
+        <FormattedMessage description="Layout TripPlanner/panels/Welcome" defaultMessage="Help" />
+    )
+
     return (
-        <Panel header="Help">
+        <Panel header={header}>
             <div className={styles.PanelContent}>
                 <Content />
             </div>
@@ -28,26 +38,34 @@ export function Help() {
 export function Content() {
     return (
         <Fragment>
-            <p>
-                {isTouchable ? 'Tap' : 'Click'} on a Avalanche Terrain Exposure
-                Scale (ATES) area to start your trip planning. If you do not see
-                any ATES areas, please zoom in or{' '}
-                {isTouchable ? 'tap' : 'click'} on a grey zone to have the map
-                zoomed in automatically.
-            </p>
-            <p>ATES are:</p>
-            <TerrainRatingsEntries />
-            <p>Map legend:</p>
-            <MapLegendEntries />
-            <p>How to download ATES ratings:</p>
-            <ol>
-                <li>Zoom in on the map to find the area you are looking for.</li>
-                <li>Click on the area. It will show up to the left of the map.</li>
-                <li>Click on the icon with the downward arrow to the right of the area name (see image below).</li>
-                <li>Read each page of the disclaimer and click “OK” to proceed.</li>
-                <li>Click “Download ATES data.”</li>
-            </ol>
-            <img src={screeenshot} alt='Instructions for downloading data' />
+            <Generic uid="trip-planner-welcome" />
+            <Panel
+                header={
+                    <FormattedMessage
+                        description="Layout TripPlanner/panels/Welcome"
+                        defaultMessage="ATES are:"
+                    />
+                }
+                expanded>
+                <TerrainRatingsEntries />
+            </Panel>
+            <Panel
+                header={
+                    <FormattedMessage
+                        description="Layout TripPlanner/panels/Welcome"
+                        defaultMessage="Map legend"
+                    />
+                }
+                expanded>
+                <MapLegendEntries />
+            </Panel>
+            <Generic uid="how-to-download-ates-ratings">
+                {({ data }) => (
+                    <Panel header={data.title}>
+                        <StructuredText value={data.body} />
+                    </Panel>
+                )}
+            </Generic>
         </Fragment>
     )
 }

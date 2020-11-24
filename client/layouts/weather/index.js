@@ -1,12 +1,13 @@
 import React, { lazy } from 'react'
 import { Router, Redirect } from '@reach/router'
+import { FormattedMessage } from 'react-intl'
 import Bundle from 'components/Bundle'
 import WeatherStation from './station/WeatherStation'
 import WeatherStationList from './station/WeatherStationList'
 import { Page } from 'layouts/pages'
 import { Main, Content, Header, Aside } from 'components/page'
 import WeatherSidebar from './forecast/Sidebar'
-import styles from 'layouts/glossary/Glossary.css'
+import styles from 'layouts/glossary/Glossary.module.css'
 
 export default function Weather() {
     return (
@@ -37,9 +38,13 @@ function MountainWeatherForecast(props) {
 }
 
 function WeatherGlossary(props) {
+    const title = (
+        <FormattedMessage description="Layout weather" defaultMessage="Weather Glossary" />
+    )
+
     return (
         <Page className={styles.Page}>
-            <Header title="Weather Glossary" />
+            <Header title={title} />
             <Content>
                 <Main>
                     <Bundle>

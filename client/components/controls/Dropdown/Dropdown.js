@@ -1,9 +1,10 @@
 import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import keycodes from 'constants/keycodes'
 import Holder from '../Holder'
 import { OptionSet, Option, Dropdown } from 'components/controls/options'
-import styles from './Dropdown.css'
+import styles from './Dropdown.module.css'
 
 export default class DropdownControl extends PureComponent {
     static propTypes = {
@@ -15,11 +16,8 @@ export default class DropdownControl extends PureComponent {
             PropTypes.instanceOf(Date),
             PropTypes.instanceOf(Set),
         ]),
-        placeholder: PropTypes.string,
+        placeholder: PropTypes.node,
         style: PropTypes.object,
-    }
-    static defaultProps = {
-        placeholder: 'Select',
     }
     state = {
         isOpen: false,
@@ -46,9 +44,7 @@ export default class DropdownControl extends PureComponent {
         const { value } = this.props
         const children = Children.toArray(this.props.children)
         const options = children.filter(option =>
-            value instanceof Set
-                ? value.has(option.props.value)
-                : value == option.props.value
+            value instanceof Set ? value.has(option.props.value) : value == option.props.value
         )
 
         return options.length
@@ -134,9 +130,7 @@ export default class DropdownControl extends PureComponent {
     get options() {
         return (
             <Dropdown>
-                <OptionSet
-                    onChange={this.handleChange}
-                    value={this.props.value}>
+                <OptionSet onChange={this.handleChange} value={this.props.value}>
                     {this.props.children}
                 </OptionSet>
             </Dropdown>
@@ -144,14 +138,19 @@ export default class DropdownControl extends PureComponent {
     }
     render() {
         const { isOpen } = this
-        const { placeholder, style } = this.props
+        const {
+            placeholder = (
+                <FormattedMessage
+                    description="Component controls/Dropdown/Dropdown"
+                    defaultMessage="Search"
+                />
+            ),
+            style,
+        } = this.props
         const className = isOpen ? 'Input--Open' : 'Input'
 
         return (
-            <div
-                className={styles.Container}
-                style={style}
-                onClick={this.handleClick}>
+            <div className={styles.Container} style={style} onClick={this.handleClick}>
                 <div
                     className={styles[className]}
                     tabIndex={0}

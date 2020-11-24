@@ -3,29 +3,21 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Link } from '@reach/router'
 import { Tag } from 'layouts/SPAW'
-import {
-    Navbar,
-    Header,
-    Body,
-    Close,
-    DisplayOnMap,
-} from 'components/page/drawer'
+import { Navbar, Header, Body, Close, DisplayOnMap } from 'components/page/drawer'
 import * as components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { useForecast } from 'hooks/async/forecast'
-import {
-    useForecastRegionsMetadata,
-    useForecastRegionMetadata,
-} from 'hooks/async/features'
+import { useForecastRegionsMetadata, useForecastRegionMetadata } from 'hooks/async/features'
 import { List, ListItem } from 'components/page'
 import * as utils from 'utils/region'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Details } from 'components/error'
 import { useLocation } from 'router/hooks'
 import * as Async from 'contexts/async'
-import shim from 'components/Shim.css'
-import typography from 'components/text/Text.css'
+import shim from 'components/Shim.module.css'
+import typography from 'components/text/Text.module.css'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 ForeastLayout.propTypes = {
     name: PropTypes.string.isRequired,
@@ -36,6 +28,7 @@ ForeastLayout.propTypes = {
 export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
     // "key" in <Body> to mount/remount the tabs, so the first tab appears and
     // scroll gets reset as the name changes
+    const intl = useIntl()
 
     return (
         <Fragment>
@@ -43,20 +36,33 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject="Avalanche Forecast">
+            <Header
+                subject={intl.formatMessage({
+                    defaultMessage: 'Avalanche Forecast',
+                    description: 'Layout drawers/Forecast',
+                })}>
                 <Async.Provider value={useForecastRegionMetadata(name)}>
                     <h1>
                         <Async.Pending>
-                            <span className={typography.Muted}>Loading...</span>
+                            <span className={typography.Muted}>
+                                <FormattedMessage
+                                    description="Layout drawers/Forecast"
+                                    defaultMessage="Loading..."
+                                />
+                            </span>
                         </Async.Pending>
                         <Async.Found>
-                            <ForecastRegionHeader
-                                onLocateClick={onLocateClick}
-                            />
+                            <ForecastRegionHeader onLocateClick={onLocateClick} />
                         </Async.Found>
                         <Async.Empty>
                             <span className={typography.Warning}>
-                                Forecast {name} not found
+                                <FormattedMessage
+                                    description="Layout drawers/Forecast"
+                                    defaultMessage="Forecast {name} not found"
+                                    values={{
+                                        name,
+                                    }}
+                                />
                             </span>
                         </Async.Empty>
                     </h1>
@@ -66,7 +72,10 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                 <Async.Provider value={useForecast(name)}>
                     <Async.Pending>
                         <p className={classnames(typography.Muted, shim.all)}>
-                            Loading avalanche forecast...
+                            <FormattedMessage
+                                description="Layout drawers/Forecast"
+                                defaultMessage="Loading avalanche forecast..."
+                            />
                         </p>
                     </Async.Pending>
                     <Async.Found>
@@ -78,7 +87,10 @@ export default function ForeastLayout({ name, onCloseClick, onLocateClick }) {
                         </Async.NotFound>
                         <Async.Error>
                             <Details
-                                summary="An error happened while loading forecast."
+                                summary={intl.formatMessage({
+                                    defaultMessage: 'An error happened while loading the forecast.',
+                                    description: 'Layout drawers/Forecast',
+                                })}
                                 className={shim.all}
                             />
                         </Async.Error>
@@ -108,13 +120,15 @@ function OtherRegions() {
 
     return (
         <Shim horizontal as="section">
-            <h3>Click on a link below to see another forecast:</h3>
+            <h3>
+                <FormattedMessage
+                    description="Layout drawers/Forecast"
+                    defaultMessage="Click on a link below to see another forecast:"
+                />
+            </h3>
             <List column={1}>
                 {regions.map(({ id, name }) => (
-                    <ListItem
-                        key={id}
-                        to={`/map/forecasts/${id}${location.search}`}
-                        replace>
+                    <ListItem key={id} to={`/map/forecasts/${id}${location.search}`} replace>
                         {name}
                     </ListItem>
                 ))}
@@ -132,9 +146,7 @@ function ForecastRegionHeader({ payload, onLocateClick }) {
                 <Tag region={id} as={Link} to="/spaw" />
                 <Link to={`/forecasts/${id}`}>{name}</Link>
             </div>
-            <DisplayOnMap
-                onClick={() => onLocateClick(utils.geometry(payload))}
-            />
+            <DisplayOnMap onClick={() => onLocateClick(utils.geometry(payload))} />
         </Fragment>
     )
 }

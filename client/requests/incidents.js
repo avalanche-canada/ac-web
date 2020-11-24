@@ -1,4 +1,4 @@
-import { incidentsBaseUrl } from './config.json'
+import { incidentsBaseUrl } from './config'
 import { appendParams } from 'utils/url'
 import fetch from 'utils/fetch'
 

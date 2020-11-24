@@ -15,7 +15,8 @@ import {
     Sidebar,
 } from 'layouts/products/min'
 import { useReport } from 'hooks/async/min'
-import { Provider, Pending, Found, NotFound, Payload } from 'contexts/async'
+import * as Async from 'contexts/async'
+import { FormattedMessage } from 'react-intl'
 
 Layout.propTypes = {
     id: PropTypes.string.isRequired,
@@ -23,23 +24,30 @@ Layout.propTypes = {
 
 export default function Layout({ id }) {
     const title = (
-        <Payload>
-            {report => (report ? report.title : 'Mountain Information Network')}
-        </Payload>
+        <Async.Payload>
+            {report =>
+                report?.title || (
+                    <FormattedMessage defaultMessage="Mountain Information Network" />
+                )
+            }
+        </Async.Payload>
     )
 
     return (
-        <Provider value={useReport(id)}>
+        <Async.Provider value={useReport(id)}>
             <Page>
                 <Header title={title} />
                 <Content>
                     <Main>
-                        <Pending>
+                        <Async.Pending>
                             <Loading>
-                                Loading Mountain Information Network report...
+                                <FormattedMessage
+                                    description="Layout min/Submission"
+                                    defaultMessage="Loading Mountain Information Network report..."
+                                />
                             </Loading>
-                        </Pending>
-                        <Found>
+                        </Async.Pending>
+                        <Async.Found>
                             {report => (
                                 <Submission value={report}>
                                     <Metadata />
@@ -48,28 +56,35 @@ export default function Layout({ id }) {
                                     <Gallery />
                                 </Submission>
                             )}
-                        </Found>
-                        <NotFound>
+                        </Async.Found>
+                        <Async.NotFound>
                             <Warning>
-                                Report with id {id} has not been found.
+                                <FormattedMessage
+                                    description="Layout min/Submission"
+                                    defaultMessage="Mountain Information Network report with id {id} has not been found."
+                                    values={{ id }}
+                                />
                             </Warning>
-                        </NotFound>
+                        </Async.NotFound>
                     </Main>
                     <Aside>
                         <Sidebar>
                             {supported() && (
-                                <Found>
+                                <Async.Found>
                                     <Item>
                                         <Link id={id}>
-                                            See this submission on the main map
+                                            <FormattedMessage
+                                                description="Layout min/Submission"
+                                                defaultMessage="See this submission on the main map"
+                                            />
                                         </Link>
                                     </Item>
-                                </Found>
+                                </Async.Found>
                             )}
                         </Sidebar>
                     </Aside>
                 </Content>
             </Page>
-        </Provider>
+        </Async.Provider>
     )
 }

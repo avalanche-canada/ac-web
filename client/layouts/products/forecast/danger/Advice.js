@@ -1,11 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Summary from '../Summary'
+import { useIntl } from 'react-intl'
 
 Advice.propTypes = {
     children: PropTypes.string.isRequired,
 }
 
 export default function Advice({ children }) {
-    return <Summary title="Travel and Terrain Advice">{children}</Summary>
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        defaultMessage: 'Travel and Terrain Advice',
+    })
+
+    return <Summary title={title}>{children}</Summary>
 }

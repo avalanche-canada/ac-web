@@ -2,7 +2,7 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import KIND, { ALL as KINDS } from './kinds'
-import css from './Button.css'
+import css from './Button.module.css'
 
 const LEFT = 'LEFT'
 const RIGHT = 'RIGHT'

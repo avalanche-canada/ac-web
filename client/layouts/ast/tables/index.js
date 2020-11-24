@@ -1,2 +1,5 @@
-export Providers from './Providers'
-export Courses from './Courses'
+import Providers from './Providers'
+import Courses from './Courses'
+
+export { Providers }
+export { Courses }

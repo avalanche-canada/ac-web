@@ -1,4 +1,4 @@
-import React from 'react'
+import { useIntlMemo } from 'hooks/intl'
 
 export const NOT_RECOMMENDED = 0
 export const EXTRA_CAUTION = 1
@@ -12,50 +12,63 @@ export const PALETTE = new Map([
     [CAUTION, '#12B24B'],
 ])
 
-export const TEXTS = new Map([
-    [NOT_RECOMMENDED, 'Not recommended'],
-    [EXTRA_CAUTION, 'Extra caution'],
-    [CAUTION, 'Caution'],
-])
+export function useTexts() {
+    return useIntlMemo(
+        intl =>
+            new Map([
+                [
+                    NOT_RECOMMENDED,
+                    intl.formatMessage({
+                        description: 'ATES Text',
+                        defaultMessage: 'Not recommended',
+                    }),
+                ],
+                [
+                    EXTRA_CAUTION,
+                    intl.formatMessage({
+                        description: 'ATES Text',
+                        defaultMessage: 'Extra caution',
+                    }),
+                ],
+                [
+                    CAUTION,
+                    intl.formatMessage({
+                        description: 'ATES Text',
+                        defaultMessage: 'Caution',
+                    }),
+                ],
+            ])
+    )
+}
 
-export const DESCRIPTIONS = new Map([
-    [
-        NOT_RECOMMENDED,
-        <div>
-            Backcountry travel in the red area is{' '}
-            <strong>NOT RECOMMENDED</strong> without professional–level safety
-            systems and guidance. Conditions are primed for avalanche accidents
-            and even careful decisions can result in serious accidents. Finding
-            terrain with an acceptable level of avalanche risk under these
-            conditions requires detailed knowledge and comprehensive
-            understanding of the development of the local snowpack to date, the
-            effect of the current weather on the existing avalanche problem, and
-            the small- scale characteristics of the local terrain, including
-            avalanche activity history.
-        </div>,
-    ],
-    [
-        EXTRA_CAUTION,
-        <div>
-            Use <strong>EXTRA CAUTION</strong> in the yellow area. Avalanches
-            are likely to occur with human or natural triggers, and accidents
-            are frequent. Safe travelling under these conditions demands an
-            advanced understanding of the character of the current avalanche
-            problem. This includes knowing which field observations are most
-            useful under the given conditions and which terrain features to
-            favour or avoid. Advanced trip planning and group management skills,
-            significant personal experience, and humility are essential.
-        </div>,
-    ],
-    [
-        CAUTION,
-        <div>
-            Conditions in the green area are appropriate for informed
-            backcountry travel in avalanche terrain and accidents are generally
-            infrequent. Use
-            <strong>CAUTION</strong>, including hazard recognition and safe
-            travel skills as taught in introductory avalanche courses. Rescue
-            skills are always essential when travelling in avalanche terrain.
-        </div>,
-    ],
-])
+export function useDescriptions() {
+    return useIntlMemo(
+        intl =>
+            new Map([
+                [
+                    NOT_RECOMMENDED,
+                    intl.formatMessage({
+                        description: 'ATES Description',
+                        defaultMessage:
+                            'Backcountry travel in the red area is not recommended without professional–level safety systems and guidance. Conditions are primed for avalanche accidents and even careful decisions can result in serious accidents. Finding terrain with an acceptable level of avalanche risk under these conditions requires detailed knowledge and comprehensive understanding of the development of the local snowpack to date, the effect of the current weather on the existing avalanche problem, and the small- scale characteristics of the local terrain, including avalanche activity history.',
+                    }),
+                ],
+                [
+                    EXTRA_CAUTION,
+                    intl.formatMessage({
+                        description: 'ATES Description',
+                        defaultMessage:
+                            'Use extra caution in the yellow area. Avalanches are likely to occur with human or natural triggers, and accidents are frequent. Safe travelling under these conditions demands an advanced understanding of the character of the current avalanche problem. This includes knowing which field observations are most useful under the given conditions and which terrain features to favour or avoid. Advanced trip planning and group management skills, significant personal experience, and humility are essential.',
+                    }),
+                ],
+                [
+                    CAUTION,
+                    intl.formatMessage({
+                        description: 'ATES Description',
+                        defaultMessage:
+                            'Conditions in the green area are appropriate for informed backcountry travel in avalanche terrain and accidents are generally infrequent. Use caution, including hazard recognition and safe travel skills as taught in introductory avalanche courses. Rescue skills are always essential when travelling in avalanche terrain.',
+                    }),
+                ],
+            ])
+    )
+}

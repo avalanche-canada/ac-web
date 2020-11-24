@@ -2,7 +2,8 @@ import React, { memo } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { useToggle, useClientRect } from 'hooks'
-import css from './Credit.css'
+import css from './Credit.module.css'
+import { useIntl } from 'react-intl'
 
 Credit.propTypes = {
     children: PropTypes.string.isRequired,
@@ -11,7 +12,12 @@ Credit.propTypes = {
 }
 
 function Credit({ top, compact, children }) {
+    const intl = useIntl()
     const [on, toggle] = useToggle(false)
+    const label = intl.formatMessage({
+        description: 'Component misc/Credit',
+        defaultMessage: 'Credit',
+    })
     const className = classnames({
         [css.Credit]: true,
         [css.Compact]: compact,
@@ -20,7 +26,7 @@ function Credit({ top, compact, children }) {
     })
 
     return (
-        <span data-label="Credit" className={className} onClick={toggle}>
+        <span data-label={label} className={className} onClick={toggle}>
             {children}
         </span>
     )

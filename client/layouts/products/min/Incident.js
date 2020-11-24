@@ -1,7 +1,9 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import List, { Entry } from './List'
 import Comment from './Comment'
+
+// No i18n required: will be provided by the API
 
 Incident.propTypes = {
     otherActivityDescription: PropTypes.string,
@@ -21,7 +23,7 @@ Incident.propTypes = {
     snowDepthTriggerPoint: PropTypes.string,
 }
 
-function Incident({
+export default function Incident({
     groupActivity,
     otherActivityDescription,
     numberInvolved,
@@ -73,5 +75,3 @@ function Incident({
         </Fragment>
     )
 }
-
-export default memo(Incident)

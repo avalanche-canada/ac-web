@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Explanation.css'
+import styles from './Explanation.module.css'
 
 Section.propTypes = {
     children: PropTypes.arrayOf(PropTypes.element).isRequired,
@@ -8,11 +8,7 @@ Section.propTypes = {
 }
 
 export function Section({ style, children }) {
-    return (
-        <section style={style} className={styles.Section}>
-            {children}
-        </section>
-    )
+    return <section style={style}>{children}</section>
 }
 
 Header.propTypes = {

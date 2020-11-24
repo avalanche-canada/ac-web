@@ -8,13 +8,92 @@ import {
     VictoryContainer,
     VictoryTooltip,
 } from 'victory'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { formatHours, scatterEvents } from '../utils'
-import format from 'date-fns/format'
 import { setUTCOffset } from 'utils/date'
 import theme from './theme'
 import range from 'lodash/range'
 import { filterDataset, shouldShowGraph } from './filters'
+import { DATETIME } from 'constants/intl'
 
+RelativeHumidity.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object),
+    min: PropTypes.number.isRequired,
+    max: PropTypes.number.isRequired,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
+}
+
+export default function RelativeHumidity({ data, min, max, width, height }) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Component weather/station/charts/RelativeHumidity',
+        defaultMessage: 'Relative humidity',
+    })
+    const desc = intl.formatMessage({
+        description: 'Component weather/station/charts/RelativeHumidity',
+        defaultMessage: 'Relative humidity (%) every hour from {min} to {max}.',
+        values: { min, max },
+    })
+    const label = intl.formatMessage({
+        description: 'Component weather/station/charts/RelativeHumidity',
+        defaultMessage: 'Relative humidity (%)',
+    })
+    const container = <VictoryContainer title={title} desc={desc} />
+    function getLabels({ x, y, utcOffset }) {
+        const date = intl.formatDate(setUTCOffset(x, utcOffset), DATETIME)
+        const humidity = intl.formatNumber(y / 100, {
+            style: 'percent',
+        })
+
+        return `${humidity}\n${date}`
+    }
+
+    if (!shouldShowGraph(data, 'relativeHumidity')) {
+        return null
+    }
+
+    const humidData = filterDataset(data, 'relativeHumidity')
+
+    return (
+        <div>
+            <h2>{title}</h2>
+            <VictoryChart
+                width={width}
+                height={height}
+                theme={theme}
+                containerComponent={container}
+                domainPadding={{ x: 25 }}>
+                <VictoryAxis scale="time" tickFormat={formatHours} />
+                <VictoryAxis
+                    dependentAxis
+                    scale="linear"
+                    domain={[0, 100]}
+                    label={label}
+                    tickValues={range(0, 101, 10)}
+                    style={STYLE.axis}
+                />
+                <VictoryLine
+                    data={humidData}
+                    x="measurementDateTime"
+                    style={STYLE.line}
+                    y="relativeHumidity"
+                />
+                <VictoryScatter
+                    data={humidData}
+                    x="measurementDateTime"
+                    y="relativeHumidity"
+                    labels={getLabels}
+                    labelComponent={<VictoryTooltip />}
+                    events={scatterEvents}
+                    style={STYLE.scatter}
+                />
+            </VictoryChart>
+        </div>
+    )
+}
+
+// Style
 const STYLE = {
     scatter: {
         data: {
@@ -51,68 +130,4 @@ const STYLE = {
             },
         },
     },
-}
-
-function getLabels({ x, y, utcOffset }) {
-    return `${y} %\n${format(setUTCOffset(x, utcOffset), 'dddd, MMMM D, HH[h]')}`
-}
-
-RelativeHumidity.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object),
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
-}
-
-export default function RelativeHumidity({ data, min, max, width, height }) {
-    const container = (
-        <VictoryContainer
-            title="Relative humidity"
-            desc={`Relative humidity (%) every hour from ${min} to ${max}.`}
-        />
-    )
-
-    if (!shouldShowGraph(data, 'relativeHumidity')) {
-        return null
-    }
-
-    const humidData = filterDataset(data, 'relativeHumidity')
-
-    return (
-        <div>
-            <h2>Relative Humidity</h2>
-            <VictoryChart
-                width={width}
-                height={height}
-                theme={theme}
-                containerComponent={container}
-                domainPadding={{ x: 25 }}>
-                <VictoryAxis scale="time" tickFormat={formatHours} />
-                <VictoryAxis
-                    dependentAxis
-                    scale="linear"
-                    domain={[0, 100]}
-                    label="Relative humidity (%)"
-                    tickValues={range(0, 101, 10)}
-                    style={STYLE.axis}
-                />
-                <VictoryLine
-                    data={humidData}
-                    x="measurementDateTime"
-                    style={STYLE.line}
-                    y="relativeHumidity"
-                />
-                <VictoryScatter
-                    data={humidData}
-                    x="measurementDateTime"
-                    y="relativeHumidity"
-                    labels={getLabels}
-                    labelComponent={<VictoryTooltip />}
-                    events={scatterEvents}
-                    style={STYLE.scatter}
-                />
-            </VictoryChart>
-        </div>
-    )
 }

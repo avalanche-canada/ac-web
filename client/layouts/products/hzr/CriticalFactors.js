@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { useReport } from './Context'
 import Comment from 'layouts/products/min/Comment'
 import List from 'layouts/products/min/List'
@@ -8,7 +9,8 @@ import { StructuredText } from 'prismic/components/base'
 import Panel from 'components/panel'
 import Shim from 'components/Shim'
 import { RED, ORANGE } from 'constants/forecast/palette'
-import styles from './HotZoneReport.css'
+import styles from './HotZoneReport.module.css'
+import { CM } from 'constants/intl'
 
 CriticalFactor.propTypes = {
     value: PropTypes.oneOf(['Yes', 'No']),
@@ -23,10 +25,8 @@ function CriticalFactor({ children, value }) {
             <Term className={styles['CriticalFactors--Term']} style={style}>
                 {children}
             </Term>
-            <Definition
-                className={styles['CriticalFactors--Definition']}
-                style={style}>
-                {value || 'Unknown'}
+            <Definition className={styles['CriticalFactors--Definition']} style={style}>
+                {value || <FormattedMessage defaultMessage="Unknown" />}
             </Definition>
         </Fragment>
     )
@@ -55,42 +55,80 @@ function CriticalFactorsComponent({
     criticalFactorsQuestions,
     criticalFactorsComments,
 }) {
+    const intl = useIntl()
+    const header = (
+        <FormattedMessage
+            description="Layout products/hzr/CriticalFactors"
+            defaultMessage="Critical Factors Summary"
+        />
+    )
+
     return (
-        <Panel header="Critical Factors Summary" expanded>
+        <Panel header={header} expanded>
             <Shim horizontal>
                 <p>
                     <strong>
-                        Critical factors influence avalanche hazard. The more
-                        critical factors, the greater the potential for
-                        avalanches.
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches."
+                        />
                     </strong>
                 </p>
                 <List>
                     <CriticalFactor value={criticalFactorsInstability}>
-                        Signs of instability
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Signs of instability"
+                        />
                     </CriticalFactor>
-                    <CriticalFactor
-                        value={criticalFactorsPersistentAvalancheProblem}>
-                        Persistent avalanche problem
+                    <CriticalFactor value={criticalFactorsPersistentAvalancheProblem}>
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Persistent avalanche problem"
+                        />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsRecentRainfall}>
-                        Recent rainfall
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Recent rainfall"
+                        />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsRecentSnowfall}>
-                        Recent snowfall > 30cm
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Recent snowfall > {height}"
+                            values={{
+                                height: intl.formatNumber(30, CM),
+                            }}
+                        />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsRecentWindLoading}>
-                        Recent wind loading
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Recent wind loading"
+                        />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsSignificantWarming}>
-                        Significant warming
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Significant warming"
+                        />
                     </CriticalFactor>
                     <CriticalFactor value={criticalFactorsSlabAvalanches}>
-                        Slab avalanches in the last 48 hours
+                        <FormattedMessage
+                            description="Layout products/hzr/CriticalFactors"
+                            defaultMessage="Slab avalanches in the last 48 hours"
+                        />
                     </CriticalFactor>
                 </List>
                 {criticalFactorsQuestions && (
-                    <Comment title="Information to collect while traveling">
+                    <Comment
+                        title={
+                            <FormattedMessage
+                                description="Layout products/hzr/CriticalFactors"
+                                defaultMessage="Information to collect while travelling"
+                            />
+                        }>
                         <StructuredText value={criticalFactorsQuestions} />
                     </Comment>
                 )}

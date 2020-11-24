@@ -1,4 +1,4 @@
-import { staticBaseURL } from './config.json'
+import { staticBaseURL } from './config'
 import fetch from 'utils/fetch'
 import * as urls from 'utils/url'
 

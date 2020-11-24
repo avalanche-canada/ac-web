@@ -1,5 +1,11 @@
-export Footer from './Footer'
-export Submitter from './Submitter'
-export DateSet from './DateSet'
-export Location from './Location'
-export Media from './Media'
+import Footer from './Footer'
+import Submitter from './Submitter'
+import DateSet from './DateSet'
+import Location from './Location'
+import Media from './Media'
+
+export { Footer }
+export { Submitter }
+export { DateSet }
+export { Location }
+export { Media }

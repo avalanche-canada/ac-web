@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useIntl } from 'react-intl'
 import Button from 'components/button'
-import {
-    Play,
-    Pause,
-    ChevronRight,
-    ChevronLeft,
-    FirstPage,
-    LastPage,
-} from 'components/icons'
+import { Play, Pause, ChevronRight, ChevronLeft, FirstPage, LastPage } from 'components/icons'
 import { WHITE } from 'constants/colors'
-import styles from './Loop.css'
+import styles from './Loop.module.css'
 
 ButtonSet.propTypes = {
     isPlaying: PropTypes.bool,
@@ -35,11 +29,7 @@ export default function ButtonSet({
         <div className={styles.ButtonSet}>
             {onFirst && <FirstButton onClick={onFirst} />}
             {onPrevious && <PreviousButton onClick={onPrevious} />}
-            {isPlaying ? (
-                <PauseButton onClick={onPause} />
-            ) : (
-                <PlayButton onClick={onPlay} />
-            )}
+            {isPlaying ? <PauseButton onClick={onPause} /> : <PlayButton onClick={onPlay} />}
             {onNext && <NextButton onClick={onNext} />}
             {onLast && <LastButton onClick={onLast} />}
         </div>
@@ -47,23 +37,81 @@ export default function ButtonSet({
 }
 
 // Buttons
-const PlayButton = button('Play the animation', <Play inverse />)
-const PauseButton = button('Pause the animation', <Pause inverse />)
-const NextButton = button(
-    'Move to the next image',
-    <ChevronRight color={WHITE} />
-)
-const PreviousButton = button(
-    'Move to the previous image',
-    <ChevronLeft color={WHITE} />
-)
-const FirstButton = button('Move to the first image', <FirstPage inverse />)
-const LastButton = button('Move to the last image', <LastPage inverse />)
+function PlayButton(props) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Component loop',
+        defaultMessage: 'Play the animation',
+    })
 
-function button(title, icon) {
-    return props => (
+    return (
         <Button {...props} title={title}>
-            {icon}
+            <Play inverse />
+        </Button>
+    )
+}
+function PauseButton(props) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Component loop',
+        defaultMessage: 'Pause the animation',
+    })
+
+    return (
+        <Button {...props} title={title}>
+            <Pause inverse />
+        </Button>
+    )
+}
+function NextButton(props) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Component loop',
+        defaultMessage: 'Move to the next image',
+    })
+
+    return (
+        <Button {...props} title={title}>
+            <ChevronRight color={WHITE} />
+        </Button>
+    )
+}
+function PreviousButton(props) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Component loop',
+        defaultMessage: 'Move to the previous image',
+    })
+
+    return (
+        <Button {...props} title={title}>
+            <ChevronLeft color={WHITE} />
+        </Button>
+    )
+}
+function FirstButton(props) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Component loop',
+        defaultMessage: 'Move to the first image',
+    })
+
+    return (
+        <Button {...props} title={title}>
+            <FirstPage inverse />
+        </Button>
+    )
+}
+function LastButton(props) {
+    const intl = useIntl()
+    const title = intl.formatMessage({
+        description: 'Component loop',
+        defaultMessage: 'Move to the last image',
+    })
+
+    return (
+        <Button {...props} title={title}>
+            <LastPage inverse />
         </Button>
     )
 }

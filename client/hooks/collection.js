@@ -2,6 +2,10 @@ import { useMemo } from 'react'
 
 export function useSorting(collection, compare, reversed = false) {
     return useMemo(() => {
+        if (!Array.isArray(collection)) {
+            return
+        }
+
         if (typeof compare !== 'function') {
             return collection
         }
@@ -24,7 +28,9 @@ export function usePagination(collection, page = 1, pageSize = 25) {
 
 export function useFilters(collection, predicates) {
     return useMemo(() => {
-        return predicates.reduce(predicateReducer, collection)
+        if (Array.isArray(collection)) {
+            return predicates.reduce(predicateReducer, collection)
+        }
     }, [collection, predicates])
 }
 

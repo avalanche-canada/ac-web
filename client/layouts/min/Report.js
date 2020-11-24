@@ -13,7 +13,7 @@ import { Grouping } from 'components/button'
 import * as T from 'components/text'
 import { Br } from 'components/misc'
 import { Responsive, FlexContentCell } from 'components/table'
-import { DateElement, DateTime, Relative } from 'components/time'
+import { DateTime, Relative } from 'components/time'
 import * as min from 'hooks/async/min'
 import { Metadata, Entry } from 'components/metadata'
 import { DayPicker } from 'components/controls'
@@ -24,12 +24,17 @@ import { useLocation } from 'router/hooks'
 import { useAuth } from 'contexts/auth'
 import { useForecastRegions } from 'hooks/async/features'
 import { useMerge } from 'hooks/async'
+import { FormattedMessage, useIntl } from 'react-intl'
+import { useFormatDate, useIntlMemo } from 'hooks/intl'
+import * as Async from 'contexts/async'
 
 Report.propTypes = {
     navigate: PropTypes.func.isRequired,
 }
 
 export default function Report({ navigate }) {
+    const intl = useIntl()
+    const columns = useColumns()
     const [grouping, setGrouping] = useState(null)
     const { isAuthenticated } = useAuth(true)
     const [params, stringify] = useParams({
@@ -46,7 +51,12 @@ export default function Report({ navigate }) {
             <FlexContentCell key={name} style={style}>
                 {title}
                 <Grouping
-                    title={'Group the table by ' + title}
+                    title={intl.formatMessage(
+                        {
+                            defaultMessage: 'Group the table by {title}',
+                        },
+                        { title }
+                    )}
                     active={grouping === name}
                     onClick={() => setGrouping(grouping === name ? null : name)}
                 />
@@ -57,10 +67,16 @@ export default function Report({ navigate }) {
             </th>
         )
     }
+    const title = (
+        <FormattedMessage
+            description="Layout min/Report"
+            defaultMessage="MIN To Win"
+        />
+    )
 
     return (
         <Page>
-            <Header title="MIN To Win" />
+            <Header title={title} />
             <Content>
                 <Main>
                     <Form
@@ -72,7 +88,7 @@ export default function Report({ navigate }) {
                     <Responsive>
                         <table>
                             <thead>
-                                <tr>{COLUMNS.map(renderHeader)}</tr>
+                                <tr>{columns.map(renderHeader)}</tr>
                             </thead>
                             {isAuthenticated ? (
                                 <TableContent
@@ -82,8 +98,10 @@ export default function Report({ navigate }) {
                                 />
                             ) : (
                                 <T.Warning as="caption">
-                                    You need to be logged in to see some
-                                    content.
+                                    <FormattedMessage
+                                        description="Layout min/Report"
+                                        defaultMessage="You need to be logged in to see some content."
+                                    />
                                 </T.Warning>
                             )}
                         </table>
@@ -105,18 +123,42 @@ function Form({ dateFrom, dateTo, onChange }) {
 
     return (
         <Metadata>
-            <Entry term="From" horizontal>
+            <Entry
+                term={
+                    <FormattedMessage
+                        description="Layout min/Report"
+                        defaultMessage="From"
+                    />
+                }
+                horizontal>
                 <DayPicker
                     date={dateFrom}
-                    placeholder="Pick a from date"
+                    placeholder={
+                        <FormattedMessage
+                            description="Layout min/Report"
+                            defaultMessage="Pick a from date"
+                        />
+                    }
                     onChange={handleFromDateChange}
                     disabledDays={{ after: subDays(dateTo, 1) }}
                 />
             </Entry>
-            <Entry term="To" horizontal>
+            <Entry
+                term={
+                    <FormattedMessage
+                        description="Layout min/Report"
+                        defaultMessage="To"
+                    />
+                }
+                horizontal>
                 <DayPicker
                     date={dateTo}
-                    placeholder="Pick a to date"
+                    placeholder={
+                        <FormattedMessage
+                            description="Layout min/Report"
+                            defaultMessage="Pick a to date"
+                        />
+                    }
                     onChange={handleToDateChange}
                     disabledDays={{ after: startOfYesterday() }}
                 />
@@ -126,14 +168,111 @@ function Form({ dateFrom, dateTo, onChange }) {
 }
 
 function TableContent({ dateFrom, dateTo, grouping }) {
+    const from = useFormatDate(dateFrom)
+    const to = useFormatDate(dateTo)
     const { location } = useLocation()
-    const [reports, pending, errors] = useReports(dateFrom, dateTo)
+    const columns = useColumns()
+
+    return (
+        <Async.Provider value={useReport(dateFrom, dateTo, grouping, columns)}>
+            <Async.Found>
+                {({ reports, groups }) =>
+                    groups ? (
+                        Array.from(groups).map(([region, reports]) => (
+                            <tbody key={region}>
+                                <tr>
+                                    <th colSpan={columns.length}>
+                                        {region} ({reports.length})
+                                    </th>
+                                </tr>
+                                <RowSet
+                                    items={reports}
+                                    columns={columns}></RowSet>
+                            </tbody>
+                        ))
+                    ) : (
+                        <tbody>
+                            <RowSet items={reports} columns={columns}></RowSet>
+                        </tbody>
+                    )
+                }
+            </Async.Found>
+            <caption>
+                <Async.Errors>
+                    {errors => (
+                        <T.Error>
+                            <ul>
+                                {errors.map(({ message }) => (
+                                    <li key={message}>{message}</li>
+                                ))}
+                            </ul>
+                        </T.Error>
+                    )}
+                </Async.Errors>
+                <T.Muted>
+                    <Async.Pending>
+                        <FormattedMessage defaultMessage="Loading Mountain Information Network reports..." />
+                    </Async.Pending>
+                    <Async.Found>
+                        {({ reports }) => (
+                            <Fragment>
+                                <FormattedMessage
+                                    description="Layout min/Report"
+                                    defaultMessage="{count, plural, =0 {No report} one {One report} other {Total of # reports}} found from {from} (start of the day) to {to} (end of the day)."
+                                    values={{
+                                        from,
+                                        to,
+                                        count: reports.length,
+                                    }}
+                                />
+                                {location.search && reports.length === 0 && (
+                                    <p>
+                                        <FormattedMessage
+                                            description="Layout min/Report"
+                                            defaultMessage="You can <link>clear your search criteria</link> to find more reports."
+                                            values={{
+                                                link(chunks) {
+                                                    return (
+                                                        <Link
+                                                            to={
+                                                                location.pathname
+                                                            }>
+                                                            {chunks}
+                                                        </Link>
+                                                    )
+                                                },
+                                            }}
+                                        />
+                                    </p>
+                                )}
+                            </Fragment>
+                        )}
+                    </Async.Found>
+                </T.Muted>
+            </caption>
+        </Async.Provider>
+    )
+}
+function RowSet({ items, columns }) {
+    return items.map(item => (
+        <tr key={item.subId}>
+            {columns.map(({ name, style, property }) => (
+                <td key={name} style={style}>
+                    {property(item)}
+                </td>
+            ))}
+        </tr>
+    ))
+}
+
+function useReport(dateFrom, dateTo, grouping, columns) {
+    const [reports, ...rest] = useReports(dateFrom, dateTo)
     const groups = useMemo(() => {
-        if (!grouping) {
+        if (!grouping || !reports) {
             return null
         }
 
-        const { groupingKey, emptyKeyGroupName } = COLUMNS.find(
+        const { groupingKey, emptyKeyGroupName } = columns.find(
             ({ name }) => name === grouping
         )
         const groups = reports.reduce((groups, report) => {
@@ -155,67 +294,7 @@ function TableContent({ dateFrom, dateTo, grouping }) {
         )
     }, [grouping, reports])
 
-    if (errors.length > 0) {
-        return <T.Error as="caption">{errors[0].message}</T.Error>
-    }
-    return (
-        <Fragment>
-            {groups ? (
-                Array.from(groups).map(([region, reports]) => (
-                    <tbody key={region}>
-                        <tr>
-                            <th colSpan={COLUMNS.length}>
-                                {region} ({reports.length})
-                            </th>
-                        </tr>
-                        <RowSet items={reports}></RowSet>
-                    </tbody>
-                ))
-            ) : (
-                <tbody>
-                    <RowSet items={reports}></RowSet>
-                </tbody>
-            )}
-            <caption>
-                {pending ? (
-                    <T.Muted>
-                        Loading Mountain Information Network reports...
-                    </T.Muted>
-                ) : reports.length === 0 ? (
-                    <T.Muted>
-                        No reports found from <DateElement value={dateFrom} />{' '}
-                        to <DateElement value={dateTo} />.
-                        {location.search && (
-                            <span>
-                                You can{' '}
-                                <Link to={location.pathname}>
-                                    clear your search criteria
-                                </Link>{' '}
-                                to find more reports.
-                            </span>
-                        )}
-                    </T.Muted>
-                ) : (
-                    <T.Muted>
-                        Total of {reports.length} reports found from{' '}
-                        <DateElement value={dateFrom} /> (start of the day) to{' '}
-                        <DateElement value={dateTo} /> (end of the day).
-                    </T.Muted>
-                )}
-            </caption>
-        </Fragment>
-    )
-}
-function RowSet({ items }) {
-    return items.map(item => (
-        <tr key={item.subId}>
-            {COLUMNS.map(({ name, style, property }) => (
-                <td key={name} style={style}>
-                    {property(item)}
-                </td>
-            ))}
-        </tr>
-    ))
+    return [reports ? { reports, groups } : undefined, ...rest]
 }
 
 function useReports(dateFrom, dateTo) {
@@ -223,14 +302,12 @@ function useReports(dateFrom, dateTo) {
         useForecastRegions(),
         min.useMINToWinReports(dateFrom, dateTo)
     )
-    let submissions = useMemo(() => {
+    const submissions = useMemo(() => {
         if (regions && reports) {
             const submissions = runSpatialAnalysis(reports, regions)
 
             return submissions
         }
-
-        return []
     }, [regions, reports])
 
     return [submissions, pending, errors.filter(Boolean)]
@@ -253,63 +330,71 @@ function runSpatialAnalysis(reports, { features }) {
 }
 
 // Constants
-const COLUMNS = [
-    {
-        name: 'pin',
-        property({ subId }) {
-            return (
-                <links.MountainInformationNetwork
-                    id={subId}
-                    title="Look at this report on the map">
-                    <img src={pin} height={30} width={20} />
-                </links.MountainInformationNetwork>
-            )
+function useColumns() {
+    return useIntlMemo(intl => [
+        {
+            name: 'pin',
+            property({ subId }) {
+                const title = intl.formatMessage({
+                    defaultMessage: 'Look at this report on the map',
+                })
+
+                return (
+                    <links.MountainInformationNetwork id={subId} title={title}>
+                        <img src={pin} height={30} width={20} />
+                    </links.MountainInformationNetwork>
+                )
+            },
+            style: {
+                minWidth: 40,
+            },
         },
-        style: {
-            minWidth: 40,
+        {
+            name: 'datetime',
+            title: intl.formatMessage({ defaultMessage: 'Date' }),
+            property({ submissionDatetime }) {
+                return (
+                    <span>
+                        <DateTime value={submissionDatetime} />
+                        <br />
+                        <T.Muted as="small">
+                            <Relative value={submissionDatetime} />
+                        </T.Muted>
+                    </span>
+                )
+            },
         },
-    },
-    {
-        name: 'datetime',
-        title: 'Date',
-        property({ submissionDatetime }) {
-            return (
-                <span>
-                    <DateTime value={submissionDatetime} />
-                    <br />
-                    <T.Muted as="small">
-                        <Relative value={submissionDatetime} />
-                    </T.Muted>
-                </span>
-            )
+        {
+            name: 'title',
+            title: intl.formatMessage({ defaultMessage: 'Title' }),
+            property({ title }) {
+                return title
+            },
         },
-    },
-    {
-        name: 'title',
-        title: 'Title',
-        property({ title }) {
-            return title
+        {
+            name: 'user',
+            title: intl.formatMessage({ defaultMessage: 'User' }),
+            property({ email }) {
+                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    return <a href={`mailto:${email}`}>{email}</a>
+                }
+                return email
+            },
         },
-    },
-    {
-        name: 'user',
-        title: 'User',
-        property({ email }) {
-            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                return <a href={`mailto:${email}`}>{email}</a>
-            }
-            return email
+        {
+            name: 'region',
+            title: intl.formatMessage({ defaultMessage: 'Region' }),
+            property({ region }) {
+                return region ? (
+                    <links.Forecast id={region.id}>
+                        {region.name}
+                    </links.Forecast>
+                ) : null
+            },
+            groupingKey: 'region.name',
+            emptyKeyGroupName: intl.formatMessage({
+                defaultMessage: 'Outside a region',
+            }),
         },
-    },
-    {
-        name: 'region',
-        title: 'Region',
-        property({ region }) {
-            return region ? (
-                <links.Forecast id={region.id}>{region.name}</links.Forecast>
-            ) : null
-        },
-        groupingKey: 'region.name',
-        emptyKeyGroupName: 'Outside a region',
-    },
-]
+    ])
+}

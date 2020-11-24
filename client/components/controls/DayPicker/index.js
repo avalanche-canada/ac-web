@@ -1,17 +1,22 @@
-import React, { useRef } from 'react'
+import React, { useCallback, useMemo, useRef } from 'react'
 import PropTypes from 'prop-types'
-import format from 'date-fns/format'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
+import { useIntl } from 'react-intl'
 import { Expand } from 'components/button'
-import { DATE } from 'utils/date'
 import { useBoolean } from 'hooks'
-import styles from './DayPicker.css'
+import { DATE } from 'constants/intl'
+import styles from './DayPicker.module.css'
 import 'react-day-picker/lib/style.css'
 
 DayPicker.propTypes = {
     date: PropTypes.instanceOf(Date),
     onChange: PropTypes.func.isRequired,
     placeholder: PropTypes.string.isRequired,
+    formatDate: PropTypes.func,
+    hideOnDayClick: PropTypes.func,
+    keepFocus: PropTypes.bool,
+    style: PropTypes.object,
+    overlayComponent: PropTypes.element,
 }
 
 export default function DayPicker({
@@ -20,13 +25,24 @@ export default function DayPicker({
     onChange,
     overlayComponent,
     hideOnDayClick,
-    formatDate = date => format(date, DATE),
     keepFocus,
     style,
     ...props
 }) {
+    const intl = useIntl()
     const ref = useRef(null)
+    const localeUtils = useLocaleUtils()
     const [opened, show, hide] = useBoolean(false)
+    const formatDate = useCallback(
+        date => {
+            if (typeof props.formatDate === 'function') {
+                return props.formatDate(date)
+            }
+
+            return intl.formatDate(date, DATE)
+        },
+        [intl.locale, props.formatDate]
+    )
 
     return (
         <div className={styles.Container} style={style}>
@@ -44,6 +60,7 @@ export default function DayPicker({
                 keepFocus={keepFocus}
                 dayPickerProps={{
                     selectedDays: [date],
+                    localeUtils,
                     disabledDays: {
                         after: new Date(),
                     },
@@ -65,4 +82,54 @@ export default function DayPicker({
             />
         </div>
     )
+}
+
+export function useLocaleUtils() {
+    const intl = useIntl()
+
+    return useMemo(
+        () => ({
+            formatDay(date) {
+                return intl.formatDate(date, {
+                    // TODO Extract these values into constants so we can reuse across website
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                })
+            },
+            formatMonthTitle(date) {
+                return intl.formatDate(date, {
+                    month: 'long',
+                    year: 'numeric',
+                })
+            },
+            formatWeekdayShort(i) {
+                const date = dayAt(i)
+
+                return intl.formatDate(date, {
+                    weekday: 'short',
+                })
+            },
+            formatWeekdayLong(i) {
+                const date = dayAt(i)
+
+                return intl.formatDate(date, {
+                    weekday: 'long',
+                })
+            },
+            getFirstDayOfWeek() {
+                return 0
+            },
+        }),
+        []
+    )
+}
+
+function dayAt(i) {
+    const date = new Date()
+
+    date.setDate(date.getDate() - date.getDay() + i)
+
+    return date
 }

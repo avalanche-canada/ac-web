@@ -1,0 +1,26 @@
+@import '../../styles/colors.module.css';
+
+.Image {
+    position: relative;
+
+    &:after {
+        content: "We're sorry, the image is not available :(";
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        min-height: 125px;
+        background-color: white;
+        color: var(--gray-dark);
+
+        background-image: url('./broken-image.svg');
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}

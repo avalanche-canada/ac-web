@@ -4,7 +4,7 @@ import Base from 'components/gallery'
 import { Media, Caption } from 'components/media'
 import { StructuredText, Image } from 'prismic/components/base'
 import { Credit } from 'components/misc'
-import styles from './Gallery.css'
+import styles from './Gallery.module.css'
 
 Gallery.propTypes = {
     items: PropTypes.arrayOf(
@@ -41,9 +41,7 @@ function renderItem({ image, caption, credit }) {
                     <StructuredText value={caption} />
                 </Caption>
             )}
-            <Image {...image}>
-                {credit && <Credit.Managed top>{credit}</Credit.Managed>}
-            </Image>
+            <Image {...image}>{credit && <Credit.Managed top>{credit}</Credit.Managed>}</Image>
         </Media>
     )
 }

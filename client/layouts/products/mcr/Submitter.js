@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './MountainConditionsReport.css'
+import { FormattedList } from 'react-intl'
+import styles from './MountainConditionsReport.module.css'
 
 Submitter.propTypes = {
     certification: PropTypes.string.isRequired,
@@ -15,7 +16,9 @@ export default function Submitter({ name, image, groups }) {
             <img src={image} title={name} alt={name} />
             <div>
                 <span>{name}</span>
-                <span>{groups.map(g => g.name).join(', ')}</span>
+                <span>
+                    <FormattedList type="conjunction" value={groups.map(group => group.name)} />
+                </span>
             </div>
         </div>
     )

@@ -1,8 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { forceHttps } from 'utils/url'
 import { handleOutboundSponsorClick } from 'services/analytics'
-import styles from './Sponsor.css'
+import styles from './Sponsor.module.css'
 
 Sponsor.propTypes = {
     name: PropTypes.string.isRequired,
@@ -12,7 +13,7 @@ Sponsor.propTypes = {
     children: PropTypes.node,
 }
 
-function Sponsor({ name, logo, url, label = 'Brought to you by', children }) {
+export default function Sponsor({ name, logo, url, label, children }) {
     return (
         <a
             href={url}
@@ -20,19 +21,19 @@ function Sponsor({ name, logo, url, label = 'Brought to you by', children }) {
             title={name}
             className={styles.Container}
             onClick={handleOutboundSponsorClick}>
-            {label && <span className={styles.Label}>{label}</span>}
+            {label === null || (
+                <span className={styles.Label}>
+                    <FormattedMessage
+                        description="Component misc/Sponsor"
+                        defaultMessage="Brought to you by"
+                    />
+                </span>
+            )}
             {logo ? (
-                <img
-                    src={forceHttps(logo)}
-                    alt={name}
-                    title={name}
-                    className={styles.Logo}
-                />
+                <img src={forceHttps(logo)} alt={name} title={name} className={styles.Logo} />
             ) : (
                 children
             )}
         </a>
     )
 }
-
-export default memo(Sponsor)

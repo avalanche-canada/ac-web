@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import { DateElement } from 'components/time'
+import { Range } from 'components/time'
 import Section from './Section'
 import addDays from 'date-fns/add_days'
 import ExtendedWeatherForecast from './ExtendedWeatherForecast'
@@ -18,11 +18,7 @@ function Title({ date }) {
     const from = addDays(date, 4)
     const to = addDays(date, 7)
 
-    return (
-        <Fragment>
-            <DateElement value={from} /> to <DateElement value={to} />
-        </Fragment>
-    )
+    return <Range from={from} to={to} />
 }
 
 export default function Day5to7({ date, children }) {

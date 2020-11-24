@@ -5,6 +5,8 @@ import Comment from './Comment'
 import { trulyKeys } from 'utils/object'
 import { List, Term, Definition } from 'components/description'
 
+// No i18n required: will be provided by the API
+
 Quick.propTypes = {
     avalancheConditions: PropTypes.shape({
         sound: PropTypes.bool.isRequired,

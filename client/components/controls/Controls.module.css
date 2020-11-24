@@ -1,0 +1,80 @@
+@import '../../styles/colors.module.css';
+
+.Common {
+    width: 100%;
+    height: 40px;
+    border-radius: 0;
+    padding-left: 10px;
+    border: none;
+    background-color: white;
+    box-sizing: border-box;
+}
+
+.WithBorder {
+    border: 1px solid var(--gray-lighter);
+}
+
+.Native {
+    appearance: none;
+}
+
+.Input {
+    composes: Native;
+    composes: Common;
+}
+
+.WithIcon {
+    background-position: 99.25% center;
+    background-repeat: no-repeat;
+    background-size: 24px;
+}
+
+.CloseState {
+    composes: WithIcon;
+
+    background-image: url('../icons/expand-more.svg');
+}
+
+.Holder {
+    color: var(--gray-dark);
+    line-height: 40px;
+    margin-right: 28px;
+}
+
+.Placeholder {
+    composes: Holder;
+}
+
+.Valueholder {
+    composes: Holder;
+
+    color: inherit;
+}
+
+.Holder--Content {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.Group {
+    position: relative;
+}
+
+.Addon {
+    position: absolute;
+    top: 3px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+
+.Addon--Left {
+    composes: Addon;
+    left: 0;
+}
+
+.Addon--Right {
+    composes: Addon;
+    right: 0;
+}

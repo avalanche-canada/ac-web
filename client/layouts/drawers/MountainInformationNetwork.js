@@ -16,6 +16,7 @@ import Sponsor from 'layouts/Sponsor'
 import { Provider, Pending, Found, NotFound } from 'contexts/async'
 import { point } from '@turf/helpers'
 import { useReport } from 'hooks/async/min'
+import { FormattedMessage, useIntl } from 'react-intl'
 
 MountainInformationNetwork.propTypes = {
     id: PropTypes.string.isRequired,
@@ -28,13 +29,18 @@ export default function MountainInformationNetwork({
     onCloseClick,
     onLocateClick,
 }) {
+    const intl = useIntl()
     return (
         <Provider value={useReport(id)}>
             <Navbar>
                 <Sponsor label={null} />
                 <Close onClick={onCloseClick} />
             </Navbar>
-            <Header subject="Mountain Information Network">
+            <Header
+                subject={intl.formatMessage({
+                    defaultMessage: 'Mountain Information Network',
+                    description: 'Layout drawers/MountainInformationNetwork',
+                })}>
                 <Pending>
                     <Loading as="h1" />
                 </Pending>
@@ -42,18 +48,34 @@ export default function MountainInformationNetwork({
                     <ReportTitle onLocateClick={onLocateClick} />
                 </Found>
                 <NotFound>
-                    <Warning as="h1">Report not found.</Warning>
+                    <Warning as="h1">
+                        <FormattedMessage
+                            description="Layout drawers/MountainInformationNetwork"
+                            defaultMessage="Report not found."
+                        />
+                    </Warning>
                 </NotFound>
             </Header>
             <Body>
                 <Shim horizontal>
                     <Pending>
                         <Loading>
-                            Loading Mountain Information Network report...
+                            <FormattedMessage
+                                description="Layout drawers/MountainInformationNetwork"
+                                defaultMessage="Loading Mountain Information Network report..."
+                            />
                         </Loading>
                     </Pending>
                     <NotFound>
-                        <p>Report with id {id} has not been found.</p>
+                        <p>
+                            <FormattedMessage
+                                description="Layout drawers/MountainInformationNetwork"
+                                defaultMessage="Report with id {id} has not been found."
+                                values={{
+                                    id
+                                }}
+                            />
+                        </p>
                     </NotFound>
                 </Shim>
                 <Found>

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { StructuredText } from 'prismic/components/base'
-import css from './Quiz.css'
+import css from './Quiz.module.css'
 
 Quiz.propTypes = {
     primary: PropTypes.shape({

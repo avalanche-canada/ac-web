@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { useAuth } from 'contexts/auth'
 import { captureException } from 'services/sentry'
 import { Headline } from 'components/page'
@@ -15,6 +16,12 @@ LoginComplete.propTypes = {
 export default function LoginComplete(props) {
     const [error, setError] = useState(null)
     const auth = useAuth()
+    const title = (
+        <FormattedMessage
+            description="Layout LoginComplete"
+            defaultMessage="Authentication in progress..."
+        />
+    )
     function navigate(to = '/') {
         props.navigate(to, {
             repace: true,
@@ -57,28 +64,45 @@ export default function LoginComplete(props) {
     }, [])
 
     return (
-        <Loading title="Authentication in progress...">
+        <Loading title={title}>
             {error ? (
                 <Fragment>
                     <Headline>
                         <Error>
-                            An error happened while authenticating you in. You
-                            can try another{' '}
-                            <a href="#" onClick={login}>
-                                login
-                            </a>
-                            .
+                            <FormattedMessage
+                                description="Layout LoginComplete"
+                                defaultMessage="An error happened while authenticating you in. You can try another <link>login</link>."
+                                values={{
+                                    link(chunks) {
+                                        return (
+                                            <a href="#" onClick={login}>
+                                                {chunks}
+                                            </a>
+                                        )
+                                    },
+                                }}
+                            />
                         </Error>
                     </Headline>
                     <Generic uid="login-help" />
                     <details>
-                        <summary>More details about the error...</summary>
+                        <summary>
+                            <FormattedMessage
+                                description="Layout LoginComplete"
+                                defaultMessage="More details about this error..."
+                            />
+                        </summary>
                         <Error>{JSON.stringify(error, null, 4)}</Error>
                     </details>
                 </Fragment>
             ) : (
                 <Headline>
-                    <Muted>You will be redirected once we are done!</Muted>
+                    <Muted>
+                        <FormattedMessage
+                            description="Layout LoginComplete"
+                            defaultMessage="You will be redirected once we are done!"
+                        />
+                    </Muted>
                 </Headline>
             )}
         </Loading>

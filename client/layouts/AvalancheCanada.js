@@ -1,6 +1,7 @@
 import React from 'react'
 import { memo } from 'utils/react'
 import { Router, Redirect } from '@reach/router'
+import { FormattedMessage } from 'react-intl'
 import LoginComplete from './LoginComplete'
 import Account from './Account'
 import Main from 'layouts/main'
@@ -25,8 +26,8 @@ import { GENERIC, STATIC_PAGE } from 'constants/prismic'
 import { NEWS, BLOG, EVENT } from 'constants/prismic'
 import * as min from 'utils/min'
 import { Page as SPAW } from './SPAW'
-import layouts from 'layouts/pages/pages.css'
-import styles from './AvalancheCanada.css'
+import layouts from 'layouts/pages/pages.module.css'
+import styles from './AvalancheCanada.module.css'
 
 function AvalancheCanada() {
     return (
@@ -38,32 +39,17 @@ function AvalancheCanada() {
                         <Main path="/" />
                         <Main path="map/*" />
                         <SPAW path="spaw/*" />
-                        <Redirect
-                            from="/map/ates"
-                            to="/planning/trip-planner"
-                        />
-                        <Redirect
-                            from="/trip-planner"
-                            to="/planning/trip-planner"
-                        />
-                        <Redirect
-                            from="/trip-planning/:page"
-                            to="/planning/:page"
-                        />
+                        <Redirect from="/map/ates" to="/planning/trip-planner" />
+                        <Redirect from="/trip-planner" to="/planning/trip-planner" />
+                        <Redirect from="/trip-planning/:page" to="/planning/:page" />
                         <Redirect from="/trip-planning" to="/planning" />
-                        <Redirect
-                            from="/forecast/:name"
-                            to="/forecasts/:name"
-                        />
+                        <Redirect from="/forecast/:name" to="/forecasts/:name" />
                         <Redirect from="/learn" to="/training" />
                         <LoginComplete path="login-complete" />
                         <Account path="account" />
                         <Admin path="admin/*" />
                         <Glossary path="glossary/*" />
-                        <Redirect
-                            from="pages/tutorial/tutorial"
-                            to="/tutorial"
-                        />
+                        <Redirect from="pages/tutorial/tutorial" to="/tutorial" />
                         <Tutorial path="tutorial/*" />
                         <Tutorial path="tutoriel/*" />
                         <Redirect from="hot-zone-reports/*" to="advisories" />
@@ -82,107 +68,33 @@ function AvalancheCanada() {
                         <Weather path="weather/*" />
                         <Ast path="training/*" />
                         <StaticPage path="careers" uid="careers" />
-                        <StaticPage
-                            path="start-here"
-                            uid="start-here"
-                            title="Start here"
-                        />
-                        <StaticPage path="about" uid="about" title="About" />
-                        <StaticPage
-                            path="dangerator"
-                            uid="dangerator"
-                            title="Dangerator"
-                        />
-                        <StaticPage path="mobile" uid="mobile" title="Mobile" />
-                        <StaticPage
-                            path="early-season-conditions"
-                            uid="early-season-conditions"
-                            title="Early Season Conditions"
-                        />
+                        <StaticPage path="start-here" uid="start-here" />
+                        <StaticPage path="about" uid="about" />
+                        <StaticPage path="dangerator" uid="dangerator" />
+                        <StaticPage path="mobile" uid="mobile" />
+                        <StaticPage path="early-season-conditions" uid="early-season-conditions" />
                         <TripPlanner path="planning/trip-planner" />
-                        <StaticPage
-                            path="planning/decision-making"
-                            uid="decision-making"
-                            title="Decision Making"
-                        />
-                        <StaticPage
-                            path="planning"
-                            uid="planning"
-                            title="Planning"
-                        />
-                        <StaticPage
-                            path="information"
-                            uid="information"
-                            title="Information"
-                        />
-                        <StaticPage
-                            path="sled"
-                            uid="sled"
-                            title="Sled"
-                            className={styles.Sled}
-                        />
-                        <StaticPage path="youth" uid="youth" title="Youth" />
-                        <StaticPage
-                            path="gear"
-                            uid="essential-gear"
-                            title="Essential Gear"
-                        />
-                        <StaticPage
-                            path="training"
-                            uid="training"
-                            title="Go Farther — Get Avalanche Trained"
-                        />
-                        <StaticPage
-                            path="training/companion-rescue"
-                            uid="companion-rescue"
-                            title="Eight reasons you should take a Companion Rescue Skills course"
-                        />
-                        <StaticPage
-                            path="education"
-                            uid="education"
-                            title="Go Farther — Get Avalanche Trained"
-                        />
-                        <StaticPage
-                            path="education/recorded-webinars"
-                            uid="webinar-recordings"
-                            title="Weekly Webinar Recordings"
-                        />
-                        <StaticPage
-                            path="instructing-ast"
-                            uid="instructing-ast"
-                            title="Teaching Avalanche Skills Training (AST)"
-                        />
+                        <StaticPage path="planning/decision-making" uid="decision-making" />
+                        <StaticPage path="planning" uid="planning" />
+                        <StaticPage path="information" uid="information" />
+                        <StaticPage path="sled" uid="sled" className={styles.Sled} />
+                        <StaticPage path="youth" uid="youth" />
+                        <StaticPage path="gear" uid="essential-gear" />
+                        <StaticPage path="training" uid="training" />
+                        <StaticPage path="training/companion-rescue" uid="companion-rescue" />
+                        <StaticPage path="education" uid="education" />
+                        <StaticPage path="education/recorded-webinars" uid="webinar-recordings" />
+                        <StaticPage path="instructing-ast" uid="instructing-ast" />
                         <StaticPage
                             path="ambassadors"
                             uid="ambassadors"
-                            title="Ambassadors"
                             className={styles.Ambassadors}
                         />
-                        <StaticPage
-                            path="sponsors"
-                            uid="sponsors"
-                            title="Sponsors"
-                        />
-                        <StaticPage
-                            path="collaborators"
-                            uid="collaborators"
-                            title="Collaborators"
-                        />
-                        <StaticPage
-                            path="inreach"
-                            uid="inreach"
-                            title="Kakwa avalanche forecasts via inReach"
-                        />
-                        <StaticPage
-                            path="privacy-policy"
-                            uid="privacy-policy"
-                            title="Privacy Policy"
-                        />
-                        <GenericPage
-                            path="terms-of-use"
-                            uid="terms-of-use"
-                            title="Terms of use"
-                        />
+                        <StaticPage path="sponsors" uid="sponsors" />
+                        <StaticPage path="collaborators" uid="collaborators" />
+                        <StaticPage path="inreach" uid="inreach" />
+                        <StaticPage path="privacy-policy" uid="privacy-policy" />
+                        <GenericPage path="terms-of-use" uid="terms-of-use" />
                         <Pages path="pages/*" />
                         <NotFound default />
                     </Router>
@@ -200,19 +112,19 @@ function AvCanFallback(props) {
         <Fallback {...props}>
             <ButtonSet>
                 <a href="/" className={layouts.Link}>
-                    Forecasts
+                    <FormattedMessage id="forecasts" defaultMessage="Forecasts" />
                 </a>
                 <a href="/training" className={layouts.Link}>
-                    Training
+                    <FormattedMessage id="training" defaultMessage="Training" />
                 </a>
                 <a href="/news" className={layouts.Link}>
-                    Latest news
+                    <FormattedMessage id="latest-news" defaultMessage="Latest news" />
                 </a>
                 <a href="/events" className={layouts.Link}>
-                    Upcoming events
+                    <FormattedMessage id="upcoming-events" defaultMessage="Upcoming events" />
                 </a>
                 <a href="/blogs" className={layouts.Link}>
-                    Our blog
+                    <FormattedMessage id="our-blog" defaultMessage="Our blog" />
                 </a>
             </ButtonSet>
         </Fallback>
@@ -267,19 +179,13 @@ function StaticPagePages() {
             <Redirect from="youth" to="/youth" />
             <Redirect from="essential-gear" to="/gear" />
             <Redirect from="training" to="/training" />
-            <Redirect
-                from="mountain-information-network-overview"
-                to={min.path()}
-            />
+            <Redirect from="mountain-information-network-overview" to={min.path()} />
             <Redirect
                 from="mountain-information-network-submission-guidelines"
                 to={min.path('submission-guidelines')}
             />
             <Redirect from="about" to="/about" />
-            <Redirect
-                from="mountain-information-network-faq"
-                to={min.path('faq')}
-            />
+            <Redirect from="mountain-information-network-faq" to={min.path('faq')} />
             <Redirect from="ambassadors" to="/ambassadors" />
             <Redirect from="sponsors" to="/sponsors" />
             <Redirect from="collaborators" to="/collaborators" />

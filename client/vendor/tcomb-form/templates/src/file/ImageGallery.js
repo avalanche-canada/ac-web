@@ -4,7 +4,7 @@ import Base from 'components/gallery'
 import { Loading, Error } from 'components/text'
 import { pluralize } from 'utils/string'
 import Description from './Description'
-import styles from './File.css'
+import styles from './File.module.css'
 
 // Could be converted but that code might throw away once using Formik
 
@@ -98,11 +98,7 @@ function read(file, index) {
             }
 
             reader.onerror = event => {
-                reject(
-                    new Error(
-                        `Error reading ${file.name}: ${event.target.result}`
-                    )
-                )
+                reject(new Error(`Error reading ${file.name}: ${event.target.result}`))
             }
 
             reader.readAsDataURL(file)

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Link, Router } from '@reach/router'
 import * as Components from 'components/page/drawer'
 import Sponsor from 'layouts/Sponsor'
+import { useIntl } from 'react-intl'
 // import SPAW from './SPAW'
 
 export default Components.Container
@@ -31,10 +32,14 @@ Header.propTypes = {
 }
 
 export function Header({ subject, link, title, onLocateClick }) {
+    const intl = useIntl()
     return (
         <Components.Header subject={subject}>
             <h1>
-                <Link to={link}>{title || 'Loading...'}</Link>
+                <Link to={link}>{title || intl.formatMessage({
+                    defaultMessage: 'Loading...',
+                    description: 'Layout drawers/layouts',
+                })}</Link>
                 {typeof onLocateClick === 'function' && (
                     <Components.DisplayOnMap onClick={onLocateClick} />
                 )}

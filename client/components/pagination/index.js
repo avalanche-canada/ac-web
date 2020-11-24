@@ -1,8 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import styles from './Pagination.css'
+import styles from './Pagination.module.css'
 import Segment, { Disabled } from './Segment'
 import pagination from 'utils/pagination'
+import { noop } from 'utils/function'
 
 Pagination.propTypes = {
     total: PropTypes.number.isRequired,
@@ -10,29 +11,19 @@ Pagination.propTypes = {
     onChange: PropTypes.func.isRequired,
 }
 
-function Pagination({ total = 0, active = 1, onChange = () => {} }) {
+export default function Pagination({ total = 0, active = 1, onChange = noop }) {
     total = Math.ceil(total)
 
     if (total < 2) {
         return null
     }
 
-    const segments =
-        total <= 10
-            ? Array(total)
-                  .fill(1)
-                  .map((value, index) => value + index)
-            : pagination(active, total, 3, null)
+    const segments = total <= 10 ? generateSequence(total) : pagination(active, total, 3, null)
 
     function createSegment(page) {
         if (typeof page === 'number') {
             return (
-                <Segment
-                    key={page}
-                    page={page}
-                    onActivate={onChange}
-                    isActive={active === page}
-                />
+                <Segment key={page} page={page} onActivate={onChange} isActive={active === page} />
             )
         } else {
             return <Disabled key={page}>…</Disabled>
@@ -42,4 +33,9 @@ function Pagination({ total = 0, active = 1, onChange = () => {} }) {
     return <div className={styles.Container}>{segments.map(createSegment)}</div>
 }
 
-export default memo(Pagination)
+// Utils
+function generateSequence(length) {
+    return Array(length)
+        .fill(1)
+        .map((value, index) => value + index)
+}

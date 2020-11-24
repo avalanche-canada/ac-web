@@ -1,8 +1,9 @@
-import React, { memo } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import Avatar from 'components/avatar'
 import { Mailto, Phone } from 'components/anchors'
-import styles from './Biography.css'
+import styles from './Biography.module.css'
+import { useIntl } from 'react-intl'
 
 // FIXME: This component is asking for too much! Find a way to be more generic. Look at Blocquote.
 
@@ -16,7 +17,7 @@ Biography.propTypes = {
     children: PropTypes.node,
 }
 
-function Biography({
+export default function Biography({
     email,
     workPhoneNumber,
     children,
@@ -25,6 +26,7 @@ function Biography({
     title,
     avatar,
 }) {
+    const intl = useIntl()
     const fullName = `${firstName} ${lastName}`
 
     return (
@@ -41,14 +43,22 @@ function Biography({
                     {email && (
                         <Mailto
                             email={email}
-                            title={`Send ${fullName} an email`}
+                            title={intl.formatMessage({
+                                description: 'Biography Component',
+                                defaultMessage: 'Send {fullName} an email',
+                                values: { fullName },
+                            })}
                         />
                     )}
                     {workPhoneNumber && (
                         <Phone
                             phone={workPhoneNumber}
                             ext={null}
-                            title={`Give ${fullName} a call`}
+                            title={intl.formatMessage({
+                                description: 'Biography Component',
+                                defaultMessage: 'Give {fullName} a call',
+                                values: { fullName },
+                            })}
                         />
                     )}
                 </address>
@@ -57,5 +67,3 @@ function Biography({
         </section>
     )
 }
-
-export default memo(Biography)

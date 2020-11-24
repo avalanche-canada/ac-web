@@ -4,7 +4,7 @@ import { select, event } from 'd3-selection'
 import { drag } from 'd3-drag'
 import { line } from 'd3-shape'
 import { polygonCentroid, polygonContains } from 'd3-polygon'
-import { Translate } from 'contexts/locale'
+import { FormattedMessage } from 'react-intl'
 import { Media, Caption } from 'components/media'
 import { Credit } from 'components/misc'
 import { StructuredText } from 'prismic/components/base'
@@ -12,7 +12,7 @@ import Button from 'components/button'
 import Shim from 'components/Shim'
 import { memo as react } from 'utils/react'
 import * as COLORS from 'constants/colors'
-import styles from './RouteFindingExercise.css'
+import styles from './RouteFindingExercise.module.css'
 
 // TODO: Using a state machine would simplify implementation
 
@@ -37,13 +37,11 @@ export default class RouteFindingExercise extends Component {
         coordinates: [],
         drawing: false,
     }
-    constructor(props) {
-        super(props)
+    constructor(...props) {
+        super(...props)
 
         this.zones = props.items.map(({ coordinates, ...rest }) => {
-            coordinates = coordinates
-                .split(' ')
-                .map(coords => coords.split(',').map(Number))
+            coordinates = coordinates.split(' ').map(coords => coords.split(',').map(Number))
 
             return Object.assign(rest, {
                 coordinates,
@@ -121,13 +119,7 @@ export default class RouteFindingExercise extends Component {
     renderDangerZone = ({ coordinates }, index) => {
         const touched = this.state.touched.has(index)
 
-        return (
-            <DangerZone
-                key={index}
-                touched={touched}
-                coordinates={coordinates}
-            />
-        )
+        return <DangerZone key={index} touched={touched} coordinates={coordinates} />
     }
     renderDangerZoneLabel = (index, i) => {
         const { centroid } = this.zones[index]
@@ -152,34 +144,20 @@ export default class RouteFindingExercise extends Component {
                 <h2>{heading}</h2>
                 <Media className={styles.Media}>
                     <div className={styles.Media}>
-                        <svg
-                            ref={this.initializeDrawing}
-                            viewBox={`0 0 ${width} ${height}`}>
-                            <image
-                                width={width}
-                                height={height}
-                                xlinkHref={url}
-                            />
+                        <svg ref={this.initializeDrawing} viewBox={`0 0 ${width} ${height}`}>
+                            <image width={width} height={height} xlinkHref={url} />
                             <g>{zones.map(this.renderDangerZone)}</g>
                             <EndPoint coordinates={from} start />
                             <EndPoint coordinates={to} />
                             <Route coordinates={coordinates} />
-                            <g>
-                                {Array.from(
-                                    touched,
-                                    this.renderDangerZoneLabel
-                                )}
-                            </g>
+                            <g>{Array.from(touched, this.renderDangerZoneLabel)}</g>
                         </svg>
                         <Credit compact>{credit}</Credit>
                     </div>
                     {touched.size > 0 ? (
                         <Caption>
                             <div className={styles.NotSoGoodJob}>
-                                <Translate>
-                                    Watch out, you are crossing some danger
-                                    zones.
-                                </Translate>
+                                <FormattedMessage defaultMessage="Watch out, you are crossing some danger zones." />
                             </div>
                             <ol>
                                 {Array.from(touched, index => {
@@ -187,27 +165,23 @@ export default class RouteFindingExercise extends Component {
 
                                     return (
                                         <li key={index}>
-                                            <StructuredText
-                                                value={description}
-                                            />
+                                            <StructuredText value={description} />
                                         </li>
                                     )
                                 })}
                             </ol>
                             <Button onClick={this.handleResetClick}>
-                                <Translate>Start again</Translate>
+                                <FormattedMessage defaultMessage="Start again" />
                             </Button>
                         </Caption>
                     ) : drawing === false && coordinates.length > 0 ? (
                         <Caption>
                             <div className={styles.GoodJob}>
-                                <Translate>
-                                    Good job! You can try to find other routes.
-                                </Translate>
+                                <FormattedMessage defaultMessage="Good job! You can try to find other routes." />
                             </div>
                             <Shim top>
                                 <Button onClick={this.handleResetClick}>
-                                    <Translate>Find another route</Translate>
+                                    <FormattedMessage defaultMessage="Find another route" />
                                 </Button>
                             </Shim>
                         </Caption>

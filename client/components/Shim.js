@@ -1,7 +1,7 @@
-import { createElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import css from './Shim.css'
+import css from './Shim.module.css'
 
 Shim.propTypes = {
     children: PropTypes.node,
@@ -16,13 +16,19 @@ Shim.propTypes = {
     className: PropTypes.string,
 }
 
-export default function Shim({ children, as = 'div', className, ...values }) {
-    className = classnames(
-        className,
-        Object.keys(values)
-            .filter(Boolean)
-            .map(key => css[key])
-    )
+export default function Shim({
+    children,
+    as: As = 'div',
+    className, // TODO Remove the property!!!
+    ...values
+}) {
+    className = classnames(className, createClassNameFromValues(values))
 
-    return createElement(as, { className }, children)
+    return <As className={className}>{children}</As>
+}
+
+function createClassNameFromValues(values) {
+    return Object.keys(values)
+        .filter(Boolean)
+        .map(key => css[key])
 }

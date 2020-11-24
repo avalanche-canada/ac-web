@@ -1,3 +1,5 @@
+import { useIntlMemo } from 'hooks/intl'
+
 export const FORECASTS = 'FORECASTS'
 export const HOT_ZONE_REPORTS = 'HOT_ZONE_REPORTS'
 export const MOUNTAIN_INFORMATION_NETWORK = 'MOUNTAIN_INFORMATION_NETWORK'
@@ -16,3 +18,59 @@ export default [
     FATAL_ACCIDENT,
     MOUNTAIN_CONDITIONS_REPORTS,
 ]
+
+export function useTitle(layer) {
+    const titles = useTitles()
+
+    return titles.get(layer)
+}
+
+export function useTitles() {
+    return useIntlMemo(
+        intl =>
+            new Map([
+                [
+                    FORECASTS,
+                    intl.formatMessage({
+                        id: 'avalanche-forecasts',
+                        defaultMessage: 'Avalanche Forecasts',
+                    }),
+                ],
+                [
+                    HOT_ZONE_REPORTS,
+                    intl.formatMessage({
+                        id: 'avalanche-advisories',
+                        defaultMessage: 'Avalanche Advisories',
+                    }),
+                ],
+                [
+                    MOUNTAIN_INFORMATION_NETWORK,
+                    intl.formatMessage({
+                        id: 'mountain-information-network',
+                        defaultMessage: 'Mountain Information Network',
+                    }),
+                ],
+                [
+                    MOUNTAIN_CONDITIONS_REPORTS,
+                    intl.formatMessage({
+                        id: 'mountain-conditions-reports',
+                        defaultMessage: 'Mountain Conditions Reports',
+                    }),
+                ],
+                [
+                    WEATHER_STATION,
+                    intl.formatMessage({
+                        id: 'weather-stations',
+                        defaultMessage: 'Weather stations',
+                    }),
+                ],
+                [
+                    FATAL_ACCIDENT,
+                    intl.formatMessage({
+                        id: 'fatal-recreational-accidents',
+                        defaultMessage: 'Fatal Recreational Accidents',
+                    }),
+                ],
+            ])
+    )
+}

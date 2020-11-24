@@ -1,0 +1,34 @@
+@import '../../../styles/colors.module.css';
+
+@custom-media --full-width (width > 600px);
+
+.Item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    margin: auto 2em;
+
+    color: white;
+    font-size: 1.5em;
+    font-weight: 700;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+    white-space: normal;
+    line-height: normal;
+
+    & a {
+        color: var(--brand-secondary);
+    }
+
+    @media (--full-width) {
+        margin: auto 3em;
+        font-size: 2em;
+    }
+}

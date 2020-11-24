@@ -9,6 +9,7 @@ import { Details } from 'components/error'
 import { Muted } from 'components/text'
 import * as Async from 'contexts/async'
 import { pluralize } from 'utils/string'
+import { FormattedMessage, useIntl, defineMessages } from 'react-intl'
 
 Header.propTypes = {
     columns: PropTypes.array.isRequired,
@@ -62,11 +63,18 @@ export function Title({ type, count, total }) {
             {title}
             {count !== total ? (
                 <small>
-                    Currently showing {pluralize(type, count, true)},{' '}
-                    <Link to={`/training/${pluralized}`}>
-                        reset your criteria
-                    </Link>
-                    .
+                    <FormattedMessage description="Layout ast/tables/utils" defaultMessage="Currently showing {items}, <link>reset your criteria</link>." values={
+                        {
+                            items: pluralize(type, count, true),
+                            link(text) {
+                                return (
+                                    <Link to={`/training/${pluralized}`}>
+                                        {text}
+                                    </Link>
+                                )
+                            },
+                        }
+                    } />
                 </small>
             ) : null}
         </Fragment>
@@ -113,16 +121,31 @@ Caption.propTypes = {
 }
 
 export function Caption({ type, empty, children }) {
+    const intl = useIntl()
+    const messages = defineMessages({
+        loadingError: {
+            id: 'app.loadingError',
+            defaultMessage: 'An error happened while loading the {pluralized}...',
+            description: 'Layout ast/tables/utils',
+        }
+    })
     const pluralized = pluralize(type, 2)
-    const summary = `An error happened while loading the ${pluralized}...`
 
     return (
         <caption>
             <Async.Error>
-                <Details summary={summary} />
+                <Details summary={intl.formatMessage(messages.loadingError, { pluralized })} />
             </Async.Error>
             <Async.Pending>
-                <Muted>Loading {pluralized}...</Muted>
+                <Muted>
+                    <FormattedMessage
+                        description="Layout ast/tables/utils"
+                        defaultMessage="Loading {pluralized}..."
+                        values={{
+                            pluralized
+                        }}
+                    />
+                </Muted>
             </Async.Pending>
             <Async.Found>{empty && children}</Async.Found>
         </caption>

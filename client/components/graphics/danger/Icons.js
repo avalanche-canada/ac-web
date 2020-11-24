@@ -142,11 +142,3 @@ export function NoRating() {
         </g>
     )
 }
-
-// Shapes
-function Snowcaps() {
-    return null
-}
-function Frame() {
-    return null
-}

@@ -1,17 +1,13 @@
-import React, { Fragment, useMemo, useEffect } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Router, Link, Redirect } from '@reach/router'
+import { FormattedMessage, useIntl } from 'react-intl'
 import { tutorial } from 'prismic/params'
 import * as PageComponents from 'components/page'
 import { Page } from 'layouts/pages'
 import { Warning as Alert } from 'components/alert'
 import Tree, { Node } from 'components/tree'
 import { SliceZone } from 'prismic/components/base'
-import {
-    useLocale,
-    Provider as LocaleProvider,
-    Translate,
-} from 'contexts/locale'
 import SliceComponents from 'prismic/components/slice/rework'
 import { Loading } from 'components/text'
 import Pager, { Previous, Next } from 'components/pager'
@@ -19,19 +15,17 @@ import Shim from 'components/Shim'
 import Drawer, { Close, Body, Navbar, Header } from 'components/page/drawer'
 import { Menu } from 'components/icons'
 import { Warning } from 'components/text'
-import ATESExercise from './ATESExercise'
+import ATESExercise from './AtesExercise'
 import RouteFindingExercise from './RouteFindingExercise'
 import Quiz from './Quiz'
 import Question from './Question'
 import Button, { SUBTILE } from 'components/button'
-import dictionnaries from './locales'
 import { useWindowSize, useBoolean } from 'hooks'
-import { FR, EN } from 'constants/locale'
 import { useDocument } from 'prismic/hooks'
 import { useLocation } from 'router/hooks'
+import { LocaleSwitch } from 'contexts/intl'
 
 // TODO: Use Context to propagate the tutorial document
-// TODO: Brings LocaleProvider out of this layout...should be bring in the index file
 
 Layout.propTypes = {
     location: PropTypes.object.isRequired,
@@ -40,36 +34,21 @@ Layout.propTypes = {
 }
 
 export default function Layout(props) {
-    const { uri } = props
-    const context = useMemo(
-        () => ({
-            locale: getLocaleFromProps(uri),
-            dictionnaries,
-        }),
-        [uri]
-    )
-    const { locale } = context
-
     return (
-        <Fragment>
-            {locale === FR && (
+        <Page>
+            <LocaleSwitch>
                 <Alert>
-                    Quelques sections de notre tutoriel ne sont pas à jour.
-                    Revenez regulièrement pour consulter les améliorations que
-                    nous y apportons.
+                    Quelques sections de notre tutoriel ne sont pas à jour. Revenez regulièrement
+                    pour consulter les améliorations que nous y apportons.
                     <br />
-                    Some sections of the French tutorial are outdated. We are
-                    currently working on improvements so stay tuned for updates!
+                    Some sections of the French tutorial are outdated. We are currently working on
+                    improvements so stay tuned for updates!
                 </Alert>
-            )}
-            <Page>
-                <PageComponents.Content>
-                    <LocaleProvider value={context}>
-                        <LayoutContent {...props} />
-                    </LocaleProvider>
-                </PageComponents.Content>
-            </Page>
-        </Fragment>
+            </LocaleSwitch>
+            <PageComponents.Content>
+                <LayoutContent {...props} />
+            </PageComponents.Content>
+        </Page>
     )
 }
 
@@ -80,23 +59,9 @@ function LayoutContent({ uri, path, location }) {
 
     return (
         <Fragment>
-            <Sidebar
-                location={location}
-                items={document?.data?.items}
-                title={title}
-            />
+            <Sidebar location={location} items={document?.data?.items} title={title} />
             <Content>
-                <h1>
-                    {title ? (
-                        isExact ? (
-                            title
-                        ) : (
-                            <Link to={uri}>{title}</Link>
-                        )
-                    ) : (
-                        <Loading />
-                    )}
-                </h1>
+                <h1>{title ? isExact ? title : <Link to={uri}>{title}</Link> : <Loading />}</h1>
             </Content>
         </Fragment>
     )
@@ -113,11 +78,7 @@ function Sidebar({ title, location, items = [], path }) {
     const { width } = useWindowSize()
     const [opened, , close, toggle] = useBoolean(false)
     const tree = (
-        <Tree>
-            {items
-                .reduce(reduceTreeNode, [])
-                .map(node => renderTreeNode(node, path))}
-        </Tree>
+        <Tree>{items.reduce(reduceTreeNode, []).map(node => renderTreeNode(node, path))}</Tree>
     )
 
     useEffect(close, [location.pathname])
@@ -133,11 +94,7 @@ function Sidebar({ title, location, items = [], path }) {
             <Button kind={SUBTILE} onClick={toggle} style={BUTTON_STYLE}>
                 <Menu />
             </Button>
-            <Drawer
-                open={opened}
-                width={0.75 * width}
-                backdrop
-                onCloseClick={close}>
+            <Drawer open={opened} width={0.75 * width} backdrop onCloseClick={close}>
                 <Navbar>
                     <Close onClick={close} />
                 </Navbar>
@@ -166,6 +123,7 @@ function Content({ children }) {
 
 function Redirector({ uid }) {
     const [document] = useHome()
+    const location = useLocation()
 
     if (!document) {
         return null
@@ -203,6 +161,7 @@ function Redirector({ uid }) {
 }
 
 function Home() {
+    const intl = useIntl()
     const [document] = useHome()
 
     if (!document) {
@@ -213,14 +172,13 @@ function Home() {
 
     return (
         <Fragment>
-            <SliceZone
-                components={TutorialSliceComponents}
-                value={document.data.content}
-            />
+            <SliceZone components={TutorialSliceComponents} value={document.data.content} />
             <Pager>
                 <Next
                     to={getUIDFromMenuItem(first)}
-                    subtitle={<Translate>Start with</Translate>}>
+                    subtitle={intl.formatMessage({
+                        defaultMessage: 'Start with',
+                    })}>
                     {first.title}
                 </Next>
             </Pager>
@@ -250,10 +208,7 @@ function Tutorial(props) {
         return (
             <Fragment>
                 <h2>{article.data.title[0].text}</h2>
-                <SliceZone
-                    components={TutorialSliceComponents}
-                    value={article.data.content}
-                />
+                <SliceZone components={TutorialSliceComponents} value={article.data.content} />
                 <HomePager uid={uid} uri={uri} />
             </Fragment>
         )
@@ -264,6 +219,7 @@ function Tutorial(props) {
 
 function HomePager({ uid, uri }) {
     const [document] = useHome()
+    const intl = useIntl()
 
     if (!document) {
         return null
@@ -274,22 +230,18 @@ function HomePager({ uid, uri }) {
     const index = items.indexOf(item)
     const previous = items[index - 1]
     const next = items[index + 1]
-    const previousSubtitle = previous ? 'Previous' : 'Back to'
+    const previousSubtitle = previous
+        ? undefined
+        : intl.formatMessage({ defaultMessage: 'Back to' })
 
     return (
         <Pager>
             <Previous
                 to={previous ? buildNodeLink(previous, items, uri) : uri}
-                subtitle={<Translate>{previousSubtitle}</Translate>}>
+                subtitle={previousSubtitle}>
                 {previous ? previous.title : title[0].text}
             </Previous>
-            {next && (
-                <Next
-                    to={buildNodeLink(next, items, uri)}
-                    subtitle={<Translate>Next</Translate>}>
-                    {next.title}
-                </Next>
-            )}
+            {next && <Next to={buildNodeLink(next, items, uri)}>{next.title}</Next>}
         </Pager>
     )
 }
@@ -300,15 +252,14 @@ NoDocument.propTypes = {
 }
 
 function NoDocument({ uid, uri }) {
+    const intl = useIntl()
     const [document] = useHome()
     function getItemTitle(document) {
         if (!document) {
             return uid
         }
 
-        const item = document.data.items.find(
-            item => item.link?.value?.document?.uid === uid
-        )
+        const item = document.data.items.find(item => item.link?.value?.document?.uid === uid)
 
         return item ? item.title : uid
     }
@@ -316,11 +267,19 @@ function NoDocument({ uid, uri }) {
     return (
         <Fragment>
             <Warning>
-                <Translate>There is no document for</Translate>{' '}
-                {getItemTitle(document)}.
+                <FormattedMessage
+                    defaultMessage="There is no document for {title}."
+                    values={{
+                        title: getItemTitle(document),
+                    }}
+                />
             </Warning>
             <Pager>
-                <Next to={uri} subtitle={<Translate>Visit the</Translate>}>
+                <Next
+                    to={uri}
+                    subtitle={intl.formatMessage({
+                        defaultMessage: 'Visit the',
+                    })}>
                     {document?.data?.title?.[0]?.text || null}
                 </Next>
             </Pager>
@@ -385,18 +344,11 @@ function buildNodeLink(node, nodes, root) {
 
     return [root, ...uids].join('/')
 }
-function getLocaleFromProps(uri) {
-    return uri === '/tutoriel' ? FR : EN
-}
 function useHome() {
-    const { locale } = useLocale()
-
-    return useDocument(tutorial.home(locale))
+    return useDocument(tutorial.home())
 }
 function useArticle(uid) {
-    const { locale } = useLocale()
-
-    return useDocument(tutorial.article(uid, locale))
+    return useDocument(tutorial.article(uid))
 }
 
 // Styles

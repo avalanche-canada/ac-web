@@ -1,2 +1,5 @@
-export LayerSet from './LayerSet'
-export Layer from './Layer'
+import LayerSet from './LayerSet'
+import Layer from './Layer'
+
+export { LayerSet }
+export { Layer }

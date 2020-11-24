@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Responsive } from 'components/table'
 import { StructuredText } from 'prismic/components/base'
-import styles from './Tabular.css'
+import styles from './Tabular.module.css'
 
 Tabular.propTypes = {
     primary: PropTypes.object.isRequired,
@@ -38,15 +38,7 @@ export default function Tabular({ primary, items }) {
 }
 
 // Utils & Constants
-function Row({
-    header,
-    column_1,
-    column_2,
-    column_3,
-    column_4,
-    column_5,
-    column_6,
-}) {
+function Row({ header, column_1, column_2, column_3, column_4, column_5, column_6 }) {
     const as = header === YES ? 'th' : 'td'
 
     return (

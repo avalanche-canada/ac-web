@@ -1,6 +1,6 @@
 import { DateParam } from 'hooks/params'
 import { build } from 'utils/url'
-import { baseURL, apiBaseURL } from './config.json'
+import { baseURL, apiBaseURL } from './config'
 import fetch from 'utils/fetch'
 
 export function report(id) {

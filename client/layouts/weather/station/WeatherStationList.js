@@ -12,23 +12,39 @@ import { Page } from 'layouts/pages'
 import { Loading, Error } from 'components/text'
 import * as Async from 'contexts/async'
 import { path } from 'utils/station'
+import { FormattedMessage } from 'react-intl'
 
 export default function WeatherStationList() {
+    const title = (
+        <FormattedMessage
+            description="Layout weather/station/WeatherStationList"
+            defaultMessage="Weather stations"
+        />
+    )
+
     return (
         <Page>
-            <Header title="Weather stations" />
+            <Header title={title} />
             <Content>
                 <Main>
                     <Async.Provider value={useStations()}>
                         <Async.Pending>
-                            <Loading>Loading weather station data...</Loading>
+                            <Loading>
+                                <FormattedMessage
+                                    description="Layout weather/station/WeatherStationList"
+                                    defaultMessage="Loading weather station data..."
+                                />
+                            </Loading>
                         </Async.Pending>
                         <Async.Found>
                             {stations => (
                                 <Fragment>
                                     <Headline>
-                                        Click on a link below to see weather
-                                        station data.
+                                        <FormattedMessage
+                                            description="Layout weather/station/WeatherStationList"
+                                            defaultMessage="Click on a link below to see weather
+                                    station data."
+                                        />
                                     </Headline>
                                     <List
                                         data={stations}
@@ -39,8 +55,11 @@ export default function WeatherStationList() {
                         </Async.Found>
                         <Async.HTTPError>
                             <Error>
-                                An error happened while loading weather
-                                stations.
+                                <FormattedMessage
+                                    description="Layout weather/station/WeatherStationList"
+                                    defaultMessage="An error happened while loading weather
+                                            stations."
+                                />
                             </Error>
                         </Async.HTTPError>
                     </Async.Provider>

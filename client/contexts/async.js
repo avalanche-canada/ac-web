@@ -85,6 +85,24 @@ export function Error({ children }) {
     return children
 }
 
+export function Errors({ children }) {
+    const errors = useError()
+
+    if (!Array.isArray(errors) || errors.length === 0) {
+        return null
+    }
+
+    if (typeof children === 'function') {
+        return children(errors)
+    }
+
+    if (isValidElement(children)) {
+        return cloneElement(children, { errors })
+    }
+
+    return children
+}
+
 HTTPError.propTypes = {
     children: PropTypes.oneOfType([PropTypes.element, PropTypes.node]),
     status: PropTypes.number,
@@ -150,20 +168,20 @@ export function FirstError({ children }) {
 
 // Util hooks
 function usePayload() {
-    return useAsyncContext(0)
+    return useAsyncContextAt(0)
 }
 function usePending() {
-    return useAsyncContext(1)
+    return useAsyncContextAt(1)
 }
 function useError() {
-    return useAsyncContext(2)
+    return useAsyncContextAt(2)
 }
 function useHTTPError() {
     const error = useError()
 
     return error instanceof utils.HTTPError ? error : null
 }
-function useAsyncContext(index) {
+function useAsyncContextAt(index) {
     const context = useContext(AsyncContext)
 
     return context[index]

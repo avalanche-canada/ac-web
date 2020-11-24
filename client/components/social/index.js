@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { useIntl } from 'react-intl'
 import * as Icons from 'components/icons'
-import styles from './Social.css'
+import styles from './Social.module.css'
 
 const FACEBOOK = 'FACEBOOK'
 const TWITTER = 'TWITTER'
@@ -17,21 +18,24 @@ Item.propTypes = {
 }
 
 export function Item({ link, title, children, className }) {
+    const intl = useIntl()
     const provider = getProvider(link)
     const name = PROVIDER_NAMES.get(provider)
 
     if (!title) {
-        title = `Visit on ${name}.`
+        title = intl.formatMessage({
+            defaultMessage: 'Visit on {name}.',
+            description: 'Social media',
+            values: {
+                name,
+            },
+        })
     } else if (typeof title === 'function') {
         title = title(name)
     }
 
     return (
-        <a
-            className={classnames(styles.Item, className)}
-            target="_blank"
-            href={link}
-            title={title}>
+        <a className={classnames(styles.Item, className)} target="_blank" href={link} title={title}>
             {PROVIDER_ICONS.get(provider)}
             {children}
         </a>
@@ -72,6 +76,7 @@ const PROVIDER_NAMES = new Map([
     [TWITTER, 'Twitter'],
     [INSTAGRAM, 'Instagram'],
     [VIMEO, 'Vimeo'],
+    [null, 'Internet'],
 ])
 const PROVIDER_ICONS = new Map([
     [FACEBOOK, <Icons.Facebook />],

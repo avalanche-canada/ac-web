@@ -1,7 +1,9 @@
-import React, { memo, Fragment } from 'react'
+import React, { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import List, { Entry } from './List'
 import Comment from './Comment'
+
+// No i18n required: will be provided by the API
 
 Snowpack.propTypes = {
     snowpackWhumpfingObserved: PropTypes.string,
@@ -23,7 +25,7 @@ Snowpack.propTypes = {
     snowpackObsComment: PropTypes.string,
 }
 
-function Snowpack({
+export default function Snowpack({
     snowpackObsType,
     snowpackSiteElevation,
     snowpackSiteElevationBand,
@@ -86,5 +88,3 @@ function Snowpack({
         </Fragment>
     )
 }
-
-export default memo(Snowpack)

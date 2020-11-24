@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import { useIntl, FormattedMessage } from 'react-intl'
 import { Position } from 'components/misc'
 import { useToggle } from 'hooks'
 import { DateTime } from 'components/time'
 import { Set, Item, createShareUrls } from 'components/social'
-import css from './Metadata.css'
+import css from './Metadata.module.css'
 
 Metadata.propTypes = {
     children: PropTypes.node.isRequired,
@@ -20,7 +21,7 @@ export function Metadata({ children, ...props }) {
 }
 
 Entry.propTypes = {
-    term: PropTypes.string,
+    term: PropTypes.node,
     children: PropTypes.node.isRequired,
     horizontal: PropTypes.bool,
     className: PropTypes.string,
@@ -45,7 +46,12 @@ LocationEntry.propTypes = {
 }
 
 export function LocationEntry({
-    term = 'Location',
+    term = (
+        <FormattedMessage
+            description="Component metadata/LocationEntry"
+            defaultMessage="Location"
+        />
+    ),
     longitude,
     latitude,
     precision,
@@ -54,12 +60,7 @@ export function LocationEntry({
 
     return (
         <Entry term={term} onClick={toggle} className={css.Toggleable}>
-            <Position
-                longitude={longitude}
-                latitude={latitude}
-                precision={precision}
-                dms={on}
-            />
+            <Position longitude={longitude} latitude={latitude} precision={precision} dms={on} />
         </Entry>
     )
 }
@@ -70,16 +71,20 @@ ShareEntry.propTypes = {
 }
 
 export function ShareEntry({ term = null, url = document.location.href }) {
+    const intl = useIntl()
+    function createTitle(provider) {
+        return intl.formatMessage({
+            description: 'Component metadata/ShareEntry',
+            defaultMessage: 'Share on {provider}',
+            values: { provider },
+        })
+    }
+
     return (
         <Entry term={term}>
             <Set>
                 {createShareUrls(url).map(url => (
-                    <Item
-                        key={url}
-                        link={url}
-                        title={createTitle}
-                        className={css.ShareEntryItem}
-                    />
+                    <Item key={url} link={url} title={createTitle} className={css.ShareEntryItem} />
                 ))}
             </Set>
         </Entry>
@@ -97,9 +102,4 @@ export function TimestampEntry({ term, value }) {
             <DateTime value={value} />
         </Entry>
     )
-}
-
-// Utils
-function createTitle(provider) {
-    return `Share on ${provider}`
 }

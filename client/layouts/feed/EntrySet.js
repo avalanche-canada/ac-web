@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from './Feed.css'
+import styles from './Feed.module.css'
 
 export default function EntrySet({ children, ...props }) {
     return (

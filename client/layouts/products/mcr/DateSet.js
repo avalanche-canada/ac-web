@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { DateElement, Range } from 'components/time'
-import styles from './MountainConditionsReport.css'
+import styles from './MountainConditionsReport.module.css'
 
 DateSet.propTypes = {
     values: PropTypes.arrayOf(PropTypes.instanceOf(Date)).isRequired,
