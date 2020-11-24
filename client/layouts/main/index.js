@@ -90,10 +90,10 @@ function Main() {
 
     // Change map's camera based on the guessed bounds
     useEffect(() => {
-        if (map && bounds) {
-            map.fitBounds(bounds)
+        if (bounds) {
+            map?.fitBounds(bounds)
         }
-    }, [map, bounds, zoom.value])
+    }, [map, bounds])
 
     useNavigationControl(map)
 
