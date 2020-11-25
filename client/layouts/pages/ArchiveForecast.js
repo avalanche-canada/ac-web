@@ -19,8 +19,8 @@ import Pager, { Previous, Next } from 'components/pager'
 import * as Async from 'contexts/async'
 import { DateParam } from 'hooks/params'
 import * as urls from 'utils/url'
-import { useSections } from 'hooks/product'
 import Panel from 'components/panel'
+import * as Products from 'constants/products'
 
 ArchiveForecast.propTypes = {
     date: PropTypes.instanceOf(Date),
@@ -128,6 +128,25 @@ function ForecastLayout({ forecast }) {
             </Panel>
         </Components.Provider>
     )
+}
+
+export function useSections(products) {
+    return React.useMemo(() => {
+        const forecasts = products.filter(p => Products.isKindOfForecast(p.type))
+        const owners = Array.from(new Set(forecasts.map(f => f.owner.display))).sort()
+
+        return new Map(
+            owners.map(owner => [
+                owner,
+                forecasts.filter(f => f.owner.display === owner).sort(sortForecast),
+            ])
+        )
+    }, [products])
+}
+
+// Utils
+function sortForecast(a, b) {
+    return a.report.title.localeCompare(b.report.title)
 }
 
 function ForecastPager({ date }) {

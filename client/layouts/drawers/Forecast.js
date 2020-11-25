@@ -8,18 +8,16 @@ import * as Components from 'layouts/products/forecast'
 import Shim from 'components/Shim'
 import Sponsor from 'layouts/Sponsor'
 import { useForecast } from 'hooks/async/api/products'
-import { useMetadata } from 'hooks/async/api/metadata'
-import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Details } from 'components/error'
-import { useLocation } from 'router/hooks'
 import * as Async from 'contexts/async'
 import { useFitBounds, usePrimaryDrawer } from 'layouts/main/drawers/hooks'
 import { useAreas } from 'hooks/async/api/areas'
 import { useName } from 'constants/products/names'
 import { FORECAST } from 'constants/products'
 import typography from 'components/text/Text.module.css'
+import * as ForecastRegionList from 'layouts/pages/ForecastRegionList'
 import shim from 'components/Shim.module.css'
 
 export default function ForeastDrawer() {
@@ -41,7 +39,7 @@ export default function ForeastDrawer() {
                     <Async.Found>
                         <ForecastRegionHeader />
                     </Async.Found>
-                    <Async.Empty>
+                    <Async.NotFound>
                         <span className={typography.Warning}>
                             <FormattedMessage
                                 description="Layout drawers/Forecast"
@@ -49,7 +47,7 @@ export default function ForeastDrawer() {
                                 values={{ id }}
                             />
                         </span>
-                    </Async.Empty>
+                    </Async.NotFound>
                 </h1>
             </Header>
             <Body key={id}>
@@ -66,7 +64,12 @@ export default function ForeastDrawer() {
                 </Async.Found>
                 <Async.FirstError>
                     <Async.NotFound>
-                        <OtherRegions />
+                        <Shim horizontal>
+                            <p>
+                                <ForecastRegionList.Headline />
+                            </p>
+                            <ForecastRegionList.Content column={1} />
+                        </Shim>
                     </Async.NotFound>
                     <Async.Error>
                         <Details
@@ -86,6 +89,7 @@ export default function ForeastDrawer() {
 }
 
 // Utils and Constants
+// TODO Reuse that piece of code...
 function ForecastContent({ payload }) {
     if (payload.owner.isExternal) {
         window.open(payload.url, payload.slug)
@@ -102,28 +106,6 @@ function ForecastContent({ payload }) {
             <Components.TabSet onTabChange={handleForecastTabActivate} />
             <Components.Footer />
         </Components.Provider>
-    )
-}
-function OtherRegions() {
-    const { location } = useLocation()
-    const [forecasts] = useMetadata()
-
-    return (
-        <Shim horizontal as="section">
-            <h3>
-                <FormattedMessage
-                    description="Layout drawers/Forecast"
-                    defaultMessage="Click on a link below to see another forecast:"
-                />
-            </h3>
-            <List column={1}>
-                {forecasts.map(({ id, name }) => (
-                    <ListItem key={id} to={`/map/forecasts/${id}${location.search}`} replace>
-                        {name}
-                    </ListItem>
-                ))}
-            </List>
-        </Shim>
     )
 }
 

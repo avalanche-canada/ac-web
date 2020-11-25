@@ -1,7 +1,7 @@
 import { useMemo, useEffect, useState } from 'react'
 import * as turf from '@turf/helpers'
 import { useAreas } from 'hooks/async/api/areas'
-import { useMetadata } from 'hooks/async/api/metadata'
+import { useForecastMetadata } from 'hooks/async/api/metadata'
 import * as weather from 'hooks/async/weather'
 import * as mcr from 'hooks/async/mcr'
 import * as min from 'hooks/async/min'
@@ -22,7 +22,7 @@ export function useForecastRegions(map) {
     const key = Products.FORECAST
     const IDS = [key, key + '-line', key + '-labels']
     const { visible } = useLayerState(key)
-    const [[areas, metadata], , errors] = useMerge(useAreas(), useMetadata())
+    const [[areas, metadata], , errors] = useMerge(useAreas(), useForecastMetadata())
     const [sourceLoaded, setSourceLoaded] = useState(false)
     const { product, id } = usePrimaryDrawer()
     const features = useMemo(() => {
@@ -31,7 +31,6 @@ export function useForecastRegions(map) {
         }
 
         const features = metadata
-            .filter(isForecastRegionMetadata)
             .map(meta => {
                 const area = areas.features.find(area => area.properties.id === meta.area.id)
 
@@ -112,7 +111,7 @@ export function useForecastRegions(map) {
 
 export function useForecastMarkers(map) {
     const key = Products.FORECAST
-    const [metadata, , error] = useMetadata()
+    const [metadata, , error] = useForecastMetadata()
     const { visible } = useLayerState(key)
     const { navigate } = useLocation()
     const markers = useMemo(() => {
@@ -120,36 +119,34 @@ export function useForecastMarkers(map) {
             return ARRAY
         }
 
-        return metadata
-            .filter(isForecastRegionMetadata)
-            .map(({ product, centroid, icons, url, owner }) => {
-                const { slug, title } = product
-                const element = document.createElement('img')
+        return metadata.map(({ product, centroid, icons, url, owner }) => {
+            const { slug, title } = product
+            const element = document.createElement('img')
 
-                element.style.cursor = 'pointer'
+            element.style.cursor = 'pointer'
 
-                Object.assign(element, {
-                    src: icons.find(findIcon).graphic.url,
-                    width: 50,
-                    height: 50,
-                    alt: title,
-                    title,
-                    onclick(event) {
-                        event.stopPropagation()
+            Object.assign(element, {
+                src: icons.find(findIcon).graphic.url,
+                width: 50,
+                height: 50,
+                alt: title,
+                title,
+                onclick(event) {
+                    event.stopPropagation()
 
-                        if (owner.isExternal) {
-                            window.open(url, title)
-                        } else {
-                            const pathname = createPath(Products.FORECAST, slug)
-                            const url = pathname + window.location.search
+                    if (owner.isExternal) {
+                        window.open(url, title)
+                    } else {
+                        const pathname = createPath(Products.FORECAST, slug)
+                        const url = pathname + window.location.search
 
-                            navigate(url)
-                        }
-                    },
-                })
-
-                return [centroid, { element }]
+                        navigate(url)
+                    }
+                },
             })
+
+            return [centroid, { element }]
+        })
     }, [metadata])
 
     useMapErrors(ERRORS.FORECAST, error)
@@ -522,8 +519,4 @@ const STYLES = {
             },
         },
     },
-}
-
-function isForecastRegionMetadata({ product }) {
-    return Products.isKindOfForecast(product.type)
 }

@@ -42,6 +42,9 @@ export default function ForecastLayout({ name, date }) {
                         </Async.Found>
                         <Async.FirstError>
                             <Async.NotFound>
+                                <p>
+                                    <ForecastRegionList.Headline />
+                                </p>
                                 <ForecastRegionList.Content />
                             </Async.NotFound>
                             <Async.Error>
@@ -87,7 +90,7 @@ function Title({ name }) {
             <Async.Found>
                 <ForecastHeader />
             </Async.Found>
-            <Async.Empty>
+            <Async.NotFound>
                 <Warning as="span">
                     <FormattedMessage
                         description="Layout pages/Forecast"
@@ -95,7 +98,7 @@ function Title({ name }) {
                         values={{ name }}
                     />
                 </Warning>
-            </Async.Empty>
+            </Async.NotFound>
         </Fragment>
     )
 }

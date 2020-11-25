@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
-import { useMetadata } from 'hooks/async/api/metadata'
+import { useForecastMetadata } from 'hooks/async/api/metadata'
 import * as Async from 'contexts/async'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import { Layout } from 'layouts/pages'
 import { Section } from 'components/page'
-import * as Products from 'constants/products'
 
 export default function ForecastRegionList() {
     const title = (
@@ -15,40 +14,43 @@ export default function ForecastRegionList() {
             defaultMessage="Forecast regions"
         />
     )
-    const headline = (
-        <FormattedMessage
-            description="Layout ForecastRegionList"
-            defaultMessage="Click on a link below to read the avalanche forecast:"
-        />
-    )
 
     return (
-        <Layout title={title} headline={headline}>
+        <Layout title={title} headline={<Headline />}>
             <Content />
         </Layout>
     )
 }
 
-export function Content() {
+export function Headline() {
     return (
-        <Async.Provider value={useMetadata()}>
+        <FormattedMessage
+            description="Layout ForecastRegionList"
+            defaultMessage="Click on a link below to read the avalanche forecast:"
+        />
+    )
+}
+
+export function Content({ column }) {
+    return (
+        <Async.Provider value={useForecastMetadata()}>
             <Async.Pending>
                 <Loading />
             </Async.Pending>
             <Async.Found>
-                <Regions />
+                <Sections column={column} />
             </Async.Found>
         </Async.Provider>
     )
 }
 
-function Regions({ payload }) {
+function Sections({ payload, column }) {
     const sections = useSections(payload)
 
     return Array.from(sections.entries(), ([owner, regions], index) => {
         return (
             <Section key={index} title={owner}>
-                <List>
+                <List column={column}>
                     {regions.map(({ product, url, owner }) => {
                         const { slug, id, title } = product
                         const target = owner.isExternal ? slug : null
@@ -66,9 +68,8 @@ function Regions({ payload }) {
     })
 }
 
-function useSections(metadata) {
+function useSections(forecasts) {
     return React.useMemo(() => {
-        const forecasts = metadata.filter(m => Products.isKindOfForecast(m.product.type))
         const owners = Array.from(new Set(forecasts.map(f => f.owner.display))).sort()
 
         return new Map(
@@ -77,7 +78,7 @@ function useSections(metadata) {
                 forecasts.filter(f => f.owner.display === owner).sort(sortForecast),
             ])
         )
-    }, [metadata])
+    }, [forecasts])
 }
 
 function sortForecast(a, b) {
