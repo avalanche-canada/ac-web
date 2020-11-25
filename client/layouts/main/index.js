@@ -8,7 +8,7 @@ import { Menu, ToggleMenu, Primary, Secondary } from './drawers'
 import { Provider as MenuProvider } from 'contexts/menu'
 import { Provider as LayersProvider } from 'contexts/layers'
 import { Provider as MapStateProvider, useMapState, ERRORS } from 'contexts/map/state'
-import keycodes from 'constants/keycodes'
+import * as KeyCodes from 'constants/keycodes'
 import { useBoolean, useEventListener } from 'hooks'
 import Dialog, { Header, Footer, Body } from 'components/dialog'
 import { Close } from 'components/button'
@@ -113,7 +113,7 @@ function ErrorDialog({ opened, close }) {
     }
 
     useEventListener('keyup', event => {
-        if (keycodes.esc === event.keyCode) {
+        if (KeyCodes.esc === event.keyCode) {
             close()
         }
     })

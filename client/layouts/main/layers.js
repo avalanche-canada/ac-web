@@ -117,7 +117,7 @@ export function useForecastMarkers(map) {
     const { navigate } = useLocation()
     const markers = useMemo(() => {
         if (!Array.isArray(metadata)) {
-            return EMPTY_ARRAY
+            return ARRAY
         }
 
         return metadata
@@ -226,7 +226,7 @@ export function useMountainInformationNetwork(map) {
     let key = Products.MOUNTAIN_INFORMATION_NETWORK
     const { visible, filters } = useLayerState(key)
     const { days, types } = filters
-    const [data = EMPTY_ARRAY, pending, errorReports] = min.useReports(days)
+    const [data = ARRAY, pending, errorReports] = min.useReports(days)
     const [others, incidents] = useMemo(() => {
         const features = data.map(createMountainInformationNetworkFeature)
 
@@ -409,7 +409,7 @@ const TITLES = new Map([
     [Products.FORECAST, 'forecast'],
 ])
 const EMPTY_FEATURE_COLLECTION = turf.featureCollection([])
-const EMPTY_ARRAY = []
+const ARRAY = []
 
 // Styles
 const STYLES = {

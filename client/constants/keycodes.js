@@ -1,9 +1,7 @@
-export default {
-    esc: 27,
-    enter: 13,
-    space: 32,
-    up: 38,
-    down: 40,
-    left: 37,
-    right: 39,
-}
+export const esc = 27
+export const enter = 13
+export const space = 32
+export const up = 38
+export const down = 40
+export const left = 37
+export const right = 39

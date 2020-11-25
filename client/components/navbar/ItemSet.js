@@ -1,7 +1,7 @@
 import React, { cloneElement, Children, useState, useEffect, useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { useEventListener } from 'hooks'
-import keycodes from 'constants/keycodes'
+import * as KeyCodes from 'constants/keycodes'
 import styles from './Navbar.module.css'
 
 ItemSet.propTypes = {
@@ -17,7 +17,7 @@ export default function ItemSet({ children, location }) {
         setActiveIndex(null)
     }
     function keyUpEventHandler(event) {
-        if (keycodes.esc !== event.keyCode) {
+        if (KeyCodes.esc !== event.keyCode) {
             return
         }
 

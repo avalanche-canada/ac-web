@@ -5,7 +5,7 @@ import { OpenInNewTab } from 'components/misc'
 import { Fullscreen as Icon } from 'components/icons'
 import ButtonSet from './ButtonSet'
 import Button from 'components/button'
-import keycodes from 'constants/keycodes'
+import * as KeyCodes from 'constants/keycodes'
 import { WHITE } from 'constants/colors'
 import styles from './Loop.module.css'
 
@@ -78,16 +78,16 @@ export default function Loop({ urls = [], titles = [], interval = 1000, dwell = 
 
     function handleKeyDown(event) {
         switch (event.keyCode) {
-            case keycodes.left:
+            case KeyCodes.left:
                 event.preventDefault()
                 onPrevious()
                 break
-            case keycodes.right:
+            case KeyCodes.right:
                 event.preventDefault()
                 onNext()
                 break
-            case keycodes.space:
-            case keycodes.enter:
+            case KeyCodes.space:
+            case KeyCodes.enter:
                 event.preventDefault()
                 toggle()
                 break
