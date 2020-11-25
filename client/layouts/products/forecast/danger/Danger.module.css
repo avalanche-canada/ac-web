@@ -18,6 +18,7 @@
 .Row {
     display: flex;
     color: black;
+
     &:not(:last-of-type) {
         border-bottom: 2px solid white;
     }
