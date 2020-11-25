@@ -5,7 +5,28 @@ import { useCacheAsync, createKey } from '../'
 import { useLanguage } from 'contexts/intl'
 import { DateParam } from 'hooks/params'
 
-export function useProduct(id) {
+export function useForecasts(date) {
+    return useProductsOfTypes(Products.isKindOfForecast, date)
+}
+
+export function useForecast(id) {
+    return useProduct(id)
+}
+
+export function useSPAW() {
+    return [undefined, false, null]
+}
+
+function useProductsOfTypes(type, date) {
+    const [products = ARRAY, pending, error] = useProducts(date)
+
+    return React.useMemo(
+        () => [products.filter(product => product.type === type), pending, error],
+        [type, products, pending, error]
+    )
+}
+
+function useProduct(id) {
     const language = useLanguage()
     const params = [language, id]
     const key = createKey('product', params)
@@ -13,49 +34,12 @@ export function useProduct(id) {
     return useCacheAsync(Requests.product, params, undefined, key)
 }
 
-export function useProducts(date) {
+function useProducts(date) {
     const language = useLanguage()
     const params = [language, date]
     const key = createKey('products', language, DateParam.format(date))
 
     return useCacheAsync(Requests.products, params, undefined, key)
-}
-
-export function useForecasts(date) {
-    return useProductsOfTypes(Products.isKindOfForecast, date)
-}
-
-export function useForecast(id) {
-    return useProductOfTypes(Products.isKindOfForecast, id)
-}
-
-export function useSPAW() {
-    return useProductOfTypes(Products.SPAW)
-}
-
-function useProductsOfTypes(typeOrPredicate, date) {
-    const [products = ARRAY, ...rest] = useProducts(date)
-
-    return React.useMemo(
-        () => [
-            products.filter(product =>
-                typeof typeOrPredicate === 'function'
-                    ? typeOrPredicate(product.type)
-                    : product.type === typeOrPredicate
-            ),
-            ...rest,
-        ],
-        [typeOrPredicate, products, ...rest]
-    )
-}
-
-function useProductOfTypes(types, id) {
-    const [products = ARRAY, ...rest] = useProductsOfTypes(types)
-
-    return React.useMemo(
-        () => [products.find(product => product.slug === id || product.id == id), ...rest],
-        [types, id, products, ...rest]
-    )
 }
 
 const ARRAY = []
