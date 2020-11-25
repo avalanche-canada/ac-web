@@ -19,7 +19,7 @@ export function Panel() {
     )
 }
 
-export function Alert({ type }) {
+export function Alert({ type, children }) {
     const AlertComponent = forType(type)
 
     return (
@@ -27,6 +27,7 @@ export function Alert({ type }) {
             <Async.Found>
                 <GenericContent />
             </Async.Found>
+            {children}
         </AlertComponent>
     )
 }
