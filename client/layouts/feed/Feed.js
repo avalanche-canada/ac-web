@@ -14,7 +14,7 @@ import { ControlSet, Control } from 'components/form'
 import { NEWS, EVENT, BLOG } from 'constants/prismic'
 import { GRAY_LIGHTEST } from 'constants/colors'
 import { useSearch, useTags } from 'prismic/hooks'
-import { useSPAW } from 'hooks/async/api/products'
+import { useSPAW } from 'prismic/hooks'
 import useParams, {
     NumberParam,
     StringParam,

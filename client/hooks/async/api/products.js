@@ -13,10 +13,6 @@ export function useForecast(id) {
     return useProduct(id)
 }
 
-export function useSPAW() {
-    return [undefined, false, null]
-}
-
 function useProductsOfTypes(predicate, date) {
     const [products = ARRAY, pending, error] = useProducts(date)
 

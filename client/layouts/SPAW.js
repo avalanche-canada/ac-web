@@ -9,10 +9,10 @@ import { Loading } from 'components/text'
 import { Tag as BaseTag } from 'components/tag'
 import { Page as PageLayout } from 'layouts/pages'
 import { useVisibility } from 'hooks/session'
-import { useSPAW } from 'hooks/async/api/products'
 import * as url from 'utils/url'
 import styles from './SPAW.module.css'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { useSPAW } from 'prismic/hooks'
 
 export default function Alert() {
     const [spaw] = useSPAW()

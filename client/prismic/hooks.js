@@ -3,7 +3,7 @@ import * as api from './api'
 import request, { empty } from 'utils/fetch'
 import { FR, EN } from 'constants/locale'
 import { useCacheAsync, createKey } from 'hooks/async'
-import { generic } from 'prismic/params'
+import { spaw, generic } from 'prismic/params'
 import { useLocale } from 'contexts/intl'
 import { truth } from 'utils/function'
 
@@ -62,6 +62,10 @@ export function useDocument(props) {
     const [documents, ...rest] = useDocuments(props)
 
     return [documents?.[0], ...rest]
+}
+
+export function useSPAW() {
+    return useDocument(spaw())
 }
 
 export function useTags(type) {
