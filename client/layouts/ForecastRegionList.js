@@ -1,12 +1,12 @@
-import React, { useMemo } from 'react'
+import * as React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { useMetadata } from 'hooks/async/api/metadata'
 import * as Async from 'contexts/async'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import { Layout } from 'layouts/pages'
-import * as Products from 'constants/products'
 import { Section } from 'components/page'
+import * as Products from 'constants/products'
 
 export default function ForecastRegionList() {
     const title = (
@@ -61,7 +61,7 @@ function Regions({ payload }) {
 }
 
 function useSections(metadata) {
-    return useMemo(() => {
+    return React.useMemo(() => {
         const forecasts = metadata.filter(m => Products.isKindOfForecast(m.product.type))
         const owners = Array.from(new Set(forecasts.map(f => f.owner.display))).sort()
 

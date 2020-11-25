@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import * as React from 'react'
 import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import endOfYesterday from 'date-fns/end_of_yesterday'
@@ -6,7 +6,7 @@ import subDays from 'date-fns/sub_days'
 import addDays from 'date-fns/add_days'
 import { useIntl, FormattedMessage } from 'react-intl'
 import { useForecasts } from 'hooks/async/api/products'
-import { Content, Header, Main } from 'components/page'
+import { Content, Header, Main, Section } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as Components from 'layouts/products/forecast'
 import * as Footer from 'layouts/products/forecast/Footer'
@@ -20,6 +20,8 @@ import Pager, { Previous, Next } from 'components/pager'
 import * as Async from 'contexts/async'
 import { DateParam } from 'hooks/params'
 import * as urls from 'utils/url'
+import { useSections } from 'hooks/product'
+import Panel from 'components/panel'
 
 ArchiveForecast.propTypes = {
     date: PropTypes.instanceOf(Date),
@@ -83,40 +85,47 @@ function ForecastContent({ date }) {
                     />
                 </Texts.Loading>
             </Async.Pending>
-            <ForecastList forecasts={FORECASTS} />
-            <Async.Found>{forecasts => <ForecastList forecasts={forecasts} />}</Async.Found>
-            <ForecastPager date={date} />
-            <Components.Footer>
-                <Footer.DangerRatings />
-                <Footer.Disclaimer />
-            </Components.Footer>
+            <ForecastList payload={FORECASTS} />
+            <Async.Found>
+                <ForecastList />
+            </Async.Found>
             <Async.HTTPError>
                 <DisplayHTTPError />
             </Async.HTTPError>
+            <ForecastPager date={date} />
         </Async.Provider>
     )
 }
 function DisplayHTTPError({ error }) {
     return <Texts.Error>{error.payload.message}</Texts.Error>
 }
-function ForecastList({ forecasts }) {
-    return forecasts.map(forecast => <ForecastLayout key={forecast.id} forecast={forecast} />)
+function ForecastList({ payload }) {
+    const sections = useSections(payload)
+
+    return Array.from(sections, ([owner, forecasts]) => (
+        <Section key={owner} title={owner}>
+            {forecasts.map(forecast => (
+                <ForecastLayout key={forecast.id} forecast={forecast} />
+            ))}
+        </Section>
+    ))
 }
 function ForecastLayout({ forecast }) {
     return (
         <Components.Provider key={forecast.id} value={forecast}>
-            <h2>{forecast.report.title}</h2>
-            <Components.Metadata />
-            <Shim top>
-                <Warning>
-                    <FormattedMessage
-                        description="Layout pages/ArchiveForecast"
-                        defaultMessage="This is an archived avalanche bulletin."
-                    />
-                </Warning>
-            </Shim>
-            <Components.Headline />
-            <Components.TabSet />
+            <Panel header={forecast.report.title}>
+                <Components.Metadata />
+                <Shim top>
+                    <Warning>
+                        <FormattedMessage
+                            description="Layout pages/ArchiveForecast"
+                            defaultMessage="This is an archived avalanche bulletin."
+                        />
+                    </Warning>
+                </Shim>
+                <Components.Headline />
+                <Components.TabSet />
+            </Panel>
         </Components.Provider>
     )
 }
