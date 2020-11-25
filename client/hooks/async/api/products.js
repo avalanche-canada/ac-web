@@ -33,17 +33,19 @@ export function useSPAW() {
     return useProductOfTypes(Products.SPAW)
 }
 
-function useProductsOfTypes(types, date) {
+function useProductsOfTypes(typeOrPredicate, date) {
     const [products = ARRAY, ...rest] = useProducts(date)
 
     return React.useMemo(
         () => [
             products.filter(product =>
-                typeof types.has === 'function' ? types(product.type) : product.type === types
+                typeof typeOrPredicate === 'function'
+                    ? typeOrPredicate(product.type)
+                    : product.type === typeOrPredicate
             ),
             ...rest,
         ],
-        [types, products, ...rest]
+        [typeOrPredicate, products, ...rest]
     )
 }
 
