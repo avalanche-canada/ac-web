@@ -7,8 +7,8 @@ import Ratings from 'constants/products/forecast/rating'
 import DangerCard from 'components/graphics/danger'
 import { useClientRect } from 'hooks'
 import Styles from './Danger.module.css'
-import RatingStyles from 'styles/forecasts/ratings.css'
-import ElevationStyles from 'styles/forecasts/elevations.css'
+import RatingStyles from 'styles/forecasts/ratings.module.css'
+import ElevationStyles from 'styles/forecasts/elevations.module.css'
 
 Day.propTypes = {
     date: PropTypes.shape({
