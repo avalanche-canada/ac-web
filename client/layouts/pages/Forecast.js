@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import isToday from 'date-fns/is_today'
 import { Link, Redirect } from '@reach/router'
 import { FormattedMessage } from 'react-intl'
-import { useForecasts, useForecast } from 'hooks/async/api/products'
-import { Header, Content, Main, Aside, List, ListItem } from 'components/page'
+import { useForecast } from 'hooks/async/api/products'
+import { Header, Content, Main, Aside } from 'components/page'
 import { Page } from 'layouts/pages'
+import * as ForecastRegionList from 'layouts/pages/ForecastRegionList'
 import * as Components from 'layouts/products/forecast'
 import { handleForecastTabActivate } from 'services/analytics'
 import { Tag } from 'layouts/SPAW'
@@ -41,7 +42,7 @@ export default function ForecastLayout({ name, date }) {
                         </Async.Found>
                         <Async.FirstError>
                             <Async.NotFound>
-                                <OtherRegions />
+                                <ForecastRegionList.Content />
                             </Async.NotFound>
                             <Async.Error>
                                 <Details
@@ -117,27 +118,7 @@ function ForecastContent({ payload }) {
         </Components.Provider>
     )
 }
-function OtherRegions() {
-    const [forecasts] = useForecasts()
 
-    return (
-        <Fragment>
-            <h3>
-                <FormattedMessage
-                    description="Layout pages/Forecast"
-                    defaultMessage="Click on a link below to see another forecast:"
-                />
-            </h3>
-            <List column={1}>
-                {forecasts.map(({ area: { id, name } }) => (
-                    <ListItem key={id} to={`../${id}`} replace>
-                        {name}
-                    </ListItem>
-                ))}
-            </List>
-        </Fragment>
-    )
-}
 function ForecastHeader({ payload }) {
     const { name, id } = payload.area
 

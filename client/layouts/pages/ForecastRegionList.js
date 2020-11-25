@@ -24,15 +24,21 @@ export default function ForecastRegionList() {
 
     return (
         <Layout title={title} headline={headline}>
-            <Async.Provider value={useMetadata()}>
-                <Async.Pending>
-                    <Loading />
-                </Async.Pending>
-                <Async.Found>
-                    <Regions />
-                </Async.Found>
-            </Async.Provider>
+            <Content />
         </Layout>
+    )
+}
+
+export function Content() {
+    return (
+        <Async.Provider value={useMetadata()}>
+            <Async.Pending>
+                <Loading />
+            </Async.Pending>
+            <Async.Found>
+                <Regions />
+            </Async.Found>
+        </Async.Provider>
     )
 }
 
