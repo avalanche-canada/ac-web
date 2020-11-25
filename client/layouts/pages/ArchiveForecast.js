@@ -38,6 +38,9 @@ export default function ArchiveForecast({ date, onDateChange }) {
             defaultMessage="Forecast Archive"
         />
     )
+    const disabledDays = {
+        after: endOfYesterday(),
+    }
 
     return (
         <Page>
@@ -50,9 +53,7 @@ export default function ArchiveForecast({ date, onDateChange }) {
                                 date={date}
                                 placeholder={placeholder}
                                 onChange={onDateChange}
-                                disabledDays={{
-                                    after: endOfYesterday(),
-                                }}
+                                disabledDays={disabledDays}
                             />
                         </Entry>
                     </Metadata>
