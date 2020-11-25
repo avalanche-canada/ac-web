@@ -7,7 +7,7 @@ import Ratings, {
     useLikehoodOfAvalanche,
     useSizeAndDistribution,
 } from 'constants/products/forecast/rating'
-import RatingStyles from 'styles/forecasts/ratings.css'
+import RatingStyles from 'styles/forecasts/ratings.module.css'
 
 export default function RatingExplanation() {
     const texts = useTexts()
@@ -18,9 +18,7 @@ export default function RatingExplanation() {
 
     return ratings.map(rating => (
         <Section key={rating}>
-            <Header className={RatingStyles[rating]}>
-                {texts.get(rating)}
-            </Header>
+            <Header className={RatingStyles[rating]}>{texts.get(rating)}</Header>
             <Content>
                 <p>{travelAdvices.get(rating)}</p>
                 <p>{likehoodOfAvalanche.get(rating)}</p>
