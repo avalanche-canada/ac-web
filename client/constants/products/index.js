@@ -7,4 +7,8 @@ export const ACCIDENT = 'accident'
 export const WEATHER_STATION = 'weather-station'
 export const SPAW = 'spaw'
 
-export const ExtendedForecastProducts = new Set([FORECAST, OFFSEASON])
+export function isKindOfForecast(product) {
+    return ExtendedForecastProducts.has(product)
+}
+
+const ExtendedForecastProducts = new Set([FORECAST, OFFSEASON])

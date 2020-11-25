@@ -5,7 +5,7 @@ import * as Async from 'contexts/async'
 import { List, ListItem } from 'components/page'
 import { Loading } from 'components/text'
 import { Layout } from 'layouts/pages'
-import { FORECAST } from 'constants/products'
+import * as Products from 'constants/products'
 import { Section } from 'components/page'
 
 export default function ForecastRegionList() {
@@ -62,20 +62,15 @@ function Regions({ payload }) {
 
 function useSections(metadata) {
     return useMemo(() => {
-        const forecasts = metadata.filter(m => m.product.type === FORECAST)
-        const owners = new Set(forecasts.map(f => f.owner.display).sort())
-        const sections = new Map(Array.from(owners, owner => [owner, null]))
+        const forecasts = metadata.filter(m => Products.isKindOfForecast(m.product.type))
+        const owners = Array.from(new Set(forecasts.map(f => f.owner.display))).sort()
 
-        for (const [owner] of sections) {
-            sections.set(
+        return new Map(
+            owners.map(owner => [
                 owner,
-                forecasts
-                    .filter(f => f.owner.display === owner)
-                    .sort(sortForecast)
-            )
-        }
-
-        return sections
+                forecasts.filter(f => f.owner.display === owner).sort(sortForecast),
+            ])
+        )
     }, [metadata])
 }
 

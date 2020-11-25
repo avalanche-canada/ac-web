@@ -525,5 +525,5 @@ const STYLES = {
 }
 
 function isForecastRegionMetadata({ product }) {
-    return Products.ExtendedForecastProducts.has(product.type)
+    return Products.isKindOfForecast(product.type)
 }

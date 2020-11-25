@@ -22,11 +22,11 @@ export function useProducts(date) {
 }
 
 export function useForecasts(date) {
-    return useProductsOfTypes(Products.ExtendedForecastProducts, date)
+    return useProductsOfTypes(Products.isKindOfForecast, date)
 }
 
 export function useForecast(id) {
-    return useProductOfTypes(Products.ExtendedForecastProducts, id)
+    return useProductOfTypes(Products.isKindOfForecast, id)
 }
 
 export function useSPAW() {
@@ -39,9 +39,7 @@ function useProductsOfTypes(types, date) {
     return React.useMemo(
         () => [
             products.filter(product =>
-                typeof types.has === 'function'
-                    ? types.has(product.type)
-                    : product.type === types
+                typeof types.has === 'function' ? types(product.type) : product.type === types
             ),
             ...rest,
         ],
@@ -53,10 +51,7 @@ function useProductOfTypes(types, id) {
     const [products = ARRAY, ...rest] = useProductsOfTypes(types)
 
     return React.useMemo(
-        () => [
-            products.find(product => product.slug === id || product.id == id),
-            ...rest,
-        ],
+        () => [products.find(product => product.slug === id || product.id == id), ...rest],
         [types, id, products, ...rest]
     )
 }
