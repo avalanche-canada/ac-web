@@ -17,12 +17,12 @@ export function useSPAW() {
     return [undefined, false, null]
 }
 
-function useProductsOfTypes(type, date) {
+function useProductsOfTypes(predicate, date) {
     const [products = ARRAY, pending, error] = useProducts(date)
 
     return React.useMemo(
-        () => [products.filter(product => product.type === type), pending, error],
-        [type, products, pending, error]
+        () => [products.filter(product => predicate(product.type)), pending, error],
+        [predicate, products, pending, error]
     )
 }
 
