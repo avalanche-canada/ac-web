@@ -99,6 +99,7 @@ function Title({ name }) {
         </Fragment>
     )
 }
+// TODO Could expose that component to be DRYer
 function ForecastContent({ payload }) {
     if (payload.owner.isExternal) {
         window.open(payload.url, payload.slug)
