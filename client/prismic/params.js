@@ -32,13 +32,7 @@ export function ids(ids) {
 export const mw = {
     forecast(date = new Date()) {
         return {
-            predicates: [
-                Predicates.field(
-                    types.WEATHER_FORECAST,
-                    'date',
-                    DateParam.format(date)
-                ),
-            ],
+            predicates: [Predicates.field(types.WEATHER_FORECAST, 'date', DateParam.format(date))],
         }
     },
     tutorial(id) {
@@ -72,14 +66,8 @@ export const fatal = {
 
         return {
             predicates: [
-                Predicates.dateAfter(
-                    field,
-                    DateParam.format(addDays(startOfSeason(), -1))
-                ),
-                Predicates.dateBefore(
-                    field,
-                    DateParam.format(addDays(endOfSeason(), 1))
-                ),
+                Predicates.dateAfter(field, DateParam.format(addDays(startOfSeason(), -1))),
+                Predicates.dateBefore(field, DateParam.format(addDays(endOfSeason(), 1))),
             ],
             pageSize: MAX_PAGE_SIZE,
         }
@@ -139,6 +127,10 @@ export function highlight() {
     return rangeForType(types.HIGHLIGHT)
 }
 
+export function spaw() {
+    return rangeForType(types.SPAW)
+}
+
 export const glossary = {
     glossary(id = 'glossary') {
         return {
@@ -169,11 +161,9 @@ export const feed = {
         }
 
         if (type === types.EVENT) {
-            rangeForType(type, 'start_date', 'end_date').predicates.forEach(
-                predicate => {
-                    predicates.push(predicate)
-                }
-            )
+            rangeForType(type, 'start_date', 'end_date').predicates.forEach(predicate => {
+                predicates.push(predicate)
+            })
         }
 
         return {
@@ -239,9 +229,7 @@ export const feed = {
     },
     events({ past = false, tags = new Set(), page = 1, pageSize = 10 }) {
         const { EVENT } = types
-        const ordering = past
-            ? `${FEED_ORDERINGS.get(EVENT)} desc`
-            : FEED_ORDERINGS.get(EVENT)
+        const ordering = past ? `${FEED_ORDERINGS.get(EVENT)} desc` : FEED_ORDERINGS.get(EVENT)
         const predicate = past ? Predicates.dateBefore : Predicates.dateAfter
         const timestamp = DateParam.format(addDays(new Date(), -1))
         const predicates = []
