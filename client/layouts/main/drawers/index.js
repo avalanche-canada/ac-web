@@ -12,7 +12,7 @@ import Button, { SUBTILE } from 'components/button'
 import Content from './Menu'
 import { usePrimaryDrawer, useSecondaryDrawer } from './hooks'
 import styles from 'components/page/drawer/Drawer.module.css'
-import * as products from 'constants/products'
+import * as Products from 'constants/products'
 import { createPath } from 'utils/product'
 
 export function Menu() {
@@ -38,13 +38,19 @@ export function ToggleMenu() {
 export function Primary() {
     const { opened } = usePrimaryDrawer()
 
+    // TODO Do not need Router anymore...
+
     return (
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
-                <Forecast path={createPath(products.FORECAST, ':id', null)} />
+                <ForecastRoute path={createPath(Products.FORECAST, ':id', null)} />
             </Router>
         </Drawer>
     )
+}
+
+function ForecastRoute({ id }) {
+    return typeof id === 'undefined' ? null : <Forecast id={id} />
 }
 
 export function Secondary() {
@@ -64,10 +70,10 @@ function ProductComponent({ product, ...props }) {
     return <Component {...props} />
 }
 const ProductComponents = new Map([
-    [products.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetwork],
-    [products.WEATHER_STATION, WeatherStation],
-    [products.ACCIDENT, FatalAccident],
-    [products.MOUNTAIN_CONDITIONS_REPORT, MountainConditionsReport],
+    [Products.MOUNTAIN_INFORMATION_NETWORK, MountainInformationNetwork],
+    [Products.WEATHER_STATION, WeatherStation],
+    [Products.ACCIDENT, FatalAccident],
+    [Products.MOUNTAIN_CONDITIONS_REPORT, MountainConditionsReport],
 ])
 
 // Style
