@@ -10,10 +10,8 @@ import { Content, Header, Main, Section } from 'components/page'
 import { Page } from 'layouts/pages'
 import * as Components from 'layouts/products/forecast'
 import * as Texts from 'components/text'
-import { Warning } from 'components/alert'
 import { Metadata, Entry } from 'components/metadata'
 import { DateElement } from 'components/time'
-import Shim from 'components/Shim'
 import { DayPicker } from 'components/controls'
 import Pager, { Previous, Next } from 'components/pager'
 import * as Async from 'contexts/async'
@@ -88,10 +86,10 @@ function ForecastContent({ date }) {
             <Async.Found>
                 <ForecastList />
             </Async.Found>
+            <ForecastPager date={date} />
             <Async.HTTPError>
                 <DisplayHTTPError />
             </Async.HTTPError>
-            <ForecastPager date={date} />
         </Async.Provider>
     )
 }
@@ -114,14 +112,7 @@ function ForecastLayout({ forecast }) {
         <Components.Provider key={forecast.id} value={forecast}>
             <Panel header={forecast.report.title}>
                 <Components.Metadata />
-                <Shim top>
-                    <Warning>
-                        <FormattedMessage
-                            description="Layout pages/ArchiveForecast"
-                            defaultMessage="This is an archived avalanche bulletin."
-                        />
-                    </Warning>
-                </Shim>
+                <Components.Notifications />
                 <Components.Headline />
                 <Components.TabSet />
             </Panel>

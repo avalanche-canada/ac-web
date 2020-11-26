@@ -4,23 +4,31 @@ import * as Owners from 'constants/owners'
 import AvalancheQuebecInfo from './AvalancheQuebecInfo'
 import LocaleWarning from './LocaleWarning'
 import * as Alert from 'components/alert'
-import Shim from 'components/Shim'
 import InnerHTML from 'components/misc/InnerHTML'
+import styles from './Notifications.module.css'
 
 export default function Notifications() {
+    const { notifications = [] } = useForecast()
+
+    return (
+        <div className={styles.Set}>
+            {notifications.map(notification => (
+                <Notification {...notification} />
+            ))}
+            <Default />
+        </div>
+    )
+}
+
+function Default() {
     const forecast = useForecast()
-    let content
 
     switch (forecast.owner.value) {
         case Owners.AVALANCHE_QUEBEC:
-            content = <AvalancheQuebecInfo />
-            break
+            return <AvalancheQuebecInfo />
         default:
-            content = <LocaleWarning />
-            break
+            return <LocaleWarning />
     }
-
-    return <Shim top>{content}</Shim>
 }
 
 function Notification({ type, content }) {
