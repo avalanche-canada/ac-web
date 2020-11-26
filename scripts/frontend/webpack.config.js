@@ -6,6 +6,7 @@ module.exports = {
     mode: 'production',
     entry: {
         avid: path.resolve(__dirname, 'avid.js'),
+        avq: path.resolve(__dirname, 'avalanche-quebec.js'),
     },
     output: {
         filename: '[name].js',
