@@ -1,9 +1,9 @@
 version: 0.2
 
-# env:
-#   secrets-manager:
-#     DOCKER_USER: "BuildEnv:DOCKER_USER"
-#     DOCKER_PASSWORD: "BuildEnv:DOCKER_PASSWORD"
+env:
+  secrets-manager:
+    DOCKER_USER: "BuildEnv:DOCKER_USER"
+    DOCKER_PASSWORD: "BuildEnv:DOCKER_PASSWORD"
 
 phases:
   pre_build:
@@ -12,8 +12,7 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin 349501831018.dkr.ecr.us-west-2.amazonaws.com
       - echo changing node version
       - n 8.17.0
-      # - echo Logging into docker
-      # - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    
   build:
     commands:
       - echo Build started on `date`
@@ -21,6 +20,8 @@ phases:
       - npm --version
       - npm install
       - make build
+      - echo Logging into docker
+      - docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - echo Building the docker image...
       - docker build --rm=false -t $IMAGE_NAME .
       - docker tag $IMAGE_NAME:latest 349501831018.dkr.ecr.us-west-2.amazonaws.com/$IMAGE_NAME:latest
