@@ -19,10 +19,10 @@ export default function OffSeason() {
     const src = urls.path(config.domain, 'images', IconFilenames.get(value))
 
     return (
-        <div className={styles.Condition}>
-            <h2 className={styles.ConditionHeader}>{display}</h2>
-            <img className={styles.ConditionIcon} title={display} alt={display} src={src} />
-            <div className={styles.ConditionContent}>
+        <div className={styles.Container}>
+            <h2 className={styles.Header}>{display}</h2>
+            <img className={styles.Icon} title={display} alt={display} src={src} />
+            <div className={styles.Content}>
                 <InnerHTML>{message}</InnerHTML>
             </div>
             <InnerHTML>{comment}</InnerHTML>

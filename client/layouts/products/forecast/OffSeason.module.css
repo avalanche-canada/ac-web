@@ -1,41 +1,37 @@
 @custom-media --full-width (width > 420px);
 
-.Condition {
+.Container {
     composes: import Section from './Forecast.module.css';
 
     display: flex;
     flex-direction: column;
-
-    @media (--full-width) {
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: flex-start;
-    }
 }
 
-.ConditionHeader {
+.Header {
     composes: import SectionHeader from './Forecast.module.css';
 
     flex: 100%;
 }
 
-.ConditionIcon {
+.Icon {
     padding: 1em;
-    box-sizing: border-box;
     max-width: 100%;
     text-align: center;
-    line-height: 10em;
-
-    @media (--full-width) {
-        flex: 33%;
-    }
 }
 
-.ConditionContent {
+.Content {
     padding: 1em;
-    box-sizing: border-box;
+}
 
-    @media (--full-width) {
+@media (--full-width) {
+    .Container {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    .Icon {
+        flex: 33%;
+    }
+    .Content {
         flex: 66%;
     }
 }
