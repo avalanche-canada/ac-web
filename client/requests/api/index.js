@@ -1,6 +1,6 @@
-import * as Config from './config'
 import fetch from 'utils/fetch'
 import * as utils from 'utils/url'
+import * as Config from './config'
 
 export function product(language, id) {
     return get(language, 'products', id)
