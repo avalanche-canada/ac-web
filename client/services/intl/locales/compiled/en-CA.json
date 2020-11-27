@@ -379,6 +379,18 @@
       "value": "Select an area."
     }
   ],
+  "2Z7oDB": [
+    {
+      "type": 0,
+      "value": "More information"
+    }
+  ],
+  "2aV3aQ": [
+    {
+      "type": 0,
+      "value": "Alpine weather forecast"
+    }
+  ],
   "2cCG+C": [
     {
       "type": 0,
@@ -389,6 +401,12 @@
     {
       "type": 0,
       "value": "Avalanche Advisory"
+    }
+  ],
+  "2gVYHB": [
+    {
+      "type": 0,
+      "value": "Email the Kananaskis Country Public Safety Section"
     }
   ],
   "2qCVIs": [
@@ -411,6 +429,12 @@
     {
       "type": 0,
       "value": "Mountain Weather Forecast Feedback"
+    }
+  ],
+  "2yJisv": [
+    {
+      "type": 0,
+      "value": "Subscribe to our forecasts"
     }
   ],
   "36Tu55": [
@@ -622,6 +646,12 @@
     {
       "type": 0,
       "value": "Unknown"
+    }
+  ],
+  "5mBM1r": [
+    {
+      "type": 0,
+      "value": "Avalanche Forecast"
     }
   ],
   "5vzyAa": [
@@ -1009,6 +1039,22 @@
       "value": "Relative humidity"
     }
   ],
+  "AVbrfN": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "911"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " for backcountry rescues and tell them you are in Kananaskis Country"
+    }
+  ],
   "AW4vJq": [
     {
       "type": 0,
@@ -1045,6 +1091,12 @@
       "value": "Chances of Avalanches?"
     }
   ],
+  "BNaSG0": [
+    {
+      "type": 0,
+      "value": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
+    }
+  ],
   "BQVMOp": [
     {
       "type": 0,
@@ -1073,6 +1125,12 @@
     {
       "type": 0,
       "value": "Hour"
+    }
+  ],
+  "BvR5MR": [
+    {
+      "type": 0,
+      "value": "Archived bulletins"
     }
   ],
   "BzQPM+": [
@@ -1137,6 +1195,12 @@
       "value": "MIN To Win"
     }
   ],
+  "Cmdoi3": [
+    {
+      "type": 0,
+      "value": "Advisory"
+    }
+  ],
   "CpGrub": [
     {
       "type": 0,
@@ -1197,10 +1261,30 @@
       "value": "Well done — You’re right!"
     }
   ],
+  "D4qYT5": [
+    {
+      "type": 0,
+      "value": "Avalanche report"
+    }
+  ],
   "D5zf4H": [
     {
       "type": 0,
       "value": "AST 1+"
+    }
+  ],
+  "DAXTto": [
+    {
+      "type": 0,
+      "value": "Forecast "
+    },
+    {
+      "type": 1,
+      "value": "id"
+    },
+    {
+      "type": 0,
+      "value": " not found"
     }
   ],
   "DRm/Ps": [
@@ -2534,6 +2618,12 @@
       "value": "Outside a region"
     }
   ],
+  "SmpOMT": [
+    {
+      "type": 0,
+      "value": "Mountain Information Network"
+    }
+  ],
   "SsYBcd": [
     {
       "type": 0,
@@ -2709,6 +2799,26 @@
       "value": " so we can help you sort that out."
     }
   ],
+  "VBSQLa": [
+    {
+      "type": 0,
+      "value": "No "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " Avalanche Advisory is currently available."
+    }
+  ],
+  "VEy7NE": [
+    {
+      "type": 0,
+      "value": "Remote weather stations"
+    }
+  ],
   "VecW4F": [
     {
       "type": 0,
@@ -2731,6 +2841,12 @@
     {
       "type": 0,
       "value": "Weather station"
+    }
+  ],
+  "Vx5B5y": [
+    {
+      "type": 0,
+      "value": "Visit Avalanche Canada Blog"
     }
   ],
   "W8F0HN": [
@@ -3082,7 +3198,7 @@
       },
       "pluralType": "cardinal",
       "type": 6,
-      "value": "ZtQ9DU"
+      "value": "amount"
     }
   ],
   "a0unHU": [
@@ -3343,6 +3459,22 @@
     {
       "type": 0,
       "value": "..."
+    }
+  ],
+  "cnbRxD": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-591-7755"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the dispatch office non-emergency line"
     }
   ],
   "cuIJWp": [
@@ -3858,6 +3990,12 @@
       "value": "."
     }
   ],
+  "hvMNVN": [
+    {
+      "type": 0,
+      "value": "Special Public Avalanche Warning"
+    }
+  ],
   "i+AGCP": [
     {
       "type": 0,
@@ -4251,6 +4389,18 @@
       "value": "Close"
     }
   ],
+  "mSawI9": [
+    {
+      "type": 0,
+      "value": "Your daily Mountain Weather Forecast"
+    }
+  ],
+  "mSeuWm": [
+    {
+      "type": 0,
+      "value": "Danger Ratings Explained"
+    }
+  ],
   "mTRqfE": [
     {
       "type": 0,
@@ -4623,6 +4773,22 @@
     {
       "type": 0,
       "value": "Yukon"
+    }
+  ],
+  "qU8wXd": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-679-3511"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the Public Safety office phone number (weekdays)"
     }
   ],
   "qV1HTT": [
@@ -5011,6 +5177,12 @@
       "value": "Weather Glossary"
     }
   ],
+  "unv0Z7": [
+    {
+      "type": 0,
+      "value": "Contact"
+    }
+  ],
   "upcoming-events": [
     {
       "type": 0,
@@ -5290,6 +5462,12 @@
       "value": "Until further notice"
     }
   ],
+  "x1UmLT": [
+    {
+      "type": 0,
+      "value": "Hot Zone"
+    }
+  ],
   "x4Ch6V": [
     {
       "type": 0,
@@ -5398,6 +5576,12 @@
       "value": "Day"
     }
   ],
+  "yFX4u5": [
+    {
+      "type": 0,
+      "value": "Forecast Archive"
+    }
+  ],
   "yFzXru": [
     {
       "type": 0,
@@ -5410,6 +5594,12 @@
     {
       "type": 0,
       "value": " Avalanche Canada, All Rights Reserved"
+    }
+  ],
+  "yHhuHl": [
+    {
+      "type": 0,
+      "value": "Live Chic-Chocs conditions"
     }
   ],
   "yIBCSS": [
@@ -5561,6 +5751,26 @@
       "value": "EPSgrams (N. American Ensemble)"
     }
   ],
+  "zHorBS": [
+    {
+      "type": 0,
+      "value": "For backcountry rescue call "
+    },
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "911"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " and tell them you are in the Chic-Chocs"
+    }
+  ],
   "zJp3FB": [
     {
       "type": 0,
@@ -5601,6 +5811,12 @@
     {
       "type": 0,
       "value": "Location"
+    }
+  ],
+  "zvP02c": [
+    {
+      "type": 0,
+      "value": "Archives"
     }
   ],
   "zwvGck": [
