@@ -36,14 +36,14 @@ export function ToggleMenu() {
 }
 
 export function Primary() {
-    const { opened } = usePrimaryDrawer()
-
-    // TODO Do not need Router anymore...
+    const { opened, product } = usePrimaryDrawer()
 
     return (
         <Drawer side={RIGHT} open={opened}>
             <Router className={styles.Content}>
-                <ForecastRoute path={createPath(Products.FORECAST, ':id', null)} />
+                {product === Products.FORECAST && (
+                    <ForecastRoute path={createPath(Products.FORECAST, ':id', null)} />
+                )}
             </Router>
         </Drawer>
     )
