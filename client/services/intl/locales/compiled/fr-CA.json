@@ -382,7 +382,7 @@
   "2Z7oDB": [
     {
       "type": 0,
-      "value": "More information"
+      "value": "Plus d'informations"
     }
   ],
   "2aV3aQ": [
@@ -406,7 +406,7 @@
   "2gVYHB": [
     {
       "type": 0,
-      "value": "Email the Kananaskis Country Public Safety Section"
+      "value": "Envoyer un courriel à la section de la sécurité publique du pays de Kananaskis"
     }
   ],
   "2qCVIs": [
@@ -1094,7 +1094,7 @@
   "BNaSG0": [
     {
       "type": 0,
-      "value": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
+      "value": "Ces prévisions d’avalanche sont produitent par les prévisionnistes du programme de sécurité publique du pays de Kananaskis du gouvernement de l'Alberta."
     }
   ],
   "BQVMOp": [
@@ -1130,7 +1130,7 @@
   "BvR5MR": [
     {
       "type": 0,
-      "value": "Archived bulletins"
+      "value": "Prévisions archivées"
     }
   ],
   "BzQPM+": [
@@ -1307,6 +1307,22 @@
       "value": "Alpin"
     }
   ],
+  "DiJSHu": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-679-3511"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the Public Safety office phone number (weekdays)"
+    }
+  ],
   "DxUvN0": [
     {
       "type": 0,
@@ -1404,7 +1420,7 @@
   "EoQTj0": [
     {
       "type": 0,
-      "value": "Fiabilité"
+      "value": "Confiance"
     }
   ],
   "Ew50FU": [
@@ -2577,7 +2593,7 @@
   "SKojS6": [
     {
       "type": 0,
-      "value": "Réseau d'information en montagne"
+      "value": "Mountain Information Network — Reports"
     }
   ],
   "SaG3kV": [
@@ -2619,7 +2635,7 @@
   "T3e4KH": [
     {
       "type": 0,
-      "value": "Réseau d'information en montagne"
+      "value": "Mountain Information Network"
     }
   ],
   "T5cbLZ": [
@@ -2826,7 +2842,7 @@
   "Vx5B5y": [
     {
       "type": 0,
-      "value": "Visit Avalanche Canada Blog"
+      "value": "Visitez le blogue d’Avalanche Canada"
     }
   ],
   "W8F0HN": [
@@ -3232,7 +3248,7 @@
   "aUBpA8": [
     {
       "type": 0,
-      "value": "Réseau d'information en montagne"
+      "value": "Mountain Information Network"
     }
   ],
   "abQ+FP": [
@@ -3651,6 +3667,22 @@
       "value": "Height"
     }
   ],
+  "eztvsv": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "911"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " for backcountry rescues and tell them you are in Kananaskis Country"
+    }
+  ],
   "f1lt+W": [
     {
       "type": 0,
@@ -3711,6 +3743,20 @@
     {
       "type": 0,
       "value": "Type"
+    }
+  ],
+  "fTIjqa": [
+    {
+      "type": 0,
+      "value": "Forecast "
+    },
+    {
+      "type": 1,
+      "value": "name"
+    },
+    {
+      "type": 0,
+      "value": " not found"
     }
   ],
   "fatal-recreational-accidents": [
@@ -3777,6 +3823,12 @@
     {
       "type": 0,
       "value": "Fatal"
+    }
+  ],
+  "gFP2S8": [
+    {
+      "type": 0,
+      "value": "Avalanche Forecast"
     }
   ],
   "gSPD2F": [
@@ -4203,7 +4255,7 @@
   "l1XTI5": [
     {
       "type": 0,
-      "value": "Suivez-nous sur les réseaux sociaux"
+      "value": "Suivez-nous"
     }
   ],
   "l4fsUL": [
@@ -4336,13 +4388,13 @@
   "mSawI9": [
     {
       "type": 0,
-      "value": "Your daily Mountain Weather Forecast"
+      "value": "Vos prévisions météorologiques en montagne quotidiennes"
     }
   ],
   "mSeuWm": [
     {
       "type": 0,
-      "value": "Échelle de danger d'avalanche"
+      "value": "Information sur les indices de danger"
     }
   ],
   "mTRqfE": [
@@ -4402,7 +4454,7 @@
   "mountain-information-network": [
     {
       "type": 0,
-      "value": "Réseau d'information en montagne"
+      "value": "Mountain Information Network"
     }
   ],
   "moy+Yz": [
@@ -5056,7 +5108,7 @@
   "tkjvUf": [
     {
       "type": 0,
-      "value": "Réseau d'information en montagne"
+      "value": "Mountain Information Network"
     }
   ],
   "toZ0lO": [
@@ -5131,6 +5183,22 @@
     {
       "type": 0,
       "value": "Upcoming events"
+    }
+  ],
+  "v890BT": [
+    {
+      "children": [
+        {
+          "type": 0,
+          "value": "403-591-7755"
+        }
+      ],
+      "type": 8,
+      "value": "phone"
+    },
+    {
+      "type": 0,
+      "value": " is the dispatch office non-emergency line"
     }
   ],
   "vD3KLj": [
@@ -5507,7 +5575,7 @@
   "yFX4u5": [
     {
       "type": 0,
-      "value": "Forecast Archive"
+      "value": "Archive des prévisions"
     }
   ],
   "yFzXru": [
