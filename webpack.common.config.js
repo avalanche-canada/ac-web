@@ -1,4 +1,5 @@
 var path = require('path')
+var webpack = require('webpack')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var CleanWebpackPlugin = require('clean-webpack-plugin')
 const { googleAnalyticsId } = require('./client/services/analytics/config.json')
@@ -30,15 +31,22 @@ module.exports = {
         },
     },
     plugins: [
+        new webpack.EnvironmentPlugin({
+            REACT_APP_SHOW_NOT_PRODUCTION_WARNING: false,
+            REACT_APP_AVCAN_API_URL_LEGACY: 'https://avalanche.ca/api',
+            REACT_APP_STATIC_URL: 'https://avalanche.ca/api/static',
+            REACT_APP_AVCAN_API_URL: 'https://api.avalanche.ca',
+            REACT_APP_AST_API_URL: 'https://ast.avalanche.ca/api',
+            REACT_APP_WEATHER_API_URL: 'https://api.avalanche.ca/weather',
+            REACT_APP_INCIDENTS_API_URL: 'https://incidents.avalanche.ca',
+        }),
         new CleanWebpackPlugin(['dist']),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'client/index.tpl.html'),
             templateParameters: {
                 googleAnalyticsId,
                 googleAnalyticsFilename:
-                    process.env.NODE_ENV === 'production'
-                        ? 'analytics.js'
-                        : 'analytics_debug.js',
+                    process.env.NODE_ENV === 'production' ? 'analytics.js' : 'analytics_debug.js',
             },
         }),
     ],
