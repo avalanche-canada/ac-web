@@ -1275,7 +1275,7 @@
         "translation": "Latest blog posts"
     },
     "ZtQ9DU": {
-        "translation": "{ZtQ9DU, plural, =1 {# day} other {# days}}"
+        "translation": "{amount, plural, =1 {# day} other {# days}}"
     },
     "a0unHU": {
         "translation": "Providers"
@@ -2266,5 +2266,83 @@
     },
     "zwvGck": {
         "translation": "Service awards"
+    },
+    "2Z7oDB": {
+        "translation": "More information"
+    },
+    "2aV3aQ": {
+        "translation": "Alpine weather forecast"
+    },
+    "2gVYHB": {
+        "translation": "Email the Kananaskis Country Public Safety Section"
+    },
+    "2yJisv": {
+        "translation": "Subscribe to our forecasts"
+    },
+    "5mBM1r": {
+        "translation": "Avalanche Forecast"
+    },
+    "AVbrfN": {
+        "translation": "<phone>911<\/phone> for backcountry rescues and tell them you are in Kananaskis Country"
+    },
+    "BNaSG0": {
+        "translation": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
+    },
+    "BvR5MR": {
+        "translation": "Archived bulletins"
+    },
+    "Cmdoi3": {
+        "translation": "Advisory"
+    },
+    "D4qYT5": {
+        "translation": "Avalanche report"
+    },
+    "DAXTto": {
+        "translation": "Forecast {id} not found"
+    },
+    "SmpOMT": {
+        "translation": "Mountain Information Network"
+    },
+    "VBSQLa": {
+        "translation": "No {name} Avalanche Advisory is currently available."
+    },
+    "VEy7NE": {
+        "translation": "Remote weather stations"
+    },
+    "Vx5B5y": {
+        "translation": "Visit Avalanche Canada Blog"
+    },
+    "cnbRxD": {
+        "translation": "<phone>403-591-7755<\/phone> is the dispatch office non-emergency line"
+    },
+    "hvMNVN": {
+        "translation": "Special Public Avalanche Warning"
+    },
+    "mSawI9": {
+        "translation": "Your daily Mountain Weather Forecast"
+    },
+    "mSeuWm": {
+        "translation": "Danger Ratings Explained"
+    },
+    "qU8wXd": {
+        "translation": "<phone>403-679-3511<\/phone> is the Public Safety office phone number (weekdays)"
+    },
+    "unv0Z7": {
+        "translation": "Contact"
+    },
+    "x1UmLT": {
+        "translation": "Hot Zone"
+    },
+    "yFX4u5": {
+        "translation": "Forecast Archive"
+    },
+    "yHhuHl": {
+        "translation": "Live Chic-Chocs conditions"
+    },
+    "zHorBS": {
+        "translation": "For backcountry rescue call <phone>911<\/phone> and tell them you are in the Chic-Chocs"
+    },
+    "zvP02c": {
+        "translation": "Archives"
     }
 }
