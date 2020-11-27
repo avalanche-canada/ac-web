@@ -41,6 +41,9 @@
     "+zUHgM": {
         "translation": "Previous"
     },
+    "\/3jGaX": {
+        "translation": "Avalanche Forecasts in your Inbox"
+    },
     "\/AElfC": {
         "translation": "Surface"
     },
@@ -49,6 +52,9 @@
     },
     "\/NqjPa": {
         "translation": "Date"
+    },
+    "\/Pksc9": {
+        "translation": "Email the Kananaskis Country Public Safety Section"
     },
     "\/PphbK": {
         "translation": "Hi {username},"
@@ -137,20 +143,11 @@
     "2UF3eI": {
         "translation": "Select an area."
     },
-    "2Z7oDB": {
-        "translation": "More information"
-    },
-    "2aV3aQ": {
-        "translation": "Alpine weather forecast"
-    },
     "2cCG+C": {
         "translation": "Username"
     },
     "2d7Vp3": {
         "translation": "Avalanche Advisory"
-    },
-    "2gVYHB": {
-        "translation": "Email the Kananaskis Country Public Safety Section"
     },
     "2qCVIs": {
         "translation": "Go to home page"
@@ -161,14 +158,14 @@
     "2y+Sqk": {
         "translation": "Mountain Weather Forecast Feedback"
     },
-    "2yJisv": {
-        "translation": "Subscribe to our forecasts"
-    },
     "36Tu55": {
         "translation": "Changing your username will change all previously submitted reports as well as all reports you will submit in the future."
     },
     "3GWnIa": {
         "translation": "Forecasters’ blogs"
+    },
+    "3M\/Kkc": {
+        "translation": "Weather Forecast"
     },
     "3hIm21": {
         "translation": "1000 – 500 hPa Thickness (N. American Ensemble)"
@@ -253,9 +250,6 @@
     },
     "5jeq8P": {
         "translation": "Unknown"
-    },
-    "5mBM1r": {
-        "translation": "Avalanche Forecast"
     },
     "5vzyAa": {
         "translation": "Details"
@@ -410,9 +404,6 @@
     "AUQJym": {
         "translation": "Relative humidity"
     },
-    "AVbrfN": {
-        "translation": "<phone>911<\/phone> for backcountry rescues and tell them you are in Kananaskis Country"
-    },
     "AW4vJq": {
         "translation": "Exposure to low angle or primarily forested terrain. Some forest openings may involve the runout zones of infrequent avalanches. Many options to reduce or eliminate exposure. No glacier travel."
     },
@@ -428,17 +419,14 @@
     "BGOmRh": {
         "translation": "Loading tutorial..."
     },
-    "BNaSG0": {
-        "translation": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
+    "BJ77yt": {
+        "translation": "Chances of Avalanches?"
     },
     "BQVMOp": {
         "translation": "Wind speed in kilometre per hour (km\/h) and direction in degree (°) every hour from {min, date} to {max, date}."
     },
     "BjomlV": {
         "translation": "Hour"
-    },
-    "BvR5MR": {
-        "translation": "Archived bulletins"
     },
     "BzQPM+": {
         "translation": "Destination"
@@ -466,9 +454,6 @@
     },
     "CkFq5N": {
         "translation": "MIN To Win"
-    },
-    "Cmdoi3": {
-        "translation": "Advisory"
     },
     "CpGrub": {
         "translation": "Companion Rescue (CRS)"
@@ -500,17 +485,17 @@
     "D4JBvM": {
         "translation": "Well done — You’re right!"
     },
-    "D4qYT5": {
-        "translation": "Avalanche report"
-    },
     "D5zf4H": {
         "translation": "AST 1+"
     },
-    "DAXTto": {
-        "translation": "Forecast {id} not found"
-    },
     "DRm\/Ps": {
         "translation": "Report #{id} is not available anymore."
+    },
+    "DdTMYY": {
+        "translation": "Alpine"
+    },
+    "DiJSHu": {
+        "translation": "<phone>403-679-3511<\/phone> is the Public Safety office phone number (weekdays)"
     },
     "DxUvN0": {
         "translation": "0 - No Rating"
@@ -539,6 +524,9 @@
     "EbuhsU": {
         "translation": "Information to collect while travelling"
     },
+    "Eca5XB": {
+        "translation": "Treeline"
+    },
     "Ee5E3w": {
         "translation": "Natural avalanches likely; human-triggered avalanches very likely."
     },
@@ -547,6 +535,9 @@
     },
     "EoQTj0": {
         "translation": "Confidence"
+    },
+    "Ew50FU": {
+        "translation": "What Elevation?"
     },
     "EwRIOm": {
         "translation": "User"
@@ -586,6 +577,9 @@
     },
     "GQ1GrS": {
         "translation": "Special Public Avalanche Warning"
+    },
+    "GUfQm1": {
+        "translation": "Forecast Archive"
     },
     "GXFJtl": {
         "translation": "{count, plural, one {One error} other {# errors}} occurred while loading Mountain Information Network reports."
@@ -743,6 +737,9 @@
     "KjhZA9": {
         "translation": "Height"
     },
+    "KotpK6": {
+        "translation": "Archived bulletins"
+    },
     "KrVTJE": {
         "translation": "N\/A"
     },
@@ -839,6 +836,9 @@
     "Mp4ZFP": {
         "translation": "Our blog"
     },
+    "N\/SISd": {
+        "translation": "Loading..."
+    },
     "N1cgil": {
         "translation": "Mountain Information Network — FAQ"
     },
@@ -917,6 +917,9 @@
     "Oce\/Vs": {
         "translation": "Heightened avalanche conditions on specific terrain features. Evaluate snow and terrain carefully; identify features of concern."
     },
+    "Oiag\/N": {
+        "translation": "Contact"
+    },
     "OlJJ7I": {
         "translation": "Event"
     },
@@ -952,6 +955,9 @@
     },
     "Q05qE6": {
         "translation": "Ski"
+    },
+    "Q2\/+Ze": {
+        "translation": "Snowpack Summary"
     },
     "Q5SHJ1": {
         "translation": "Courses"
@@ -1019,6 +1025,9 @@
     "RumeRz": {
         "translation": "Regions"
     },
+    "S+GDxJ": {
+        "translation": "Your daily Mountain Weather Forecast"
+    },
     "S0GJ2r": {
         "translation": "Loading Mountain Information Network report..."
     },
@@ -1045,9 +1054,6 @@
     },
     "SlXuCK": {
         "translation": "Outside a region"
-    },
-    "SmpOMT": {
-        "translation": "Mountain Information Network"
     },
     "SsYBcd": {
         "translation": "Elevation"
@@ -1127,12 +1133,6 @@
     "VAjdA4": {
         "translation": "This could happen for few reasons. Do not hesitate to contact us at <mail><\/mail> so we can help you sort that out."
     },
-    "VBSQLa": {
-        "translation": "No {name} Avalanche Advisory is currently available."
-    },
-    "VEy7NE": {
-        "translation": "Remote weather stations"
-    },
     "VecW4F": {
         "translation": "Our staff"
     },
@@ -1144,9 +1144,6 @@
     },
     "VuUEEB": {
         "translation": "Weather station"
-    },
-    "Vx5B5y": {
-        "translation": "Visit Avalanche Canada Blog"
     },
     "W8F0HN": {
         "translation": "Email the Kananaskis Country Public Safety Section"
@@ -1175,6 +1172,9 @@
     "WZRlM4": {
         "translation": "How to GIVE information?"
     },
+    "WeGi2C": {
+        "translation": "Avalanche Summary"
+    },
     "WePE\/Y": {
         "translation": "Large avalanches in many areas; or very large avalanches in specific areas."
     },
@@ -1198,6 +1198,9 @@
     },
     "X4fq+c": {
         "translation": "From"
+    },
+    "X6pshk": {
+        "translation": "Which Slopes?"
     },
     "X83AXU": {
         "translation": "Search"
@@ -1370,9 +1373,6 @@
     "ckeXb6": {
         "translation": "Loading mountain weather forecast for {date}..."
     },
-    "cnbRxD": {
-        "translation": "<phone>403-591-7755<\/phone> is the dispatch office non-emergency line"
-    },
     "cuIJWp": {
         "translation": "Pick a to date"
     },
@@ -1439,6 +1439,9 @@
     "ez+kCq": {
         "translation": "Height"
     },
+    "eztvsv": {
+        "translation": "<phone>911<\/phone> for backcountry rescues and tell them you are in Kananaskis Country"
+    },
     "f1lt+W": {
         "translation": "No providers match your criteria, consider finding a course on the <link>courses page<\/link>."
     },
@@ -1462,6 +1465,9 @@
     },
     "fPfNNr": {
         "translation": "Type"
+    },
+    "fTIjqa": {
+        "translation": "Forecast {name} not found"
     },
     "fatal-recreational-accidents": {
         "translation": "Fatal Recreational Accidents"
@@ -1496,6 +1502,9 @@
     "gDCRKI": {
         "translation": "Fatal"
     },
+    "gFP2S8": {
+        "translation": "Avalanche Forecast"
+    },
     "gSPD2F": {
         "translation": "RH (%)"
     },
@@ -1529,6 +1538,9 @@
     "hDJDN\/": {
         "translation": "More details"
     },
+    "hHvvfI": {
+        "translation": "Loading..."
+    },
     "hIYH8G": {
         "translation": "{count, plural, one {One error} other {# errors}} occurred. Click for more details."
     },
@@ -1546,9 +1558,6 @@
     },
     "hiAkhj": {
         "translation": "No avalanche forecast has been found for {name}."
-    },
-    "hvMNVN": {
-        "translation": "Special Public Avalanche Warning"
     },
     "i+AGCP": {
         "translation": "Email"
@@ -1724,12 +1733,6 @@
     "mR0hCD": {
         "translation": "Close"
     },
-    "mSawI9": {
-        "translation": "Your daily Mountain Weather Forecast"
-    },
-    "mSeuWm": {
-        "translation": "Danger Ratings Explained"
-    },
     "mTRqfE": {
         "translation": "COVID-19 Safety Plan"
     },
@@ -1787,6 +1790,9 @@
     "nGs5Kj": {
         "translation": "To"
     },
+    "nHnEJS": {
+        "translation": "Forecast Disclaimer"
+    },
     "nILfLj": {
         "translation": "Small avalanches in specific areas; or large avalanches in isolated areas."
     },
@@ -1831,6 +1837,9 @@
     },
     "oCd58D": {
         "translation": "Recent wind loading"
+    },
+    "oRm\/jl": {
+        "translation": "Below treeline"
     },
     "oUWADl": {
         "translation": "No"
@@ -1904,9 +1913,6 @@
     "qQxbl5": {
         "translation": "Yukon"
     },
-    "qU8wXd": {
-        "translation": "<phone>403-679-3511<\/phone> is the Public Safety office phone number (weekdays)"
-    },
     "qV1HTT": {
         "translation": "Extra"
     },
@@ -1969,6 +1975,9 @@
     },
     "sCTnlT": {
         "translation": "Current Conditions"
+    },
+    "sCu44f": {
+        "translation": "More information"
     },
     "sHDYEY": {
         "translation": "About"
@@ -2048,11 +2057,11 @@
     "uh7dXb": {
         "translation": "Weather Glossary"
     },
-    "unv0Z7": {
-        "translation": "Contact"
-    },
     "upcoming-events": {
         "translation": "Upcoming events"
+    },
+    "v890BT": {
+        "translation": "<phone>403-591-7755<\/phone> is the dispatch office non-emergency line"
     },
     "vD3KLj": {
         "translation": "Youth Education"
@@ -2096,11 +2105,17 @@
     "wF1p7K": {
         "translation": "Uh oh! You never thought that would happen..."
     },
+    "wF4e0m": {
+        "translation": "Danger Ratings Explained"
+    },
     "wHV6rf": {
         "translation": "New (cm)"
     },
     "wJHFjD": {
         "translation": "Aspect"
+    },
+    "wKOpEQ": {
+        "translation": "Expected Size?"
     },
     "wKQ3vV": {
         "translation": "Submit a Mountain Information Report"
@@ -2126,6 +2141,9 @@
     "wiGfb7": {
         "translation": "Find another route"
     },
+    "wp6n1n": {
+        "translation": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
+    },
     "wpexYN": {
         "translation": "In the meantime, do not hesitate to email us at <mailto><\/mailto> if you need help for these."
     },
@@ -2140,9 +2158,6 @@
     },
     "wzEVz0": {
         "translation": "Until further notice"
-    },
-    "x1UmLT": {
-        "translation": "Hot Zone"
     },
     "x4Ch6V": {
         "translation": "Aspect"
@@ -2192,14 +2207,8 @@
     "yD1Xpo": {
         "translation": "Day"
     },
-    "yFX4u5": {
-        "translation": "Forecast Archive"
-    },
     "yFzXru": {
         "translation": "©{year} Avalanche Canada, All Rights Reserved"
-    },
-    "yHhuHl": {
-        "translation": "Live Chic-Chocs conditions"
     },
     "yIBCSS": {
         "translation": "Complex"
@@ -2234,9 +2243,6 @@
     "zCe6Ex": {
         "translation": "EPSgrams (N. American Ensemble)"
     },
-    "zHorBS": {
-        "translation": "For backcountry rescue call <phone>911<\/phone> and tell them you are in the Chic-Chocs"
-    },
     "zJp3FB": {
         "translation": "Significant warming"
     },
@@ -2249,85 +2255,94 @@
     "zaYxwd": {
         "translation": "Incident"
     },
+    "zfrygz": {
+        "translation": "Visit Avalanche Canada Blog"
+    },
     "zpKok5": {
         "translation": "Present Temp"
     },
     "zv0eNH": {
         "translation": "Location"
     },
-    "zvP02c": {
-        "translation": "Archives"
-    },
     "zwvGck": {
         "translation": "Service awards"
     },
-    "\/3jGaX": {
-        "translation": ""
+    "2Z7oDB": {
+        "translation": "More information"
     },
-    "\/Pksc9": {
-        "translation": ""
+    "2aV3aQ": {
+        "translation": "Alpine weather forecast"
     },
-    "3M\/Kkc": {
-        "translation": ""
+    "2gVYHB": {
+        "translation": "Email the Kananaskis Country Public Safety Section"
     },
-    "BJ77yt": {
-        "translation": ""
+    "2yJisv": {
+        "translation": "Subscribe to our forecasts"
     },
-    "DdTMYY": {
-        "translation": ""
+    "5mBM1r": {
+        "translation": "Avalanche Forecast"
     },
-    "Eca5XB": {
-        "translation": ""
+    "AVbrfN": {
+        "translation": "<phone>911<\/phone> for backcountry rescues and tell them you are in Kananaskis Country"
     },
-    "Ew50FU": {
-        "translation": ""
+    "BNaSG0": {
+        "translation": "This Avalanche Bulletin is produced by avalanche forecasters within the Government of Alberta, Kananaskis Country Public Safety Program."
     },
-    "GUfQm1": {
-        "translation": ""
+    "BvR5MR": {
+        "translation": "Archived bulletins"
     },
-    "KotpK6": {
-        "translation": ""
+    "Cmdoi3": {
+        "translation": "Advisory"
     },
-    "N\/SISd": {
-        "translation": ""
+    "D4qYT5": {
+        "translation": "Avalanche report"
     },
-    "Oiag\/N": {
-        "translation": ""
+    "DAXTto": {
+        "translation": "Forecast {id} not found"
     },
-    "Q2\/+Ze": {
-        "translation": ""
+    "SmpOMT": {
+        "translation": "Mountain Information Network"
     },
-    "S+GDxJ": {
-        "translation": ""
+    "VBSQLa": {
+        "translation": "No {name} Avalanche Advisory is currently available."
     },
-    "WeGi2C": {
-        "translation": ""
+    "VEy7NE": {
+        "translation": "Remote weather stations"
     },
-    "X6pshk": {
-        "translation": ""
+    "Vx5B5y": {
+        "translation": "Visit Avalanche Canada Blog"
     },
-    "hHvvfI": {
-        "translation": ""
+    "cnbRxD": {
+        "translation": "<phone>403-591-7755<\/phone> is the dispatch office non-emergency line"
     },
-    "nHnEJS": {
-        "translation": ""
+    "hvMNVN": {
+        "translation": "Special Public Avalanche Warning"
     },
-    "oRm\/jl": {
-        "translation": ""
+    "mSawI9": {
+        "translation": "Your daily Mountain Weather Forecast"
     },
-    "sCu44f": {
-        "translation": ""
+    "mSeuWm": {
+        "translation": "Danger Ratings Explained"
     },
-    "wF4e0m": {
-        "translation": ""
+    "qU8wXd": {
+        "translation": "<phone>403-679-3511<\/phone> is the Public Safety office phone number (weekdays)"
     },
-    "wKOpEQ": {
-        "translation": ""
+    "unv0Z7": {
+        "translation": "Contact"
     },
-    "wp6n1n": {
-        "translation": ""
+    "x1UmLT": {
+        "translation": "Hot Zone"
     },
-    "zfrygz": {
-        "translation": ""
+    "yFX4u5": {
+        "translation": "Forecast Archive"
+    },
+    "yHhuHl": {
+        "translation": "Live Chic-Chocs conditions"
+    },
+    "zHorBS": {
+        "translation": "For backcountry rescue call <phone>911<\/phone> and tell them you are in the Chic-Chocs"
+    },
+    "zvP02c": {
+        "translation": "Archives"
     }
 }
