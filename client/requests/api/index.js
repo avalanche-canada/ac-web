@@ -1,5 +1,4 @@
-import config from './config.json'
-import { DateParam } from 'hooks/params'
+import * as Config from './config'
 import fetch from 'utils/fetch'
 import * as utils from 'utils/url'
 
@@ -29,10 +28,10 @@ export function archive(language, date) {
 
 // Utils
 function get(language, type, id, date) {
-    const url = utils.path(config.url, 'forecasts', language, type, id, date)
+    const url = utils.path(Config.url, 'forecasts', language, type, id, date)
     const options = {
         headers: new Headers({
-            'x-api-key': config.key,
+            'x-api-key': Config.key,
         }),
     }
 
