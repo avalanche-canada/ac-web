@@ -33,8 +33,8 @@ module.exports = {
     plugins: [
         new webpack.EnvironmentPlugin({
             REACT_APP_SHOW_NOT_PRODUCTION_WARNING: false,
-            REACT_APP_AVCAN_API_URL_LEGACY: 'https://avalanche.ca/api',
-            REACT_APP_STATIC_URL: 'https://avalanche.ca/api/static',
+            REACT_APP_AVCAN_API_URL_LEGACY: 'https://dev.avalanche.ca/api',
+            REACT_APP_STATIC_URL: 'https://dev.avalanche.ca/api/static',
             REACT_APP_AVCAN_API_URL: 'https://api.avalanche.ca',
             REACT_APP_AST_API_URL: 'https://ast.avalanche.ca/api',
             REACT_APP_WEATHER_API_URL: 'https://api.avalanche.ca/weather',
