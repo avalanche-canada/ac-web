@@ -1,9 +1,105 @@
 {
+    "+\/kDI8": {
+        "translation": "No advisory available in {name} for {date}."
+    },
+    "+2V9nb": {
+        "translation": "A new image is added to the loop every 60 minutes."
+    },
+    "+9YFIt": {
+        "translation": "Analysis"
+    },
+    "+ALzpC": {
+        "translation": "Click on a link below to see weather station data."
+    },
+    "+EmH+m": {
+        "translation": "Decision Point"
+    },
+    "+F+eyp": {
+        "translation": "Contributors"
+    },
+    "+HSXlh": {
+        "translation": "External programs"
+    },
+    "+OvFHB": {
+        "translation": "Mountain Information Network — Submission Guidelines"
+    },
+    "+Q4vtp": {
+        "translation": "All categories"
+    },
+    "+QNm85": {
+        "translation": "Parking"
+    },
+    "+daSk\/": {
+        "translation": "You can also <link>reset your criteria<\/link> to see them all."
+    },
+    "+jNk3E": {
+        "translation": "Loading forecast..."
+    },
+    "+vIwIZ": {
+        "translation": "entries per page."
+    },
+    "+zUHgM": {
+        "translation": "Previous"
+    },
     "\/3jGaX": {
         "translation": "Prévisions d’avalanche dans votre boîte de courriel"
     },
+    "\/AElfC": {
+        "translation": "Surface"
+    },
+    "\/F6OrO": {
+        "translation": "Water Vapour\/Jet"
+    },
+    "\/NqjPa": {
+        "translation": "Date"
+    },
     "\/Pksc9": {
         "translation": "Envoyer un courriel à la section de la sécurité publique du pays de Kananaskis"
+    },
+    "\/PphbK": {
+        "translation": "Hi {username},"
+    },
+    "\/Qpbuj": {
+        "translation": "From"
+    },
+    "\/cpFFk": {
+        "translation": "Critical factors influence avalanche hazard. The more critical factors, the greater the potential for avalanches."
+    },
+    "\/ebplO": {
+        "translation": "Persistent avalanche problem"
+    },
+    "\/lHrXG": {
+        "translation": "Owner"
+    },
+    "\/lz0Zy": {
+        "translation": "South Rockies"
+    },
+    "06YBx2": {
+        "translation": "An error happened while loading forecast."
+    },
+    "08vHHF": {
+        "translation": "No {type} match your criteria. You can <link>reset your criteria<\/link> to find more articles."
+    },
+    "0IrREY": {
+        "translation": "Select a forecast region."
+    },
+    "0J6il2": {
+        "translation": "Cutblocks"
+    },
+    "0TjAGd": {
+        "translation": "Click on a link below to read an Avalanche Advisory."
+    },
+    "0Ydt2k": {
+        "translation": "view"
+    },
+    "0lzKZE": {
+        "translation": "Weather station #{id} does not exist."
+    },
+    "1+R0DV": {
+        "translation": "Hut, cabin or shelter"
+    },
+    "1+xqK4": {
+        "translation": "Probability of precipitation accumulation <children><\/children> for the whole period"
     },
     "1D6FM6": {
         "translation": "Natural and human-triggered avalanches unlikely."
@@ -14,17 +110,98 @@
     "1kY+r\/": {
         "translation": "Conditions d’utilisation"
     },
+    "1mmIsb": {
+        "translation": "If you need help or have questions, do not hesitate to send us an <link>email<\/link>."
+    },
     "1nJY2\/": {
         "translation": "Votre réponse"
+    },
+    "1syIDU": {
+        "translation": "Good Terrain Choices"
+    },
+    "1xUmX4": {
+        "translation": "Tags"
+    },
+    "216rUN": {
+        "translation": "Tagged under"
+    },
+    "26Gwz5": {
+        "translation": "Board of directors"
+    },
+    "2BrINg": {
+        "translation": "Uh oh! We never thought that would happen..."
+    },
+    "2DDvdI": {
+        "translation": "Forecasts and graphics produced by the Meteorological Service of Canada (MSC)"
+    },
+    "2LRegK": {
+        "translation": "Visible imagery not available at night."
+    },
+    "2SmYNl": {
+        "translation": "Date"
+    },
+    "2UF3eI": {
+        "translation": "Select an area."
+    },
+    "2cCG+C": {
+        "translation": "Username"
+    },
+    "2d7Vp3": {
+        "translation": "Avalanche Advisory"
+    },
+    "2qCVIs": {
+        "translation": "Go to home page"
+    },
+    "2shqaL": {
+        "translation": "Problem submitting report: ${title}"
+    },
+    "2y+Sqk": {
+        "translation": "Mountain Weather Forecast Feedback"
+    },
+    "36Tu55": {
+        "translation": "Changing your username will change all previously submitted reports as well as all reports you will submit in the future."
+    },
+    "3GWnIa": {
+        "translation": "Forecasters’ blogs"
     },
     "3M\/Kkc": {
         "translation": "Prévisions météorologiques"
     },
+    "3hIm21": {
+        "translation": "1000 – 500 hPa Thickness (N. American Ensemble)"
+    },
+    "3jrid5": {
+        "translation": "Uh oh! We never thought that would happen..."
+    },
+    "3ljngv": {
+        "translation": "Warnings"
+    },
+    "3ofh0S": {
+        "translation": "Loading Mountain Conditions Report..."
+    },
+    "3yPJzl": {
+        "translation": "Snow height: {amount}"
+    },
     "41g4WQ": {
         "translation": "Sélectionnez une région"
     },
+    "42E5Ej": {
+        "translation": "Please note:"
+    },
+    "46M0qD": {
+        "translation": "24hr Snow"
+    },
+    "47FYwb": {
+        "translation": "Cancel"
+    },
     "49cz1r": {
         "translation": "3 - Considérable"
+    },
+    "4T+ECN": {
+        "translation": "over {temperature, number}°C"
+    },
+    "4U2ie6": {
+        "translation": "Managing Avalanche Terrain (MAT)"
     },
     "4X1cAW": {
         "translation": "Réglages"
@@ -32,62 +209,320 @@
     "4X9D7R": {
         "translation": "Aucun problème identifié."
     },
+    "4bY8Ee": {
+        "translation": "<prefix><\/prefix> between <sufix><\/sufix>"
+    },
     "4rTaR5": {
         "translation": "4 - Élevé"
+    },
+    "4uCRas": {
+        "translation": "Search by username..."
+    },
+    "4xmegO": {
+        "translation": "Email"
+    },
+    "5AyUem": {
+        "translation": "IR - Canada West"
+    },
+    "5DLY8m": {
+        "translation": "Actual Temperatures (12 hours)"
     },
     "5FUoif": {
         "translation": "Politique de confidentialité"
     },
+    "5H37zr": {
+        "translation": "SledComm"
+    },
+    "5IZ5dl": {
+        "translation": "Sponsors & Collaborators"
+    },
+    "5L\/S5e": {
+        "translation": "Loading information..."
+    },
+    "5OMfMf": {
+        "translation": "Observations date"
+    },
+    "5QyluP": {
+        "translation": "Simple"
+    },
     "5WW37y": {
         "translation": "Vous traversez quelques zones dangereuses. Faites attention!"
+    },
+    "5jeq8P": {
+        "translation": "Unknown"
     },
     "5vzyAa": {
         "translation": "Détails"
     },
+    "6+HK6s": {
+        "translation": "Loading Mountain Information Network reports..."
+    },
+    "62LRPS": {
+        "translation": "Location"
+    },
+    "668eFJ": {
+        "translation": "Loading forecast..."
+    },
+    "68fkXH": {
+        "translation": "This is an avalanche size 404 error..."
+    },
+    "6DF8Lr": {
+        "translation": "Mountain Information Network report with id {id} has not been found."
+    },
+    "6LqYAS": {
+        "translation": "Weather forecasts are usually published at 4:00 PST, read yesterday's weather forecast <link>here<\/link>."
+    },
+    "6MB16L": {
+        "translation": "Annual reports"
+    },
+    "6jMXw4": {
+        "translation": "There is currently no Special Public Avalanche Warning in effect."
+    },
+    "7+7JgL": {
+        "translation": "An error occurred while loading incident."
+    },
+    "7\/Ulf8": {
+        "translation": "Winds"
+    },
+    "7754AK": {
+        "translation": "Forecaster blog"
+    },
+    "77PH71": {
+        "translation": "A problem happened while loading Mountain Conditions Reports on the map."
+    },
+    "7C1Zq6": {
+        "translation": "Conditions in the green area are appropriate for informed backcountry travel in avalanche terrain and accidents are generally infrequent. Use caution, including hazard recognition and safe travel skills as taught in introductory avalanche courses. Rescue skills are always essential when travelling in avalanche terrain."
+    },
+    "7OHV6q": {
+        "translation": "Play the animation"
+    },
+    "7QzE6V": {
+        "translation": "You can still use the map. However, some data might be missing and behaviour not working as expected. Click on the arrow for more details."
+    },
     "7dR24s": {
         "translation": "Visitez notre blogue"
+    },
+    "7hQ4Wl": {
+        "translation": "From the reel"
+    },
+    "7jVymW": {
+        "translation": "Accident Date"
     },
     "7offaS": {
         "translation": "Limite forestière"
     },
+    "7qLvcS": {
+        "translation": "To"
+    },
     "7qOQpv": {
         "translation": "Sélectionnez une date"
+    },
+    "7so8ca": {
+        "translation": "No courses match your criteria, consider finding a provider on the <link>providers page<\/link> to contact directly."
+    },
+    "7xMTaU": {
+        "translation": "Loading weather station data..."
     },
     "82wRfY": {
         "translation": "Problème d'avalanche {counter} : {name}"
     },
+    "85N0tP": {
+        "translation": "Type the new username you would like..."
+    },
+    "8Emi7W": {
+        "translation": "{count, plural, one {One error} other {# errors}} occurred."
+    },
+    "8HqzPv": {
+        "translation": "It seems that your browser does not support the technology required (WebGL for the geeks) to show forecasts, advisories and other avalanche-related information on our map."
+    },
+    "8PAu18": {
+        "translation": "546 dam – 500 hPa Contour Line (Canadian Ensemble)"
+    },
+    "8PfI21": {
+        "translation": "caution"
+    },
+    "8SzjVN": {
+        "translation": "Radar Imagery"
+    },
+    "8cRnvP": {
+        "translation": "Group the table by {title}"
+    },
+    "8cbAw\/": {
+        "translation": "Events"
+    },
+    "8hB\/aX": {
+        "translation": "Avalanche advisory archive"
+    },
     "8kFo5V": {
         "translation": "Valide jusqu'à"
+    },
+    "8kLR2G": {
+        "translation": "Avalanche Skills Training 2"
     },
     "8wv5uw": {
         "translation": "Petites avalanches dans de nombreux secteurs, grosses avalanches localisées ou très grosses avalanches dans des secteurs isolés."
     },
+    "8yS+3H": {
+        "translation": "Click on a link below to see another forecast:"
+    },
     "9EpKuG": {
         "translation": "Indices de danger"
+    },
+    "9G7scK": {
+        "translation": "Location"
+    },
+    "9PqwAx": {
+        "translation": "Relative humidity (%)"
+    },
+    "9QTpR8": {
+        "translation": "A problem happened while showing the map"
+    },
+    "9Z6Jm+": {
+        "translation": "Source"
+    },
+    "9a9+ww": {
+        "translation": "Title"
+    },
+    "9j3hXO": {
+        "translation": "To"
+    },
+    "9s7GOe": {
+        "translation": "Help"
+    },
+    "9xG\/qT": {
+        "translation": "Ready?"
+    },
+    "9xMUh7": {
+        "translation": "Loading avalanche forecast..."
+    },
+    "AJkDyl": {
+        "translation": "Rescue at Cherry Bowl"
     },
     "AOlBrj": {
         "translation": "Avalanches variant de grosses à très grosses dans de nombreux secteurs."
     },
+    "AUQJym": {
+        "translation": "Relative humidity"
+    },
+    "AW4vJq": {
+        "translation": "Exposure to low angle or primarily forested terrain. Some forest openings may involve the runout zones of infrequent avalanches. Many options to reduce or eliminate exposure. No glacier travel."
+    },
+    "AiTJQz": {
+        "translation": "Variable depth snowpack"
+    },
+    "AlX3Ht": {
+        "translation": "Caution"
+    },
+    "Aov7Td": {
+        "translation": "Throttle Decisions"
+    },
+    "BGOmRh": {
+        "translation": "Loading tutorial..."
+    },
     "BJ77yt": {
         "translation": "Déclenchements d'avalanche"
+    },
+    "BQVMOp": {
+        "translation": "Wind speed in kilometre per hour (km\/h) and direction in degree (°) every hour from {min, date} to {max, date}."
+    },
+    "BjomlV": {
+        "translation": "Hour"
+    },
+    "BzQPM+": {
+        "translation": "Destination"
+    },
+    "C9K+TI": {
+        "translation": "Avalanche"
+    },
+    "CFbqyU": {
+        "translation": "Loading avalanche forecast..."
+    },
+    "CUQebg": {
+        "translation": "Loading latest {type}..."
+    },
+    "Cb0zQT": {
+        "translation": "More details about this error..."
+    },
+    "CbCYyB": {
+        "translation": "The Aspect newsletter"
+    },
+    "Cf6TiZ": {
+        "translation": "A problem happened while loading Advisories on the map."
+    },
+    "CiSQ0s": {
+        "translation": "Welcome to the Trip Planner"
+    },
+    "CkFq5N": {
+        "translation": "MIN To Win"
+    },
+    "CpGrub": {
+        "translation": "Companion Rescue (CRS)"
+    },
+    "CrgO5L": {
+        "translation": "Terrain Ratings Explained"
+    },
+    "Crk8sd": {
+        "translation": "Slab Thickness"
+    },
+    "CsmCN0": {
+        "translation": "Major avalanche path"
+    },
+    "CugkBE": {
+        "translation": "Issued at"
     },
     "Cv5PHD": {
         "translation": "Vos prévisions météorologiques en montagne quotidiennes"
     },
+    "CwqvmD": {
+        "translation": "Shallow snowpack"
+    },
+    "CxoLwZ": {
+        "translation": "Injury"
+    },
+    "D3InHA": {
+        "translation": "500 mbar & Precipitable Water"
+    },
     "D4JBvM": {
         "translation": "Bien jouer, c'est la bonne réponse!"
+    },
+    "D5zf4H": {
+        "translation": "AST 1+"
+    },
+    "DRm\/Ps": {
+        "translation": "Report #{id} is not available anymore."
     },
     "DdTMYY": {
         "translation": "Alpin"
     },
+    "DiJSHu": {
+        "translation": "<phone>403-679-3511<\/phone> is the Public Safety office phone number (weekdays)"
+    },
     "DxUvN0": {
         "translation": "0 - Aucun indice"
+    },
+    "E4BRRv": {
+        "translation": "Weather station #{id} not found"
+    },
+    "E80WrK": {
+        "translation": "Information"
     },
     "EA22jQ": {
         "translation": "Préparé par"
     },
+    "EEoUHw": {
+        "translation": "This is eventually where you will be able to:"
+    },
+    "EGB\/bf": {
+        "translation": "Latest news"
+    },
     "EYGWzB": {
         "translation": "Archive des prévisions"
+    },
+    "EajE3m": {
+        "translation": "Learn"
+    },
+    "EbuhsU": {
+        "translation": "Information to collect while travelling"
     },
     "Eca5XB": {
         "translation": "Limite forestière"
@@ -95,11 +530,20 @@
     "Ee5E3w": {
         "translation": "Avalanches naturelles probables; déclenchements par intervention humaine; très probables."
     },
+    "EoNF9S": {
+        "translation": "An error happened while authenticating you in. You can try another <link>login<\/link>."
+    },
     "EoQTj0": {
-        "translation": "Fiabilité"
+        "translation": "Confiance"
     },
     "Ew50FU": {
         "translation": "Quelle altitude ?"
+    },
+    "EwRIOm": {
+        "translation": "User"
+    },
+    "FCYuTW": {
+        "translation": "Map legend"
     },
     "FFBBla": {
         "translation": "Il n’existe aucun document pour {title}."
@@ -107,14 +551,59 @@
     "FLCIcU": {
         "translation": "Trouver un cours"
     },
+    "FT+IWg": {
+        "translation": "Loading Mountain Information Network reports..."
+    },
+    "Fb0Sd\/": {
+        "translation": "ATES are:"
+    },
+    "Fhmv0E": {
+        "translation": "Forecast regions"
+    },
+    "Fq1tt3": {
+        "translation": "Tutorial"
+    },
+    "Fwyx7W": {
+        "translation": "Speed (km\/h)"
+    },
+    "FzhVSF": {
+        "translation": "Lee slopes"
+    },
+    "GFhajG": {
+        "translation": "Send feedback to Meteorological Service of Canada"
+    },
+    "GIT7Z\/": {
+        "translation": "Government partners"
+    },
+    "GQ1GrS": {
+        "translation": "Special Public Avalanche Warning"
+    },
     "GUfQm1": {
         "translation": "Archive des prévisions"
+    },
+    "GXFJtl": {
+        "translation": "{count, plural, one {One error} other {# errors}} occurred while loading Mountain Information Network reports."
     },
     "Gacp29": {
         "translation": "Consulter les prévisions d’avalanches du {date}"
     },
+    "GexYFB": {
+        "translation": "A problem happened while loading Weather Station on the map."
+    },
+    "Ggk7AI": {
+        "translation": "Quick"
+    },
+    "GjZDVR": {
+        "translation": "Companion Rescue Skills"
+    },
+    "GtRtos": {
+        "translation": "News"
+    },
     "GzjTkI": {
         "translation": "Contactez-nous"
+    },
+    "H\/wqZi": {
+        "translation": "Download ATES data for {name}"
     },
     "HBELLZ": {
         "translation": "Conditions avalancheuses très dangereuses. Déplacements en terrain avalancheux non recommandés."
@@ -122,14 +611,86 @@
     "HGGdGz": {
         "translation": "Partagez cette page sur {name}"
     },
+    "HUZh6A": {
+        "translation": "Distance"
+    },
+    "Hny4nb": {
+        "translation": "More questions?"
+    },
     "HtEmSg": {
         "translation": "Désolé, ce n'est pas la bonne réponse. Essayer de nouveau!"
+    },
+    "HyJt\/f": {
+        "translation": "Max"
+    },
+    "I\/WGzq": {
+        "translation": "Satellite"
+    },
+    "I12OPN": {
+        "translation": "Avalanche incident database"
+    },
+    "I3RuRu": {
+        "translation": "An error happened while loading weather stations."
+    },
+    "I4kCsU": {
+        "translation": "Recent rainfall"
+    },
+    "I80cZb": {
+        "translation": "Speed"
     },
     "IAPH04": {
         "translation": "Votre réponse est requise."
     },
+    "IAhDUz": {
+        "translation": "Add information on one, some, or all tabs."
+    },
+    "IIUFEi": {
+        "translation": "Click on a link below to read the avalanche forecast:"
+    },
+    "IV4BOT": {
+        "translation": "Snowshoe"
+    },
+    "IZtayi": {
+        "translation": "Source"
+    },
+    "Iu1HqA": {
+        "translation": "Fresh to the Backcountry? Start Here"
+    },
+    "Iw97xA": {
+        "translation": "Terrain Advice"
+    },
+    "J3oh4c": {
+        "translation": "Currently showing {items}, <link>reset your criteria<\/link>."
+    },
+    "J4Pdl+": {
+        "translation": "Loading Mountain Information Network report..."
+    },
     "J8jnsU": {
         "translation": "Publié le"
+    },
+    "JAKhvf": {
+        "translation": "Change your username"
+    },
+    "JG6rPS": {
+        "translation": "Download ATES data as KMZ"
+    },
+    "JHAVp7": {
+        "translation": "Trigger"
+    },
+    "JHv3fg": {
+        "translation": "Elevation"
+    },
+    "JIsU05": {
+        "translation": "Loading weather station data..."
+    },
+    "JKU+nb": {
+        "translation": "In effect"
+    },
+    "JMG6+l": {
+        "translation": "Height (cm)"
+    },
+    "JMac37": {
+        "translation": "Show all"
     },
     "JQsrhq": {
         "translation": "Alpin"
@@ -140,29 +701,215 @@
     "JjRe8S": {
         "translation": "Chargement..."
     },
+    "Jjb\/Xo": {
+        "translation": "Weather Glossary"
+    },
+    "KB\/9UQ": {
+        "translation": "There is no rating available to show the chart."
+    },
+    "KCQO1c": {
+        "translation": "Glossary"
+    },
     "KF5ERp": {
         "translation": "Conseils sur le terrain et les déplacements"
+    },
+    "KHIdQ3": {
+        "translation": "No danger ratings are available to run the TripPlanner in that zone."
+    },
+    "KJcQde": {
+        "translation": "Hi <link><\/link>,"
+    },
+    "KN3F+D": {
+        "translation": "Subscribe"
+    },
+    "KNDIgK": {
+        "translation": "No information has been found for that decision point."
+    },
+    "KVwrN8": {
+        "translation": "Online avalanche tutorial"
+    },
+    "KZkA6O": {
+        "translation": "Hosted by"
+    },
+    "Kb9puO": {
+        "translation": "Actual Temperatures"
+    },
+    "KjhZA9": {
+        "translation": "Height"
     },
     "KotpK6": {
         "translation": "Prévisions archivées"
     },
+    "KrVTJE": {
+        "translation": "N\/A"
+    },
+    "KuQVY7": {
+        "translation": "Archived forecast bulletins for {name} region are available on the Parks Canada — Public Avalanche Information website"
+    },
+    "KxbmQC": {
+        "translation": "Show"
+    },
+    "L+sgZO": {
+        "translation": "Incident Summary"
+    },
+    "L\/68Mg": {
+        "translation": "Essential gear"
+    },
+    "L0GLT1": {
+        "translation": "We have been notified about that error; we will try fix it as soon as possible."
+    },
     "L3tjFh": {
         "translation": "Conditions avalancheuses généralement sécuritaires. Faire attention à la neige instable sur des reliefs de terrain isolés."
+    },
+    "L7DcSH": {
+        "translation": "0-48 Hours"
+    },
+    "LA543e": {
+        "translation": "Our programs"
+    },
+    "LE0Wjb": {
+        "translation": "Province"
+    },
+    "LIkDJZ": {
+        "translation": "Date Updated"
+    },
+    "LMf+i1": {
+        "translation": "Snowpack"
+    },
+    "LNArWr": {
+        "translation": "Program partners"
+    },
+    "LQLo+C": {
+        "translation": "Loading weather station measurements..."
+    },
+    "LQMRIg": {
+        "translation": "Avalanche forecast"
+    },
+    "LaLZR3": {
+        "translation": "Day 3-4"
+    },
+    "LbiRuN": {
+        "translation": "12hr Total Precipitation"
+    },
+    "LcxXMg": {
+        "translation": "Involvement"
+    },
+    "LeccD8": {
+        "translation": "Day 5-7"
+    },
+    "LjfT9d": {
+        "translation": "Winds"
+    },
+    "Llm2Wa": {
+        "translation": "Snowpack"
+    },
+    "LzDAkq": {
+        "translation": "Pick a from date"
     },
     "M\/Tq3r": {
         "translation": "Conditions printanières"
     },
+    "MFKutU": {
+        "translation": "Dangerator"
+    },
+    "MPPCK+": {
+        "translation": "AST 1 + MAT"
+    },
+    "MY4AwB": {
+        "translation": "Ambassadors"
+    },
+    "MbKJy3": {
+        "translation": "Day 2"
+    },
+    "MgqL0c": {
+        "translation": "Avalanche Advisory Archive"
+    },
+    "Ml7yHV": {
+        "translation": "Supporters"
+    },
     "MnV9R0": {
         "translation": "Valide jusqu'à"
+    },
+    "MoZLbF": {
+        "translation": "Unsupported"
+    },
+    "Mp4ZFP": {
+        "translation": "Our blog"
     },
     "N\/SISd": {
         "translation": "Chargement..."
     },
+    "N1cgil": {
+        "translation": "Mountain Information Network — FAQ"
+    },
     "N3I9BQ": {
         "translation": "Abonnez-vous à notre flux RSS"
     },
+    "N5wkSH": {
+        "translation": "Weather Comment"
+    },
+    "NCx3L5": {
+        "translation": "Avalanche Canada"
+    },
+    "NDnzH9": {
+        "translation": "Warnings"
+    },
+    "NGL434": {
+        "translation": "Backcountry Resources"
+    },
+    "NO4LEv": {
+        "translation": "Not recommended"
+    },
+    "Na2ozi": {
+        "translation": "Fatal Recreational Accident"
+    },
+    "NevKuT": {
+        "translation": "Create a report"
+    },
     "NfTHjT": {
         "translation": "Sélectionnez une date"
+    },
+    "NhZX3+": {
+        "translation": "Level"
+    },
+    "NjzSyk": {
+        "translation": "News"
+    },
+    "Nrf21I": {
+        "translation": "to"
+    },
+    "Nw8Wlj": {
+        "translation": "South Coast"
+    },
+    "O2sqh9": {
+        "translation": "Weather"
+    },
+    "O3pRGx": {
+        "translation": "500 mbar & Precipitable Water"
+    },
+    "O7tp1J": {
+        "translation": "<abbr>SPAW<\/abbr> In effect"
+    },
+    "O8EG5J": {
+        "translation": "Submit your report"
+    },
+    "OEp5QR": {
+        "translation": "From"
+    },
+    "OG\/m5X": {
+        "translation": "Find a provider"
+    },
+    "OHt9Yu": {
+        "translation": "Remove your {name} report"
+    },
+    "OOpDs9": {
+        "translation": "Critical Factors Summary"
+    },
+    "OWhwRL": {
+        "translation": "Fatal recreational accident {id} available anymore."
+    },
+    "OaPbee": {
+        "translation": "Title"
     },
     "Ob2vt+": {
         "translation": "Vos prévisions météorologiques en montagne quotidiennes"
@@ -173,29 +920,257 @@
     "Oiag\/N": {
         "translation": "Contact"
     },
+    "OlJJ7I": {
+        "translation": "Event"
+    },
+    "OwRkQO": {
+        "translation": "Curriculum & resources"
+    },
+    "OxljSy": {
+        "translation": "Select a date for the {name} area."
+    },
+    "P03AFY": {
+        "translation": "Report not found."
+    },
+    "P7PLVj": {
+        "translation": "Date"
+    },
+    "PJ3qoY": {
+        "translation": "Visible - South Interior"
+    },
+    "PSYq6V": {
+        "translation": "Teaching guidelines"
+    },
+    "PaXe1q": {
+        "translation": "Description"
+    },
+    "Ppx673": {
+        "translation": "Reports"
+    },
+    "Pw2f4c": {
+        "translation": "{resolution} VIS BC"
+    },
+    "Pyz1fl": {
+        "translation": "Wind speed and direction"
+    },
+    "Q05qE6": {
+        "translation": "Ski"
+    },
     "Q2\/+Ze": {
         "translation": "Sommaire manteau neigeux"
+    },
+    "Q5SHJ1": {
+        "translation": "Courses"
+    },
+    "Q6lxuZ": {
+        "translation": "No documents available."
+    },
+    "Q8iaTl": {
+        "translation": "Back to home"
+    },
+    "Q9P1Fw": {
+        "translation": "Wind Direction Average"
+    },
+    "QYXOBY": {
+        "translation": "Travel advice"
+    },
+    "QZomE3": {
+        "translation": "Document Date"
+    },
+    "QcpZTi": {
+        "translation": "Visible South Coast"
     },
     "Qd+Cop": {
         "translation": "Notre réponse"
     },
+    "QjMlZz": {
+        "translation": "Search..."
+    },
+    "QvimSq": {
+        "translation": "Show height and new snow in centimetre (cm) every hour from {min} to {max}."
+    },
+    "Qvwvqu": {
+        "translation": "Featured resources"
+    },
+    "R8WsMH": {
+        "translation": "Historical Incidents"
+    },
     "RI1ANN": {
         "translation": "2 - Modéré"
+    },
+    "RQGHrd": {
+        "translation": "Uh oh! We never thought that would happen..."
+    },
+    "RQGr\/c": {
+        "translation": "Brought to you by"
+    },
+    "RRPHGp": {
+        "translation": "Main access trail"
+    },
+    "RSZdsy": {
+        "translation": "Alberta Rockies"
+    },
+    "RZFJLe": {
+        "translation": "Avalanche forecast is available at: <link \/>"
+    },
+    "Ra1yqW": {
+        "translation": "Remove or edit reports you have submitted."
+    },
+    "RmnEm5": {
+        "translation": "Report with id {id} has not been found."
+    },
+    "RrRyfP": {
+        "translation": "Time zone"
+    },
+    "RumeRz": {
+        "translation": "Regions"
     },
     "S+GDxJ": {
         "translation": "Vos prévisions météorologiques en montagne quotidiennes"
     },
+    "S0GJ2r": {
+        "translation": "Loading Mountain Information Network report..."
+    },
+    "S1\/qyL": {
+        "translation": "Mountain Sledding"
+    },
+    "S77MlZ": {
+        "translation": "A problem happened while loading forecast on the map."
+    },
+    "S8FkTR": {
+        "translation": "AST 2"
+    },
     "S8m8si": {
         "translation": "Chargement..."
+    },
+    "SKojS6": {
+        "translation": "Mountain Information Network — Reports"
+    },
+    "SaG3kV": {
+        "translation": "Find a provider"
+    },
+    "SiR2AW": {
+        "translation": "Wind Speed Average (km\/h)"
+    },
+    "SlXuCK": {
+        "translation": "Outside a region"
+    },
+    "SsYBcd": {
+        "translation": "Elevation"
+    },
+    "SxXAWS": {
+        "translation": "Select a forecast date."
+    },
+    "T3e4KH": {
+        "translation": "Mountain Information Network"
+    },
+    "T5cbLZ": {
+        "translation": "A new image is added to the loop every 10 minutes."
+    },
+    "TEgYqN": {
+        "translation": "Select an area"
+    },
+    "TKISVn": {
+        "translation": "Avalanche Canada Foundation"
+    },
+    "TMp\/ih": {
+        "translation": "24hr Trend"
+    },
+    "Texvtz": {
+        "translation": "Credit"
+    },
+    "TgYk8t": {
+        "translation": "See all reports"
+    },
+    "TkE+dd": {
+        "translation": "Your username"
+    },
+    "TkNZrJ": {
+        "translation": "Loading all weather stations..."
+    },
+    "Tm5kg9": {
+        "translation": "Snow (cm)"
+    },
+    "TtEB5V": {
+        "translation": "Visit all submitted reports"
+    },
+    "TwWQNx": {
+        "translation": "Wind Speed"
+    },
+    "TxwX\/\/": {
+        "translation": "Backcountry travel in the red area is not recommended without professional–level safety systems and guidance. Conditions are primed for avalanche accidents and even careful decisions can result in serious accidents. Finding terrain with an acceptable level of avalanche risk under these conditions requires detailed knowledge and comprehensive understanding of the development of the local snowpack to date, the effect of the current weather on the existing avalanche problem, and the small- scale characteristics of the local terrain, including avalanche activity history."
+    },
+    "UGRKnY": {
+        "translation": "more than {value, number}mm"
+    },
+    "UJsB3G": {
+        "translation": "Storm Snow"
+    },
+    "URqWAH": {
+        "translation": "Weather stations"
+    },
+    "UY1p4F": {
+        "translation": "See this submission on the main map"
+    },
+    "UhV7f7": {
+        "translation": "Glossary"
+    },
+    "UhypXW": {
+        "translation": "Source"
+    },
+    "Ulbgnu": {
+        "translation": "See also:"
+    },
+    "Ut\/ezC": {
+        "translation": "An error happened while getting decision point information."
     },
     "V7pNoh": {
         "translation": "Avalanches naturelles improbables; déclenche- ments par intervention humaine possibles."
     },
+    "VA+DE\/": {
+        "translation": "Reports list view"
+    },
+    "VAjdA4": {
+        "translation": "This could happen for few reasons. Do not hesitate to contact us at <mail><\/mail> so we can help you sort that out."
+    },
+    "VecW4F": {
+        "translation": "Our staff"
+    },
+    "VlqGrp": {
+        "translation": "Direction"
+    },
+    "VuDwBa": {
+        "translation": "An error happened while loading the forecast."
+    },
+    "VuUEEB": {
+        "translation": "Weather station"
+    },
     "W8F0HN": {
         "translation": "Envoyer un courriel à la section de la sécurité publique du pays de Kananaskis"
     },
+    "WAkhuA": {
+        "translation": "Caution"
+    },
+    "WBxRMD": {
+        "translation": "Available reports"
+    },
+    "WCKpbe": {
+        "translation": "500 hPa Mean \/ Standard Deviation (N. American Ensemble)"
+    },
+    "WDiGF0": {
+        "translation": "Send {fullName} an email"
+    },
     "WMq6So": {
         "translation": "Chargement..."
+    },
+    "WNGaI0": {
+        "translation": "Location"
+    },
+    "WOkXMl": {
+        "translation": "Access all the reports you have submitted."
+    },
+    "WZRlM4": {
+        "translation": "How to GIVE information?"
     },
     "WeGi2C": {
         "translation": "Sommaire des avalanches"
@@ -203,8 +1178,32 @@
     "WePE\/Y": {
         "translation": "Grosses avalanches dans de nombreux secteurs ou très grosses avalanches localisées."
     },
+    "WhW499": {
+        "translation": "AST 1 + AST 2 Combined"
+    },
+    "WlYJie": {
+        "translation": "Contacts"
+    },
+    "Wn0WGR": {
+        "translation": "How to GET information?"
+    },
+    "X0mGc4": {
+        "translation": "Look at {title} report on the map"
+    },
+    "X4A2RL": {
+        "translation": "Tutorials"
+    },
+    "X4eU4b": {
+        "translation": "Search for a definition"
+    },
+    "X4fq+c": {
+        "translation": "From"
+    },
     "X6pshk": {
         "translation": "Quelles pentes ?"
+    },
+    "X83AXU": {
+        "translation": "Search"
     },
     "XVMUAR": {
         "translation": "1 - Faible"
@@ -212,23 +1211,374 @@
     "Xzbf14": {
         "translation": "Partagez cette page"
     },
+    "Y+s5Pd": {
+        "translation": "Reset to the last {days} days"
+    },
+    "YObgko": {
+        "translation": "Storm Date"
+    },
+    "YSkrN2": {
+        "translation": "{itemCount, plural, =0 {No users} one {# user} other {# users}} found."
+    },
+    "YZxsM8": {
+        "translation": "Exceedance Probability (N. American Ensemble)"
+    },
+    "YcECia": {
+        "translation": "Date range"
+    },
+    "Yhzvef": {
+        "translation": "Exposure to multiple overlapping avalanche paths or large expanses of steep, open terrain; multiple avalanche starting zones and terrain traps below; minimal options to reduce exposure. Complicated glacier travel with extensive crevasse bands or icefalls."
+    },
+    "Yk\/+o9": {
+        "translation": "Synopsis"
+    },
+    "Ykeofn": {
+        "translation": "The arrow is pointing down the path."
+    },
+    "Yu49Is": {
+        "translation": "Trip Planning"
+    },
+    "Z\/WHoY": {
+        "translation": "Forecast regions"
+    },
+    "Z6NFiK": {
+        "translation": "Information"
+    },
+    "Z7dIFE": {
+        "translation": "Snow"
+    },
+    "ZBJwKE": {
+        "translation": "Snowpack Comment"
+    },
+    "ZGD8bt": {
+        "translation": "You will be redirected once we are done!"
+    },
+    "ZJ+oes": {
+        "translation": "Display on map"
+    },
+    "ZMxtNy": {
+        "translation": "Activity"
+    },
+    "ZOelDD": {
+        "translation": "All months"
+    },
+    "ZRo059": {
+        "translation": "Use extra caution in the yellow area. Avalanches are likely to occur with human or natural triggers, and accidents are frequent. Safe travelling under these conditions demands an advanced understanding of the character of the current avalanche problem. This includes knowing which field observations are most useful under the given conditions and which terrain features to favour or avoid. Advanced trip planning and group management skills, significant personal experience, and humility are essential."
+    },
+    "ZXj6PT": {
+        "translation": "Move to the previous image"
+    },
+    "Zo+y8O": {
+        "translation": "1980\/1981 and earlier"
+    },
+    "ZpUwKG": {
+        "translation": "Latest blog posts"
+    },
+    "ZtQ9DU": {
+        "translation": "{amount, plural, =1 {# day} other {# days}}"
+    },
+    "a0unHU": {
+        "translation": "Providers"
+    },
     "a2JuFd": {
         "translation": "Conditions de début de saison"
+    },
+    "a3lNIo": {
+        "translation": "News & Events"
+    },
+    "a5msuh": {
+        "translation": "Yes"
+    },
+    "aBCy53": {
+        "translation": "Store"
+    },
+    "aBPUuk": {
+        "translation": "This is an archived Avalanche Advisory."
+    },
+    "aCsFX1": {
+        "translation": "North Rockies"
+    },
+    "aEft73": {
+        "translation": "Filter by"
+    },
+    "aUBpA8": {
+        "translation": "Mountain Information Network"
+    },
+    "abQ+FP": {
+        "translation": "Forecast archive"
+    },
+    "aoXWRy": {
+        "translation": "Observations"
+    },
+    "aoroMT": {
+        "translation": "Loading incident..."
+    },
+    "app.distanceDescription": {
+        "translation": "Straight line between {place} and the provider."
+    },
+    "app.loadingError": {
+        "translation": "An error happened while loading the {pluralized}..."
+    },
+    "avalanche-advisories": {
+        "translation": "Avalanche Advisories"
+    },
+    "avalanche-forecasts": {
+        "translation": "Avalanche Forecasts"
+    },
+    "b05fd7": {
+        "translation": "Temperatures"
+    },
+    "b40Pr7": {
+        "translation": "Reporter"
+    },
+    "bK2mzd": {
+        "translation": "Create a report"
+    },
+    "bMyk2U": {
+        "translation": "No definition matches your criteria."
+    },
+    "bZ1WF2": {
+        "translation": "Descending"
+    },
+    "bpQq40": {
+        "translation": "Careers"
+    },
+    "c+ir6d": {
+        "translation": "For more photos and more information about the professional mountain guide who created this report visit: <link>mountainconditions.com<\/link>."
+    },
+    "c3Z95X": {
+        "translation": "Weather stations"
+    },
+    "cG0Q8M": {
+        "translation": "Temperature"
+    },
+    "cGNPZd": {
+        "translation": "{count, plural, one {# photo} other {# photos}} attached"
+    },
+    "cJ8MIq": {
+        "translation": "Reload the map"
+    },
+    "cRTHzR": {
+        "translation": "This station currently has no data available."
+    },
+    "cdHupa": {
+        "translation": "Loading measurements..."
+    },
+    "ch+P3A": {
+        "translation": "Terrain features"
+    },
+    "cj0fgl": {
+        "translation": "Pause the animation"
+    },
+    "ckeXb6": {
+        "translation": "Loading mountain weather forecast for {date}..."
+    },
+    "cuIJWp": {
+        "translation": "Pick a to date"
+    },
+    "d7cAvi": {
+        "translation": "An error occurred."
+    },
+    "dCN3Up": {
+        "translation": "Probability of precipitation <children><\/children> at least one day"
+    },
+    "dE2CES": {
+        "translation": "Loading {title} page..."
+    },
+    "dILW+f": {
+        "translation": "Mountain Information Network — Create report"
+    },
+    "dM+p3\/": {
+        "translation": "From"
+    },
+    "dQKFUX": {
+        "translation": "Enter your email address"
+    },
+    "dZ+4FV": {
+        "translation": "Creeks"
+    },
+    "dZKvmR": {
+        "translation": "An error occurred on the page you are visiting."
+    },
+    "dfnWPN": {
+        "translation": "Visible - Alberta Rockies"
+    },
+    "dk3C5G": {
+        "translation": "{count, plural, one {# error} other {# errors}} found in your <link><\/link> report."
+    },
+    "e0UxRX": {
+        "translation": "Wind Direction"
+    },
+    "e7SQt4": {
+        "translation": "An error happened while submitting and saving your report to our servers. Do not hesitate to contact us to get more details so you can have your report submitted. Thanks for your understanding and cooperation!"
+    },
+    "eCkcGF": {
+        "translation": "An error happened."
+    },
+    "eRUb0Z": {
+        "translation": "Look at this report on the map"
+    },
+    "eWOewv": {
+        "translation": "Authentication in progress..."
+    },
+    "eYyw2\/": {
+        "translation": "Gust"
     },
     "ei59iy": {
         "translation": "Hors saison"
     },
+    "eu8sFr": {
+        "translation": "See that advisory on the main map"
+    },
+    "eyGq6Y": {
+        "translation": "Visit the Mountain Weather Forecast"
+    },
+    "eyccwu": {
+        "translation": "Recent snowfall > {height}"
+    },
+    "ez+kCq": {
+        "translation": "Height"
+    },
+    "eztvsv": {
+        "translation": "<phone>911<\/phone> for backcountry rescues and tell them you are in Kananaskis Country"
+    },
+    "f1lt+W": {
+        "translation": "No providers match your criteria, consider finding a course on the <link>courses page<\/link>."
+    },
+    "f8z90J": {
+        "translation": "Ascending"
+    },
+    "fBD05b": {
+        "translation": "Avalanche basics"
+    },
+    "fD\/vNZ": {
+        "translation": "Wind (km\/h)"
+    },
+    "fDXBCA": {
+        "translation": "Name"
+    },
+    "fFqMmX": {
+        "translation": "You need to be logged in to see some content."
+    },
+    "fLpQyj": {
+        "translation": "Warnings are available on weather.gc.ca"
+    },
+    "fPfNNr": {
+        "translation": "Type"
+    },
+    "fTIjqa": {
+        "translation": "Forecast {name} not found"
+    },
+    "fatal-recreational-accidents": {
+        "translation": "Fatal Recreational Accidents"
+    },
+    "fb3qcN": {
+        "translation": "Loading fatal recreational accident..."
+    },
+    "forecasts": {
+        "translation": "Forecasts"
+    },
+    "fpLYvo": {
+        "translation": "Max Temp"
+    },
+    "frtcDi": {
+        "translation": "A problem happened while loading Mountain Information Network (MIN) Reports on the map."
+    },
+    "ftA+E2": {
+        "translation": "BC Mosaic"
+    },
+    "fxGwIN": {
+        "translation": "Size"
+    },
+    "g+HSsV": {
+        "translation": "Air Temperature"
+    },
+    "g2EOhL": {
+        "translation": "Online Education"
+    },
+    "g8ZiK0": {
+        "translation": "Table"
+    },
+    "gDCRKI": {
+        "translation": "Fatal"
+    },
+    "gFP2S8": {
+        "translation": "Avalanche Forecast"
+    },
+    "gSPD2F": {
+        "translation": "RH (%)"
+    },
+    "gTmr43": {
+        "translation": "An error happened while showing charts."
+    },
     "gXCzdT": {
         "translation": "Soumettre un rapport d'informations de la situation en montagne"
+    },
+    "gc5sS2": {
+        "translation": "Forecasts"
+    },
+    "gcZ44W": {
+        "translation": "Mountain Weather Forecast"
+    },
+    "gghcvY": {
+        "translation": "Incident #{id} not found"
     },
     "gjBiyj": {
         "translation": "Chargement..."
     },
+    "h\/Nirh": {
+        "translation": "Loading users..."
+    },
+    "h0Kju5": {
+        "translation": "Donate to Foundation"
+    },
+    "h7KXl7": {
+        "translation": "Air Temperature Min (°C)"
+    },
+    "hDJDN\/": {
+        "translation": "More details"
+    },
     "hHvvfI": {
         "translation": "Chargement..."
     },
+    "hIYH8G": {
+        "translation": "{count, plural, one {One error} other {# errors}} occurred. Click for more details."
+    },
+    "hJ1ugx": {
+        "translation": "Arc'teryx Mountain Conditions Report"
+    },
+    "hNq0pE": {
+        "translation": "0-144 Hours"
+    },
+    "hTNVGU": {
+        "translation": "Click on a link below to see another weather station:"
+    },
+    "heRKCG": {
+        "translation": "{name} forecast not found"
+    },
+    "hiAkhj": {
+        "translation": "No avalanche forecast has been found for {name}."
+    },
+    "i+AGCP": {
+        "translation": "Email"
+    },
     "i6Tori": {
         "translation": "Soumettre un rapport d'informations de la situation en montagne"
+    },
+    "i8CXtl": {
+        "translation": "Weather stations list view"
+    },
+    "i9XkAs": {
+        "translation": "Provider name"
+    },
+    "iEAZIi": {
+        "translation": "Submitting your report..."
+    },
+    "iEI8pm": {
+        "translation": "Youth"
+    },
+    "iNi0FV": {
+        "translation": "Exposure to well-defined avalanche paths, starting zones or terrain traps; options exist to reduce or eliminate exposure with careful route-finding. Glacier travel is straightforward but crevasse hazards may exist."
     },
     "iUn2hD": {
         "translation": "Visitez sur {name}."
@@ -239,17 +1589,191 @@
     "iXC6aX": {
         "translation": "Version imprimable"
     },
+    "iY\/ewP": {
+        "translation": "Unsupported map"
+    },
+    "iYqjbT": {
+        "translation": "Precipitation Type"
+    },
+    "iek8Zl": {
+        "translation": "An error happened while submitting your report."
+    },
+    "ificVq": {
+        "translation": "Air Temperature Max (°C)"
+    },
+    "ikdt7M": {
+        "translation": "Avalanche Skills Training 1"
+    },
+    "iliHrV": {
+        "translation": "Website"
+    },
+    "iq87Si": {
+        "translation": "Loading avalanche forecast..."
+    },
+    "irzEgi": {
+        "translation": "Convex"
+    },
+    "iuhMmM": {
+        "translation": "Terrain to Avoid"
+    },
+    "iwgtE3": {
+        "translation": "Past events"
+    },
+    "j9NdGF": {
+        "translation": "Login to post to the Mountain Information Network"
+    },
+    "jHMwxP": {
+        "translation": "Next"
+    },
     "jOywnT": {
         "translation": "Contactez-nous"
+    },
+    "jTbugS": {
+        "translation": "{from} and {to}"
+    },
+    "jW0\/kq": {
+        "translation": "Hourly Precipitation"
+    },
+    "jXSbrK": {
+        "translation": "Average"
+    },
+    "jjbFGi": {
+        "translation": "Freezing Level R"
+    },
+    "jkokZp": {
+        "translation": "Planning"
+    },
+    "jwimQJ": {
+        "translation": "Ok"
+    },
+    "k8fnrh": {
+        "translation": "Min"
+    },
+    "kNifCP": {
+        "translation": "Land of Thundering Snow"
     },
     "kO2GwF": {
         "translation": "Avalanches naturelles possibles; déclenchements par intervention humaine probables."
     },
+    "kPjMZR": {
+        "translation": "Elevation"
+    },
+    "kR4i6x": {
+        "translation": "Precipitation Type & Intensity"
+    },
+    "kWx9C+": {
+        "translation": "An error happened while retrieving Mountain Information Network reports for the last {days} days."
+    },
+    "kYJIjt": {
+        "translation": "AST 1"
+    },
+    "kpYbyf": {
+        "translation": "Videos"
+    },
+    "kzP1IM": {
+        "translation": "Air Temperature (°C)"
+    },
     "l1XTI5": {
         "translation": "Suivez-nous"
     },
+    "l4fsUL": {
+        "translation": "Lexique Avalanche—Avalanche Lexicon"
+    },
+    "lE1Ifz": {
+        "translation": "Level"
+    },
+    "lFTyzM": {
+        "translation": "New"
+    },
+    "lHofeR": {
+        "translation": "An error happened while loading weather station data."
+    },
+    "lXtFHJ": {
+        "translation": "Click on a link below to see another weather station."
+    },
+    "latest-news": {
+        "translation": "Latest news"
+    },
+    "lb38CE": {
+        "translation": "under {temperature, number}°C"
+    },
+    "lcn90r": {
+        "translation": "New"
+    },
+    "leFeKC": {
+        "translation": "Day {value}"
+    },
+    "lnaWo\/": {
+        "translation": "Region"
+    },
+    "login": {
+        "translation": "Login"
+    },
+    "logout": {
+        "translation": "Logout"
+    },
+    "lxxl0Q": {
+        "translation": "Surface Maps"
+    },
+    "lywdxo": {
+        "translation": "Change my username"
+    },
+    "m67oal": {
+        "translation": "Cost"
+    },
+    "mBli9B": {
+        "translation": "Click on a link below to see another forecast:"
+    },
+    "mEyhzr": {
+        "translation": "Accumulated precipitation"
+    },
+    "mJzUsv": {
+        "translation": "Create a Mountain Information Network (MIN) report"
+    },
+    "mR0hCD": {
+        "translation": "Close"
+    },
+    "mTRqfE": {
+        "translation": "COVID-19 Safety Plan"
+    },
+    "mXsQGA": {
+        "translation": "Reload this page"
+    },
+    "mZG9tS": {
+        "translation": "Tags"
+    },
+    "mf35p3": {
+        "translation": "Date\/Time"
+    },
+    "mghfAi": {
+        "translation": "Runout Zone"
+    },
+    "mhKwHa": {
+        "translation": "Snow height and new snow"
+    },
+    "mjp5Qx": {
+        "translation": "IR-VIS Canada West"
+    },
+    "mn53El": {
+        "translation": "AvCan Training Courses"
+    },
+    "mountain-conditions-reports": {
+        "translation": "Mountain Conditions Reports"
+    },
+    "mountain-information-network": {
+        "translation": "Mountain Information Network"
+    },
+    "moy+Yz": {
+        "translation": "Mountain Weather Forecast"
+    },
     "mpFOGM": {
         "translation": "Consulter le"
+    },
+    "mvd+ai": {
+        "translation": "You can <link>clear your search criteria<\/link> to find more reports."
+    },
+    "my-account": {
+        "translation": "My account"
     },
     "n0GuWA": {
         "translation": "Sous la limite forestière"
@@ -260,20 +1784,83 @@
     "nF4SkN": {
         "translation": "Avalanches naturelles certaines; déclenchements par intervention humaine certains."
     },
+    "nFOC+A": {
+        "translation": "The page you are looking for has not been found."
+    },
+    "nGs5Kj": {
+        "translation": "To"
+    },
     "nHnEJS": {
         "translation": "Exonération de responsabilité"
     },
     "nILfLj": {
         "translation": "Petites avalanches localisées ou grosses avalanches dans des secteurs isolés."
     },
+    "nLpim0": {
+        "translation": "Sky Condition"
+    },
+    "nODkXm": {
+        "translation": "Users"
+    },
     "nRbl1m": {
         "translation": "Visitez notre blogue"
+    },
+    "nTysmd": {
+        "translation": "Surface Maps"
     },
     "nW3GXB": {
         "translation": "Visitez notre blogue"
     },
+    "nYuP02": {
+        "translation": "Credit"
+    },
+    "ngvAxX": {
+        "translation": "Min Temp"
+    },
+    "nk7KjJ": {
+        "translation": "Satellite Imagery"
+    },
+    "nlCgTV": {
+        "translation": "Related links"
+    },
+    "noGIwm": {
+        "translation": "South Interior"
+    },
+    "noRJYo": {
+        "translation": "Avalanche Forecast are not produce for every region, in some cases they are available externally."
+    },
+    "o2JQpy": {
+        "translation": "Premier sponsors"
+    },
+    "o3E2Lo": {
+        "translation": "Description"
+    },
+    "oCd58D": {
+        "translation": "Recent wind loading"
+    },
     "oRm\/jl": {
         "translation": "Sous la limite forestière"
+    },
+    "oUWADl": {
+        "translation": "No"
+    },
+    "oZHUhy": {
+        "translation": "Forecast Region"
+    },
+    "oaRPi+": {
+        "translation": "Move to the next image"
+    },
+    "od9wO8": {
+        "translation": "Provider"
+    },
+    "oklciV": {
+        "translation": "Map legend"
+    },
+    "our-blog": {
+        "translation": "Our blog"
+    },
+    "owC1mn": {
+        "translation": "What are avalanche conditions?"
     },
     "owr\/bM": {
         "translation": "Imprimez ces prévisions d'avalanches"
@@ -281,32 +1868,251 @@
     "oznI18": {
         "translation": "Fournir une autre réponse"
     },
+    "pBV5pm": {
+        "translation": "12hr Total Precipitation"
+    },
+    "pGj8aX": {
+        "translation": "Date"
+    },
+    "pI2NhH": {
+        "translation": "There is currently no Avalanche Advisories available."
+    },
+    "pNNW8+": {
+        "translation": "Radar"
+    },
+    "pbZmUg": {
+        "translation": "Other agencies and organizations"
+    },
+    "pdh\/6l": {
+        "translation": "Recorded Webinars"
+    },
+    "piIZFq": {
+        "translation": "Precipitable Water"
+    },
+    "pqAB6W": {
+        "translation": "Sorry, we are not able to create the loop."
+    },
+    "q+ddcA": {
+        "translation": "Hourly Precipitation"
+    },
+    "qCBBh7": {
+        "translation": "A new image is added to the loop every 30 minutes."
+    },
+    "qE3wGW": {
+        "translation": "Back to main map"
+    },
+    "qLsFst": {
+        "translation": "Submitted by"
+    },
     "qMA7U8": {
         "translation": "Contact"
     },
     "qOhJmk": {
         "translation": "Petites avalanches dans des secteurs isolés ou en terrain extrême."
     },
+    "qQxbl5": {
+        "translation": "Yukon"
+    },
+    "qV1HTT": {
+        "translation": "Extra"
+    },
+    "qd8vka": {
+        "translation": "BC\/AB"
+    },
+    "qeyB1n": {
+        "translation": "Dates"
+    },
+    "qifwIi": {
+        "translation": "Probability of temperature <children><\/children> at least one day"
+    },
+    "quSa+R": {
+        "translation": "What is avalanche terrain?"
+    },
+    "qvMtAj": {
+        "translation": "Temperature (°C)"
+    },
+    "qwen7s": {
+        "translation": "IR Pacific"
+    },
+    "qxhsXy": {
+        "translation": "Terrain and Travel Advice"
+    },
+    "qxumc0": {
+        "translation": "Trip planner"
+    },
     "r5IMiF": {
         "translation": "Problèmes"
+    },
+    "r7S3V1": {
+        "translation": "Visit {fullName} on {service}"
+    },
+    "rJcJ53": {
+        "translation": "Day 1"
+    },
+    "rKirbN": {
+        "translation": "Relative humidity (%) every hour from {min} to {max}."
+    },
+    "rYSMcj": {
+        "translation": "Location"
+    },
+    "rZiCe8": {
+        "translation": "Precipitation"
+    },
+    "rbrahO": {
+        "translation": "Close"
+    },
+    "rt8N8F": {
+        "translation": "Latest news"
     },
     "s0Gj69": {
         "translation": "Trouver un cours"
     },
+    "s6yaAo": {
+        "translation": "We suggest you <browser>update your browser<\/browser> and make sure that WebGL is <webGL>enabled<\/webGL>."
+    },
     "s9Ojlo": {
         "translation": "5 - Extrême"
+    },
+    "sCTnlT": {
+        "translation": "Current Conditions"
     },
     "sCu44f": {
         "translation": "Plus d'informations"
     },
+    "sHDYEY": {
+        "translation": "About"
+    },
+    "sQZfhJ": {
+        "translation": "You can get more information for {name} region on their website"
+    },
+    "sRpc3I": {
+        "translation": "Updated at approximately {updates} every day."
+    },
+    "sYssP3": {
+        "translation": "Sled"
+    },
+    "scPADm": {
+        "translation": "Mountain Weather Forecast"
+    },
+    "sgc79g": {
+        "translation": "Surface R"
+    },
+    "special-public-avalanche-warning": {
+        "translation": "Special Public Avalanche Warning"
+    },
+    "sstcBc": {
+        "translation": "Loading {pluralized}..."
+    },
+    "sueUsu": {
+        "translation": "Relative Humidity (%)"
+    },
+    "t+\/o8z": {
+        "translation": "Start Here"
+    },
     "tBoaxE": {
         "translation": "Conditions avalancheuses dangereuses. Évaluer soigneusement le manteau neigeux. Faire preuve d'une grande prudence dans le choix d'itinéraire et la prise de décisions."
+    },
+    "tK835M": {
+        "translation": "A problem happened while loading Incidents on the map."
+    },
+    "tbsKby": {
+        "translation": "Outlook"
+    },
+    "tf\/0E1": {
+        "translation": "Phone"
+    },
+    "tfGE48": {
+        "translation": "ICAR Glossary"
+    },
+    "tiwIFt": {
+        "translation": "Air Temperature Average (°C)"
+    },
+    "tkjvUf": {
+        "translation": "Mountain Information Network"
+    },
+    "toZ0lO": {
+        "translation": "Avalanche Advisories"
+    },
+    "training": {
+        "translation": "Training"
+    },
+    "u4Hv7v": {
+        "translation": "Document {title} not found."
+    },
+    "uM+u3j": {
+        "translation": "Not recommended"
+    },
+    "uPQdpF": {
+        "translation": "Upcoming events"
+    },
+    "uZFJU5": {
+        "translation": "Nothing found."
+    },
+    "uZNjbN": {
+        "translation": "Avalanche Advisory Archive"
+    },
+    "uaPrKi": {
+        "translation": "Created by"
+    },
+    "uh7dXb": {
+        "translation": "Weather Glossary"
+    },
+    "upcoming-events": {
+        "translation": "Upcoming events"
+    },
+    "v890BT": {
+        "translation": "<phone>403-591-7755<\/phone> is the dispatch office non-emergency line"
+    },
+    "vD3KLj": {
+        "translation": "Youth Education"
+    },
+    "vP+E8G": {
+        "translation": "Managing Avalanche Terrain"
+    },
+    "vYSLmy": {
+        "translation": "Challenging"
+    },
+    "vcE2BE": {
+        "translation": "Slab avalanches in the last 48 hours"
+    },
+    "vequEq": {
+        "translation": "Give {fullName} a call"
+    },
+    "vf46CG": {
+        "translation": "Location"
+    },
+    "vge4TT": {
+        "translation": "Loading definitions..."
+    },
+    "vh+\/Mn": {
+        "translation": "Training"
+    },
+    "vhjtbT": {
+        "translation": "This is an archived avalanche bulletin."
+    },
+    "vj8cZ\/": {
+        "translation": "Charts"
+    },
+    "vr8LVS": {
+        "translation": "An error happened while loading this page."
     },
     "w2Nb8W": {
         "translation": "Bien jouer! Essayez de trouver d'autres routes."
     },
+    "wCgTu5": {
+        "translation": "Comments"
+    },
+    "wF1p7K": {
+        "translation": "Uh oh! You never thought that would happen..."
+    },
     "wF4e0m": {
         "translation": "Information sur les indices de danger"
+    },
+    "wHV6rf": {
+        "translation": "New (cm)"
+    },
+    "wJHFjD": {
+        "translation": "Aspect"
     },
     "wKOpEQ": {
         "translation": "Taille prévue ?"
@@ -314,8 +2120,23 @@
     "wKQ3vV": {
         "translation": "Soumettre un rapport d'informations de la situation en montagne"
     },
+    "wNCO0M": {
+        "translation": "No weather forecast available yet for {date}"
+    },
     "wR6Gt2": {
         "translation": "Flux RSS"
+    },
+    "wRewEU": {
+        "translation": "Search"
+    },
+    "wUPRFU": {
+        "translation": "Move to the first image"
+    },
+    "wYBiNj": {
+        "translation": "New snow: {amount}"
+    },
+    "weather-stations": {
+        "translation": "Weather stations"
     },
     "wiGfb7": {
         "translation": "Trouver un autre trajet"
@@ -323,31 +2144,205 @@
     "wp6n1n": {
         "translation": "Ces prévisions d’avalanche sont produitent par les prévisionnistes du programme de sécurité publique du pays de Kananaskis du gouvernement de l'Alberta."
     },
+    "wpexYN": {
+        "translation": "In the meantime, do not hesitate to email us at <mailto><\/mailto> if you need help for these."
+    },
+    "wrfULV": {
+        "translation": "{count, plural, =0 {No report} one {One report} other {Total of # reports}} found."
+    },
+    "wv2of\/": {
+        "translation": "Upcoming events"
+    },
     "wyIZp9": {
         "translation": "Débuter avec"
     },
     "wzEVz0": {
         "translation": "Jusqu'à nouvel ordre"
     },
+    "x4Ch6V": {
+        "translation": "Aspect"
+    },
+    "xBqzzk": {
+        "translation": "Cross-loaded slopes"
+    },
+    "xOPjK4": {
+        "translation": "Blog"
+    },
+    "xUDVUH": {
+        "translation": "Terrain to Watch"
+    },
     "xVvJB7": {
         "translation": "Voir les réponses"
+    },
+    "xX1hzi": {
+        "translation": "Loading incidents..."
+    },
+    "xXgvZL": {
+        "translation": "Forecast regions list view"
+    },
+    "xaJS8r": {
+        "translation": "Signs of instability"
+    },
+    "xeCA+8": {
+        "translation": "Share on {provider}"
+    },
+    "xeuLwX": {
+        "translation": "Teaching Avalanche Skills Training"
+    },
+    "xiGg+I": {
+        "translation": "An error happened while getting document {title}."
+    },
+    "xnLcaL": {
+        "translation": "Slab width"
+    },
+    "xnl8OC": {
+        "translation": "Chart legend"
     },
     "xpPoqQ": {
         "translation": "Archive des prévisions"
     },
+    "y6C4VC": {
+        "translation": "Move to the last image"
+    },
+    "yD1Xpo": {
+        "translation": "Day"
+    },
     "yFzXru": {
         "translation": "©{year} Avalanche Canada, Tous droits réservés"
+    },
+    "yIBCSS": {
+        "translation": "Complex"
+    },
+    "yM2ene": {
+        "translation": "Temperatures"
+    },
+    "yS8hft": {
+        "translation": "Wind Speed Gust (km\/h)"
+    },
+    "yWrori": {
+        "translation": "{count, plural, =0 {No report} one {One report} other {Total of # reports}} found from {from} (start of the day) to {to} (end of the day)."
+    },
+    "yZkzOl": {
+        "translation": "You can <link>clear your search criteria<\/link> to find more reports."
+    },
+    "yb+Gbh": {
+        "translation": "Creating the loop..."
     },
     "yb8Oqb": {
         "translation": "Émi le"
     },
+    "ysUAAU": {
+        "translation": "Extra caution"
+    },
+    "z9fPF4": {
+        "translation": "You can also <link>reset your criteria<\/link> to see them all."
+    },
     "zBnK8W": {
         "translation": "De retour au"
+    },
+    "zCe6Ex": {
+        "translation": "EPSgrams (N. American Ensemble)"
+    },
+    "zJp3FB": {
+        "translation": "Significant warming"
+    },
+    "zNaqzT": {
+        "translation": "Hour"
+    },
+    "zSmg4V": {
+        "translation": "Upcoming events"
+    },
+    "zaYxwd": {
+        "translation": "Incident"
     },
     "zfrygz": {
         "translation": "Visitez le blogue d’Avalanche Canada"
     },
+    "zpKok5": {
+        "translation": "Present Temp"
+    },
+    "zv0eNH": {
+        "translation": "Location"
+    },
     "zwvGck": {
         "translation": "Prix de service"
+    },
+    "2Z7oDB": {
+        "translation": "Plus d'informations"
+    },
+    "2aV3aQ": {
+        "translation": "Aperçu météo alpine"
+    },
+    "2gVYHB": {
+        "translation": "Envoyer un courriel à la section de la sécurité publique du pays de Kananaskis"
+    },
+    "2yJisv": {
+        "translation": "Abonnez-vous aux bulletins"
+    },
+    "5mBM1r": {
+        "translation": "Avalanche Forecast"
+    },
+    "AVbrfN": {
+        "translation": "<phone>911<\/phone> for backcountry rescues and tell them you are in Kananaskis Country"
+    },
+    "BNaSG0": {
+        "translation": "Ces prévisions d’avalanche sont produitent par les prévisionnistes du programme de sécurité publique du pays de Kananaskis du gouvernement de l'Alberta."
+    },
+    "BvR5MR": {
+        "translation": "Prévisions archivées"
+    },
+    "Cmdoi3": {
+        "translation": "Advisory"
+    },
+    "D4qYT5": {
+        "translation": "Rapport d'avalanche "
+    },
+    "DAXTto": {
+        "translation": "Forecast {id} not found"
+    },
+    "SmpOMT": {
+        "translation": "Réseau d'information en montagne"
+    },
+    "VBSQLa": {
+        "translation": "No {name} Avalanche Advisory is currently available."
+    },
+    "VEy7NE": {
+        "translation": "Stations météo en montagne"
+    },
+    "Vx5B5y": {
+        "translation": "Visitez le blogue d’Avalanche Canada"
+    },
+    "cnbRxD": {
+        "translation": "<phone>403-591-7755<\/phone> is the dispatch office non-emergency line"
+    },
+    "hvMNVN": {
+        "translation": "Special Public Avalanche Warning"
+    },
+    "mSawI9": {
+        "translation": "Vos prévisions météorologiques en montagne quotidiennes"
+    },
+    "mSeuWm": {
+        "translation": "Information sur les indices de danger"
+    },
+    "qU8wXd": {
+        "translation": "<phone>403-679-3511<\/phone> is the Public Safety office phone number (weekdays)"
+    },
+    "unv0Z7": {
+        "translation": "Contact"
+    },
+    "x1UmLT": {
+        "translation": "Hot Zone"
+    },
+    "yFX4u5": {
+        "translation": "Archive des prévisions"
+    },
+    "yHhuHl": {
+        "translation": "Conditions en temps réel dans les Chic-Chocs"
+    },
+    "zHorBS": {
+        "translation": "Pour les sauvetages dans l'arrière-pays, contactez le <phone>911<\/phone> et mentionnez que vous êtes dans les Chic-Chocs"
+    },
+    "zvP02c": {
+        "translation": "Prévisions archivées"
     }
 }
