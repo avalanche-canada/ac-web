@@ -141,7 +141,7 @@ const OnlineEducation = {
         {
             id: id++,
             label: 'Online avalanche tutorial',
-            to: '/tutorial',
+            to: 'https://avysavvy.avalanche.ca/',
         },
         {
             id: id++,
