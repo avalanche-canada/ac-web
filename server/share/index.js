@@ -373,7 +373,7 @@ function minSubmission(req, res) {
 }
 
 function minUploadKeyToUrl(host, key) {
-    return 'https://' + host + '/api/min/uploads/' + key;
+    return 'https://ac-min-uploads.s3-us-west-2.amazonaws.com/' + key;
 }
 
 function getSubmissionComment(sub) {
