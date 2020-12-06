@@ -271,7 +271,7 @@ router.get('/uploads/:year/:month/:day/:uploadid', function(req, res) {
             res.status(404).send('Image not found');
         } else {
             logger.error('reading from s3: path=%s s3code=%s', uploadKey, err.code);
-            if (!res.finished){
+            if (!res.writableEnded){
                 res.status(500).json({ error: 'ERROR reading from s3' });
             }
         }
