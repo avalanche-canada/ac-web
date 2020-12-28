@@ -61,7 +61,7 @@ module.exports = function(app) {
     app.use('/api/min', require('./api/observations'))
     app.use('/api/mcr', require('./api/mcr'))
     app.use('/api/ates', require('./api/ates'))
-    app.use('/vendor/cloudinary/', require('./api/proxy'))
+    app.use('/api/vendor/cloudinary/', require('./api/proxy'))
 
     app.use('/basic-html', require('./mobile'))
     app.use('/schema', require('./schema/handlers'))
