@@ -136,7 +136,7 @@ function createSplitfestOnlineAuctionMessage(platform) {
     return new StatusMessage(
         new StatusParams(APP, '9.9.9', platform),
         'Canuck Splitfest Online Draw and Auction',
-        '<h1>Canuck Splitfest Online Draw and Auction</h1><p>The Canuck Splitfest Online Prize Draw and Auction is open Now!</p><p><a href=https://givergy.ca/11thAnnualCanuckSplitfest/?controller=home>Prize Draw + Auction</a></p><p><strong>Win your favourite gear while fundraising for Avalanche Canada</strong></p><p>Anyone can participate in the online auction and prize draws with some of the most sought- after gear. You do not need to be registered for the presentations to participate. The online prize draws and auction is open now and will <strong>close at 3:00PM PDT on Sunday, January 10</strong>. There is over $19K worth of amazing prizes donated by your favourite sponsors offered through two separate prize draws and a collection of silent auction items.</p>',
+        '<h1>Canuck Splitfest Online Draw and Auction</h1><h2><a href=https://givergy.ca/11thAnnualCanuckSplitfest/?controller=home>The Canuck Splitfest Online Prize Draw and Auction is open Now!</a></h2><p><strong>Win your favourite gear while fundraising for Avalanche Canada</strong></p><p>Anyone can participate in the online auction and prize draws with some of the most sought- after gear. You do not need to be registered for the presentations to participate. The online prize draws and auction is open now and will <strong>close at 3:00PM PDT on Sunday, January 10</strong>. There is over $19K worth of amazing prizes donated by your favourite sponsors offered through two separate prize draws and a collection of silent auction items.</p>',
         undefined,
         'success'
     )
