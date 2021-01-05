@@ -84,6 +84,8 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
+    createSplitfestOnlineAuctionMessage(IOS),
+    createSplitfestOnlineAuctionMessage(ANDROID),
 ]
 
 function createRelease150Message(platform) {
@@ -125,6 +127,16 @@ function createPowderOnlineAuctionMessage(platform) {
         new StatusParams(APP, '9.9.9', platform),
         'Party for Powder! Bid to support avalanche safety!',
         "<h1>Party for Powder Online Auction</h1><p>Party for Powder online auction is open NOW! Place your bids on your favourite items today.</p><p><strong><a href=https://givergy.ca/ACFAuction/?controller=home>ONLINE SILENT AUCTION</a></strong></p><p>Due to COVID-19 the ACF was forced to cancel both the Whistler and Calgary fundraisers. Don't despair, on November 22, 2020 we kicked off our virtual auction with all of our fabulous donations featuring heli and cat ski trips, ski resort packages, gear, and lots of artwork. We will be adding new items during the week of the auction. The auction will close at 6:00pm MT on 29th November, 2020. The <a href=https://givergy.ca/ACFAuction/?controller=home>ONLINE SILENT AUCTION</a> is open now with more than 60 items featuring original artwork, trips and adventures and lots of cool gear.</p><p>Our goal is to keep everyone safe in the backcountry this winter. By supporting the Avalanche Canada Foundation Fundraiser you’re helping to save lives.</p>",
+        undefined,
+        'success'
+    )
+}
+
+function createSplitfestOnlineAuctionMessage(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '9.9.9', platform),
+        'Canuck Splitfest Online Draw and Auction',
+        '<h1>Canuck Splitfest Online Draw and Auction</h1><p>The Canuck Splitfest Online Prize Draw and Auction is open Now!</p><p><a href=https://givergy.ca/11thAnnualCanuckSplitfest/?controller=home>Prize Draw + Auction</a></p><p><strong>Win your favourite gear while fundraising for Avalanche Canada</strong></p><p>Anyone can participate in the online auction and prize draws with some of the most sought- after gear. You do not need to be registered for the presentations to participate. The online prize draws and auction is open now and will <strong>close at 3:00PM PDT on Sunday, January 10</strong>. There is over $19K worth of amazing prizes donated by your favourite sponsors offered through two separate prize draws and a collection of silent auction items.</p>',
         undefined,
         'success'
     )
