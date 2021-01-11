@@ -84,8 +84,6 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
-    createSplitfestOnlineAuctionMessage(IOS),
-    createSplitfestOnlineAuctionMessage(ANDROID),
 ]
 
 function createRelease150Message(platform) {
