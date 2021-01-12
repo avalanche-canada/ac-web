@@ -403,7 +403,7 @@ function parksForecast(caaml, region) {
     return {
         id: caamlBulletin['$']['gml:id'],
         region: region,
-        forecaster: forecaster,
+        forecaster: createInitials(forecaster),
         dateIssued: dates.dateIssued,
         validUntil: dates.validUntil,
         bulletinTitle:
@@ -809,6 +809,17 @@ function getTableLocals(forecast) {
         ratingColors: ratingColors,
         forecast: forecast,
     };
+}
+
+function createInitials(name) {
+    if (typeof name !== 'string') {
+        return ''
+    }
+
+    return name
+        .split(' ')
+        .map(string => string.charAt(0).toUpperCase())
+        .join('')
 }
 
 module.exports = {
