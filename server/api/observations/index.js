@@ -24,7 +24,7 @@ router.post('/submissions', function(req, res) {
                 error: 'There was an error while saving your submission.',
             });
         } else {
-            request('https://api-dev.avalanche.ca/min/migrate/' + obs.subid, (err, res, body) => {
+            request('https://api.avalanche.ca/min/migrate/' + obs.subid, (err, res, body) => {
                 if (err) { return console.log(err); }
                     logger.error('error migrating submission: %s', err)
                 });
