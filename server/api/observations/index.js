@@ -3,6 +3,7 @@ var changeCase = require('change-case');
 var express    = require('express');
 var moment     = require('moment');
 var multiparty = require('multiparty');
+var request = require('request');
 
 var logger   = require('../../logger.js');
 var minUtils = require('./min-utils');
@@ -23,6 +24,11 @@ router.post('/submissions', function(req, res) {
                 error: 'There was an error while saving your submission.',
             });
         } else {
+            request('https://api-dev.avalanche.ca/min/migrate/' + obs.subid, (err, res, body) => {
+                if (err) { return console.log(err); }
+                    logger.error('error migrating submission: %s', err)
+                });
+              
             res.json(201, obs);
         }
     });
