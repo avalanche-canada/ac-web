@@ -170,7 +170,7 @@ function useAsyncContext(index) {
 }
 function render(children, payload) {
     if (typeof children === 'function') {
-        return children(payload)
+        return children(payload) || null
     }
 
     return isValidElement(children)
