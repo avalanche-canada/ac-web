@@ -28,9 +28,9 @@ router.post('/submissions', function(req, res) {
                 if (err) { 
                     logger.error('error migrating submission: %s', err);
                 }
+                
+                res.json(201, obs);
             });
-              
-            res.json(201, obs);
         }
     });
 });
