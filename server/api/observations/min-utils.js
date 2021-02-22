@@ -415,6 +415,39 @@ exports.getSubmission = function(subid, client, callback) {
     });
 };
 
+exports.getSubmissionFromNewAPI = function(subid, callback) {
+    var url = process.env.API_URL + '/min/en/submissions/' + subid 
+    var options = {
+        uri: url,
+        headers: {
+            'cache-control': 'no-cache',
+            'x-api-key': '92kJB50eJq7RZlZyWlA5ZaxgZaluOV1Q9OQzLzX7'
+        },
+        timeout: 300000,
+    }
+    
+    request(options, function(error, response, data){
+        if (error){
+            logger.error(
+                'getSubmissionFromNewAPI fetch_error url=%s',
+                url,
+                error
+            );
+            callback(error, data);
+        } else if (response.statusCode != 200) {
+            logger.error(
+                'getSubmissionFromNewAPI request_error url=%s responseCode=%d',
+                url,
+                response.statusCode
+            );
+            callback(error, data);
+        } else {
+            logger.debug('getSubmissionFromNewAPI success url=%s', url);
+            callback(error, data);
+        }
+    });
+};
+
 exports.getObservations = function(filters, callback) {
     var params = {
         TableName: config.OBS_TABLE,

@@ -340,24 +340,23 @@ function forecastByDate(date, req, res) {
 function minSubmission(req, res) {
     var subId = req.params.id;
 
-    minutils.getSubmission(subId, 'web', function(err, data) {
+    minutils.getSubmissionFromNewAPI(subId, function(err, submission) {
         if (err) {
             logger.error('share retreiving submission subid=%s', subId);
             return res.status(500).send('Error retreiving submission');
         }
 
-        if (!data) {
+        if (!submission) {
             return res.status(404).send('Submission not found');
         }
 
-        var sub = data[0];
-        var imgKey = sub.uploads.length > 0 && sub.uploads[0];
+        var image = submission.images[0];
 
         res
             .status(200)
             .send(
                 renderTags([
-                    ['og:title', sub.title],
+                    ['og:title', submission.title],
                     [
                         'og:url',
                         'https://' +
@@ -365,8 +364,8 @@ function minSubmission(req, res) {
                             '/mountain-information-network/submissions/' +
                             subId,
                     ],
-                    ['og:description', getSubmissionComment(sub)],
-                    ['og:image', imgKey && minUploadKeyToUrl(req.host, imgKey)],
+                    ['og:description', getSubmissionComment(submission)],
+                    ['og:image', image && image.url]
                 ])
             );
     });
@@ -376,18 +375,19 @@ function minUploadKeyToUrl(host, key) {
     return 'https://ac-min-uploads.s3-us-west-2.amazonaws.com/' + key;
 }
 
-function getSubmissionComment(sub) {
-    var obs = _.keyBy(sub.obs, o => o.obtype);
+function getSubmissionComment(submission) {
+    var obs = submission.observations
+
     if (obs.quick) {
-        return obs.quick.ob.comment;
+        return obs.quick.comment;
     } else if (obs.avalanche) {
-        return obs.avalanche.ob.avalancheObsComment;
+        return obs.avalanche.comment;
     } else if (obs.snowpack) {
-        return obs.snowpack.ob.snowpackObsComment;
+        return obs.snowpack.comment;
     } else if (obs.weather) {
-        return obs.weather.ob.weatherObsComment;
+        return obs.weather.comment;
     } else if (obs.incident) {
-        return obs.incident.ob.incidentObsComment;
+        return obs.incident.description;
     }
 }
 
