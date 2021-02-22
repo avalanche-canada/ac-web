@@ -351,7 +351,7 @@ function minSubmission(req, res) {
         }
 
         logger.debug('share submission subid=%s', subId);
-        logger.debug(JSON.string(submission,null,2))
+        logger.debug(JSON.stringify(submission,null,2))
         
         var image = submission.images[0];
 
