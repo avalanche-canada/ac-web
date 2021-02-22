@@ -350,6 +350,8 @@ function minSubmission(req, res) {
             return res.status(404).send('Submission not found');
         }
 
+        logger.debug('share submission subid=%s data=%s', subId, JSON.string(submission));
+        
         var image = submission.images[0];
 
         res
