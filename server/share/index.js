@@ -350,8 +350,7 @@ function minSubmission(req, res) {
             return res.status(404).send('Submission not found');
         }
 
-        logger.debug('share submission subid=%s', subId);
-        logger.debug(JSON.stringify(submission,null,2))
+        logger.debug('share submission subid=%s data=%s', subId, JSON.stringify(submission));
         
         var image = submission.images[0];
 
@@ -368,7 +367,7 @@ function minSubmission(req, res) {
                             subId,
                     ],
                     ['og:description', getSubmissionComment(submission)],
-                    ['og:image', image && image.url]
+                    ['og:image', image && image.url.replace('{size}', '1200')]
                 ])
             );
     });
