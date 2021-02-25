@@ -440,7 +440,7 @@ exports.getSubmissionFromNewAPI = function(subid, callback) {
                 url,
                 response.statusCode
             );
-            callback(error, data);
+            callback(error, null);
         } else {
             logger.debug('getSubmissionFromNewAPI success url=%s', url);
             callback(error, data);
