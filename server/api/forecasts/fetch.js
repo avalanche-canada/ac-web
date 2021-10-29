@@ -34,6 +34,12 @@ function fetchAvidKananaskis() {
     return doFetch(url);
 }
 
+function fetchAvidAvalancheQuebec() {
+    var url = "https://avid-avq-api.avalanche.ca/v1/public/en/products"
+
+    return doFetch(url);
+}
+
 function filterAvidByLocation(location_id) {
     return function(avid_product_list) {
         // This is a string because it is the only common format between XML and JSON
@@ -105,5 +111,6 @@ module.exports = {
     doFetch:doFetch,
     fetchAvid:fetchAvid,
     fetchAvidKananaskis:fetchAvidKananaskis,
+    fetchAvidAvalancheQuebec:fetchAvidAvalancheQuebec,
     filterAvidByLocation:filterAvidByLocation,
 }

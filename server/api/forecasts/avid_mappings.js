@@ -14,6 +14,8 @@ var byName = {
     'lizard-range'       : '6fa00a5a-e829-4dcb-8733-c9eae75f8821',
     'yukon'              : '0b23a25d-0346-4fa4-8412-faa4c3581d2a',
     'kananaskis'         : '2e710073-a73a-49d1-9603-0c0b5ff90033',
+    'vancouver-island'   : '4e561578-3b50-4fce-8aa2-8de424a0fbaa',
+    'chic-chocs'         : '98d43f4a-fa1f-482b-89a8-5f98e10596a0',
 };
 
 //var byId = {}

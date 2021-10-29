@@ -182,12 +182,12 @@
     ]
   },
   "vancouver-island": {
-    "name": "Vancouver Island, Vancouver Island Avalanche Centre",
-    "type": "link",
-    "url": "http://www.islandavalanchebulletin.com/",
+    "name": "Vancouver Island",
+    "type": "avalx",
+    "url": "https://avalanche.ca/forecasts/vancouver-island",
     "forecastUrl": "/api/forecasts/vancouver-island.json",
     "dangerIconUrl": "/api/forecasts/graphics/install-new-app.svg",
-    "owner": "vancouver-island",
+    "owner": "avalanche-canada",
     "centroid": [
       -126.003280753802,
       49.84695178083094
@@ -233,11 +233,11 @@
   },
   "chic-chocs": {
     "name": "Chic Chocs, Avalanche Québec",
-    "type": "link",
-    "url": "https://avalanchequebec.ca/conditions-chic-chocs/#bulletins-avalanche",
+    "type": "avalx",
+    "url": "https://avalanche.ca/forecasts/chic-chocs",
     "forecastUrl": "/api/forecasts/chic-chocs.json",
     "dangerIconUrl": "/api/forecasts/graphics/install-new-app.svg",
-    "owner": "chic-chocs",
+    "owner": "avalanche-canada",
     "centroid": [
       -66.08685578290087,
       48.909684297640375
