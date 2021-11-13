@@ -110,7 +110,7 @@ var AVQ =  {
 
 
 var PARKS = {
-    'glacier': get('glacier', 'UTC').parks(3, 0, addMovingIcons),
+    'glacier': get('glacier', 'America/Edmonton').parks(3),
     'little-yoho': get('little-yoho', 'America/Edmonton').parks(5),
     'banff-yoho-kootenay': get('banff-yoho-kootenay', 'America/Edmonton').parks(1),
     'jasper': get('jasper', 'America/Edmonton').parks(2),
