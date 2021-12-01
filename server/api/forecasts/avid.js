@@ -13,7 +13,7 @@ const RATINGS = {
 };
 
 const AVALX_LIKELIHOOD_ICON = {
-    'certain'            : '8',
+    'certain'            : '9',
     'certain_verylikely' : '8',
     'verylikely'         : '7',
     'verylikely_likely'  : '6',
