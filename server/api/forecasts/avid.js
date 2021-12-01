@@ -170,24 +170,12 @@ function likelihoodIcon(likelihood) {
 }
 
 function expectedSizeIcon(size) {
-
-    // Bryce Schroers - Dec 01, 2021 
-    // Updated to use new icons so the mobile app matches the website 
-    // icons are keyed by 0.5 increments per avy size, 1.0 = 1, 1.5 = 2, 2.0 = 3, 2.5 = 4, etc 
-    var minKey = (size.min / 0.5) -1
-    var maxKey = (size.max / 0.5) -1
-    if (minKey > 8) {
-        minKey = 8
-    }
-    if (maxKey > 8) {
-        maxKey = 8
-    }
     return [
         ASSETS, 
         'size/Size-', 
-        Number(minKey), 
+        Number(size.min) * 10, 
         '-', 
-        Number(maxKey), 
+        Number(size.max) * 10, 
         '_EN.png',
     ].join('')
 }
