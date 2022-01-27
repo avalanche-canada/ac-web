@@ -269,7 +269,7 @@
     ]
   },
   "long-range-mountains": {
-    "name": "Yukon",
+    "name": "Long Range Mountains",
     "type": "avalx",
     "url": "https://avalanche.ca/forecasts/long-range-mountains",
     "forecastUrl": "/api/forecasts/long-range-mountains.json",
