@@ -95,6 +95,7 @@ var AVCAN = {
     // .prismic()
     // .avalx(20)
     'vancouver-island': get('vancouver-island').avid('Vancouver Island'),
+    'long-range-mountains': get('long-range-mountains').avid('Long Range Mountains', addMovingIcons),
 };
 
 
