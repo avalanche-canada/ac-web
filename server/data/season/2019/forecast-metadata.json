@@ -267,5 +267,17 @@
       -135.14572456918492,
       60.00435182795745
     ]
+  },
+  "long-range-mountains": {
+    "name": "Long Range Mountains",
+    "type": "avalx",
+    "url": "https://avalanche.ca/forecasts/long-range-mountains",
+    "forecastUrl": "/api/forecasts/long-range-mountains.json",
+    "dangerIconUrl": "/api/forecasts/graphics/install-new-app.svg",
+    "owner": "avalanche-canada",
+    "centroid": [
+      -57.1749857913247,
+      49.9270515826495
+    ]
   }
 }
