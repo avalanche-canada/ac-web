@@ -1,5 +1,6 @@
 var assert = require('assert');
 var moment = require('moment-timezone');
+var dateFns = require('date-fns');
 
 var AVCAN_TO_INT = {
     "1:Low":                       1,
@@ -49,8 +50,17 @@ function genMovingDangerIconSet(region_tz, dangerRatings) {
           iconType: 'RATINGS' },
 
         { from: days[2],
-          to: END_DATE,
+          to:  dateFns.addDays(days[2], 1),
           ratings: ratingsToInts(dangerRatings[2].dangerRating),
+          iconType: 'RATINGS' },
+
+        { from: dateFns.addDays(days[2], 1),
+          to:  END_DATE,
+          ratings: {
+                alp: 0,
+                tln: 0,
+                btl: 0,
+          },
           iconType: 'RATINGS' },
     ];
 }
