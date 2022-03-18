@@ -1,3 +1,5 @@
+## This project is deprecated, a server is still running this app to support a few legacy systems until they are phased out/ updated. See https://avalanche-canada.github.io/AvCan-Services/ for the new forecasts data api
+
 # [Avalanche Canada](https://github.com/avalanchedotca/AvalancheCanada.git) 
 
 [![Codeship Status for avalanchedotca/AvalancheCanada](https://www.codeship.io/projects/174bbac0-1b8b-0132-59d0-32ae1850d3a7/status)](https://www.codeship.io/projects/34957)
