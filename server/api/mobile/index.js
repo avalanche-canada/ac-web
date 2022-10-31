@@ -23,6 +23,8 @@ function StatusParams(app, appVersion, platform, platformVersion, lang) {
 }
 
 StatusParams.prototype.test = function(params) {
+    return true
+    
     if (this.app !== params.App) {
         return false
     }
@@ -84,8 +86,8 @@ const STORE_PROMPTS = {
 const MESSAGES = [
     createPWAMessage(IOS),
     createPWAMessage(ANDROID),
-    createRelease150Message(IOS),
-    createRelease150Message(ANDROID),
+    // createRelease150Message(IOS),
+    // createRelease150Message(ANDROID),
 ]
 
 function createPWAMessage(platform) {
