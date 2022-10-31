@@ -85,7 +85,7 @@ const STORE_PROMPTS = {
 
 const MESSAGES = [
     createPWAMessage(IOS),
-    createPWAMessage(ANDROID),
+    // createPWAMessage(ANDROID),
     // createRelease150Message(IOS),
     // createRelease150Message(ANDROID),
 ]
