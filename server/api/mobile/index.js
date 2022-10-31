@@ -82,9 +82,21 @@ const STORE_PROMPTS = {
 }
 
 const MESSAGES = [
+    createPWAMessage(IOS),
+    createPWAMessage(ANDROID),
     createRelease150Message(IOS),
     createRelease150Message(ANDROID),
 ]
+
+function createPWAMessage(platform) {
+    return new StatusMessage(
+        new StatusParams(APP, '1.7.7', platform),
+        'Avalanche Canada is moving to a new mobile app',
+        '<h1>Avalanche Canada is moving to a new mobile app.</h1> <p>Head to <a href="https://avalanche.ca">avalanche.ca</a> for your forecast, and get ready for a new app early this winter. </p>',
+        undefined,
+        'warning'
+    )
+}
 
 function createRelease150Message(platform) {
     return new StatusMessage(
