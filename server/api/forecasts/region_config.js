@@ -52,76 +52,76 @@ function fixAvalxDangerRatingDates(offset) {
 }
 
 var AVCAN = {
-    'northwest-coastal': get('northwest-coastal').avid('Northwest Coastal'),
+    // 'northwest-coastal': get('northwest-coastal').avid('Northwest Coastal'),
     // .prismic()
     // .avalx(16)
-    'northwest-inland': get('northwest-inland').avid('Northwest Inland'),
+    // 'northwest-inland': get('northwest-inland').avid('Northwest Inland'),
     // .prismic()
     // .avalx(17)
-    'sea-to-sky': get('sea-to-sky').avid('Sea to Sky'),
+    // 'sea-to-sky': get('sea-to-sky').avid('Sea to Sky'),
     // .prismic()
     // .avalx(14)
-    'south-coast-inland': get('south-coast-inland').avid('South Coast Inland'),
+    // 'south-coast-inland': get('south-coast-inland').avid('South Coast Inland'),
     // .prismic()
     // .avalx(15)
-    'south-coast': get('south-coast').avid('South Coast'),
+    // 'south-coast': get('south-coast').avid('South Coast'),
     // .prismic()
     // .avalx(8)
-    'north-rockies': get('north-rockies').avid('North Rockies', addMovingIcons),
+    // 'north-rockies': get('north-rockies').avid('North Rockies', addMovingIcons),
     // .prismic()
     // .avalx(9)
-    'cariboos': get('cariboos').avid('Cariboos'),
+    // 'cariboos': get('cariboos').avid('Cariboos'),
     // .prismic()
     // .avalx(19)
-    'north-columbia': get('north-columbia').avid('North Columbia'),
+    // 'north-columbia': get('north-columbia').avid('North Columbia'),
     // .prismic()
     // .avalx(18)
-    'south-columbia': get('south-columbia').avid('South Columbia'),
+    // 'south-columbia': get('south-columbia').avid('South Columbia'),
     // .prismic()
     // .avalx(10)
-    'purcells': get('purcells').avid('Purcells'),
+    // 'purcells': get('purcells').avid('Purcells'),
     // .prismic()
     // .avalx(11)
-    'kootenay-boundary': get('kootenay-boundary').avid('Kootenay-Boundary'),
+    // 'kootenay-boundary': get('kootenay-boundary').avid('Kootenay-Boundary'),
     // .prismic()
     // .avalx(6)
-    'south-rockies': get('south-rockies').avid('South Rockies'),
+    // 'south-rockies': get('south-rockies').avid('South Rockies'),
     // .prismic()
     // .avalx(13)
-    'lizard-range': get('lizard-range').avid('Lizard-Flathead'),
+    // 'lizard-range': get('lizard-range').avid('Lizard-Flathead'),
     // .prismic()
     // .avalx(12)
-    'yukon': get('yukon').avid('Yukon', addMovingIcons),
+    // 'yukon': get('yukon').avid('Yukon', addMovingIcons),
     // .prismic()
     // .avalx(20)
-    'vancouver-island': get('vancouver-island').avid('Vancouver Island'),
-    'long-range-mountains': get('long-range-mountains').avid('Long Range Mountains', addMovingIcons),
+    // 'vancouver-island': get('vancouver-island').avid('Vancouver Island'),
+    // 'long-range-mountains': get('long-range-mountains').avid('Long Range Mountains', addMovingIcons),
 };
 
 
 var KCOUNTRY =  {
-    'kananaskis': get('kananaskis', 'America/Edmonton').avidKananaskis('Kananaskis Country')
+    // 'kananaskis': get('kananaskis', 'America/Edmonton').avidKananaskis('Kananaskis Country')
     // .prismic()
     // .avalx(20)
 };
 
 var AVQ =  {
-    'chic-chocs': get('chic-chocs').avidAvalancheQuebec('Chic Chocs')
+    // 'chic-chocs': get('chic-chocs').avidAvalancheQuebec('Chic Chocs')
 };
 
 
 var PARKS = {
-    'glacier': get('glacier', 'America/Vancouver').parks(3),
-    'little-yoho': get('little-yoho', 'America/Edmonton').parks(5),
-    'banff-yoho-kootenay': get('banff-yoho-kootenay', 'America/Edmonton').parks(1),
-    'jasper': get('jasper', 'America/Edmonton').parks(2),
-    'waterton': get('waterton', 'America/Edmonton').parks(4, 1, addMovingIcons),
+    // 'glacier': get('glacier', 'America/Vancouver').parks(3),
+    // 'little-yoho': get('little-yoho', 'America/Edmonton').parks(5),
+    // 'banff-yoho-kootenay': get('banff-yoho-kootenay', 'America/Edmonton').parks(1),
+    // 'jasper': get('jasper', 'America/Edmonton').parks(2),
+    // 'waterton': get('waterton', 'America/Edmonton').parks(4, 1, addMovingIcons),
 };
 
 var LINKS = {
-    'vancouver-island' : { metadata: reg_properties['vancouver-island'] },
-    'chic-chocs'       : { metadata: reg_properties['chic-chocs'] },
-    'north-rockies'    : { metadata: reg_properties['north-rockies'] },
+    // 'vancouver-island' : { metadata: reg_properties['vancouver-island'] },
+    // 'chic-chocs'       : { metadata: reg_properties['chic-chocs'] },
+    // 'north-rockies'    : { metadata: reg_properties['north-rockies'] },
 };
 
 var TEST_REGIONS = {
